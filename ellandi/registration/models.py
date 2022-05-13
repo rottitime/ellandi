@@ -20,4 +20,8 @@ class TimeStampedModel(models.Model):
 
 
 class User(AbstractUser, TimeStampedModel):
-    pass
+    username = None
+    email = models.EmailField('email', unique=True)
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
