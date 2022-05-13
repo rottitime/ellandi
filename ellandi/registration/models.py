@@ -18,4 +18,6 @@ class TimeStampedModel(models.Model):
     class Meta:
         abstract = True
 
-# Create your models here.
+
+class User(AbstractUser, TimeStampedModel):
+    pass
