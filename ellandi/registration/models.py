@@ -1,7 +1,7 @@
 import datetime
 
-from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.db import models
 
 
 class TimeStampedModel(models.Model):
@@ -9,9 +9,9 @@ class TimeStampedModel(models.Model):
     modified_at = models.DateTimeField(editable=False, default=datetime.datetime.now)
 
     def save(self, *args, **kwargs):
-        update_fields = kwargs.get('update_fields', None)
+        update_fields = kwargs.get("update_fields", None)
         if update_fields:
-            kwargs['update_fields'] = set(update_fields).union({'modified'})
+            kwargs["update_fields"] = set(update_fields).union({"modified"})
 
         super().save(*args, **kwargs)
 
@@ -21,7 +21,7 @@ class TimeStampedModel(models.Model):
 
 class User(AbstractUser, TimeStampedModel):
     username = None
-    email = models.EmailField('email', unique=True)
+    email = models.EmailField("email", unique=True)
 
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
