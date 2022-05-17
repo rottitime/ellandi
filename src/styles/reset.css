@@ -6,6 +6,14 @@
   flex-shrink: 0;
 }
 
+[data-baseweb] {
+  *,
+  *::before,
+  *::after {
+    flex-shrink: 1;
+  }
+}
+
 /* Set core body defaults */
 body {
   margin: 0;

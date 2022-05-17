@@ -4,40 +4,32 @@ import { Link } from "_/components/Link";
 const Index = () => {
   return (
     <MenuLayout>
-      <h1 className="D">Sensible Starter</h1>
+      <h1 className="H">
+        Hello <strong>joe.bloggs@cabinetoffice.gov.uk</strong>
+      </h1>
 
-      <p className="P-L">A sensible starter for a web app.</p>
+      <p className="P-L">You are invited to register on Civil Service Skills.</p>
 
-      <p className="PL-L">The guiding principles used to group these tools together:</p>
+      <p className="P-L">Please select the following link to sign up:</p>
 
-      <ul className="P-M">
-        <li>
-          Include tools that boost performance{" "}
-          <strong>if, and only if, they don't require compromises</strong>, i.e.
-          <ul>
-            <li>bundling only the code for a specific page does count</li>
-            <li>
-              static pre-rendering does not count (compromise: unable to use browser APIs
-              on initial render)
-            </li>
-          </ul>
-        </li>
-        <li>Avoid flaky/dead dependencies</li>
-        <li>
-          Try to <strong>pre-include popular features</strong> - as many as possible
-        </li>
-        <li>
-          Expose the internals to make tinkering easy, but hide them from the editor's
-          file tree explorer
-        </li>
-        <li>
-          Embrace <strong>graceful degradation</strong> to improve functionality and
-          performance
-        </li>
-      </ul>
+      <p className="P-L">
+        <Link to="/steps/0">
+          https://skills.civilservice.gov.uk/signup/123AbcDefgh1238910ABCdefghk
+        </Link>
+      </p>
 
-      <p className="H-S">
-        <Link to="/docs">Docs: Overview</Link>
+      <p className="P-L">
+        The above is a one-time-only link; you can only use this link once. If you use
+        this link more than once, your invitation expires and you will not be able to sign
+        up to Civil Service Skills.
+      </p>
+
+      <p className="P-L">
+        Please contact{" "}
+        <Link to="mailto:support.learn@csskills.gov.uk">
+          support.learn@csskills.gov.uk
+        </Link>{" "}
+        if you need the sign-up link to be re-sent.
       </p>
     </MenuLayout>
   );
