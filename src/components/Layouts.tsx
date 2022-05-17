@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import { Item } from "baseui/side-navigation";
 import { ResponsiveNav } from "./ResponsiveNav";
+import { useLocation } from "react-router-dom";
 
 /* Empty Page (No Nav) */
 export const EmptyLayout = ({ children }: { children?: ReactNode }) => {
@@ -12,56 +13,72 @@ export const EmptyLayout = ({ children }: { children?: ReactNode }) => {
 };
 
 /* Responsive Nav Page */
-const MENU_ITEMS: Item[] = [
+const MENU_ITEMS_ALL: Item[] = [
   { title: "Home", itemId: "/" },
   {
-    title: "Docs",
-    itemId: "/docs",
+    title: "Starter",
+    itemId: "/starter",
     subNav: [
       {
-        title: "Directory Structure",
-        itemId: "/docs/structure",
+        title: "Docs",
+        itemId: "/starter/docs",
+        subNav: [
+          {
+            title: "Directory Structure",
+            itemId: "/starter/docs/structure",
+          },
+          {
+            title: "How-To Mini Guides",
+            itemId: "/starter/docs/mini-guides",
+          },
+          {
+            title: "Components Guide",
+            itemId: "/starter/docs/components",
+          },
+          {
+            title: "CSS Utilities Guide",
+            itemId: "/starter/docs/css-guide",
+          },
+        ],
       },
       {
-        title: "How-To Mini Guides",
-        itemId: "/docs/mini-guides",
-      },
-      {
-        title: "Components Guide",
-        itemId: "/docs/components",
-      },
-      {
-        title: "CSS Utilities Guide",
-        itemId: "/docs/css-guide",
-      },
-    ],
-  },
-  {
-    title: "Test Pages",
-    itemId: "/test-pages",
-    subNav: [
-      {
-        title: "Basic Tests",
-        itemId: "/test-pages/basics",
-      },
-      {
-        title: "Keystone List Test",
-        itemId: "/test-pages/list",
-      },
-      {
-        title: "Chart.js Test",
-        itemId: "/test-pages/chart",
-      },
-      {
-        title: "CSS Defaults Test",
-        itemId: "/test-pages/html-test",
+        title: "Test Pages",
+        itemId: "/starter/test-pages",
+        subNav: [
+          {
+            title: "Basic Tests",
+            itemId: "/starter/test-pages/basics",
+          },
+          {
+            title: "Keystone List Test",
+            itemId: "/starter/test-pages/list",
+          },
+          {
+            title: "Chart.js Test",
+            itemId: "/starter/test-pages/chart",
+          },
+          {
+            title: "CSS Defaults Test",
+            itemId: "/starter/test-pages/html-test",
+          },
+        ],
       },
     ],
   },
 ];
+
+const MENU_ITEMS: Item[] = MENU_ITEMS_ALL.filter(({ itemId }) => {
+  return !(itemId ?? "").startsWith("/starter");
+});
+
 export const MenuLayout = ({ children }: { children?: ReactNode }) => {
+  const location = useLocation();
+
   return (
-    <ResponsiveNav title="Title" items={MENU_ITEMS}>
+    <ResponsiveNav
+      title="Civil Service Skills"
+      items={location.pathname.startsWith("/starter") ? MENU_ITEMS_ALL : MENU_ITEMS}
+    >
       <main className="mw-copy mh-auto">
         <div className="rm-margin">{children}</div>
       </main>
