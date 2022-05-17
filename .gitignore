@@ -1,0 +1,15 @@
+node_modules
+.DS_Store
+dist
+dist-ssr
+*.local
+coverage
+.eslintcache
+.nvmrc
+*.code-workspace
+.keystone/admin
+keystone.db
+*.log
+.env
+*.tsbuildinfo
+!.scripts
