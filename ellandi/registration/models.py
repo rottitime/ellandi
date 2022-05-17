@@ -50,7 +50,17 @@ class TimeStampedModel(models.Model):
         abstract = True
 
 
-class User(AbstractUser, TimeStampedModel):
+class RegistrationAbstractUser(models.Model):
+    class Meta:
+        abstract = True
+
+    organisation = models.CharField(max_length=128, blank=True, null=True)
+    job_title = models.CharField(max_length=128, blank=True, null=True)
+    line_manager_email = models.CharField(max_length=128, blank=True, null=True)
+    country = models.CharField(max_length=128, blank=True, null=True)
+
+
+class User(AbstractUser, TimeStampedModel, RegistrationAbstractUser):
     username = None
     email = models.EmailField("email", unique=True)
 
