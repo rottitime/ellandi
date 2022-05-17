@@ -42,7 +42,7 @@ class TimeStampedModel(models.Model):
     def save(self, *args, **kwargs):
         update_fields = kwargs.get("update_fields", None)
         if update_fields:
-            kwargs["update_fields"] = set(update_fields).union({"modified"})
+            kwargs["update_fields"] = set(update_fields).union({"modified_at"})
 
         super().save(*args, **kwargs)
 
