@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { MenuLayout } from "_/components/Layouts";
 
 const EMAIL_REGEX =
-  /^(([^\s"(),.:;<>@[\\\]]+(\.[^\s"(),.:;<>@[\\\]]+)*)|(".+"))@((\[(?:\d{1,3}\.){3}\d{1,3}])|(([\dA-Za-z\-]+\.)+[A-Za-z]{2,}))$/;
+  /^(([^\s"(),.:;<>@[\\\]]+(\.[^\s"(),.:;<>@[\\\]]+)*)|(".+"))@((\[(?:\d{1,3}\.){3}\d{1,3}])|(([\dA-Za-z-]+\.)+[A-Za-z]{2,}))$/;
 
 const validateEmail = (email: string): boolean => {
   return EMAIL_REGEX.test(email.toLowerCase());
