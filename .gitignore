@@ -1,2 +1,22 @@
+# Python
 *.pyc
 db.sqlite3
+
+# JavaScript
+node_modules
+dist
+dist-ssr
+*.local
+coverage
+.eslintcache
+.nvmrc
+*.code-workspace
+web/.keystone/admin
+keystone.db
+*.log
+.env
+*.tsbuildinfo
+!.scripts
+
+# General
+.DS_Store
