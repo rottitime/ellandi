@@ -8,11 +8,11 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN python3 -m pip install -U pip setuptools wheel
 
-COPY ./requirements.txt /app/requirements.txt
-RUN python3 -m pip install -r /app/requirements.txt --no-cache-dir
+COPY ./api/requirements.txt /app/api/requirements.txt
+RUN python3 -m pip install -r /app/api/requirements.txt --no-cache-dir
 
 COPY . /app
 
-WORKDIR /app
+WORKDIR /app/api
 
 EXPOSE 8000
