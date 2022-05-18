@@ -14,4 +14,5 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
             "job_title",
             "line_manager_email",
             "country",
+            "contract_type",
         ]
