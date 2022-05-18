@@ -20,6 +20,19 @@ services:
       - "8000:8000"
     command: python manage.py runserver 0.0.0.0:8000
 
+  web:
+    build:
+      context: .
+      dockerfile: ./ellandi-web.Dockerfile
+    image: ellandi_web
+    depends_on:
+      - api
+    volumes:
+      - ./:/app/:z
+    ports:
+      - "3000:3000"
+    command: npm run dev
+
   postgres:
     image: postgres:11
     container_name: ellandi_postgres
