@@ -6,13 +6,23 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('registration', '0003_auto_20220518_0929'),
+        ("registration", "0003_auto_20220518_0929"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='user',
-            name='contract_type',
-            field=models.CharField(blank=True, choices=[('permanent', 'Permanent'), ('fixed_term', 'Fixed Term'), ('agency', 'Agency'), ('other', 'Other')], max_length=128, null=True),
+            model_name="user",
+            name="contract_type",
+            field=models.CharField(
+                blank=True,
+                choices=[
+                    ("permanent", "Permanent"),
+                    ("fixed_term", "Fixed Term"),
+                    ("agency", "Agency"),
+                    ("other", "Other"),
+                ],
+                max_length=128,
+                null=True,
+            ),
         ),
     ]
