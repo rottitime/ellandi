@@ -7,7 +7,7 @@ services:
   api:
     build:
       context: .
-      dockerfile: ./ellandi.Dockerfile
+      dockerfile: ./ellandi-api.Dockerfile
     image: ellandi_api
     depends_on:
       - postgres
