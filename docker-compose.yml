@@ -4,11 +4,11 @@ volumes:
   local_postgres_data: {}
 
 services:
-  web:
+  api:
     build:
       context: .
       dockerfile: ./ellandi.Dockerfile
-    image: ellandi_web
+    image: ellandi_api
     depends_on:
       - postgres
     env_file:
