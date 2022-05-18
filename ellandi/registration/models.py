@@ -69,4 +69,4 @@ class User(AbstractUser, TimeStampedModel, RegistrationAbstractUser):
     objects = UserManager()
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ["email"]
