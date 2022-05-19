@@ -3,7 +3,7 @@ const path = require("path");
 
 // Use gitignore as eslintignore (single source of truth)
 const ignorePatterns = fs
-  .readFileSync(path.join(__dirname, ".gitignore"), "utf8")
+  .readFileSync(path.join(__dirname, "..", ".gitignore"), "utf8")
   .split("\n")
   .map((line) => {
     return line.split("#")[0].trim();
