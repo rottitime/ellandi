@@ -11,6 +11,7 @@ coverage
 .eslintcache
 .nvmrc
 *.code-workspace
+.keystone/admin
 web/.keystone/admin
 keystone.db
 *.log
