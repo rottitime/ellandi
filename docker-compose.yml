@@ -25,13 +25,14 @@ services:
       context: .
       dockerfile: ./docker/web/Dockerfile
     image: ellandi_web
-    depends_on:
-      - api
+    env_file:
+      - ./.envs/web
     volumes:
       - ./:/app/:z
+      - '/app/web/node_modules'
     ports:
       - "3000:3000"
-    command: npm run dev
+    command: npm run prod
 
   postgres:
     image: postgres:11

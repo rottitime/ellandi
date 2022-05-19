@@ -1,16 +1,18 @@
-FROM node:16-buster
+FROM node:16
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+WORKDIR /app/web
+
+ENV PATH /app/web/node_modules/.bin:$PATH
+
+COPY ./web/package-lock.json /app/web/
+COPY ./web/package.json /app/web/
+
+RUN npm ci --ignore-scripts
 
 COPY . /app
 
 WORKDIR /app/web
-RUN git init
 
-RUN npm install
-RUN npm run prepare
-RUN npm run dev
-
-WORKDIR /app/api
-
-EXPOSE 8000
+EXPOSE 3000
