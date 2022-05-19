@@ -7,7 +7,7 @@ services:
   api:
     build:
       context: .
-      dockerfile: ./ellandi-api.Dockerfile
+      dockerfile: ./docker/api/Dockerfile
     image: ellandi_api
     depends_on:
       - postgres
@@ -18,20 +18,21 @@ services:
       - ./:/app/:z
     ports:
       - "8000:8000"
-    command: python manage.py runserver 0.0.0.0:8000
+    command: /start.sh
 
   web:
     build:
       context: .
-      dockerfile: ./ellandi-web.Dockerfile
+      dockerfile: ./docker/web/Dockerfile
     image: ellandi_web
-    depends_on:
-      - api
+    env_file:
+      - ./.envs/web
     volumes:
       - ./:/app/:z
+      - '/app/web/node_modules'
     ports:
       - "3000:3000"
-    command: npm run dev
+    command: npm run prod
 
   postgres:
     image: postgres:11

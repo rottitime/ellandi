@@ -1,11 +1,15 @@
 # Ellandi
 
-To build this app, install Docker Desktop then run
+To build this app, install Docker Desktop then run:
 
-    docker-compose build api
-    docker-compose run api python manage.py migrate
+    docker-compose up --build
+
+Migrations will applied automatically
+
+Then you can access `http://localhost:8000` to view the api, and `http://localhost:3000` to view the web frontend
+
+If you want to access the api's admin interface you need to run:
+
     docker-compose run api python manage.py createsuperuser
 
-Then whenever you want to start the app:
-
-    docker-compose up --build api
+Then you can access `http://localhost:8000/admin` to login to the admin interface
