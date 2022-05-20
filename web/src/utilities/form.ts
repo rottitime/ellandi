@@ -25,3 +25,9 @@ export const camelCase = <T extends string>(str: T): CamelCase<T> => {
   const pascal = pascalCase(str);
   return `${pascal.slice(0, 1).toLowerCase()}${pascal.slice(1)}` as CamelCase<T>;
 };
+
+const EMAIL_REGEX =
+  /^(([^\s"(),.:;<>@[\\\]]+(\.[^\s"(),.:;<>@[\\\]]+)*)|(".+"))@((\[(?:\d{1,3}\.){3}\d{1,3}])|(([\dA-Za-z-]+\.)+[A-Za-z]{2,}))$/;
+export const emailValidator = (value: string): string => {
+  return EMAIL_REGEX.test(value.toLowerCase()) ? "" : nonEmpty(value) || "Invalid email";
+};

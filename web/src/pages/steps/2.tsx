@@ -10,7 +10,7 @@ const Index = () => {
 
   return (
     <MenuLayout>
-      <h1 className="D-S">Privacy Policy</h1>
+      <h1 className="D">Privacy Policy</h1>
 
       <Checkbox
         checked={checked}
