@@ -14,7 +14,7 @@
     "web/.env*": true,
     "web/.eslintcache": true,
     "web/.eslintignore": true,
-    // "web/.eslintrc.cjs": true,
+    "web/.eslintrc.cjs": true,
     "web/.github": true,
     "web/.husky": true,
     "web/.keystone": true,

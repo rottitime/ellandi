@@ -6,22 +6,14 @@ import { Provider as StyletronProvider } from "styletron-react";
 import { BaseProvider } from "baseui";
 import { theme, primitives } from "_/theme";
 import { MenuLayout } from "_/components/Layouts";
+import { Spinner } from "baseui/spinner";
 import routes from "~react-pages";
-import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import "_/styles/reset.css";
 import "_/styles/tags.css";
 import "_/styles/typography.css";
 import "_/styles/spacing-defaults.css";
 import "_/styles/spacing-scale.css";
 import "_/styles/custom.css";
-
-const client = new ApolloClient({
-  uri: `${import.meta.env.VITE_KEYSTONE_HOST ?? "http://localhost:3001"}/api/graphql`,
-  cache: new InMemoryCache(),
-});
-
-// eslint-disable-next-line baseui/deprecated-component-api
-import { Spinner } from "baseui/spinner";
 
 // Make baseweb primitives available as CSS properties
 const styleEl = document.createElement("style");
@@ -55,14 +47,11 @@ const AppWrappers = ({ children }: { children?: ReactNode }) => {
     <StyletronProvider value={engine}>
       {/* Enables baseweb theme logic */}
       <BaseProvider theme={theme}>
-        {/* Enables apollo caching logic */}
-        <ApolloProvider client={client}>
-          {/* Opt-out of legacy React nonsense */}
-          <React.StrictMode>
-            {/* Enables react-router logic */}
-            <Router>{children}</Router>
-          </React.StrictMode>
-        </ApolloProvider>
+        {/* Opt-out of legacy React nonsense */}
+        <React.StrictMode>
+          {/* Enables react-router logic */}
+          <Router>{children}</Router>
+        </React.StrictMode>
       </BaseProvider>
     </StyletronProvider>
   );
