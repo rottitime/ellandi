@@ -21,7 +21,7 @@
     "web/.lintstagedrc.cjs": true,
     "web/.prettierignore": true,
     "web/.prettierrc.cjs": true,
-    // "web/.scripts": true,
+    "web/.scripts": true,
     "web/.stylelintrc.json": true,
     "web/dist": true,
     "web/keystone.db": true,
@@ -31,7 +31,7 @@
     "web/schema.graphql": true,
     "web/schema.prisma": true,
     "web/tsconfig.json": true,
-    // "web/vite.config.ts": true,
+    "web/vite.config.ts": true,
     "web/src/vite-env.d.ts": true
   }
 }
