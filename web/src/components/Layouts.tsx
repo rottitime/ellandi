@@ -50,10 +50,6 @@ const MENU_ITEMS_ALL: Item[] = [
             itemId: "/starter/test-pages/basics",
           },
           {
-            title: "Keystone List Test",
-            itemId: "/starter/test-pages/list",
-          },
-          {
             title: "Chart.js Test",
             itemId: "/starter/test-pages/chart",
           },
