@@ -1,20 +1,19 @@
 #!/usr/bin/env node
 /* eslint-disable no-console */
-import "dotenv/config";
 
 import fs from "node:fs/promises";
 import path from "node:path";
-import { getProjectRoot } from "./lib/project";
+import { getGitRoot } from "./lib/project";
 
 const commentRegex = /"files\.exclude":\s*{[^/}]*?\/\//g;
 
 const main = async () => {
-  const projectRoot = await getProjectRoot();
+  const gitRoot = getGitRoot();
 
   let vsCodeSettings: string;
   try {
     vsCodeSettings = await fs.readFile(
-      path.join(projectRoot, ".vscode", "settings.json"),
+      path.join(gitRoot, ".vscode", "settings.json"),
       "utf8"
     );
   } catch {

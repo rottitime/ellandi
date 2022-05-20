@@ -1,4 +1,4 @@
-import "dotenv/config";
+import dotenv from "dotenv";
 
 import react from "@vitejs/plugin-react";
 import path from "node:path";
@@ -6,10 +6,16 @@ import { defineConfig } from "vite";
 import pages from "vite-plugin-pages";
 import { createHtmlPlugin as injectHtml } from "vite-plugin-html";
 import { parseHost } from "./.scripts/lib/url";
+import { getGitRoot } from "./.scripts/lib/project";
 
-const NODE_ENV = process.env.NODE_ENV ?? "development";
+const MERGED_ENV: Record<string, string | undefined> = {
+  ...process.env,
+  ...dotenv.config({ path: path.join(getGitRoot(), ".env") }).parsed,
+};
 
-const frontEndHost = parseHost(process.env.VITE_FRONTEND_HOST ?? "http://localhost:3000");
+const NODE_ENV = MERGED_ENV.NODE_ENV ?? "development";
+
+const frontEndHost = parseHost(MERGED_ENV.VITE_FRONTEND_HOST ?? "http://localhost:3000");
 
 // https://vitejs.dev/config/
 export default defineConfig({
