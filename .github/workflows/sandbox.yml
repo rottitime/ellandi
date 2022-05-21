@@ -47,6 +47,7 @@ jobs:
           docker push $DOCKER_REPOSITORY/$DOCKER_IMAGE:$IMAGE_TAG
 
   deploy_sandbox:
+    needs: [push_images]
 
     runs-on: ubuntu-latest
 
