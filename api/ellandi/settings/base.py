@@ -64,12 +64,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "ellandi.wsgi.application"
 
+VCAP_SERVICES = env.json("VCAP_SERVICES")
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {}
-DATABASES["default"] = env.db("DATABASE_URL")
+DATABASES["default"] = env.db(VCAP_SERVICES['postgres']['credentials']['uri'])
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
