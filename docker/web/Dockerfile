@@ -16,3 +16,5 @@ COPY . /app
 WORKDIR /app/web
 
 EXPOSE 3000
+
+CMD ["npm","run","prod"]

@@ -19,3 +19,5 @@ COPY . /app
 WORKDIR /app/api
 
 EXPOSE 8000
+
+CMD ["sh","/start.sh"]
