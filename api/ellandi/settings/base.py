@@ -68,7 +68,9 @@ VCAP_SERVICES = env.json("VCAP_SERVICES")
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
+print(VCAP_SERVICES)
+print(VCAP_SERVICES['postgres']['credentials']['uri'])
+print(env.db(VCAP_SERVICES['postgres']['credentials']['uri']))
 DATABASES = {}
 DATABASES["default"] = env.db(VCAP_SERVICES['postgres']['credentials']['uri'])
 
