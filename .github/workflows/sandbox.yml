@@ -44,7 +44,7 @@ jobs:
 
         run: |
           docker build . --file $DOCKER_FILE --tag $DOCKER_REPOSITORY/$DOCKER_IMAGE:$IMAGE_TAG
-          docker push $DOCKER_REPOSITORY/$DOCKER_IMAGE:$IMAGE_TAG
+          docker push -a $DOCKER_REPOSITORY/$DOCKER_IMAGE
 
   deploy_sandbox:
     needs: [push_images]
