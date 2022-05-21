@@ -33,14 +33,12 @@ jobs:
 
       - name: Login
         env:
-          CF_DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          CF_DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        run: echo "$CF_DOCKER_PASSWORD" | docker login -u $CF_DOCKER_USERNAME --password-stdin registry-1.docker.io
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: echo "$DOCKER_PASSWORD" | docker login -u $CF_DOCKER_USERNAME --password-stdin registry-1.docker.io
 
       - name: Build, tag, and push ${{ matrix.app }} image
         env:
-          CF_DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-          CF_DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_FILE: ${{ matrix.dockerfile }}
           DOCKER_IMAGE: ${{ matrix.app }}
 
