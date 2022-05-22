@@ -64,14 +64,17 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "ellandi.wsgi.application"
 
-VCAP_SERVICES = env.json("VCAP_SERVICES")
+VCAP_SERVICES = env.json("VCAP_SERVICES", default={})
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-assert env.db("DATABASE_URL") == "flibble", env.db("DATABASE_URL")
-DATABASES = {"default": env.db("DATABASE_URL", default="sqlite:///db.sqlite3")}
-DATABASES["default"]["ATOMIC_REQUESTS"] = True
 
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
