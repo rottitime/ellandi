@@ -68,6 +68,7 @@ VCAP_SERVICES = env.json("VCAP_SERVICES")
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
+assert env.db("DATABASE_URL") == "flibble", env.db("DATABASE_URL")
 DATABASES = {"default": env.db("DATABASE_URL", default="sqlite:///db.sqlite3")}
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
 
