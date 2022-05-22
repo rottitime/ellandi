@@ -57,7 +57,7 @@ jobs:
 
     strategy:
       matrix:
-        app: [ ellandi-api, ellandi-web ]
+        app: [ ellandi-web ]
 
     steps:
       - name: Donwload CF CLI
