@@ -15,7 +15,6 @@ coverage
 web/.keystone/admin
 keystone.db
 *.log
-.env
 *.tsbuildinfo
 !.scripts
 

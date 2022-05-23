@@ -2,7 +2,7 @@
 /* eslint-disable no-console */
 import fs from "node:fs/promises";
 import path from "node:path";
-import { getGitRoot, getWebRoot } from "./lib/project";
+import { getProjectRoot, getWebRoot } from "./lib/project";
 
 const bold = (str: string): string => {
   return `\u001B[1m${str}\u001B[0m`;
@@ -19,7 +19,7 @@ const faded = (str: string): string => {
 
 const main = async () => {
   const webRoot = getWebRoot();
-  const gitRoot = getGitRoot();
+  const projectRoot = getProjectRoot();
 
   try {
     const packageJSON: {
@@ -68,7 +68,7 @@ const main = async () => {
     }
 
     try {
-      const linkPath = await fs.readlink(path.join(gitRoot, ".git/hooks"));
+      const linkPath = await fs.readlink(path.join(projectRoot, ".git/hooks"));
       if (linkPath !== "../.husky") {
         throw new Error("git hooks not correctly set up");
       }

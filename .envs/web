@@ -1,1 +1,6 @@
-SESSION_SECRET=Th15-15-4-r34lly-l0ng-535510n-53cr3t
+NODE_ENV=development
+
+# when prefixed with VITE, sent to the client, no secrets here!
+VITE_FRONTEND_HOST="http://localhost:3000"
+# do not end this value with a slash
+VITE_API_ROOT_URL="http://localhost:8000"

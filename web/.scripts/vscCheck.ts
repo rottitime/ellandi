@@ -3,17 +3,17 @@
 
 import fs from "node:fs/promises";
 import path from "node:path";
-import { getGitRoot } from "./lib/project";
+import { getProjectRoot } from "./lib/project";
 
 const commentRegex = /"files\.exclude":\s*{[^/}]*?\/\//g;
 
 const main = async () => {
-  const gitRoot = getGitRoot();
+  const projectRoot = getProjectRoot();
 
   let vsCodeSettings: string;
   try {
     vsCodeSettings = await fs.readFile(
-      path.join(gitRoot, ".vscode", "settings.json"),
+      path.join(projectRoot, ".vscode", "settings.json"),
       "utf8"
     );
   } catch {
