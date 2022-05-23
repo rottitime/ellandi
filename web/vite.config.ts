@@ -6,11 +6,11 @@ import { defineConfig } from "vite";
 import pages from "vite-plugin-pages";
 import { createHtmlPlugin as injectHtml } from "vite-plugin-html";
 import { parseHost } from "./.scripts/lib/url";
-import { getGitRoot } from "./.scripts/lib/project";
+import { getProjectRoot } from "./.scripts/lib/project";
 
 const MERGED_ENV: Record<string, string | undefined> = {
   ...process.env,
-  ...dotenv.config({ path: path.join(getGitRoot(), ".env") }).parsed,
+  ...dotenv.config({ path: path.join(getProjectRoot(), ".env") }).parsed,
 };
 
 const NODE_ENV = MERGED_ENV.NODE_ENV ?? "development";

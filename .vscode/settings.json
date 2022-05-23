@@ -21,7 +21,7 @@
     "web/.lintstagedrc.cjs": true,
     "web/.prettierignore": true,
     "web/.prettierrc.cjs": true,
-    // "web/.scripts": true,
+    "web/.scripts": true,
     "web/.stylelintrc.json": true,
     "web/dist": true,
     "web/keystone.db": true,
