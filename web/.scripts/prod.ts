@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 /* eslint-disable no-console */
-import dotenv from "dotenv";
 
 import path from "node:path";
 import express from "express";
@@ -8,21 +7,11 @@ import morgan from "morgan";
 import helmet from "helmet";
 import compression from "compression";
 import { parseHost } from "./lib/url";
-import { getProjectRoot, getWebRoot } from "./lib/project";
+import { getWebRoot, getEnv } from "./lib/project";
 
-const MERGED_ENV: Record<string, string | undefined> = {
-  ...process.env,
-  ...dotenv.config({ path: path.join(getProjectRoot(), ".env") }).parsed,
-};
+const ENV = getEnv();
 
-const DEV_SECRET = "---------- DEV SECRET ----------";
-const sessionSecret = MERGED_ENV.SESSION_SECRET || DEV_SECRET;
-if (sessionSecret === DEV_SECRET) {
-  console.error("Copy .env.example to .env and edit the variables");
-  process.exit(1);
-}
-
-const frontEndHost = parseHost(MERGED_ENV.VITE_FRONTEND_HOST ?? "http://localhost:3000");
+const frontEndHost = parseHost(ENV.VITE_FRONTEND_HOST);
 
 const main = async () => {
   const webRoot = getWebRoot();

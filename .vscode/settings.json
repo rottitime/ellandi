@@ -11,7 +11,6 @@
   "files.exclude": {
     "web/*.tsbuildinfo": true,
     "web/.editorconfig": true,
-    "web/.env*": true,
     "web/.eslintcache": true,
     "web/.eslintignore": true,
     "web/.eslintrc.cjs": true,
