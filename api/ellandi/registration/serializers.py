@@ -21,8 +21,8 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 class WebErrorSerializer(serializers.Serializer):
     message = serializers.CharField(required=True)
     stack = serializers.CharField(required=True)
-    userAgent = serializers.CharField(source="user_agent", required=True)
-    fileName = serializers.CharField(source="file_name", required=True)
-    lineNum = serializers.IntegerField(source="line_number", required=True)
-    colNum = serializers.IntegerField(source="column_number", required=True)
-    createdAt = serializers.DateTimeField(source="created_at")
+    userAgent = serializers.CharField(source="user_agent", required=True)  # noqa N815
+    fileName = serializers.CharField(source="file_name", required=True)  # noqa N815
+    lineNum = serializers.IntegerField(source="line_number", required=True)  # noqa N815
+    colNum = serializers.IntegerField(source="column_number", required=True)  # noqa N815
+    createdAt = serializers.DateTimeField(source="created_at")  # noqa N815
