@@ -12,6 +12,7 @@ COPY ./web/package.json /app/web/
 RUN npm ci --ignore-scripts
 
 COPY . /app
+COPY ./.env.example /app/.env
 
 WORKDIR /app/web
 
