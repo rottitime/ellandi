@@ -66,6 +66,10 @@ WSGI_APPLICATION = "ellandi.wsgi.application"
 
 VCAP_SERVICES = env.json("VCAP_SERVICES", default={})
 
+print(VCAP_SERVICES)
+import os
+print(os.environ)
+
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
