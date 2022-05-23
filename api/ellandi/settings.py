@@ -72,7 +72,7 @@ VCAP_SERVICES = env.json("VCAP_SERVICES", default={})
 DATABASES = {
     "default": {
         **env.db("DATABASE_URL"),
-        **{"ATOMIC_REQUESTS": True}
+        **{"ATOMIC_REQUESTS": True},
     }
 }
 
