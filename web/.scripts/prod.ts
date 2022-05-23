@@ -8,11 +8,11 @@ import morgan from "morgan";
 import helmet from "helmet";
 import compression from "compression";
 import { parseHost } from "./lib/url";
-import { getGitRoot, getWebRoot } from "./lib/project";
+import { getProjectRoot, getWebRoot } from "./lib/project";
 
 const MERGED_ENV: Record<string, string | undefined> = {
   ...process.env,
-  ...dotenv.config({ path: path.join(getGitRoot(), ".env") }).parsed,
+  ...dotenv.config({ path: path.join(getProjectRoot(), ".env") }).parsed,
 };
 
 const DEV_SECRET = "---------- DEV SECRET ----------";
