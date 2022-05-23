@@ -18,7 +18,7 @@ SECRET_KEY = "django-insecure-j#j_k770^2hozr9st&u3wg=j!as-fjm*+vc6zxu-lv046+y$zk
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["ellandi-api.london.cloudapps.digital"]
 
 
 # Application definition
