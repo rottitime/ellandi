@@ -4,13 +4,14 @@ from registration.models import User
 
 
 class SkillLevel(models.IntegerChoices):
-    zero = 0, _("Zero")
-    minimal = 1, _("Minimal")
-    intermediate = 2, _("Intermediate")
-    expert = 3, _("Expert")
-    guru = 4, _("Guru")
-
-    __empty__ = _("(Unknown)")
+    SKILLS_CHOICES = (
+        ("zero", "Zero"),
+        ("minimal", "Minimal"),
+        ("intermediate", "Intermediate"),
+        ("expert", "Expert"),
+        ("guru", "Guru"),
+    )
+    skill = models.CharField(max_length=128, choices=SKILLS_CHOICES)
 
 
 class Skills(models.Model):
