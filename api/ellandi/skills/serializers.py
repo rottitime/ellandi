@@ -2,6 +2,8 @@ from rest_framework import serializers
 
 
 class SkillsSerializer(serializers.Serializer):
+    name = serializers.CharField(required=True)
+    users = serializers.RelatedField(many=True)
     auditing = serializers.IntegerField(required=True)
     bookkeeping = serializers.IntegerField(required=True)
     communication = serializers.IntegerField(required=True)
