@@ -1,14 +1,14 @@
 import { Button } from "baseui/button";
 import { ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { MenuLayout } from "_/components/Layouts";
+import { EmptyLayout } from "_/components/Layouts";
 
 const Index = () => {
   const navigate = useNavigate();
 
   return (
-    <MenuLayout>
-      <h1 className="D">Civil Service Skills</h1>
+    <EmptyLayout>
+      <h1 className="D c">Civil Service Skills</h1>
 
       <p className="PL-L">You can use this service to:</p>
 
@@ -40,7 +40,7 @@ const Index = () => {
         You'll be asked to upload your CV. If you don't have a CV available you can add
         one later by going to your <strong>Profile</strong>.
       </p>
-    </MenuLayout>
+    </EmptyLayout>
   );
 };
 

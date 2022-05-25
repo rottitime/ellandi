@@ -1,9 +1,9 @@
-import { MenuLayout } from "_/components/Layouts";
+import { EmptyLayout } from "_/components/Layouts";
 import { Link } from "_/components/Link";
 
 const Index = () => {
   return (
-    <MenuLayout>
+    <EmptyLayout>
       <h1 className="H">
         Hello <strong>joe.bloggs@cabinetoffice.gov.uk</strong>
       </h1>
@@ -31,7 +31,7 @@ const Index = () => {
         </Link>{" "}
         if you need the sign-up link to be re-sent.
       </p>
-    </MenuLayout>
+    </EmptyLayout>
   );
 };
 

@@ -1,6 +1,6 @@
 import { Button } from "baseui/button";
 import { useNavigate } from "react-router-dom";
-import { MenuLayout } from "_/components/Layouts";
+import { EmptyLayout } from "_/components/Layouts";
 import { useInput } from "_/hooks/useInput";
 import { useRadio } from "_/hooks/useRadio";
 
@@ -67,7 +67,7 @@ const Index = () => {
   });
 
   return (
-    <MenuLayout>
+    <EmptyLayout>
       <h1 className="D">Grade</h1>
 
       <p className="P-L">Select your grade. You may only choose one.</p>
@@ -95,7 +95,7 @@ const Index = () => {
           <span className="H-XS">Continue</span>
         </Button>
       </p>
-    </MenuLayout>
+    </EmptyLayout>
   );
 };
 

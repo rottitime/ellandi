@@ -1,15 +1,15 @@
 import { Button } from "baseui/button";
 import { useNavigate } from "react-router-dom";
-import { MenuLayout } from "_/components/Layouts";
+import { EmptyLayout } from "_/components/Layouts";
 
 const Index = () => {
   const navigate = useNavigate();
 
   return (
-    <MenuLayout>
-      <h1 className="D-S">(5)</h1>
+    <EmptyLayout>
+      <h1 className="D-S">In progress</h1>
 
-      <p>Noot</p>
+      <p>More screens coming soon</p>
 
       <p>
         <Button
@@ -20,7 +20,7 @@ const Index = () => {
           <span className="H-XS">Continue</span>
         </Button>
       </p>
-    </MenuLayout>
+    </EmptyLayout>
   );
 };
 

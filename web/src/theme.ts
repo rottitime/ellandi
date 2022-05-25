@@ -3,17 +3,18 @@ import { ThemePrimitives } from "baseui/theme";
 
 export const primitives: ThemePrimitives = {
   // Primary Palette
-  primaryA: "#000000",
-  primaryB: "#ffffff",
-  primary: "#000000",
-  primary50: "#F6F6F6",
-  primary100: "#EEEEEE",
-  primary200: "#E2E2E2",
-  primary300: "#CBCBCB",
-  primary400: "#AFAFAF",
-  primary500: "#6B6B6B",
-  primary600: "#545454",
-  primary700: "#333333",
+  // hsl(225, 77%, 56%)
+  primaryA: "hsl(225, 77%, 56%)",
+  primaryB: "hsl(225, 100%, 100%)",
+  primary: "hsl(225, 77%, 56%)",
+  primary50: "hsl(225, 100%, 96%)", // "#F6F6F6",
+  primary100: "hsl(225, 100%, 93%)", // "#EEEEEE",
+  primary200: "hsl(225, 100%, 89%)", // "#E2E2E2",
+  primary300: "hsl(225, 100%, 80%)", // "#CBCBCB",
+  primary400: "hsl(225, 100%, 69%)", // "#AFAFAF",
+  primary500: "hsl(225, 100%, 42%)", // "#6B6B6B",
+  primary600: "hsl(225, 100%, 33%)", // "#545454",
+  primary700: "hsl(225, 100%, 20%)", // "#333333",
   // Accent Palette
   accent: "#276EF1",
   accent50: "#EFF3FE",
