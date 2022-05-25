@@ -86,7 +86,7 @@ boilerplate:  ## Add simple 'README.md' and .gitignore
 	@echo "# $(PACKAGE_NAME)" | sed 's/_/ /g' >> README.md
 	@$(call add-gitignore)
 
-# # -------------------------------- Builds and Installations -----------------------------
+# -------------------------------- Builds and Installations -----------------------------
 
 venv:  ## Create virtualenv environment on local directory.
 	@$(create-venv)
@@ -97,16 +97,19 @@ install-dev: ## install from requirements file
 install-req: ## install from requirements file
 	python -m pip install -r api/requirements.txt
 
-# # -------------------------------------- Project Execution -------------------------------
+npm-install: ## Check style and syntax with
+	cd web && npm install
+
+# -------------------------------------- Project Execution -------------------------------
 run-in-docker:  ## Run python app in a docker container
 	docker-compose up --build
 
 
-# # -------------------------------------- Clean Up  --------------------------------------
+# -------------------------------------- Clean Up  --------------------------------------
 .PHONY: clean
 
 
-# # -------------------------------------- Code Style  -------------------------------------
+# -------------------------------------- Code Style  -------------------------------------
 
 lint-backend: ## Check style with `flake8` and `mypy`
 	$(call install-pkg-if-not-exist,flake8)
@@ -116,15 +119,18 @@ lint-backend: ## Check style with `flake8` and `mypy`
 # # @$(PYTHON) -m mypy
 # # @yamllint .
 
-checkmake:  ## Check Makefile style with `checkmake`
-	docker run --rm -v $(CURDIR):/data cytopia/checkmake Makefile
-
 formatter-backend: ## Format style with `black` and sort imports with `isort`
 	@isort -m 3 -tc -rc .
 	@black .
 # 	find . -name "*.py" | xargs pre-commit run -c .configs/.pre-commit-config.yaml isort --files
 
-# # ---------------------------------------- Tests -----------------------------------------
+lint-frontend: ## Check style and syntax with
+	cd web && npm install
+
+checkmake:  ## Check Makefile style with `checkmake`
+	docker run --rm -v $(CURDIR):/data cytopia/checkmake Makefile
+
+# ---------------------------------------- Tests -----------------------------------------
 .PHONY: test
 test: ## Run tests quickly with pytest
 # $(call install-pkg-if-not-exist,pytest)
