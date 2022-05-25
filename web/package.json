@@ -26,7 +26,7 @@
     "view-bundle:help": "echo 'Creates a chart showing each dependencies effect on the bundle'",
     "view-bundle": "vite build --sourcemap && source-map-explorer ./dist/assets/index.*.js --no-border-checks && rm ./dist/assets/*.js.map",
     "prepare:help": "echo 'Install (or reinstall) git hooks'",
-    "prepare": "if test -d \"../.git\"; then cd .. && husky install && rm -rf .git/hooks && ln -s ../.husky .git/hooks; fi"
+    "prepare": "if test -d \"../.git\"; then cd .. && husky install web/.husky && rm -rf .git/hooks && ln -s ../web/.husky ./.git/hooks; fi"
   },
   "dependencies": {
     "@types/compression": "^1.7.2",
