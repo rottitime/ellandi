@@ -32,7 +32,7 @@ const Index = () => {
         </Button>
       </p>
 
-      <p>(will add a hidden captcha to this page)</p>
+      {/* <p>(will add a hidden captcha to this page)</p> */}
     </EmptyLayout>
   );
 };
