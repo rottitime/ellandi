@@ -1,11 +1,11 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
-from ..skills.serializers import SkillsSerializer
+from ..skills.serializers import SkillSerializer
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        skills = SkillsSerializer(many=True, read_only=True)
+        skills = SkillSerializer(many=True, read_only=True)
         model = get_user_model()
         fields = [
             "url",

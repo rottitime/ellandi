@@ -1,11 +1,11 @@
 from rest_framework import serializers
 
-from .models import Skills
+from .models import Skill
 
 
-class SkillsSerializer(serializers.Serializer):
+class SkillSerializer(serializers.Serializer):
     class meta:
-        model = Skills
+        model = Skill
         ordering = ["-id"]
         fields = (
             "id",
@@ -24,11 +24,4 @@ class SkillsSerializer(serializers.Serializer):
 
     name = serializers.CharField(required=True)
     users = serializers.RelatedField(many=True, read_only=True)
-    auditing = serializers.CharField(required=True)
-    bookkeeping = serializers.CharField(required=True)
-    communication = serializers.CharField(required=True)
-    design = serializers.CharField(required=True)
-    enthusiasm = serializers.CharField(required=True)
-    microsoft_office = serializers.CharField(required=True)
-    negotiation = serializers.CharField(required=True)
-    project_management = serializers.CharField(required=True)
+    sample_skill = serializers.CharField(required=True)

@@ -1,7 +1,7 @@
 import django.contrib.auth.admin
 from django.contrib import admin
 
-from .models import Skills
+from .models import Skill
 
 
-admin.site.register(Skills)
+admin.site.register(Skill)
