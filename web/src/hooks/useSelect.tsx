@@ -1,6 +1,6 @@
 import { FormControl } from "baseui/form-control";
 import { Option, Select } from "baseui/select";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { camelCase, CamelCase, pascalCase, PascalCase } from "_/utilities/form";
 import { useDeepState } from "./useDeepState";
 
@@ -41,16 +41,15 @@ export const useSelect = <T extends string>({
 } & {
   [K in T as `is${PascalCase<T>}Valid`]: boolean;
 } => {
-  const initialValueRef = useRef(initialValue);
-
   const [value, setValue] = useDeepState<readonly Option[]>(initialValue);
-  const [errorMessage, setErrorMessage] = useState(validator(initialValue));
   const [isInputDirty, setIsInputDirty] = useState(false);
+
+  const errorMessage = validator(value);
 
   useEffect(() => {
     let debounce: ReturnType<typeof setTimeout>;
 
-    if (!areOptionsEqual(value, initialValueRef.current)) {
+    if (!areOptionsEqual(value, [])) {
       debounce = setTimeout(() => {
         setIsInputDirty(true);
       }, 200);
@@ -71,7 +70,6 @@ export const useSelect = <T extends string>({
           value={value}
           onChange={({ value }) => {
             setValue(value);
-            setErrorMessage(validator(value));
           }}
           options={options}
           error={isInputDirty && errorMessage !== ""}

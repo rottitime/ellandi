@@ -92,7 +92,7 @@ export const MenuLayout = ({ children }: { children?: ReactNode }) => {
 
   return (
     <ResponsiveNav
-      title="Civil Service Skills"
+      title="Ellandi"
       items={location.pathname.startsWith("/starter") ? MENU_ITEMS_ALL : MENU_ITEMS}
     >
       <main className="mw-copy mh-auto">
