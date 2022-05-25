@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { useChange } from "./useChange";
 
-const IS_DEMO = import.meta.env.DEV;
+const IS_DEMO = import.meta.env.DEV || import.meta.env.VITE_IS_DEMO_MODE === "true";
 
 const TRIPLE_CLICK_MS = 600;
 
