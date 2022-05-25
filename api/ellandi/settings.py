@@ -25,6 +25,7 @@ ALLOWED_HOSTS = ["ellandi-api.london.cloudapps.digital"]
 
 INSTALLED_APPS = [
     "ellandi.registration",
+    "ellandi.skills",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
