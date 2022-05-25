@@ -1,8 +1,8 @@
 import { Button } from "baseui/button";
 import { useNavigate } from "react-router-dom";
-import { MenuLayout } from "_/components/Layouts";
 import { useInput } from "_/hooks/useInput";
 import { usePassword } from "_/hooks/usePassword";
+import { EmptyLayout } from "_/components/Layouts";
 
 const EMAIL_REGEX =
   /^(([^\s"(),.:;<>@[\\\]]+(\.[^\s"(),.:;<>@[\\\]]+)*)|(".+"))@((\[(?:\d{1,3}\.){3}\d{1,3}])|(([\dA-Za-z-]+\.)+[A-Za-z]{2,}))$/;
@@ -40,7 +40,7 @@ const Index = () => {
   });
 
   return (
-    <MenuLayout>
+    <EmptyLayout>
       <form
         onSubmit={(event) => {
           event.preventDefault();
@@ -52,7 +52,10 @@ const Index = () => {
           return false;
         }}
       >
-        <h1 className="D">Create an account</h1>
+        <h1 className="D c">
+          Create an account
+          <span className="flick" />
+        </h1>
 
         <h3>Enter your email address</h3>
 
@@ -74,7 +77,7 @@ const Index = () => {
           </Button>
         </p>
       </form>
-    </MenuLayout>
+    </EmptyLayout>
   );
 };
 

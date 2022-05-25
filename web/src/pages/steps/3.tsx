@@ -1,6 +1,6 @@
 import { Button } from "baseui/button";
 import { useNavigate } from "react-router-dom";
-import { MenuLayout } from "_/components/Layouts";
+import { EmptyLayout } from "_/components/Layouts";
 import { useInput } from "_/hooks/useInput";
 import { useSelect } from "_/hooks/useSelect";
 import { Option } from "baseui/select";
@@ -67,7 +67,7 @@ const Index = () => {
   });
 
   return (
-    <MenuLayout>
+    <EmptyLayout>
       <form
         onSubmit={(event) => {
           event.preventDefault();
@@ -111,7 +111,7 @@ const Index = () => {
           </Button>
         </p>
       </form>
-    </MenuLayout>
+    </EmptyLayout>
   );
 };
 

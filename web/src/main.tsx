@@ -5,7 +5,7 @@ import { Client as Styletron } from "styletron-engine-monolithic";
 import { Provider as StyletronProvider } from "styletron-react";
 import { BaseProvider } from "baseui";
 import { theme, primitives } from "_/theme";
-import { MenuLayout } from "_/components/Layouts";
+import { EmptyLayout } from "_/components/Layouts";
 import { Spinner } from "baseui/spinner";
 import routes from "~react-pages";
 import "_/styles/reset.css";
@@ -61,9 +61,9 @@ const App = () => {
   return (
     <Suspense
       fallback={
-        <MenuLayout>
+        <EmptyLayout>
           <LoadingIndicator />
-        </MenuLayout>
+        </EmptyLayout>
       }
     >
       {useRoutes([
@@ -72,9 +72,9 @@ const App = () => {
           path: "*",
           element:
             routes.length === 0 ? (
-              <MenuLayout>
+              <EmptyLayout>
                 <h1 style={{ color: "var(--mono600)" }}>Page Not Found</h1>
-              </MenuLayout>
+              </EmptyLayout>
             ) : (
               <Navigate to="/" />
             ),

@@ -2,12 +2,32 @@ import { ReactNode } from "react";
 import { Item } from "baseui/side-navigation";
 import { ResponsiveNav } from "./ResponsiveNav";
 import { useLocation } from "react-router-dom";
+import { getPublicURL } from "_/utilities/urls";
 
 /* Empty Page (No Nav) */
 export const EmptyLayout = ({ children }: { children?: ReactNode }) => {
   return (
-    <div className="px">
-      <div className="mw-copy mh-auto">{children}</div>
+    <div>
+      <div style={{ textAlign: "center" }}>
+        <div
+          style={{
+            display: "inline-block",
+            padding: "32px 36px 28px",
+            background: "var(--primaryA)",
+            borderRadius: "0 0 36px 36px",
+          }}
+        >
+          <img
+            src={getPublicURL("images/ellandi.svg")}
+            alt="Ellandi"
+            aria-label="Ellandi"
+            style={{ width: 200 }}
+          />
+        </div>
+      </div>
+      <div className="px">
+        <div className="mw-copy mh-auto">{children}</div>
+      </div>
     </div>
   );
 };
