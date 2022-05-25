@@ -97,8 +97,8 @@ install-dev: ## install from requirements file
 install-req: ## install from requirements file
 	python -m pip install -r api/requirements.txt
 
-npm-install: ## Check style and syntax with
-	cd web && npm install
+npm-prepare: ## Check style and syntax with
+	cd web && npm install && npm run prepare
 
 # -------------------------------------- Project Execution -------------------------------
 run-in-docker:  ## Run python app in a docker container
@@ -125,7 +125,10 @@ formatter-backend: ## Format style with `black` and sort imports with `isort`
 # 	find . -name "*.py" | xargs pre-commit run -c .configs/.pre-commit-config.yaml isort --files
 
 lint-frontend: ## Check style and syntax with
-	cd web && npm install
+	cd web && npm run lint
+
+validate-frontend: ## Check style and syntax with
+	cd web && npm run validate
 
 checkmake:  ## Check Makefile style with `checkmake`
 	docker run --rm -v $(CURDIR):/data cytopia/checkmake Makefile
