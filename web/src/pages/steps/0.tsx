@@ -8,7 +8,7 @@ const Index = () => {
 
   return (
     <MenuLayout>
-      <h1 className="D">Civil Service Skills</h1>
+      <h1 className="D">Ellandi</h1>
 
       <p className="PL-L">You can use this service to:</p>
 

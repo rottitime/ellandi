@@ -1,6 +1,6 @@
 import { FormControl } from "baseui/form-control";
 import { RadioGroup, Radio } from "baseui/radio";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { camelCase, CamelCase, pascalCase, PascalCase } from "_/utilities/form";
 import { useDeepState } from "./useDeepState";
 
@@ -30,16 +30,15 @@ export const useRadio = <T extends string>({
 } & {
   [K in T as `is${PascalCase<T>}Valid`]: boolean;
 } => {
-  const initialValueRef = useRef(initialValue);
-
   const [value, setValue] = useDeepState<string | undefined>(initialValue);
-  const [errorMessage, setErrorMessage] = useState(validator(initialValue));
   const [isInputDirty, setIsInputDirty] = useState(false);
+
+  const errorMessage = validator(value);
 
   useEffect(() => {
     let debounce: ReturnType<typeof setTimeout>;
 
-    if (value !== initialValueRef.current) {
+    if (value !== "") {
       debounce = setTimeout(() => {
         setIsInputDirty(true);
       }, 200);
@@ -56,28 +55,17 @@ export const useRadio = <T extends string>({
   return {
     [`${camel}El`]: (
       <FormControl error={isInputDirty ? errorMessage || null : null}>
-        {/* <Select
-          value={value}
-          onChange={({ value }) => {
-            setValue(value);
-            setErrorMessage(validator(value));
-          }}
-          options={options}
-          error={isInputDirty && errorMessage !== ""}
-          positive={isInputDirty && errorMessage === ""}
-        /> */}
         <RadioGroup
           value={value}
           onChange={(event: ChangeEvent<HTMLInputElement>) => {
             const newValue = event.target.value;
             setValue(newValue);
-            setErrorMessage(validator(newValue));
           }}
         >
           {options.map(({ id, label }) => {
             return (
               <Radio key={id} value={id}>
-                {label}
+                <span className="P">{label}</span>
               </Radio>
             );
           })}
