@@ -17,9 +17,9 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
             "line_manager_email",
             "country",
             "contract_type",
-            "skills"
+            "skills",
         ]
-        extra_kwargs = {'authors': {'required': False}}
+        extra_kwargs = {"authors": {"required": False}}
 
 
 class WebErrorSerializer(serializers.Serializer):
