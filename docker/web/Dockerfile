@@ -12,7 +12,10 @@ COPY ./web/package.json /app/web/
 RUN npm ci --ignore-scripts
 
 COPY . /app
+COPY ./.env.example /app/.env
 
 WORKDIR /app/web
 
 EXPOSE 3000
+
+CMD ["npm","run","prod"]
