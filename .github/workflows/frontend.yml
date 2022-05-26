@@ -3,12 +3,11 @@ name: Node.js CI
 on:
   push:
     branches:
-      - 'main'
-      - 'feature/**'
+      - "main"
+      - "feature/**"
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -17,12 +16,11 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: make npm-prepare
-    - run: make lint-frontend
-    - run: make validate-frontend
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+      - run: make npm-prepare
+      - run: make validate-frontend

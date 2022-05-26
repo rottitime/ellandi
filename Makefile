@@ -124,9 +124,6 @@ formatter-backend: ## Format style with `black` and sort imports with `isort`
 	@black .
 # 	find . -name "*.py" | xargs pre-commit run -c .configs/.pre-commit-config.yaml isort --files
 
-lint-frontend: ## Check style and syntax with
-	cd web && npm run lint
-
 validate-frontend: ## Check style and syntax with
 	cd web && npm run validate
 
