@@ -11,14 +11,7 @@ class SkillSerializer(serializers.Serializer):
             "id",
             "name",
             "users",
-            "auditing",
-            "bookkeeping",
-            "communication",
-            "design",
-            "enthusiasm",
-            "microsoft_office",
-            "negotiation",
-            "project_management",
+            "sample_skill",
         )
         extra_kwargs = {"users": {"required": False}}
 
