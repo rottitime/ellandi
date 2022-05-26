@@ -8,7 +8,6 @@ on:
     # Publish `develop` as Docker `latest` image.
     branches:
       - main
-      - sandbox
 
 jobs:
 
