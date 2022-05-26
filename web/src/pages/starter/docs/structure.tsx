@@ -44,7 +44,7 @@ const Label = ({ entry }: { entry: Folder | File }): JSX.Element => {
   );
 };
 
-const HOME_URL = import.meta.env.VITE_FRONTEND_HOST ?? "http://localhost:3000";
+const HOME_URL = import.meta.env.VITE_FRONTEND_HOST;
 
 const toTreeViewData = (
   entries: Folder["children"],

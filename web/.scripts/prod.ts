@@ -51,7 +51,7 @@ const main = async () => {
     }
   });
 
-  app.listen(frontEndHost.port, () => {
+  app.listen(3000, () => {
     console.log(`Started: ${frontEndHost.host}`);
   });
 };
