@@ -1,7 +1,7 @@
 NODE_ENV=development
 
 # when prefixed with VITE, sent to the client, no secrets here!
-VITE_FRONTEND_HOST="https://ellandi-web.london.cloudapps.digital"
+VITE_FRONTEND_HOST="http://localhost:3000"
 # do not end this value with a slash
 VITE_API_ROOT_URL="http://localhost:8000"
 # set this to true for demoing (enables triple click to autofill)

@@ -1,9 +1,5 @@
 FROM node:16
 
-ENV VITE_FRONTEND_HOST https://ellandi-web.london.cloudapps.digital
-ENV VITE_API_ROOT_URL https://ellandi-api.london.cloudapps.digital
-ENV VITE_IS_DEMO_MODE true
-
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 WORKDIR /app/web
