@@ -1,6 +1,6 @@
 import { Button } from "baseui/button";
 import { useNavigate } from "react-router-dom";
-import { MenuLayout } from "_/components/Layouts";
+import { EmptyLayout } from "_/components/Layouts";
 import { useInput } from "_/hooks/useInput";
 import { useSelect } from "_/hooks/useSelect";
 import { Option } from "baseui/select";
@@ -40,7 +40,10 @@ const FIXME_LOCATIONS: readonly Option[] = [
 const Index = () => {
   const navigate = useNavigate();
 
-  const { fullNameEl, isFullNameValid } = useInput({ label: "Full Name" });
+  const { fullNameEl, isFullNameValid } = useInput({
+    label: "Full Name",
+    initialValue: "Joe Bloggs",
+  });
   const { organisationEl, isOrganisationValid } = useSelect({
     label: "Organisation",
     options: FIXME_ORGS,
@@ -52,6 +55,7 @@ const Index = () => {
   const { lineManagerEmailEl, isLineManagerEmailValid } = useInput({
     label: "Line Manager Email",
     validator: emailValidator,
+    demoValue: "line.manager@cabinetoffice.gov.uk",
   });
   const { countryEl, isCountryValid } = useSelect({
     label: "Country",
@@ -63,7 +67,7 @@ const Index = () => {
   });
 
   return (
-    <MenuLayout>
+    <EmptyLayout>
       <form
         onSubmit={(event) => {
           event.preventDefault();
@@ -107,7 +111,7 @@ const Index = () => {
           </Button>
         </p>
       </form>
-    </MenuLayout>
+    </EmptyLayout>
   );
 };
 

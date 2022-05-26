@@ -2,14 +2,14 @@ import { Button } from "baseui/button";
 import { Checkbox } from "baseui/checkbox";
 import { ChangeEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { MenuLayout } from "_/components/Layouts";
+import { EmptyLayout } from "_/components/Layouts";
 
 const Index = () => {
   const navigate = useNavigate();
   const [checked, setChecked] = useState(false);
 
   return (
-    <MenuLayout>
+    <EmptyLayout>
       <h1 className="D">Privacy Policy</h1>
 
       <Checkbox
@@ -32,8 +32,8 @@ const Index = () => {
         </Button>
       </p>
 
-      <p>(will add a hidden captcha to this page)</p>
-    </MenuLayout>
+      {/* <p>(will add a hidden captcha to this page)</p> */}
+    </EmptyLayout>
   );
 };
 

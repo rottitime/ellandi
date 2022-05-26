@@ -4,7 +4,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { camelCase, CamelCase, nonEmpty, pascalCase, PascalCase } from "_/utilities/form";
 import { useDemoValue } from "./useDemoValue";
 
-export const useInput = <T extends string>({
+export const usePassword = <T extends string>({
   label,
   validator = nonEmpty,
   initialValue = "",
@@ -52,6 +52,7 @@ export const useInput = <T extends string>({
       <FormControl label={label} error={isInputDirty ? errorMessage || null : null}>
         <Input
           value={value}
+          type="password"
           onChange={(event: ChangeEvent<HTMLInputElement>) => {
             const newValue = event.target.value;
             setValue(newValue);

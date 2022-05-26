@@ -48,9 +48,10 @@ export const getEnv = (): {
   }
 
   return {
-    NODE_ENV: "development",
-    VITE_FRONTEND_HOST: "http://localhost:3000",
-    VITE_API_ROOT_URL: "http://localhost:8000",
+    NODE_ENV: "production",
+    VITE_FRONTEND_HOST: "https://ellandi-web.london.cloudapps.digital",
+    VITE_API_ROOT_URL: "https://ellandi-api.london.cloudapps.digital",
+    VITE_IS_DEMO_MODE: "true",
     ...process.env,
     ...envVarFile,
   };

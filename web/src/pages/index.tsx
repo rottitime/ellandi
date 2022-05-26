@@ -1,14 +1,14 @@
-import { MenuLayout } from "_/components/Layouts";
+import { EmptyLayout } from "_/components/Layouts";
 import { Link } from "_/components/Link";
 
 const Index = () => {
   return (
-    <MenuLayout>
+    <EmptyLayout>
       <h1 className="H">
-        Hello <strong>joe.bloggs@cabinetoffice.gov.uk</strong>
+        Hello, <strong>Joe Bloggs</strong>
       </h1>
 
-      <p className="P-L">You are invited to register on Civil Service Skills.</p>
+      <p className="P-L">You are invited to register on Ellandi.</p>
 
       <p className="P-L">Please select the following link to sign up:</p>
 
@@ -21,7 +21,7 @@ const Index = () => {
       <p className="P-L">
         The above is a one-time-only link; you can only use this link once. If you use
         this link more than once, your invitation expires and you will not be able to sign
-        up to Civil Service Skills.
+        up to Ellandi.
       </p>
 
       <p className="P-L">
@@ -31,7 +31,7 @@ const Index = () => {
         </Link>{" "}
         if you need the sign-up link to be re-sent.
       </p>
-    </MenuLayout>
+    </EmptyLayout>
   );
 };
 

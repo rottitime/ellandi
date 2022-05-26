@@ -59,6 +59,10 @@ body {
   font-size: 64px;
   font-weight: 900;
   line-height: 1.15;
+
+  &.c {
+    color: var(--primaryA);
+  }
 }
 
 .D-M,
@@ -66,18 +70,54 @@ body {
   font-size: 40px;
   font-weight: 900;
   line-height: 1.15;
+  position: relative;
+
+  &.c {
+    color: var(--primaryA);
+  }
 }
 
 .D-S {
   font-size: 32px;
   font-weight: 900;
   line-height: 1.2;
+  position: relative;
+
+  &.c {
+    color: var(--primaryA);
+  }
 }
 
 .D-XS {
   font-size: 27px;
   font-weight: 900;
   line-height: 1.2;
+  position: relative;
+
+  &.c {
+    color: var(--primaryA);
+  }
+}
+
+.flick {
+  display: inline-block;
+  position: relative;
+  width: 0.6em;
+  overflow: visible;
+
+  &::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    bottom: 8px;
+    right: 0;
+    width: 2em;
+    height: 1em;
+    background-image: url("/images/flick.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: middle;
+  }
 }
 
 /**
