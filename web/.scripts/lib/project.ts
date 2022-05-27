@@ -41,7 +41,7 @@ export const getEnv = (): {
   try {
     envVarFile =
       dotenv.config({
-        path: path.join(getProjectRoot(), ".envs/web"),
+        path: path.join(getProjectRoot(), ".env"),
       }).parsed ?? {};
   } catch {
     //
