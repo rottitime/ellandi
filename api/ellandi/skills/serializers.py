@@ -11,10 +11,10 @@ class SkillSerializer(serializers.Serializer):
             "id",
             "name",
             "users",
-            "sample_skill",
+            "skill",
         )
         extra_kwargs = {"users": {"required": False}}
 
     name = serializers.CharField(required=True)
-    users = serializers.RelatedField(many=True, read_only=True)
-    sample_skill = serializers.CharField(required=True)
+    users = serializers.RelatedField(many=True, queryset=Skill.objects.all())
+    skill = serializers.CharField(required=True)

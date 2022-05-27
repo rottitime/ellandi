@@ -16,5 +16,8 @@ class SkillLevel(object):
 
 class Skill(models.Model):
     name = CharField(max_length=256)
-    users = models.ManyToManyField(User, blank=True, related_name="skills")
-    sample_skill = SkillLevel()
+    users = models.ForeignKey(User, related_name="skills", on_delete=models.CASCADE)
+    skill = SkillLevel()
+
+    def __str__(self):
+        return f'{self.name}'
