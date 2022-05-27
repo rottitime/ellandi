@@ -46,7 +46,7 @@ jobs:
           docker build . --file $DOCKER_FILE --tag $DOCKER_REPOSITORY/$DOCKER_IMAGE:$IMAGE_TAG
           docker push -a $DOCKER_REPOSITORY/$DOCKER_IMAGE
 
-  deploy_sandbox:
+  deploy_develop:
     needs: [push_images]
 
     runs-on: ubuntu-latest
