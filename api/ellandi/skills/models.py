@@ -17,7 +17,7 @@ class SkillLevel(object):
 class Skill(models.Model):
     name = CharField(max_length=256)
     user = models.ForeignKey(User, related_name="skills", on_delete=models.CASCADE)
-    skill = SkillLevel()
+    skill_level = SkillLevel()
 
     def __str__(self):
         return f'{self.name}'
