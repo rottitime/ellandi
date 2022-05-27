@@ -1,9 +1,11 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
+from ..skills.serializers import SkillsSerializer
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
+        skills = SkillsSerializer(many=True, read_only=True)
         model = get_user_model()
         fields = [
             "url",
@@ -15,7 +17,9 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
             "line_manager_email",
             "country",
             "contract_type",
+            "skills"
         ]
+        extra_kwargs = {'authors': {'required': False}}
 
 
 class WebErrorSerializer(serializers.Serializer):
