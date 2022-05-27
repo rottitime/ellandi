@@ -73,4 +73,4 @@ jobs:
           CF_DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
           DOCKER_FILE: ${{ matrix.dockerfile }}
           DOCKER_IMAGE: ${{ matrix.app }}
-        run: CF_DOCKER_PASSWORD="$CF_DOCKER_PASSWORD" ./cf push "${{ matrix.app }}-staging." --docker-image $DOCKER_REPOSITORY/$DOCKER_IMAGE:$IMAGE_TAG --docker-username=$CF_DOCKER_USERNAME
+        run: CF_DOCKER_PASSWORD="$CF_DOCKER_PASSWORD" ./cf push "${{ matrix.app }}-staging" --docker-image $DOCKER_REPOSITORY/$DOCKER_IMAGE:$IMAGE_TAG --docker-username=$CF_DOCKER_USERNAME
