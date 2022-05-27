@@ -11,7 +11,7 @@ const notUndefined = (value?: string | undefined): string => {
   return value ? "" : "Must select a value";
 };
 
-export const useRadio = <T extends string>({
+export const useRadioGroup = <T extends string>({
   label,
   options,
   validator = notUndefined,
@@ -38,7 +38,7 @@ export const useRadio = <T extends string>({
   useEffect(() => {
     let debounce: ReturnType<typeof setTimeout>;
 
-    if (value !== "") {
+    if (value !== undefined) {
       debounce = setTimeout(() => {
         setIsInputDirty(true);
       }, 200);

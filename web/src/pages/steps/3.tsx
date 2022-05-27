@@ -92,6 +92,7 @@ const Index = () => {
         {jobTitleEl}
         {lineManagerEmailEl}
         {countryEl}
+        {/* ^ Country bad; unclear if: primary residence, nationality[s], citizenship - needs changing */}
         {workLocationEl}
         <p>
           <Button
