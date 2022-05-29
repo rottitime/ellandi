@@ -4,7 +4,7 @@ from .models import Skill
 
 
 class SkillSerializer(serializers.Serializer):
-    class meta:
+    class Meta:
         model = Skill
         ordering = ["-id"]
         fields = (
