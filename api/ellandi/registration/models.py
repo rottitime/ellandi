@@ -82,7 +82,6 @@ class User(AbstractUser, TimeStampedModel, RegistrationAbstractUser):
 
 class UserSkill(TimeStampedModel):
     # TODO - Is this a good name? This is the skill info for one user for a particular skill.
-    # many to many field - should it be in user or skill?
 
     # TODO - how are skills stored?
     # Put this in for now
@@ -99,6 +98,9 @@ class UserSkill(TimeStampedModel):
     skill = models.CharField(max_length=20, choices=FakeSkill.choices, blank=False, null=False)
     level = models.CharField(max_length=10, choices=SkillLevel.choices, blank=True, null=False)
     validated = models.BooleanField(default=False, blank=False)
+
+    class Meta:
+        unique_together = ["user", "skill"]
 
 
 class WebError(TimeStampedModel):
