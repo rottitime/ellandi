@@ -95,7 +95,7 @@ class UserSkill(TimeStampedModel):
         BASIC = ("basic", "Basic")
         PROFICIENT = ("proficient", "Proficient")
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name="skills", on_delete=models.CASCADE)
     skill = models.CharField(max_length=20, choices=FakeSkill.choices, blank=False, null=False)
     level = models.CharField(max_length=10, choices=SkillLevel.choices, blank=True, null=False)
     validated = models.BooleanField(default=False, blank=False)
