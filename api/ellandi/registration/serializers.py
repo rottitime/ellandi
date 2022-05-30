@@ -6,7 +6,7 @@ from ..skills.serializers import SkillSerializer
 from .models import UserSkill
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
-    skills = serializers.StringRelatedField(many=True)
+    skills = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name="userskill-detail")
     class Meta:
         skills = SkillSerializer(many=True, read_only=True)
         model = get_user_model()
