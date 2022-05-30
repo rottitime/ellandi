@@ -5,8 +5,10 @@ from ..skills.serializers import SkillSerializer
 
 from .models import UserSkill
 
+
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     skills = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name="userskill-detail")
+
     class Meta:
         skills = SkillSerializer(many=True, read_only=True)
         model = get_user_model()
@@ -20,8 +22,8 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
             "line_manager_email",
             "country",
             "contract_type",
-            "skills"
-,        ]
+            "skills",
+        ]
 
 
 class WebErrorSerializer(serializers.Serializer):
@@ -37,4 +39,4 @@ class WebErrorSerializer(serializers.Serializer):
 class UserSkillSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = UserSkill
-        fields  = ["user", "skill", "level", "validated"]
+        fields = ["user", "skill", "level", "validated"]

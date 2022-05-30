@@ -7,17 +7,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('registration', '0007_user_skills'),
+        ("registration", "0007_user_skills"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='user',
-            name='skills',
+            model_name="user",
+            name="skills",
         ),
         migrations.AddField(
-            model_name='userskill',
-            name='user',
+            model_name="userskill",
+            name="user",
             field=models.ManyToManyField(to=settings.AUTH_USER_MODEL),
         ),
     ]
