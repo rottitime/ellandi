@@ -3,8 +3,11 @@ from rest_framework import serializers
 
 from ..skills.serializers import SkillSerializer
 
+from .models import UserSkill
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
+    skills = serializers.StringRelatedField(many=True)
+
     class Meta:
         skills = SkillSerializer(many=True, read_only=True)
         model = get_user_model()
@@ -18,9 +21,8 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
             "line_manager_email",
             "country",
             "contract_type",
-            "skills",
-        ]
-        extra_kwargs = {"authors": {"required": False}}
+            "skills"
+,        ]
 
 
 class WebErrorSerializer(serializers.Serializer):
@@ -31,3 +33,9 @@ class WebErrorSerializer(serializers.Serializer):
     lineNum = serializers.IntegerField(source="line_number", required=True)  # noqa N815
     colNum = serializers.IntegerField(source="column_number", required=True)  # noqa N815
     createdAt = serializers.DateTimeField(source="created_at")  # noqa N815
+
+
+class UserSkillSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = UserSkill
+        fields  = ["skill", "level", "validated"]
