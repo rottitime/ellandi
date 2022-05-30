@@ -67,12 +67,34 @@ class RegistrationAbstractUser(models.Model):
     contract_type = models.CharField(max_length=128, choices=ContractTypes.choices, blank=True, null=True)
 
 
+class UserSkill(TimeStampedModel):
+    # TODO - Is this a good name? This is the skill info for one user for a particular skill.
+    # many to many field - should it be in user or skill?
+
+    # TODO - how are skills stored?
+    # Put this in for now
+    class FakeSkill(models.TextChoices):
+        MATHS = ("maths", "Maths")
+        PYTHON = ("python", "Python")
+
+    # TODO - add/amend skill levels
+    class SkillLevel(models.TextChoices):
+        BASIC = ("basic", "Basic")
+        PROFICIENT = ("proficient", "Proficient")
+
+    skill = models.CharField(max_length=20, choices=FakeSkill.choices, blank=False, null=False)
+    level = models.CharField(max_length=10, choices=SkillLevel.choices, blank=True, null=False)
+    validated = models.BooleanField(default=False, blank=False)
+
+
 class User(AbstractUser, TimeStampedModel, RegistrationAbstractUser):
     username = None
     email = models.EmailField("email", unique=True)
 
     first_name = models.CharField("first name", max_length=128, blank=True, null=True)
     last_name = models.CharField("last name", max_length=128, blank=True, null=True)
+
+    skills = models.ManyToManyField(UserSkill)
 
     objects = UserManager()
 
