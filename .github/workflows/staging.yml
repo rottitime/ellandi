@@ -1,0 +1,76 @@
+name: Deploy staging
+
+env:
+  DOCKER_BUILDKIT: 1
+
+on:
+  push:
+    # Publish `develop` as Docker `latest` image.
+    branches:
+      - staging
+
+jobs:
+
+  push_images:
+
+    runs-on: ubuntu-latest
+
+    env:
+      IMAGE_TAG: latest
+      DOCKER_REPOSITORY: singletoned
+
+    strategy:
+      matrix:
+        app: [ ellandi-api, ellandi-web ]
+        include:
+          - app: ellandi-api
+            dockerfile: docker/api/Dockerfile
+          - app: ellandi-web
+            dockerfile: docker/web/Dockerfile
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Login
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: echo "$DOCKER_PASSWORD" | docker login -u $DOCKER_USERNAME --password-stdin
+
+      - name: Build, tag, and push ${{ matrix.app }} image
+        env:
+          DOCKER_FILE: ${{ matrix.dockerfile }}
+          DOCKER_IMAGE: ${{ matrix.app }}
+
+        run: |
+          docker build . --file $DOCKER_FILE --tag $DOCKER_REPOSITORY/$DOCKER_IMAGE:$IMAGE_TAG
+          docker push -a $DOCKER_REPOSITORY/$DOCKER_IMAGE
+
+  deploy_staging:
+    needs: [push_images]
+
+    runs-on: ubuntu-latest
+
+    env:
+      IMAGE_TAG: latest
+      DOCKER_REPOSITORY: singletoned
+      CF_SPACE: staging
+
+    strategy:
+      matrix:
+        app: [ ellandi-api, ellandi-web ]
+
+    steps:
+      - name: Donwload CF CLI
+        run: curl -L "https://packages.cloudfoundry.org/stable?release=linux64-binary&version=v7&source=github" | tar -zx
+
+      - name: CF login
+        run: ./cf login -a api.london.cloud.service.gov.uk -u "${{ secrets.CF_USER }}" -p "${{ secrets.CF_PASSWORD }}" -o co-i-ai -s "$CF_SPACE"
+
+      - name: CF push ${{ matrix.app }}
+        env:
+          CF_DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          CF_DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          DOCKER_FILE: ${{ matrix.dockerfile }}
+          DOCKER_IMAGE: ${{ matrix.app }}
+        run: CF_DOCKER_PASSWORD="$CF_DOCKER_PASSWORD" ./cf push "${{ matrix.app }}" --docker-image $DOCKER_REPOSITORY/$DOCKER_IMAGE:$IMAGE_TAG --docker-username=$CF_DOCKER_USERNAME

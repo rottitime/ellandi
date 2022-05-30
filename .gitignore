@@ -20,3 +20,4 @@ keystone.db
 
 # General
 .DS_Store
+.env

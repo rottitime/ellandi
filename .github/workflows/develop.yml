@@ -7,7 +7,7 @@ on:
   push:
     # Publish `develop` as Docker `latest` image.
     branches:
-      - main
+      - develop
 
 jobs:
 
@@ -46,7 +46,7 @@ jobs:
           docker build . --file $DOCKER_FILE --tag $DOCKER_REPOSITORY/$DOCKER_IMAGE:$IMAGE_TAG
           docker push -a $DOCKER_REPOSITORY/$DOCKER_IMAGE
 
-  deploy_sandbox:
+  deploy_develop:
     needs: [push_images]
 
     runs-on: ubuntu-latest
@@ -54,6 +54,7 @@ jobs:
     env:
       IMAGE_TAG: latest
       DOCKER_REPOSITORY: singletoned
+      CF_SPACE: develop
 
     strategy:
       matrix:
@@ -64,7 +65,7 @@ jobs:
         run: curl -L "https://packages.cloudfoundry.org/stable?release=linux64-binary&version=v7&source=github" | tar -zx
 
       - name: CF login
-        run: ./cf login -a api.london.cloud.service.gov.uk -u "${{ secrets.CF_USER }}" -p "${{ secrets.CF_PASSWORD }}" -o co-i-ai -s sandbox
+        run: ./cf login -a api.london.cloud.service.gov.uk -u "${{ secrets.CF_USER }}" -p "${{ secrets.CF_PASSWORD }}" -o co-i-ai -s "$CF_SPACE"
 
       - name: CF push ${{ matrix.app }}
         env:
@@ -72,4 +73,4 @@ jobs:
           CF_DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
           DOCKER_FILE: ${{ matrix.dockerfile }}
           DOCKER_IMAGE: ${{ matrix.app }}
-        run: CF_DOCKER_PASSWORD="$CF_DOCKER_PASSWORD" ./cf push "${{ matrix.app }}" --docker-image $DOCKER_REPOSITORY/$DOCKER_IMAGE:$IMAGE_TAG --docker-username=$CF_DOCKER_USERNAME
+        run: CF_DOCKER_PASSWORD="$CF_DOCKER_PASSWORD" ./cf push "${{ matrix.app }}-develop" --docker-image $DOCKER_REPOSITORY/$DOCKER_IMAGE:$IMAGE_TAG --docker-username=$CF_DOCKER_USERNAME

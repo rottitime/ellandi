@@ -20,4 +20,4 @@ class Skill(models.Model):
     skill_level = SkillLevel()
 
     def __str__(self):
-        return f'{self.name}'
+        return f"{self.name}"
