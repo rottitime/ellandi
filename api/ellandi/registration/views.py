@@ -19,5 +19,5 @@ class WebErrorViewSet(viewsets.ModelViewSet):
 
 
 class UserSkillViewSet(viewsets.ModelViewSet):
-    queryset = models.UserSkill.objects.all().order_by("user", "-modified_at")
+    queryset = models.UserSkill.objects.all().order_by("user")
     serializer_class = serializers.UserSkillSerializer
