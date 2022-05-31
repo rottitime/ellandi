@@ -81,7 +81,7 @@ class User(AbstractUser, TimeStampedModel, RegistrationAbstractUser):
 
 
 class UserSkill(TimeStampedModel):
-    # TODO - Is this a good name? This is the skill info for one user for a particular skill.
+    """Info on a particular skill for a given user."""
 
     # TODO - how are skills stored?
     # Put this in for now
