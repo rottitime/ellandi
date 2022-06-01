@@ -11,10 +11,13 @@ COPY ./web/package.json /app/web/
 
 RUN npm ci --ignore-scripts
 
+COPY ./docker/web/start.sh /start.sh
+RUN chmod +x /start.sh
+
 COPY . /app
 
 WORKDIR /app/web
 
 EXPOSE 3000
 
-CMD ["npm","run","prod"]
+CMD ["sh","/start.sh"]
