@@ -1,5 +1,6 @@
 from django.db import models
 from django.forms import CharField
+
 from ..registration.models import User
 
 
