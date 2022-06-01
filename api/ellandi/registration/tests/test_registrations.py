@@ -1,5 +1,3 @@
-import unittest
-
 from rest_framework import status
 from rest_framework.test import APIClient, APITestCase
 
@@ -11,7 +9,7 @@ class TestUserEndpoint(APITestCase):
             "email": "bob@test.com",
             "first_name": "Bob",
             "last_name": "Smith",
-        } # TODO - add more data
+        }  # TODO - add more data
 
     def test_get(self):
         response = self.client.get("/users/")
