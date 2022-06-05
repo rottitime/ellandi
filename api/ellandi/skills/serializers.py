@@ -13,7 +13,9 @@ class SkillSerializer(serializers.Serializer):
             "users",
             "skill",
         )
-        extra_kwargs = {"users": {"required": False}}
+        extra_kwargs = {"users": {"required": False},
+                        "name": {"required": True},
+                        "skill": {"required": True}}
 
     name = serializers.CharField(required=True)
     users = serializers.RelatedField(many=True, queryset=Skill.objects.all())
