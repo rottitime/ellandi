@@ -17,7 +17,6 @@ SECRET_KEY = "django-insecure-j#j_k770^2hozr9st&u3wg=j!as-fjm*+vc6zxu-lv046+y$zk
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-DEV_DEBUG = False
 
 ALLOWED_HOSTS = [
     "ellandi-api-staging.london.cloudapps.digital",
@@ -74,20 +73,12 @@ VCAP_SERVICES = env.json("VCAP_SERVICES", default={})
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-if DEV_DEBUG:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
-        }
+DATABASES = {
+    "default": {
+        **env.db("DATABASE_URL"),
+        **{"ATOMIC_REQUESTS": True},
     }
-else:
-    DATABASES = {
-        "default": {
-            **env.db("DATABASE_URL"),
-            **{"ATOMIC_REQUESTS": True},
-        }
-    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
