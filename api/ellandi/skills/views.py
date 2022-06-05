@@ -1,25 +1,12 @@
-
-from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
-from rest_framework.response import Response
 
 from . import models, serializers
 
 
-class SkillViewSet(viewsets.ViewSet):
+class SkillViewSet(viewsets.ModelViewSet):
     """
-    A ViewSet for listing or retrieving skills.
+    API endpoint that allows skills to be viewed or edited.
     """
 
     queryset = models.Skill.objects.all()
-
-    def list(self, request):
-        queryset = models.Skill.objects.all()
-        serializer = serializers.SkillSerializer(queryset, many=True)
-        return Response(serializer.data)
-
-    def retrieve(self, request, pk=None):
-        queryset = models.Skill.objects.all()
-        user = get_object_or_404(queryset, pk=pk)
-        serializer = serializers.SkillSerializer(user)
-        return Response(serializer.data)
+    serializer_class = serializers.SkillSerializer
