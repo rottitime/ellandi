@@ -8,6 +8,7 @@ on:
     # Publish `develop` as Docker `latest` image.
     branches:
       - develop
+      - ghcr-deployment-pat
 
 permissions:
     packages: write
@@ -76,8 +77,7 @@ jobs:
 
       - name: CF push ${{ matrix.app }}
         env:
-          CF_DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          CF_DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          CF_PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
           DOCKER_FILE: ${{ matrix.dockerfile }}
           DOCKER_IMAGE: ${{ matrix.app }}
-        run: CF_DOCKER_PASSWORD="$CF_DOCKER_PASSWORD" ./cf push "${{ matrix.app }}-develop" --docker-image $DOCKER_REPOSITORY/${{ github.repository_owner }}/$DOCKER_IMAGE:$IMAGE_TAG --docker-username=$CF_DOCKER_USERNAME
+        run: CF_DOCKER_PASSWORD="$CF_PAT_TOKEN" ./cf push "${{ matrix.app }}-develop" --docker-image $DOCKER_REPOSITORY/${{ github.repository_owner }}/$DOCKER_IMAGE:$IMAGE_TAG --docker-username=$CF_DOCKER_USERNAME
