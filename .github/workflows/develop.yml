@@ -9,6 +9,12 @@ on:
     branches:
       - develop
 
+permissions:
+    packages: write
+    repository-projects: read
+    id-token: write
+    contents: read
+
 jobs:
 
   push_images:
@@ -17,7 +23,7 @@ jobs:
 
     env:
       IMAGE_TAG: latest
-      DOCKER_REPOSITORY: singletoned
+      DOCKER_REPOSITORY: ghcr.io
 
     strategy:
       matrix:
@@ -31,11 +37,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Login
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        run: echo "$DOCKER_PASSWORD" | docker login -u $DOCKER_USERNAME --password-stdin
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build, tag, and push ${{ matrix.app }} image
         env:
@@ -43,8 +50,8 @@ jobs:
           DOCKER_IMAGE: ${{ matrix.app }}
 
         run: |
-          docker build . --file $DOCKER_FILE --tag $DOCKER_REPOSITORY/$DOCKER_IMAGE:$IMAGE_TAG
-          docker push -a $DOCKER_REPOSITORY/$DOCKER_IMAGE
+          docker build . --file $DOCKER_FILE --tag $DOCKER_REPOSITORY/${{ github.repository_owner }}/$DOCKER_IMAGE:$IMAGE_TAG
+          docker push -a $DOCKER_REPOSITORY/${{ github.repository_owner }}/$DOCKER_IMAGE
 
   deploy_develop:
     needs: [push_images]
@@ -53,7 +60,7 @@ jobs:
 
     env:
       IMAGE_TAG: latest
-      DOCKER_REPOSITORY: singletoned
+      DOCKER_REPOSITORY: ghcr.io
       CF_SPACE: develop
 
     strategy:
@@ -73,4 +80,4 @@ jobs:
           CF_DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
           DOCKER_FILE: ${{ matrix.dockerfile }}
           DOCKER_IMAGE: ${{ matrix.app }}
-        run: CF_DOCKER_PASSWORD="$CF_DOCKER_PASSWORD" ./cf push "${{ matrix.app }}-develop" --docker-image $DOCKER_REPOSITORY/$DOCKER_IMAGE:$IMAGE_TAG --docker-username=$CF_DOCKER_USERNAME
+        run: CF_DOCKER_PASSWORD="$CF_DOCKER_PASSWORD" ./cf push "${{ matrix.app }}-develop" --docker-image $DOCKER_REPOSITORY/${{ github.repository_owner }}/$DOCKER_IMAGE:$IMAGE_TAG --docker-username=$CF_DOCKER_USERNAME
