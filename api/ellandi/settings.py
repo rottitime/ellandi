@@ -21,6 +21,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     "ellandi-api-staging.london.cloudapps.digital",
     "ellandi-api.london.cloudapps.digital",
+    "localhost",
 ]
 
 
