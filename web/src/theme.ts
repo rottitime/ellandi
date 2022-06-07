@@ -4,7 +4,7 @@ import { ThemePrimitives } from "baseui/theme";
 export const primitives: ThemePrimitives = {
   // Primary Palette
   // hsl(225, 77%, 56%)
-  primaryA: "hsl(225, 77%, 56%)",
+  primaryA: "#000",
   primaryB: "hsl(225, 100%, 100%)",
   primary: "hsl(225, 77%, 56%)",
   primary50: "hsl(225, 100%, 96%)", // "#F6F6F6",

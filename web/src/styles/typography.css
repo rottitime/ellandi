@@ -61,7 +61,7 @@ body {
   line-height: 1.15;
 
   &.c {
-    color: var(--primaryA);
+    color: var(--primary);
   }
 }
 
@@ -73,7 +73,7 @@ body {
   position: relative;
 
   &.c {
-    color: var(--primaryA);
+    color: var(--primary);
   }
 }
 
@@ -84,7 +84,7 @@ body {
   position: relative;
 
   &.c {
-    color: var(--primaryA);
+    color: var(--primary);
   }
 }
 
@@ -95,7 +95,7 @@ body {
   position: relative;
 
   &.c {
-    color: var(--primaryA);
+    color: var(--primary);
   }
 }
 
@@ -247,7 +247,7 @@ p {
 }
 
 .c {
-  color: var(--primaryA);
+  color: var(--primary);
 }
 
 /**

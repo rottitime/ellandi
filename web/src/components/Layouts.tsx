@@ -13,7 +13,7 @@ export const EmptyLayout = ({ children }: { children?: ReactNode }) => {
           style={{
             display: "inline-block",
             padding: "32px 36px 28px",
-            background: "var(--primaryA)",
+            background: "var(--primary)",
             borderRadius: "0 0 36px 36px",
           }}
         >
