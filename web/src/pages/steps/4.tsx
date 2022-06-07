@@ -2,7 +2,7 @@ import { Button } from "baseui/button";
 import { useNavigate } from "react-router-dom";
 import { EmptyLayout } from "_/components/Layouts";
 import { useInput } from "_/hooks/useInput";
-import { useRadio } from "_/hooks/useRadio";
+import { useRadioGroup } from "_/hooks/useRadioGroup";
 
 const FIXME_CIVIL_SERVICE_GRADES: { id: string; label: string }[] = [
   {
@@ -58,10 +58,11 @@ const FIXME_CIVIL_SERVICE_GRADES: { id: string; label: string }[] = [
 const Index = () => {
   const navigate = useNavigate();
 
-  const { civilServiceGrade, civilServiceGradeEl, isCivilServiceGradeValid } = useRadio({
-    label: "Civil Service Grade",
-    options: FIXME_CIVIL_SERVICE_GRADES,
-  });
+  const { civilServiceGrade, civilServiceGradeEl, isCivilServiceGradeValid } =
+    useRadioGroup({
+      label: "Civil Service Grade",
+      options: FIXME_CIVIL_SERVICE_GRADES,
+    });
   const { enterGradeEl, isEnterGradeValid } = useInput({
     label: "Enter Grade",
   });

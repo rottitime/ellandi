@@ -18,7 +18,6 @@ services:
       - ./:/app/:z
     ports:
       - "8000:8000"
-    command: /start.sh
 
   web:
     build:
@@ -32,10 +31,9 @@ services:
       - '/app/web/node_modules'
     ports:
       - "3000:3000"
-    command: npm run prod
 
   postgres:
-    image: postgres:11
+    image: postgres:13
     container_name: ellandi_postgres
     volumes:
       - local_postgres_data:/var/lib/postgresql/data:Z
