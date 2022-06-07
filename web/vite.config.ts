@@ -17,6 +17,9 @@ export default defineConfig({
     },
     port: frontEndHost.port,
   },
+  esbuild: {
+    minifyIdentifiers: false,
+  },
   resolve: {
     alias: [{ find: "_", replacement: path.resolve(process.cwd(), "src") }],
   },
