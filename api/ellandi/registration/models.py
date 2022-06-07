@@ -84,8 +84,11 @@ class UserSkill(TimeStampedModel):
     """Info on a particular skill for a given user."""
 
     class SkillLevel(models.TextChoices):
-        BASIC = ("basic", "Basic")
-        PROFICIENT = ("proficient", "Proficient")
+        BEGINNER = ("beginner", "Beginner"),
+        ADVANCED_BEGINNER = ("advanced_beginner", "Advanced Beginner"),
+        COMPETENT = ("competent", "Competent"),
+        PROFICIENT = ("proficient", "Proficient"),
+        EXPERT = ("expert", "Expert")
 
     user = models.ForeignKey(User, related_name="skills", on_delete=models.CASCADE)
     skill_name = models.CharField(max_length=256)
