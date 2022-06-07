@@ -92,7 +92,7 @@ class UserSkill(TimeStampedModel):
 
     user = models.ForeignKey(User, related_name="skills", on_delete=models.CASCADE)
     skill_name = models.CharField(max_length=256)
-    level = models.CharField(max_length=10, choices=SkillLevel.choices, blank=True, null=False)
+    level = models.CharField(max_length=64, choices=SkillLevel.choices, blank=True, null=False)
     validated = models.BooleanField(default=False, blank=False)
 
     class Meta:
