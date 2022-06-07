@@ -9,7 +9,12 @@ class TestUserEndpoint(APITestCase):
             "email": "bob@test.com",
             "first_name": "Bob",
             "last_name": "Smith",
-        }  # TODO - add more data
+            "organisation": "Cabinet Office",
+            "job_title": "Farmer",
+            "line_manager_email": "line@manager.com",
+            "country": "Spain",
+            "contract_type": "permanent",
+        }
 
     def test_get(self):
         response = self.client.get("/users/")
