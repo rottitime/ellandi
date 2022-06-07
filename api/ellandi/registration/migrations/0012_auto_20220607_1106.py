@@ -6,22 +6,22 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('registration', '0011_alter_userskill_unique_together'),
+        ("registration", "0011_alter_userskill_unique_together"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='userskill',
-            name='skill_name',
+            model_name="userskill",
+            name="skill_name",
             field=models.CharField(default=None, max_length=256),
             preserve_default=False,
         ),
         migrations.AlterUniqueTogether(
-            name='userskill',
-            unique_together={('user', 'skill_name')},
+            name="userskill",
+            unique_together={("user", "skill_name")},
         ),
         migrations.RemoveField(
-            model_name='userskill',
-            name='skill',
+            model_name="userskill",
+            name="skill",
         ),
     ]

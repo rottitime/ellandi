@@ -6,13 +6,23 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('registration', '0012_auto_20220607_1106'),
+        ("registration", "0012_auto_20220607_1106"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='userskill',
-            name='level',
-            field=models.CharField(blank=True, choices=[('beginner', 'Beginner'), ('advanced_beginner', 'Advanced Beginner'), ('competent', 'Competent'), ('proficient', 'Proficient'), ('expert', 'Expert')], max_length=64),
+            model_name="userskill",
+            name="level",
+            field=models.CharField(
+                blank=True,
+                choices=[
+                    ("beginner", "Beginner"),
+                    ("advanced_beginner", "Advanced Beginner"),
+                    ("competent", "Competent"),
+                    ("proficient", "Proficient"),
+                    ("expert", "Expert"),
+                ],
+                max_length=64,
+            ),
         ),
     ]
