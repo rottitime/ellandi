@@ -16,3 +16,8 @@ class UserViewSet(viewsets.ModelViewSet):
 class WebErrorViewSet(viewsets.ModelViewSet):
     queryset = models.WebError.objects.all().order_by("-created_at")
     serializer_class = serializers.WebErrorSerializer
+
+
+class UserSkillViewSet(viewsets.ModelViewSet):
+    queryset = models.UserSkill.objects.all().order_by("user")
+    serializer_class = serializers.UserSkillSerializer

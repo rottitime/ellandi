@@ -26,6 +26,8 @@ services:
     image: ellandi_web
     env_file:
       - ./.envs/web
+    environment:
+      - NODE_ENV
     volumes:
       - ./:/app/:z
       - '/app/web/node_modules'
