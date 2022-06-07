@@ -7,7 +7,7 @@ from .models import UserSkill
 class UserSkillSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = UserSkill
-        fields = ["user", "skill", "level", "validated"]
+        fields = ["user", "skill_name", "level", "validated"]
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
