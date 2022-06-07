@@ -1,12 +1,20 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
-from ..skills.serializers import SkillSerializer
+from .models import UserSkill
+
+
+class UserSkillSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = UserSkill
+        fields = ["user", "skill_name", "level", "validated"]
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
+    skills = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name="userskill-detail")
+
     class Meta:
-        skills = SkillSerializer(many=True, read_only=True)
+        skills = UserSkillSerializer(many=True, read_only=True)
         model = get_user_model()
         fields = [
             "url",
@@ -20,7 +28,6 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
             "contract_type",
             "skills",
         ]
-        extra_kwargs = {"authors": {"required": False}}
 
 
 class WebErrorSerializer(serializers.Serializer):
