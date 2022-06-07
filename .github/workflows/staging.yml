@@ -7,7 +7,7 @@ on:
   push:
     # Publish `develop` as Docker `latest` image.
     branches:
-      - staging
+      - main
 
 permissions:
     packages: write
