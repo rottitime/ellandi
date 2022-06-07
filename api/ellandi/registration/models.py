@@ -95,12 +95,12 @@ class UserSkill(TimeStampedModel):
         PROFICIENT = ("proficient", "Proficient")
 
     user = models.ForeignKey(User, related_name="skills", on_delete=models.CASCADE)
-    skill = models.CharField(max_length=20, choices=FakeSkill.choices, blank=False, null=False)
+    skill_name = models.CharField(max_length=256)
     level = models.CharField(max_length=10, choices=SkillLevel.choices, blank=True, null=False)
     validated = models.BooleanField(default=False, blank=False)
 
     class Meta:
-        unique_together = ["user", "skill"]
+        unique_together = ["user", "skill_name"]
 
 
 class WebError(TimeStampedModel):
