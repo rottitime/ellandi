@@ -83,13 +83,6 @@ class User(AbstractUser, TimeStampedModel, RegistrationAbstractUser):
 class UserSkill(TimeStampedModel):
     """Info on a particular skill for a given user."""
 
-    # TODO - how are skills stored?
-    # Put this in for now
-    class FakeSkill(models.TextChoices):
-        MATHS = ("maths", "Maths")
-        PYTHON = ("python", "Python")
-
-    # TODO - add/amend skill levels
     class SkillLevel(models.TextChoices):
         BASIC = ("basic", "Basic")
         PROFICIENT = ("proficient", "Proficient")
