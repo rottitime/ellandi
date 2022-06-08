@@ -26,5 +26,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
+          cache-dependency-path: '**/package-lock.json'
       - run: make npm-prepare
       - run: make validate-frontend
