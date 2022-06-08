@@ -24,9 +24,7 @@ export default defineConfig({
     alias: [{ find: "_", replacement: path.resolve(process.cwd(), "src") }],
   },
   plugins: [
-    react({
-      jsxRuntime: "classic",
-    }),
+    react(),
     // needed for filesystem routing / bundling
     pages(),
     // inject an error catch and report tool into index.html
