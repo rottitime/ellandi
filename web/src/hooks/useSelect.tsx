@@ -1,4 +1,4 @@
-import { FormControl } from "baseui/form-control";
+import { FormControl } from "_/components/FormControl";
 import { Option, Select } from "baseui/select";
 import { useEffect, useState } from "react";
 import { camelCase, CamelCase, pascalCase, PascalCase } from "_/utilities/form";
@@ -35,9 +35,11 @@ export const useSelect = <T extends string>({
 }): {
   [K in T as `${CamelCase<T>}El`]: JSX.Element;
 } & {
-  [K in T as CamelCase<T>]: string;
+  [K in T as CamelCase<T>]: readonly Option[];
 } & {
-  [K in T as `set${PascalCase<T>}`]: React.Dispatch<React.SetStateAction<string>>;
+  [K in T as `set${PascalCase<T>}`]: React.Dispatch<
+    React.SetStateAction<readonly Option[]>
+  >;
 } & {
   [K in T as `is${PascalCase<T>}Valid`]: boolean;
 } => {
@@ -83,9 +85,11 @@ export const useSelect = <T extends string>({
   } as {
     [K in T as `${CamelCase<T>}El`]: JSX.Element;
   } & {
-    [K in T as CamelCase<T>]: string;
+    [K in T as CamelCase<T>]: readonly Option[];
   } & {
-    [K in T as `set${PascalCase<T>}`]: React.Dispatch<React.SetStateAction<string>>;
+    [K in T as `set${PascalCase<T>}`]: React.Dispatch<
+      React.SetStateAction<readonly Option[]>
+    >;
   } & {
     [K in T as `is${PascalCase<T>}Valid`]: boolean;
   };

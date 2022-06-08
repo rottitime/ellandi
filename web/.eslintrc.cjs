@@ -63,6 +63,11 @@ module.exports = {
             name: "baseui/drawer",
             message: "Use \"import { Drawer } from '_/components/Drawer'\" instead.",
           },
+          {
+            name: "baseui/form-control",
+            message:
+              "Use \"import { FormControl } from '_/components/FormControl'\" instead.",
+          },
         ],
       },
     ],
