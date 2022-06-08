@@ -26,6 +26,7 @@ class TestUserEndpoint(APITestCase):
             email="jane@example.com", first_name="Jane", last_name="Green", organisation="DfE"
         )
         self.user_id = User.objects.get(email="jane@example.com").id
+        self.updated_user_data = {"email": "jane@example.com", "first_name": "Jane", "last_name": "Brown"}
 
     def test_get(self):
         response = self.client.get("/users/")
@@ -45,6 +46,11 @@ class TestUserEndpoint(APITestCase):
     def test_post_no_email(self):
         response = self.client.post("/users/", self.data_incorrect)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_put(self):
+        response = self.client.put(f"/users/{self.user_id}/", self.updated_user_data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["last_name"], "Brown")
 
 
 class TestUserSkillsEndpoint(APITestCase):
