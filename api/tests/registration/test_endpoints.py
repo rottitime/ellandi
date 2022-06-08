@@ -42,3 +42,12 @@ class TestUserSkillsEndpoint(APITestCase):
     def test_get(self):
         response = self.client.get("/user-skills/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+
+class TestWebErrorEndpoint(APITestCase):
+    def setUp(self):
+        self.client = APIClient()
+
+    def test_get(self):
+        response = self.client.get("/web-error/")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
