@@ -1,6 +1,6 @@
 import { Link } from "_/components/Link";
 
-import { FormControl } from "baseui/form-control";
+import { FormControl } from "_/components/FormControl";
 import { Input } from "baseui/input";
 import { Table } from "baseui/table-semantic";
 import { RadioGroup, Radio } from "baseui/radio";

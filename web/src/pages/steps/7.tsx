@@ -3,9 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { FileUploader } from "baseui/file-uploader";
 import { StatefulPanel } from "baseui/accordion";
 import { EmptyLayout } from "_/components/Layouts";
-import { useRef, useState } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 import { RefreshCw as ReloadIcon } from "lucide-react";
 import { Link } from "_/components/Link";
+import { Checkbox } from "baseui/checkbox";
 
 const MIN_SIZE_BYTES = 200;
 const MAX_SIZE_BYTES = 3_000_000;
@@ -17,6 +18,7 @@ const Index = () => {
   const [successFile, setSuccessFile] = useState<File>();
   const [isUploading, setIsUploading] = useState(false);
   const timeoutId = useRef<ReturnType<typeof setTimeout>>();
+  const [canBeContacted, setCanBeContacted] = useState(true);
 
   const startProgress = (file: File) => {
     setIsUploading(true);
@@ -105,8 +107,39 @@ const Index = () => {
       )}
 
       <p className="P">
-        We'll use the information in your CV to help you be the first to learn about
-        opportunities and skills suited to your experience.
+        We'll use the information in your CV to discover opportunities and skills suited
+        to your experience.
+      </p>
+
+      <p className="P-XS">
+        <Checkbox
+          checked={canBeContacted}
+          onChange={(event: ChangeEvent<HTMLInputElement>) => {
+            setCanBeContacted(event.target.checked);
+          }}
+          checkmarkType="toggle"
+          overrides={{
+            Toggle: {
+              style: {
+                background: "var(--mono100)",
+                border: "1px solid var(--mono400)",
+              },
+            },
+            Root: {
+              style: {
+                alignItems: "center",
+              },
+            },
+            Label: {
+              style: { flex: "1 1 1px" },
+            },
+          }}
+        >
+          <span className="P-XS">
+            In the event of an identified skills shortage or emergency, recruitment and HR
+            may contact me with an opportunity that matches my skills.
+          </span>
+        </Checkbox>
       </p>
 
       <p className="P-XS">

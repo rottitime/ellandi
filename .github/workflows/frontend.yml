@@ -1,10 +1,11 @@
-name: Node.js CI
+name: Check frontend Code
 
 on:
   push:
     branches:
       - "main"
       - "feature/**"
+      - "develop"
 
 jobs:
   build:
@@ -22,5 +23,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
+          cache-dependency-path: 'web/package-lock.json'
       - run: make npm-prepare
       - run: make validate-frontend

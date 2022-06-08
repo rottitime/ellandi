@@ -5,7 +5,13 @@ import { useLocation } from "react-router-dom";
 import { getPublicURL } from "_/utilities/urls";
 
 /* Empty Page (No Nav) */
-export const EmptyLayout = ({ children }: { children?: ReactNode }) => {
+export const EmptyLayout = ({
+  children,
+  maxWidth = 520,
+}: {
+  children?: ReactNode;
+  maxWidth?: number;
+}) => {
   return (
     <div>
       <div style={{ textAlign: "center" }}>
@@ -26,7 +32,9 @@ export const EmptyLayout = ({ children }: { children?: ReactNode }) => {
         </div>
       </div>
       <div className="px">
-        <div className="mw-copy mh-auto">{children}</div>
+        <div className="mh-auto" style={{ maxWidth }}>
+          {children}
+        </div>
       </div>
     </div>
   );
@@ -87,7 +95,13 @@ const MENU_ITEMS: Item[] = MENU_ITEMS_ALL.filter(({ itemId }) => {
   return !(itemId ?? "").startsWith("/starter");
 });
 
-export const MenuLayout = ({ children }: { children?: ReactNode }) => {
+export const MenuLayout = ({
+  children,
+  maxWidth = 520,
+}: {
+  children?: ReactNode;
+  maxWidth?: number;
+}) => {
   const location = useLocation();
 
   return (
@@ -95,7 +109,7 @@ export const MenuLayout = ({ children }: { children?: ReactNode }) => {
       title="Ellandi"
       items={location.pathname.startsWith("/starter") ? MENU_ITEMS_ALL : MENU_ITEMS}
     >
-      <main className="mw-copy mh-auto">
+      <main className="mh-auto" style={{ maxWidth }}>
         <div className="rm-margin">{children}</div>
       </main>
     </ResponsiveNav>

@@ -1,4 +1,4 @@
-import { FormControl } from "baseui/form-control";
+import { FormControl } from "_/components/FormControl";
 import { Input } from "baseui/input";
 import { ChangeEvent, useEffect, useState } from "react";
 import { camelCase, CamelCase, nonEmpty, pascalCase, PascalCase } from "_/utilities/form";

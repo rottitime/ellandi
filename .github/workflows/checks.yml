@@ -1,4 +1,4 @@
-name: check code
+name: Check API Code
 
 env:
   DOCKER_BUILDKIT: 1
@@ -8,6 +8,7 @@ on:
     branches:
       - 'main'
       - 'feature/**'
+      - 'develop'
 
 jobs:
   check_backend:

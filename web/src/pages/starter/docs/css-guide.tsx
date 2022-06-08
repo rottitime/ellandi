@@ -332,13 +332,6 @@ C  | Caption         | M`}</code>
       </p>
       <blockquote>
         <p>
-          Used to provide the max-width for the copy you're reading right now:
-          <br />
-          <code>{`.mw-copy { max-width: 600px }`}</code>
-        </p>
-      </blockquote>
-      <blockquote>
-        <p>
           Might be used for the max-width of the whole website layout:
           <br />
           <code>{`.mw-screen { max-width: 1400px }`}</code>
