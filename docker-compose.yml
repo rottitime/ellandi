@@ -43,3 +43,9 @@ services:
       - ./.envs/postgres
     ports:
       - "5432:5432"
+
+  integration:
+    build:
+      context: .
+      dockerfile: ./docker/integration/Dockerfile
+    image: ellandi_integration
