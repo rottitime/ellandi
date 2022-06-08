@@ -1,13 +1,15 @@
-FROM zenika/alpine-chrome:latest
+FROM python:3.8-buster
 
-ENV PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD 1
-ENV PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium-browser
-WORKDIR /usr/src/app
+ENV DEBIAN_FRONTEND noninteractive
 
+RUN apt update -y && apt install libgl1-mesa-glx sudo chromium chromium-driver -y
 
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
 
-# COPY --chown=chrome package.json package-lock.json ./
-# RUN npm install
-# COPY --chown=chrome . ./
-# ENTRYPOINT ["tini", "--"]
-# CMD ["node", "/usr/src/app/src/useragent"]
+RUN pip install --upgrade pip
+
+WORKDIR /app
+
+COPY ./integration/requirements.txt /app/integration/requirements.txt
+RUN python3 -m pip install -r /app/integration/requirements.txt --no-cache-dir
