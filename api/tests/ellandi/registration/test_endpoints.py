@@ -6,12 +6,12 @@ class TestUserEndpoint(APITestCase):
     def setUp(self):
         self.client = APIClient()
         self.data = {
-            "email": "bob@test.com",
+            "email": "bob@example.com",
             "first_name": "Bob",
             "last_name": "Smith",
             "organisation": "Cabinet Office",
             "job_title": "Farmer",
-            "line_manager_email": "line@manager.com",
+            "line_manager_email": "line@example.com",
             "country": "Spain",
             "contract_type": "permanent",
         }
