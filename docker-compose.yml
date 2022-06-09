@@ -49,4 +49,6 @@ services:
       context: .
       dockerfile: ./docker/integration/Dockerfile
     image: ellandi_integration
+    depends_on:
+      - web
     entrypoint: /entrypoint.sh
