@@ -1,3 +1,4 @@
+from zipapp import create_archive
 from rest_framework import status
 from rest_framework.test import APIClient, APITestCase
 
@@ -52,6 +53,12 @@ class TestUserEndpoint(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["last_name"], "Brown")
 
+    def test_delete(self):
+        response = self.client.delete(f"/users/{self.user_id}/")
+        self.assertEqual(response.status_code, status.HTTP_204_OK)
+        number_matching_users = User.objects.filter(id=self.user_id).count()
+        self.assertEqual(number_matching_users, 0)
+
 
 class TestUserSkillsEndpoint(APITestCase):
     def setUp(self):
@@ -60,13 +67,18 @@ class TestUserSkillsEndpoint(APITestCase):
             email="jane@example.com", first_name="Jane", last_name="Green", organisation="DfE"
         )
         self.user_id = User.objects.get(email="jane@example.com").id
-        self.user_skill = UserSkill.objects.create(
-            user=self.user,
-            skill_name="Python",
-            level="beginner"
-        )
-        self.user_skill_id = UserSkill.objects.get(user=self.user, skill_name="Python").id
-        print(self.user_skill_id)
+        self.user_skill = UserSkill.objects.create(user=self.user, skill_name="Python", level="beginner")
+        self.user_skill_id = UserSkill.objects.get(user__email=self.user.email, skill_name="Python").id
+        self.user_skill_data = {
+            "user": {
+                "email": "jane@example.com",
+                "first_name": "Jane",
+                "last_name": "Green",
+                "organisation": "DfE",
+            },
+            "skill_name": "maths",
+            "level": "proficient",
+        }
 
     def test_get(self):
         response = self.client.get("/user-skills/")
@@ -77,6 +89,10 @@ class TestUserSkillsEndpoint(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["skill_name"], "Python")
 
+    def test_post_user_skill(self):
+        # TODO - how to post a user-skill?
+        response = self.client.post("/user-skills/")
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
 
 class TestWebErrorEndpoint(APITestCase):
