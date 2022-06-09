@@ -2,7 +2,7 @@ FROM mcr.microsoft.com/playwright:focal
 
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt update -y && apt install -y python3.8 python3-pip
+RUN apt update -y && apt install -y python3.8 python3-pip wait-for-it
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
