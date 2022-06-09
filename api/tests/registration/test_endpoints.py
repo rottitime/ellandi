@@ -1,4 +1,3 @@
-from zipapp import create_archive
 from rest_framework import status
 from rest_framework.test import APIClient, APITestCase
 
