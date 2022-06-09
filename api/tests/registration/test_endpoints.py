@@ -1,7 +1,7 @@
 from rest_framework import status
 from rest_framework.test import APIClient, APITestCase
 
-from ellandi.registration.models import User
+from ellandi.registration.models import User, UserSkill
 
 
 class TestUserEndpoint(APITestCase):
@@ -56,10 +56,27 @@ class TestUserEndpoint(APITestCase):
 class TestUserSkillsEndpoint(APITestCase):
     def setUp(self):
         self.client = APIClient()
+        self.user = User.objects.create(
+            email="jane@example.com", first_name="Jane", last_name="Green", organisation="DfE"
+        )
+        self.user_id = User.objects.get(email="jane@example.com").id
+        self.user_skill = UserSkill.objects.create(
+            user=self.user,
+            skill_name="Python",
+            level="beginner"
+        )
+        self.user_skill_id = UserSkill.objects.get(user=self.user, skill_name="Python").id
+        print(self.user_skill_id)
 
     def test_get(self):
         response = self.client.get("/user-skills/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_get_user_skill(self):
+        response = self.client.get(f"/user-skills/{self.user_skill_id}/")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["skill_name"], "Python")
+
 
 
 class TestWebErrorEndpoint(APITestCase):
