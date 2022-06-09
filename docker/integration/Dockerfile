@@ -15,3 +15,6 @@ COPY ./integration/requirements.txt /app/integration/requirements.txt
 RUN python3 -m pip install -r /app/integration/requirements.txt --no-cache-dir
 
 COPY ./integration /app/integration
+
+COPY ./docker/integration/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh

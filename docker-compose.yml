@@ -49,3 +49,4 @@ services:
       context: .
       dockerfile: ./docker/integration/Dockerfile
     image: ellandi_integration
+    entrypoint: /entrypoint.sh
