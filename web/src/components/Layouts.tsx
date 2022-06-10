@@ -42,7 +42,7 @@ export const EmptyLayout = ({
 
 /* Responsive Nav Page */
 const MENU_ITEMS_ALL: Item[] = [
-  { title: "Home", itemId: "/" },
+  { title: "Profile", itemId: "/panel/profile" },
   {
     title: "Starter",
     itemId: "/starter",

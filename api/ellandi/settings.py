@@ -23,6 +23,7 @@ ALLOWED_HOSTS = [
     "ellandi-api.london.cloudapps.digital",
     "localhost",
     "127.0.0.1",
+    "testserver",
 ]
 
 

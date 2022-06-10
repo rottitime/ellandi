@@ -37,14 +37,7 @@ const Index = () => {
 
   return (
     <EmptyLayout>
-      <h1 className="D">Grade</h1>
-
-      <p className="P-L">Select your grade. You may only choose one.</p>
-
-      <p className="P-XS" style={{ color: "var(--mono700)" }}>
-        We'll use this to suggest learning and career development opportunities that are
-        relevant to you.
-      </p>
+      <h1 className="D">Contract Type</h1>
 
       {currentContractTypeEl}
 
