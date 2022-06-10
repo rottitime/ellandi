@@ -73,6 +73,12 @@ class TestUserSkillsEndpoint(APITestCase):
             "skill_name": "maths",
             "level": "proficient",
         }
+        self.user_skill_data_updated = {
+            "user": "jane@example.com",
+            "skill_name": "maths",
+            "level": "proficient",
+            "level": "beginner"
+        }
 
     def test_get(self):
         response = self.client.get("/user-skills/")
@@ -87,6 +93,12 @@ class TestUserSkillsEndpoint(APITestCase):
         # TODO - how to post a user-skill?
         response = self.client.post("/user-skills/", self.user_skill_data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_put_user_skill(self):
+        # TODO - how to do this?
+        response = self.client.put(f"/user-skills/{self.user_skill_id}/", self.user_skill_data_updated)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        # TODO - test skill updated
 
     def test_delete_user_skill(self):
         response = self.client.delete(f"/user-skills/{self.user_skill_id}/")
