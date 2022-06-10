@@ -1,5 +1,5 @@
 import { Button } from "baseui/button";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { EmptyLayout } from "_/components/Layouts";
 import { Slider } from "baseui/slider";
 import { FormControl } from "_/components/FormControl";
@@ -31,7 +31,7 @@ type LanguageLevel = {
 };
 
 const Index = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const [languageLevels, setLanguageLevels] = useDeepState<LanguageLevel[]>([
     { name: "English", speaking: "proficient", writing: "proficient" },
   ]);
@@ -74,7 +74,7 @@ const Index = () => {
       <p className="mt32">
         <Button
           onClick={() => {
-            // return navigate("/steps/6");
+            return navigate("/steps/9");
           }}
         >
           <span className="H-XS">Continue</span>

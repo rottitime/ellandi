@@ -175,6 +175,13 @@ export const ResponsiveNav = ({
               event.preventDefault();
               navigate(item.itemId);
             }}
+            overrides={{
+              NavItem: {
+                style: {
+                  background: "var(--mono300)",
+                },
+              },
+            }}
           />
         </div>
       )}

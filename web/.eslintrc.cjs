@@ -85,16 +85,7 @@ module.exports = {
     ],
     "@typescript-eslint/no-array-constructor": ["error"],
     //
-    "unicorn/filename-case": [
-      "error",
-      {
-        cases: {
-          camelCase: true,
-          pascalCase: true,
-        },
-        ignore: ["-env\\.d\\.ts$"],
-      },
-    ],
+    "unicorn/filename-case": "off",
     "unicorn/no-null": "off",
     "unicorn/prevent-abbreviations": [
       "error",
