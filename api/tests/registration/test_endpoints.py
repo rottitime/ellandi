@@ -138,8 +138,8 @@ class TestWebErrorEndpoint(APITestCase):
     #     response = self.client.post("/web-error/", self.new_error_data)
     #     self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
-    # def test_delete(self):
-    #     response = self.client.get(f"/web-error/{self.error_id}/")
-    #     self.assertEqual(response.status_code, status.HTTP_204_OK)
-    #     number_matching_errors = WebError.objects.filter(id=self.error_id).count()
-    #     self.assertEqual(number_matching_errors, 0)
+    def test_delete(self):
+        response = self.client.get(f"/web-error/{self.error_id}/")
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        number_matching_errors = WebError.objects.filter(id=self.error_id).count()
+        self.assertEqual(number_matching_errors, 0)
