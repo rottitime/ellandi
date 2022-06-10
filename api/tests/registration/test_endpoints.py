@@ -88,6 +88,12 @@ class TestUserSkillsEndpoint(APITestCase):
         response = self.client.post("/user-skills/", self.user_skill_data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
+    def test_delete_user_skill(self):
+        response = self.client.delete(f"/user-skills/{self.user_skill_id}/")
+        self.assertEqual(response.status_code, status.HTTP_204_OK)
+        number_matching_user_skills = UserSkill.objects.filter(id=self.user_skill_id).count()
+        self.assertEqual(number_matching_user_skills, 0)
+
 
 class TestWebErrorEndpoint(APITestCase):
     def setUp(self):
