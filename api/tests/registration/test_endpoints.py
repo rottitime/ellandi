@@ -116,10 +116,7 @@ class TestWebErrorEndpoint(APITestCase):
             "line_number": 57,
             "column_number": 13,
         }
-        self.new_error_data = {
-            "message": "test message post",
-            "file_name": "sample_file.py"
-        }
+        self.new_error_data = {"message": "test message post", "file_name": "sample_file.py"}
 
     def test_get(self):
         response = self.client.get("/web-error/")
