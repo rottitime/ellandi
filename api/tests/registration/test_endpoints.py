@@ -76,8 +76,7 @@ class TestUserSkillsEndpoint(APITestCase):
         self.user_skill_data_updated = {
             "user": "jane@example.com",
             "skill_name": "maths",
-            "level": "proficient",
-            "level": "beginner"
+            "level": "beginner",
         }
 
     def test_get(self):
