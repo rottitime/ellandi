@@ -1,5 +1,5 @@
 from rest_framework import status
-from rest_framework.test import APIClient, APITestCase, APIRequestFactory
+from rest_framework.test import APIClient, APIRequestFactory, APITestCase
 
 from ellandi.registration.models import User, UserSkill, WebError
 
