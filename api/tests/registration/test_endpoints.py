@@ -69,12 +69,7 @@ class TestUserSkillsEndpoint(APITestCase):
         self.user_skill = UserSkill.objects.create(user=self.user, skill_name="Python", level="beginner")
         self.user_skill_id = UserSkill.objects.get(user__email=self.user.email, skill_name="Python").id
         self.user_skill_data = {
-            "user": {
-                "email": "jane@example.com",
-                "first_name": "Jane",
-                "last_name": "Green",
-                "organisation": "DfE",
-            },
+            "user": "jane@example.com",
             "skill_name": "maths",
             "level": "proficient",
         }
@@ -90,7 +85,7 @@ class TestUserSkillsEndpoint(APITestCase):
 
     def test_post_user_skill(self):
         # TODO - how to post a user-skill?
-        response = self.client.post("/user-skills/")
+        response = self.client.post("/user-skills/", self.user_skill_data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
 
