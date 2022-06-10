@@ -1,5 +1,4 @@
 from rest_framework import status
-from rest_framework.reverse import reverse
 from rest_framework.test import APIClient, APITestCase, APIRequestFactory
 
 from ellandi.registration.models import User, UserSkill, WebError
@@ -129,14 +128,14 @@ class TestWebErrorEndpoint(APITestCase):
         response = self.client.get(f"/web-error/{self.error_id}/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    # def test_put(self):
-    #     response = self.client.put(f"/web-error/{self.error_id}/", self.updated_error)
-    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
-    #     self.assertEqual(response.data["line_number"], 57)
+    def test_put(self):
+        response = self.client.put(f"/web-error/{self.error_id}/", self.updated_error)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["line_number"], 57)
 
-    # def test_post(self):
-    #     response = self.client.post("/web-error/", self.new_error_data)
-    #     self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+    def test_post(self):
+        response = self.client.post("/web-error/", self.new_error_data)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_delete(self):
         response = self.client.delete(f"/web-error/{self.error_id}/")
