@@ -106,3 +106,7 @@ class WebError(TimeStampedModel):
     file_name = models.CharField(max_length=1024, blank=False, null=True)
     line_number = models.IntegerField(blank=False, null=True)
     column_number = models.IntegerField(blank=False, null=True)
+
+
+class Organisation(models.Model):
+    model = models.CharField(max_length=100, blank=False, null=False)
