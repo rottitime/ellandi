@@ -120,12 +120,14 @@ lint-backend: ## Check style with `flake8` and `mypy`
 # # @yamllint .
 
 check-python-code:
-	@isort --check .
-	@black --check .
+	isort --check .
+	black --check .
+	flake8
 
 format-python-code:
-	@isort .
-	@black .
+	isort .
+	black .
+	flake8
 
 validate-frontend: ## Check style and syntax with
 	cd web && npm run validate
