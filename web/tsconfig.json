@@ -1,11 +1,4 @@
 {
-  "ts-node": {
-    "transpileOnly": true,
-    "files": true,
-    "compilerOptions": {
-      "module": "CommonJS"
-    }
-  },
   "compilerOptions": {
     "composite": true,
     "target": "ESNext",

@@ -16,6 +16,7 @@ web/.keystone/admin
 keystone.db
 *.log
 *.tsbuildinfo
+.xnr
 !.scripts
 
 # General
