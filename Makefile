@@ -119,10 +119,13 @@ lint-backend: ## Check style with `flake8` and `mypy`
 # # @$(PYTHON) -m mypy
 # # @yamllint .
 
-formatter-backend: ## Format style with `black` and sort imports with `isort`
-	@isort -m 3 -tc -rc .
+check-python-code:
+	@isort --check .
+	@black --check .
+
+format-python-code:
+	@isort .
 	@black .
-# 	find . -name "*.py" | xargs pre-commit run -c .configs/.pre-commit-config.yaml isort --files
 
 validate-frontend: ## Check style and syntax with
 	cd web && npm run validate
