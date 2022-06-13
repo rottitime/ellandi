@@ -1,4 +1,4 @@
-name: Check API Code
+name: Check backend code
 
 env:
   DOCKER_BUILDKIT: 1
@@ -11,7 +11,7 @@ on:
       - 'develop'
 
 jobs:
-  check_formatting:
+  check_backend:
 
     runs-on: ubuntu-latest
 
