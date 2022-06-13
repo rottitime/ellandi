@@ -109,4 +109,4 @@ class WebError(TimeStampedModel):
 
 
 class Organisation(models.Model):
-    model = models.CharField(max_length=100, blank=False, null=False)
+    organisation = models.CharField(max_length=100, blank=False, null=False)
