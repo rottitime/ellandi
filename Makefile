@@ -41,12 +41,13 @@ export PYTHONWARNINGS=ignore
 BROWSER := $(PYTHON) -c "$$BROWSER_PYSCRIPT"
 
 
-.PHONY: all
+.PHONY: help
 help:
 	@$(PYTHON) -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
 
 # -------------------------------- Builds and Installations -----------------------------
 
+.PHONY: npm-prepare
 npm-prepare: ## Check style and syntax with
 	cd web && npm run prepare
 
@@ -57,15 +58,18 @@ docker:  ## Run python app in a docker container
 
 # -------------------------------------- Code Style  -------------------------------------
 
+.PHONY: check-python-code
 check-python-code:
 	isort --check .
 	black --check .
 	flake8
 
+.PHONY: format-python-code
 format-python-code:
 	isort .
 	black .
 	flake8
 
+.PHONY: validate-frontend
 validate-frontend: ## Check style and syntax with
 	cd web && npm run validate
