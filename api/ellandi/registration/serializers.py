@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
-from .models import UserSkill, WebError
+from .models import UserSkill, WebError, Organisation
 
 
 class UserSkillSerializer(serializers.HyperlinkedModelSerializer):
@@ -42,3 +42,9 @@ class WebErrorSerializer(serializers.ModelSerializer):
     class Meta:
         model = WebError
         fields = ["message", "stack", "userAgent", "fileName", "lineNum", "colNum", "createdAt"]
+
+
+class OrganisationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Organisation
+        fields = ["organisation"]
