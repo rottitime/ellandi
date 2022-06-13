@@ -57,9 +57,9 @@ npm-prepare: ## Check style and syntax with
 	cd web && npm install && npm run prepare
 
 # -------------------------------------- Project Execution -------------------------------
-run-in-docker:  ## Run python app in a docker container
-	docker-compose up --build
-
+.PHONY: docker
+docker:  ## Run python app in a docker container
+	docker-compose up --build --force-recreate --renew-anon-volumes
 
 # -------------------------------------- Code Style  -------------------------------------
 
