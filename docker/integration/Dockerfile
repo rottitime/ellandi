@@ -11,8 +11,8 @@ RUN python3 -m pip install --upgrade pip setuptools
 
 WORKDIR /app
 
-COPY ./integration/requirements.txt /app/integration/requirements.txt
-RUN python3 -m pip install -r /app/integration/requirements.txt --no-cache-dir
+COPY ./integration/requirements-dev.txt /app/integration/requirements-dev.txt
+RUN python3 -m pip install -r /app/integration/requirements-dev.txt --no-cache-dir
 
 COPY ./integration /app/integration
 

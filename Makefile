@@ -41,98 +41,35 @@ export PYTHONWARNINGS=ignore
 BROWSER := $(PYTHON) -c "$$BROWSER_PYSCRIPT"
 
 
-# If you want a specific Python interpreter define it as an envvar
-# $ export PYTHON_ENV=
-ifdef PYTHON_ENV
-	PYTHON := $(PYTHON_ENV)
-else
-	PYTHON := python3
-endif
-
-#################################### Functions ###########################################
-# Function to check if package is installed else install it.
-define install-pkg-if-not-exist
-	@for pkg in ${1}; do \
-		if ! command -v "$${pkg}" >/dev/null 2>&1; then \
-			echo "installing $${pkg}"; \
-			$(PYTHON) -m pip install $${pkg}; \
-		fi;\
-	done
-endef
-
-# Function to create python virtualenv if it doesn't exist
-define create-venv
-	$(call install-pkg-if-not-exist,virtualenv)
-
-	@if [ ! -d ".$(PACKAGE_NAME)_venv" ]; then \
-		$(PYTHON) -m virtualenv "venv" -p $(PYTHON) -q; \
-		echo "\"venv\": Created successfully!"; \
-	fi;
-	@echo "Source virtual environment before tinkering"
-	@echo "Manually run: \`source venv/bin/activate\`"
-endef
-
-define add-gitignore
-	PKGS=venv,python,JupyterNotebooks,SublimeText,VisualStudioCode,vagrant
-	curl -sL https://www.gitignore.io/api/$${PKGS} > .gitignore
-endef
-
-.PHONY: all
+.PHONY: help
 help:
 	@$(PYTHON) -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
 
-# ------------------------------------ Boilerplate Code ----------------------------------
-boilerplate:  ## Add simple 'README.md' and .gitignore
-	@echo "# $(PACKAGE_NAME)" | sed 's/_/ /g' >> README.md
-	@$(call add-gitignore)
-
 # -------------------------------- Builds and Installations -----------------------------
 
-venv:  ## Create virtualenv environment on local directory.
-	@$(create-venv)
-
-install-dev: ## install from requirements file
-	python -m pip install -r api/requirements-dev.txt
-
-install-req: ## install from requirements file
-	python -m pip install -r api/requirements.txt
-
+.PHONY: npm-prepare
 npm-prepare: ## Check style and syntax with
-	cd web && npm install && npm run prepare
+	cd web && npm run prepare
 
 # -------------------------------------- Project Execution -------------------------------
-run-in-docker:  ## Run python app in a docker container
-	docker-compose up --build
-
-
-# -------------------------------------- Clean Up  --------------------------------------
-.PHONY: clean
-
+.PHONY: docker
+docker:  ## Run python app in a docker container
+	docker-compose up --build --force-recreate --renew-anon-volumes
 
 # -------------------------------------- Code Style  -------------------------------------
 
-lint-backend: ## Check style with `flake8` and `mypy`
-	$(call install-pkg-if-not-exist,flake8)
+.PHONY: check-python-code
+check-python-code:
+	isort --check .
+	black --check .
+	flake8
 
-	@$(PYTHON) -m flake8 api/
-# # find . -name "*.py" | xargs pre-commit run -c .configs/.pre-commit-config.yaml flake8 --files
-# # @$(PYTHON) -m mypy
-# # @yamllint .
+.PHONY: format-python-code
+format-python-code:
+	isort .
+	black .
+	flake8
 
-formatter-backend: ## Format style with `black` and sort imports with `isort`
-	@isort -m 3 -tc -rc .
-	@black .
-# 	find . -name "*.py" | xargs pre-commit run -c .configs/.pre-commit-config.yaml isort --files
-
+.PHONY: validate-frontend
 validate-frontend: ## Check style and syntax with
 	cd web && npm run validate
-
-checkmake:  ## Check Makefile style with `checkmake`
-	docker run --rm -v $(CURDIR):/data cytopia/checkmake Makefile
-
-# ---------------------------------------- Tests -----------------------------------------
-.PHONY: test
-test: ## Run tests quickly with pytest
-# $(call install-pkg-if-not-exist,pytest)
-
-	@$(PYTHON) -m pytest -sv
