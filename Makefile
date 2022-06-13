@@ -47,14 +47,8 @@ help:
 
 # -------------------------------- Builds and Installations -----------------------------
 
-install-dev: ## install from requirements file
-	python -m pip install -r api/requirements-dev.txt
-
-install-req: ## install from requirements file
-	python -m pip install -r api/requirements.txt
-
 npm-prepare: ## Check style and syntax with
-	cd web && npm install && npm run prepare
+	cd web && npm run prepare
 
 # -------------------------------------- Project Execution -------------------------------
 .PHONY: docker
