@@ -114,11 +114,20 @@ class TestWebErrorEndpoint(APITestCase):
             "message": "test message 1",
             "stack": "here is the stack trace",
             "userAgent": "user agent",
-            "filename": "made_up.py",
+            "fileName": "made_up.py",
             "lineNum": 57,
-            "columnNum": 13,
+            "colNum": 13,
+            "createdAt": "2022-06-12T17:27:00Z",
         }
-        self.new_error_data = {"message": "test message post", "file_name": "sample_file.py"}
+        self.new_error_data = {
+            "message": "test message post",
+            "stack": "sample stack trace",
+            "userAgent": "user agent",
+            "fileName": "sample_file.py",
+            "lineNum": 57,
+            "colNum": 13,
+            "createdAt": "2022-06-12T17:27:00Z",
+        }
 
     def test_get(self):
         response = self.client.get("/web-error/")
@@ -131,7 +140,7 @@ class TestWebErrorEndpoint(APITestCase):
     def test_put(self):
         response = self.client.put(f"/web-error/{self.error_id}/", self.updated_error)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data["line_number"], 57)
+        self.assertEqual(response.data["lineNum"], 57)
 
     def test_post(self):
         response = self.client.post("/web-error/", self.new_error_data)
