@@ -63,14 +63,6 @@ docker:  ## Run python app in a docker container
 
 # -------------------------------------- Code Style  -------------------------------------
 
-lint-backend: ## Check style with `flake8` and `mypy`
-	$(call install-pkg-if-not-exist,flake8)
-
-	@$(PYTHON) -m flake8 api/
-# # find . -name "*.py" | xargs pre-commit run -c .configs/.pre-commit-config.yaml flake8 --files
-# # @$(PYTHON) -m mypy
-# # @yamllint .
-
 check-python-code:
 	isort --check .
 	black --check .
