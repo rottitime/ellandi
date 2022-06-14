@@ -33,6 +33,10 @@ jobs:
       run: |
         make check-python-code
 
+    - name: Run Tests 2
+      run:
+        docker-compose run api nosetests tests
+
   check_frontend:
     runs-on: ubuntu-latest
 
