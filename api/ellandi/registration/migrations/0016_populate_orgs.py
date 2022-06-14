@@ -1,5 +1,6 @@
 """Populate organisation model."""
 import csv
+
 from django.db import migrations
 
 

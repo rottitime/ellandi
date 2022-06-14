@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
-from .models import UserSkill, WebError, Organisation
+from .models import Organisation, UserSkill, WebError
 
 
 class UserSkillSerializer(serializers.HyperlinkedModelSerializer):
