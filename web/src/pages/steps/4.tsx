@@ -1,97 +1,160 @@
 import { Button } from "baseui/button";
 import { useNavigate } from "react-router-dom";
 import { EmptyLayout } from "_/components/Layouts";
-import { useInput } from "_/hooks/useInput";
-import { useRadioGroup } from "_/hooks/useRadioGroup";
+import { useCheckboxGroup } from "_/hooks/useCheckboxGroup";
 
-const FIXME_CIVIL_SERVICE_GRADES: { id: string; label: string }[] = [
+const FIXME_CURRENT_PROFESSIONS: { id: string; label: string }[] = [
   {
-    id: "AO",
-    label: "Administrative Officer (AO) Equivalent",
+    id: "corporate-finance-profession",
+    label: "Corporate Finance Profession",
   },
   {
-    id: "AA",
-    label: "Administrative Assistant (AA) Equivalent",
+    id: "counter-fraud-standards-and-profession",
+    label: "Counter-fraud Standards and Profession",
   },
   {
-    id: "EO",
-    label: "Executive Officer (EO) Equivalent",
+    id: "digital-data-and-technology-professions",
+    label: "Digital, Data and Technology Professions",
   },
   {
-    id: "HEO",
-    label: "Higher Executive Officer (HEO) Equivalent",
+    id: "government-communication-service",
+    label: "Government Communication Service",
   },
   {
-    id: "SEO",
-    label: "Senior Executive Officer (SEO) Equivalent",
+    id: "government-economic-service",
+    label: "Government Economic Service",
   },
   {
-    id: "G7",
-    label: "Grade 7 Equivalent",
+    id: "government-finance-profession",
+    label: "Government Finance Profession",
   },
   {
-    id: "G6",
-    label: "Grade 6 Equivalent",
+    id: "government-it-profession",
+    label: "Government IT Profession",
   },
   {
-    id: "PB1/1A",
-    label: "Senior Civil Servant - Deputy Director (PB1/1A)",
+    id: "government-knowledge-and-information-management-profession",
+    label: "Government Knowledge and Information Management Profession",
   },
   {
-    id: "PB2",
-    label: "Senior Civil Servant - Director (PB2)",
+    id: "government-legal-profession",
+    label: "Government Legal Profession",
   },
   {
-    id: "PB3",
-    label: "Senior Civil Servant - Director General (PB3)",
+    id: "government-occupational-psychology-profession",
+    label: "Government Occupational Psychology Profession",
   },
   {
-    id: "PermSec",
-    label: "Senior Civil Servant - Permanent Secretary",
+    id: "government-operational-research-service",
+    label: "Government Operational Research Service",
   },
   {
-    id: "<other>",
-    label: "Other equivalent grade",
+    id: "government-planning-inspectors",
+    label: "Government Planning Inspectors",
+  },
+  {
+    id: "government-planning-profession",
+    label: "Government Planning Profession",
+  },
+  {
+    id: "government-property-profession",
+    label: "Government Property Profession",
+  },
+  {
+    id: "government-security-profession",
+    label: "Government Security Profession",
+  },
+  {
+    id: "government-science-and-engineering-profession",
+    label: "Government Science and Engineering Profession",
+  },
+  {
+    id: "government-social-research-profession",
+    label: "Government Social Research Profession",
+  },
+  {
+    id: "government-statistical-service-profession",
+    label: "Government Statistical Service Profession",
+  },
+  {
+    id: "government-tax-profession",
+    label: "Government Tax Profession",
+  },
+  {
+    id: "government-veterinary-profession",
+    label: "Government Veterinary Profession",
+  },
+  {
+    id: "human-resources-profession",
+    label: "Human Resources Profession",
+  },
+  {
+    id: "intelligence-analysis",
+    label: "Intelligence Analysis",
+  },
+  {
+    id: "internal-audit-profession",
+    label: "Internal Audit Profession",
+  },
+  {
+    id: "operational-delivery-profession",
+    label: "Operational Delivery Profession",
+  },
+  {
+    id: "policy-profession",
+    label: "Policy Profession",
+  },
+  {
+    id: "procurement-profession",
+    label: "Procurement Profession",
+  },
+  {
+    id: "project-delivery-profession",
+    label: "Project Delivery Profession",
   },
 ];
 
 const Index = () => {
   const navigate = useNavigate();
 
-  const { civilServiceGrade, civilServiceGradeEl, isCivilServiceGradeValid } =
-    useRadioGroup({
-      label: "Civil Service Grade",
-      options: FIXME_CIVIL_SERVICE_GRADES,
-    });
-  const { enterGradeEl, isEnterGradeValid } = useInput({
-    label: "Enter Grade",
+  const { currentProfessionEl, isCurrentProfessionValid } = useCheckboxGroup({
+    label: "Current profession",
+    options: FIXME_CURRENT_PROFESSIONS,
   });
 
   return (
     <EmptyLayout>
-      <h1 className="D">Grade</h1>
+      <h1 className="D">Current profession</h1>
 
-      <p className="P-L">Select your grade. You may only choose one.</p>
-
-      <p className="P-XS" style={{ color: "var(--mono700)" }}>
-        We'll use this to suggest learning and career development opportunities that are
-        relevant to you.
+      <p>Select the profession(s) that match your current profession.</p>
+      <ul>
+        <li>
+          <strong>You must select at least one.</strong>
+        </li>
+        <li>
+          Select <strong>your role</strong>, not your team's area.
+          <ul className="P-XS">
+            <li>
+              e.g. Web developers working on Tax →{" "}
+              <strong>Digital, Data and Technology</strong>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <p className="C c">
+        You will be able to select areas that interest you and skills at a later stage.
       </p>
 
-      {civilServiceGradeEl}
+      {/* TODO: Make this UI much more user-friendly (search, icons?, remove redundant text) */}
 
-      {civilServiceGrade === "<other>" ? enterGradeEl : null}
+      {currentProfessionEl}
 
       <p>
         <Button
+          disabled={!isCurrentProfessionValid}
           onClick={() => {
-            return navigate("/steps/5");
+            navigate("/steps/5");
           }}
-          disabled={
-            !(civilServiceGrade === "<other>"
-              ? isEnterGradeValid
-              : isCivilServiceGradeValid)
-          }
         >
           <span className="H-XS">Continue</span>
         </Button>

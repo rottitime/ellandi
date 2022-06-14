@@ -1,38 +1,106 @@
 import { Button } from "baseui/button";
-import { Checkbox } from "baseui/checkbox";
-import { ChangeEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { EmptyLayout } from "_/components/Layouts";
+import { useInput } from "_/hooks/useInput";
+import { useSelect } from "_/hooks/useSelect";
+import { Option } from "baseui/select";
+import { emailValidator } from "_/utilities/form";
+
+const FIXME_ORGS: readonly Option[] = [
+  { id: "org:1", label: "Cabinet Office (CO)" },
+  { id: "org:2", label: "Cafcass" },
+  { id: "org:3", label: "Care Quality Commission" },
+  { id: "org:4", label: "Careers Wales" },
+  { id: "org:5", label: "Central Advisory Committee" },
+];
+const FIXME_JOBS: readonly Option[] = [
+  { id: "job:1", label: "Security Consultant" },
+  { id: "job:2", label: "Security Engineer" },
+  { id: "job:3", label: "Service Designer" },
+  { id: "job:4", label: "Service Manager" },
+  { id: "job:5", label: "Service Observer" },
+  { id: "job:6", label: "Service Supervisor" },
+];
+const FIXME_COUNTRIES: readonly Option[] = [
+  { id: "country:1", label: "Uganda" },
+  { id: "country:2", label: "Ukraine" },
+  { id: "country:3", label: "United Arab Emirates" },
+  { id: "country:4", label: "United Kingdom" },
+  { id: "country:5", label: "United States" },
+];
+const FIXME_LOCATIONS: readonly Option[] = [
+  { id: "location:1", label: "Leeds" },
+  { id: "location:2", label: "Leicester" },
+  { id: "location:3", label: "Lichfield" },
+  { id: "location:4", label: "Lincoln" },
+  { id: "location:5", label: "Liverpool" },
+  { id: "location:6", label: "London" },
+];
 
 const Index = () => {
   const navigate = useNavigate();
-  const [checked, setChecked] = useState(false);
+
+  const { fullNameEl, isFullNameValid } = useInput({
+    label: "Full name",
+    initialValue: "Joe Bloggs",
+  });
+  const { organisationEl, isOrganisationValid } = useSelect({
+    label: "Organisation",
+    options: FIXME_ORGS,
+  });
+  const { jobTitleEl, isJobTitleValid } = useSelect({
+    label: "Job title",
+    options: FIXME_JOBS,
+  });
+  const { lineManagerEmailEl, isLineManagerEmailValid } = useInput({
+    label: "Line manager email",
+    validator: emailValidator,
+    demoValue: "line.manager@cabinetoffice.gov.uk",
+  });
+  const { countryEl, isCountryValid } = useSelect({
+    label: "Country",
+    options: FIXME_COUNTRIES,
+  });
+  const { workLocationEl, isWorkLocationValid } = useSelect({
+    label: "Work location",
+    options: FIXME_LOCATIONS,
+  });
 
   return (
     <EmptyLayout>
-      <h1 className="D">Privacy Policy</h1>
-
-      <Checkbox
-        checked={checked}
-        onChange={(event: ChangeEvent<HTMLInputElement>) => {
-          setChecked(event.target.checked);
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
+          navigate("/steps/3");
+          return false;
         }}
       >
-        I agree to the privacy policy
-      </Checkbox>
-
-      <p>
-        <Button
-          disabled={!checked}
-          onClick={() => {
-            return navigate("/steps/3");
-          }}
-        >
-          <span className="H-XS">Continue</span>
-        </Button>
-      </p>
-
-      {/* <p>(will add a hidden captcha to this page)</p> */}
+        <h1 className="D">Your details</h1>
+        {fullNameEl}
+        {organisationEl}
+        {jobTitleEl}
+        {lineManagerEmailEl}
+        {countryEl}
+        {/* ^ Country bad; unclear if: primary residence, nationality[s], citizenship - needs changing */}
+        {workLocationEl}
+        <p>
+          <Button
+            type="submit"
+            disabled={
+              !(
+                isFullNameValid &&
+                isOrganisationValid &&
+                isJobTitleValid &&
+                isLineManagerEmailValid &&
+                isCountryValid &&
+                isWorkLocationValid
+              )
+            }
+          >
+            <span className="H-XS">Continue</span>
+          </Button>
+        </p>
+      </form>
     </EmptyLayout>
   );
 };

@@ -44,13 +44,13 @@ const FIXME_LOCATIONS: readonly Option[] = [
 
 const Index = () => {
   const { fullNameEl } = useInput({
-    label: "Full Name",
+    label: "Full name",
   });
   const { primaryEmailAddressEl } = useInput({
-    label: "Primary Email Address",
+    label: "Primary email address",
   });
   const { secondaryEmailAddressEl } = useInput({
-    label: "Secondary Email Address",
+    label: "Secondary email address",
   });
   // const { passwordEl } = usePassword({
   //   label: "Password",
@@ -65,11 +65,11 @@ const Index = () => {
     options: FIXME_ORGS,
   });
   const { jobTitleEl } = useSelect({
-    label: "Job Title",
+    label: "Job title",
     options: FIXME_JOBS,
   });
   const { lineManagerEmailEl } = useInput({
-    label: "Line Manager Email",
+    label: "Line manager email",
     validator: emailValidator,
     demoValue: "line.manager@cabinetoffice.gov.uk",
   });
@@ -78,31 +78,31 @@ const Index = () => {
     options: FIXME_COUNTRIES,
   });
   const { workLocationEl } = useSelect({
-    label: "Work Location",
+    label: "Work location",
     options: FIXME_LOCATIONS,
   });
 
   return (
     <MenuLayout>
       <h1 className="D-S">Profile</h1>
-      <h2 className="H-M">Personal Details</h2>
+      <h2 className="H-M">Personal details</h2>
       {fullNameEl}
       {primaryEmailAddressEl}
       {secondaryEmailAddressEl}
       <FormControl label="Password">
-        <Button>Change Password</Button>
+        <Button>Change password</Button>
       </FormControl>
       <FormControl label="CV">
         <CVUploader successFile={successFile} setSuccessFile={setSuccessFile} />
       </FormControl>
       <hr />
-      <h2 className="H-M">Job Details</h2>
+      <h2 className="H-M">Job details</h2>
       {organisationEl}
       {jobTitleEl}
       {lineManagerEmailEl}
       {countryEl}
       {workLocationEl}
-      <FormControl label="Contact Preference">
+      <FormControl label="Contact preference">
         <Checkbox
           labelPlacement="left"
           checked={canBeContacted}
