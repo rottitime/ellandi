@@ -24,5 +24,5 @@ class UserSkillViewSet(viewsets.ModelViewSet):
 
 
 class OrganisationViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = models.Organisation.objects.all().order_by("organisation").values_list("organisation")
+    queryset = models.Organisation.objects.all().order_by("organisation")
     serializer_class = serializers.OrganisationSerializer
