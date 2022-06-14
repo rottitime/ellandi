@@ -35,7 +35,6 @@ jobs:
 
     - name: Run Tests
       run: |
-        docker-compose build api
         docker-compose run api nosetests tests
 
   check_frontend:
