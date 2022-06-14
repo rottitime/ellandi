@@ -163,7 +163,4 @@ class TestOrganisationsEndpoint(APITestCase):
 
     def test_post(self):
         response = self.client.post("/organisations/", {"organisation": "Cabinet Office"})
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-
-
-
+        self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
