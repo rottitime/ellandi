@@ -35,7 +35,7 @@ jobs:
 
     - name: Run Tests
       run: |
-        docker-compose run api nosetests tests
+        docker-compose run api python manage.py test
 
   check_frontend:
     runs-on: ubuntu-latest
