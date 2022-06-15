@@ -1,5 +1,5 @@
 Cabinet Office
-"Prime Minister's Office, 10 Downing Street"
+Prime Minister's Office, 10 Downing Street
 Office of the Leader of the House of Commons
 Office of the Leader of the House of Lords
 UK Statistics Authority
@@ -17,7 +17,7 @@ Commissioner for Public Appointments
 Equality Hub
 Government Equalities Office
 Government Estates Management
-"Independent Adviser on Ministers' Interests"
+Independent Adviser on Ministers' Interests
 Infrastructure and Projects Authority
 Office of the Registrar of Consultant Lobbyists
 Privy Council Office
