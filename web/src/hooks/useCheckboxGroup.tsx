@@ -71,8 +71,21 @@ export const useCheckboxGroup = <T extends string>({
                       ...(event.target.checked ? [id] : []),
                     ]);
                   }}
+                  overrides={{
+                    Root: {
+                      style: {
+                        alignItems: "center",
+                      },
+                    },
+                    Checkmark: {
+                      style: {
+                        width: "28px",
+                        height: "28px",
+                      },
+                    },
+                  }}
                 >
-                  <span className="P">{label}</span>
+                  <span className="P-S">{label}</span>
                 </Checkbox>
               </div>
             );

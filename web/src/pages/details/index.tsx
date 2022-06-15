@@ -1,5 +1,5 @@
 // import { useNavigate } from "react-router-dom";
-import { Button } from "baseui/button";
+import { Button } from "_/components/Button";
 import { Checkbox } from "baseui/checkbox";
 import { ChangeEvent, useState } from "react";
 import { FormControl } from "_/components/FormControl";
@@ -42,7 +42,7 @@ const FIXME_LOCATIONS: readonly Option[] = [
   { id: "location:6", label: "London" },
 ];
 
-const Index = () => {
+const Details = () => {
   const { fullNameEl } = useInput({
     label: "Full name",
   });
@@ -83,8 +83,8 @@ const Index = () => {
   });
 
   return (
-    <MenuLayout>
-      <h1 className="D-S">Profile</h1>
+    <MenuLayout maxWidth={520}>
+      <h1 className="D-S">Your details</h1>
       <h2 className="H-M">Personal details</h2>
       {fullNameEl}
       {primaryEmailAddressEl}
@@ -137,4 +137,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default Details;

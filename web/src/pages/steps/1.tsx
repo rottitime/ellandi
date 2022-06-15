@@ -1,4 +1,4 @@
-import { Button } from "baseui/button";
+import { Button } from "_/components/Button";
 import { useNavigate } from "react-router-dom";
 import { useInput } from "_/hooks/useInput";
 import { usePassword } from "_/hooks/usePassword";

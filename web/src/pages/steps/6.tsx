@@ -1,4 +1,4 @@
-import { Button } from "baseui/button";
+import { Button } from "_/components/Button";
 import { useNavigate } from "react-router-dom";
 import { EmptyLayout } from "_/components/Layouts";
 import { ChangeEvent, useState } from "react";

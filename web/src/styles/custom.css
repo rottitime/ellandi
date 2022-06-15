@@ -1,1 +1,7 @@
 /* Put custom CSS in here! */
+
+[data-baseweb="side-navigation"] a[href]:hover > div,
+[data-baseweb="side-navigation"] a[href]:focus > div,
+[data-baseweb="side-navigation"] a[href]:active > div {
+  background: var(--accent50);
+}

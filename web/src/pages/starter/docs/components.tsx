@@ -15,7 +15,7 @@ import { Slider } from "baseui/slider";
 import { MenuLayout } from "_/components/Layouts";
 import { Grid, GridAlign } from "_/components/Grid";
 import { useState } from "react";
-import { Button } from "baseui/button";
+import { Button } from "_/components/Button";
 import { useDeepState } from "_/hooks/useDeepState";
 
 const COLUMNS = ["Name", "Age", "Address"];

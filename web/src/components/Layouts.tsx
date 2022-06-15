@@ -1,8 +1,10 @@
 import { ReactNode } from "react";
 import { Item } from "baseui/side-navigation";
 import { ResponsiveNav } from "./ResponsiveNav";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { getPublicURL } from "_/utilities/urls";
+
+const IS_DEMO = import.meta.env.DEV || import.meta.env.VITE_IS_DEMO_MODE === "true";
 
 /* Empty Page (No Nav) */
 export const EmptyLayout = ({
@@ -12,10 +14,17 @@ export const EmptyLayout = ({
   children?: ReactNode;
   maxWidth?: number;
 }) => {
+  const navigate = useNavigate();
   return (
     <div>
       <div style={{ textAlign: "center" }}>
         <div
+          tabIndex={-1}
+          onClick={() => {
+            if (IS_DEMO) {
+              navigate("/");
+            }
+          }}
           style={{
             display: "inline-block",
             padding: "32px 36px 28px",
@@ -31,18 +40,36 @@ export const EmptyLayout = ({
           />
         </div>
       </div>
-      <div className="px">
-        <div className="mh-auto" style={{ maxWidth }}>
+      <main className="px">
+        <div className="mh-auto rm-margin" style={{ maxWidth }}>
           {children}
         </div>
-      </div>
+      </main>
     </div>
   );
 };
 
 /* Responsive Nav Page */
 const MENU_ITEMS_ALL: Item[] = [
-  { title: "Profile", itemId: "/panel/profile" },
+  {
+    title: "Your skills",
+    itemId: "/skills",
+    subNav: [
+      {
+        title: "General skills",
+        itemId: "/skills/general",
+      },
+      {
+        title: "Language skills",
+        itemId: "/skills/languages",
+      },
+      {
+        title: "Skills you'd like to develop",
+        itemId: "/skills/develop",
+      },
+    ],
+  },
+  { title: "Your details", itemId: "/details" },
   {
     title: "Starter",
     itemId: "/starter",
@@ -97,7 +124,7 @@ const MENU_ITEMS: Item[] = MENU_ITEMS_ALL.filter(({ itemId }) => {
 
 export const MenuLayout = ({
   children,
-  maxWidth = 520,
+  maxWidth = 800,
 }: {
   children?: ReactNode;
   maxWidth?: number;
@@ -106,7 +133,7 @@ export const MenuLayout = ({
 
   return (
     <ResponsiveNav
-      title="Ellandi"
+      width={280}
       items={location.pathname.startsWith("/starter") ? MENU_ITEMS_ALL : MENU_ITEMS}
     >
       <main className="mh-auto" style={{ maxWidth }}>

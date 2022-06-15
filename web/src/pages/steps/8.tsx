@@ -1,4 +1,4 @@
-import { Button } from "baseui/button";
+import { Button } from "_/components/Button";
 import { useNavigate } from "react-router-dom";
 import { EmptyLayout } from "_/components/Layouts";
 import { useDeepState } from "_/hooks/useDeepState";
@@ -76,7 +76,7 @@ const Index = () => {
       <p>
         <Button
           onClick={() => {
-            return navigate("/panel/profile");
+            return navigate("/skills");
           }}
         >
           <span className="H-XS">Continue</span>
