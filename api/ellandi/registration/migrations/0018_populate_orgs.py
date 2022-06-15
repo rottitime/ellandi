@@ -18,7 +18,7 @@ def populate_orgs(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("registration", "0015_rename_model_organisation_organisation"),
+        ("registration", "0017_auto_20220615_1356"),
     ]
 
     operations = [migrations.RunPython(populate_orgs)]
