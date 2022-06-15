@@ -5,18 +5,22 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    replaces = [('registration', '0014_organisation'), ('registration', '0015_rename_model_organisation_organisation'), ('registration', '0017_auto_20220615_1356')]
+    replaces = [
+        ("registration", "0014_organisation"),
+        ("registration", "0015_rename_model_organisation_organisation"),
+        ("registration", "0017_auto_20220615_1356"),
+    ]
 
     dependencies = [
-        ('registration', '0013_alter_userskill_level'),
+        ("registration", "0013_alter_userskill_level"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Organisation',
+            name="Organisation",
             fields=[
-                ('organisation', models.CharField(max_length=100)),
-                ('org_slug', models.SlugField(default='', max_length=100, primary_key=True, serialize=False)),
+                ("organisation", models.CharField(max_length=100)),
+                ("org_slug", models.SlugField(default="", max_length=100, primary_key=True, serialize=False)),
             ],
         ),
     ]

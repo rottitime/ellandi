@@ -116,5 +116,3 @@ class Organisation(models.Model):
     def save(self, *args, **kwargs):
         self.org_slug = slugify(self.organisation)
         return super().save(*args, **kwargs)
-
-
