@@ -113,23 +113,23 @@ class WebError(TimeStampedModel):
     column_number = models.IntegerField(blank=False, null=True)
 
 
-class Organisation(models.Model):
-    name = models.CharField(max_length=100, blank=False, null=False)
-    slug = models.SlugField(max_length=100, blank=False, null=False, primary_key=True)
-
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
-        return super().save(*args, **kwargs)
-
-
-class DropDownList(models.Model):
+class DropDownListModel(models.Model):
     """Base class for lists for drop-downs etc."""
     name = models.CharField(max_length=10, blank=False, null=False)
     slug = models.CharField(max_length=10, blank=False, null=False, primary_key=True)
 
     def save(self, *args, **kwargs):
-        self.slud = slugify(self.name)
+        self.slug = slugify(self.name)
         return super().save(*args, **kwargs)
 
     class Meta:
         abstract=True
+
+
+class Organisation(DropDownListModel):
+    name = models.CharField(max_length=100, blank=False, null=False)
+    slug = models.SlugField(max_length=100, blank=False, null=False, primary_key=True)
+
+
+class ContractType(DropDownListModel):
+    pass
