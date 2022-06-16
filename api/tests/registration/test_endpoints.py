@@ -1,3 +1,4 @@
+from api.ellandi.registration.models import Location
 from rest_framework import status
 from rest_framework.test import APIClient, APIRequestFactory, APITestCase
 
@@ -7,6 +8,7 @@ from ellandi.registration.models import (
     User,
     UserSkill,
     WebError,
+    Location,
 )
 
 
@@ -199,4 +201,18 @@ class TestContractTypeEndpoint(APITestCase):
 
     def test_post(self):
         response = self.client.post("/contract-type/", {"name": "New type"})
+        self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+
+
+class TestLocationEndpoint(APITestCase):
+    def setUp(self):
+        self.client = APIClient()
+        Location(name="Salford").save()
+
+    def test_get(self):
+        response = self.client.get("/locations/")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_post(self):
+        response = self.client.post("/locations/", {"name": "Manchester"})
         self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)

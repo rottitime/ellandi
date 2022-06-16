@@ -13,8 +13,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="Location",
             fields=[
-                ("name", models.CharField(max_length=10)),
-                ("slug", models.CharField(max_length=10, primary_key=True, serialize=False)),
+                ("name", models.CharField(max_length=15)),
+                ("slug", models.CharField(max_length=15, primary_key=True, serialize=False)),
             ],
             options={
                 "abstract": False,
