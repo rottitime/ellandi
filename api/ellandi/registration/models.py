@@ -3,6 +3,7 @@ import datetime
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.utils.text import slugify
 
 
 class UserManager(BaseUserManager):
@@ -106,3 +107,12 @@ class WebError(TimeStampedModel):
     file_name = models.CharField(max_length=1024, blank=False, null=True)
     line_number = models.IntegerField(blank=False, null=True)
     column_number = models.IntegerField(blank=False, null=True)
+
+
+class Organisation(models.Model):
+    name = models.CharField(max_length=100, blank=False, null=False)
+    slug = models.SlugField(max_length=100, blank=False, null=False, primary_key=True)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        return super().save(*args, **kwargs)
