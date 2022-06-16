@@ -1,7 +1,15 @@
 from rest_framework import status
 from rest_framework.test import APIClient, APIRequestFactory, APITestCase
 
-from ellandi.registration.models import ContractType, Location, Organisation, User, UserSkill, WebError, Language
+from ellandi.registration.models import (
+    ContractType,
+    Language,
+    Location,
+    Organisation,
+    User,
+    UserSkill,
+    WebError,
+)
 
 
 class TestUserEndpoint(APITestCase):
@@ -178,7 +186,7 @@ class TestOrganisationsEndpoint(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
 
-class TestContractTypeEndpoint(APITestCase):
+class TestContractTypesEndpoint(APITestCase):
     def setUp(self):
         self.client = APIClient()
         ContractType(name="Fixed-term").save()
@@ -196,7 +204,7 @@ class TestContractTypeEndpoint(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
 
-class TestLocationEndpoint(APITestCase):
+class TestLocationsEndpoint(APITestCase):
     def setUp(self):
         self.client = APIClient()
         Location(name="Salford").save()
@@ -210,7 +218,7 @@ class TestLocationEndpoint(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
 
-class TestLocationEndpoint(APITestCase):
+class TestLanguagesEndpoint(APITestCase):
     def setUp(self):
         self.client = APIClient()
         Language(name="Bengali").save()
