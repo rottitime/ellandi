@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
-from .models import Organisation, UserSkill, WebError
+from .models import ContractType, Organisation, UserSkill, WebError
 
 
 class UserSkillSerializer(serializers.HyperlinkedModelSerializer):
@@ -48,4 +48,10 @@ class WebErrorSerializer(serializers.ModelSerializer):
 class OrganisationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Organisation
+        fields = ["slug", "name"]
+
+
+class ContractTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ContractType
         fields = ["slug", "name"]
