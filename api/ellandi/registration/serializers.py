@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
-from .models import ContractType, Location, Organisation, UserSkill, WebError
+from .models import ContractType, Location, Organisation, UserSkill, WebError, Language
 
 
 class UserSkillSerializer(serializers.HyperlinkedModelSerializer):
@@ -60,4 +60,10 @@ class ContractTypeSerializer(serializers.ModelSerializer):
 class LocationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Location
+        fields = ["slug", "name"]
+
+
+class LanguageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Language
         fields = ["slug", "name"]

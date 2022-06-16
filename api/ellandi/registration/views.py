@@ -36,3 +36,8 @@ class ContractTypeViewSet(viewsets.ReadOnlyModelViewSet):
 class LocationViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Location.objects.all().order_by("name")
     serializer_class = serializers.LocationSerializer
+
+
+class LanguageViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.Language.objects.all().order_by("name")
+    serializer_class = serializers.LanguageSerializer

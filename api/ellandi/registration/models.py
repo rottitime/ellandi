@@ -139,3 +139,8 @@ class ContractType(DropDownListModel):
 class Location(DropDownListModel):
     name = models.CharField(max_length=15, blank=False, null=False)
     slug = models.SlugField(max_length=15, blank=False, null=False, primary_key=True)
+
+
+class Language(DropDownListModel):
+    name = models.CharField(max_length=20, blank=False, null=False)
+    slug = models.SlugField(max_length=20, blank=False, null=False, primary_key=True)
