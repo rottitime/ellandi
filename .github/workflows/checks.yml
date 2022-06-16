@@ -29,9 +29,17 @@ jobs:
         python3 -m pip install --upgrade pip setuptools
         pip install -r api/requirements-dev.txt
 
-    - name: Run Tests
+    - name: Run Python Code Checks
       run: |
         make check-python-code
+
+    - name: Run Migrations
+      run: |
+        docker-compose run api python manage.py migrate
+
+    - name: Run Tests
+      run: |
+        docker-compose run api nosetests tests
 
   check_frontend:
     runs-on: ubuntu-latest
