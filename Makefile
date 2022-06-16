@@ -74,9 +74,6 @@ format-python-code:
 validate-frontend: ## Check style and syntax with
 	cd web && npm run validate
 
-include .envs/postgres
-
 .PHONY: reset-db
 reset-db:
-	docker-compose run -e PGPASSWORD=${POSTGRES_PASSWORD} postgres dropdb -U ${POSTGRES_USER} -h ${POSTGRES_HOST} ${POSTGRES_DB}
-	docker-compose run -e PGPASSWORD=${POSTGRES_PASSWORD} postgres createdb -U ${POSTGRES_USER} -h ${POSTGRES_HOST} ${POSTGRES_DB}
+	docker-compose down --volumes
