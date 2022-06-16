@@ -174,6 +174,30 @@ class TestOrganisationsEndpoint(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_post(self):
-        response = self.client.post("/organisations/", {"name": "Cabinet Office"})
+        response = self.client.post("/organisations/", {"name": "BEIS"})
+        self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+
+
+class TestContractTypeEndpoint(APITestCase):
+    def setUp(self):
+        self.client = APIClient()
+        ContractType(name="Fixed-term").save()
+
+    def test_get(self):
+        response = self.client.get("/contract-type/")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_get_type(self):
+        response = self.client.get(f"/contract-type/fixed-term/")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_check_slug(self):
+        response = self.client.get("/organisations/dfe/")
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        response = self.client.get("/organisations/department-for-education/")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_post(self):
+        response = self.client.post("/contract-type/", {"name": "New type"})
         self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
