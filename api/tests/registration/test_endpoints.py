@@ -194,4 +194,3 @@ class TestContractTypeEndpoint(APITestCase):
     def test_post(self):
         response = self.client.post("/contract-type/", {"name": "New type"})
         self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
-

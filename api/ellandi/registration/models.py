@@ -115,6 +115,7 @@ class WebError(TimeStampedModel):
 
 class DropDownListModel(models.Model):
     """Base class for lists for drop-downs etc."""
+
     name = models.CharField(max_length=10, blank=False, null=False)
     slug = models.CharField(max_length=10, blank=False, null=False, primary_key=True)
 
@@ -123,7 +124,7 @@ class DropDownListModel(models.Model):
         return super().save(*args, **kwargs)
 
     class Meta:
-        abstract=True
+        abstract = True
 
 
 class Organisation(DropDownListModel):
