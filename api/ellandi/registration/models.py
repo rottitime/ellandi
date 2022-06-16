@@ -1,4 +1,5 @@
 import datetime
+import uuid
 
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
@@ -69,6 +70,7 @@ class RegistrationAbstractUser(models.Model):
 
 
 class User(AbstractUser, TimeStampedModel, RegistrationAbstractUser):
+    temp_id = models.UUIDField(default=uuid.uuid4)
     username = None
     email = models.EmailField("email", unique=True)
 
@@ -91,6 +93,7 @@ class UserSkill(TimeStampedModel):
         PROFICIENT = ("proficient", "Proficient")
         EXPERT = ("expert", "Expert")
 
+    temp_id = models.UUIDField(default=uuid.uuid4)
     user = models.ForeignKey(User, related_name="skills", on_delete=models.CASCADE)
     skill_name = models.CharField(max_length=256)
     level = models.CharField(max_length=64, choices=SkillLevel.choices, blank=True, null=False)
@@ -101,6 +104,7 @@ class UserSkill(TimeStampedModel):
 
 
 class WebError(TimeStampedModel):
+    temp_id = models.UUIDField(default=uuid.uuid4)
     message = models.CharField(max_length=1024, blank=False, null=True)
     stack = models.CharField(max_length=16384, blank=False, null=True)
     user_agent = models.CharField(max_length=1024, blank=False, null=True)
