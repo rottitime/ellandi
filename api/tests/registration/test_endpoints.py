@@ -1,7 +1,13 @@
 from rest_framework import status
 from rest_framework.test import APIClient, APIRequestFactory, APITestCase
 
-from ellandi.registration.models import User, UserSkill, WebError, Organisation, ContractType
+from ellandi.registration.models import (
+    ContractType,
+    Organisation,
+    User,
+    UserSkill,
+    WebError,
+)
 
 
 class TestUserEndpoint(APITestCase):
@@ -164,7 +170,7 @@ class TestOrganisationsEndpoint(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_get_org(self):
-        response = self.client.get(f"/organisations/cabinet-office/")
+        response = self.client.get("/organisations/cabinet-office/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_check_slug(self):
@@ -188,7 +194,7 @@ class TestContractTypeEndpoint(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_get_type(self):
-        response = self.client.get(f"/contract-type/fixed-term/")
+        response = self.client.get("/contract-type/fixed-term/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_post(self):
