@@ -1,51 +1,32 @@
 import { ReactNode } from "react";
 import { Item } from "baseui/side-navigation";
 import { ResponsiveNav } from "./ResponsiveNav";
-import { useLocation, useNavigate } from "react-router-dom";
-import { getPublicURL } from "_/utilities/urls";
-
-const IS_DEMO = import.meta.env.DEV || import.meta.env.VITE_IS_DEMO_MODE === "true";
+import { useLocation } from "react-router-dom";
 
 /* Empty Page (No Nav) */
 export const EmptyLayout = ({
   children,
-  maxWidth = 520,
+  maxWidth = 700,
 }: {
   children?: ReactNode;
   maxWidth?: number;
 }) => {
-  const navigate = useNavigate();
   return (
-    <div>
-      <div style={{ textAlign: "center" }}>
-        <div
-          tabIndex={-1}
-          onClick={() => {
-            if (IS_DEMO) {
-              navigate("/");
-            }
-          }}
-          style={{
-            display: "inline-block",
-            padding: "32px 36px 28px",
-            background: "var(--primary)",
-            borderRadius: "0 0 36px 36px",
-          }}
-        >
-          <img
-            src={getPublicURL("images/ellandi.svg")}
-            alt="Ellandi"
-            aria-label="Ellandi"
-            style={{ width: 200 }}
-          />
-        </div>
+    <main
+      className="px"
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        justifyContent: "center",
+      }}
+    >
+      <div
+        className="mh-auto rm-margin brx px"
+        style={{ maxWidth, width: "100%", background: "#fff" }}
+      >
+        {children}
       </div>
-      <main className="px">
-        <div className="mh-auto rm-margin" style={{ maxWidth }}>
-          {children}
-        </div>
-      </main>
-    </div>
+    </main>
   );
 };
 

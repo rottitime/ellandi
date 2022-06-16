@@ -26,13 +26,6 @@ const FIXME_JOBS: readonly Option[] = [
   { id: "job:5", label: "Service Observer" },
   { id: "job:6", label: "Service Supervisor" },
 ];
-const FIXME_COUNTRIES: readonly Option[] = [
-  { id: "country:1", label: "Uganda" },
-  { id: "country:2", label: "Ukraine" },
-  { id: "country:3", label: "United Arab Emirates" },
-  { id: "country:4", label: "United Kingdom" },
-  { id: "country:5", label: "United States" },
-];
 const FIXME_LOCATIONS: readonly Option[] = [
   { id: "location:1", label: "Leeds" },
   { id: "location:2", label: "Leicester" },
@@ -73,10 +66,6 @@ const Details = () => {
     validator: emailValidator,
     demoValue: "line.manager@cabinetoffice.gov.uk",
   });
-  const { countryEl } = useSelect({
-    label: "Country",
-    options: FIXME_COUNTRIES,
-  });
   const { workLocationEl } = useSelect({
     label: "Work location",
     options: FIXME_LOCATIONS,
@@ -100,7 +89,6 @@ const Details = () => {
       {organisationEl}
       {jobTitleEl}
       {lineManagerEmailEl}
-      {countryEl}
       {workLocationEl}
       <FormControl label="Contact preference">
         <Checkbox

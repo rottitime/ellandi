@@ -20,12 +20,6 @@
 }
 @font-face {
   font-family: inter;
-  src: local("Inter Regular"), url("/fonts/Inter400.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-}
-@font-face {
-  font-family: inter;
   src: local("Inter Medium"), url("/fonts/Inter500.woff2") format("woff2");
   font-weight: 500;
   font-style: normal;
@@ -34,6 +28,12 @@
   font-family: inter;
   src: local("Inter Semi Bold"), url("/fonts/Inter600.woff2") format("woff2");
   font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: inter;
+  src: local("Inter Semi Bold"), url("/fonts/Inter700.woff2") format("woff2");
+  font-weight: 700;
   font-style: normal;
 }
 @font-face {
@@ -59,10 +59,9 @@ body {
   font-size: 64px;
   font-weight: 900;
   line-height: 1.15;
-
-  &.c {
-    color: var(--primary);
-  }
+  margin-top: 0.5em;
+  margin-bottom: 0.6em;
+  color: var(--primary700);
 }
 
 .D-M,
@@ -70,54 +69,27 @@ body {
   font-size: 40px;
   font-weight: 900;
   line-height: 1.15;
-  position: relative;
-
-  &.c {
-    color: var(--primary);
-  }
+  margin-top: 0.5em;
+  margin-bottom: 0.6em;
+  color: var(--primary700);
 }
 
 .D-S {
   font-size: 32px;
   font-weight: 900;
   line-height: 1.2;
-  position: relative;
-
-  &.c {
-    color: var(--primary);
-  }
+  margin-top: 0.5em;
+  margin-bottom: 0.6em;
+  color: var(--primary700);
 }
 
 .D-XS {
   font-size: 27px;
   font-weight: 900;
   line-height: 1.2;
-  position: relative;
-
-  &.c {
-    color: var(--primary);
-  }
-}
-
-.flick {
-  display: inline-block;
-  position: relative;
-  width: 0.6em;
-  overflow: visible;
-
-  &::before {
-    content: "";
-    position: absolute;
-    z-index: -1;
-    bottom: 8px;
-    right: 0;
-    width: 2em;
-    height: 1em;
-    background-image: url("/images/flick.svg");
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: middle;
-  }
+  margin-top: 0.5em;
+  margin-bottom: 0.6em;
+  color: var(--primary700);
 }
 
 /**
@@ -128,8 +100,12 @@ h1 {
   font-size: 30px;
 
   /* font-weight: 500; */
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1.2;
+
+  &.c {
+    color: var(--primary700);
+  }
 }
 
 .H-XL,
@@ -137,8 +113,12 @@ h2 {
   font-size: 27px;
 
   /* font-weight: 500; */
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1.2;
+
+  &.c {
+    color: var(--primary700);
+  }
 }
 
 .H-L,
@@ -146,8 +126,12 @@ h3 {
   font-size: 24px;
 
   /* font-weight: 500; */
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1.2;
+
+  &.c {
+    color: var(--primary700);
+  }
 }
 
 .H-M,
@@ -156,8 +140,12 @@ h4 {
   font-size: 22px;
 
   /* font-weight: 500; */
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1.2;
+
+  &.c {
+    color: var(--primary700);
+  }
 }
 
 .H-S,
@@ -165,8 +153,12 @@ h5 {
   font-size: 19px;
 
   /* font-weight: 500; */
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1.2;
+
+  &.c {
+    color: var(--primary700);
+  }
 }
 
 .H-XS,
@@ -174,8 +166,12 @@ h6 {
   font-size: 16px;
 
   /* font-weight: 500; */
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1.2;
+
+  &.c {
+    color: var(--primary700);
+  }
 }
 
 /**
@@ -219,7 +215,7 @@ h6 {
 .P-L {
   /* font-size: 16px; */
   font-size: 18px;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.45;
 }
 
@@ -228,21 +224,21 @@ h6 {
 p {
   /* font-size: 15px; */
   font-size: 16px;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.45;
 }
 
 .P-S {
   /* font-size: 14px; */
   font-size: 15px;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.45;
 }
 
 .P-XS {
   /* font-size: 12px; */
   font-size: 13px;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.45;
 }
 
@@ -257,7 +253,7 @@ p {
 .C-M,
 .C {
   font-size: 12px;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.4;
 
   &.c {
@@ -366,5 +362,5 @@ p {
 .b,
 b,
 strong {
-  font-weight: 600 !important;
+  font-weight: 700 !important;
 }

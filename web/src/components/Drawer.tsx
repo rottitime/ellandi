@@ -23,7 +23,7 @@ export const Drawer = ({ overrides, ...props }: DrawerProps | Readonly<DrawerPro
         Backdrop: {
           ...overrides?.Backdrop,
           style: {
-            backgroundColor: "rgba(127,127,127,.5)",
+            backgroundColor: "hsla(227deg,40%,10%,.6)",
           },
         },
       }}

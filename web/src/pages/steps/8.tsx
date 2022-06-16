@@ -51,9 +51,7 @@ const Index = () => {
                 shape="pill"
                 size="compact"
                 kind={isChecked ? "primary" : "secondary"}
-                startEnhancer={
-                  isChecked ? <CheckIcon size="1em" style={{ marginRight: -8 }} /> : null
-                }
+                startEnhancer={isChecked ? <CheckIcon size="1em" /> : null}
                 onClick={() => {
                   if (isChecked) {
                     setChecked(

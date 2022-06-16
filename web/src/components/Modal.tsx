@@ -33,7 +33,7 @@ export const Modal = ({ overrides, ...props }: ModalProps | Readonly<ModalProps>
         DialogContainer: {
           ...overrides?.DialogContainer,
           style: {
-            backgroundColor: "rgba(127,127,127,.5)",
+            backgroundColor: "hsla(227deg,40%,10%,.6)",
           },
         },
       }}
