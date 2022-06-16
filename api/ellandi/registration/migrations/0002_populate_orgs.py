@@ -20,7 +20,7 @@ def populate_orgs(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("registration", "0014_organisations"),
+        ("registration", "0001_initial"),
     ]
 
     operations = [migrations.RunPython(populate_orgs)]
