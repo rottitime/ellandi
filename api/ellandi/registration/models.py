@@ -120,3 +120,16 @@ class Organisation(models.Model):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
         return super().save(*args, **kwargs)
+
+
+class DropDownList(models.Model):
+    """Base class for lists for drop-downs etc."""
+    name = models.CharField(max_length=10, blank=False, null=False)
+    slug = models.CharField(max_length=10, blank=False, null=False, primary_key=True)
+
+    def save(self, *args, **kwargs):
+        self.slud = slugify(self.name)
+        return super().save(*args, **kwargs)
+
+    class Meta:
+        abstract=True
