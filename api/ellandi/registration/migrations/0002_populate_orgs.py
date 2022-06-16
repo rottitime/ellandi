@@ -1,5 +1,4 @@
 """Populate organisation model."""
-import csv
 
 from django.db import migrations
 from django.utils.text import slugify
