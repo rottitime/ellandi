@@ -4,33 +4,47 @@ import { Link } from "_/components/Link";
 const Index = () => {
   return (
     <EmptyLayout>
-      <h1 className="H">
-        Hello, <strong>Joe Bloggs</strong>
-      </h1>
+      <h3>Enter app as user</h3>
 
-      <p className="P-L">You are invited to register on Ellandi.</p>
-
-      <p className="P-L">Please select the following link to sign up:</p>
-
-      <p className="P-L">
-        <Link to="/steps/0">
-          https://skills.civilservice.gov.uk/signup/123AbcDefgh1238910ABCdefghk
-        </Link>
+      <p className="PL-L">
+        <Link to="/skills">Enter</Link>
       </p>
 
-      <p className="P-L">
-        The above is a one-time-only link; you can only use this link once. If you use
-        this link more than once, your invitation expires and you will not be able to sign
-        up to Ellandi.
-      </p>
+      <h3>Example email</h3>
+      <div
+        className="ph16"
+        style={{
+          border: "1px solid #ccc",
+        }}
+      >
+        <h1 className="H">
+          Hello, <strong>Joe Bloggs</strong>
+        </h1>
 
-      <p className="P-L">
-        Please contact{" "}
-        <Link to="mailto:support.learn@csskills.gov.uk">
-          support.learn@csskills.gov.uk
-        </Link>{" "}
-        if you need the sign-up link to be re-sent.
-      </p>
+        <p className="P-L">You are invited to register on Ellandi.</p>
+
+        <p className="P-L">Please select the following link to sign up:</p>
+
+        <p className="P-L">
+          <Link to="/steps/0">
+            https://skills.civilservice.gov.uk/signup/123AbcDefgh1238910ABCdefghk
+          </Link>
+        </p>
+
+        <p className="P-L">
+          The above is a one-time-only link; you can only use this link once. If you use
+          this link more than once, your invitation expires and you will not be able to
+          sign up to Ellandi.
+        </p>
+
+        <p className="P-L">
+          Please contact{" "}
+          <Link to="mailto:support.learn@csskills.gov.uk">
+            support.learn@csskills.gov.uk
+          </Link>{" "}
+          if you need the sign-up link to be re-sent.
+        </p>
+      </div>
     </EmptyLayout>
   );
 };

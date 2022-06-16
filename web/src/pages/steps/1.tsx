@@ -1,8 +1,11 @@
-import { Button } from "baseui/button";
+import { Button } from "_/components/Button";
 import { useNavigate } from "react-router-dom";
 import { useInput } from "_/hooks/useInput";
 import { usePassword } from "_/hooks/usePassword";
+import { Checkbox } from "baseui/checkbox";
 import { EmptyLayout } from "_/components/Layouts";
+import { ChangeEvent, useState } from "react";
+import { FormControl } from "_/components/FormControl";
 
 const EMAIL_REGEX =
   /^(([^\s"(),.:;<>@[\\\]]+(\.[^\s"(),.:;<>@[\\\]]+)*)|(".+"))@((\[(?:\d{1,3}\.){3}\d{1,3}])|(([\dA-Za-z-]+\.)+[A-Za-z]{2,}))$/;
@@ -21,7 +24,7 @@ const Index = () => {
   const navigate = useNavigate();
 
   const { emailAddressEl, isEmailAddressValid } = useInput({
-    label: "Email Address",
+    label: "Email address",
     validator: validateEmail,
     initialValue: "joe.bloggs@cabinetoffice.gov.uk",
     demoValue: "joe.bloggs@cabinetoffice.gov.uk",
@@ -32,23 +35,20 @@ const Index = () => {
     demoValue: "Password123",
   });
   const { confirmPasswordEl, isConfirmPasswordValid } = usePassword({
-    label: "Confirm Password",
+    label: "Confirm password",
     validator: (value: string): string => {
       return value === password ? "" : "Passwords must match";
     },
     demoValue: "Password123",
   });
+  const [hasAgreedToPrivacyPolicy, setHasAgreedToPrivacyPolicy] = useState(false);
 
   return (
     <EmptyLayout>
       <form
         onSubmit={(event) => {
           event.preventDefault();
-
-          if (isEmailAddressValid && isPasswordValid && isConfirmPasswordValid) {
-            navigate("/steps/2");
-          }
-
+          navigate("/steps/2");
           return false;
         }}
       >
@@ -71,8 +71,31 @@ const Index = () => {
         {passwordEl}
         {confirmPasswordEl}
 
+        <FormControl>
+          <p className="mv32">
+            <Checkbox
+              checked={hasAgreedToPrivacyPolicy}
+              onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                setHasAgreedToPrivacyPolicy(event.target.checked);
+              }}
+            >
+              I agree to the privacy policy
+            </Checkbox>
+          </p>
+        </FormControl>
+
         <p>
-          <Button type="submit">
+          <Button
+            type="submit"
+            disabled={
+              !(
+                isEmailAddressValid &&
+                isPasswordValid &&
+                isConfirmPasswordValid &&
+                hasAgreedToPrivacyPolicy
+              )
+            }
+          >
             <span className="H-XS">Continue</span>
           </Button>
         </p>

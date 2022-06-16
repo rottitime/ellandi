@@ -21,3 +21,8 @@ class WebErrorViewSet(viewsets.ModelViewSet):
 class UserSkillViewSet(viewsets.ModelViewSet):
     queryset = models.UserSkill.objects.all().order_by("user")
     serializer_class = serializers.UserSkillSerializer
+
+
+class OrganisationViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.Organisation.objects.all().order_by("name")
+    serializer_class = serializers.OrganisationSerializer

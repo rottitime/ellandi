@@ -1,11 +1,16 @@
 import React, { ReactNode, Suspense, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter as Router, Navigate, useRoutes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Navigate,
+  useLocation,
+  useRoutes,
+} from "react-router-dom";
 import { Client as Styletron } from "styletron-engine-monolithic";
 import { Provider as StyletronProvider } from "styletron-react";
 import { BaseProvider } from "baseui";
 import { theme, primitives } from "_/theme";
-import { EmptyLayout } from "_/components/Layouts";
+import { EmptyLayout, MenuLayout } from "_/components/Layouts";
 import { Spinner } from "baseui/spinner";
 import routes from "~react-pages";
 import "_/styles/reset.css";
@@ -58,12 +63,20 @@ const AppWrappers = ({ children }: { children?: ReactNode }) => {
 };
 
 const App = () => {
+  const location = useLocation();
+
   return (
     <Suspense
       fallback={
-        <EmptyLayout>
-          <LoadingIndicator />
-        </EmptyLayout>
+        location.pathname.startsWith("/steps/") ? (
+          <EmptyLayout>
+            <LoadingIndicator />
+          </EmptyLayout>
+        ) : (
+          <MenuLayout>
+            <LoadingIndicator />
+          </MenuLayout>
+        )
       }
     >
       {useRoutes([

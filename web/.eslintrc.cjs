@@ -68,6 +68,10 @@ module.exports = {
             message:
               "Use \"import { FormControl } from '_/components/FormControl'\" instead.",
           },
+          {
+            name: "baseui/button",
+            message: "Use \"import { Button } from '_/components/Button'\" instead.",
+          },
         ],
       },
     ],

@@ -9,7 +9,8 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN python3 -m pip install -U pip setuptools wheel
 
 COPY ./api/requirements.txt /app/api/requirements.txt
-RUN python3 -m pip install -r /app/api/requirements.txt --no-cache-dir
+COPY ./api/requirements-dev.txt /app/api/requirements-dev.txt
+RUN python3 -m pip install -r /app/api/requirements-dev.txt --no-cache-dir
 
 COPY ./docker/api/start.sh /start.sh
 RUN chmod +x /start.sh

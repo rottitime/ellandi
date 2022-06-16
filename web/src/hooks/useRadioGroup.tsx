@@ -64,8 +64,54 @@ export const useRadioGroup = <T extends string>({
         >
           {options.map(({ id, label }) => {
             return (
-              <Radio key={id} value={id}>
-                <span className="P">{label}</span>
+              <Radio
+                key={id}
+                value={id}
+                overrides={{
+                  Root: {
+                    style: {
+                      width: "100%",
+                    },
+                  },
+                  Label: {
+                    style: {
+                      flex: "1 0 1px",
+                    },
+                  },
+                  RadioMarkOuter: {
+                    style: {
+                      width: "28px",
+                      height: "28px",
+                      display: "block",
+                      position: "relative",
+                    },
+                  },
+                  RadioMarkInner: ({ $checked }: { $checked: boolean }) => {
+                    return (
+                      <div
+                        style={{
+                          ...($checked
+                            ? {
+                                width: 10,
+                                height: 10,
+                              }
+                            : {
+                                width: 23,
+                                height: 23,
+                              }),
+                          position: "absolute",
+                          top: "50%",
+                          left: "50%",
+                          transform: "translate(-50%, -50%)",
+                          borderRadius: "50%",
+                          backgroundColor: "var(--mono100)",
+                        }}
+                      />
+                    );
+                  },
+                }}
+              >
+                <span className="P-S">{label}</span>
               </Radio>
             );
           })}

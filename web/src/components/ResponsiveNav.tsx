@@ -4,25 +4,32 @@ import { Menu as MenuIcon } from "baseui/icon";
 import { Navigation, Item } from "baseui/side-navigation";
 import {
   HeaderNavigation,
-  ALIGN,
   StyledNavigationList,
   StyledNavigationItem,
 } from "baseui/header-navigation";
 import { Drawer } from "_/components/Drawer";
-import { Button } from "baseui/button";
+import { Button } from "_/components/Button";
+import { getPublicURL } from "_/utilities/urls";
 
 const isBigMQ = matchMedia("(min-width: 720px)");
+
+const IS_DEMO = import.meta.env.DEV || import.meta.env.VITE_IS_DEMO_MODE === "true";
+
+const NAV_ITEM_STYLES = {
+  background: "transparent",
+};
+// const ACTIVE_NAV_ITEM_STYLES = {
+//   background: "var(--mono300)",
+// };
 
 export const ResponsiveNav = ({
   children,
   items,
   hasDefaultPadding = true,
   width = 240,
-  title = null,
 }: {
   children?: ReactNode;
   items: Item[];
-  title?: React.ReactNode;
   width?: number;
   hasDefaultPadding?: boolean;
 }) => {
@@ -83,18 +90,31 @@ export const ResponsiveNav = ({
               },
             }}
           >
-            <StyledNavigationList $align={ALIGN.left}>
-              {title ? (
-                <StyledNavigationItem>
-                  <span className="H">{title}</span>
-                </StyledNavigationItem>
-              ) : null}
+            <StyledNavigationList $align="left">
+              <div
+                tabIndex={-1}
+                onClick={() => {
+                  navigate(IS_DEMO ? "/" : "/skills");
+                }}
+                style={{
+                  display: "inline-flex",
+                  background: "var(--primary)",
+                  padding: "0 16px",
+                }}
+              >
+                <img
+                  src={getPublicURL("images/ellandi.svg")}
+                  alt="Ellandi"
+                  aria-label="Ellandi"
+                  style={{ width: 140 }}
+                />
+              </div>
             </StyledNavigationList>
-            <StyledNavigationList $align={ALIGN.center} />
-            <StyledNavigationList $align={ALIGN.right}>
+            <StyledNavigationList $align="right">
               <StyledNavigationItem>
                 <div ref={containerElRef}>
                   <Button
+                    shape="square"
                     onClick={() => {
                       setIsMobileNavOpen(true);
                     }}
@@ -138,6 +158,7 @@ export const ResponsiveNav = ({
                       overrides={{
                         NavItem: {
                           style: {
+                            ...NAV_ITEM_STYLES,
                             borderLeftWidth: 0,
                           },
                         },
@@ -151,7 +172,7 @@ export const ResponsiveNav = ({
         </div>
       ) : (
         <div
-          className="pv64"
+          className="pv48"
           style={{
             width,
             height: "100vh",
@@ -163,11 +184,27 @@ export const ResponsiveNav = ({
             overflowY: "auto",
           }}
         >
-          {title ? (
-            <div className="H-M ph24 pv12" style={{ border: "2px solid transparent" }}>
-              {title}
+          <div className="mb16">
+            <div
+              tabIndex={-1}
+              onClick={() => {
+                navigate(IS_DEMO ? "/" : "/skills");
+              }}
+              style={{
+                display: "inline-block",
+                background: "var(--primary)",
+                padding: "24px 28px 24px",
+                borderRadius: "0 20px 20px 0",
+              }}
+            >
+              <img
+                src={getPublicURL("images/ellandi.svg")}
+                alt="Ellandi"
+                aria-label="Ellandi"
+                style={{ width: 200 }}
+              />
             </div>
-          ) : null}
+          </div>
           <Navigation
             items={items}
             activeItemId={location.pathname}
@@ -178,7 +215,7 @@ export const ResponsiveNav = ({
             overrides={{
               NavItem: {
                 style: {
-                  background: "var(--mono300)",
+                  ...NAV_ITEM_STYLES,
                 },
               },
             }}
@@ -191,7 +228,7 @@ export const ResponsiveNav = ({
           width: "100%",
           overflowY: "hidden",
           position: "relative",
-          paddingTop: isSmall ? 56 : 0,
+          paddingTop: isSmall ? 48 : 0,
         }}
       >
         <div className={mainContentPaddingClass}>{children}</div>

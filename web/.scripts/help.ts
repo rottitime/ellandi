@@ -13,6 +13,9 @@ const yellow = (str: string): string => {
 const red = (str: string): string => {
   return `\u001B[31m${str}\u001B[0m`;
 };
+const green = (str: string): string => {
+  return `\u001B[32m${str}\u001B[0m`;
+};
 const faded = (str: string): string => {
   return `\u001B[2m${str}\u001B[0m`;
 };
@@ -67,16 +70,17 @@ const main = async () => {
       );
     }
 
+    console.log("\nDoctor:");
     try {
       const linkPath = await fs.readlink(path.join(projectRoot, ".git/hooks"));
-      if (linkPath !== "../.husky") {
+      if (linkPath === "../web/.husky") {
+        console.log("  * " + green("git hooks correctly set up"));
+      } else {
         throw new Error("git hooks not correctly set up");
       }
     } catch {
       console.log(
-        `\n${red(`You probably need to install git hooks with "`)}${red(
-          bold(`npm run prepare`)
-        )}${red('"')}`
+        `  * ${red(`install git hooks with "`)}${red(bold(`npm run prepare`))}${red('"')}`
       );
     }
   } catch (error) {

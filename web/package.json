@@ -12,11 +12,11 @@
     "darwin"
   ],
   "scripts": {
-    "help": "ts-node ./.scripts/help.ts",
+    "help": "xnr ./.scripts/help.ts",
     "dev:help": "echo 'Start development environment'",
     "dev": "vite",
     "prod:help": "echo 'Start production environment'",
-    "prod": "vite build && ts-node ./.scripts/prod.ts",
+    "prod": "vite build && xnr ./.scripts/prod.ts",
     "validate:help": "echo 'Static source code analysis'",
     "validate": "npm run types && npm run lint",
     "lint:help": "echo 'Lint all files, output to stdout'",
@@ -73,10 +73,10 @@
     "styletron-engine-atomic": "^1.4.8",
     "styletron-engine-monolithic": "^0.0.6",
     "styletron-react": "^6.0.2",
-    "ts-node": "^10.7.0",
     "typescript": "^4.5.4",
     "vite": "^2.9.8",
     "vite-plugin-pages": "^0.22.0",
-    "vite-tsconfig-paths": "^3.3.17"
+    "vite-tsconfig-paths": "^3.3.17",
+    "xnr": "^0.1.1"
   }
 }

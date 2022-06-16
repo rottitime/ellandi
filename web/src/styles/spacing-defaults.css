@@ -26,7 +26,7 @@ main {
   p,
   pre,
   section,
-  table,
+  [data-baseweb="table-semantic"],
   ul {
     margin-top: 1.5em;
     margin-bottom: 0.8em;
