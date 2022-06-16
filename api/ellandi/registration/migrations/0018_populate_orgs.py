@@ -10,7 +10,7 @@ def populate_orgs(apps, schema_editor):
     orgs = []
     with open("ellandi/registration/migrations/0018_populate_orgs.txt") as file:
         for line in file:
-            line = line.strip("\n")
+            line = line.strip()
             slug = slugify(line)
             org = Organisation(organisation=line, org_slug=slug)
             orgs.append(org)
