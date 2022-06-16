@@ -134,3 +134,7 @@ class Organisation(DropDownListModel):
 
 class ContractType(DropDownListModel):
     pass
+
+
+class Location(DropDownListModel):
+    pass

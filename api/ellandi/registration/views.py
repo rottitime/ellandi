@@ -31,3 +31,8 @@ class OrganisationViewSet(viewsets.ReadOnlyModelViewSet):
 class ContractTypeViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.ContractType.objects.all().order_by("name")
     serializer_class = serializers.ContractTypeSerializer
+
+
+class LocationViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.Location.objects.all().order_by("name")
+    serializer_class = serializers.LocationSerializer

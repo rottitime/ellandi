@@ -10,6 +10,7 @@ router.register(r"web-error", views.WebErrorViewSet)
 router.register(r"user-skills", views.UserSkillViewSet)
 router.register(r"organisations", views.OrganisationViewSet)
 router.register(r"contract-type", views.ContractTypeViewSet)
+router.register(r"location", views.LocationViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
