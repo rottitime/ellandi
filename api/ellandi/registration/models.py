@@ -110,9 +110,9 @@ class WebError(TimeStampedModel):
 
 
 class Organisation(models.Model):
-    organisation = models.CharField(max_length=100, blank=False, null=False)
-    org_slug = models.SlugField(max_length=100, blank=False, null=False, primary_key=True)
+    name = models.CharField(max_length=100, blank=False, null=False)
+    slug = models.SlugField(max_length=100, blank=False, null=False, primary_key=True)
 
     def save(self, *args, **kwargs):
-        self.org_slug = slugify(self.organisation)
+        self.slug = slugify(self.name)
         return super().save(*args, **kwargs)

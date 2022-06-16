@@ -47,4 +47,4 @@ class WebErrorSerializer(serializers.ModelSerializer):
 class OrganisationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Organisation
-        fields = ["org_slug", "organisation"]
+        fields = ["slug", "name"]
