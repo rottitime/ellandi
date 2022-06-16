@@ -156,11 +156,24 @@ class TestWebErrorEndpoint(APITestCase):
 class TestOrganisationsEndpoint(APITestCase):
     def setUp(self):
         self.client = APIClient()
+        Organisation(name="Cabinet Office").save()
+        Organisation(name="Department for Education", slug="dfe").save()
 
     def test_get(self):
         response = self.client.get("/organisations/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
+    def test_get_org(self):
+        response = self.client.get(f"/organisations/cabinet-office/")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_check_slug(self):
+        response = self.client.get("/organisations/dfe/")
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        response = self.client.get("/organisations/department-for-education/")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
     def test_post(self):
         response = self.client.post("/organisations/", {"name": "Cabinet Office"})
         self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+
