@@ -1,14 +1,13 @@
-from api.ellandi.registration.models import Location
 from rest_framework import status
 from rest_framework.test import APIClient, APIRequestFactory, APITestCase
 
 from ellandi.registration.models import (
     ContractType,
+    Location,
     Organisation,
     User,
     UserSkill,
     WebError,
-    Location,
 )
 
 
