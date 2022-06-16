@@ -73,3 +73,7 @@ format-python-code:
 .PHONY: validate-frontend
 validate-frontend: ## Check style and syntax with
 	cd web && npm run validate
+
+.PHONY: reset-db
+reset-db:
+	docker-compose down --volumes

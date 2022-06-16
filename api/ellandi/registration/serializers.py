@@ -7,7 +7,7 @@ from .models import Organisation, UserSkill, WebError
 class UserSkillSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = UserSkill
-        fields = ["user", "skill_name", "level", "validated"]
+        fields = ["id", "user", "skill_name", "level", "validated"]
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -17,6 +17,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         skills = UserSkillSerializer(many=True, read_only=True)
         model = get_user_model()
         fields = [
+            "id",
             "url",
             "email",
             "first_name",
@@ -41,7 +42,7 @@ class WebErrorSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WebError
-        fields = ["message", "stack", "userAgent", "fileName", "lineNum", "colNum", "createdAt"]
+        fields = ["id", "message", "stack", "userAgent", "fileName", "lineNum", "colNum", "createdAt"]
 
 
 class OrganisationSerializer(serializers.ModelSerializer):
