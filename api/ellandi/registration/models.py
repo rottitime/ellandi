@@ -117,8 +117,8 @@ class WebError(TimeStampedModel):
 class DropDownListModel(models.Model):
     """Base class for lists for drop-downs etc."""
 
-    name = models.CharField(max_length=10, blank=False, null=False)
-    slug = models.CharField(max_length=10, blank=False, null=False, primary_key=True)
+    name = models.CharField(max_length=127, blank=False, null=False)
+    slug = models.CharField(max_length=127, blank=False, null=False, primary_key=True)
 
     def clean(self):
         if self.slug:
@@ -134,8 +134,7 @@ class DropDownListModel(models.Model):
 
 
 class Organisation(DropDownListModel):
-    name = models.CharField(max_length=100, blank=False, null=False)
-    slug = models.SlugField(max_length=100, blank=False, null=False, primary_key=True)
+    pass
 
 
 class ContractType(DropDownListModel):
@@ -143,10 +142,8 @@ class ContractType(DropDownListModel):
 
 
 class Location(DropDownListModel):
-    name = models.CharField(max_length=15, blank=False, null=False)
-    slug = models.SlugField(max_length=15, blank=False, null=False, primary_key=True)
+    pass
 
 
 class Language(DropDownListModel):
-    name = models.CharField(max_length=20, blank=False, null=False)
-    slug = models.SlugField(max_length=20, blank=False, null=False, primary_key=True)
+    pass
