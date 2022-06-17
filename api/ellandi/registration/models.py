@@ -5,6 +5,7 @@ from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.text import slugify
+from django.core.exceptions import ValidationError
 
 
 class UserManager(BaseUserManager):
@@ -119,7 +120,12 @@ class DropDownListModel(models.Model):
     name = models.CharField(max_length=10, blank=False, null=False)
     slug = models.CharField(max_length=10, blank=False, null=False, primary_key=True)
 
+    def clean(self):
+        if self.slug:
+            raise ValidationError("Do not set slug field, this is automatically calculated.")
+
     def save(self, *args, **kwargs):
+        self.clean()
         self.slug = slugify(self.name)
         return super().save(*args, **kwargs)
 
