@@ -164,9 +164,9 @@ class TestWebErrorEndpoint(APITestCase):
 
 class TestDropDownList(APITestCase):
     __test__ = False
-    name = ""
-    slug = ""
-    endpoint = ""
+    name = None
+    slug = None
+    endpoint = None
     model = DropDownListModel
 
     def setUp(self):
