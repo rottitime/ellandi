@@ -14,6 +14,11 @@ router.register(r"contract-types", views.ContractTypeViewSet)
 router.register(r"locations", views.LocationViewSet)
 router.register(r"languages", views.LanguageViewSet)
 
+api_urlpatterns = [
+    path("", include(router.urls)),
+    path("api-auth/", include("rest_framework.urls", namespace="rest_framework")),
+]
+
 schema_urlpatterns = [
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
     path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
@@ -21,8 +26,8 @@ schema_urlpatterns = [
 
 ]
 
-urlpatterns = [
-    path("", include(router.urls)),
-    path("api-auth/", include("rest_framework.urls", namespace="rest_framework")),
-    path("admin/", admin.site.urls),
-] + schema_urlpatterns
+admin_urlpatterns = [
+[path("admin/", admin.site.urls)],
+]
+
+urlpatterns =  api_urlpatterns + admin_urlpatterns + schema_urlpatterns
