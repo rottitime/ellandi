@@ -64,3 +64,10 @@ services:
       - ./.envs/tests
     profiles:
       - testing
+
+  requirements:
+    image: python:3.8-buster
+    profiles:
+      - utils
+    volumes:
+      - ./:/app/:z
