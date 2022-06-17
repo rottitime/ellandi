@@ -56,10 +56,14 @@ npm-prepare: ## Check style and syntax with
 docker:  ## Run python app in a docker container
 	docker-compose up --build --force-recreate --renew-anon-volumes
 
+define _update_requirements
+	docker-compose run requirements bash -c "pip install -U pip setuptools && pip install -U -r /app/api/$(1).txt && pip freeze > /app/api/$(1).lock"
+endef
+
 .PHONY: update-api-requirements
 update-api-requirements:
-	docker-compose run requirements bash -c "pip install -U pip setuptools && pip install -U -r /app/api/requirements.txt && pip freeze > /app/api/requirements.lock"
-	docker-compose run requirements bash -c "pip install -U pip setuptools && pip install -U -r /app/api/requirements-dev.txt && pip freeze > /app/api/requirements-dev.lock"
+	$(call _update_requirements,requirements)
+	$(call _update_requirements,requirements-dev)
 
 # -------------------------------------- Code Style  -------------------------------------
 
