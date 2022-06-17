@@ -3,13 +3,13 @@ from rest_framework.test import APIClient, APIRequestFactory, APITestCase
 
 from ellandi.registration.models import (
     ContractType,
+    DropDownListModel,
     Language,
     Location,
     Organisation,
     User,
     UserSkill,
     WebError,
-    DropDownListModel
 )
 
 
@@ -184,7 +184,6 @@ class TestDropDownList(APITestCase):
     def test_post(self):
         response = self.client.post(self.endpoint, {"name": "a new name"})
         self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
-
 
 
 class TestOrganisationsEndpoint2(TestDropDownList):
