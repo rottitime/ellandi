@@ -8,6 +8,8 @@ from .models import (
     Organisation,
     UserSkill,
     WebError,
+    Profession,
+    Grade
 )
 
 
@@ -73,4 +75,16 @@ class LocationSerializer(serializers.ModelSerializer):
 class LanguageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Language
+        fields = ["slug", "name"]
+
+
+class ProfessionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profession
+        fields = ["slug", "name"]
+
+
+class GradeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Grade
         fields = ["slug", "name"]
