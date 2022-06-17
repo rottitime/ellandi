@@ -4,14 +4,14 @@ from rest_framework.test import APIClient, APIRequestFactory, APITestCase
 from ellandi.registration.models import (
     ContractType,
     DropDownListModel,
+    Grade,
     Language,
     Location,
     Organisation,
+    Profession,
     User,
     UserSkill,
     WebError,
-    Profession,
-    Grade,
 )
 
 
@@ -28,6 +28,7 @@ class TestUserEndpoint(APITestCase):
             "line_manager_email": "line@example.com",
             "country": "Spain",
             "contract_type": "permanent",
+            "privacy_policy_agreement": True,
         }
         self.data_incorrect = {
             "first_name": "Bob",

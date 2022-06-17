@@ -1,5 +1,4 @@
 import datetime
-from telnetlib import DO
 import uuid
 
 from django.contrib.auth.base_user import BaseUserManager
@@ -75,6 +74,7 @@ class User(AbstractUser, TimeStampedModel, RegistrationAbstractUser):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     username = None
     email = models.EmailField("email", unique=True)
+    privacy_policy_agreement = models.BooleanField(default=False, blank=False, null=False)
 
     first_name = models.CharField("first name", max_length=128, blank=True, null=True)
     last_name = models.CharField("last name", max_length=128, blank=True, null=True)
