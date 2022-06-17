@@ -186,37 +186,12 @@ class TestDropDownList(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
 
-class TestOrganisationsEndpoint2(TestDropDownList):
+class TestOrganisationsEndpoint(TestDropDownList):
     __test__ = True
     name = "Cabinet Office"
     slug = "cabinet-office"
     endpoint = "/organisations/"
     model = Organisation
-
-
-class TestOrganisationsEndpoint(APITestCase):
-    def setUp(self):
-        self.client = APIClient()
-        Organisation(name="Cabinet Office").save()
-        Organisation(name="Department for Education", slug="dfe").save()
-
-    def test_get(self):
-        response = self.client.get("/organisations/")
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-    def test_get_org(self):
-        response = self.client.get("/organisations/cabinet-office/")
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-    def test_check_slug(self):
-        response = self.client.get("/organisations/dfe/")
-        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
-        response = self.client.get("/organisations/department-for-education/")
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-    def test_post(self):
-        response = self.client.post("/organisations/", {"name": "BEIS"})
-        self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
 
 class TestContractTypesEndpoint(TestDropDownList):
@@ -227,29 +202,17 @@ class TestContractTypesEndpoint(TestDropDownList):
     model = ContractType
 
 
-class TestLocationsEndpoint(APITestCase):
-    def setUp(self):
-        self.client = APIClient()
-        Location(name="Salford").save()
-
-    def test_get(self):
-        response = self.client.get("/locations/")
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-    def test_post(self):
-        response = self.client.post("/locations/", {"name": "Manchester"})
-        self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+class TestLocationsEndpoint(TestDropDownList):
+    __test__ = True
+    name = "Salford"
+    slug = "salford"
+    endpoint = "/locations/"
+    model = Location
 
 
 class TestLanguagesEndpoint(APITestCase):
-    def setUp(self):
-        self.client = APIClient()
-        Language(name="Bengali").save()
-
-    def test_get(self):
-        response = self.client.get("/languages/")
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-    def test_post(self):
-        response = self.client.post("/languages/", {"name": "German"})
-        self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+    __test__ = True
+    name = "Bengali"
+    slug = "bengali"
+    endpoint = "/languages/"
+    model = Language
