@@ -33,13 +33,13 @@ jobs:
       run: |
         make check-python-code
 
-    - name: Run Migrations
+    - name: Build Tests
       run: |
-        docker-compose run api python manage.py migrate
+        docker-compose build tests
 
     - name: Run Tests
       run: |
-        docker-compose run api nosetests tests
+        docker-compose run tests
 
   check_frontend:
     runs-on: ubuntu-latest

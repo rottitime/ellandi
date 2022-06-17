@@ -8,16 +8,14 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN python3 -m pip install -U pip setuptools wheel
 
-COPY ./api/requirements.lock /app/api/requirements.lock
-RUN python3 -m pip install -r /app/api/requirements.lock --no-cache-dir
+COPY ./api/requirements-dev.lock /app/api/requirements-dev.lock
+RUN python3 -m pip install -r /app/api/requirements-dev.lock --no-cache-dir
 
-COPY ./docker/api/start.sh /start.sh
+COPY ./docker/tests/start.sh /start.sh
 RUN chmod +x /start.sh
 
 COPY . /app
 
 WORKDIR /app/api
-
-EXPOSE 8000
 
 CMD ["sh","/start.sh"]
