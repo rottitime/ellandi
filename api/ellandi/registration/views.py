@@ -26,3 +26,18 @@ class UserSkillViewSet(viewsets.ModelViewSet):
 class OrganisationViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Organisation.objects.all().order_by("name")
     serializer_class = serializers.OrganisationSerializer
+
+
+class ContractTypeViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.ContractType.objects.all().order_by("name")
+    serializer_class = serializers.ContractTypeSerializer
+
+
+class LocationViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.Location.objects.all().order_by("name")
+    serializer_class = serializers.LocationSerializer
+
+
+class LanguageViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.Language.objects.all().order_by("name")
+    serializer_class = serializers.LanguageSerializer

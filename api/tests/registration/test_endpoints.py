@@ -1,7 +1,16 @@
 from rest_framework import status
 from rest_framework.test import APIClient, APIRequestFactory, APITestCase
 
-from ellandi.registration.models import User, UserSkill, WebError
+from ellandi.registration.models import (
+    ContractType,
+    DropDownListModel,
+    Language,
+    Location,
+    Organisation,
+    User,
+    UserSkill,
+    WebError,
+)
 
 
 class TestUserEndpoint(APITestCase):
@@ -153,14 +162,57 @@ class TestWebErrorEndpoint(APITestCase):
         self.assertEqual(number_matching_errors, 0)
 
 
-class TestOrganisationsEndpoint(APITestCase):
+class TestDropDownList(APITestCase):
+    __test__ = False
+    name = None
+    slug = None
+    endpoint = None
+    model = DropDownListModel
+
     def setUp(self):
         self.client = APIClient()
+        self.model(name=self.name).save()
 
     def test_get(self):
-        response = self.client.get("/organisations/")
+        response = self.client.get(self.endpoint)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_get_item(self):
+        response = self.client.get(f"{self.endpoint}{self.slug}/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_post(self):
-        response = self.client.post("/organisations/", {"name": "Cabinet Office"})
+        response = self.client.post(self.endpoint, {"name": "a new name"})
         self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+
+
+class TestOrganisationsEndpoint(TestDropDownList):
+    __test__ = True
+    name = "Cabinet Office"
+    slug = "cabinet-office"
+    endpoint = "/organisations/"
+    model = Organisation
+
+
+class TestContractTypesEndpoint(TestDropDownList):
+    __test__ = True
+    name = "Fixed-term"
+    slug = "fixed-term"
+    endpoint = "/contract-types/"
+    model = ContractType
+
+
+class TestLocationsEndpoint(TestDropDownList):
+    __test__ = True
+    name = "Salford"
+    slug = "salford"
+    endpoint = "/locations/"
+    model = Location
+
+
+class TestLanguagesEndpoint(APITestCase):
+    __test__ = True
+    name = "Bengali"
+    slug = "bengali"
+    endpoint = "/languages/"
+    model = Language

@@ -3,6 +3,7 @@ import uuid
 
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.text import slugify
 
@@ -113,10 +114,36 @@ class WebError(TimeStampedModel):
     column_number = models.IntegerField(blank=False, null=True)
 
 
-class Organisation(models.Model):
-    name = models.CharField(max_length=100, blank=False, null=False)
-    slug = models.SlugField(max_length=100, blank=False, null=False, primary_key=True)
+class DropDownListModel(models.Model):
+    """Base class for lists for drop-downs etc."""
+
+    name = models.CharField(max_length=127, blank=False, null=False)
+    slug = models.CharField(max_length=127, blank=False, null=False, primary_key=True)
+
+    def clean(self):
+        if self.slug:
+            raise ValidationError("Do not set slug field, this is automatically calculated.")
 
     def save(self, *args, **kwargs):
+        self.clean()
         self.slug = slugify(self.name)
         return super().save(*args, **kwargs)
+
+    class Meta:
+        abstract = True
+
+
+class Organisation(DropDownListModel):
+    pass
+
+
+class ContractType(DropDownListModel):
+    pass
+
+
+class Location(DropDownListModel):
+    pass
+
+
+class Language(DropDownListModel):
+    pass
