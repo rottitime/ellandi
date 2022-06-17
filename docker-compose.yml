@@ -52,6 +52,8 @@ services:
     depends_on:
       - web
     entrypoint: /entrypoint.sh
+    profiles:
+      - testing
 
   tests:
     build:
@@ -60,3 +62,5 @@ services:
     image: ellandi_tests
     env_file:
       - ./.envs/tests
+    profiles:
+      - testing
