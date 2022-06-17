@@ -11,7 +11,7 @@ from ellandi.registration.models import (
     UserSkill,
     WebError,
     Profession,
-    Grade
+    Grade,
 )
 
 
@@ -228,7 +228,7 @@ class TestProfessionsEndpoint(TestDropDownList):
     model = Profession
 
 
-class TestGradeEndpoint(TestDropDownList):
+class TestGradesEndpoint(TestDropDownList):
     __test__ = True
     name = "Grade 7"
     slug = "grade-7"
