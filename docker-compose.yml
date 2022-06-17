@@ -52,3 +52,11 @@ services:
     depends_on:
       - web
     entrypoint: /entrypoint.sh
+
+  tests:
+    build:
+      context: .
+      dockerfile: ./docker/tests/Dockerfile
+    image: ellandi_tests
+    env_file:
+      - ./.envs/tests
