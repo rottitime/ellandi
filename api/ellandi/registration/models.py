@@ -1,4 +1,5 @@
 import datetime
+from telnetlib import DO
 import uuid
 
 from django.contrib.auth.base_user import BaseUserManager
@@ -146,4 +147,12 @@ class Location(DropDownListModel):
 
 
 class Language(DropDownListModel):
+    pass
+
+
+class Profession(DropDownListModel):
+    pass
+
+
+class Grade(DropDownListModel):
     pass
