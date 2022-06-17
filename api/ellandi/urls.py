@@ -17,6 +17,8 @@ router.register(r"organisations", views.OrganisationViewSet)
 router.register(r"contract-types", views.ContractTypeViewSet)
 router.register(r"locations", views.LocationViewSet)
 router.register(r"languages", views.LanguageViewSet)
+router.register(r"professions", views.ProfessionViewSet)
+router.register(r"grades", views.GradeViewSet)
 
 api_urlpatterns = [
     path("", include(router.urls)),

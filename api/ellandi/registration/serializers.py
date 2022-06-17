@@ -1,16 +1,7 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
-from .models import (
-    ContractType,
-    Language,
-    Location,
-    Organisation,
-    UserSkill,
-    WebError,
-    Profession,
-    Grade
-)
+from .models import ContractType, Language, Location, Organisation, UserSkill, WebError, Profession, Grade
 
 
 class UserSkillSerializer(serializers.HyperlinkedModelSerializer):
