@@ -30,7 +30,7 @@ schema_urlpatterns = [
 ]
 
 admin_urlpatterns = [
-    [path("admin/", admin.site.urls)],
+    path("admin/", admin.site.urls),
 ]
 
 urlpatterns = api_urlpatterns + admin_urlpatterns + schema_urlpatterns
