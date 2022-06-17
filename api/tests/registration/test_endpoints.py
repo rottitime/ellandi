@@ -9,6 +9,7 @@ from ellandi.registration.models import (
     User,
     UserSkill,
     WebError,
+    DropDownListModel
 )
 
 
@@ -161,6 +162,39 @@ class TestWebErrorEndpoint(APITestCase):
         self.assertEqual(number_matching_errors, 0)
 
 
+class TestDropDownList(APITestCase):
+    __test__ = False
+    name = ""
+    slug = ""
+    endpoint = ""
+    model = DropDownListModel
+
+    def setUp(self):
+        self.client = APIClient()
+        self.model(name=self.name).save()
+
+    def test_get(self):
+        response = self.client.get(self.endpoint)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_get_item(self):
+        response = self.client.get(f"{self.endpoint}{self.slug}/")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_post(self):
+        response = self.client.post(self.endpoint, {"name": "a new name"})
+        self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+
+
+
+class TestOrganisationsEndpoint2(TestDropDownList):
+    __test__ = True
+    name = "Cabinet Office"
+    slug = "cabinet-office"
+    endpoint = "/organisations/"
+    model = Organisation
+
+
 class TestOrganisationsEndpoint(APITestCase):
     def setUp(self):
         self.client = APIClient()
@@ -186,22 +220,12 @@ class TestOrganisationsEndpoint(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
 
-class TestContractTypesEndpoint(APITestCase):
-    def setUp(self):
-        self.client = APIClient()
-        ContractType(name="Fixed-term").save()
-
-    def test_get(self):
-        response = self.client.get("/contract-types/")
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-    def test_get_type(self):
-        response = self.client.get("/contract-types/fixed-term/")
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-    def test_post(self):
-        response = self.client.post("/contract-types/", {"name": "New type"})
-        self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+class TestContractTypesEndpoint(TestDropDownList):
+    __test__ = True
+    name = "Fixed-term"
+    slug = "fixed-term"
+    endpoint = "/contract-types/"
+    model = ContractType
 
 
 class TestLocationsEndpoint(APITestCase):
