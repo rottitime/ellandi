@@ -57,9 +57,9 @@ docker:  ## Run python app in a docker container
 	docker-compose up --build --force-recreate --renew-anon-volumes
 
 .PHONY: update-api-requirements
-update-requirements:
-	docker-compose build api
-	docker-compose run api bash -c "pip freeze > requirements.lock"
+update-api-requirements:
+	docker-compose run requirements bash -c "pip install -U pip setuptools && pip install -U -r /app/api/requirements.txt && pip freeze > /app/api/requirements.lock"
+	docker-compose run requirements bash -c "pip install -U pip setuptools && pip install -U -r /app/api/requirements-dev.txt && pip freeze > /app/api/requirements-dev.lock"
 
 # -------------------------------------- Code Style  -------------------------------------
 
