@@ -10,6 +10,8 @@ from ellandi.registration.models import (
     User,
     UserSkill,
     WebError,
+    Profession,
+    Grade
 )
 
 
@@ -210,9 +212,25 @@ class TestLocationsEndpoint(TestDropDownList):
     model = Location
 
 
-class TestLanguagesEndpoint(APITestCase):
+class TestLanguagesEndpoint(TestDropDownList):
     __test__ = True
     name = "Bengali"
     slug = "bengali"
     endpoint = "/languages/"
     model = Language
+
+
+class TestProfessionsEndpoint(TestDropDownList):
+    __test__ = True
+    name = "Government Operational Research Service"
+    slug = "government-operational-research-service"
+    endpoint = "/professions/"
+    model = Profession
+
+
+class TestGradeEndpoint(TestDropDownList):
+    __test__ = True
+    name = "Grade 7"
+    slug = "grade-7"
+    endpoint = "/grades/"
+    model = Grade
