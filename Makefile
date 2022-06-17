@@ -56,6 +56,11 @@ npm-prepare: ## Check style and syntax with
 docker:  ## Run python app in a docker container
 	docker-compose up --build --force-recreate --renew-anon-volumes
 
+.PHONY: update-api-requirements
+update-requirements:
+	docker-compose build api
+	docker-compose run api bash -c "pip freeze > requirements.lock"
+
 # -------------------------------------- Code Style  -------------------------------------
 
 .PHONY: check-python-code
