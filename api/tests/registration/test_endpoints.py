@@ -15,6 +15,9 @@ from ellandi.registration.models import (
 )
 
 
+TEST_SERVER_URL = 'http://testserver:8000/"
+
+
 class TestUserEndpoint(APITestCase):
     def setUp(self):
         self.client = APIClient()
@@ -40,7 +43,7 @@ class TestUserEndpoint(APITestCase):
             email="jane@example.com", first_name="Jane", last_name="Green", organisation="DfE"
         )
         self.user_id = User.objects.get(email="jane@example.com").id
-        self.updated_user_data = {"email": "jane@example.com", "first_name": "Jane", "last_name": "Brown"}
+        self.updated_user_data = {"email": "jane@example.com", "first_name": "Jane", "last_name": "Brown", "profession": [f"{TEST_SERVER_URL}government-operational-research-service", f"{TEST_SERVER_URL}digital-data-and-technology-professions"]}
 
     def test_get(self):
         response = self.client.get("/users/")
@@ -83,12 +86,12 @@ class TestUserSkillsEndpoint(APITestCase):
         self.user_skill = UserSkill.objects.create(user=self.user, skill_name="Python", level="beginner")
         self.user_skill_id = UserSkill.objects.get(user__email=self.user.email, skill_name="Python").id
         self.user_skill_data = {
-            "user": f"http://testserver:8000/users/{self.user_id}/",
+            "user": f"{TEST_SERVER_URL}users/{self.user_id}/",
             "skill_name": "maths",
             "level": "proficient",
         }
         self.user_skill_data_updated = {
-            "user": f"http://testserver:8000/users/{self.user_id}/",
+            "user": f"{TEST_SERVER_URL}users/{self.user_id}/",
             "skill_name": "maths",
             "level": "beginner",
         }
