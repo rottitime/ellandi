@@ -25,7 +25,7 @@ class UserSkillViewSet(viewsets.ModelViewSet):
 
 class UserLanguageViewSet(viewsets.ModelViewSet):
     queryset = models.UserLanguage.objects.all().order_by("user")
-    serializer_class = serializers.UserLanguage
+    serializer_class = serializers.UserLanguageSerializer
 
 
 class OrganisationViewSet(viewsets.ReadOnlyModelViewSet):
