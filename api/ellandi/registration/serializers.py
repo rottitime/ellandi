@@ -3,9 +3,11 @@ from rest_framework import serializers
 
 from .models import (
     ContractType,
+    Grade,
     Language,
     Location,
     Organisation,
+    Profession,
     UserSkill,
     WebError,
 )
@@ -35,6 +37,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
             "country",
             "contract_type",
             "skills",
+            "privacy_policy_agreement",
         ]
 
 
@@ -73,4 +76,16 @@ class LocationSerializer(serializers.ModelSerializer):
 class LanguageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Language
+        fields = ["slug", "name"]
+
+
+class ProfessionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profession
+        fields = ["slug", "name"]
+
+
+class GradeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Grade
         fields = ["slug", "name"]

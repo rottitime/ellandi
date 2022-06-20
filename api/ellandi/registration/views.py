@@ -41,3 +41,13 @@ class LocationViewSet(viewsets.ReadOnlyModelViewSet):
 class LanguageViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Language.objects.all().order_by("name")
     serializer_class = serializers.LanguageSerializer
+
+
+class ProfessionViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.Profession.objects.all().order_by("name")
+    serializer_class = serializers.ProfessionSerializer
+
+
+class GradeViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.Grade.objects.all().order_by("name")
+    serializer_class = serializers.GradeSerializer
