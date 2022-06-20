@@ -153,6 +153,7 @@ class UserLanguage(TimeStampedModel):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, related_name="languages", on_delete=models.CASCADE)
     language = models.CharField(max_length=127, blank=True, null=False)
+    type = models.CharField(max_length=127, blank=True, null=False)  # eg reading, writing
     level = models.CharField(max_length=127, blank=True, null=False)
 
     class Meta:
