@@ -240,7 +240,7 @@ class TestGradesEndpoint(TestDropDownList):
 
 class TestLanguageSkillLevelEndpoint(TestDropDownList):
     __test__ = True
-    name = "Intermediate"
-    slug = "intermediate"
+    name = "Independent"
+    slug = "independent"
     endpoint = "/language-skill-levels/"
     model = Grade
