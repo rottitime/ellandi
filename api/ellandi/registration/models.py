@@ -8,6 +8,53 @@ from django.db import models
 from django.utils.text import slugify
 
 
+class DropDownListModel(models.Model):
+    """Base class for lists for drop-downs etc."""
+
+    name = models.CharField(max_length=127, blank=False, null=False)
+    slug = models.CharField(max_length=127, blank=False, null=False, primary_key=True)
+
+    def clean(self):
+        if self.slug:
+            raise ValidationError("Do not set slug field, this is automatically calculated.")
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        self.slug = slugify(self.name)
+        return super().save(*args, **kwargs)
+
+    class Meta:
+        abstract = True
+
+
+class Organisation(DropDownListModel):
+    pass
+
+
+class ContractType(DropDownListModel):
+    pass
+
+
+class Location(DropDownListModel):
+    pass
+
+
+class Language(DropDownListModel):
+    pass
+
+
+class Profession(DropDownListModel):
+    pass
+
+
+class Grade(DropDownListModel):
+    pass
+
+
+class LanguageSkillLevel(DropDownListModel):
+    pass
+
+
 class UserManager(BaseUserManager):
     use_in_migrations = True
 
@@ -59,6 +106,7 @@ class RegistrationAbstractUser(models.Model):
     organisation = models.CharField(max_length=128, blank=True, null=True)
     job_title = models.CharField(max_length=128, blank=True, null=True)
     grade = models.CharField(max_length=127, blank=True, null=False)
+    profession = models.ManyToManyField(Profession)
     contract_type = models.CharField(max_length=127, blank=True, null=False)
     line_manager_email = models.CharField(max_length=128, blank=True, null=True)
     country = models.CharField(max_length=128, blank=True, null=True)
@@ -120,50 +168,3 @@ class WebError(TimeStampedModel):
     file_name = models.CharField(max_length=1024, blank=False, null=True)
     line_number = models.IntegerField(blank=False, null=True)
     column_number = models.IntegerField(blank=False, null=True)
-
-
-class DropDownListModel(models.Model):
-    """Base class for lists for drop-downs etc."""
-
-    name = models.CharField(max_length=127, blank=False, null=False)
-    slug = models.CharField(max_length=127, blank=False, null=False, primary_key=True)
-
-    def clean(self):
-        if self.slug:
-            raise ValidationError("Do not set slug field, this is automatically calculated.")
-
-    def save(self, *args, **kwargs):
-        self.clean()
-        self.slug = slugify(self.name)
-        return super().save(*args, **kwargs)
-
-    class Meta:
-        abstract = True
-
-
-class Organisation(DropDownListModel):
-    pass
-
-
-class ContractType(DropDownListModel):
-    pass
-
-
-class Location(DropDownListModel):
-    pass
-
-
-class Language(DropDownListModel):
-    pass
-
-
-class Profession(DropDownListModel):
-    pass
-
-
-class Grade(DropDownListModel):
-    pass
-
-
-class LanguageSkillLevel(DropDownListModel):
-    pass
