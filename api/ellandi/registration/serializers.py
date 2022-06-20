@@ -90,7 +90,6 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
             "profession",
             "contract_type",
             "line_manager_email",
-            "country",
             "location",
             "skills",
             "languages",
