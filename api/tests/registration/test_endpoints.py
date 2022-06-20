@@ -28,6 +28,7 @@ class TestUserEndpoint(APITestCase):
             "line_manager_email": "line@example.com",
             "country": "Spain",
             "contract_type": "permanent",
+            "grade": "Grade 6",
             "privacy_policy_agreement": True,
         }
         self.data_incorrect = {
