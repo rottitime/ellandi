@@ -9,6 +9,7 @@ import { useSelect } from "_/hooks/useSelect";
 import { emailValidator } from "_/utilities/form";
 import { Option } from "baseui/select";
 import { CVUploader } from "_/partials/CVUploader";
+import { Grid } from "_/components/Grid";
 // import { usePassword } from "_/hooks/usePassword";
 
 const FIXME_ORGS: readonly Option[] = [
@@ -72,55 +73,60 @@ const Details = () => {
   });
 
   return (
-    <MenuLayout maxWidth={520}>
+    <MenuLayout>
       <h1 className="D-S">Your details</h1>
-      <h2 className="H-M">Personal details</h2>
-      {fullNameEl}
-      {primaryEmailAddressEl}
-      {secondaryEmailAddressEl}
-      <FormControl label="Password">
-        <Button>Change password</Button>
-      </FormControl>
-      <FormControl label="CV">
-        <CVUploader successFile={successFile} setSuccessFile={setSuccessFile} />
-      </FormControl>
-      <hr />
-      <h2 className="H-M">Job details</h2>
-      {organisationEl}
-      {jobTitleEl}
-      {lineManagerEmailEl}
-      {workLocationEl}
-      <FormControl label="Contact preference">
-        <Checkbox
-          labelPlacement="left"
-          checked={canBeContacted}
-          onChange={(event: ChangeEvent<HTMLInputElement>) => {
-            setCanBeContacted(event.target.checked);
-          }}
-          checkmarkType="toggle"
-          overrides={{
-            Toggle: {
-              style: {
-                background: "var(--mono100)",
-                border: "1px solid var(--mono400)",
-              },
-            },
-            Root: {
-              style: {
-                alignItems: "center",
-              },
-            },
-            Label: {
-              style: { flex: "1 1 1px" },
-            },
-          }}
-        >
-          <span className="P-XS">
-            In the event of an identified skills shortage or emergency, recruitment and HR
-            may contact me with an opportunity that matches my skills.
-          </span>
-        </Checkbox>
-      </FormControl>
+      <Grid gap={40} cellWidth={320} align="stretched">
+        <div className="rm-margin">
+          <h2 className="H-M">Personal details</h2>
+          {fullNameEl}
+          {primaryEmailAddressEl}
+          {secondaryEmailAddressEl}
+          <FormControl label="Password">
+            <Button>Change password</Button>
+          </FormControl>
+          <FormControl label="CV">
+            <CVUploader successFile={successFile} setSuccessFile={setSuccessFile} />
+          </FormControl>
+        </div>
+        <div className="rm-margin">
+          <h2 className="H-M">Job details</h2>
+          {organisationEl}
+          {jobTitleEl}
+          {lineManagerEmailEl}
+          {workLocationEl}
+          <FormControl label="Contact preference">
+            <Checkbox
+              labelPlacement="left"
+              checked={canBeContacted}
+              onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                setCanBeContacted(event.target.checked);
+              }}
+              checkmarkType="toggle"
+              overrides={{
+                Toggle: {
+                  style: {
+                    background: "var(--mono100)",
+                    border: "1px solid var(--mono400)",
+                  },
+                },
+                Root: {
+                  style: {
+                    alignItems: "center",
+                  },
+                },
+                Label: {
+                  style: { flex: "1 1 1px" },
+                },
+              }}
+            >
+              <span className="P-XS">
+                In the event of an identified skills shortage or emergency, recruitment
+                and HR may contact me with an opportunity that matches my skills.
+              </span>
+            </Checkbox>
+          </FormControl>
+        </div>
+      </Grid>
     </MenuLayout>
   );
 };

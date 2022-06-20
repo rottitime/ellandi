@@ -37,7 +37,7 @@ const Index = () => {
   ]);
 
   return (
-    <EmptyLayout maxWidth={700}>
+    <EmptyLayout maxWidth={760}>
       <h1 className="D-S">Languages</h1>
 
       <p>You can change these later from your profile.</p>
@@ -92,8 +92,9 @@ const LanguageSliderPair = ({
   setLanguageLevel: (level?: LanguageLevel) => void;
 }): JSX.Element => {
   return (
-    <div className="mv32">
+    <div className="mv32 rm-margin">
       <div
+        className="rm-margin"
         style={{
           display: "flex",
           alignItems: "center",
@@ -173,7 +174,7 @@ const LanguageSlider = ({
   setLanguageLevel: (level: LanguagePartLevel) => void;
 }): JSX.Element => {
   return (
-    <div>
+    <div className="rm-margin">
       <FormControl
         label={type === "speaking" ? "Speaking and listening" : "Writing and reading"}
       >

@@ -30,7 +30,7 @@ const Index = () => {
   const [checked, setChecked] = useDeepState<string[]>([]);
 
   return (
-    <EmptyLayout maxWidth={700}>
+    <EmptyLayout maxWidth={760}>
       <h1 className="D-S">Current skills</h1>
 
       <p>You can change these later from your profile.</p>
