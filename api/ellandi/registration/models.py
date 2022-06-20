@@ -65,10 +65,10 @@ class RegistrationAbstractUser(models.Model):
     organisation = models.CharField(max_length=128, blank=True, null=True)
     job_title = models.CharField(max_length=128, blank=True, null=True)
     grade = models.CharField(max_length=127, blank=True, null=True)
+    contract_type = models.CharField(max_length=128, choices=ContractTypes.choices, blank=True, null=True)
     line_manager_email = models.CharField(max_length=128, blank=True, null=True)
     country = models.CharField(max_length=128, blank=True, null=True)
     location = models.CharField(max_length=127, blank=True, null=True)
-    contract_type = models.CharField(max_length=128, choices=ContractTypes.choices, blank=True, null=True)
 
 
 class User(AbstractUser, TimeStampedModel, RegistrationAbstractUser):
