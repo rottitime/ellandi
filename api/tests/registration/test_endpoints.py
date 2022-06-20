@@ -14,8 +14,7 @@ from ellandi.registration.models import (
     WebError,
 )
 
-
-TEST_SERVER_URL = 'http://testserver:8000/"
+TEST_SERVER_URL = "http://testserver:8000/"
 
 
 class TestUserEndpoint(APITestCase):
@@ -43,7 +42,15 @@ class TestUserEndpoint(APITestCase):
             email="jane@example.com", first_name="Jane", last_name="Green", organisation="DfE"
         )
         self.user_id = User.objects.get(email="jane@example.com").id
-        self.updated_user_data = {"email": "jane@example.com", "first_name": "Jane", "last_name": "Brown", "profession": [f"{TEST_SERVER_URL}government-operational-research-service", f"{TEST_SERVER_URL}digital-data-and-technology-professions"]}
+        self.updated_user_data = {
+            "email": "jane@example.com",
+            "first_name": "Jane",
+            "last_name": "Brown",
+            "profession": [
+                f"{TEST_SERVER_URL}government-operational-research-service",
+                f"{TEST_SERVER_URL}digital-data-and-technology-professions",
+            ],
+        }
 
     def test_get(self):
         response = self.client.get("/users/")
