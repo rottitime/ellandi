@@ -6,20 +6,20 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('registration', '0013_auto_20220620_1113'),
+        ("registration", "0013_auto_20220620_1113"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='user',
-            name='grade',
-            field=models.CharField(blank=True, default='', max_length=127),
+            model_name="user",
+            name="grade",
+            field=models.CharField(blank=True, default="", max_length=127),
             preserve_default=False,
         ),
         migrations.AlterField(
-            model_name='user',
-            name='location',
-            field=models.CharField(blank=True, default='', max_length=127),
+            model_name="user",
+            name="location",
+            field=models.CharField(blank=True, default="", max_length=127),
             preserve_default=False,
         ),
     ]

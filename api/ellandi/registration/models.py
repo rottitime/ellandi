@@ -106,6 +106,18 @@ class UserSkill(TimeStampedModel):
         unique_together = ["user", "skill_name"]
 
 
+class UserLanguage(TimeStampedModel):
+    """Info on a particular language for a given user."""
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.ForeignKey(User, related_name="languages", on_delete=models.CASCADE)
+    language = models.CharField(max_length=127, blank=True, null=False)
+    level = models.CharField(max_length=127, blank=True, null=False)
+
+    class Meta:
+        unique_together = ["user", "language"]
+
+
 class WebError(TimeStampedModel):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     message = models.CharField(max_length=1024, blank=False, null=True)
