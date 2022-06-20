@@ -5,9 +5,11 @@ from .models import (
     ContractType,
     Grade,
     Language,
+    LanguageSkillLevel,
     Location,
     Organisation,
     Profession,
+    UserLanguage,
     UserSkill,
     WebError,
 )
@@ -19,11 +21,19 @@ class UserSkillSerializer(serializers.HyperlinkedModelSerializer):
         fields = ["id", "user", "skill_name", "level", "validated"]
 
 
+class UserLanguageSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = UserLanguage
+        fields = ["id", "user", "language", "level"]
+
+
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     skills = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name="userskill-detail")
+    languages = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name="userlanguage-detail")
 
     class Meta:
         skills = UserSkillSerializer(many=True, read_only=True)
+        languages = UserLanguageSerializer(many=True, read_only=True)
         model = get_user_model()
         fields = [
             "id",
@@ -31,6 +41,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
             "email",
             "first_name",
             "last_name",
+            "privacy_policy_agreement",
             "organisation",
             "job_title",
             "grade",
@@ -39,7 +50,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
             "country",
             "location",
             "skills",
-            "privacy_policy_agreement",
+            "languages",
         ]
 
 
@@ -90,4 +101,10 @@ class ProfessionSerializer(serializers.ModelSerializer):
 class GradeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Grade
+        fields = ["slug", "name"]
+
+
+class LanguageSkillLevelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LanguageSkillLevel
         fields = ["slug", "name"]

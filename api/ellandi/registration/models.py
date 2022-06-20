@@ -56,16 +56,10 @@ class RegistrationAbstractUser(models.Model):
     class Meta:
         abstract = True
 
-    class ContractTypes(models.TextChoices):
-        PERMANENT = ("permanent", "Permanent")
-        FIXED_TERM = ("fixed_term", "Fixed Term")
-        AGENCY = ("agency", "Agency")
-        OTHER = ("other", "Other")
-
     organisation = models.CharField(max_length=128, blank=True, null=True)
     job_title = models.CharField(max_length=128, blank=True, null=True)
     grade = models.CharField(max_length=127, blank=True, null=False)
-    contract_type = models.CharField(max_length=128, choices=ContractTypes.choices, blank=True, null=True)
+    contract_type = models.CharField(max_length=127, blank=True, null=False)
     line_manager_email = models.CharField(max_length=128, blank=True, null=True)
     country = models.CharField(max_length=128, blank=True, null=True)
     location = models.CharField(max_length=127, blank=True, null=False)
@@ -168,4 +162,8 @@ class Profession(DropDownListModel):
 
 
 class Grade(DropDownListModel):
+    pass
+
+
+class LanguageSkillLevel(DropDownListModel):
     pass
