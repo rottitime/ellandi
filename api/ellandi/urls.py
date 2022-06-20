@@ -10,15 +10,18 @@ from rest_framework import routers
 from ellandi.registration import views
 
 router = routers.DefaultRouter()
-router.register(r"users", views.UserViewSet)
-router.register(r"web-error", views.WebErrorViewSet)
-router.register(r"user-skills", views.UserSkillViewSet)
 router.register(r"organisations", views.OrganisationViewSet)
 router.register(r"contract-types", views.ContractTypeViewSet)
 router.register(r"locations", views.LocationViewSet)
 router.register(r"languages", views.LanguageViewSet)
 router.register(r"professions", views.ProfessionViewSet)
 router.register(r"grades", views.GradeViewSet)
+router.register(r"language-skill-levels", views.LanguageSkillLevelViewSet)
+router.register(r"users", views.UserViewSet)
+router.register(r"user-skills", views.UserSkillViewSet)
+router.register(r"user-languages", views.UserLanguageViewSet)
+router.register(r"web-error", views.WebErrorViewSet)
+
 
 api_urlpatterns = [
     path("", include(router.urls)),

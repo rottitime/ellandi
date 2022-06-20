@@ -15,6 +15,48 @@ from .models import (
 )
 
 
+class OrganisationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Organisation
+        fields = ["slug", "name"]
+
+
+class ContractTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ContractType
+        fields = ["slug", "name"]
+
+
+class LocationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Location
+        fields = ["slug", "name"]
+
+
+class LanguageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Language
+        fields = ["slug", "name"]
+
+
+class ProfessionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profession
+        fields = ["slug", "name"]
+
+
+class GradeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Grade
+        fields = ["slug", "name"]
+
+
+class LanguageSkillLevelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LanguageSkillLevel
+        fields = ["slug", "name"]
+
+
 class UserSkillSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = UserSkill
@@ -67,45 +109,3 @@ class WebErrorSerializer(serializers.ModelSerializer):
     class Meta:
         model = WebError
         fields = ["id", "message", "stack", "userAgent", "fileName", "lineNum", "colNum", "createdAt"]
-
-
-class OrganisationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Organisation
-        fields = ["slug", "name"]
-
-
-class ContractTypeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ContractType
-        fields = ["slug", "name"]
-
-
-class LocationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Location
-        fields = ["slug", "name"]
-
-
-class LanguageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Language
-        fields = ["slug", "name"]
-
-
-class ProfessionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Profession
-        fields = ["slug", "name"]
-
-
-class GradeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Grade
-        fields = ["slug", "name"]
-
-
-class LanguageSkillLevelSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = LanguageSkillLevel
-        fields = ["slug", "name"]

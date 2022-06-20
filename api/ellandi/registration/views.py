@@ -23,6 +23,11 @@ class UserSkillViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.UserSkillSerializer
 
 
+class UserLanguageViewSet(viewsets.ModelViewSet):
+    queryset = models.UserLanguage.objects.all().order_by("user")
+    serializer_class = serializers.UserLanguage
+
+
 class OrganisationViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Organisation.objects.all().order_by("name")
     serializer_class = serializers.OrganisationSerializer
@@ -51,3 +56,8 @@ class ProfessionViewSet(viewsets.ReadOnlyModelViewSet):
 class GradeViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Grade.objects.all().order_by("name")
     serializer_class = serializers.GradeSerializer
+
+
+class LanguageSkillLevelViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.LanguageSkillLevel.objects.all().order_by("name")
+    serializer_class = serializers.LanguageSkillLevelSerializer
