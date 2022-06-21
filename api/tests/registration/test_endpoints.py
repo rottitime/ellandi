@@ -48,8 +48,8 @@ class TestUserEndpoint(APITestCase):
             "first_name": "Jane",
             "last_name": "Brown",
             "profession": [
-                f"{TEST_SERVER_URL}professions/government-operational-research-service",
-                f"{TEST_SERVER_URL}professions/digital-data-and-technology-professions",
+                f"{TEST_SERVER_URL}professions/government-operational-research-service/",
+                f"{TEST_SERVER_URL}professions/digital-data-and-technology-professions/",
             ],
         }
 
