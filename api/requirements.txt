@@ -4,3 +4,5 @@ django-environ
 psycopg2
 watchdog[watchmedo]
 drf-spectacular
+jinja2
+git+https://github.com/alphagov/govuk-frontend-jinja.git
