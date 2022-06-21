@@ -66,7 +66,7 @@ class UserSkillSerializer(serializers.HyperlinkedModelSerializer):
 class UserLanguageSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = UserLanguage
-        fields = ["id", "user", "language", "level"]
+        fields = ["id", "user", "type", "language", "level"]
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
