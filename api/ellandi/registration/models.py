@@ -157,7 +157,7 @@ class UserLanguage(TimeStampedModel):
     level = models.CharField(max_length=127, blank=True, null=False)
 
     class Meta:
-        unique_together = ["user", "language"]
+        unique_together = ["user", "language", "type"]
 
 
 class WebError(TimeStampedModel):
