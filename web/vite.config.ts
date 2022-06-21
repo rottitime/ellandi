@@ -11,7 +11,7 @@ const frontEndHost = parseHost(ENV.VITE_FRONTEND_HOST);
 
 let proxyHost: string | false = false;
 try {
-  let proxyRootUrl = ENV.VITE_PROXY_ROOT_URL;
+  let proxyRootUrl = ENV.VITE_PROXY_ROOT_URL ?? "";
   while (proxyRootUrl.endsWith("/")) proxyRootUrl = proxyRootUrl.slice(0, -1);
   let parsedUrl = new URL(proxyRootUrl).href;
   while (parsedUrl.endsWith("/")) parsedUrl = parsedUrl.slice(0, -1);
