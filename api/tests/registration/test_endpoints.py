@@ -142,11 +142,13 @@ class TestUserLanguagesEndpoint(APITestCase):
             "user": f"{TEST_SERVER_URL}users/{self.user_id}/",
             "language": "Spanish",
             "level": "proficient",
+            "type": "reading",
         }
         self.user_language_data_updated = {
             "user": f"{TEST_SERVER_URL}users/{self.user_id}/",
-            "language": "French",
+            "language": "Spanish",
             "level": "beginner",
+            "type": "reading",
         }
 
     def test_get(self):
