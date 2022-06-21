@@ -2,7 +2,6 @@ from django.contrib.auth import get_user_model
 from rest_framework import routers, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from django.shortcuts import get_object_or_404
 
 from . import models, serializers
 
