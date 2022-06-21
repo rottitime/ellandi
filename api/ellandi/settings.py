@@ -55,6 +55,13 @@ ROOT_URLCONF = "ellandi.urls"
 
 TEMPLATES = [
     {
+        "BACKEND": "django.template.backends.jinja2.Jinja2",
+        "DIRS": [
+            BASE_DIR / "templates",
+        ],
+        "OPTIONS": {"environment": "ellandi.jinja2.environment"},
+    },
+    {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [],
         "APP_DIRS": True,
