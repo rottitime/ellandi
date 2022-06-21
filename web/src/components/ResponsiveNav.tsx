@@ -19,9 +19,6 @@ const NAV_ITEM_STYLES = {
   background: "transparent",
   color: "var(--mono100)",
 };
-// const ACTIVE_NAV_ITEM_STYLES = {
-//   background: "var(--mono300)",
-// };
 
 export const ResponsiveNav = ({
   children,
@@ -38,6 +35,8 @@ export const ResponsiveNav = ({
   const navigate = useNavigate();
   const [isSmall, setIsSmall] = useState(!isBigMQ.matches);
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
+
+  const BODY_WIDTH = 900;
 
   const mainContentPaddingClass = hasDefaultPadding
     ? `phx brx ${isSmall ? "pv32" : "pvx"}`
@@ -87,6 +86,7 @@ export const ResponsiveNav = ({
                   paddingBottom: 0,
                   borderBottomWidth: 0,
                   background: "var(--primary700)",
+                  boxShadow: "0 0 8px var(--primary700)",
                 },
               },
             }}
@@ -114,10 +114,19 @@ export const ResponsiveNav = ({
               <StyledNavigationItem>
                 <div ref={containerElRef}>
                   <Button
-                    kind="secondary"
                     shape="square"
                     onClick={() => {
                       setIsMobileNavOpen(true);
+                    }}
+                    overrides={{
+                      BaseButton: {
+                        style: {
+                          backgroundColor: "var(--primary500)",
+                          border: "2px solid var(--primary500)",
+                          height: "56px",
+                          width: "56px",
+                        },
+                      },
                     }}
                   >
                     <MenuIcon size={28} />
@@ -142,7 +151,7 @@ export const ResponsiveNav = ({
                       },
                       DrawerBody: {
                         style: {
-                          marginTop: "48px",
+                          marginTop: "56px",
                           marginLeft: 0,
                           marginRight: 0,
                           marginBottom: 0,
@@ -171,65 +180,69 @@ export const ResponsiveNav = ({
               </StyledNavigationItem>
             </StyledNavigationList>
           </HeaderNavigation>
-          <div className="rainbow" style={{ height: 3 }} />
         </div>
       ) : (
         <div
-          className="pvx"
           style={{
+            boxSizing: "content-box",
             width,
             height: "100vh",
             position: "fixed",
             zIndex: 998,
+            top: 0,
             left: 0,
+            paddingLeft: `calc(50vw - ${(width + BODY_WIDTH) / 2}px)`,
             overflowY: "auto",
           }}
         >
-          <div className="mb16">
-            <div
-              tabIndex={-1}
-              onClick={() => {
-                navigate(IS_DEMO ? "/" : "/skills");
-              }}
-              style={{
-                display: "inline-block",
-                padding: "24px 28px 24px",
-              }}
-            >
-              <img
-                src={getPublicURL("images/ellandi.svg")}
-                alt="Ellandi"
-                aria-label="Ellandi"
-                style={{ width: 200 }}
-              />
+          <div className="pvx">
+            <div className="mb16 pt4">
+              <div
+                tabIndex={-1}
+                onClick={() => {
+                  navigate(IS_DEMO ? "/" : "/skills");
+                }}
+                style={{
+                  display: "inline-block",
+                  padding: "24px 28px 24px",
+                }}
+              >
+                <img
+                  src={getPublicURL("images/ellandi.svg")}
+                  alt="Ellandi"
+                  aria-label="Ellandi"
+                  style={{ width: 170 }}
+                />
+              </div>
             </div>
-          </div>
-          <Navigation
-            items={items}
-            activeItemId={location.pathname}
-            onChange={({ event, item }) => {
-              event.preventDefault();
-              navigate(item.itemId);
-            }}
-            overrides={{
-              NavItem: {
-                style: {
-                  ...NAV_ITEM_STYLES,
+            <Navigation
+              items={items}
+              activeItemId={location.pathname}
+              onChange={({ event, item }) => {
+                event.preventDefault();
+                navigate(item.itemId);
+              }}
+              overrides={{
+                NavItem: {
+                  style: {
+                    ...NAV_ITEM_STYLES,
+                  },
                 },
-              },
-            }}
-          />
+              }}
+            />
+          </div>
         </div>
       )}
-      <div
+      <main
         style={{
-          flex: "0 0 auto",
+          flex: "1 0 auto",
           display: "flex",
+          justifyContent: "center",
           width: "100%",
           overflowY: "hidden",
           position: "relative",
           minHeight: "100vh",
-          paddingTop: 16 + (isSmall ? 48 + 3 : 0),
+          paddingTop: 16 + (isSmall ? 56 : 0),
           paddingLeft: 16,
           paddingBottom: 16,
           paddingRight: 16,
@@ -239,12 +252,13 @@ export const ResponsiveNav = ({
           className={mainContentPaddingClass}
           style={{
             width: "100%",
+            maxWidth: BODY_WIDTH,
             background: "var(--mono100)",
           }}
         >
           {children}
         </div>
-      </div>
+      </main>
     </div>
   );
 };

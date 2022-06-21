@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-restricted-imports */
 import { Button as BaseWebButton, ButtonProps } from "baseui/button";
+import { OverrideObject } from "baseui/helpers/overrides";
 export type { ButtonOverrides, CustomColorsT, ButtonProps } from "baseui/button";
 export {
   StyledBaseButton,
@@ -21,12 +22,15 @@ export const Button = ({ overrides, ...props }: ButtonProps | Readonly<ButtonPro
       overrides={{
         ...overrides,
         BaseButton: {
-          style: shouldChangeDefaultPadding
-            ? {
-                paddingLeft: "20px",
-                paddingRight: "20px",
-              }
-            : {},
+          style: {
+            ...(shouldChangeDefaultPadding
+              ? {
+                  paddingLeft: "20px",
+                  paddingRight: "20px",
+                }
+              : {}),
+            ...(overrides?.BaseButton as OverrideObject<ButtonProps>)?.style,
+          },
         },
         StartEnhancer: {
           style: {

@@ -61,7 +61,7 @@ export const MenuLayout = ({
   maxWidth?: number;
 }) => {
   return (
-    <ResponsiveNav width={220} items={MENU_ITEMS}>
+    <ResponsiveNav width={240} items={MENU_ITEMS}>
       <main className="mh-auto" style={{ maxWidth }}>
         <div className="rm-margin">{children}</div>
       </main>
