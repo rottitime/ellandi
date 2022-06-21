@@ -10,6 +10,7 @@ from ellandi.registration.models import (
     Organisation,
     Profession,
     User,
+    UserLanguage,
     UserSkill,
     WebError,
 )
@@ -47,8 +48,8 @@ class TestUserEndpoint(APITestCase):
             "first_name": "Jane",
             "last_name": "Brown",
             "profession": [
-                f"{TEST_SERVER_URL}government-operational-research-service",
-                f"{TEST_SERVER_URL}digital-data-and-technology-professions",
+                f"{TEST_SERVER_URL}professions/government-operational-research-service",
+                f"{TEST_SERVER_URL}professions/digital-data-and-technology-professions",
             ],
         }
 
@@ -126,6 +127,51 @@ class TestUserSkillsEndpoint(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         number_matching_user_skills = UserSkill.objects.filter(id=self.user_skill_id).count()
         self.assertEqual(number_matching_user_skills, 0)
+
+
+class TestUserLanguagesEndpoint(APITestCase):
+    def setUp(self):
+        self.client = APIClient()
+        self.user = User.objects.create(
+            email="jane@example.com", first_name="Jane", last_name="Green", organisation="DfE"
+        )
+        self.user_id = User.objects.get(email="jane@example.com").id
+        self.user_language = UserLanguage.objects.create(user=self.user, language="Italian", level="beginner")
+        self.user_language_id = UserLanguage.objects.get(user__email=self.user.email, language="Italian").id
+        self.user_language_data = {
+            "user": f"{TEST_SERVER_URL}users/{self.user_id}/",
+            "language": "Spanish",
+            "level": "proficient",
+        }
+        self.user_language_data_updated = {
+            "user": f"{TEST_SERVER_URL}users/{self.user_id}/",
+            "language": "French",
+            "level": "beginner",
+        }
+
+    def test_get(self):
+        response = self.client.get("/user-languages/")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_get_user_languages(self):
+        response = self.client.get(f"/user-languages/{self.user_language_id}/")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["language"], "Italian")
+
+    def test_post_user_languages(self):
+        response = self.client.post("/user-languages/", self.user_language_data)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_put_user_languages(self):
+        response = self.client.put(f"/user-languages/{self.user_language_id}/", self.user_language_data_updated)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["level"], "beginner")
+
+    def test_delete_user_languages(self):
+        response = self.client.delete(f"/user-languages/{self.user_language_id}/")
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        number_matching_user_langs = UserLanguage.objects.filter(id=self.user_language_id).count()
+        self.assertEqual(number_matching_user_langs, 0)
 
 
 class TestWebErrorEndpoint(APITestCase):
