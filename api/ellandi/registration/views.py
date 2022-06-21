@@ -1,5 +1,8 @@
 from django.contrib.auth import get_user_model
 from rest_framework import routers, viewsets
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from django.shortcuts import get_object_or_404
 
 from . import models, serializers
 
@@ -22,6 +25,12 @@ class UserViewSet(viewsets.ModelViewSet):
 
     queryset = get_user_model().objects.all().order_by("-created_at")
     serializer_class = serializers.UserSerializer
+
+    @action(detail=True, methods=["get"])
+    def skills(self, request, pk):
+        skills_qs = models.UserSkill.objects.filter(user__id=pk)
+        serializer = serializers.UserSkillSerializer(skills_qs, many=True, context={"request": request})
+        return Response(serializer.data)
 
 
 @register("web-error")
