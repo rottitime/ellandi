@@ -1,7 +1,5 @@
 {% from 'govuk_frontend_jinja/components/button/macro.html' import govukButton -%}
-
-{% from 'govuk_frontend_jinja/components/checkboxes/macro.njk' import govukCheckboxes %}
-
+{% from 'govuk_frontend_jinja/components/checkboxes/macro.html' import govukCheckboxes %}
 
 {% extends 'base.html' %}
 
@@ -22,8 +20,8 @@
     },
     'items': [
       {
-        value: 'privacy',
-        text: 'I agree to the privacy policy'
+        'value': 'privacy',
+        'text': 'I agree to the privacy policy'
       },
     ]
     }) }}
