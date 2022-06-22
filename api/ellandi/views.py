@@ -16,5 +16,10 @@ def page_view(request, page_num):
     return render(
         request,
         template_name=f"page{page_num}.html",
-        context={"grades": grades, "professions": professions, "contract_types": contract_types,"languages": languages,},
+        context={
+            "grades": grades,
+            "professions": professions,
+            "contract_types": contract_types,
+            "languages": languages,
+        },
     )
