@@ -5,26 +5,14 @@ from drf_spectacular.views import (
     SpectacularRedocView,
     SpectacularSwaggerView,
 )
-from rest_framework import routers
 
-from ellandi import registration, views
+from ellandi.registration.views import registration_router
+from ellandi import views
 
-router = routers.DefaultRouter()
-router.register(r"organisations", registration.views.OrganisationViewSet)
-router.register(r"contract-types", registration.views.ContractTypeViewSet)
-router.register(r"locations", registration.views.LocationViewSet)
-router.register(r"languages", registration.views.LanguageViewSet)
-router.register(r"professions", registration.views.ProfessionViewSet)
-router.register(r"grades", registration.views.GradeViewSet)
-router.register(r"language-skill-levels", registration.views.LanguageSkillLevelViewSet)
-router.register(r"users", registration.views.UserViewSet)
-router.register(r"user-skills", registration.views.UserSkillViewSet)
-router.register(r"user-languages", registration.views.UserLanguageViewSet)
-router.register(r"web-error", registration.views.WebErrorViewSet)
 
 
 api_urlpatterns = [
-    path("", include(router.urls)),
+    path("", include(registration_router.urls)),
     path("api-auth/", include("rest_framework.urls", namespace="rest_framework")),
 ]
 
