@@ -1,7 +1,14 @@
 import { FC, ReactNode } from "react";
 import { Item } from "baseui/side-navigation";
 import { ResponsiveNav } from "./ResponsiveNav";
-import { BackLink, Link, Page as GovPage, PhaseBanner, TopNav } from "govuk-react";
+import {
+  BackLink,
+  Footer,
+  Link,
+  Page as GovPage,
+  PhaseBanner,
+  TopNav,
+} from "govuk-react";
 
 type Props = {
   children: ReactNode;
@@ -11,6 +18,19 @@ type Props = {
 export const Layout: FC<Props> = ({ children, backLink = false }) => {
   return (
     <GovPage
+      footer={
+        <Footer
+          copyright={{
+            image: {
+              height: 102,
+              src: "/images/icon_crown.svg",
+              width: 125,
+            },
+            link: "https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/",
+            text: "Crown copyright",
+          }}
+        />
+      }
       header={
         <TopNav
           serviceTitle={
