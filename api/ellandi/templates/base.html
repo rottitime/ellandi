@@ -62,6 +62,14 @@
     </header>
 
     <div class="govuk-width-container ">
+      {% from "govuk_frontend_jinja/components/phase-banner/macro.html" import govukPhaseBanner %}
+      {{ govukPhaseBanner({
+        'tag': {
+          'text': "alpha"
+        },
+        'html': 'This is a new service – your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'
+        }) }}
+
       <main class="govuk-main-wrapper " id="main-content" role="main">
 
         <div class="govuk-grid-row">
