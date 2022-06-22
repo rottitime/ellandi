@@ -79,10 +79,10 @@ const Page = () => {
         </Table.Row>
       </Table>
 
-      <Paragraph>[Skip this step](/mock/page15)</Paragraph>
+      <Paragraph>[Skip this step](/mock/skills1)</Paragraph>
       <Button
         onClick={() => {
-          navigate("/mock/page15");
+          navigate("/mock/skills1");
         }}
       >
         continue
