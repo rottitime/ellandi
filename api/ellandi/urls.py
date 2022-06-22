@@ -5,26 +5,12 @@ from drf_spectacular.views import (
     SpectacularRedocView,
     SpectacularSwaggerView,
 )
-from rest_framework import routers
 
-from ellandi.registration import views
-
-router = routers.DefaultRouter()
-router.register(r"organisations", views.OrganisationViewSet)
-router.register(r"contract-types", views.ContractTypeViewSet)
-router.register(r"locations", views.LocationViewSet)
-router.register(r"languages", views.LanguageViewSet)
-router.register(r"professions", views.ProfessionViewSet)
-router.register(r"grades", views.GradeViewSet)
-router.register(r"language-skill-levels", views.LanguageSkillLevelViewSet)
-router.register(r"users", views.UserViewSet)
-router.register(r"user-skills", views.UserSkillViewSet)
-router.register(r"user-languages", views.UserLanguageViewSet)
-router.register(r"web-error", views.WebErrorViewSet)
-
+from ellandi import views
+from ellandi.registration.views import registration_router
 
 api_urlpatterns = [
-    path("", include(router.urls)),
+    path("", include(registration_router.urls)),
     path("api-auth/", include("rest_framework.urls", namespace="rest_framework")),
 ]
 
@@ -38,4 +24,8 @@ admin_urlpatterns = [
     path("admin/", admin.site.urls),
 ]
 
-urlpatterns = api_urlpatterns + admin_urlpatterns + schema_urlpatterns
+page_urlpatterns = [
+    path("page/<int:page_num>", views.page_view),
+]
+
+urlpatterns = api_urlpatterns + admin_urlpatterns + schema_urlpatterns + page_urlpatterns

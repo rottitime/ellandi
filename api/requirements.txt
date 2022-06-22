@@ -4,3 +4,6 @@ django-environ
 psycopg2
 watchdog[watchmedo]
 drf-spectacular
+jinja2
+govuk-frontend-jinja
+whitenoise
