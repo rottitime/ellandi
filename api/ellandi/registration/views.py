@@ -48,7 +48,7 @@ class OrganisationViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = serializers.OrganisationSerializer
 
 
-@register("contract-type")
+@register("contract-types")
 class ContractTypeViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.ContractType.objects.all().order_by("name")
     serializer_class = serializers.ContractTypeSerializer
