@@ -1,5 +1,6 @@
 import { EmptyLayout } from "_/components/Layouts";
 import { Link } from "_/components/Link";
+import { Button } from "govuk-react";
 
 const Index = () => {
   return (
@@ -11,6 +12,8 @@ const Index = () => {
       </p>
 
       <h3>Example email</h3>
+
+      <Button>dededee</Button>
       <div
         className="p16"
         style={{

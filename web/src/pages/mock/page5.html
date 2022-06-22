@@ -1,0 +1,12 @@
+{% from 'govuk_frontend_jinja/components/button/macro.html' import govukButton %} {% from
+'govuk_frontend_jinja/components/input/macro.html' import govukInput %} {% from
+'govuk_frontend_jinja/components/fieldset/macro.html' import govukFieldset %} {% extends
+"base.html" %} {% block content %} {% call govukFieldset({ 'legend': { 'text': "Create an
+account - Your details", 'isPageHeading': true, 'classes': "govuk-fieldset__legend--l", }
+}) %} {{ govukInput({ 'label': { 'text': 'Full name' }, 'id': 'full_name', 'name':
+'full_name', }) }} {{ govukInput({ 'label': { 'text': 'Organisation' }, 'id':
+'organisation', 'name': 'organisation', }) }} {{ govukInput({ 'label': { 'text': 'Job
+title' }, 'id': 'job_title', 'name': 'job_title', }) }} {{ govukInput({ 'label': { 'text':
+'Line manager email' }, 'id': 'line_manager_email', 'name': 'line_manager_email', }) }} {%
+endcall %} {{ govukButton({'text': 'Continue', 'href': '/page/6'}) }} {% endblock content
+%}

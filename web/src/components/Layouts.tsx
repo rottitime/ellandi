@@ -1,6 +1,47 @@
-import { ReactNode } from "react";
+import { FC, ReactNode } from "react";
 import { Item } from "baseui/side-navigation";
 import { ResponsiveNav } from "./ResponsiveNav";
+import { BackLink, Link, Page as GovPage, PhaseBanner, TopNav } from "govuk-react";
+
+type Props = {
+  children: ReactNode;
+  backLink?: boolean;
+};
+
+export const Layout: FC<Props> = ({ children, backLink = false }) => {
+  return (
+    <GovPage
+      header={
+        <TopNav
+          serviceTitle={
+            <TopNav.NavLink href="https://example.com" target="new">
+              Civil Service Skills &amp; Learning
+            </TopNav.NavLink>
+          }
+        />
+      }
+      beforeChildren={
+        backLink && (
+          <>
+            <PhaseBanner level="alpha">
+              This part of GOV.UK is being rebuilt –{" "}
+              <Link href="https://example.com">find out what that means</Link>
+            </PhaseBanner>
+            <BackLink
+              onClick={() => {
+                return history.back();
+              }}
+            >
+              Back
+            </BackLink>
+          </>
+        )
+      }
+    >
+      {children}
+    </GovPage>
+  );
+};
 
 /* Empty Page (No Nav) */
 export const EmptyLayout = ({

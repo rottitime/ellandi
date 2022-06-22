@@ -15,11 +15,11 @@ import { EmptyLayout, MenuLayout } from "_/components/Layouts";
 import { Spinner } from "baseui/spinner";
 import routes from "~react-pages";
 import "_/styles/reset.css";
-import "_/styles/tags.css";
-import "_/styles/typography.css";
-import "_/styles/spacing-defaults.css";
-import "_/styles/spacing-scale.css";
-import "_/styles/custom.css";
+// import "_/styles/tags.css";
+// import "_/styles/typography.css";
+// import "_/styles/spacing-defaults.css";
+// import "_/styles/spacing-scale.css";
+// import "_/styles/custom.css";
 
 // Make baseweb primitives available as CSS properties
 const styleEl = document.createElement("style");
