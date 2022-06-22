@@ -1,5 +1,6 @@
 import {
   Button,
+  FormGroup,
   Heading,
   HintText,
   InputField,
@@ -23,13 +24,16 @@ const Page = () => {
         relevant to you
       </HintText>
       <Heading size="MEDIUM">Language one</Heading>
-      <InputField
-        input={{
-          name: "group0",
-        }}
-      >
-        Select a language:
-      </InputField>
+
+      <FormGroup>
+        <InputField
+          input={{
+            name: "group0",
+          }}
+        >
+          Select a language:
+        </InputField>
+      </FormGroup>
       <Paragraph>Speaking</Paragraph>
       <Paragraph>Set a proficiency level for speaking:</Paragraph>
       <Radio

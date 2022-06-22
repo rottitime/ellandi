@@ -1,4 +1,4 @@
-import { Button, Heading, HintText, InputField, Paragraph } from "govuk-react";
+import { Button, FormGroup, Heading, HintText, InputField, Paragraph } from "govuk-react";
 import { Layout } from "_/components/Layouts";
 import { useNavigate } from "react-router-dom";
 
@@ -11,21 +11,24 @@ const Page = () => {
 
       <Heading size={"MEDIUM"}>Enter your email address</Heading>
 
-      <InputField
-        input={{
-          name: "group0",
-        }}
-      >
-        Email address
-      </InputField>
-
-      <InputField
-        input={{
-          name: "group0",
-        }}
-      >
-        Confirm your email address
-      </InputField>
+      <FormGroup>
+        <InputField
+          input={{
+            name: "group0",
+          }}
+        >
+          Email address
+        </InputField>
+      </FormGroup>
+      <FormGroup>
+        <InputField
+          input={{
+            name: "group0",
+          }}
+        >
+          Confirm your email address
+        </InputField>
+      </FormGroup>
 
       <Heading size={"MEDIUM"}>Create a password</Heading>
 
@@ -37,21 +40,25 @@ const Page = () => {
         address
       </HintText>
 
-      <InputField
-        input={{
-          name: "group0",
-        }}
-      >
-        Password
-      </InputField>
+      <FormGroup>
+        <InputField
+          input={{
+            name: "group0",
+          }}
+        >
+          Password
+        </InputField>
+      </FormGroup>
 
-      <InputField
-        input={{
-          name: "group0",
-        }}
-      >
-        Confirm your password
-      </InputField>
+      <FormGroup>
+        <InputField
+          input={{
+            name: "group0",
+          }}
+        >
+          Confirm your password
+        </InputField>
+      </FormGroup>
 
       <Button
         onClick={() => {

@@ -1,4 +1,4 @@
-import { Button, Heading, Link, Table, Tabs } from "govuk-react";
+import { Button, Heading, LabelText, Link, Select, Table, Tabs } from "govuk-react";
 import { Layout } from "_/components/Layouts";
 import styled from "styled-components";
 import { useState } from "react";
@@ -179,7 +179,86 @@ const Page = () => {
         </Tabs.Panel>
 
         <Tabs.Panel id="2" selected={tabIndex === 2}>
-          <Heading size="LARGE">2</Heading>
+          <Heading size="LARGE">
+            <IconSkills src="/images/skills.svg" />
+            Skills you’d like to develop
+          </Heading>
+
+          <label>
+            <LabelText>
+              Order by:
+              <Select label="">
+                <option value="0">Most recent</option>
+              </Select>
+            </LabelText>
+          </label>
+
+          <Table
+            head={
+              <Table.Row>
+                <Table.CellHeader>Skill</Table.CellHeader>
+                <Table.CellHeader>&nbsp;</Table.CellHeader>
+              </Table.Row>
+            }
+          >
+            <Table.Row>
+              <Cell>
+                <Link href="#">Collaboration</Link>
+              </Cell>
+              <Cell>
+                <Link href="#">Remove</Link>
+              </Cell>
+            </Table.Row>
+            <Table.Row>
+              <Cell>
+                <Link href="#">Customer service</Link>
+              </Cell>
+              <Cell>
+                <Link href="#">Remove</Link>
+              </Cell>
+            </Table.Row>
+            <Table.Row>
+              <Cell>
+                <Link href="#">Health and wellbeing</Link>
+              </Cell>
+              <Cell>
+                <Link href="#">Remove</Link>
+              </Cell>
+            </Table.Row>
+            <Table.Row>
+              <Cell>
+                <Link href="#">Independence</Link>
+              </Cell>
+              <Cell>
+                <Link href="#">Remove</Link>
+              </Cell>
+            </Table.Row>
+            <Table.Row>
+              <Cell>
+                <Link href="#">Job coaching</Link>
+              </Cell>
+              <Cell>
+                <Link href="#">Remove</Link>
+              </Cell>
+            </Table.Row>
+            <Table.Row>
+              <Cell>
+                <Link href="#">Market research</Link>
+              </Cell>
+              <Cell>
+                <Link href="#">Remove</Link>
+              </Cell>
+            </Table.Row>
+            <Table.Row>
+              <Cell>
+                <Link href="#">Risk management</Link>
+              </Cell>
+              <Cell>
+                <Link href="#">Remove</Link>
+              </Cell>
+            </Table.Row>
+          </Table>
+          <Link href="#">Add a skill</Link>
         </Tabs.Panel>
       </Tabs>
     </Layout>
