@@ -7,7 +7,7 @@ from drf_spectacular.views import (
 )
 from rest_framework import routers
 
-from ellandi import registration
+from ellandi import registration, views
 
 router = routers.DefaultRouter()
 router.register(r"organisations", registration.views.OrganisationViewSet)
@@ -38,4 +38,8 @@ admin_urlpatterns = [
     path("admin/", admin.site.urls),
 ]
 
-urlpatterns = api_urlpatterns + admin_urlpatterns + schema_urlpatterns
+page_urlpatterns = [
+    path("page/<int:page_num>", views.page_view),
+]
+
+urlpatterns = api_urlpatterns + admin_urlpatterns + schema_urlpatterns + page_urlpatterns
