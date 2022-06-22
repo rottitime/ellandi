@@ -35,4 +35,5 @@ tomli==2.0.1
 typing_extensions==4.2.0
 uritemplate==4.1.1
 watchdog==2.1.9
+whitenoise==6.2.0
 zipp==3.8.0
