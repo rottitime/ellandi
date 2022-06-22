@@ -7,20 +7,20 @@ from drf_spectacular.views import (
 )
 from rest_framework import routers
 
-from ellandi.registration import views
+from ellandi import registration
 
 router = routers.DefaultRouter()
-router.register(r"organisations", views.OrganisationViewSet)
-router.register(r"contract-types", views.ContractTypeViewSet)
-router.register(r"locations", views.LocationViewSet)
-router.register(r"languages", views.LanguageViewSet)
-router.register(r"professions", views.ProfessionViewSet)
-router.register(r"grades", views.GradeViewSet)
-router.register(r"language-skill-levels", views.LanguageSkillLevelViewSet)
-router.register(r"users", views.UserViewSet)
-router.register(r"user-skills", views.UserSkillViewSet)
-router.register(r"user-languages", views.UserLanguageViewSet)
-router.register(r"web-error", views.WebErrorViewSet)
+router.register(r"organisations", registration.views.OrganisationViewSet)
+router.register(r"contract-types", registration.views.ContractTypeViewSet)
+router.register(r"locations", registration.views.LocationViewSet)
+router.register(r"languages", registration.views.LanguageViewSet)
+router.register(r"professions", registration.views.ProfessionViewSet)
+router.register(r"grades", registration.views.GradeViewSet)
+router.register(r"language-skill-levels", registration.views.LanguageSkillLevelViewSet)
+router.register(r"users", registration.views.UserViewSet)
+router.register(r"user-skills", registration.views.UserSkillViewSet)
+router.register(r"user-languages", registration.views.UserLanguageViewSet)
+router.register(r"web-error", registration.views.WebErrorViewSet)
 
 
 api_urlpatterns = [
