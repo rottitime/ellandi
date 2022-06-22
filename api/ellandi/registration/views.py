@@ -1,8 +1,7 @@
 from django.contrib.auth import get_user_model
-from rest_framework import viewsets, routers
+from rest_framework import routers, viewsets
 
 from . import models, serializers
-
 
 registration_router = routers.DefaultRouter()
 
@@ -11,6 +10,7 @@ def register(name):
     def _inner(cls):
         registration_router.register(name, cls)
         return cls
+
     return _inner
 
 

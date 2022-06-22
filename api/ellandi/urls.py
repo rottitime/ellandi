@@ -6,10 +6,8 @@ from drf_spectacular.views import (
     SpectacularSwaggerView,
 )
 
-from ellandi.registration.views import registration_router
 from ellandi import views
-
-
+from ellandi.registration.views import registration_router
 
 api_urlpatterns = [
     path("", include(registration_router.urls)),
