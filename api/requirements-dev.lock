@@ -10,7 +10,7 @@ flake8==4.0.1
 flake8-blind-except==0.2.1
 flake8-isort==4.1.1
 flake8-print==5.0.0
-govuk-frontend-jinja @ git+https://github.com/alphagov/govuk-frontend-jinja.git@ddbe208a976ffa4ca330881c506c5200dfa69851
+govuk-frontend-jinja==2.2.0
 importlib-resources==5.8.0
 inflection==0.5.1
 isort==5.10.1
