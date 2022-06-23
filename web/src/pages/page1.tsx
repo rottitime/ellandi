@@ -1,5 +1,6 @@
-import { Heading, Link } from 'govuk-react'
+import { Heading } from 'govuk-react'
 import Layout from '../components/Layout'
+import Link from '../components/Link'
 import Paragraph from '../components/P'
 
 const Page = () => {
@@ -15,7 +16,7 @@ const Page = () => {
       </Paragraph>
 
       <Paragraph>
-        <Link href="/mock/page2">
+        <Link href="/page2">
           http://skills.civilservice.gov.uk/signup/123AbcDefgh1238910ABCdefghk
         </Link>
       </Paragraph>

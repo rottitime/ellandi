@@ -23,13 +23,13 @@ const Page = () => {
         <ListItem>help you plan the next steps in your career</ListItem>
         <ListItem>facilitate discussions about skills with your line manager</ListItem>
       </UnorderedList>
-      <Paragraph>Registering takes around 5 -10 minutes.</Paragraph>
+      <Paragraph>Registering takes around 5 -10a minutes.</Paragraph>
 
       <Button
         icon={<ButtonArrow />}
         start
         onClick={() => {
-          navigate('/mock/page3')
+          navigate('/page3')
         }}
       >
         Start now

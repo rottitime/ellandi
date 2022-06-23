@@ -32,7 +32,7 @@ const Page = () => {
 
       <Button
         onClick={() => {
-          navigate('/mock/page7')
+          navigate('/page7')
         }}
       >
         Continue

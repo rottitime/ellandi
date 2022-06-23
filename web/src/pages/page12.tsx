@@ -52,7 +52,7 @@ const Page = () => {
       <Paragraph>[Skip this step](/mock/page13)</Paragraph>
       <Button
         onClick={() => {
-          navigate('/mock/page13')
+          navigate('/page13')
         }}
       >
         continue

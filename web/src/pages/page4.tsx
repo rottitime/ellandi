@@ -9,11 +9,10 @@ const Page = () => {
       <Heading>Create an account - Privacy policy</Heading>
       <Paragraph>[Privacy policy (opens in a new tab)](#)</Paragraph>
       <Checkbox>I agree to the privacy policy</Checkbox>
-      <img src="/images/captcha.png" alt="captcha" />
 
       <Button
         onClick={() => {
-          navigate('/mock/page5')
+          navigate('/page5')
         }}
       >
         continue

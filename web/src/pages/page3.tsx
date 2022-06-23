@@ -62,7 +62,7 @@ const Page = () => {
 
       <Button
         onClick={() => {
-          navigate('/mock/page4')
+          navigate('/page4')
         }}
       >
         continue

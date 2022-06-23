@@ -9,7 +9,7 @@ const Page = () => {
       <Heading size="LARGE">Create an account - Current contract type</Heading>
       <LeadParagraph>Select your contract type. You can only choose one</LeadParagraph>
       <HintText>
-        We’ll use this to suggest learning and career development opportunities that are
+        We'll use this to suggest learning and career development opportunities that are
         relevant to you
       </HintText>
       <Radio name="group1">Yes</Radio>
@@ -17,7 +17,7 @@ const Page = () => {
 
       <Button
         onClick={() => {
-          navigate('/mock/page11')
+          navigate('/page11')
         }}
       >
         Continue

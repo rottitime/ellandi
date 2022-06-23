@@ -22,10 +22,6 @@ const App = () => (
     <Routes>
       <Route path="/home1" element={<Home1Page />} />
       <Route path="/" element={<Page1Page />} />
-      <Route path="/page1" element={<Page10Page />} />
-      <Route path="/page1" element={<Page11Page />} />
-      <Route path="/page1" element={<Page12Page />} />
-      <Route path="/page1" element={<Page13Page />} />
       <Route path="/page2" element={<Page2Page />} />
       <Route path="/page3" element={<Page3Page />} />
       <Route path="/page4" element={<Page4Page />} />
@@ -34,6 +30,10 @@ const App = () => (
       <Route path="/page7" element={<Page7Page />} />
       <Route path="/page8" element={<Page8Page />} />
       <Route path="/page9" element={<Page9Page />} />
+      <Route path="/page10" element={<Page10Page />} />
+      <Route path="/page11" element={<Page11Page />} />
+      <Route path="/page12" element={<Page12Page />} />
+      <Route path="/page13" element={<Page13Page />} />
       <Route path="/skill" element={<Skills1Page />} />
     </Routes>
   </>
