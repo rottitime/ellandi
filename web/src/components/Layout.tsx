@@ -29,7 +29,11 @@ const Layout: FC<Props> = ({ children, backLink = false }) => {
               Civil Service Skills &amp; Learning
             </TopNav.NavLink>
           }
-        />
+        >
+          <TopNav.NavLink href="/home">Home</TopNav.NavLink>
+          <TopNav.NavLink href="/">Register</TopNav.NavLink>
+          <TopNav.NavLink href="/skills">Skills</TopNav.NavLink>
+        </TopNav>
       }
       beforeChildren={
         backLink && (

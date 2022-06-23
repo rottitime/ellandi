@@ -20,7 +20,7 @@ const App = () => (
   <>
     <GlobalStyle />
     <Routes>
-      <Route path="/home1" element={<Home1Page />} />
+      <Route path="/home" element={<Home1Page />} />
       <Route path="/" element={<Page1Page />} />
       <Route path="/page2" element={<Page2Page />} />
       <Route path="/page3" element={<Page3Page />} />
@@ -34,7 +34,7 @@ const App = () => (
       <Route path="/page11" element={<Page11Page />} />
       <Route path="/page12" element={<Page12Page />} />
       <Route path="/page13" element={<Page13Page />} />
-      <Route path="/skill" element={<Skills1Page />} />
+      <Route path="/skills" element={<Skills1Page />} />
     </Routes>
   </>
 )
