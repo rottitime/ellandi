@@ -1,10 +1,7 @@
 {% from 'govuk_frontend_jinja/components/button/macro.html' import govukButton %}
 {% from 'govuk_frontend_jinja/components/checkboxes/macro.html' import govukCheckboxes %}
-
 {% extends 'base.html' %}
-
 {% block content %}
-
   {{ govukCheckboxes({
     'idPrefix': 'grade',
     'name': 'grade',
@@ -18,10 +15,8 @@
     'hint': {'text': 'We will use this to suggest learning and career development opportunites that are relevant to you'},
     'items': professions
     }) }}
-
-  <p class="govuk-body"><a href="/page/8">Skip this step</a></p>
-
-
+  <p class="govuk-body">
+    <a href="/page/8">Skip this step</a>
+  </p>
   {{ govukButton({'text': 'Continue', 'href': '/page/8'}) }}
-
 {% endblock content %}
