@@ -20,8 +20,8 @@ export const parseHost = (
     console.error(`${host} is not a complete/valid host url`);
     throw error;
   }
-  const port =
-    Number.parseInt(url.port || (url.protocol === "https:" ? "443" : "80")) || 80;
+  //const port = Number.parseInt(url.port || (url.protocol === "https:" ? "443" : "80")) || 80;
+  const port = 3001;
 
   if (ensureNoPath && url.pathname !== "/") {
     throw new Error(`${host} must not include a path`);
