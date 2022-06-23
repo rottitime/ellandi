@@ -1,19 +1,18 @@
 import Head from 'next/head'
-import Image from 'next/image'
 import Link from 'next/link'
 import { FC, ReactNode } from 'react'
+import { BackLink, Footer, Page as GovPage, PhaseBanner, TopNav } from 'govuk-react'
 
-const name = 'Your Name'
-export const siteTitle = 'Next.js Sample Website'
+export const siteTitle = 'Civil Service Skills & Learning'
 
 type Props = {
-  home: boolean
   children: ReactNode
+  backLink?: boolean
 }
 
-const Layout: FC<Props> = ({ children, home = false }) => {
+const Layout: FC<Props> = ({ children, backLink = false }) => {
   return (
-    <div>
+    <>
       <Head>
         <link rel="icon" href="/favicon.ico" />
         <meta
@@ -28,50 +27,63 @@ const Layout: FC<Props> = ({ children, home = false }) => {
         />
         <meta name="og:title" content={siteTitle} />
         <meta name="twitter:card" content="summary_large_image" />
-        <title>LAYOUT</title>
+        <title>{siteTitle}</title>
       </Head>
-      <header>
-        {home ? (
-          <>
-            <Image
-              priority
-              src="/images/profile.jpg"
-              height={144}
-              width={144}
-              alt={name}
-            />
-            <h1>{name}</h1>
-          </>
-        ) : (
-          <>
-            <Link href="/">
-              <a>
-                <Image
-                  priority
-                  src="/images/profile.jpg"
-                  height={108}
-                  width={108}
-                  alt={name}
-                />
-              </a>
+
+      <GovPage
+        footer={
+          <Footer
+            copyright={{
+              image: {
+                height: 102,
+                src: '/images/icon_crown.svg',
+                width: 125
+              },
+              link: 'https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/',
+              text: 'Crown copyright'
+            }}
+          />
+        }
+        header={
+          <TopNav
+            serviceTitle={
+              <TopNav.NavLink href="https://example.com" target="new">
+                Civil Service Skills &amp; Learning
+              </TopNav.NavLink>
+            }
+          >
+            <Link href="/" passHref>
+              <TopNav.NavLink>Home</TopNav.NavLink>
             </Link>
-            <h2>
-              <Link href="/">
-                <a>{name}</a>
-              </Link>
-            </h2>
-          </>
-        )}
-      </header>
-      <main>{children}</main>
-      {!home && (
-        <div>
-          <Link href="/">
-            <a>← Back to home</a>
-          </Link>
-        </div>
-      )}
-    </div>
+            <Link href="/register" passHref>
+              <TopNav.NavLink>Register</TopNav.NavLink>
+            </Link>
+            <Link href="/skills" passHref>
+              <TopNav.NavLink>Skills</TopNav.NavLink>
+            </Link>
+          </TopNav>
+        }
+        beforeChildren={
+          backLink && (
+            <>
+              <PhaseBanner level="alpha">
+                This part of GOV.UK is being rebuilt –{' '}
+                <Link href="https://example.com">find out what that means</Link>
+              </PhaseBanner>
+              <BackLink
+                onClick={() => {
+                  return history.back()
+                }}
+              >
+                Back
+              </BackLink>
+            </>
+          )
+        }
+      >
+        <main>{children}</main>
+      </GovPage>
+    </>
   )
 }
 
