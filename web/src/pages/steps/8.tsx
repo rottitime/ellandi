@@ -30,7 +30,7 @@ const Index = () => {
   const [checked, setChecked] = useDeepState<string[]>([]);
 
   return (
-    <EmptyLayout maxWidth={700}>
+    <EmptyLayout maxWidth={760}>
       <h1 className="D-S">Current skills</h1>
 
       <p>You can change these later from your profile.</p>
@@ -51,9 +51,7 @@ const Index = () => {
                 shape="pill"
                 size="compact"
                 kind={isChecked ? "primary" : "secondary"}
-                startEnhancer={
-                  isChecked ? <CheckIcon size="1em" style={{ marginRight: -8 }} /> : null
-                }
+                startEnhancer={isChecked ? <CheckIcon size="1em" /> : null}
                 onClick={() => {
                   if (isChecked) {
                     setChecked(

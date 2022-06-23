@@ -1,5 +1,5 @@
 import React, { ReactNode, Suspense, useEffect, useState } from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import {
   BrowserRouter as Router,
   Navigate,
@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import { Client as Styletron } from "styletron-engine-monolithic";
 import { Provider as StyletronProvider } from "styletron-react";
+import { SWRConfig } from "swr";
 import { BaseProvider } from "baseui";
 import { theme, primitives } from "_/theme";
 import { EmptyLayout, MenuLayout } from "_/components/Layouts";
@@ -52,11 +53,13 @@ const AppWrappers = ({ children }: { children?: ReactNode }) => {
     <StyletronProvider value={engine}>
       {/* Enables baseweb theme logic */}
       <BaseProvider theme={theme}>
-        {/* Opt-out of legacy React nonsense */}
-        <React.StrictMode>
-          {/* Enables react-router logic */}
-          <Router>{children}</Router>
-        </React.StrictMode>
+        <SWRConfig>
+          {/* Opt-out of legacy React nonsense */}
+          <React.StrictMode>
+            {/* Enables react-router logic */}
+            <Router>{children}</Router>
+          </React.StrictMode>
+        </SWRConfig>
       </BaseProvider>
     </StyletronProvider>
   );
@@ -97,9 +100,14 @@ const App = () => {
   );
 };
 
-ReactDOM.render(
-  <AppWrappers>
-    <App />
-  </AppWrappers>,
-  document.querySelector("#root")
-);
+const rootElement = document.querySelector("#root");
+
+if (rootElement !== null) {
+  createRoot(rootElement).render(
+    <AppWrappers>
+      <App />
+    </AppWrappers>
+  );
+} else {
+  throw new Error("Could not find div#root element");
+}

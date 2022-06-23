@@ -52,3 +52,22 @@ services:
     depends_on:
       - web
     entrypoint: /entrypoint.sh
+    profiles:
+      - testing
+
+  tests:
+    build:
+      context: .
+      dockerfile: ./docker/tests/Dockerfile
+    image: ellandi_tests
+    env_file:
+      - ./.envs/tests
+    profiles:
+      - testing
+
+  requirements:
+    image: python:3.8-buster
+    profiles:
+      - utils
+    volumes:
+      - ./:/app/:z

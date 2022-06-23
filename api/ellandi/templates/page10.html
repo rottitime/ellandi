@@ -1,0 +1,10 @@
+{% from 'govuk_frontend_jinja/components/button/macro.html' import govukButton %}
+{% from "govuk_frontend_jinja/components/panel/macro.html" import govukPanel %}
+{% extends "base.html" %}
+{% block content %}
+  {{ govukPanel({
+  'titleText': "Thank you for completing your details",
+  'text': "We're now going to ask about your skills"
+  }) }}
+  {{ govukButton({'text': 'Continue', 'href': '/page/11'}) }}
+{% endblock content %}

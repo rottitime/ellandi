@@ -1,0 +1,20 @@
+Birmingham
+Bristol
+Cambridge
+Cardiff
+Edinburgh
+Glasgow
+Hampshire
+Leeds
+Liverpool
+London
+Manchester
+Salford
+Milton Keynes
+Newcastle
+Norwich
+Nottingham
+Sheffield
+York
+Remote (UK)
+Other

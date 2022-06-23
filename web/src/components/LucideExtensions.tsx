@@ -23,3 +23,56 @@ export const NotVerified = ({
     </svg>
   );
 };
+
+export const RainbowMenu = ({
+  size = 24,
+  strokeWidth = 2,
+}: {
+  size?: number;
+  strokeWidth?: number;
+}): JSX.Element => {
+  return (
+    <div
+      className="rainbow-menu"
+      style={{
+        position: "relative",
+        width: size,
+        height: size,
+      }}
+    >
+      <div
+        className="rainbow"
+        style={{
+          position: "absolute",
+          top: 5,
+          left: 4,
+          width: 16,
+          height: strokeWidth,
+          borderRadius: 9999,
+        }}
+      />
+      <div
+        className="rainbow"
+        style={{
+          position: "absolute",
+          top: 11,
+          left: 4,
+          width: 16,
+          height: strokeWidth,
+          borderRadius: 9999,
+        }}
+      />
+      <div
+        className="rainbow"
+        style={{
+          position: "absolute",
+          top: 17,
+          left: 4,
+          width: 16,
+          height: strokeWidth,
+          borderRadius: 9999,
+        }}
+      />
+    </div>
+  );
+};

@@ -1,6 +1,5 @@
 import { ReactNode, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Menu as MenuIcon } from "baseui/icon";
 import { Navigation, Item } from "baseui/side-navigation";
 import {
   HeaderNavigation,
@@ -10,6 +9,7 @@ import {
 import { Drawer } from "_/components/Drawer";
 import { Button } from "_/components/Button";
 import { getPublicURL } from "_/utilities/urls";
+import { Menu as MenuIcon } from "lucide-react";
 
 const isBigMQ = matchMedia("(min-width: 720px)");
 
@@ -17,10 +17,8 @@ const IS_DEMO = import.meta.env.DEV || import.meta.env.VITE_IS_DEMO_MODE === "tr
 
 const NAV_ITEM_STYLES = {
   background: "transparent",
+  color: "var(--mono100)",
 };
-// const ACTIVE_NAV_ITEM_STYLES = {
-//   background: "var(--mono300)",
-// };
 
 export const ResponsiveNav = ({
   children,
@@ -38,8 +36,10 @@ export const ResponsiveNav = ({
   const [isSmall, setIsSmall] = useState(!isBigMQ.matches);
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
 
+  const BODY_WIDTH = 900;
+
   const mainContentPaddingClass = hasDefaultPadding
-    ? `phx ${isSmall ? "pv32" : "pv64"}`
+    ? `phx brx ${isSmall ? "pv32" : "pvx"}`
     : "";
 
   useEffect(() => {
@@ -74,7 +74,6 @@ export const ResponsiveNav = ({
             top: 0,
             left: 0,
             right: 0,
-            background: "#fff",
             zIndex: 99,
             boxShadow: "rgba(0,0,0,0.16) 0 0 12px",
           }}
@@ -86,6 +85,8 @@ export const ResponsiveNav = ({
                   paddingTop: 0,
                   paddingBottom: 0,
                   borderBottomWidth: 0,
+                  background: "var(--primary700)",
+                  boxShadow: "0 0 8px var(--primary700)",
                 },
               },
             }}
@@ -98,7 +99,6 @@ export const ResponsiveNav = ({
                 }}
                 style={{
                   display: "inline-flex",
-                  background: "var(--primary)",
                   padding: "0 16px",
                 }}
               >
@@ -118,6 +118,16 @@ export const ResponsiveNav = ({
                     onClick={() => {
                       setIsMobileNavOpen(true);
                     }}
+                    overrides={{
+                      BaseButton: {
+                        style: {
+                          backgroundColor: "var(--primary500)",
+                          border: "2px solid var(--primary500)",
+                          height: "56px",
+                          width: "56px",
+                        },
+                      },
+                    }}
                   >
                     <MenuIcon size={28} />
                   </Button>
@@ -136,11 +146,12 @@ export const ResponsiveNav = ({
                       DrawerContainer: {
                         style: {
                           width: `${width}px`,
+                          background: "var(--primary700)",
                         },
                       },
                       DrawerBody: {
                         style: {
-                          marginTop: "48px",
+                          marginTop: "56px",
                           marginLeft: 0,
                           marginRight: 0,
                           marginBottom: 0,
@@ -172,67 +183,82 @@ export const ResponsiveNav = ({
         </div>
       ) : (
         <div
-          className="pv48"
           style={{
+            boxSizing: "content-box",
             width,
             height: "100vh",
-            background: "#fff",
-            borderRight: "1px solid var(--mono500)",
             position: "fixed",
             zIndex: 998,
+            top: 0,
             left: 0,
+            paddingLeft: `calc(50vw - ${(width + BODY_WIDTH) / 2}px)`,
             overflowY: "auto",
           }}
         >
-          <div className="mb16">
-            <div
-              tabIndex={-1}
-              onClick={() => {
-                navigate(IS_DEMO ? "/" : "/skills");
-              }}
-              style={{
-                display: "inline-block",
-                background: "var(--primary)",
-                padding: "24px 28px 24px",
-                borderRadius: "0 20px 20px 0",
-              }}
-            >
-              <img
-                src={getPublicURL("images/ellandi.svg")}
-                alt="Ellandi"
-                aria-label="Ellandi"
-                style={{ width: 200 }}
-              />
+          <div className="pvx">
+            <div className="mb16 pt4">
+              <div
+                tabIndex={-1}
+                onClick={() => {
+                  navigate(IS_DEMO ? "/" : "/skills");
+                }}
+                style={{
+                  display: "inline-block",
+                  padding: "24px 28px 24px",
+                }}
+              >
+                <img
+                  src={getPublicURL("images/ellandi.svg")}
+                  alt="Ellandi"
+                  aria-label="Ellandi"
+                  style={{ width: 170 }}
+                />
+              </div>
             </div>
-          </div>
-          <Navigation
-            items={items}
-            activeItemId={location.pathname}
-            onChange={({ event, item }) => {
-              event.preventDefault();
-              navigate(item.itemId);
-            }}
-            overrides={{
-              NavItem: {
-                style: {
-                  ...NAV_ITEM_STYLES,
+            <Navigation
+              items={items}
+              activeItemId={location.pathname}
+              onChange={({ event, item }) => {
+                event.preventDefault();
+                navigate(item.itemId);
+              }}
+              overrides={{
+                NavItem: {
+                  style: {
+                    ...NAV_ITEM_STYLES,
+                  },
                 },
-              },
-            }}
-          />
+              }}
+            />
+          </div>
         </div>
       )}
-      <div
+      <main
         style={{
-          flex: "0 0 auto",
+          flex: "1 0 auto",
+          display: "flex",
+          justifyContent: "center",
           width: "100%",
           overflowY: "hidden",
           position: "relative",
-          paddingTop: isSmall ? 48 : 0,
+          minHeight: "100vh",
+          paddingTop: 16 + (isSmall ? 56 : 0),
+          paddingLeft: 16,
+          paddingBottom: 16,
+          paddingRight: 16,
         }}
       >
-        <div className={mainContentPaddingClass}>{children}</div>
-      </div>
+        <div
+          className={mainContentPaddingClass}
+          style={{
+            width: "100%",
+            maxWidth: BODY_WIDTH,
+            background: "var(--mono100)",
+          }}
+        >
+          {children}
+        </div>
+      </main>
     </div>
   );
 };

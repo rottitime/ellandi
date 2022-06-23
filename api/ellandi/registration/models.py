@@ -3,8 +3,56 @@ import uuid
 
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.text import slugify
+
+
+class DropDownListModel(models.Model):
+    """Base class for lists for drop-downs etc."""
+
+    name = models.CharField(max_length=127, blank=False, null=False)
+    slug = models.CharField(max_length=127, blank=False, null=False, primary_key=True)
+
+    def clean(self):
+        if self.slug:
+            raise ValidationError("Do not set slug field, this is automatically calculated.")
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        self.slug = slugify(self.name)
+        return super().save(*args, **kwargs)
+
+    class Meta:
+        abstract = True
+
+
+class Organisation(DropDownListModel):
+    pass
+
+
+class ContractType(DropDownListModel):
+    pass
+
+
+class Location(DropDownListModel):
+    pass
+
+
+class Language(DropDownListModel):
+    pass
+
+
+class Profession(DropDownListModel):
+    pass
+
+
+class Grade(DropDownListModel):
+    pass
+
+
+class LanguageSkillLevel(DropDownListModel):
+    pass
 
 
 class UserManager(BaseUserManager):
@@ -55,24 +103,20 @@ class RegistrationAbstractUser(models.Model):
     class Meta:
         abstract = True
 
-    class ContractTypes(models.TextChoices):
-        PERMANENT = ("permanent", "Permanent")
-        FIXED_TERM = ("fixed_term", "Fixed Term")
-        AGENCY = ("agency", "Agency")
-        OTHER = ("other", "Other")
-
     organisation = models.CharField(max_length=128, blank=True, null=True)
     job_title = models.CharField(max_length=128, blank=True, null=True)
+    grade = models.CharField(max_length=127, blank=True, null=False)
+    profession = models.ManyToManyField(Profession, blank=True)
+    contract_type = models.CharField(max_length=127, blank=True, null=False)
     line_manager_email = models.CharField(max_length=128, blank=True, null=True)
-    country = models.CharField(max_length=128, blank=True, null=True)
-
-    contract_type = models.CharField(max_length=128, choices=ContractTypes.choices, blank=True, null=True)
+    location = models.CharField(max_length=127, blank=True, null=False)
 
 
 class User(AbstractUser, TimeStampedModel, RegistrationAbstractUser):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     username = None
     email = models.EmailField("email", unique=True)
+    privacy_policy_agreement = models.BooleanField(default=False, blank=False, null=False)
 
     first_name = models.CharField("first name", max_length=128, blank=True, null=True)
     last_name = models.CharField("last name", max_length=128, blank=True, null=True)
@@ -103,6 +147,19 @@ class UserSkill(TimeStampedModel):
         unique_together = ["user", "skill_name"]
 
 
+class UserLanguage(TimeStampedModel):
+    """Info on a particular language for a given user."""
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.ForeignKey(User, related_name="languages", on_delete=models.CASCADE)
+    language = models.CharField(max_length=127, blank=True, null=False)
+    type = models.CharField(max_length=127, blank=True, null=False)  # eg reading, writing
+    level = models.CharField(max_length=127, blank=True, null=False)
+
+    class Meta:
+        unique_together = ["user", "language", "type"]
+
+
 class WebError(TimeStampedModel):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     message = models.CharField(max_length=1024, blank=False, null=True)
@@ -111,12 +168,3 @@ class WebError(TimeStampedModel):
     file_name = models.CharField(max_length=1024, blank=False, null=True)
     line_number = models.IntegerField(blank=False, null=True)
     column_number = models.IntegerField(blank=False, null=True)
-
-
-class Organisation(models.Model):
-    name = models.CharField(max_length=100, blank=False, null=False)
-    slug = models.SlugField(max_length=100, blank=False, null=False, primary_key=True)
-
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
-        return super().save(*args, **kwargs)

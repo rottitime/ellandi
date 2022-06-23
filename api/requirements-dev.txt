@@ -6,4 +6,4 @@ pep8-naming
 black
 nose
 
--r ./requirements.txt
+-r ./requirements.lock

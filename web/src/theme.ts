@@ -3,18 +3,18 @@ import { ThemePrimitives } from "baseui/theme";
 
 export const primitives: ThemePrimitives = {
   // Primary Palette
-  // hsl(225, 77%, 56%)
+  // hsl(227, 77%, 56%)
   primaryA: "#000000",
-  primaryB: "hsl(225, 100%, 100%)",
-  primary: "hsl(225, 77%, 56%)",
-  primary50: "hsl(225, 100%, 96%)", // "#F6F6F6",
-  primary100: "hsl(225, 100%, 93%)", // "#EEEEEE",
-  primary200: "hsl(225, 100%, 89%)", // "#E2E2E2",
-  primary300: "hsl(225, 100%, 80%)", // "#CBCBCB",
-  primary400: "hsl(225, 100%, 69%)", // "#AFAFAF",
-  primary500: "hsl(225, 100%, 42%)", // "#6B6B6B",
-  primary600: "hsl(225, 100%, 33%)", // "#545454",
-  primary700: "hsl(225, 100%, 20%)", // "#333333",
+  primaryB: "hsl(227, 100%, 100%)",
+  primary: "hsl(227, 77%, 56%)",
+  primary50: "hsl(227, 100%, 96%)", // "#F6F6F6",
+  primary100: "hsl(227, 100%, 93%)", // "#EEEEEE",
+  primary200: "hsl(227, 100%, 89%)", // "#E2E2E2",
+  primary300: "hsl(227, 100%, 80%)", // "#CBCBCB",
+  primary400: "hsl(227, 100%, 69%)", // "#AFAFAF",
+  primary500: "hsl(227, 100%, 42%)", // "#6B6B6B",
+  primary600: "hsl(227, 100%, 33%)", // "#545454",
+  primary700: "hsl(227, 100%, 20%)", // "#333333",
   // Accent Palette
   accent: "#276EF1",
   accent50: "#EFF3FE",
@@ -79,11 +79,11 @@ const mono = <T extends Record<string, unknown>>(
     fontFamily: 'Menlo, "Lucida Console", Monaco, Consolas, "Courier New", monospace',
   };
 };
-const DisplayLineHeight = { lineHeight: 1.2 };
-const HeadingLineHeight = { lineHeight: 1.2 };
-const LabelLineHeight = { lineHeight: 1.3 };
-// const CaptionLineHeight = { lineHeight: 1.4 };
-const ParagraphLineHeight = { lineHeight: 1.45 };
+const DisplayLineHeight = { lineHeight: 1.2, fontWeight: 900 };
+const HeadingLineHeight = { lineHeight: 1.2, fontWeight: 600 };
+const LabelLineHeight = { lineHeight: 1.3, fontWeight: 600 };
+// const CaptionLineHeight = { lineHeight: 1.4, fontWeight: 500 };
+const ParagraphLineHeight = { lineHeight: 1.45, fontWeight: 500 };
 
 export const theme = createTheme(primitives, {
   typography: {

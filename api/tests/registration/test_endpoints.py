@@ -1,7 +1,21 @@
 from rest_framework import status
 from rest_framework.test import APIClient, APIRequestFactory, APITestCase
 
-from ellandi.registration.models import User, UserSkill, WebError
+from ellandi.registration.models import (
+    ContractType,
+    DropDownListModel,
+    Grade,
+    Language,
+    Location,
+    Organisation,
+    Profession,
+    User,
+    UserLanguage,
+    UserSkill,
+    WebError,
+)
+
+TEST_SERVER_URL = "http://testserver:8000/"
 
 
 class TestUserEndpoint(APITestCase):
@@ -17,6 +31,8 @@ class TestUserEndpoint(APITestCase):
             "line_manager_email": "line@example.com",
             "country": "Spain",
             "contract_type": "permanent",
+            "grade": "Grade 6",
+            "privacy_policy_agreement": True,
         }
         self.data_incorrect = {
             "first_name": "Bob",
@@ -27,7 +43,15 @@ class TestUserEndpoint(APITestCase):
             email="jane@example.com", first_name="Jane", last_name="Green", organisation="DfE"
         )
         self.user_id = User.objects.get(email="jane@example.com").id
-        self.updated_user_data = {"email": "jane@example.com", "first_name": "Jane", "last_name": "Brown"}
+        self.updated_user_data = {
+            "email": "jane@example.com",
+            "first_name": "Jane",
+            "last_name": "Brown",
+            "profession": [
+                f"{TEST_SERVER_URL}professions/government-operational-research-service/",
+                f"{TEST_SERVER_URL}professions/digital-data-and-technology-professions/",
+            ],
+        }
 
     def test_get(self):
         response = self.client.get("/users/")
@@ -70,12 +94,12 @@ class TestUserSkillsEndpoint(APITestCase):
         self.user_skill = UserSkill.objects.create(user=self.user, skill_name="Python", level="beginner")
         self.user_skill_id = UserSkill.objects.get(user__email=self.user.email, skill_name="Python").id
         self.user_skill_data = {
-            "user": f"http://testserver:8000/users/{self.user_id}/",
+            "user": f"{TEST_SERVER_URL}users/{self.user_id}/",
             "skill_name": "maths",
             "level": "proficient",
         }
         self.user_skill_data_updated = {
-            "user": f"http://testserver:8000/users/{self.user_id}/",
+            "user": f"{TEST_SERVER_URL}users/{self.user_id}/",
             "skill_name": "maths",
             "level": "beginner",
         }
@@ -103,6 +127,53 @@ class TestUserSkillsEndpoint(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         number_matching_user_skills = UserSkill.objects.filter(id=self.user_skill_id).count()
         self.assertEqual(number_matching_user_skills, 0)
+
+
+class TestUserLanguagesEndpoint(APITestCase):
+    def setUp(self):
+        self.client = APIClient()
+        self.user = User.objects.create(
+            email="jane@example.com", first_name="Jane", last_name="Green", organisation="DfE"
+        )
+        self.user_id = User.objects.get(email="jane@example.com").id
+        self.user_language = UserLanguage.objects.create(user=self.user, language="Italian", level="beginner")
+        self.user_language_id = UserLanguage.objects.get(user__email=self.user.email, language="Italian").id
+        self.user_language_data = {
+            "user": f"{TEST_SERVER_URL}users/{self.user_id}/",
+            "language": "Spanish",
+            "level": "proficient",
+            "type": "reading",
+        }
+        self.user_language_data_updated = {
+            "user": f"{TEST_SERVER_URL}users/{self.user_id}/",
+            "language": "Spanish",
+            "level": "beginner",
+            "type": "reading",
+        }
+
+    def test_get(self):
+        response = self.client.get("/user-languages/")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_get_user_languages(self):
+        response = self.client.get(f"/user-languages/{self.user_language_id}/")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["language"], "Italian")
+
+    def test_post_user_languages(self):
+        response = self.client.post("/user-languages/", self.user_language_data)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_put_user_languages(self):
+        response = self.client.put(f"/user-languages/{self.user_language_id}/", self.user_language_data_updated)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["level"], "beginner")
+
+    def test_delete_user_languages(self):
+        response = self.client.delete(f"/user-languages/{self.user_language_id}/")
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        number_matching_user_langs = UserLanguage.objects.filter(id=self.user_language_id).count()
+        self.assertEqual(number_matching_user_langs, 0)
 
 
 class TestWebErrorEndpoint(APITestCase):
@@ -153,14 +224,81 @@ class TestWebErrorEndpoint(APITestCase):
         self.assertEqual(number_matching_errors, 0)
 
 
-class TestOrganisationsEndpoint(APITestCase):
+class TestDropDownList(APITestCase):
+    __test__ = False
+    name = None
+    slug = None
+    endpoint = None
+    model = DropDownListModel
+
     def setUp(self):
         self.client = APIClient()
+        self.model(name=self.name).save()
 
     def test_get(self):
-        response = self.client.get("/organisations/")
+        response = self.client.get(self.endpoint)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_get_item(self):
+        response = self.client.get(f"{self.endpoint}{self.slug}/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_post(self):
-        response = self.client.post("/organisations/", {"name": "Cabinet Office"})
+        response = self.client.post(self.endpoint, {"name": "a new name"})
         self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+
+
+class TestOrganisationsEndpoint(TestDropDownList):
+    __test__ = True
+    name = "Cabinet Office"
+    slug = "cabinet-office"
+    endpoint = "/organisations/"
+    model = Organisation
+
+
+class TestContractTypesEndpoint(TestDropDownList):
+    __test__ = True
+    name = "Fixed-term"
+    slug = "fixed-term"
+    endpoint = "/contract-types/"
+    model = ContractType
+
+
+class TestLocationsEndpoint(TestDropDownList):
+    __test__ = True
+    name = "Salford"
+    slug = "salford"
+    endpoint = "/locations/"
+    model = Location
+
+
+class TestLanguagesEndpoint(TestDropDownList):
+    __test__ = True
+    name = "Bengali"
+    slug = "bengali"
+    endpoint = "/languages/"
+    model = Language
+
+
+class TestProfessionsEndpoint(TestDropDownList):
+    __test__ = True
+    name = "Government Operational Research Service"
+    slug = "government-operational-research-service"
+    endpoint = "/professions/"
+    model = Profession
+
+
+class TestGradesEndpoint(TestDropDownList):
+    __test__ = True
+    name = "Grade 7"
+    slug = "grade-7"
+    endpoint = "/grades/"
+    model = Grade
+
+
+class TestLanguageSkillLevelEndpoint(TestDropDownList):
+    __test__ = True
+    name = "Independent"
+    slug = "independent"
+    endpoint = "/language-skill-levels/"
+    model = Grade

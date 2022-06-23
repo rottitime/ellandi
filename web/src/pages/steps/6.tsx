@@ -60,7 +60,7 @@ const Index = () => {
 
       <p className="P-XS">
         You are also able to update your CV in the Profile section.{" "}
-        <Link to="/steps/8">Skip for now</Link>
+        <Link to="/steps/7">Skip for now</Link>
       </p>
 
       <p>

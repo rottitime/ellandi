@@ -12,12 +12,12 @@ const Index = () => {
 
       <h3>Example email</h3>
       <div
-        className="ph16"
+        className="p16"
         style={{
-          border: "1px solid #ccc",
+          border: "4px solid var(--primary700)",
         }}
       >
-        <h1 className="H">
+        <h1 className="H mt0">
           Hello, <strong>Joe Bloggs</strong>
         </h1>
 
@@ -37,7 +37,7 @@ const Index = () => {
           sign up to Ellandi.
         </p>
 
-        <p className="P-L">
+        <p className="P-L mb0">
           Please contact{" "}
           <Link to="mailto:support.learn@csskills.gov.uk">
             support.learn@csskills.gov.uk

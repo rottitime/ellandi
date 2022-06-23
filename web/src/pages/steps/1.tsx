@@ -2,10 +2,8 @@ import { Button } from "_/components/Button";
 import { useNavigate } from "react-router-dom";
 import { useInput } from "_/hooks/useInput";
 import { usePassword } from "_/hooks/usePassword";
-import { Checkbox } from "baseui/checkbox";
 import { EmptyLayout } from "_/components/Layouts";
-import { ChangeEvent, useState } from "react";
-import { FormControl } from "_/components/FormControl";
+import { useCheckboxGroup } from "_/hooks/useCheckboxGroup";
 
 const EMAIL_REGEX =
   /^(([^\s"(),.:;<>@[\\\]]+(\.[^\s"(),.:;<>@[\\\]]+)*)|(".+"))@((\[(?:\d{1,3}\.){3}\d{1,3}])|(([\dA-Za-z-]+\.)+[A-Za-z]{2,}))$/;
@@ -41,7 +39,17 @@ const Index = () => {
     },
     demoValue: "Password123",
   });
-  const [hasAgreedToPrivacyPolicy, setHasAgreedToPrivacyPolicy] = useState(false);
+
+  const { hasAgreedToPrivacyPolicyEl, isHasAgreedToPrivacyPolicyValid } =
+    useCheckboxGroup({
+      label: "Has agreed to privacy policy",
+      options: [{ id: "policy", label: "I agree to the privacy policy" }],
+      validator: (value: string[]): string => {
+        return value.length === 1
+          ? ""
+          : "You are required to agree to the privacy policy to continue";
+      },
+    });
 
   return (
     <EmptyLayout>
@@ -52,10 +60,7 @@ const Index = () => {
           return false;
         }}
       >
-        <h1 className="D c">
-          Create an account
-          <span className="flick" />
-        </h1>
+        <h1 className="D c">Create an account</h1>
 
         <h3>Enter your email address</h3>
 
@@ -71,18 +76,7 @@ const Index = () => {
         {passwordEl}
         {confirmPasswordEl}
 
-        <FormControl>
-          <p className="mv32">
-            <Checkbox
-              checked={hasAgreedToPrivacyPolicy}
-              onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                setHasAgreedToPrivacyPolicy(event.target.checked);
-              }}
-            >
-              I agree to the privacy policy
-            </Checkbox>
-          </p>
-        </FormControl>
+        {hasAgreedToPrivacyPolicyEl}
 
         <p>
           <Button
@@ -92,7 +86,7 @@ const Index = () => {
                 isEmailAddressValid &&
                 isPasswordValid &&
                 isConfirmPasswordValid &&
-                hasAgreedToPrivacyPolicy
+                isHasAgreedToPrivacyPolicyValid
               )
             }
           >
