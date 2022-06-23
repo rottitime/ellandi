@@ -1,3 +1,4 @@
+import { GlobalStyle } from 'govuk-react'
 import { Route, Routes } from 'react-router-dom'
 import Home1Page from './pages/home1'
 import Page1Page from './pages/page1'
@@ -17,6 +18,7 @@ import Skills1Page from './pages/skills1'
 
 const App = () => (
   <>
+    <GlobalStyle />
     <Routes>
       <Route path="/home1" element={<Home1Page />} />
       <Route path="/" element={<Page1Page />} />
