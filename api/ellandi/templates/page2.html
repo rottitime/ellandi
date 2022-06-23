@@ -1,9 +1,6 @@
 {%- from 'govuk_frontend_jinja/components/button/macro.html' import govukButton -%}
-
 {% extends "base.html" %}
-
 {% block content %}
-
   <h1 class="govuk-heading-l">Ellandi</h1>
   <p class="govuk-body">You can use this service to:</p>
   <ul class="govuk-list govuk-list--bullet">
@@ -15,7 +12,5 @@
     <li>facilitate discussions about skills with your line manager</li>
     <li>Registering takes around 5 - 10 minutes.</li>
   </ul>
-
   {{ govukButton({'text': 'Start now', 'href': '/page/3', 'isStartButton': True}) }}
-
 {% endblock content %}

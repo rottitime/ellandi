@@ -1,10 +1,7 @@
 {% from 'govuk_frontend_jinja/components/button/macro.html' import govukButton %}
 {% from 'govuk_frontend_jinja/components/radios/macro.html' import govukRadios %}
-
 {% extends 'base.html' %}
-
 {% block content %}
-
   {{ govukRadios({
     'idPrefix': 'contract_type',
     'name': 'contract_type',
@@ -18,10 +15,8 @@
     'hint': {'text': 'We will use this to suggest learning and career development opportunites that are relevant to you'},
     'items': contract_types
     }) }}
-
-  <p class="govuk-body"><a href="/page/7">Skip this step</a></p>
-
-
+  <p class="govuk-body">
+    <a href="/page/7">Skip this step</a>
+  </p>
   {{ govukButton({'text': 'Continue', 'href': '/page/9'}) }}
-
 {% endblock content %}

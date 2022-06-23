@@ -1,10 +1,7 @@
 {% from 'govuk_frontend_jinja/components/button/macro.html' import govukButton -%}
 {% from 'govuk_frontend_jinja/components/checkboxes/macro.html' import govukCheckboxes %}
-
 {% extends 'base.html' %}
-
 {% block content %}
-
   {{ govukCheckboxes({
     'idPrefix': 'waste',
     'name': 'waste',
@@ -25,7 +22,5 @@
       },
     ]
     }) }}
-
   {{ govukButton({'text': 'Continue', 'href': '/page/5'}) }}
-
 {% endblock content %}

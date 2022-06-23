@@ -1,14 +1,10 @@
 {% from 'govuk_frontend_jinja/components/button/macro.html' import govukButton %}
 {% from 'govuk_frontend_jinja/components/file-upload/macro.html' import govukFileUpload %}
 {% from 'govuk_frontend_jinja/components/fieldset/macro.html' import govukFieldset %}
-
 {% extends "base.html" %}
-
 {% block content %}
-
   <h1 class="govuk-heading-l">Create an account - Upload your CV</h1>
   <p class="govuk-body">If you don't have a CV available you can add one later by going to your Profile</p>
-
   {{ govukFileUpload({
     'id': "file-upload-1",
     'name': "file-upload-1",
@@ -16,9 +12,8 @@
       'text': "Upload a file"
     }
     }) }}
-
-  <p class="govuk-body"><a href="/page/10">Skip this step</a></p>
-
+  <p class="govuk-body">
+    <a href="/page/10">Skip this step</a>
+  </p>
   {{ govukButton({'text': 'Continue', 'href': '/page/10'}) }}
-
 {% endblock content %}
