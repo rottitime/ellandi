@@ -29,8 +29,9 @@ const Page = () => {
           <Tabs.Tab
             href="#0"
             selected={tabIndex === 0}
-            onClick={() => {
-              return setTabIndex(0);
+            onClick={(event_) => {
+              event_.preventDefault();
+              setTabIndex(0);
             }}
           >
             Your skills
@@ -38,8 +39,9 @@ const Page = () => {
           <Tabs.Tab
             href="#1"
             selected={tabIndex === 1}
-            onClick={() => {
-              return setTabIndex(1);
+            onClick={(event_) => {
+              event_.preventDefault();
+              setTabIndex(1);
             }}
           >
             Language skills
@@ -47,8 +49,9 @@ const Page = () => {
           <Tabs.Tab
             href="#2"
             selected={tabIndex === 2}
-            onClick={() => {
-              return setTabIndex(2);
+            onClick={(event_) => {
+              event_.preventDefault();
+              setTabIndex(2);
             }}
           >
             Skills you'd like to develop

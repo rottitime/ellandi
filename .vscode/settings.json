@@ -30,7 +30,7 @@
     "web/schema.graphql": true,
     "web/schema.prisma": true,
     "web/tsconfig.json": true,
-    "web/vite.config.ts": true,
+    // "web/vite.config.ts": true,
     "web/src/vite-env.d.ts": true
   }
 }

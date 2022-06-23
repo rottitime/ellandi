@@ -46,7 +46,7 @@ const Page = () => {
         style={{ display: "block" }}
       >
         {" "}
-        style_ Load more skills
+        Load more skills
       </Button>
 
       <Paragraph>[Skip this step](/mock/page13)</Paragraph>
