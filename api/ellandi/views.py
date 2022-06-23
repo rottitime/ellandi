@@ -2,6 +2,7 @@ from django.shortcuts import render
 
 from ellandi.registration import models
 
+
 def get_values(model):
     values = tuple({"value": item.slug, "text": item.name} for item in model.objects.all())
     return values
@@ -9,9 +10,9 @@ def get_values(model):
 
 def page_view(request, page_num):
     grades = get_values(models.Grade)
-    professions =  get_values(models.Profession)
-    contract_types = get_values( models.ContractType)
-    languages =get_values( models.Language)
+    professions = get_values(models.Profession)
+    contract_types = get_values(models.ContractType)
+    languages = get_values(models.Language)
 
     return render(
         request,
