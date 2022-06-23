@@ -4,7 +4,7 @@ set -o errexit
 set -o nounset
 
 cat > ../.env <<EOF
-NODE_ENV="production"
+NODE_ENV="$NODE_ENV"
 VITE_FRONTEND_HOST="$VITE_FRONTEND_HOST"
 VITE_PROXY_ROOT_URL="$VITE_PROXY_ROOT_URL"
 VITE_API_ROOT_URL="$VITE_API_ROOT_URL"
