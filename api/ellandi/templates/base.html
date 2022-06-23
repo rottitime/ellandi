@@ -79,6 +79,9 @@
         },
         'html': 'This is a new service – your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'
         }) }}
+      {% if prev_page %}
+        <a href="/page/{{prev_page}}" class="govuk-back-link">Back</a>
+      {% endif %}
       <main class="govuk-main-wrapper " id="main-content" role="main">
         <div class="govuk-grid-row">
           <div class="govuk-grid-column-two-thirds">
