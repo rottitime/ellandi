@@ -2,16 +2,16 @@ from django.shortcuts import render
 
 from ellandi.registration import models
 
+def get_values(model):
+    values = tuple({"value": item.slug, "text": item.name} for item in model.objects.all())
+    return values
+
 
 def page_view(request, page_num):
-    grades = tuple({"value": grade.slug, "text": grade.name} for grade in models.Grade.objects.all())
-    professions = tuple(
-        {"value": profession.slug, "text": profession.name} for profession in models.Profession.objects.all()
-    )
-    contract_types = tuple(
-        {"value": contract_type.slug, "text": contract_type.name} for contract_type in models.ContractType.objects.all()
-    )
-    languages = tuple({"value": language.slug, "text": language.name} for language in models.Language.objects.all())
+    grades = get_values(models.Grade)
+    professions =  get_values(models.Profession)
+    contract_types = get_values( models.ContractType)
+    languages =get_values( models.Language)
 
     return render(
         request,
