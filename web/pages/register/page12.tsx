@@ -1,7 +1,7 @@
 import { Button, Heading, HintText, LeadParagraph, Paragraph } from 'govuk-react'
 import Layout from '@/components/Layout'
 import Link from 'next/link'
-import styled from 'styled-components'
+import { styled } from '@mui/material/styles'
 
 const ToggleButton = styled(Button)`
   margin-right: 10px;

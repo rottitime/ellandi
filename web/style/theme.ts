@@ -1,5 +1,4 @@
 import { createTheme } from '@mui/material/styles'
-import { grey } from '@mui/material/colors'
 
 const breakpoints = {
   xs: 0,
@@ -21,9 +20,6 @@ const theme = createTheme({
   palette: {
     background: {
       default: '#F2F2F2'
-    },
-    primary: {
-      main: grey[500]
     }
   },
   components: {

@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import { styled } from '@mui/material/styles'
 
 const P = styled.p`
   font-size: 19px;
