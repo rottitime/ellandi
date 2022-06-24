@@ -1,82 +1,98 @@
-import { Button, Heading, HintText, LeadParagraph, Paragraph, Table } from 'govuk-react'
-import Layout from '@/components/Layout'
-import Link from 'next/link'
+import Page from '@/components/GenericPage'
 import { styled } from '@mui/material/styles'
+import {
+  Box,
+  Button,
+  Chip,
+  LinearProgress,
+  Paper,
+  Table,
+  TableCell,
+  TableContainer,
+  TableRow,
+  Typography
+} from '@mui/material'
+import LinkButton from '@/components/LinkButton'
+import Link from '@/components/Link'
 
-const ToggleButton = styled(Button)`
-  margin-right: 10px;
+const Stack = styled(Box)`
+  .MuiChip-root {
+    margin: 10px;
+  }
 `
 
-const Page = () => {
+const RegisterPage = () => {
   return (
-    <Layout backLink={true}>
-      <Heading size="LARGE">Create a profile - Skills you'd like to develop</Heading>
+    <Page>
+      <LinearProgress variant="determinate" value={100} sx={{ mb: 6 }} />
 
-      <LeadParagraph>
+      <Typography variant="h1" gutterBottom>
+        Create a profile - Skills you'd like to develop
+      </Typography>
+
+      <Typography variant="subtitle1" gutterBottom>
         Select any skills that you'd like to develop. You can change or add to these later
-      </LeadParagraph>
-      <HintText>
+      </Typography>
+      <Typography gutterBottom>
         We'll use this to suggest learning and career development opportunities that are
         relevant to you
-      </HintText>
-      <ToggleButton buttonColour="#1d70b8">Auditing</ToggleButton>
-      <ToggleButton buttonColour="#1d70b8">Bookkeeping</ToggleButton>
-      <ToggleButton buttonColour="#1d70b8">Communication</ToggleButton>
-      <ToggleButton buttonColour="#1d70b8">Coding</ToggleButton>
-      <ToggleButton buttonColour="#1d70b8">Creative thinking</ToggleButton>
-      <ToggleButton buttonColour="#1d70b8">Customer service</ToggleButton>
-      <ToggleButton buttonColour="#1d70b8">Data entry</ToggleButton>
-      <ToggleButton buttonColour="#1d70b8">Diary management</ToggleButton>
-      <ToggleButton buttonColour="#1d70b8">Flexibility</ToggleButton>
-      <ToggleButton buttonColour="#1d70b8">Microsoft Office</ToggleButton>
-      <ToggleButton buttonColour="#1d70b8">Motivation</ToggleButton>
-      <ToggleButton buttonColour="#1d70b8">Negotiation</ToggleButton>
-      <ToggleButton buttonColour="#1d70b8">Planning</ToggleButton>
-      <ToggleButton buttonColour="#1d70b8">Problem solving</ToggleButton>
-      <ToggleButton buttonColour="#1d70b8">Project management</ToggleButton>
-      <ToggleButton buttonColour="#1d70b8">Sales</ToggleButton>
-      <ToggleButton buttonColour="#1d70b8">Social media</ToggleButton>
-      <ToggleButton buttonColour="#1d70b8">Teamwork</ToggleButton>
-      <Button
-        buttonColour="#f3f2f1"
-        buttonTextColour="#0B0C0C"
-        style={{ display: 'block' }}
-      >
-        Load more skills
-      </Button>
+      </Typography>
+      <Stack>
+        <Chip label="Auditing" variant="outlined" />
+        <Chip label="Bookkeeping" variant="outlined" />
+        <Chip label="Communication" variant="outlined" />
+        <Chip label="Coding" variant="outlined" />
+        <Chip label="Creative thinking" variant="outlined" />
+        <Chip label="Customer service" variant="outlined" />
+        <Chip label="Data entry" variant="outlined" />
+        <Chip label="Diary management" variant="outlined" />
+        <Chip label="Flexibility" variant="outlined" />
+        <Chip label="Microsoft Office" variant="outlined" />
+        <Chip label="Motivation" variant="outlined" />
+        <Chip label="Negotiation" variant="outlined" />
+        <Chip label="Planning" variant="outlined" />
+        <Chip label="Problem solving" variant="outlined" />
+        <Chip label="Project management" variant="outlined" />
+        <Chip label="Sales" variant="outlined" />
+        <Chip label="Social media" variant="outlined" />
+        <Chip label="Teamwork" variant="outlined" />
+      </Stack>
+      <Button>Load more skills</Button>
 
-      <Table>
-        <Table.Row>
-          <Table.Cell>Selected skill</Table.Cell>
-          <Table.Cell>&nbsp;</Table.Cell>
-        </Table.Row>
-        <Table.Row>
-          <Table.Cell>Skill 1</Table.Cell>
-          <Table.Cell>
-            <Link href="#">Remove</Link>
-          </Table.Cell>
-        </Table.Row>
-        <Table.Row>
-          <Table.Cell>Skill 2</Table.Cell>
-          <Table.Cell>
-            <Link href="#">Remove</Link>
-          </Table.Cell>
-        </Table.Row>
-        <Table.Row>
-          <Table.Cell>Skill 3</Table.Cell>
-          <Table.Cell>
-            <Link href="#">Remove</Link>
-          </Table.Cell>
-        </Table.Row>
-      </Table>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableRow>
+            <TableCell>Selected skill</TableCell>
+            <TableCell>&nbsp;</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>Skill 1</TableCell>
+            <TableCell>
+              <Link href="#">Remove</Link>
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>Skill 2</TableCell>
+            <TableCell>
+              <Link href="#">Remove</Link>
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>Skill 3</TableCell>
+            <TableCell>
+              <Link href="#">Remove</Link>
+            </TableCell>
+          </TableRow>
+        </Table>
+      </TableContainer>
 
-      <Paragraph>[Skip this step](/skills)</Paragraph>
+      <Typography gutterBottom>
+        <Link href="/skills">Skip this page</Link>
+      </Typography>
 
-      <Link href="/skills" passHref>
-        <Button>continue</Button>
-      </Link>
-    </Layout>
+      <LinkButton href="/skills">Continue</LinkButton>
+    </Page>
   )
 }
 
-export default Page
+export default RegisterPage

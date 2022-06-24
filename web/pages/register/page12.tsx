@@ -1,60 +1,63 @@
-import { Button, Heading, HintText, LeadParagraph, Paragraph } from 'govuk-react'
-import Layout from '@/components/Layout'
-import Link from 'next/link'
+import Page from '@/components/GenericPage'
 import { styled } from '@mui/material/styles'
+import { Box, Button, Chip, LinearProgress, Typography } from '@mui/material'
+import LinkButton from '@/components/LinkButton'
+import Link from '@/components/Link'
 
-const ToggleButton = styled(Button)`
-  margin-right: 10px;
+const Stack = styled(Box)`
+  .MuiChip-root {
+    margin: 10px;
+  }
 `
 
-const Page = () => {
+const RegisterPage = () => {
   return (
-    <Layout backLink={true}>
-      <Heading size="LARGE">Create a profile - Your current skills</Heading>
+    <Page>
+      <LinearProgress variant="determinate" value={90} sx={{ mb: 6 }} />
 
-      <LeadParagraph>
+      <Typography variant="h1" gutterBottom>
+        Create a profile - Your current skills
+      </Typography>
+
+      <Typography variant="subtitle1" gutterBottom>
         Select any skills that you already have. You can change or add to these later
-      </LeadParagraph>
-      <HintText>
-        We’ll use this to suggest learning and career development opportunities that are
+      </Typography>
+      <Typography gutterBottom>
+        We'll use this to suggest learning and career development opportunities that are
         relevant to you
-      </HintText>
+      </Typography>
+      <Stack>
+        <Chip label="Auditing" variant="outlined" />
+        <Chip label="Bookkeeping" variant="outlined" />
+        <Chip label="Communication" />
+        <Chip label="Coding" variant="outlined" />
+        <Chip label="Creative thinking" variant="outlined" />
+        <Chip label="Customer service" variant="outlined" />
+        <Chip label="Data entry" />
+        <Chip label="Diary management" />
+        <Chip label="Flexibility" />
+        <Chip label="Microsoft Office" variant="outlined" />
+        <Chip label="Motivation" variant="outlined" />
+        <Chip label="Negotiation" />
+        <Chip label="Planning" variant="outlined" />
+        <Chip label="Problem solving" />
+        <Chip label="Project management" variant="outlined" />
+        <Chip label="Sales" variant="outlined" />
+        <Chip label="Social media" variant="outlined" />
+        <Chip label="Teamwork" variant="outlined" />
+      </Stack>
 
-      <ToggleButton buttonColour="#1d70b8">Auditing</ToggleButton>
-      <ToggleButton buttonColour="#1d70b8">Bookkeeping</ToggleButton>
-      <ToggleButton buttonColour="#1d70b8">Communication</ToggleButton>
-      <ToggleButton buttonColour="#1d70b8">Coding</ToggleButton>
-      <ToggleButton buttonColour="#1d70b8">Creative thinking</ToggleButton>
-      <ToggleButton buttonColour="#1d70b8">Customer service</ToggleButton>
-      <ToggleButton buttonColour="#1d70b8">Data entry</ToggleButton>
-      <ToggleButton buttonColour="#1d70b8">Diary management</ToggleButton>
-      <ToggleButton buttonColour="#1d70b8">Flexibility</ToggleButton>
-      <ToggleButton buttonColour="#1d70b8">Microsoft Office</ToggleButton>
-      <ToggleButton buttonColour="#1d70b8">Motivation</ToggleButton>
-      <ToggleButton buttonColour="#1d70b8">Negotiation</ToggleButton>
-      <ToggleButton buttonColour="#1d70b8">Planning</ToggleButton>
-      <ToggleButton buttonColour="#1d70b8">Problem solving</ToggleButton>
-      <ToggleButton buttonColour="#1d70b8">Project management</ToggleButton>
-      <ToggleButton buttonColour="#1d70b8">Sales</ToggleButton>
-      <ToggleButton buttonColour="#1d70b8">Social media</ToggleButton>
-      <ToggleButton buttonColour="#1d70b8">Teamwork</ToggleButton>
-
-      <Button
-        buttonColour="#f3f2f1"
-        buttonTextColour="#0B0C0C"
-        style={{ display: 'block' }}
-      >
-        {' '}
+      <Button variant="contained" color="secondary" sx={{ mb: 3 }}>
         Load more skills
       </Button>
 
-      <Paragraph>[Skip this step](/mock/page13)</Paragraph>
+      <Typography gutterBottom>
+        <Link href="/mock/page13">Skip this step</Link>
+      </Typography>
 
-      <Link href="/register/page13" passHref>
-        <Button>continue</Button>
-      </Link>
-    </Layout>
+      <LinkButton href="/register/page13">Continue</LinkButton>
+    </Page>
   )
 }
 
-export default Page
+export default RegisterPage

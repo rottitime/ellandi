@@ -1,24 +1,33 @@
-import { Button, Heading, HintText, LeadParagraph, Radio } from 'govuk-react'
-import Layout from '@/components/Layout'
-import Link from 'next/link'
+import Page from '@/components/GenericPage'
+import { FormControlLabel, LinearProgress, Radio, RadioGroup, Typography } from '@mui/material'
+import LinkButton from '@/components/LinkButton'
 
-const Page = () => {
+const RegisterPage = () => {
   return (
-    <Layout backLink={true}>
-      <Heading size="LARGE">Create an account - Current contract type</Heading>
-      <LeadParagraph>Select your contract type. You can only choose one</LeadParagraph>
-      <HintText>
+    <Page>
+
+<LinearProgress variant="determinate" value={70} sx={{ mb: 6 }} />
+
+
+      <Typography variant="h1" gutterBottom>
+        Create an account - Current contract type
+      </Typography>
+      <Typography variant="subtitle1" gutterBottom>
+        Select your contract type. You can only choose one
+      </Typography>
+      <Typography gutterBottom>
         We'll use this to suggest learning and career development opportunities that are
         relevant to you
-      </HintText>
-      <Radio name="group1">Yes</Radio>
-      <Radio name="group1">No</Radio>
+      </Typography>
 
-      <Link href="/register/page11" passHref>
-        <Button>Continue</Button>
-      </Link>
-    </Layout>
+      <RadioGroup sx={{ mb: 3 }}>
+        <FormControlLabel control={<Radio />} label="Yes" value="Yes" />
+        <FormControlLabel control={<Radio />} label="No" value="No" />
+      </RadioGroup>
+
+      <LinkButton href="/register/page11">Continue</LinkButton>
+    </Page>
   )
 }
 
-export default Page
+export default RegisterPage

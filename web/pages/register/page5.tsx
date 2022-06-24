@@ -1,67 +1,33 @@
-import { Button, FormGroup, Heading, InputField } from 'govuk-react'
-import Layout from '@/components/Layout'
-import Link from 'next/link'
+// import { Button, FormGroup, Heading, InputField } from 'govuk-react'
+import LinkButton from '@/components/LinkButton'
+import Page from '@/components/GenericPage'
+import { LinearProgress, TextField, Typography } from '@mui/material'
 
-const Page = () => {
+const RegisterPage = () => {
   return (
-    <Layout backLink={true}>
-      <Heading size="LARGE">Create an account - Your details</Heading>
+    <Page>
 
-      <FormGroup>
-        <InputField
-          input={{
-            name: 'group0'
-          }}
-        >
-          Full name
-        </InputField>
-      </FormGroup>
+<LinearProgress variant="determinate" value={20} sx={{ mb: 6 }} />
+      <Typography variant="h1" gutterBottom>
+        Create an account - Your details
+      </Typography>
 
-      <FormGroup>
-        <InputField
-          input={{
-            name: 'group0'
-          }}
-        >
-          Department
-        </InputField>
-      </FormGroup>
+      <TextField margin="normal" label="Full name" variant="filled" fullWidth />
+      <TextField margin="normal" label="Department" variant="filled" fullWidth />
+      <TextField margin="normal" label="Job title" variant="filled" fullWidth />
+      <TextField
+        margin="normal"
+        label="Your line manager's email address"
+        variant="filled"
+        fullWidth
+      />
+      <TextField margin="normal" label="Country" variant="filled" fullWidth />
 
-      <FormGroup>
-        <InputField
-          input={{
-            name: 'group0'
-          }}
-        >
-          Job title
-        </InputField>
-      </FormGroup>
-
-      <FormGroup>
-        <InputField
-          input={{
-            name: 'group0'
-          }}
-        >
-          Your line manager's email address
-        </InputField>
-      </FormGroup>
-
-      <FormGroup>
-        <InputField
-          input={{
-            name: 'group0'
-          }}
-        >
-          Country
-        </InputField>
-      </FormGroup>
-
-      <Link href="/register/page6" passHref>
-        <Button>continue</Button>
-      </Link>
-    </Layout>
+      <LinkButton href="/register/page6" fullWidth>
+        Continue
+      </LinkButton>
+    </Page>
   )
 }
 
-export default Page
+export default RegisterPage

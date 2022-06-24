@@ -1,59 +1,97 @@
+import Page from '@/components/GenericPage'
+import LinkButton from '@/components/LinkButton'
 import {
-  Button,
   Checkbox,
-  Heading,
-  HintText,
-  LeadParagraph,
-  Paragraph
-} from 'govuk-react'
-import Layout from '@/components/Layout'
-import Link from 'next/link'
+  FormControlLabel,
+  FormGroup,
+  LinearProgress,
+  Typography
+} from '@mui/material'
+import Link from '@/components/Link'
 
-const Page = () => {
+const RegisterPage = () => {
   return (
-    <Layout backLink={true}>
-      <Heading size="LARGE">Create an account - Current profession</Heading>
-      <LeadParagraph>
-        Select the Profession(s) that you belong to. You may choose more than one
-      </LeadParagraph>
+    <Page>
+      <LinearProgress variant="determinate" value={40} sx={{ mb: 6 }} />
 
-      <HintText>
+      <Typography variant="h1" gutterBottom>
+        Create an account - Current profession
+      </Typography>
+      <Typography variant="subtitle1" gutterBottom>
+        Select the Profession(s) that you belong to. You may choose more than one
+      </Typography>
+
+      <Typography gutterBottom>
         We'll use this to suggest learning and career development opportunities that are
         relevant to you
-      </HintText>
-      <Checkbox>Corporate Finance Profession</Checkbox>
-      <Checkbox>Counter-fraud Standards and Profession</Checkbox>
-      <Checkbox>Digital, Data and Technology Professions</Checkbox>
-      <Checkbox>Government Communication Service</Checkbox>
-      <Checkbox>Government Economic Service</Checkbox>
-      <Checkbox>Government Finance Profession</Checkbox>
-      <Checkbox>Government IT Profession</Checkbox>
-      <Checkbox>Government Knowledge and Information Management Profession</Checkbox>
-      <Checkbox>Government Legal Profession</Checkbox>
-      <Checkbox>Government Occupational Psychology Profession</Checkbox>
-      <Checkbox>Government Operational Research Service</Checkbox>
-      <Checkbox>Government Planning Inspectors</Checkbox>
-      <Checkbox>Government Planning Profession</Checkbox>
-      <Checkbox>Government Property Profession</Checkbox>
-      <Checkbox>Government Security Profession</Checkbox>
-      <Checkbox>Government Science and Engineering Profession</Checkbox>
-      <Checkbox>Government Social Research Profession</Checkbox>
-      <Checkbox>Government Tax Profession</Checkbox>
-      <Checkbox>Government Veterinary Profession</Checkbox>
-      <Checkbox>Human Resources Profession</Checkbox>
-      <Checkbox>Intelligence Analysis</Checkbox>
-      <Checkbox>Internal Audit Profession</Checkbox>
-      <Checkbox>Operational Delivery Profession</Checkbox>
-      <Checkbox>Policy Profession</Checkbox>
-      <Checkbox>Procurement Profession</Checkbox>
-      <Checkbox>Project Delivery Profession</Checkbox>
-      <Paragraph>[Skip this step](/mock/page8)</Paragraph>
+      </Typography>
 
-      <Link href="/register/page8" passHref>
-        <Button>Continue</Button>
-      </Link>
-    </Layout>
+      <FormGroup>
+        <FormControlLabel control={<Checkbox />} label="Corporate Finance Profession" />
+        <FormControlLabel
+          control={<Checkbox />}
+          label="Counter-fraud Standards and Profession"
+        />
+        <FormControlLabel
+          control={<Checkbox />}
+          label="Digital, Data and Technology Professions"
+        />
+        <FormControlLabel
+          control={<Checkbox />}
+          label="Government Communication Service"
+        />
+        <FormControlLabel control={<Checkbox />} label="Government Economic Service" />
+        <FormControlLabel control={<Checkbox />} label="Government Finance Profession" />
+        <FormControlLabel control={<Checkbox />} label="Government IT Profession" />
+        <FormControlLabel
+          control={<Checkbox />}
+          label="Government Knowledge and Information Management Profession"
+        />
+        <FormControlLabel control={<Checkbox />} label="Government Legal Profession" />
+        <FormControlLabel
+          control={<Checkbox />}
+          label="Government Occupational Psychology Profession"
+        />
+        <FormControlLabel
+          control={<Checkbox />}
+          label="Government Operational Research Service"
+        />
+        <FormControlLabel control={<Checkbox />} label="Government Planning Inspectors" />
+        <FormControlLabel control={<Checkbox />} label="Government Planning Profession" />
+        <FormControlLabel control={<Checkbox />} label="Government Property Profession" />
+        <FormControlLabel control={<Checkbox />} label="Government Security Profession" />
+        <FormControlLabel
+          control={<Checkbox />}
+          label="Government Science and Engineering Profession"
+        />
+        <FormControlLabel
+          control={<Checkbox />}
+          label="Government Social Research Profession"
+        />
+        <FormControlLabel control={<Checkbox />} label="Government Tax Profession" />
+        <FormControlLabel
+          control={<Checkbox />}
+          label="Government Veterinary Profession"
+        />
+        <FormControlLabel control={<Checkbox />} label="Human Resources Profession" />
+        <FormControlLabel control={<Checkbox />} label="Intelligence Analysis" />
+        <FormControlLabel control={<Checkbox />} label="Internal Audit Profession" />
+        <FormControlLabel
+          control={<Checkbox />}
+          label="Operational Delivery Profession"
+        />
+        <FormControlLabel control={<Checkbox />} label="Policy Profession" />
+        <FormControlLabel control={<Checkbox />} label="Procurement Profession" />
+        <FormControlLabel control={<Checkbox />} label="Project Delivery Profession" />
+      </FormGroup>
+
+      <Typography gutterBottom>
+        <Link href="/mock/page8">Skip this step</Link>
+      </Typography>
+
+      <LinkButton href="/register/page8">Continue</LinkButton>
+    </Page>
   )
 }
 
-export default Page
+export default RegisterPage

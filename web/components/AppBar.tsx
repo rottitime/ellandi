@@ -17,7 +17,7 @@ const pages = [
   { title: 'Home', link: '/' },
   { title: 'Skills', link: '/skills' },
   { title: 'Register', link: '/register' },
-  { title: 'Login', link: '#' }
+  { title: 'Login', link: '/signin' }
 ]
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout']
 
@@ -39,7 +39,7 @@ const ResponsiveAppBar = () => {
   }
 
   return (
-    <AppBar position="static" elevation={0}>
+    <AppBar position="static" elevation={0} sx={{ backgroundColor: 'transparent' }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Box style={{ marginRight: '20px' }}>
@@ -51,7 +51,7 @@ const ResponsiveAppBar = () => {
               <Link href={page.link} passHref key={page.title}>
                 <Button
                   onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: 'white', display: 'block' }}
+                  sx={{ my: 2, color: 'black', display: 'block' }}
                 >
                   {page.title}
                 </Button>

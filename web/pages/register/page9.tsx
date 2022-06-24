@@ -1,34 +1,36 @@
-import {
-  Button,
-  FileUpload,
-  Heading,
-  HintText,
-  LeadParagraph,
-  Paragraph
-} from 'govuk-react'
-import Layout from '@/components/Layout'
-import Link from 'next/link'
+import Page from '@/components/GenericPage'
+import { Box, LinearProgress, Typography } from '@mui/material'
+import LinkButton from '@/components/LinkButton'
+import Link from '@/components/Link'
 
-const Page = () => {
+const RegisterPage = () => {
   return (
-    <Layout backLink={true}>
-      <Heading size="LARGE">Create an account - Upload your CV</Heading>
+    <Page>
+      <LinearProgress variant="determinate" value={60} sx={{ mb: 6 }} />
 
-      <LeadParagraph>
+      <Typography variant="h1" gutterBottom>
+        Create an account - Upload your CV
+      </Typography>
+
+      <Typography variant="subtitle1" gutterBottom>
         If you don't have a CV available you can add one later by going to your Profile
-      </LeadParagraph>
-      <HintText>
+      </Typography>
+      <Typography gutterBottom>
         We'll use the information in your CV to suggest skills and opportunities that are
         more relevant to you
-      </HintText>
-      <FileUpload name="group0">Upload a document</FileUpload>
-      <Paragraph>[Skip this step](/mock/page10)</Paragraph>
+      </Typography>
 
-      <Link href="/register/page10" passHref>
-        <Button>Continue</Button>
-      </Link>
-    </Layout>
+      <Box sx={{ mb: 4 }}>
+        <input type="file" id="myFile" name="filename" />
+      </Box>
+
+      <Typography gutterBottom>
+        <Link href="/mock/page10">Skip this step</Link>
+      </Typography>
+
+      <LinkButton href="/register/page10">Continue</LinkButton>
+    </Page>
   )
 }
 
-export default Page
+export default RegisterPage

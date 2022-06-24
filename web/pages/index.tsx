@@ -9,13 +9,11 @@ import {
   CardContent,
   CardMedia,
   Divider,
-  FormControlLabel,
   Grid,
-  Radio,
-  RadioGroup,
-  TextField,
   Typography
 } from '@mui/material'
+import { useSnackbar } from 'notistack'
+import { useEffect } from 'react'
 
 const boxData = [
   {
@@ -50,88 +48,116 @@ const boxData = [
   }
 ]
 
-const IndexPage = () => (
-  <Page>
-    <Box style={{ display: 'flex', columnGap: '10px' }}>
-      <TextField
-        id="standard-basic"
-        label="Standard"
-        variant="standard"
-        placeholder="Your search term"
-      />
+const IndexPage = () => {
+  const { enqueueSnackbar } = useSnackbar()
 
-      <Button variant="contained" size="small">
-        Contained
-      </Button>
-    </Box>
-    <RadioGroup
-      row
-      aria-labelledby="demo-row-radio-buttons-group-label"
-      name="row-radio-buttons-group"
-    >
-      <FormControlLabel value="All" control={<Radio />} label="All" />
-      <FormControlLabel value="Skills" control={<Radio />} label="Skills" />
-      <FormControlLabel value="Learning" control={<Radio />} label="Learning" />
-      <FormControlLabel value="Careers" control={<Radio />} label="Careers" />
-      <FormControlLabel
-        value="Communities"
-        disabled
-        control={<Radio />}
-        label="Communities"
-      />
-    </RadioGroup>
+  useEffect(() => {
+    const timer1 = setTimeout(() => {
+      enqueueSnackbar('Lorem, ipsum dolor.', { variant: 'success' })
+    }, 1000)
+    const timer2 = setTimeout(() => {
+      enqueueSnackbar('Amet consectetur adipisicing', { variant: 'info' })
+    }, 2000)
+    const timer3 = setTimeout(() => {
+      enqueueSnackbar('Elit. Repellat?', { variant: 'default' })
+    }, 3000)
+    return () => {
+      clearTimeout(timer1)
+      clearTimeout(timer2)
+      clearTimeout(timer3)
+    }
+  }, [enqueueSnackbar])
 
-    <Typography variant="h4">Welcome, Joe</Typography>
-    <Typography>
-      Use this service to add and review skills, view learning opportunities, plan your
-      career pathway and keep up to date with communities.
-    </Typography>
+  return (
+    <Page>
+      {/* <Box style={{ display: 'flex', columnGap: '10px' }}>
+        <Box sx={{ mb: 5 }}>
+          <TextField
+            id="standard-basic"
+            label="Standard"
+            variant="standard"
+            placeholder="Your search term"
+          />
 
-    <Grid container spacing={4}>
-      <Grid item xs={4}>
-        <Alert severity="info">
-          <AlertTitle>Latest updates</AlertTitle>
-          <ul>
-            <li>You currently have no skills on your profile. Try adding a new skill</li>
-            <li>You need to complete your DDAT assessment</li>
-            <li>
-              Government as a platform has been added as a new course Clear latest updates
-            </li>
-          </ul>
-        </Alert>
+          <Button variant="contained" size="small">
+            Contained
+          </Button>
+        </Box>
+      </Box>
+      <RadioGroup
+        row
+        aria-labelledby="demo-row-radio-buttons-group-label"
+        name="row-radio-buttons-group"
+      >
+        <FormControlLabel value="All" control={<Radio />} label="All" />
+        <FormControlLabel value="Skills" control={<Radio />} label="Skills" />
+        <FormControlLabel value="Learning" control={<Radio />} label="Learning" />
+        <FormControlLabel value="Careers" control={<Radio />} label="Careers" />
+        <FormControlLabel
+          value="Communities"
+          disabled
+          control={<Radio />}
+          label="Communities"
+        />
+      </RadioGroup> */}
 
-        <Divider />
-      </Grid>
-      <Grid item xs={8}>
-        <Grid container spacing={4}>
-          {boxData.map((data) => (
-            <Grid item xs={4} key={data.title}>
-              <Card style={{ height: '100%' }}>
-                <CardMedia
-                  component="img"
-                  height="140"
-                  image={data.image}
-                  alt="green iguana"
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
-                    {data.title}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {data.content}
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                  <Button size="small">Share</Button>
-                  <Button size="small">{data.link}</Button>
-                </CardActions>
-              </Card>
-            </Grid>
-          ))}
+      <Box sx={{ mb: 6 }}>
+        <Typography variant="h1" sx={{ mb: 4 }}>
+          Welcome, Joe
+        </Typography>
+        <Typography gutterBottom>
+          Use this service to add and review skills, view learning opportunities, plan
+          your career pathway and keep up to date with communities.
+        </Typography>
+      </Box>
+
+      <Grid container spacing={4}>
+        <Grid item xs={4}>
+          <Alert severity="info">
+            <AlertTitle>Latest updates</AlertTitle>
+            <ul>
+              <li>
+                You currently have no skills on your profile. Try adding a new skill
+              </li>
+              <li>You need to complete your DDAT assessment</li>
+              <li>
+                Government as a platform has been added as a new course Clear latest
+                updates
+              </li>
+            </ul>
+          </Alert>
+
+          <Divider />
+        </Grid>
+        <Grid item xs={8}>
+          <Grid container spacing={4}>
+            {boxData.map((data) => (
+              <Grid item xs={4} key={data.title}>
+                <Card style={{ height: '100%' }}>
+                  <CardMedia
+                    component="img"
+                    height="140"
+                    image={data.image}
+                    alt="green iguana"
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h3" component="div">
+                      {data.title}
+                    </Typography>
+                    <Typography color="text.secondary">{data.content}</Typography>
+                  </CardContent>
+                  <CardActions>
+                    <Button size="small">Share</Button>
+                    <Button size="small">{data.link}</Button>
+                  </CardActions>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
         </Grid>
       </Grid>
-    </Grid>
-  </Page>
-)
+    </Page>
+  )
+}
 
 export default IndexPage

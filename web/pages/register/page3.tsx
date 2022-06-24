@@ -1,69 +1,57 @@
-import { Button, FormGroup, Heading, HintText, InputField, Paragraph } from 'govuk-react'
-import Layout from '@/components/Layout'
-import Link from 'next/link'
+import LinkButton from '@/components/LinkButton'
+import Page from '@/components/GenericPage'
+import { Box, TextField, Typography } from '@mui/material'
+import HorizontalLinearStepper from '@/components/HorizontalLinearStepper'
 
-const Page = () => {
+const RegisterPage = () => {
   return (
-    <Layout backLink={true}>
-      <Heading>Create an account</Heading>
-      <Paragraph>You need to create an account before using this service</Paragraph>
+    <Page>
+      <Box sx={{ mb: 3 }}>
+        <HorizontalLinearStepper />
+      </Box>
 
-      <Heading size={'MEDIUM'}>Enter your email address</Heading>
+      <Typography variant="h1" gutterBottom>
+        Create an account
+      </Typography>
+      <Typography gutterBottom>
+        You need to create an account before using this service
+      </Typography>
 
-      <FormGroup>
-        <InputField
-          input={{
-            name: 'group0'
-          }}
-        >
-          Email address
-        </InputField>
-      </FormGroup>
-      <FormGroup>
-        <InputField
-          input={{
-            name: 'group0'
-          }}
-        >
-          Confirm your email address
-        </InputField>
-      </FormGroup>
+      <Typography variant="h3">Enter your email address</Typography>
 
-      <Heading size={'MEDIUM'}>Create a password</Heading>
+      <TextField
+        margin="normal"
+        label="Email address"
+        variant="filled"
+        placeholder="e.g. Joe.Bloggs@gmail.com"
+        fullWidth
+      />
+      <TextField
+        margin="normal"
+        label="Confirm your email address"
+        variant="filled"
+        fullWidth
+      />
 
-      <Heading size="MEDIUM" style={{ marginBottom: '0' }}>
-        Before you start
-      </Heading>
-      <HintText>
+      <Typography variant="h3">Create a password</Typography>
+
+      <Typography gutterBottom>
         Your password should have at least 8 characters and not include your name or email
         address
-      </HintText>
+      </Typography>
 
-      <FormGroup>
-        <InputField
-          input={{
-            name: 'group0'
-          }}
-        >
-          Password
-        </InputField>
-      </FormGroup>
+      <TextField margin="normal" label="Password" variant="filled" fullWidth />
 
-      <FormGroup>
-        <InputField
-          input={{
-            name: 'group0'
-          }}
-        >
-          Confirm your password
-        </InputField>
-      </FormGroup>
+      <TextField
+        margin="normal"
+        label="Confirm your password"
+        variant="filled"
+        fullWidth
+      />
 
-      <Link href="/register/page4" passHref>
-        <Button>continue</Button>
-      </Link>
-    </Layout>
+      <LinkButton href="/register/page4">continue</LinkButton>
+    </Page>
   )
 }
 
-export default Page
+export default RegisterPage
