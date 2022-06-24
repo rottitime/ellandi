@@ -4,7 +4,6 @@ import Page from '@/components/Page'
 import { SyntheticEvent, useState } from 'react'
 import {
   Box,
-  Button,
   Chip,
   FormControl,
   InputLabel,
@@ -22,7 +21,6 @@ import {
   Typography
 } from '@mui/material'
 import { styled } from '@mui/material/styles'
-import { typography } from '@mui/system'
 import Image from 'next/image'
 import Link from '@/components/Link'
 
@@ -37,15 +35,6 @@ const IconTitle = styled(Typography)`
     vertical-align: middle;
     margin-right: 50px;
   }
-`
-
-// const Cell = styled(Table.Cell)`
-//   vertical-align: middle;
-// `
-
-const BlueButton = styled(Button)`
-  /* background-color: #1d70b8;
-  margin: 0; */
 `
 
 const SkillsPage = () => {

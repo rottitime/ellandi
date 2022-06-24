@@ -14,8 +14,7 @@ import {
   Radio,
   RadioGroup,
   TextField,
-  Typography,
-  Paper
+  Typography
 } from '@mui/material'
 
 const boxData = [
