@@ -52,6 +52,7 @@ class TestUserEndpoint(APITestCase):
                 f"{TEST_SERVER_URL}professions/digital-data-and-technology-professions/",
             ],
         }
+        self.user_skill = UserSkill.objects.create(user=self.user, skill_name="Python", level="beginner")
 
     def test_get(self):
         response = self.client.get("/users/")
@@ -82,6 +83,12 @@ class TestUserEndpoint(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         number_matching_users = User.objects.filter(id=self.user_id).count()
         self.assertEqual(number_matching_users, 0)
+
+    def test_get_skills(self):
+        response = self.client.get(f"/users/{self.user_id}/skills/")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data[0]["skill_name"], "Python")
+        self.assertEqual(response.data[0]["level"], "beginner")
 
 
 class TestUserSkillsEndpoint(APITestCase):
