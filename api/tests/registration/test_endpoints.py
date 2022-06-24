@@ -87,6 +87,8 @@ class TestUserEndpoint(APITestCase):
     def test_get_skills(self):
         response = self.client.get(f"/users/{self.user_id}/skills/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data[0]["skill_name"], "Python")
+        self.assertEqual(response.data[0]["level"], "beginner")
 
 
 class TestUserSkillsEndpoint(APITestCase):
