@@ -1,3 +1,4 @@
+import knox.views
 from django.contrib import admin
 from django.urls import include, path
 from drf_spectacular.views import (
@@ -5,7 +6,6 @@ from drf_spectacular.views import (
     SpectacularRedocView,
     SpectacularSwaggerView,
 )
-import knox.views
 
 from ellandi import auth, views
 from ellandi.registration.views import registration_router
@@ -27,13 +27,13 @@ admin_urlpatterns = [
 
 page_urlpatterns = [
     path("page/<int:page_num>", views.page_view),
-    path(r'api/auth/', include('knox.urls')),
+    path(r"api/auth/", include("knox.urls")),
 ]
 
 auth_urlpatterns = [
-     path(r'login/', auth.LoginView.as_view(), name='login'),
-     path(r'logout/', knox.views.LogoutView.as_view(), name='logout'),
-     path(r'logoutall/', knox.views.LogoutAllView.as_view(), name='logoutall'),
+    path(r"login/", auth.LoginView.as_view(), name="login"),
+    path(r"logout/", knox.views.LogoutView.as_view(), name="logout"),
+    path(r"logoutall/", knox.views.LogoutAllView.as_view(), name="logoutall"),
 ]
 
 urlpatterns = api_urlpatterns + admin_urlpatterns + schema_urlpatterns + page_urlpatterns + auth_urlpatterns
