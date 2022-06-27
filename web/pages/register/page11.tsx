@@ -1,18 +1,18 @@
 import Link from '@/components/Link'
 import LinkButton from '@/components/LinkButton'
-import Page from '@/components/GenericPage'
-import { FormControlLabel, LinearProgress, Radio, RadioGroup, TextField, Typography } from '@mui/material'
+import Page from '@/components/GenericPage2'
+import {
+  FormControlLabel,
+  LinearProgress,
+  Radio,
+  RadioGroup,
+  TextField,
+  Typography
+} from '@mui/material'
 
 const RegisterPage = () => {
   return (
-    <Page>
-
-<LinearProgress variant="determinate" value={80} sx={{ mb: 6 }} />
-
-
-      <Typography variant="h1" gutterBottom>
-        Create a profile - Language skills
-      </Typography>
+    <Page title="Create a profile - Language skills" progress={80}>
       <Typography variant="subtitle1" gutterBottom>
         Add any languages that you use. You can change or add to these later.
       </Typography>
@@ -90,7 +90,9 @@ const RegisterPage = () => {
         <Link href="/mock/page12">Skip this step</Link>
       </Typography>
 
-      <LinkButton href="/register/page12">Continue</LinkButton>
+      <LinkButton href="/register/page12" fullWidth>
+        Continue
+      </LinkButton>
     </Page>
   )
 }

@@ -1,17 +1,11 @@
-import Page from '@/components/GenericPage'
+import Page from '@/components/GenericPage2'
 import { Box, LinearProgress, Typography } from '@mui/material'
 import LinkButton from '@/components/LinkButton'
 import Link from '@/components/Link'
 
 const RegisterPage = () => {
   return (
-    <Page>
-      <LinearProgress variant="determinate" value={60} sx={{ mb: 6 }} />
-
-      <Typography variant="h1" gutterBottom>
-        Create an account - Upload your CV
-      </Typography>
-
+    <Page title="Create an account - Upload your CV" progress={60}>
       <Typography variant="subtitle1" gutterBottom>
         If you don't have a CV available you can add one later by going to your Profile
       </Typography>
@@ -28,7 +22,9 @@ const RegisterPage = () => {
         <Link href="/mock/page10">Skip this step</Link>
       </Typography>
 
-      <LinkButton href="/register/page10">Continue</LinkButton>
+      <LinkButton href="/register/page10" fullWidth>
+        Continue
+      </LinkButton>
     </Page>
   )
 }

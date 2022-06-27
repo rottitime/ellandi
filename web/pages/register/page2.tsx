@@ -4,10 +4,13 @@ import LinkButton from '@/components/LinkButton'
 import { Box, Typography } from '@mui/material'
 
 const RegisterPage = () => (
-  <Page>
-    <Typography variant="h1" gutterBottom sx={{ textAlign: 'center' }}>
-      Register in just <Highlight>10 minutes</Highlight>
-    </Typography>
+  <Page
+    title={
+      <>
+        Register in just <Highlight>10 minutes</Highlight>
+      </>
+    }
+  >
     <Box sx={{ textAlign: 'center' }}>
       <LinkButton href="/register/page3" fullWidth sx={{ mb: 5, maxWidth: '200px' }}>
         Start now

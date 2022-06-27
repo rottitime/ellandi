@@ -1,17 +1,10 @@
-// import { Button, FormGroup, Heading, InputField } from 'govuk-react'
 import LinkButton from '@/components/LinkButton'
-import Page from '@/components/GenericPage'
-import { LinearProgress, TextField, Typography } from '@mui/material'
+import Page from '@/components/GenericPage2'
+import { TextField } from '@mui/material'
 
 const RegisterPage = () => {
   return (
-    <Page>
-
-<LinearProgress variant="determinate" value={20} sx={{ mb: 6 }} />
-      <Typography variant="h1" gutterBottom>
-        Create an account - Your details
-      </Typography>
-
+    <Page title="Create an account - Your details" progress={20}>
       <TextField margin="normal" label="Full name" variant="filled" fullWidth />
       <TextField margin="normal" label="Department" variant="filled" fullWidth />
       <TextField margin="normal" label="Job title" variant="filled" fullWidth />

@@ -1,21 +1,10 @@
-import Page from '@/components/GenericPage'
+import Page from '@/components/GenericPage2'
 import Link from '@/components/Link'
-import {
-  Checkbox,
-  FormControlLabel,
-  FormGroup,
-  LinearProgress,
-  Typography
-} from '@mui/material'
+import { Checkbox, FormControlLabel, FormGroup, Typography } from '@mui/material'
 import LinkButton from '@/components/LinkButton'
 
 const RegisterPage = () => (
-  <Page>
-    <LinearProgress variant="determinate" value={10} sx={{ mb: 6 }} />
-
-    <Typography variant="h1" gutterBottom>
-      Create an account - Privacy policy
-    </Typography>
+  <Page title="Create an account - Privacy policy" progress={10}>
     <Typography gutterBottom>
       Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dicta, vitae?
       <br />
@@ -29,7 +18,9 @@ const RegisterPage = () => (
       />
     </FormGroup>
 
-    <LinkButton href="/register/page5">Continue</LinkButton>
+    <LinkButton href="/register/page5" fullWidth>
+      Continue
+    </LinkButton>
   </Page>
 )
 

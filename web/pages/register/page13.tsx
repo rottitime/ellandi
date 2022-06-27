@@ -1,4 +1,4 @@
-import Page from '@/components/GenericPage'
+import Page from '@/components/GenericPage2'
 import { styled } from '@mui/material/styles'
 import {
   Box,
@@ -23,13 +23,7 @@ const Stack = styled(Box)`
 
 const RegisterPage = () => {
   return (
-    <Page>
-      <LinearProgress variant="determinate" value={100} sx={{ mb: 6 }} />
-
-      <Typography variant="h1" gutterBottom>
-        Create a profile - Skills you'd like to develop
-      </Typography>
-
+    <Page title="Create a profile - Skills you'd like to develop" progress={100}>
       <Typography variant="subtitle1" gutterBottom>
         Select any skills that you'd like to develop. You can change or add to these later
       </Typography>
@@ -90,7 +84,9 @@ const RegisterPage = () => {
         <Link href="/skills">Skip this page</Link>
       </Typography>
 
-      <LinkButton href="/skills">Continue</LinkButton>
+      <LinkButton href="/skills" fullWidth>
+        Continue
+      </LinkButton>
     </Page>
   )
 }

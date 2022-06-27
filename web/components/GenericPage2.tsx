@@ -1,5 +1,5 @@
 import Template from '@/components/Template'
-import { Card, Grid, Typography, styled } from '@mui/material'
+import { Card, Grid, Typography, styled, LinearProgress, Hidden } from '@mui/material'
 import { FC, ReactNode } from 'react'
 import Crown from '@/components/icons/Crown'
 import List from '@/components/List'
@@ -14,12 +14,16 @@ import {
 
 type Props = {
   children: ReactNode
+  title: string | ReactNode
+  progress?: number
 }
 
 const GridContainer = styled(Grid)`
-  flex-flow: row wrap;
-  margin: 0px auto;
-  height: 100vh;
+  ${({ theme }) => theme.breakpoints.up('md')} {
+    flex-flow: row wrap;
+    margin: 0px auto;
+    height: 100vh;
+  }
 
   .logo {
     font-size: 45px;
@@ -34,8 +38,14 @@ const GridContainer = styled(Grid)`
   .first-box {
     background-color: rgb(9, 31, 62);
     position: relative;
-    padding: 160px 48px 24px;
+
     color: #fff;
+
+    ${({ theme }) => theme.breakpoints.up('md')} {
+      flex-direction: row;
+      flex-wrap: wrap;
+      padding: 160px 48px 24px;
+    }
 
     &:after {
       content: '';
@@ -56,7 +66,7 @@ const GridContainer = styled(Grid)`
   }
 `
 
-const GenericPage2: FC<Props> = ({ children }) => (
+const GenericPage2: FC<Props> = ({ children, title, progress }) => (
   <Template>
     <GridContainer spacing={0} container>
       <Grid item xs={12} md={4} className="first-box">
@@ -64,48 +74,56 @@ const GenericPage2: FC<Props> = ({ children }) => (
         <Typography variant="h1" gutterBottom>
           Civil Service Skills &amp; Learning
         </Typography>
-        <Typography>You can use this service to:</Typography>
-        <List
-          className="list"
-          list={[
-            {
-              icon: <AccountBox />,
-              title: 'Your own skills profile',
-              content: 'Upload and maintain your skills profile'
-            },
-            {
-              icon: <Yard />,
-              title: 'Develop in the future',
-              content: 'Specify any skills youd like to develop in the future'
-            },
-            {
-              icon: <Work />,
-              title: 'Job suggestions',
-              content: 'View job suggestions based on your skills'
-            },
-            {
-              icon: <Search />,
-              title: 'Find courses',
-              content: 'Find courses based on your interests'
-            },
-            {
-              icon: <FormatListBulleted />,
-              title: 'Plan your career',
-              content: 'Help you plan the next steps in your career'
-            },
-            {
-              icon: <QuestionAnswer />,
-              title: 'Discuss your skills',
-              content: 'Facilitate discussions about skills with your line manager'
-            }
-          ]}
-        />
-        {/* Registering takes around 5 -10a minutes. Before you start You'll be asked to
-        upload your CV. If you don't have a CV available you can add one later by going to
-        your Profile */}
+        <Hidden initialWidth="md" lgDown={true}>
+          <Typography>You can use this service to:</Typography>
+
+          <List
+            className="list"
+            list={[
+              {
+                icon: <AccountBox />,
+                title: 'Your own skills profile',
+                content: 'Upload and maintain your skills profile'
+              },
+              {
+                icon: <Yard />,
+                title: 'Develop in the future',
+                content: 'Specify any skills youd like to develop in the future'
+              },
+              {
+                icon: <Work />,
+                title: 'Job suggestions',
+                content: 'View job suggestions based on your skills'
+              },
+              {
+                icon: <Search />,
+                title: 'Find courses',
+                content: 'Find courses based on your interests'
+              },
+              {
+                icon: <FormatListBulleted />,
+                title: 'Plan your career',
+                content: 'Help you plan the next steps in your career'
+              },
+              {
+                icon: <QuestionAnswer />,
+                title: 'Discuss your skills',
+                content: 'Facilitate discussions about skills with your line manager'
+              }
+            ]}
+          />
+        </Hidden>
       </Grid>
       <Grid item xs className="main-content">
         <Card elevation={0} sx={{ maxWidth: '454px', padding: '24px' }}>
+          <Typography variant="h1" gutterBottom sx={{ textAlign: 'center' }}>
+            {title}
+          </Typography>
+
+          {progress && (
+            <LinearProgress variant="determinate" value={progress} sx={{ mb: 6 }} />
+          )}
+
           {children}
         </Card>
       </Grid>

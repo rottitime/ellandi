@@ -1,4 +1,4 @@
-import Page from '@/components/GenericPage'
+import Page from '@/components/GenericPage2'
 import LinkButton from '@/components/LinkButton'
 import {
   Checkbox,
@@ -11,12 +11,7 @@ import Link from '@/components/Link'
 
 const RegisterPage = () => {
   return (
-    <Page>
-      <LinearProgress variant="determinate" value={40} sx={{ mb: 6 }} />
-
-      <Typography variant="h1" gutterBottom>
-        Create an account - Current profession
-      </Typography>
+    <Page title="Create an account - Current profession" progress={40}>
       <Typography variant="subtitle1" gutterBottom>
         Select the Profession(s) that you belong to. You may choose more than one
       </Typography>
@@ -89,7 +84,9 @@ const RegisterPage = () => {
         <Link href="/mock/page8">Skip this step</Link>
       </Typography>
 
-      <LinkButton href="/register/page8">Continue</LinkButton>
+      <LinkButton href="/register/page8" fullWidth>
+        Continue
+      </LinkButton>
     </Page>
   )
 }

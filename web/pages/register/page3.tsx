@@ -1,18 +1,10 @@
 import LinkButton from '@/components/LinkButton'
-import Page from '@/components/GenericPage'
+import Page from '@/components/GenericPage2'
 import { Box, TextField, Typography } from '@mui/material'
-import HorizontalLinearStepper from '@/components/HorizontalLinearStepper'
 
 const RegisterPage = () => {
   return (
-    <Page>
-      <Box sx={{ mb: 3 }}>
-        <HorizontalLinearStepper />
-      </Box>
-
-      <Typography variant="h1" gutterBottom>
-        Create an account
-      </Typography>
+    <Page title="Create an account" progress={5}>
       <Typography gutterBottom>
         You need to create an account before using this service
       </Typography>
@@ -49,7 +41,9 @@ const RegisterPage = () => {
         fullWidth
       />
 
-      <LinkButton href="/register/page4">continue</LinkButton>
+      <LinkButton href="/register/page4" fullWidth>
+        Continue
+      </LinkButton>
     </Page>
   )
 }

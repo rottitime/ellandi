@@ -1,17 +1,13 @@
 // import { Button, Heading, HintText, LeadParagraph, Paragraph, Radio } from 'govuk-react'
 import Link from '@/components/Link'
 import LinkButton from '@/components/LinkButton'
-import Page from '@/components/GenericPage'
-import { FormControlLabel, LinearProgress, Radio, RadioGroup, Typography } from '@mui/material'
+import Page from '@/components/GenericPage2'
+import { FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material'
 
 const RegisterPage = () => {
   return (
-    <Page>
-      <LinearProgress variant="determinate" value={30} sx={{ mb: 6 }} />
-
-      <Typography variant="h1" gutterBottom>
-        Create a profile - Grade
-      </Typography>
+    <Page title="Create a profile - Grade" progress={30}>
+      <Typography variant="h1" gutterBottom></Typography>
 
       <Typography variant="subtitle1" gutterBottom>
         Select your grade. You may only choose one
@@ -115,7 +111,9 @@ const RegisterPage = () => {
         <Link href="/mock/page7">Skip this step</Link>
       </Typography>
 
-      <LinkButton href="/register/page7">Continue</LinkButton>
+      <LinkButton href="/register/page7" fullWidth>
+        Continue
+      </LinkButton>
     </Page>
   )
 }

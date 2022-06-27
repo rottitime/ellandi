@@ -1,4 +1,4 @@
-import Page from '@/components/GenericPage'
+import Page from '@/components/GenericPage2'
 import Link from '@/components/Link'
 import {
   FormControlLabel,
@@ -11,12 +11,7 @@ import LinkButton from '@/components/LinkButton'
 
 const RegisterPage = () => {
   return (
-    <Page>
-      <LinearProgress variant="determinate" value={50} sx={{ mb: 6 }} />
-
-      <Typography variant="h1" gutterBottom>
-        Create an account - Current contract type
-      </Typography>
+    <Page title="Create an account - Current contract type" progress={50}>
       <Typography variant="subtitle1" gutterBottom>
         Select your contract type. You can only choose one
       </Typography>
@@ -35,7 +30,9 @@ const RegisterPage = () => {
       <Typography gutterBottom>
         <Link href="/mock/page9">Skip this step</Link>
       </Typography>
-      <LinkButton href="/register/page9">Continue</LinkButton>
+      <LinkButton href="/register/page9" fullWidth>
+        Continue
+      </LinkButton>
     </Page>
   )
 }

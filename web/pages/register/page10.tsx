@@ -1,17 +1,16 @@
-import Page from '@/components/GenericPage'
-import { FormControlLabel, LinearProgress, Radio, RadioGroup, Typography } from '@mui/material'
+import Page from '@/components/GenericPage2'
+import {
+  FormControlLabel,
+  LinearProgress,
+  Radio,
+  RadioGroup,
+  Typography
+} from '@mui/material'
 import LinkButton from '@/components/LinkButton'
 
 const RegisterPage = () => {
   return (
-    <Page>
-
-<LinearProgress variant="determinate" value={70} sx={{ mb: 6 }} />
-
-
-      <Typography variant="h1" gutterBottom>
-        Create an account - Current contract type
-      </Typography>
+    <Page title="Create an account - Current contract type" progress={70}>
       <Typography variant="subtitle1" gutterBottom>
         Select your contract type. You can only choose one
       </Typography>
@@ -25,7 +24,9 @@ const RegisterPage = () => {
         <FormControlLabel control={<Radio />} label="No" value="No" />
       </RadioGroup>
 
-      <LinkButton href="/register/page11">Continue</LinkButton>
+      <LinkButton href="/register/page11" fullWidth>
+        Continue
+      </LinkButton>
     </Page>
   )
 }
