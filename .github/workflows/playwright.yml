@@ -16,7 +16,7 @@ permissions:
   contents: read
 
 jobs:
-  check_frontend:
+  test_frontend:
     runs-on: ubuntu-latest
 
     steps:
