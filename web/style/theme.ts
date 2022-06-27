@@ -31,7 +31,7 @@ const theme = createTheme({
   },
   palette: {
     background: {
-      default: 'rgb(240, 242, 245)'
+      default: 'rgb(242, 242, 242)'
     }
   },
   typography: {
