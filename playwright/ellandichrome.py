@@ -1,4 +1,4 @@
-from playwright.sync_api import Playwright, sync_playwright, expect
+from playwright.sync_api import Playwright, sync_playwright
 
 
 def run(playwright: Playwright) -> None:
@@ -14,7 +14,7 @@ def run(playwright: Playwright) -> None:
     # Click a:has-text("Enter")
     # with page.expect_navigation(url="https://ellandi-web-develop.london.cloudapps.digital/skills/general"):
     with page.expect_navigation():
-        page.locator("a:has-text(\"Enter\")").click()
+        page.locator('a:has-text("Enter")').click()
     # expect(page).to_have_url("https://ellandi-web-develop.london.cloudapps.digital/skills")
 
     # Click text=Your details
@@ -22,7 +22,7 @@ def run(playwright: Playwright) -> None:
     # expect(page).to_have_url("https://ellandi-web-develop.london.cloudapps.digital/details")
 
     # Click svg:has-text("open") >> nth=0
-    page.locator("svg:has-text(\"open\")").first.click()
+    page.locator('svg:has-text("open")').first.click()
 
     # Click text=Careers Wales
     page.locator("text=Careers Wales").click()

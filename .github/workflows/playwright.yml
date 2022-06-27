@@ -33,6 +33,6 @@ jobs:
           playwright install-deps
           playwright install chromium
 
-      - name: build tests
+      - name: run playwright tests
         run: |
           make playwright-test
