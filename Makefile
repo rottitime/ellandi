@@ -86,3 +86,7 @@ validate-frontend: ## Check style and syntax with
 .PHONY: reset-db
 reset-db:
 	docker-compose down --volumes
+
+.PHONY: playwright-test
+playwright-test:
+	python3 playwright/ellandichrome.py
