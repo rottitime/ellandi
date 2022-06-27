@@ -1,5 +1,5 @@
 import { FC, ReactNode } from 'react'
-import { Container as MuiContainer, Grid, Paper } from '@mui/material'
+import { Container as MuiContainer } from '@mui/material'
 import AppBar from '@/components/AppBar'
 import { styled } from '@mui/material/styles'
 import Drawer from '@/components/Drawer'
