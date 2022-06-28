@@ -1,13 +1,8 @@
 import Page from '@/components/GenericPage2'
 import LinkButton from '@/components/LinkButton'
-import {
-  Checkbox,
-  FormControlLabel,
-  FormGroup,
-  LinearProgress,
-  Typography
-} from '@mui/material'
+import { Checkbox, FormControlLabel, FormGroup, Typography } from '@mui/material'
 import Link from '@/components/Link'
+import ToggleChip from '@/components/ToggleChip'
 
 const RegisterPage = () => {
   return (
@@ -20,6 +15,8 @@ const RegisterPage = () => {
         We'll use this to suggest learning and career development opportunities that are
         relevant to you
       </Typography>
+
+      <ToggleChip label="test" />
 
       <FormGroup>
         <FormControlLabel control={<Checkbox />} label="Corporate Finance Profession" />

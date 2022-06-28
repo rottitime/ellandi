@@ -1,6 +1,6 @@
 import LinkButton from '@/components/LinkButton'
 import Page from '@/components/GenericPage2'
-import { Box, TextField, Typography } from '@mui/material'
+import { TextField, Typography } from '@mui/material'
 
 const RegisterPage = () => {
   return (

@@ -1,6 +1,6 @@
 import Page from '@/components/GenericPage2'
 import { styled } from '@mui/material/styles'
-import { Box, Button, Chip, LinearProgress, Typography } from '@mui/material'
+import { Box, Button, Chip, Typography } from '@mui/material'
 import LinkButton from '@/components/LinkButton'
 import Link from '@/components/Link'
 

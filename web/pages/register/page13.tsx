@@ -4,7 +4,6 @@ import {
   Box,
   Button,
   Chip,
-  LinearProgress,
   Paper,
   Table,
   TableCell,

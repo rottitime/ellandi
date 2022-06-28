@@ -1,5 +1,5 @@
 import Page from '@/components/GenericPage2'
-import { Box, LinearProgress, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import LinkButton from '@/components/LinkButton'
 import Link from '@/components/Link'
 

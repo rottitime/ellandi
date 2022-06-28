@@ -1,12 +1,6 @@
 import Page from '@/components/GenericPage2'
 import Link from '@/components/Link'
-import {
-  FormControlLabel,
-  LinearProgress,
-  Radio,
-  RadioGroup,
-  Typography
-} from '@mui/material'
+import { FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material'
 import LinkButton from '@/components/LinkButton'
 
 const RegisterPage = () => {
