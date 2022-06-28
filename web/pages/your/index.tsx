@@ -5,14 +5,29 @@ import {
   Heading,
   Input,
   LeadParagraph,
-  Link,
   ListItem,
-  Paragraph,
   Radio,
   UnorderedList
 } from 'govuk-react'
 import Layout from '@/components/UI/Layout'
+import Link from '@/components/UI/Link'
+import { Text } from '@/components/UI/Shared/Shared'
+import theme from '@/style/theme'
 import styled from 'styled-components'
+import SkillsIcon from '@/components/svg/Skills'
+import CareersIcon from '@/components/svg/Careers'
+import CommunitiesIcon from '@/components/svg/Communities'
+import LearningIcon from '@/components/svg/Learning'
+import { ReactNode } from 'react'
+
+type MenuDataType = {
+  title: string
+  content: string
+  linkText: string
+  url: string
+  color: string
+  logo: ReactNode
+}[]
 
 const HeaderIcon = styled.img`
   display: inline-block;
@@ -24,7 +39,7 @@ const LearningLinks = styled(Link)`
   background-color: #f2f2f2;
   display: block;
   margin-bottom: 4px;
-  padding: 10px;
+  padding: 13px;
 `
 
 const InfoBox = styled.div`
@@ -53,6 +68,44 @@ const Box = styled.div`
   border-top: 2px solid #1d70b8;
   padding-top: 10px;
 `
+
+const menuData: MenuDataType = [
+  {
+    title: 'Skills',
+    content:
+      'Update your skills profile to find learning and development opportunities tailored to you',
+    linkText: 'Review your skills',
+    url: '/skills',
+    color: theme.palette.profile.skills.color,
+    logo: <SkillsIcon />
+  },
+  {
+    title: 'Learning',
+    content: 'Explore the wide variety of learning and training courses available to you',
+    linkText: 'Find learning',
+    url: '/learning',
+    color: theme.palette.profile.learning.color,
+    logo: <LearningIcon />
+  },
+  {
+    title: 'Careers',
+    content:
+      'View current job vacancies and career pathways to discover what they involve',
+    linkText: 'Plan your career',
+    url: '/careers',
+    color: theme.palette.profile.careers.color,
+    logo: <CareersIcon />
+  },
+  {
+    title: 'Communities',
+    content:
+      'Discuss ideas and share best practice with specific professions and functions',
+    linkText: 'Access communities',
+    url: '/communities',
+    color: theme.palette.profile.communities.color,
+    logo: <CommunitiesIcon />
+  }
+]
 
 const IndexPage = () => (
   <>
@@ -108,7 +161,8 @@ const IndexPage = () => (
             </div>
           </InfoBox>
         </Box>
-        <Box>
+
+        <Box style={{ marginTop: '20px' }}>
           <LeadParagraph>Browse learning strands</LeadParagraph>
           <LearningLinks href="#">Foundations of public admin</LearningLinks>
           <LearningLinks href="#">Working in government</LearningLinks>
@@ -119,51 +173,26 @@ const IndexPage = () => (
       </GridCol>
       <GridCol setWidth="two-thirds">
         <Grid>
-          <Box>
-            <Heading size="SMALL">
-              <HeaderIcon src="/images/skills.svg" alt="" />
-              Skills
-            </Heading>
-            <Text>
-              Update your skills profile to find learning and development opportunities
-              tailored to you
-            </Text>
-            <Button>Review your skills</Button>
-          </Box>
-
-          <Box>
-            <Heading size="SMALL">
-              <HeaderIcon src="/images/skills.svg" alt="" />
-              Learning
-            </Heading>
-            <Text>
-              Explore the wide variety of learning and training courses available to you
-            </Text>
-            <Button>Find learning</Button>
-          </Box>
-
-          <Box>
-            <Heading size="SMALL">
-              <HeaderIcon src="/images/skills.svg" alt="" />
-              Careers
-            </Heading>
-            <Text>
-              View current job vacancies and career pathways to discover what they involve
-            </Text>
-            <Button>Plan your career</Button>
-          </Box>
-
-          <Box>
-            <Heading size="SMALL">
-              <HeaderIcon src="/images/skills.svg" alt="" />
-              Communities
-            </Heading>
-            <Text>
-              Discuss ideas and share best practice with specific professions and
-              functions
-            </Text>
-            <Button>Access communities</Button>
-          </Box>
+          {menuData.map((menu) => (
+            <Box key={menu.title}>
+              <Heading
+                size="SMALL"
+                style={{
+                  color: menu.color,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px'
+                }}
+              >
+                {menu.logo}
+                {menu.title}
+              </Heading>
+              <Text>{menu.content}</Text>
+              <Link href={menu.url}>
+                <Button>{menu.linkText}</Button>
+              </Link>
+            </Box>
+          ))}
         </Grid>
       </GridCol>
     </GridRow>

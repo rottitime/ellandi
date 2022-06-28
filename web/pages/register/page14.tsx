@@ -83,7 +83,7 @@ const Page = () => (
       <Link href="/your/">Skip this step</Link>
     </Text>
 
-    <Link href="/your">
+    <Link href="/your/">
       <Button>Continue</Button>
     </Link>
   </>
