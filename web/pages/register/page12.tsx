@@ -3,10 +3,11 @@ import { styled } from '@mui/material/styles'
 import { Box, Button, Chip, Typography } from '@mui/material'
 import LinkButton from '@/components/LinkButton'
 import Link from '@/components/Link'
+import ToggleChip from '@/components/ToggleChip'
 
 const Stack = styled(Box)`
   .MuiChip-root {
-    margin: 10px;
+    margin: 5px;
   }
 `
 
@@ -19,25 +20,25 @@ const RegisterPage = () => (
       We'll use this to suggest learning and career development opportunities that are
       relevant to you
     </Typography>
-    <Stack>
-      <Chip label="Auditing" variant="outlined" />
-      <Chip label="Bookkeeping" variant="outlined" />
-      <Chip label="Communication" />
-      <Chip label="Coding" variant="outlined" />
-      <Chip label="Creative thinking" variant="outlined" />
-      <Chip label="Customer service" variant="outlined" />
-      <Chip label="Data entry" />
-      <Chip label="Diary management" />
-      <Chip label="Flexibility" />
-      <Chip label="Microsoft Office" variant="outlined" />
-      <Chip label="Motivation" variant="outlined" />
-      <Chip label="Negotiation" />
-      <Chip label="Planning" variant="outlined" />
-      <Chip label="Problem solving" />
-      <Chip label="Project management" variant="outlined" />
-      <Chip label="Sales" variant="outlined" />
-      <Chip label="Social media" variant="outlined" />
-      <Chip label="Teamwork" variant="outlined" />
+    <Stack sx={{ mb: 3 }}>
+      <ToggleChip label="Auditing" variant="outlined" />
+      <ToggleChip label="Bookkeeping" variant="outlined" />
+      <ToggleChip label="Communication" variant="outlined" />
+      <ToggleChip label="Coding" variant="outlined" />
+      <ToggleChip label="Creative thinking" variant="outlined" />
+      <ToggleChip label="Customer service" variant="outlined" />
+      <ToggleChip label="Data entry" variant="outlined" />
+      <ToggleChip label="Diary management" variant="outlined" />
+      <ToggleChip label="Flexibility" variant="outlined" />
+      <ToggleChip label="Microsoft Office" variant="outlined" />
+      <ToggleChip label="Motivation" variant="outlined" />
+      <ToggleChip label="Negotiation" />
+      <ToggleChip label="Planning" variant="outlined" />
+      <ToggleChip label="Problem solving" />
+      <ToggleChip label="Project management" variant="outlined" />
+      <ToggleChip label="Sales" variant="outlined" />
+      <ToggleChip label="Social media" variant="outlined" />
+      <ToggleChip label="Teamwork" variant="outlined" />
     </Stack>
 
     <Button variant="contained" color="secondary" sx={{ mb: 3 }}>

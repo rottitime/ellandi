@@ -1,8 +1,14 @@
 import Page from '@/components/GenericPage2'
 import LinkButton from '@/components/LinkButton'
-import { Checkbox, FormControlLabel, FormGroup, Typography } from '@mui/material'
+import { Stack, styled, Typography } from '@mui/material'
 import Link from '@/components/Link'
 import ToggleChip from '@/components/ToggleChip'
+
+const List = styled(Stack)`
+  .MuiChip-root {
+    margin: 3px;
+  }
+`
 
 const RegisterPage = () => {
   return (
@@ -16,66 +22,34 @@ const RegisterPage = () => {
         relevant to you
       </Typography>
 
-      <ToggleChip label="test" />
-
-      <FormGroup>
-        <FormControlLabel control={<Checkbox />} label="Corporate Finance Profession" />
-        <FormControlLabel
-          control={<Checkbox />}
-          label="Counter-fraud Standards and Profession"
-        />
-        <FormControlLabel
-          control={<Checkbox />}
-          label="Digital, Data and Technology Professions"
-        />
-        <FormControlLabel
-          control={<Checkbox />}
-          label="Government Communication Service"
-        />
-        <FormControlLabel control={<Checkbox />} label="Government Economic Service" />
-        <FormControlLabel control={<Checkbox />} label="Government Finance Profession" />
-        <FormControlLabel control={<Checkbox />} label="Government IT Profession" />
-        <FormControlLabel
-          control={<Checkbox />}
-          label="Government Knowledge and Information Management Profession"
-        />
-        <FormControlLabel control={<Checkbox />} label="Government Legal Profession" />
-        <FormControlLabel
-          control={<Checkbox />}
-          label="Government Occupational Psychology Profession"
-        />
-        <FormControlLabel
-          control={<Checkbox />}
-          label="Government Operational Research Service"
-        />
-        <FormControlLabel control={<Checkbox />} label="Government Planning Inspectors" />
-        <FormControlLabel control={<Checkbox />} label="Government Planning Profession" />
-        <FormControlLabel control={<Checkbox />} label="Government Property Profession" />
-        <FormControlLabel control={<Checkbox />} label="Government Security Profession" />
-        <FormControlLabel
-          control={<Checkbox />}
-          label="Government Science and Engineering Profession"
-        />
-        <FormControlLabel
-          control={<Checkbox />}
-          label="Government Social Research Profession"
-        />
-        <FormControlLabel control={<Checkbox />} label="Government Tax Profession" />
-        <FormControlLabel
-          control={<Checkbox />}
-          label="Government Veterinary Profession"
-        />
-        <FormControlLabel control={<Checkbox />} label="Human Resources Profession" />
-        <FormControlLabel control={<Checkbox />} label="Intelligence Analysis" />
-        <FormControlLabel control={<Checkbox />} label="Internal Audit Profession" />
-        <FormControlLabel
-          control={<Checkbox />}
-          label="Operational Delivery Profession"
-        />
-        <FormControlLabel control={<Checkbox />} label="Policy Profession" />
-        <FormControlLabel control={<Checkbox />} label="Procurement Profession" />
-        <FormControlLabel control={<Checkbox />} label="Project Delivery Profession" />
-      </FormGroup>
+      <List direction="row" flexWrap="wrap" spacing={0} justifyContent="center">
+        <ToggleChip label="Corporate Finance Profession" />
+        <ToggleChip label="Counter-fraud Standards and Profession" />
+        <ToggleChip label="Digital, Data and Technology Professions" />
+        <ToggleChip label="Government Communication Service" />
+        <ToggleChip label="Government Economic Service" />
+        <ToggleChip label="Government Finance Profession" />
+        <ToggleChip label="Government IT Profession" />
+        <ToggleChip label="Government Knowledge and Information Management Profession" />
+        <ToggleChip label="Government Legal Profession" />
+        <ToggleChip label="Government Occupational Psychology Profession" />
+        <ToggleChip label="Government Operational Research Service" />
+        <ToggleChip label="Government Planning Inspectors" />
+        <ToggleChip label="Government Planning Profession" />
+        <ToggleChip label="Government Property Profession" />
+        <ToggleChip label="Government Security Profession" />
+        <ToggleChip label="Government Science and Engineering Profession" />
+        <ToggleChip label="Government Social Research Profession" />
+        <ToggleChip label="Government Tax Profession" />
+        <ToggleChip label="Government Veterinary Profession" />
+        <ToggleChip label="Human Resources Profession" />
+        <ToggleChip label="Intelligence Analysis" />
+        <ToggleChip label="Internal Audit Profession" />
+        <ToggleChip label="Operational Delivery Profession" />
+        <ToggleChip label="Policy Profession" />
+        <ToggleChip label="Procurement Profession" />
+        <ToggleChip label="Project Delivery Profession" />
+      </List>
 
       <Typography gutterBottom>
         <Link href="/mock/page8">Skip this step</Link>

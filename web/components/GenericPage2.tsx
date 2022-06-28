@@ -44,7 +44,7 @@ const GridContainer = styled(Grid)`
     ${({ theme }) => theme.breakpoints.up('md')} {
       flex-direction: row;
       flex-wrap: wrap;
-      padding: 160px 48px 24px;
+      padding: 140px 48px 24px;
     }
 
     &:after {
@@ -63,6 +63,9 @@ const GridContainer = styled(Grid)`
     -webkit-box-align: center;
     align-items: center;
     display: flex;
+
+    /* align-items: start;
+    padding-top: 193px; */
   }
 `
 
@@ -115,8 +118,8 @@ const GenericPage2: FC<Props> = ({ children, title, progress }) => (
         </Hidden>
       </Grid>
       <Grid item xs className="main-content">
-        <Card elevation={0} sx={{ maxWidth: '454px', padding: '24px' }}>
-          <Typography variant="h1" gutterBottom sx={{ textAlign: 'center' }}>
+        <Card elevation={0} sx={{ maxWidth: '540px', padding: '24px' }}>
+          <Typography variant="h1" sx={{ textAlign: 'center', mb: 3 }}>
             {title}
           </Typography>
 
