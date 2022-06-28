@@ -25,7 +25,8 @@ To run the frontend locally:
 
     cd web && npm install
 
-
 ## Schema / Swagger
 
 The schema is available at: http://localhost:8000/api/schema/ and the Swagger docs can be viewed at: http://localhost:8000/api/schema/swagger-ui/
+
+## Playwright browser tests

@@ -35,4 +35,4 @@ jobs:
 
       - name: run playwright tests
         run: |
-          make playwright-test
+          make playwright-develop
