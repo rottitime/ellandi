@@ -93,4 +93,4 @@ playwright-localhost:
 
 .PHONY: playwright-develop ## Run playwright tests
 playwright-develop:
-	python3 ../../integration/develop.py
+	python3 integration/develop.py
