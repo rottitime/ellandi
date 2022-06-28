@@ -1,6 +1,21 @@
 from django.contrib.auth import authenticate
 from knox.views import LoginView as KnoxLoginView
-from rest_framework import authentication, exceptions
+from rest_framework import authentication, exceptions, serializers
+from drf_spectacular.utils import extend_schema
+from drf_spectacular.extensions import OpenApiAuthenticationExtension
+
+
+class KnoxTokenScheme(OpenApiAuthenticationExtension):
+    target_class = 'knox.auth.TokenAuthentication'
+    name = 'knoxTokenAuth'
+
+    def get_security_definition(self, auto_schema):
+        return {
+            'type': 'apiKey',
+            'in': 'header',
+            'name': 'Authorization',
+            'description': 'Token-based authentication with required prefix "Token"',
+        }
 
 
 class SimpleAuthentication(authentication.BaseAuthentication):
