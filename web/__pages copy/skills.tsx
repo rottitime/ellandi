@@ -1,5 +1,5 @@
 import { Button, Heading, LabelText, Link, Select, Table, Tabs } from 'govuk-react'
-import Layout from '@/components/Layout'
+import Layout from '@/components/UI/Layout'
 import styled from 'styled-components'
 import { useState } from 'react'
 

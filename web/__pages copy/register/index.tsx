@@ -1,5 +1,5 @@
 import { Heading } from 'govuk-react'
-import Layout from '@/components/Layout'
+import Layout from '@/components/UI/Layout'
 import Link from '@/components/Link'
 import Paragraph from '@/components/P'
 
@@ -9,34 +9,34 @@ const Page = () => (
       Hi <Link href="#">joe.bloggs@cabinetoffice.gov.uk</Link>
     </Heading>
 
-    <Paragraph>
+    <Text>
       You are invited to register on Civil Service Skills. Please select the following
       link to sign up:
-    </Paragraph>
+    </Text>
 
-    <Paragraph>
+    <Text>
       <Link href="/register/page2">
         http://skills.civilservice.gov.uk/signup/123AbcDefgh1238910ABCdefghk
       </Link>
-    </Paragraph>
-    <Paragraph>
+    </Text>
+    <Text>
       The above is a one-time-only link; you can only use this link once. If you use this
       link more than once, your invitation expires and you will not be able to sign up to
       Civil Service Skills.
-    </Paragraph>
-    <Paragraph>
+    </Text>
+    <Text>
       Please contact{' '}
       <Link href="mailto:mailto:support.learn@csskills.gov.uk">
         support.learn@csskills.gov.uk
       </Link>{' '}
       if you need the sign-up link to be resent.
-    </Paragraph>
+    </Text>
 
-    <Paragraph>
+    <Text>
       Regards
       <br />
       skills.civilservice Team
-    </Paragraph>
+    </Text>
   </Layout>
 )
 

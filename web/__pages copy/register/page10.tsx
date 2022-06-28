@@ -1,5 +1,5 @@
 import { Button, Heading, HintText, LeadParagraph, Radio } from 'govuk-react'
-import Layout from '@/components/Layout'
+import Layout from '@/components/UI/Layout'
 import Link from 'next/link'
 
 const Page = () => {

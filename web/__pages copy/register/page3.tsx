@@ -1,12 +1,12 @@
 import { Button, FormGroup, Heading, HintText, InputField, Paragraph } from 'govuk-react'
-import Layout from '@/components/Layout'
+import Layout from '@/components/UI/Layout'
 import Link from 'next/link'
 
 const Page = () => {
   return (
     <Layout backLink={true}>
       <Heading>Create an account</Heading>
-      <Paragraph>You need to create an account before using this service</Paragraph>
+      <Text>You need to create an account before using this service</Text>
 
       <Heading size={'MEDIUM'}>Enter your email address</Heading>
 
@@ -60,7 +60,7 @@ const Page = () => {
       </FormGroup>
 
       <Link href="/register/page4" passHref>
-        <Button>continue</Button>
+        <Button>Continue</Button>
       </Link>
     </Layout>
   )

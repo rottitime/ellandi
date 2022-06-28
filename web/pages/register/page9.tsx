@@ -1,17 +1,11 @@
-import {
-  Button,
-  FileUpload,
-  Heading,
-  HintText,
-  LeadParagraph,
-  Paragraph
-} from 'govuk-react'
-import Layout from '@/components/Layout'
-import Link from 'next/link'
+import { Button, FileUpload, Heading, HintText, LeadParagraph } from 'govuk-react'
+import { Text } from '@/components/UI/Shared/Shared'
+import Layout from '@/components/UI/Layout'
+import Link from '@/components/UI/Link'
 
 const Page = () => {
   return (
-    <Layout backLink={true}>
+    <>
       <Heading size="LARGE">Create an account - Upload your CV</Heading>
 
       <LeadParagraph>
@@ -22,13 +16,17 @@ const Page = () => {
         more relevant to you
       </HintText>
       <FileUpload name="group0">Upload a document</FileUpload>
-      <Paragraph>[Skip this step](/mock/page10)</Paragraph>
 
-      <Link href="/register/page10" passHref>
+      <Text>
+        <Link href="/register/page10">Skip this step</Link>
+      </Text>
+
+      <Link href="/register/page10">
         <Button>Continue</Button>
       </Link>
-    </Layout>
+    </>
   )
 }
 
 export default Page
+Page.getLayout = (page) => <Layout>{page}</Layout>

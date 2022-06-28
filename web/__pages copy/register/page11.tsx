@@ -8,7 +8,7 @@ import {
   Paragraph,
   Radio
 } from 'govuk-react'
-import Layout from '@/components/Layout'
+import Layout from '@/components/UI/Layout'
 import Link from 'next/link'
 
 const Page = () => {
@@ -33,8 +33,8 @@ const Page = () => {
           Select a language:
         </InputField>
       </FormGroup>
-      <Paragraph>Speaking</Paragraph>
-      <Paragraph>Set a proficiency level for speaking:</Paragraph>
+      <Text>Speaking</Text>
+      <Text>Set a proficiency level for speaking:</Text>
       <Radio
         hint="You can understand and use basic phrases, introduce yourself and describe in simple terms aspects of your background and environment"
         name="group1"
@@ -53,8 +53,8 @@ const Page = () => {
       >
         Proficient
       </Radio>
-      <Paragraph>Writing</Paragraph>
-      <Paragraph>Set a proficiency level for speaking:</Paragraph>
+      <Text>Writing</Text>
+      <Text>Set a proficiency level for speaking:</Text>
       <Radio
         hint="You can understand and use basic phrases, introduce yourself and describe in simple terms aspects of your background and environment"
         name="group2"
@@ -74,11 +74,11 @@ const Page = () => {
         Proficient
       </Radio>
 
-      <Paragraph>[Add language](/mock/page12)</Paragraph>
-      <Paragraph>[Skip this step](/mock/page12)</Paragraph>
+      <Text>[Add language](/mock/page12)</Text>
+      <Text>[Skip this step](/mock/page12)</Text>
 
       <Link href="/register/page12" passHref>
-        <Button>continue</Button>
+        <Button>Continue</Button>
       </Link>
     </Layout>
   )

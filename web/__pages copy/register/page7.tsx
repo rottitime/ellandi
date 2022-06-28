@@ -6,7 +6,7 @@ import {
   LeadParagraph,
   Paragraph
 } from 'govuk-react'
-import Layout from '@/components/Layout'
+import Layout from '@/components/UI/Layout'
 import Link from 'next/link'
 
 const Page = () => {
@@ -47,7 +47,7 @@ const Page = () => {
       <Checkbox>Policy Profession</Checkbox>
       <Checkbox>Procurement Profession</Checkbox>
       <Checkbox>Project Delivery Profession</Checkbox>
-      <Paragraph>[Skip this step](/mock/page8)</Paragraph>
+      <Text>[Skip this step](/mock/page8)</Text>
 
       <Link href="/register/page8" passHref>
         <Button>Continue</Button>

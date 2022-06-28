@@ -11,7 +11,7 @@ import {
   Radio,
   UnorderedList
 } from 'govuk-react'
-import Layout from '@/components/Layout'
+import Layout from '@/components/UI/Layout'
 import styled from 'styled-components'
 
 const HeaderIcon = styled.img`
@@ -54,8 +54,8 @@ const Box = styled.div`
   padding-top: 10px;
 `
 
-const Page = () => (
-  <Layout backLink={true}>
+const IndexPage = () => (
+  <>
     <div style={{ width: '518px' }}>
       <div style={{ display: 'flex', columnGap: '10px' }}>
         <Input placeholder="Your search term" />
@@ -124,10 +124,10 @@ const Page = () => (
               <HeaderIcon src="/images/skills.svg" alt="" />
               Skills
             </Heading>
-            <Paragraph>
+            <Text>
               Update your skills profile to find learning and development opportunities
               tailored to you
-            </Paragraph>
+            </Text>
             <Button>Review your skills</Button>
           </Box>
 
@@ -136,9 +136,9 @@ const Page = () => (
               <HeaderIcon src="/images/skills.svg" alt="" />
               Learning
             </Heading>
-            <Paragraph>
+            <Text>
               Explore the wide variety of learning and training courses available to you
-            </Paragraph>
+            </Text>
             <Button>Find learning</Button>
           </Box>
 
@@ -147,9 +147,9 @@ const Page = () => (
               <HeaderIcon src="/images/skills.svg" alt="" />
               Careers
             </Heading>
-            <Paragraph>
+            <Text>
               View current job vacancies and career pathways to discover what they involve
-            </Paragraph>
+            </Text>
             <Button>Plan your career</Button>
           </Box>
 
@@ -158,16 +158,18 @@ const Page = () => (
               <HeaderIcon src="/images/skills.svg" alt="" />
               Communities
             </Heading>
-            <Paragraph>
+            <Text>
               Discuss ideas and share best practice with specific professions and
               functions
-            </Paragraph>
+            </Text>
             <Button>Access communities</Button>
           </Box>
         </Grid>
       </GridCol>
     </GridRow>
-  </Layout>
+  </>
 )
 
-export default Page
+export default IndexPage
+
+IndexPage.getLayout = (page) => <Layout>{page}</Layout>

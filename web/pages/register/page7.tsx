@@ -1,13 +1,7 @@
-import {
-  Button,
-  Checkbox,
-  Heading,
-  HintText,
-  LeadParagraph,
-  Paragraph
-} from 'govuk-react'
-import Layout from '@/components/Layout'
-import Link from 'next/link'
+import { Button, Checkbox, Heading, HintText, LeadParagraph } from 'govuk-react'
+import { Text } from '@/components/UI/Shared/Shared'
+import Layout from '@/components/UI/Layout'
+import Link from '@/components/UI/Link'
 
 const Page = () => {
   return (
@@ -47,9 +41,12 @@ const Page = () => {
       <Checkbox>Policy Profession</Checkbox>
       <Checkbox>Procurement Profession</Checkbox>
       <Checkbox>Project Delivery Profession</Checkbox>
-      <Paragraph>[Skip this step](/mock/page8)</Paragraph>
 
-      <Link href="/register/page8" passHref>
+      <Text>
+        <Link href="/register/page8">Skip this step</Link>
+      </Text>
+
+      <Link href="/register/page8">
         <Button>Continue</Button>
       </Link>
     </Layout>

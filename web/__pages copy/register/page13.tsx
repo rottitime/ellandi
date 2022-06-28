@@ -1,5 +1,5 @@
 import { Button, Heading, HintText, LeadParagraph, Paragraph, Table } from 'govuk-react'
-import Layout from '@/components/Layout'
+import Layout from '@/components/UI/Layout'
 import Link from 'next/link'
 import styled from 'styled-components'
 
@@ -70,10 +70,10 @@ const Page = () => {
         </Table.Row>
       </Table>
 
-      <Paragraph>[Skip this step](/skills)</Paragraph>
+      <Text>[Skip this step](/skills)</Text>
 
       <Link href="/skills" passHref>
-        <Button>continue</Button>
+        <Button>Continue</Button>
       </Link>
     </Layout>
   )

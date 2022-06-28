@@ -1,12 +1,14 @@
 interface ThemeInterface {
   colors: {
-    primary: string
+    blue: string
+    white: string
   }
 }
 
 const theme: ThemeInterface = {
   colors: {
-    primary: '#0070f3'
+    blue: '#1D70B8',
+    white: '#fff'
   }
 }
 

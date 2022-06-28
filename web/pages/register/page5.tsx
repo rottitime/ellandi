@@ -1,5 +1,5 @@
 import { Button, FormGroup, Heading, InputField } from 'govuk-react'
-import Layout from '@/components/Layout'
+import Layout from '@/components/UI/Layout'
 import Link from 'next/link'
 
 const Page = () => {
@@ -58,7 +58,7 @@ const Page = () => {
       </FormGroup>
 
       <Link href="/register/page6" passHref>
-        <Button>continue</Button>
+        <Button>Continue</Button>
       </Link>
     </Layout>
   )

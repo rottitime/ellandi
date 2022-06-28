@@ -1,6 +1,7 @@
-import { Button, Heading, HintText, LeadParagraph, Paragraph, Radio } from 'govuk-react'
-import Layout from '@/components/Layout'
-import Link from 'next/link'
+import { Button, Heading, HintText, LeadParagraph, Radio } from 'govuk-react'
+import { Text } from '@/components/UI/Shared/Shared'
+import Layout from '@/components/UI/Layout'
+import Link from '@/components/UI/Link'
 
 const Page = () => {
   return (
@@ -15,9 +16,12 @@ const Page = () => {
       <Radio name="group1">Fixed term</Radio>
       <Radio name="group1">Agency</Radio>
       <Radio name="group1">Other</Radio>
-      <Paragraph>[Skip this step](/mock/page9)</Paragraph>
 
-      <Link href="/register/page9" passHref>
+      <Text>
+        <Link href="/register/page9">Skip this step</Link>
+      </Text>
+
+      <Link href="/register/page9">
         <Button>Continue</Button>
       </Link>
     </Layout>

@@ -1,6 +1,6 @@
 import { FC, ReactNode } from 'react'
-import { Link as MuiLink } from '@mui/material'
 import NextLink from 'next/link'
+import { Link as GovLink } from 'govuk-react'
 
 type Props = {
   href: string
@@ -9,7 +9,7 @@ type Props = {
 
 const Link: FC<Props> = ({ href, ...props }) => (
   <NextLink href={href} passHref>
-    <MuiLink {...props} />
+    <GovLink {...props} />
   </NextLink>
 )
 export default Link

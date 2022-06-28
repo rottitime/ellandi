@@ -1,24 +1,31 @@
-import { Button, Heading, HintText, LeadParagraph, Radio } from 'govuk-react'
-import Layout from '@/components/Layout'
-import Link from 'next/link'
+import { Button, FileUpload, Heading, HintText, LeadParagraph, Radio } from 'govuk-react'
+import { Text } from '@/components/UI/Shared/Shared'
+import Layout from '@/components/UI/Layout'
+import Link from '@/components/UI/Link'
 
 const Page = () => {
   return (
-    <Layout backLink={true}>
-      <Heading size="LARGE">Create an account - Current contract type</Heading>
-      <LeadParagraph>Select your contract type. You can only choose one</LeadParagraph>
+    <>
+      <Heading size="LARGE">Contact preference</Heading>
+
+      <LeadParagraph>
+        Are you happy for recruitment and HR to contact you with opportunities from time
+        to time based on your skills? You can change this later
+      </LeadParagraph>
       <HintText>
-        We'll use this to suggest learning and career development opportunities that are
-        relevant to you
+        This will only be in cases of emergency or an identified skills shortage in a
+        particular area
       </HintText>
+
       <Radio name="group1">Yes</Radio>
       <Radio name="group1">No</Radio>
 
-      <Link href="/register/page11" passHref>
+      <Link href="/register/page11">
         <Button>Continue</Button>
       </Link>
-    </Layout>
+    </>
   )
 }
 
 export default Page
+Page.getLayout = (page) => <Layout>{page}</Layout>

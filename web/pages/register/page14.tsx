@@ -16,13 +16,13 @@ const ToggleButton = styled(Button)`
 
 const Page = () => (
   <>
-    <Heading size="LARGE">Create a profile - Your current skills</Heading>
+    <Heading size="LARGE">Create a profile - Skills you'd like to develop</Heading>
 
     <LeadParagraph>
-      Select any skills that you already have. You can change or add to these later
+      Select any skills that you'd like to develop. You can change or add to these later
     </LeadParagraph>
     <HintText>
-      We’ll use this to suggest learning and career development opportunities that are
+      We'll use this to suggest learning and career development opportunities that are
       relevant to you
     </HintText>
 
@@ -80,10 +80,10 @@ const Page = () => (
     </Table>
 
     <Text>
-      <Link href="/register/page14">Skip this step</Link>
+      <Link href="/your/">Skip this step</Link>
     </Text>
 
-    <Link href="/register/page14">
+    <Link href="/your">
       <Button>Continue</Button>
     </Link>
   </>

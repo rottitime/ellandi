@@ -1,5 +1,5 @@
 import { Button, Heading, HintText, LeadParagraph, Paragraph } from 'govuk-react'
-import Layout from '@/components/Layout'
+import Layout from '@/components/UI/Layout'
 import Link from 'next/link'
 import styled from 'styled-components'
 
@@ -48,10 +48,10 @@ const Page = () => {
         Load more skills
       </Button>
 
-      <Paragraph>[Skip this step](/mock/page13)</Paragraph>
+      <Text>[Skip this step](/mock/page13)</Text>
 
       <Link href="/register/page13" passHref>
-        <Button>continue</Button>
+        <Button>Continue</Button>
       </Link>
     </Layout>
   )

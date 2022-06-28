@@ -6,7 +6,7 @@ import {
   LeadParagraph,
   Paragraph
 } from 'govuk-react'
-import Layout from '@/components/Layout'
+import Layout from '@/components/UI/Layout'
 import Link from 'next/link'
 
 const Page = () => {
@@ -22,7 +22,7 @@ const Page = () => {
         more relevant to you
       </HintText>
       <FileUpload name="group0">Upload a document</FileUpload>
-      <Paragraph>[Skip this step](/mock/page10)</Paragraph>
+      <Text>[Skip this step](/mock/page10)</Text>
 
       <Link href="/register/page10" passHref>
         <Button>Continue</Button>
