@@ -10,15 +10,13 @@ on:
       - develop
 
 permissions:
-    packages: write
-    repository-projects: read
-    id-token: write
-    contents: read
+  packages: write
+  repository-projects: read
+  id-token: write
+  contents: read
 
 jobs:
-
   push_images:
-
     runs-on: ubuntu-latest
 
     env:
@@ -27,7 +25,7 @@ jobs:
 
     strategy:
       matrix:
-        app: [ ellandi-api, ellandi-web ]
+        app: [ellandi-api, ellandi-web]
         include:
           - app: ellandi-api
             dockerfile: docker/api/Dockerfile
@@ -65,7 +63,7 @@ jobs:
 
     strategy:
       matrix:
-        app: [ ellandi-api, ellandi-web ]
+        app: [ellandi-api, ellandi-web]
 
     steps:
       - name: Donwload CF CLI
@@ -81,3 +79,24 @@ jobs:
           DOCKER_FILE: ${{ matrix.dockerfile }}
           DOCKER_IMAGE: ${{ matrix.app }}
         run: CF_DOCKER_PASSWORD="$CF_PAT_TOKEN" ./cf push "${{ matrix.app }}-develop" --docker-image $DOCKER_REPOSITORY/${{ github.repository_owner }}/$DOCKER_IMAGE:$IMAGE_TAG --docker-username=$CF_PAT_TOKEN_USER
+
+  browser_tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v3
+        with:
+          python-version: 3.8
+
+      - name: Install Dependencies
+        run: |
+          pip install -U pyinstaller playwright
+          playwright install-deps
+          playwright install chromium
+
+      - name: run playwright tests
+        run: |
+          make playwright-develop
