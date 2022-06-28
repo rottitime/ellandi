@@ -17,5 +17,19 @@ class SimpleAuthentication(authentication.BaseAuthentication):
         return (user, None)
 
 
+class LoginSerializer(serializers.Serializer):
+    username = serializers.EmailField()
+    password = serializers.CharField()
+
+
+class TokenSerializer(serializers.Serializer):
+    expiry = serializers.DateTimeField()
+    token = serializers.CharField()
+
+
+@extend_schema(
+    request=LoginSerializer,
+    responses=TokenSerializer,
+)
 class LoginView(KnoxLoginView):
     authentication_classes = [SimpleAuthentication]
