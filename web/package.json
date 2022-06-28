@@ -13,10 +13,12 @@
     "@emotion/styled": "^11.9.3",
     "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.8.5",
+    "govuk-react": "^0.10.1",
     "next": "latest",
     "notistack": "^2.0.5",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "styled-components": "^5.3.5"
   },
   "devDependencies": {
     "@types/node": "^18.0.0",
