@@ -5,8 +5,8 @@ from rest_framework import authentication, exceptions
 
 class SimpleAuthentication(authentication.BaseAuthentication):
     def authenticate(self, request):
-        username = request.POST.get("username")
-        password = request.POST.get("password")
+        username = request.data.get("username")
+        password = request.data.get("password")
         if not username:
             return None
 
