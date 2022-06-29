@@ -53,7 +53,7 @@ function ExampleTab() {
             alt="icon"
           />{' '}
           <Typography variant="h1">Your skills</Typography>
-          <FormControl sx={{ width: '300px', marginLeft: 'auto' }}>
+          <FormControl sx={{ width: '300px', marginLeft: 'auto', opacity: 0.3 }}>
             <InputLabel id="demo-simple-select-label">Order by</InputLabel>
             <Select
               labelId="demo-simple-select-label"
