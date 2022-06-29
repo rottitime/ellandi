@@ -1,29 +1,5 @@
 import { DefaultTheme } from 'styled-components'
 
-interface ThemeInterface {
-  colors: {
-    blue: string
-    white: string
-    greyLight: string
-  }
-  palette: {
-    profile: {
-      skills: {
-        color: string
-      }
-      learning: {
-        color: string
-      }
-      careers: {
-        color: string
-      }
-      communities: {
-        color: string
-      }
-    }
-  }
-}
-
 const theme: DefaultTheme = {
   colors: {
     blue: '#1D70B8',
