@@ -1,8 +1,11 @@
+import InsetDividers from '@/components/InsetDividers'
 import Page from '@/components/Page'
 import {
+  Link,
   Alert,
   AlertTitle,
   Box,
+  Breadcrumbs,
   Button,
   Card,
   CardActions,
@@ -10,10 +13,16 @@ import {
   CardMedia,
   Divider,
   Grid,
-  Typography
+  Typography,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Skeleton
 } from '@mui/material'
 import { useSnackbar } from 'notistack'
-import { useEffect } from 'react'
+import { ExpandMore } from '@mui/icons-material'
+
+import { useEffect, useState } from 'react'
 
 const boxData = [
   {
@@ -50,6 +59,7 @@ const boxData = [
 
 const IndexPage = () => {
   const { enqueueSnackbar } = useSnackbar()
+  const [loaded, setLoaded] = useState(false)
 
   useEffect(() => {
     const timer1 = setTimeout(() => {
@@ -57,10 +67,12 @@ const IndexPage = () => {
     }, 1000)
     const timer2 = setTimeout(() => {
       enqueueSnackbar('Amet consectetur adipisicing', { variant: 'info' })
+      setLoaded(true)
     }, 2000)
     const timer3 = setTimeout(() => {
       enqueueSnackbar('Elit. Repellat?', { variant: 'default' })
     }, 3000)
+
     return () => {
       clearTimeout(timer1)
       clearTimeout(timer2)
@@ -70,6 +82,19 @@ const IndexPage = () => {
 
   return (
     <Page>
+      <Breadcrumbs aria-label="breadcrumb" sx={{ mb: 3 }}>
+        <Link underline="hover" color="inherit" href="/">
+          Home
+        </Link>
+        <Link
+          underline="hover"
+          color="inherit"
+          href="/material-ui/getting-started/installation/"
+        >
+          Account
+        </Link>
+        <Typography color="text.primary">Breadcrumbs</Typography>
+      </Breadcrumbs>
       {/* <Box style={{ display: 'flex', columnGap: '10px' }}>
         <Box sx={{ mb: 5 }}>
           <TextField
@@ -131,34 +156,71 @@ const IndexPage = () => {
               <Divider variant="middle" />
             </Box>
 
-            <Typography variant="h2">Browse learning strands</Typography>
+            <Typography variant="h3" sx={{ mb: 3 }}>
+              Browse learning strands
+            </Typography>
+
+            {[
+              'Foundations of public admin',
+              'Working in government',
+              'Leading and managing',
+              'Specialist skills',
+              'Domain knowledge'
+            ].map((item, i) => (
+              <Accordion key={item}>
+                <AccordionSummary
+                  expandIcon={<ExpandMore />}
+                  aria-controls={`panel${i}a-content`}
+                  id={`panel${i}a-header`}
+                >
+                  <Typography>{item}</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Typography>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+                    malesuada lacus ex, sit amet blandit leo lobortis eget.
+                  </Typography>
+                </AccordionDetails>
+              </Accordion>
+            ))}
           </Card>
         </Grid>
         <Grid item xs={8}>
-          <Grid container spacing={4}>
-            {boxData.map((data) => (
-              <Grid item xs={4} key={data.title}>
-                <Card style={{ height: '100%' }}>
-                  <CardMedia
-                    component="img"
-                    height="140"
-                    image={data.image}
-                    alt="green iguana"
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant="h3" component="div">
-                      {data.title}
-                    </Typography>
-                    <Typography color="text.secondary">{data.content}</Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button size="small">Share</Button>
-                    <Button size="small">{data.link}</Button>
-                  </CardActions>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
+          <Card sx={{ padding: '20px', height: '100%' }}>
+            <Grid container spacing={4}>
+              {boxData.map((data) => (
+                <Grid item xs={4} key={data.title}>
+                  {loaded ? (
+                    <Card style={{ height: '100%' }} elevation={1}>
+                      <CardMedia
+                        component="img"
+                        height="140"
+                        image={data.image}
+                        alt="green iguana"
+                      />
+                      <CardContent>
+                        <Typography gutterBottom variant="h3" component="div">
+                          {data.title}
+                        </Typography>
+                        <Typography color="text.secondary">{data.content}</Typography>
+                      </CardContent>
+                      <CardActions>
+                        <Button size="small">Share</Button>
+                        <Button size="small">{data.link}</Button>
+                      </CardActions>
+                    </Card>
+                  ) : (
+                    <>
+                      <Skeleton variant="rectangular" width="100%" height={140} />
+                      <Skeleton />
+                      <Skeleton />
+                      <Skeleton width="60%" />
+                    </>
+                  )}
+                </Grid>
+              ))}
+            </Grid>
+          </Card>
         </Grid>
       </Grid>
     </Page>

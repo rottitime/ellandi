@@ -7,6 +7,7 @@ import BasicSpeedDial from './SpeedDial'
 
 const Container = styled(MuiContainer)`
   padding-top: 20px;
+  padding-bottom: 20px;
 `
 
 type Props = {
@@ -17,7 +18,7 @@ const Page: FC<Props> = ({ children, ...props }) => (
   <>
     <AppBar />
     <Drawer />
-    <BasicSpeedDial sx={{ position: 'fixed', bottom: '30px', right: '30px;' }} />
+    <BasicSpeedDial />
     <Container maxWidth="xl" {...props}>
       {children}
       {/* <Grid container spacing={4}>
