@@ -11,7 +11,7 @@ type Props = {
   title?: string
 }
 
-const Layout: FC<Props> = ({ children, title, backLink = false }) => (
+const Layout: FC<Props> = ({ children, backLink = false }) => (
   <>
     <Head>
       <link rel="icon" href="/favicon.ico" />

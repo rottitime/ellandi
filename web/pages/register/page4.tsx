@@ -1,4 +1,4 @@
-import { Button, Checkbox, Heading, Paragraph } from 'govuk-react'
+import { Button, Checkbox, Heading } from 'govuk-react'
 import Layout from '@/components/Layout'
 import { Text } from '@/components/UI/Shared/Shared'
 import Link from '@/components/UI/Link'

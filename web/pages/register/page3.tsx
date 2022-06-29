@@ -1,4 +1,4 @@
-import { Button, FormGroup, Heading, HintText, InputField, Paragraph } from 'govuk-react'
+import { Button, FormGroup, Heading, HintText, InputField } from 'govuk-react'
 import Layout from '@/components/Layout'
 import Link from 'next/link'
 import { Text } from '@/components/UI/Shared/Shared'

@@ -1,5 +1,4 @@
-import { Button, FileUpload, Heading, HintText, LeadParagraph, Radio } from 'govuk-react'
-import { Text } from '@/components/UI/Shared/Shared'
+import { Button, Heading, HintText, LeadParagraph, Radio } from 'govuk-react'
 import Layout from '@/components/Layout'
 import Link from '@/components/UI/Link'
 

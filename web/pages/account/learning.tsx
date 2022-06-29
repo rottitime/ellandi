@@ -157,7 +157,6 @@ const Page = () => {
                   name: 'group1'
                 }}
                 label={label}
-                style={{ width: '100%' }}
               >
                 <option value="0">GOV.UK elements option 1</option>
                 <option value="1">GOV.UK elements option 2</option>
@@ -189,8 +188,7 @@ const Page = () => {
           >
             <label>
               <LabelText>
-                Order by:
-                <Select>
+                <Select label="Order by:">
                   <option value="0">Most relevant</option>
                 </Select>
               </LabelText>
@@ -209,16 +207,13 @@ const Page = () => {
                 }}
               >
                 <Heading as="h2" size="S" style={{ margin: 0 }}>
-                  <Link
-                    href="#"
-                    style={{ display: 'inline-flex', alignItems: 'center', margin: 0 }}
-                  >
+                  <Link href="#">
                     <Forecasting style={{ marginRight: '10px' }} />
                     {result.title}
                   </Link>
                 </Heading>
 
-                <Link href="#" style={{ display: 'inline-flex', alignItems: 'center' }}>
+                <Link href="#">
                   <Star style={{ fontSize: '23px', marginRight: '5px' }} />
                   Favourite
                 </Link>

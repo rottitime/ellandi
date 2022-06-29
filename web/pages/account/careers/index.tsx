@@ -13,7 +13,6 @@ import {
 } from 'govuk-react'
 import AccountLayout from '@/components/AccountLayout'
 import styled, { useTheme } from 'styled-components'
-import Learning from '@/components/svg/Learning'
 import GreyLinkList from '@/components/UI/GreyLinkList'
 import Link from '@/components/UI/Link'
 import { Text } from '@/components/UI/Shared/Shared'
@@ -110,18 +109,6 @@ const listPathway = [
   { title: 'View more', url: '#' }
 ]
 
-const filters = [
-  'Commercial awareness (1)',
-  'Communication (2)',
-  'Data management (1)',
-  'Financial management (2)',
-  'Forecasting (1)',
-  'Influencing (2)',
-  'Managing budgets (1)',
-  'Numeracy (1)',
-  'Presenting (1)'
-]
-
 const Page = () => {
   const theme = useTheme()
 
@@ -156,10 +143,10 @@ const Page = () => {
             <GridRow>
               <GridCol setWidth="one-half">
                 <Select
+                  label=""
                   input={{
                     name: 'group1'
                   }}
-                  style={{ width: '100%' }}
                 >
                   <option value="0">GOV.UK elements option 1</option>
                   <option value="1">GOV.UK elements option 2</option>
@@ -167,12 +154,7 @@ const Page = () => {
                 </Select>
               </GridCol>
               <GridCol setWidth="one-half">
-                <Select
-                  input={{
-                    name: 'group1'
-                  }}
-                  style={{ width: '100%' }}
-                >
+                <Select label="" input={{ name: 'group1' }}>
                   <option value="0">GOV.UK elements option 1</option>
                   <option value="1">GOV.UK elements option 2</option>
                   <option value="2">GOV.UK elements option 3</option>
@@ -221,8 +203,7 @@ const Page = () => {
           >
             <label>
               <LabelText>
-                Order by:
-                <Select>
+                <Select label="Order by:">
                   <option value="0">Most relevant</option>
                 </Select>
               </LabelText>
@@ -241,16 +222,13 @@ const Page = () => {
                 }}
               >
                 <Heading as="h2" size="S" style={{ margin: 0 }}>
-                  <Link
-                    href="#"
-                    style={{ display: 'inline-flex', alignItems: 'center', margin: 0 }}
-                  >
+                  <Link href="#">
                     <Forecasting style={{ marginRight: '10px' }} />
                     {result.title}
                   </Link>
                 </Heading>
 
-                <Link href="#" style={{ display: 'inline-flex', alignItems: 'center' }}>
+                <Link href="#">
                   <Star style={{ fontSize: '23px', marginRight: '5px' }} />
                   Favourite
                 </Link>
