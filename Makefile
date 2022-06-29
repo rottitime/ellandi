@@ -87,10 +87,6 @@ validate-frontend: ## Check style and syntax with
 reset-db:
 	docker-compose down --volumes
 
-.PHONY: playwright-localhost ## Run playwright tests
-playwright-localhost:
-	python3 integration/localhost.py
-
-.PHONY: playwright-develop ## Run playwright tests
-playwright-develop:
-	python3 integration/develop.py
+.PHONY: integration ## Run playwright tests
+integration:
+	docker-compose up --build --force-recreate --renew-anon-volumes integration
