@@ -3,8 +3,10 @@ import { DefaultTheme } from 'styled-components'
 const theme: DefaultTheme = {
   colors: {
     blue: '#1D70B8',
+    blueLight: '#386EB3',
     white: '#fff',
-    greyLight: '#B1B4B6'
+    greyLight: '#F2F2F2',
+    greyDark: '#B1B4B6'
   },
   palette: {
     profile: {

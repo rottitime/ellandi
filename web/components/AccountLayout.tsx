@@ -9,8 +9,8 @@ type Props = {
 }
 
 const Nav = styled('nav')`
-  border-top: 1px solid ${(p) => p.theme.colors.greyLight};
-  border-bottom: 1px solid ${(p) => p.theme.colors.greyLight};
+  border-top: 1px solid ${(p) => p.theme.colors.greyDark};
+  border-bottom: 1px solid ${(p) => p.theme.colors.greyDark};
   margin-bottom: 30px;
 
   ul {

@@ -18,7 +18,54 @@ import Link from '@/components/UI/Link'
 import { Text } from '@/components/UI/Shared/Shared'
 import Star from '@/components/svg/Star'
 import Forecasting from '@/components/svg/Forecasting'
+import Communities from '@/components/svg/Communities'
 import Card from '@/components/UI/Card'
+
+const CommunityList = styled('div')`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 20px;
+  margin-bottom: 20px;
+`
+
+const listCommunities = [
+  {
+    title: 'Learn UX Design Network',
+    members: '6,254',
+    recent: 'How do I vertically align in Figma?',
+    posted: '25m ago'
+  },
+  {
+    title: 'Agile Learning Network',
+    members: '231',
+    recent: 'Next bitesized agile learning course details',
+    posted: '15m ago'
+  },
+  {
+    title: 'GBS Events Network',
+    members: '6,254',
+    recent: 'Civil Service Live 2023 ',
+    posted: '2d ago'
+  },
+  {
+    title: 'Interaction Designers Network',
+    members: '96',
+    recent: 'Is there a repository for gov design assets like fonts etc?',
+    posted: '7d ago'
+  },
+  {
+    title: 'Strategic Workforce Planning Network',
+    members: '163',
+    recent: "July's monthly meeting agenda",
+    posted: '12d ago'
+  },
+  {
+    title: 'User Centred Design Network',
+    members: '3,152',
+    recent: 'Looking for focus group participants',
+    posted: '2m ago'
+  }
+]
 
 const results = [
   {
@@ -124,15 +171,33 @@ const Page = () => {
 
   return (
     <>
-      <Heading style={{ color: theme.palette.profile.learning.color }}>
-        <Learning style={{ marginRight: '10px' }} />
-        Learning
+      <Heading style={{ color: theme.palette.profile.communities.color }}>
+        <Communities style={{ marginRight: '10px' }} />
+        Communities
+      </Heading>
+      <LeadParagraph>
+        Start a conversation, share your views, ask a question.
+      </LeadParagraph>
+      <Heading as="h2" size="S">
+        My communities
       </Heading>
 
-      <LeadParagraph>
-        Course suggestions are based on your current skills and skills you would like to
-        develop. <Link href="#">Change these preferences</Link>.
-      </LeadParagraph>
+      <CommunityList>
+        {listCommunities.map((community) => (
+          <Card key={community.title} noMargin>
+            <Heading as="h3" size="S">
+              <Link href="#">{community.title}</Link>
+            </Heading>
+            <Text>
+              <b>Members:</b> {community.members}
+              <br />
+              <b>Recent:</b> {community.recent}
+              <br />
+              <b>Posted:</b> {community.posted}
+            </Text>
+          </Card>
+        ))}
+      </CommunityList>
 
       <GridRow>
         <GridCol setWidth="one-third">
@@ -201,7 +266,14 @@ const Page = () => {
           </div>
 
           {results.map((result) => (
-            <Card key={result.title}>
+            <div
+              key={result.title}
+              style={{
+                border: `1px solid ${theme.colors.greyDark}`,
+                padding: '10px',
+                marginBottom: '25px'
+              }}
+            >
               <header
                 style={{
                   display: 'flex',
@@ -236,7 +308,7 @@ const Page = () => {
               </Text>
 
               <Tag>specialist skills</Tag>
-            </Card>
+            </div>
           ))}
         </GridCol>
       </GridRow>
@@ -245,4 +317,4 @@ const Page = () => {
 }
 
 export default Page
-Page.getLayout = (page) => <AccountLayout activeMenu={2}>{page}</AccountLayout>
+Page.getLayout = (page) => <AccountLayout activeMenu={4}>{page}</AccountLayout>

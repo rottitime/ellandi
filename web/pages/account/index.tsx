@@ -19,6 +19,7 @@ import CareersIcon from '@/components/svg/Careers'
 import CommunitiesIcon from '@/components/svg/Communities'
 import LearningIcon from '@/components/svg/Learning'
 import { ReactNode } from 'react'
+import GreyLinkList from '@/components/UI/GreyLinkList'
 
 type MenuDataType = {
   title: string
@@ -29,12 +30,13 @@ type MenuDataType = {
   logo: ReactNode
 }[]
 
-const LearningLinks = styled(Link)`
-  background-color: #f2f2f2;
-  display: block;
-  margin-bottom: 4px;
-  padding: 13px;
-`
+const learningLinks = [
+  { title: 'Foundations of public admin', url: '#' },
+  { title: 'Working in government', url: '#' },
+  { title: 'Leading and managing', url: '#' },
+  { title: 'Specialist skills', url: '#' },
+  { title: 'Domain knowledge', url: '#' }
+]
 
 const InfoBox = styled.div`
   border: 4px solid #1d70b8;
@@ -157,12 +159,7 @@ const IndexPage = () => (
         </Box>
 
         <Box style={{ marginTop: '20px' }}>
-          <LeadParagraph>Browse learning strands</LeadParagraph>
-          <LearningLinks href="#">Foundations of public admin</LearningLinks>
-          <LearningLinks href="#">Working in government</LearningLinks>
-          <LearningLinks href="#">Leading and managing</LearningLinks>
-          <LearningLinks href="#">Specialist skills</LearningLinks>
-          <LearningLinks href="#">Domain knowledge</LearningLinks>
+          <GreyLinkList title="Browse learning strands" items={learningLinks} />
         </Box>
       </GridCol>
       <GridCol setWidth="two-thirds">
