@@ -154,8 +154,7 @@ const Page = () => {
               <Select
                 key={label}
                 input={{
-                  name: 'group1',
-                  onChange: function noRefCheck() {}
+                  name: 'group1'
                 }}
                 label={label}
                 style={{ width: '100%' }}

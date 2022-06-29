@@ -20,4 +20,5 @@ export type TextProps = {
   variant?: VariantTypes
   as?: HtmlTag
   children: ReactNode
+  noMargin?: boolean
 }

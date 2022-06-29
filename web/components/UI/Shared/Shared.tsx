@@ -15,11 +15,20 @@ const variantsMapping: VariantMappingTypes = {
   body2: 'p'
 }
 
-export const Text: FC<TextProps> = ({ variant = 'body1', as, children, ...props }) => {
+export const Text: FC<TextProps> = ({
+  variant = 'body1',
+  as,
+  children,
+  noMargin = false,
+  ...props
+}) => {
   const Component = as || variantsMapping[variant]
 
   return (
-    <Component className={`typography-variant-${variant}`} {...props}>
+    <Component
+      className={`text typography-variant-${variant} ${noMargin ? 'no-margin' : ''}`}
+      {...props}
+    >
       {children}
     </Component>
   )
