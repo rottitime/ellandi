@@ -1,7 +1,10 @@
+import { DefaultTheme } from 'styled-components'
+
 interface ThemeInterface {
   colors: {
     blue: string
     white: string
+    greyLight: string
   }
   palette: {
     profile: {
@@ -21,10 +24,11 @@ interface ThemeInterface {
   }
 }
 
-const theme: ThemeInterface = {
+const theme: DefaultTheme = {
   colors: {
     blue: '#1D70B8',
-    white: '#fff'
+    white: '#fff',
+    greyLight: '#B1B4B6'
   },
   palette: {
     profile: {

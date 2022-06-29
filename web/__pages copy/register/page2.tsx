@@ -6,7 +6,7 @@ import {
   Paragraph,
   UnorderedList
 } from 'govuk-react'
-import Layout from '@/components/UI/Layout'
+import Layout from '@/components/Layout'
 import Link from 'next/link'
 
 const Page = () => (

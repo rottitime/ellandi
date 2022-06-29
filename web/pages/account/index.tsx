@@ -9,7 +9,7 @@ import {
   Radio,
   UnorderedList
 } from 'govuk-react'
-import Layout from '@/components/UI/Layout'
+import AccountLayout from '@/components/AccountLayout'
 import Link from '@/components/UI/Link'
 import { Text } from '@/components/UI/Shared/Shared'
 import theme from '@/style/theme'
@@ -28,12 +28,6 @@ type MenuDataType = {
   color: string
   logo: ReactNode
 }[]
-
-const HeaderIcon = styled.img`
-  display: inline-block;
-  vertical-align: middle;
-  margin-right: 12px;
-`
 
 const LearningLinks = styled(Link)`
   background-color: #f2f2f2;
@@ -75,7 +69,7 @@ const menuData: MenuDataType = [
     content:
       'Update your skills profile to find learning and development opportunities tailored to you',
     linkText: 'Review your skills',
-    url: '/skills',
+    url: '/account/skills',
     color: theme.palette.profile.skills.color,
     logo: <SkillsIcon />
   },
@@ -83,7 +77,7 @@ const menuData: MenuDataType = [
     title: 'Learning',
     content: 'Explore the wide variety of learning and training courses available to you',
     linkText: 'Find learning',
-    url: '/learning',
+    url: '/account/learning',
     color: theme.palette.profile.learning.color,
     logo: <LearningIcon />
   },
@@ -92,7 +86,7 @@ const menuData: MenuDataType = [
     content:
       'View current job vacancies and career pathways to discover what they involve',
     linkText: 'Plan your career',
-    url: '/careers',
+    url: '/account/careers',
     color: theme.palette.profile.careers.color,
     logo: <CareersIcon />
   },
@@ -101,7 +95,7 @@ const menuData: MenuDataType = [
     content:
       'Discuss ideas and share best practice with specific professions and functions',
     linkText: 'Access communities',
-    url: '/communities',
+    url: '/account/communities',
     color: theme.palette.profile.communities.color,
     logo: <CommunitiesIcon />
   }
@@ -201,4 +195,4 @@ const IndexPage = () => (
 
 export default IndexPage
 
-IndexPage.getLayout = (page) => <Layout>{page}</Layout>
+IndexPage.getLayout = (page) => <AccountLayout>{page}</AccountLayout>

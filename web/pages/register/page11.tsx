@@ -1,6 +1,6 @@
 import { Button, ListItem, UnorderedList } from 'govuk-react'
 import { Text } from '@/components/UI/Shared/Shared'
-import Layout from '@/components/UI/Layout'
+import Layout from '@/components/Layout'
 import NextLink from 'next/link'
 import styled from 'styled-components'
 

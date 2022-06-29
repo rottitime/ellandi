@@ -1,5 +1,5 @@
 import { Button, Heading, LabelText, Link, Select, Table, Tabs } from 'govuk-react'
-import Layout from '@/components/UI/Layout'
+import AccountLayout from '@/components/AccountLayout'
 import styled from 'styled-components'
 import { useState } from 'react'
 
@@ -22,7 +22,7 @@ const Page = () => {
   const [tabIndex, setTabIndex] = useState(0)
 
   return (
-    <Layout backLink={true}>
+    <>
       <Tabs>
         <Tabs.Title>Contents</Tabs.Title>
         <Tabs.List>
@@ -264,8 +264,9 @@ const Page = () => {
           <Link href="#">Add a skill</Link>
         </Tabs.Panel>
       </Tabs>
-    </Layout>
+    </>
   )
 }
 
 export default Page
+Page.getLayout = (page) => <AccountLayout activeMenu={1}>{page}</AccountLayout>

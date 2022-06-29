@@ -1,5 +1,5 @@
 import { Button, Checkbox, Heading, Paragraph } from 'govuk-react'
-import Layout from '@/components/UI/Layout'
+import Layout from '@/components/Layout'
 import { Text } from '@/components/UI/Shared/Shared'
 import Link from '@/components/UI/Link'
 

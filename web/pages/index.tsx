@@ -1,4 +1,4 @@
-import Layout from '@/components/UI/Layout'
+import Layout from '@/components/Layout'
 import Link from '@/components/UI/Link'
 import { Text } from '@/components/UI/Shared/Shared'
 

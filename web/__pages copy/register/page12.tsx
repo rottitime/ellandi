@@ -1,5 +1,5 @@
 import { Button, Heading, HintText, LeadParagraph, Paragraph } from 'govuk-react'
-import Layout from '@/components/UI/Layout'
+import Layout from '@/components/Layout'
 import Link from 'next/link'
 import styled from 'styled-components'
 

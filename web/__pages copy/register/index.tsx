@@ -1,5 +1,5 @@
 import { Heading } from 'govuk-react'
-import Layout from '@/components/UI/Layout'
+import Layout from '@/components/Layout'
 import Link from '@/components/Link'
 import Paragraph from '@/components/P'
 

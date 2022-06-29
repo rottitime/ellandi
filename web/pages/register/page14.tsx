@@ -1,6 +1,6 @@
 import { Button, Heading, HintText, LeadParagraph, Table as GovTable } from 'govuk-react'
 import { Text } from '@/components/UI/Shared/Shared'
-import Layout from '@/components/UI/Layout'
+import Layout from '@/components/Layout'
 import Link from '@/components/UI/Link'
 import styled from 'styled-components'
 
@@ -80,10 +80,10 @@ const Page = () => (
     </Table>
 
     <Text>
-      <Link href="/your/">Skip this step</Link>
+      <Link href="/account/">Skip this step</Link>
     </Text>
 
-    <Link href="/your/">
+    <Link href="/account/">
       <Button>Continue</Button>
     </Link>
   </>

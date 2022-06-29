@@ -1,6 +1,6 @@
 import { Button, Checkbox, Heading, HintText, LeadParagraph } from 'govuk-react'
 import { Text } from '@/components/UI/Shared/Shared'
-import Layout from '@/components/UI/Layout'
+import Layout from '@/components/Layout'
 import Link from '@/components/UI/Link'
 
 const Page = () => {
