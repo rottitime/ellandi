@@ -35,7 +35,7 @@ const menuItems: { title: string; url: string }[] = [
   { title: 'Communities', url: '/account/communities' },
   { title: 'Favourites', url: '/account/favourites' },
   { title: 'Profile', url: '/account/profile' },
-  { title: 'Sign out', url: '/account/signout' }
+  { title: 'Sign out', url: '/' }
 ]
 
 const AccountLayout: FC<Props> = ({ activeMenu = 0, children }) => (

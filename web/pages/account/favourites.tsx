@@ -1,14 +1,7 @@
 import { Heading, LeadParagraph, Table } from 'govuk-react'
 import AccountLayout from '@/components/AccountLayout'
-import styled, { useTheme } from 'styled-components'
+import styled from 'styled-components'
 import Link from '@/components/UI/Link'
-import { Text } from '@/components/UI/Shared/Shared'
-import Communities from '@/components/svg/Communities'
-import Card from '@/components/UI/Card'
-import Skills from '@/components/svg/Skills'
-import Trash from '@/components/svg/Trash'
-import Learning from '@/components/svg/Learning'
-import Careers from '@/components/svg/Careers'
 
 const ProfileTable = styled(Table)`
   .cta {
@@ -36,8 +29,6 @@ const listTable = [
 ]
 
 const Page = () => {
-  const theme = useTheme()
-
   return (
     <>
       <Heading>Profile</Heading>
