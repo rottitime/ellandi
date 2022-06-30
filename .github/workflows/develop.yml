@@ -93,7 +93,7 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          pip install -U pyinstaller playwright
+          pip install -U playwright
           playwright install-deps
           playwright install chromium
 
