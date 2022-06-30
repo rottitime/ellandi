@@ -1,4 +1,3 @@
-import InsetDividers from '@/components/InsetDividers'
 import Page from '@/components/Page'
 import {
   Link,

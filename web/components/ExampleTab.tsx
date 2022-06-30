@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import {
   Box,
   FormControl,
@@ -6,9 +7,6 @@ import {
   Select,
   styled,
   Tab,
-  Table,
-  TableContainer,
-  TableHead,
   Tabs,
   Typography
 } from '@mui/material'

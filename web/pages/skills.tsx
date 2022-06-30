@@ -1,7 +1,6 @@
 import Page from '@/components/Page'
 // import { Button, Heading, LabelText, Link, Select, Table, Tabs } from 'govuk-react'
 // import Page from '@/components/Page'
-import { SyntheticEvent, useState } from 'react'
 import {
   Box,
   Breadcrumbs,
@@ -15,7 +14,6 @@ import {
 
 import ExampleTab from '@/components/ExampleTab'
 import ExampleAutoComplete from '@/components/icons/ExampleAutoComplete'
-import ExampleCustomList from '@/components/ExampleCustomList'
 import ExampleSwitchGroup from '@/components/ExampleSwitchGroup'
 
 const SkillsPage = () => {

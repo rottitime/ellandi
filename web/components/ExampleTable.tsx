@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { alpha } from '@mui/material/styles'
 import React from 'react'
 import Box from '@mui/material/Box'
@@ -11,7 +13,6 @@ import TableRow from '@mui/material/TableRow'
 import TableSortLabel from '@mui/material/TableSortLabel'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
-import Paper from '@mui/material/Paper'
 import Checkbox from '@mui/material/Checkbox'
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
@@ -25,12 +26,12 @@ interface Data {
   calories: number
   carbs: number
   fat: number
-  name: string
+  name: any
   protein: number
 }
 
 function createData(
-  name: string,
+  name: any,
   calories: number,
   fat: number,
   carbs: number,
@@ -225,7 +226,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
       ) : (
         <Typography
           sx={{ flex: '1 1 100%' }}
-          variant="h6"
+          variant="h3"
           id="tableTitle"
           component="div"
         >
