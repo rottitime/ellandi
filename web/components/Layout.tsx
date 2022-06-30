@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { FC, ReactNode } from 'react'
 import { BackLink, Footer, Page as GovPage, PhaseBanner, TopNav } from 'govuk-react'
 
-export const siteTitle = 'Civil Service Skills & Learning'
+export const siteTitle = 'Civil Service Skills and Learning'
 
 type Props = {
   children: ReactNode
