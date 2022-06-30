@@ -2,7 +2,7 @@ import { FC, ReactNode } from 'react'
 import { Container as MuiContainer } from '@mui/material'
 import AppBar from '@/components/AppBar'
 import { styled } from '@mui/material/styles'
-import Drawer from '@/components/Drawer'
+// import Drawer from '@/components/Drawer'
 import BasicSpeedDial from './SpeedDial'
 
 const Container = styled(MuiContainer)`
@@ -17,7 +17,7 @@ type Props = {
 const Page: FC<Props> = ({ children, ...props }) => (
   <>
     <AppBar />
-    <Drawer />
+    {/* <Drawer /> */}
     <BasicSpeedDial />
     <Container maxWidth="xl" {...props}>
       {children}

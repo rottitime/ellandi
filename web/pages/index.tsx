@@ -80,7 +80,7 @@ const IndexPage = () => {
   }, [enqueueSnackbar])
 
   return (
-    <Page>
+    <>
       <Breadcrumbs aria-label="breadcrumb" sx={{ mb: 3 }}>
         <Link underline="hover" color="inherit" href="/">
           Home
@@ -222,8 +222,9 @@ const IndexPage = () => {
           </Card>
         </Grid>
       </Grid>
-    </Page>
+    </>
   )
 }
 
 export default IndexPage
+IndexPage.getLayout = (page) => <Page>{page}</Page>

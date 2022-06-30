@@ -14,7 +14,7 @@ const DragBox = styled(Box)`
 
 const RegisterPage = () => {
   return (
-    <Page title="Create an account - Upload your CV" progress={60}>
+    <>
       <Typography variant="subtitle1" gutterBottom>
         If you don't have a CV available you can add one later by going to your Profile
       </Typography>
@@ -36,8 +36,13 @@ const RegisterPage = () => {
       <LinkButton href="/register/page10" fullWidth>
         Continue
       </LinkButton>
-    </Page>
+    </>
   )
 }
 
 export default RegisterPage
+RegisterPage.getLayout = (page) => (
+  <Page title="Create an account - Upload your CV" progress={60}>
+    {page}
+  </Page>
+)

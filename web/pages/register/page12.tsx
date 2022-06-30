@@ -12,7 +12,7 @@ const Stack = styled(Box)`
 `
 
 const RegisterPage = () => (
-  <Page title="Create a profile - Your current skills" progress={90}>
+  <>
     <Typography variant="subtitle1" gutterBottom>
       Select any skills that you already have. You can change or add to these later
     </Typography>
@@ -52,7 +52,12 @@ const RegisterPage = () => (
     <LinkButton href="/register/page13" fullWidth>
       Continue
     </LinkButton>
-  </Page>
+  </>
 )
 
 export default RegisterPage
+RegisterPage.getLayout = (page) => (
+  <Page title="Create a profile - Your current skills" progress={90}>
+    {page}
+  </Page>
+)
