@@ -1,4 +1,4 @@
-from playwright.sync_api import Playwright, sync_playwright, expect
+from playwright.sync_api import Playwright, sync_playwright
 
 
 def run(playwright: Playwright) -> None:
@@ -20,75 +20,75 @@ def run(playwright: Playwright) -> None:
     # expect(page).to_have_url("http://localhost:3000/register/page3")
 
     # Click input[name="group0"] >> nth=0
-    page.locator("input[name=\"group0\"]").first.click()
+    page.locator('input[name="group0"]').first.click()
 
     # Fill input[name="group0"] >> nth=0
-    page.locator("input[name=\"group0\"]").first.fill("joe.bloggs@cabinetoffice.gov.uk")
+    page.locator('input[name="group0"]').first.fill("joe.bloggs@cabinetoffice.gov.uk")
 
     # Click input[name="group0"] >> nth=1
-    page.locator("input[name=\"group0\"]").nth(1).click()
+    page.locator('input[name="group0"]').nth(1).click()
 
     # Click input[name="group0"] >> nth=1
-    page.locator("input[name=\"group0\"]").nth(1).click()
+    page.locator('input[name="group0"]').nth(1).click()
 
     # Fill input[name="group0"] >> nth=1
-    page.locator("input[name=\"group0\"]").nth(1).fill("joe.bloggs@cabinetoffice.gov.uk")
+    page.locator('input[name="group0"]').nth(1).fill("joe.bloggs@cabinetoffice.gov.uk")
 
     # Click text=Password >> nth=2
     page.locator("text=Password").nth(2).click()
 
     # Click input[name="group0"] >> nth=2
-    page.locator("input[name=\"group0\"]").nth(2).click()
+    page.locator('input[name="group0"]').nth(2).click()
 
     # Fill input[name="group0"] >> nth=2
-    page.locator("input[name=\"group0\"]").nth(2).fill("password")
+    page.locator('input[name="group0"]').nth(2).fill("password")
 
     # Click input[name="group0"] >> nth=3
-    page.locator("input[name=\"group0\"]").nth(3).click()
+    page.locator('input[name="group0"]').nth(3).click()
 
     # Fill input[name="group0"] >> nth=3
-    page.locator("input[name=\"group0\"]").nth(3).fill("password")
+    page.locator('input[name="group0"]').nth(3).fill("password")
 
     # Click text=Continue
     page.locator("text=Continue").click()
     # expect(page).to_have_url("http://localhost:3000/register/page4")
 
     # Check input[type="checkbox"]
-    page.locator("input[type=\"checkbox\"]").check()
+    page.locator('input[type="checkbox"]').check()
 
     # Click text=Continue
     page.locator("text=Continue").click()
     # expect(page).to_have_url("http://localhost:3000/register/page5")
 
     # Click input[name="group0"] >> nth=0
-    page.locator("input[name=\"group0\"]").first.click()
+    page.locator('input[name="group0"]').first.click()
 
     # Fill input[name="group0"] >> nth=0
-    page.locator("input[name=\"group0\"]").first.fill("Joe Bloggs")
+    page.locator('input[name="group0"]').first.fill("Joe Bloggs")
 
     # Press Tab
-    page.locator("input[name=\"group0\"]").first.press("Tab")
+    page.locator('input[name="group0"]').first.press("Tab")
 
     # Fill input[name="group0"] >> nth=1
-    page.locator("input[name=\"group0\"]").nth(1).fill("i.ai")
+    page.locator('input[name="group0"]').nth(1).fill("i.ai")
 
     # Press Tab
-    page.locator("input[name=\"group0\"]").nth(1).press("Tab")
+    page.locator('input[name="group0"]').nth(1).press("Tab")
 
     # Fill input[name="group0"] >> nth=2
-    page.locator("input[name=\"group0\"]").nth(2).fill("developer")
+    page.locator('input[name="group0"]').nth(2).fill("developer")
 
     # Press Tab
-    page.locator("input[name=\"group0\"]").nth(2).press("Tab")
+    page.locator('input[name="group0"]').nth(2).press("Tab")
 
     # Fill input[name="group0"] >> nth=3
-    page.locator("input[name=\"group0\"]").nth(3).fill("Larry@co.gov")
+    page.locator('input[name="group0"]').nth(3).fill("Larry@co.gov")
 
     # Press Tab
-    page.locator("input[name=\"group0\"]").nth(3).press("Tab")
+    page.locator('input[name="group0"]').nth(3).press("Tab")
 
     # Fill input[name="group0"] >> nth=4
-    page.locator("input[name=\"group0\"]").nth(4).fill("UK")
+    page.locator('input[name="group0"]').nth(4).fill("UK")
 
     # Click text=Continue
     page.locator("text=Continue").click()
