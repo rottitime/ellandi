@@ -28,9 +28,6 @@ services:
       - ./.envs/web
     environment:
       - NODE_ENV
-    volumes:
-      - ./:/app/:z
-      - '/app/web/node_modules'
     ports:
       - "3000:3000"
 

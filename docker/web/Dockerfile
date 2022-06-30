@@ -9,15 +9,15 @@ ENV PATH /app/web/node_modules/.bin:$PATH
 COPY ./web/package-lock.json /app/web/
 COPY ./web/package.json /app/web/
 
-RUN npm ci --ignore-scripts
-
-COPY ./docker/web/start.sh /start.sh
-RUN chmod +x /start.sh
-
 COPY . /app
 
 WORKDIR /app/web
 
-EXPOSE 3000
+ENV NODE_ENV=development
+RUN npm install
+RUN npm run build
 
-CMD ["sh","/start.sh"]
+ENV NODE_ENV=production
+
+EXPOSE 3000
+CMD [ "npm", "start" ]
