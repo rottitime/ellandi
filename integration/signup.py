@@ -15,7 +15,7 @@ def run(playwright: Playwright) -> None:
     # Click a:has-text("Enter")
     # with page.expect_navigation(url="https://ellandi-web-develop.london.cloudapps.digital/skills/general"):
     with page.expect_navigation():
-        page.locator('a:has-text("Start now")').click()
+        page.locator('button:has-text("Start now")').click()
     # expect(page).to_have_url("https://ellandi-web-develop.london.cloudapps.digital/skills")
     print(page)
     # Click text=Your details
