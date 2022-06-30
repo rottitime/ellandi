@@ -1,4 +1,4 @@
-import Page from '@/components/GenericPage2'
+import Page from '@/components/GenericPage'
 import { Box, Typography, styled } from '@mui/material'
 import LinkButton from '@/components/LinkButton'
 import Link from '@/components/Link'
@@ -30,7 +30,7 @@ const RegisterPage = () => {
       </Box> */}
 
       <Typography gutterBottom>
-        <Link href="/mock/page10">Skip this step</Link>
+        <Link href="/register/page10">Skip this step</Link>
       </Typography>
 
       <LinkButton href="/register/page10" fullWidth>

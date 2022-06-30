@@ -1,10 +1,8 @@
-import Page from '@/components/GenericPage2'
+import Page from '@/components/GenericPage'
 import { styled } from '@mui/material/styles'
 import {
   Box,
   Button,
-  Chip,
-  Paper,
   Table,
   TableCell,
   TableContainer,
@@ -13,86 +11,98 @@ import {
 } from '@mui/material'
 import LinkButton from '@/components/LinkButton'
 import Link from '@/components/Link'
+import ToggleChip from '@/components/ToggleChip'
+import { Delete } from '@mui/icons-material'
+import Divider from '@/components/ui/Divider'
 
 const Stack = styled(Box)`
   .MuiChip-root {
-    margin: 10px;
+    margin: 5px;
   }
 `
 
-const RegisterPage = () => {
-  return (
-    <>
-      <Typography variant="subtitle1" gutterBottom>
-        Select any skills that you'd like to develop. You can change or add to these later
-      </Typography>
-      <Typography gutterBottom>
-        We'll use this to suggest learning and career development opportunities that are
-        relevant to you
-      </Typography>
-      <Stack>
-        <Chip label="Auditing" variant="outlined" />
-        <Chip label="Bookkeeping" variant="outlined" />
-        <Chip label="Communication" variant="outlined" />
-        <Chip label="Coding" variant="outlined" />
-        <Chip label="Creative thinking" variant="outlined" />
-        <Chip label="Customer service" variant="outlined" />
-        <Chip label="Data entry" variant="outlined" />
-        <Chip label="Diary management" variant="outlined" />
-        <Chip label="Flexibility" variant="outlined" />
-        <Chip label="Microsoft Office" variant="outlined" />
-        <Chip label="Motivation" variant="outlined" />
-        <Chip label="Negotiation" variant="outlined" />
-        <Chip label="Planning" variant="outlined" />
-        <Chip label="Problem solving" variant="outlined" />
-        <Chip label="Project management" variant="outlined" />
-        <Chip label="Sales" variant="outlined" />
-        <Chip label="Social media" variant="outlined" />
-        <Chip label="Teamwork" variant="outlined" />
-      </Stack>
-      <Button>Load more skills</Button>
+const RegisterPage = () => (
+  <>
+    <Typography variant="subtitle1" gutterBottom>
+      Select any skills that you already have. You can change or add to these later
+    </Typography>
+    <Typography gutterBottom>
+      We'll use this to suggest learning and career development opportunities that are
+      relevant to you
+    </Typography>
+    <Stack sx={{ mb: 3 }}>
+      <ToggleChip label="Auditing" variant="outlined" />
+      <ToggleChip label="Bookkeeping" variant="outlined" />
+      <ToggleChip label="Communication" variant="outlined" />
+      <ToggleChip label="Coding" variant="outlined" />
+      <ToggleChip label="Creative thinking" variant="outlined" />
+      <ToggleChip label="Customer service" variant="outlined" />
+      <ToggleChip label="Data entry" variant="outlined" />
+      <ToggleChip label="Diary management" variant="outlined" />
+      <ToggleChip label="Flexibility" variant="outlined" />
+      <ToggleChip label="Microsoft Office" variant="outlined" />
+      <ToggleChip label="Motivation" variant="outlined" />
+      <ToggleChip label="Negotiation" />
+      <ToggleChip label="Planning" variant="outlined" />
+      <ToggleChip label="Problem solving" />
+      <ToggleChip label="Project management" variant="outlined" />
+      <ToggleChip label="Sales" variant="outlined" />
+      <ToggleChip label="Social media" variant="outlined" />
+      <ToggleChip label="Teamwork" variant="outlined" />
+    </Stack>
 
-      <TableContainer component={Paper}>
-        <Table>
-          <TableRow>
-            <TableCell>Selected skill</TableCell>
-            <TableCell>&nbsp;</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>Skill 1</TableCell>
-            <TableCell>
-              <Link href="#">Remove</Link>
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>Skill 2</TableCell>
-            <TableCell>
-              <Link href="#">Remove</Link>
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>Skill 3</TableCell>
-            <TableCell>
-              <Link href="#">Remove</Link>
-            </TableCell>
-          </TableRow>
-        </Table>
-      </TableContainer>
+    <Button variant="contained" color="secondary" sx={{ mb: 3 }}>
+      Load more skills
+    </Button>
 
-      <Typography gutterBottom>
-        <Link href="/skills">Skip this page</Link>
-      </Typography>
+    <TableContainer>
+      <Table size="small">
+        <TableRow>
+          <TableCell>Selected skill</TableCell>
+          <TableCell>&nbsp;</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell>Skill 1</TableCell>
+          <TableCell>
+            <Button>
+              <Delete />
+            </Button>
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell>Skill 2</TableCell>
+          <TableCell>
+            <Button>
+              <Delete />
+            </Button>
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell>Skill 3</TableCell>
+          <TableCell>
+            <Button>
+              <Delete />
+            </Button>
+          </TableCell>
+        </TableRow>
+      </Table>
+    </TableContainer>
 
-      <LinkButton href="/skills" fullWidth>
-        Continue
-      </LinkButton>
-    </>
-  )
-}
+    <Typography gutterBottom>
+      <Link href="/register/page14">Skip this step</Link>
+    </Typography>
+
+    <Divider spacing={20} variant="middle" />
+
+    <LinkButton href="/register/page14" fullWidth>
+      Continue
+    </LinkButton>
+  </>
+)
 
 export default RegisterPage
 RegisterPage.getLayout = (page) => (
-  <Page title="Create a profile - Skills you'd like to develop" progress={100}>
+  <Page title="Create a profile - Your current skills" progress={90}>
     {page}
   </Page>
 )

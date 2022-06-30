@@ -1,20 +1,48 @@
 import LinkButton from '@/components/LinkButton'
-import Page from '@/components/GenericPage2'
+import Page from '@/components/GenericPage'
 import { TextField } from '@mui/material'
+import Divider from '@/components/ui/Divider'
 
 const RegisterPage = () => {
   return (
     <>
-      <TextField margin="normal" label="Full name" variant="filled" fullWidth />
-      <TextField margin="normal" label="Department" variant="filled" fullWidth />
-      <TextField margin="normal" label="Job title" variant="filled" fullWidth />
+      <TextField
+        margin="normal"
+        label="Full name"
+        variant="filled"
+        size="small"
+        fullWidth
+      />
+      <TextField
+        margin="normal"
+        label="Department"
+        variant="filled"
+        size="small"
+        fullWidth
+      />
+      <TextField
+        margin="normal"
+        label="Job title"
+        variant="filled"
+        size="small"
+        fullWidth
+      />
       <TextField
         margin="normal"
         label="Your line manager's email address"
         variant="filled"
+        size="small"
         fullWidth
       />
-      <TextField margin="normal" label="Country" variant="filled" fullWidth />
+      <TextField
+        margin="normal"
+        label="Country"
+        variant="filled"
+        size="small"
+        fullWidth
+      />
+
+      <Divider spacing={20} variant="middle" />
 
       <LinkButton href="/register/page6" fullWidth>
         Continue

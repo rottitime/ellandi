@@ -1,63 +1,135 @@
-import Page from '@/components/GenericPage2'
-import { styled } from '@mui/material/styles'
-import { Box, Button, Typography } from '@mui/material'
-import LinkButton from '@/components/LinkButton'
 import Link from '@/components/Link'
-import ToggleChip from '@/components/ToggleChip'
+import LinkButton from '@/components/LinkButton'
+import Page from '@/components/GenericPage'
+import { FormControlLabel, Radio, RadioGroup, TextField, Typography } from '@mui/material'
+import Divider from '@/components/ui/Divider'
 
-const Stack = styled(Box)`
-  .MuiChip-root {
-    margin: 5px;
+const optionsSpeaking = [
+  {
+    title: 'Basic',
+    content:
+      'You can understand and use basic phrases, introduce yourself and describe in simple terms aspects of your background and environment'
+  },
+  {
+    title: 'Independent',
+    content:
+      'You can deal with most situations likely to arise while travelling in an area where the language is spoken and interact with a degree of fluency'
+  },
+  {
+    title: 'Proficient',
+    content:
+      'You can express ideas fluently and spontaneously and can use the language flexibly for social, academic and professional purposes'
   }
-`
+]
 
-const RegisterPage = () => (
-  <>
-    <Typography variant="subtitle1" gutterBottom>
-      Select any skills that you already have. You can change or add to these later
-    </Typography>
-    <Typography gutterBottom>
-      We'll use this to suggest learning and career development opportunities that are
-      relevant to you
-    </Typography>
-    <Stack sx={{ mb: 3 }}>
-      <ToggleChip label="Auditing" variant="outlined" />
-      <ToggleChip label="Bookkeeping" variant="outlined" />
-      <ToggleChip label="Communication" variant="outlined" />
-      <ToggleChip label="Coding" variant="outlined" />
-      <ToggleChip label="Creative thinking" variant="outlined" />
-      <ToggleChip label="Customer service" variant="outlined" />
-      <ToggleChip label="Data entry" variant="outlined" />
-      <ToggleChip label="Diary management" variant="outlined" />
-      <ToggleChip label="Flexibility" variant="outlined" />
-      <ToggleChip label="Microsoft Office" variant="outlined" />
-      <ToggleChip label="Motivation" variant="outlined" />
-      <ToggleChip label="Negotiation" />
-      <ToggleChip label="Planning" variant="outlined" />
-      <ToggleChip label="Problem solving" />
-      <ToggleChip label="Project management" variant="outlined" />
-      <ToggleChip label="Sales" variant="outlined" />
-      <ToggleChip label="Social media" variant="outlined" />
-      <ToggleChip label="Teamwork" variant="outlined" />
-    </Stack>
+const optionsWriting = [
+  {
+    title: 'Basic',
+    content:
+      'You can understand and use basic phrases, introduce yourself and describe in simple terms aspects of your background and environment'
+  },
+  {
+    title: 'Independent',
+    content:
+      'You can produce clear, detailed text on a wide range of subjects and explain the advantages and disadvantages of a topical issue'
+  },
+  {
+    title: 'Proficient',
+    content:
+      'You can produce clear, well-structured, detailed text on complex subjects and can express yourself fluently and precisely'
+  }
+]
 
-    <Button variant="contained" color="secondary" sx={{ mb: 3 }}>
-      Load more skills
-    </Button>
+const RegisterPage = () => {
+  return (
+    <>
+      <Typography variant="subtitle1" gutterBottom>
+        Add any languages that you use. You can change or add to these later.
+      </Typography>
+      <Typography gutterBottom>
+        We'll use this to suggest learning and career development opportunities that are
+        relevant to you
+      </Typography>
+      <Typography variant="h3" gutterBottom>
+        Language one
+      </Typography>
 
-    <Typography gutterBottom>
-      <Link href="/mock/page13">Skip this step</Link>
-    </Typography>
+      <TextField
+        margin="normal"
+        label="Select a language:"
+        variant="filled"
+        size="small"
+        fullWidth
+      />
 
-    <LinkButton href="/register/page13" fullWidth>
-      Continue
-    </LinkButton>
-  </>
-)
+      <Typography variant="h3" gutterBottom>
+        Speaking
+      </Typography>
+      <Typography gutterBottom>Set a proficiency level for speaking:</Typography>
+
+      <RadioGroup
+        aria-labelledby="demo-radio-buttons-group-label"
+        name="radio-buttons-group"
+      >
+        {optionsSpeaking.map((option) => (
+          <FormControlLabel
+            key={option.title}
+            control={<Radio />}
+            label={
+              <>
+                <Typography>{option.title}</Typography>
+                <Typography variant="body2">{option.content}</Typography>
+              </>
+            }
+            value={option.title}
+            name="group1"
+          />
+        ))}
+      </RadioGroup>
+
+      <Typography gutterBottom variant="h3">
+        Writing
+      </Typography>
+      <Typography gutterBottom>Set a proficiency level for speaking:</Typography>
+      <RadioGroup
+        aria-labelledby="demo-radio-buttons-group-label"
+        name="radio-buttons-group2"
+      >
+        {optionsWriting.map((option) => (
+          <FormControlLabel
+            key={option.title}
+            control={<Radio />}
+            label={
+              <>
+                <Typography>{option.title}</Typography>
+                <Typography variant="body2">{option.content}</Typography>
+              </>
+            }
+            value={option.title}
+            name="group1"
+          />
+        ))}
+      </RadioGroup>
+
+      <Typography gutterBottom>
+        <Link href="/register/page13">Add language</Link>
+      </Typography>
+      <Typography gutterBottom>
+        <Link href="/register/page13">Skip this step</Link>
+      </Typography>
+
+      <Divider spacing={20} variant="middle" />
+
+      <LinkButton href="/register/page13" fullWidth>
+        Continue
+      </LinkButton>
+    </>
+  )
+}
 
 export default RegisterPage
 RegisterPage.getLayout = (page) => (
-  <Page title="Create a profile - Your current skills" progress={90}>
+  <Page title="Create a profile - Language skills" progress={80}>
     {page}
   </Page>
 )

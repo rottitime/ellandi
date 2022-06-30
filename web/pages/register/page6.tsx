@@ -1,8 +1,24 @@
 // import { Button, Heading, HintText, LeadParagraph, Paragraph, Radio } from 'govuk-react'
 import Link from '@/components/Link'
 import LinkButton from '@/components/LinkButton'
-import Page from '@/components/GenericPage2'
+import Page from '@/components/GenericPage'
 import { FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material'
+import Divider from '@/components/ui/Divider'
+
+const options = [
+  'Administrative Officer (AO) Equivalent',
+  'Administrative Assistant (AA) Equivalent',
+  'Executive Officer (EO) Equivalent',
+  'Higher Executive Officer (HEO) Equivalent',
+  'Senior Executive Officer (SEO) Equivalent',
+  'Grade 7 Equivalent',
+  'Grade 6 Equivalent',
+  'Senior Civil Servant - Deputy Director (PB1/1A',
+  'Senior Civil Servant - Director (PB2',
+  'Senior Civil Servant - Director General (PB3',
+  'Senior Civil Servant - Permanent Secretary',
+  'Other equivalent grade'
+]
 
 const RegisterPage = () => {
   return (
@@ -22,94 +38,21 @@ const RegisterPage = () => {
         aria-labelledby="demo-radio-buttons-group-label"
         name="radio-buttons-group"
       >
-        <FormControlLabel
-          name="group1"
-          control={<Radio />}
-          label="Administrative Officer (AO) Equivalent"
-          value="Administrative Officer (AO) Equivalent"
-        />
-
-        <FormControlLabel
-          name="group1"
-          control={<Radio />}
-          label="Administrative Assistant (AA) Equivalent"
-          value="Administrative Assistant (AA) Equivalent"
-        />
-
-        <FormControlLabel
-          name="group1"
-          control={<Radio />}
-          label="Executive Officer (EO) Equivalent"
-          value="Executive Officer (EO) Equivalent"
-        />
-
-        <FormControlLabel
-          name="group1"
-          control={<Radio />}
-          label="Higher Executive Officer (HEO) Equivalent"
-          value="Higher Executive Officer (HEO) Equivalent"
-        />
-
-        <FormControlLabel
-          name="group1"
-          control={<Radio />}
-          label="Senior Executive Officer (SEO) Equivalent"
-          value="Senior Executive Officer (SEO) Equivalent"
-        />
-
-        <FormControlLabel
-          name="group1"
-          control={<Radio />}
-          label="Grade 7 Equivalent"
-          value="Grade 7 Equivalent"
-        />
-
-        <FormControlLabel
-          name="group1"
-          control={<Radio />}
-          label="Grade 6 Equivalent"
-          value="Grade 6 Equivalent"
-        />
-
-        <FormControlLabel
-          name="group1"
-          control={<Radio />}
-          label="Senior Civil Servant - Deputy Director (PB1/1A)"
-          value="Senior Civil Servant - Deputy Director (PB1/1A)"
-        />
-
-        <FormControlLabel
-          name="group1"
-          control={<Radio />}
-          label="Senior Civil Servant - Director (PB2)"
-          value="Senior Civil Servant - Director (PB2)"
-        />
-
-        <FormControlLabel
-          name="group1"
-          control={<Radio />}
-          label="Senior Civil Servant - Director General (PB3)"
-          value="Senior Civil Servant - Director General (PB3)"
-        />
-
-        <FormControlLabel
-          name="group1"
-          control={<Radio />}
-          label="Senior Civil Servant - Permanent Secretary"
-          value="Senior Civil Servant - Permanent Secretary"
-        />
-
-        <FormControlLabel
-          name="group1"
-          control={<Radio />}
-          label="Other equivalent grade"
-          value="Other equivalent grade"
-        />
+        {options.map((option) => (
+          <FormControlLabel
+            key={option}
+            control={<Radio />}
+            label={option}
+            value={option}
+          />
+        ))}
       </RadioGroup>
 
       <Typography gutterBottom>
-        <Link href="/mock/page7">Skip this step</Link>
+        <Link href="/register/page7">Skip this step</Link>
       </Typography>
+
+      <Divider spacing={20} variant="middle" />
 
       <LinkButton href="/register/page7" fullWidth>
         Continue

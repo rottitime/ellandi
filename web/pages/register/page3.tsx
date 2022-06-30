@@ -1,11 +1,12 @@
 import LinkButton from '@/components/LinkButton'
-import Page from '@/components/GenericPage2'
+import Page from '@/components/GenericPage'
 import { TextField, Typography } from '@mui/material'
+import Divider from '@/components/ui/Divider'
 
 const RegisterPage = () => {
   return (
     <>
-      <Typography gutterBottom>
+      <Typography variant="subtitle1" gutterBottom>
         You need to create an account before using this service
       </Typography>
 
@@ -16,30 +17,43 @@ const RegisterPage = () => {
         label="Email address"
         variant="filled"
         placeholder="e.g. Joe.Bloggs@gmail.com"
+        size="small"
         fullWidth
       />
       <TextField
         margin="normal"
         label="Confirm your email address"
         variant="filled"
+        size="small"
         fullWidth
       />
 
-      <Typography variant="h3">Create a password</Typography>
+      <Typography variant="h3" gutterBottom>
+        Create a password
+      </Typography>
 
       <Typography gutterBottom>
         Your password should have at least 8 characters and not include your name or email
         address
       </Typography>
 
-      <TextField margin="normal" label="Password" variant="filled" fullWidth />
+      <TextField
+        margin="normal"
+        label="Password"
+        variant="filled"
+        fullWidth
+        size="small"
+      />
 
       <TextField
         margin="normal"
         label="Confirm your password"
         variant="filled"
+        size="small"
         fullWidth
       />
+
+      <Divider spacing={20} variant="middle" />
 
       <LinkButton href="/register/page4" fullWidth>
         Continue
