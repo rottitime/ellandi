@@ -1,11 +1,1 @@
 NODE_ENV=production
-
-# when prefixed with VITE, sent to the client, no secrets here!
-VITE_FRONTEND_HOST="http://localhost:3000"
-# do not end this value with a slash
-VITE_API_ROOT_URL="http://localhost:8000"
-# when this is a URL, web will use the api from this url instead via a proxy
-# Disable this in builds! To disable just pass "false"
-VITE_PROXY_ROOT_URL=false
-# set this to true for demoing (enables triple click to autofill)
-VITE_IS_DEMO_MODE=true
