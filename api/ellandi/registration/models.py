@@ -183,8 +183,10 @@ class UserSalt(models.Model):
     salt = models.BinaryField(max_length=16, blank=False, null=False)
 
     def get_one_time_login(self):
-        tok = "|".join(self.salt, self.email, SECRET_KEY)
-        one_time_token = hashlib.sha256(tok)
+        # TODO - what's the deal with encoding?
+        # TODO - replace fake salt
+        tok = "|".join(["fake_salt", self.email, SECRET_KEY])
+        one_time_token = hashlib.sha256(tok.encode("utf-8")).hexdigest()
         return one_time_token
 
     @classmethod

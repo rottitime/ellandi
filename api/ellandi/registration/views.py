@@ -3,8 +3,9 @@ import os
 from django.contrib.auth import get_user_model
 from drf_spectacular.utils import extend_schema
 from rest_framework import decorators, permissions, routers, viewsets
+from rest_framework.decorators import action, api_view
 from rest_framework.response import Response
-from rest_framework.views import APIView
+from rest_framework.generics import CreateAPIView
 
 from . import exceptions, initial_data, models, serializers
 
@@ -121,14 +122,22 @@ def skills_list_view(request):
     return Response(skills)
 
 
-class OneTimeLoginView(APIView):
+
+class OneTimeLoginView(CreateAPIView):
+    serializer_class = serializers.UserSaltSerializer
+
     def post(self, request):
         email = request.data["email"]
+        print("I am here")
+        print(email)
         try:
             user_salt = models.UserSalt.objects.get(email=email)
         except models.UserSalt.DoesNotExist:
-            user_salt = models.UserSalt(email=email, salt=os.urandom(16)).save()
+            user_salt = models.UserSalt(email=email, salt=os.urandom(16))
+            user_salt.save()
         one_time_login_token = user_salt.get_one_time_login()
+        print("one_time")
+        print(one_time_login_token)
         return Response({"token": one_time_login_token})
 
 

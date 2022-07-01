@@ -11,6 +11,7 @@ from .models import (
     Profession,
     UserLanguage,
     UserSkill,
+    UserSalt,
 )
 
 
@@ -100,3 +101,9 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 class RegisterSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField()
+
+
+class UserSaltSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserSalt
+        fields = ["email"]
