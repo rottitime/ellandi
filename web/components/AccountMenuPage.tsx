@@ -5,7 +5,7 @@ import Link from '@/components/UI/Link'
 
 type Props = {
   children: ReactNode
-  title: string
+  title: string | ReactNode
   breadcrumbs?: { title: string; url?: string }[]
 }
 

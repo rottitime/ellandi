@@ -1,6 +1,6 @@
 import Page from '@/components/AccountMenuPage'
 import { Box, Button, Grid, Typography } from '@mui/material'
-import Card from '@/components/UI/AppBar/Card'
+import Card from '@/components/UI/Card'
 import Divider from '@/components/UI/Divider'
 import { colors } from '@/style/theme'
 import Link from '@/components/UI/Link'
@@ -9,6 +9,8 @@ import CareersIcon from '@/components/Icons/Careers'
 import CommunitiesIcon from '@/components/Icons/Communities'
 import LearningIcon from '@/components/Icons/Learning'
 import { ReactNode } from 'react'
+import LearningStrands from '@/components/LearningStrands'
+import ContentBox from '@/components/ContentBox'
 
 type MenuDataType = {
   title: string
@@ -57,14 +59,6 @@ const profiles: MenuDataType = [
   }
 ]
 
-const learningLinks = [
-  { title: 'Foundations of public admin', url: '#' },
-  { title: 'Working in government', url: '#' },
-  { title: 'Leading and managing', url: '#' },
-  { title: 'Specialist skills', url: '#' },
-  { title: 'Domain knowledge', url: '#' }
-]
-
 const IndexPage = () => {
   return (
     <>
@@ -78,7 +72,7 @@ const IndexPage = () => {
       <Grid container spacing={4}>
         <Grid item xs={4}>
           <Card fullHeight>
-            <Box sx={{ padding: '20px', border: `1px solid ${colors.greyDark}` }}>
+            <ContentBox>
               <Typography variant="h3">Latest updates</Typography>
               <ul>
                 <li>
@@ -90,23 +84,11 @@ const IndexPage = () => {
                   updates
                 </li>
               </ul>
-            </Box>
+            </ContentBox>
 
             <Divider variant="middle" spacing={30} />
 
-            <Typography variant="h3" sx={{ mb: 3 }}>
-              Browse learning strands
-            </Typography>
-
-            <ul>
-              {learningLinks.map((item) => (
-                <li key={item.title}>
-                  <Typography>
-                    <Link href={item.url}>{item.title}</Link>
-                  </Typography>
-                </li>
-              ))}
-            </ul>
+            <LearningStrands />
           </Card>
         </Grid>
         <Grid item xs={8}>
@@ -114,7 +96,7 @@ const IndexPage = () => {
             <Grid container spacing={4}>
               {profiles.map((data) => (
                 <Grid item xs={6} key={data.title}>
-                  <Card elevation={1}>
+                  <ContentBox>
                     <Typography
                       gutterBottom
                       variant="h3"
@@ -134,7 +116,7 @@ const IndexPage = () => {
                     <Link href={data.url}>
                       <Button variant="contained">{data.linkText}</Button>
                     </Link>
-                  </Card>
+                  </ContentBox>
                 </Grid>
               ))}
             </Grid>
