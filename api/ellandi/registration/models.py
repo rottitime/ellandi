@@ -1,6 +1,5 @@
 import datetime
 import hashlib
-import os
 import uuid
 
 import pytz
@@ -191,10 +190,8 @@ class UserSalt(models.Model):
 
     @classmethod
     def is_one_time_login_valid(cls, email, one_time_token):
-        email = email # TODO - make lower case
+        email = email  # TODO - make lower case
         user_salt = cls.objects.get("email")
         # TODO - if email doesn't exist - return false
         calculated_token = user_salt.get_one_time_login()
         return calculated_token == one_time_token
-
-

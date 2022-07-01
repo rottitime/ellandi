@@ -10,6 +10,7 @@ from .models import (
     Organisation,
     Profession,
     UserLanguage,
+    UserSalt,
     UserSkill,
     UserSalt,
 )
