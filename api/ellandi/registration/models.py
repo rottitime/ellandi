@@ -188,10 +188,6 @@ class UserSalt(models.Model):
         one_time_token = hashlib.sha256(tok.encode("utf-8")).hexdigest()
         return one_time_token
 
-    @classmethod
-    def is_one_time_login_valid(cls, email, one_time_token):
-        email = email  # TODO - make lower case
-        user_salt = cls.objects.get("email")
-        # TODO - if email doesn't exist - return false
-        calculated_token = user_salt.get_one_time_login()
-        return calculated_token == one_time_token
+    def is_one_time_login_valid(self, token_to_validate):
+        correct_token = self.get_one_time_login()
+        return correct_token == token_to_validate

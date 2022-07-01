@@ -136,3 +136,23 @@ class OneTimeLoginView(CreateAPIView):
             user_salt.save()
         one_time_login_token = user_salt.get_one_time_login()
         return Response({"token": one_time_login_token})
+
+
+class FirstLoginView(CreateAPIView):
+    serializer_class = serializers.UserSerializer2
+
+    def post(self, request):
+        email = request.data["email"]
+        one_time_token = request.data["token"]
+        try:
+            user_salt = models.UserSalt.objects.get(email=email)
+            correct_token = user_salt.get_one_time_login()
+            if correct_token == one_time_token:
+                response = self.create(request)
+                # TODO - now user has been saved something to invalidate token/salt?
+            else:
+                response = Response(status=status.HTTP_400_BAD_REQUEST)
+                # return incorrect token error?
+        except models.UserSalt.DoesNotExist:
+            response = Response(status=status.HTTP_400_BAD_REQUEST)
+        return response

@@ -9,6 +9,7 @@ from .models import (
     Location,
     Organisation,
     Profession,
+    User,
     UserLanguage,
     UserSalt,
     UserSkill,
@@ -108,3 +109,12 @@ class UserSaltSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserSalt
         fields = ["email"]
+
+
+# TODO - rename!!
+class UserSerializer2(serializers.ModelSerializer):
+    token = serializers.CharField(required=True)
+
+    class Meta:
+        model = User
+        fields = ["email", "token"]
