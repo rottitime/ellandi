@@ -14,6 +14,12 @@ from ellandi.registration.views import (
     skills_list_view,
 )
 from ellandi.registration.views import OneTimeLoginView, registration_router, FirstLoginView
+from ellandi import views
+from ellandi.registration.views import (
+    FirstLoginView,
+    OneTimeLoginView,
+    registration_router,
+)
 
 
 api_urlpatterns = [
