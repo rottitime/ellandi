@@ -1,80 +1,162 @@
-import Page from '@/components/AccountMenuPage'
-// import { Button, Heading, LabelText, Link, Select, Table, Tabs } from 'govuk-react'
-// import Page from '@/components/Page'
+import AccountMenuPage from '@/components/AccountMenuPage'
 import {
   Box,
-  Breadcrumbs,
   Card,
+  Chip,
   Grid,
-  Link,
-  Typography,
-  Divider,
-  Slider
+  styled,
+  Tab,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Tabs,
+  Typography
 } from '@mui/material'
+import { SyntheticEvent, useState } from 'react'
+import Link from '@/components/UI/Link'
+import Skills from '@/components/Icons/Skills'
 
-import ExampleTab from '@/components/ExampleTab'
-import ExampleAutoComplete from '@/components/Icons/ExampleAutoComplete'
-import ExampleSwitchGroup from '@/components/ExampleSwitchGroup'
+const TabPanel = styled(Box)`
+  padding: 25px;
+  .MuiTypography-h2 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+`
 
 const SkillsPage = () => {
+  const [value, setValue] = useState(0)
+  const handleChange = (_: SyntheticEvent, newValue: number) => setValue(newValue)
+
   return (
     <>
-      <Breadcrumbs aria-label="breadcrumb" sx={{ mb: 3 }}>
-        <Link underline="hover" color="inherit" href="/">
-          Home
-        </Link>
-        <Link
-          underline="hover"
-          color="inherit"
-          href="/material-ui/getting-started/installation/"
-        >
-          Account
-        </Link>
-        <Typography color="text.primary">Skills</Typography>
-      </Breadcrumbs>
-
       <Grid container spacing={4}>
-        <Grid item xs={4}>
+        <Grid item xs={12}>
           <Card sx={{ padding: '20px', height: '100%' }}>
-            <Typography variant="h3" sx={{ mb: 3 }}>
-              Search for your skillset
-            </Typography>
-            <ExampleAutoComplete />
+            <Box sx={{ width: '100%' }}>
+              <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                <Tabs
+                  value={value}
+                  onChange={handleChange}
+                  aria-label="basic tabs example"
+                >
+                  <Tab label="Your skills" />
+                  <Tab label="Language skills" />
+                  <Tab label="Skills you’d like to develop" />
+                </Tabs>
+              </Box>
+              <TabPanel hidden={value !== 0}>
+                <Typography variant="h2" gutterBottom>
+                  <Skills /> Skill
+                </Typography>
 
-            <Box sx={{ padding: '30px' }}>
-              <Divider variant="middle" />
+                <Table sx={{ minWidth: 650 }} aria-label="simple table" size="small">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Skill</TableCell>
+                      <TableCell>&nbsp;</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {[
+                      'Collaboration',
+                      'Customer service',
+                      'Health and wellbeing',
+                      'Independence',
+                      'Job coaching',
+                      'Market research',
+                      'Risk management'
+                    ].map((skill) => (
+                      <TableRow key={skill}>
+                        <TableCell scope="row">{skill}</TableCell>
+
+                        <TableCell scope="row" align="right">
+                          <Link href="#">Remove</Link>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TabPanel>
+              <TabPanel hidden={value !== 1}>
+                <Typography variant="h2" gutterBottom>
+                  {' '}
+                  <Skills /> Language skills
+                </Typography>
+
+                <Table size="small">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Skill</TableCell>
+                      <TableCell>Speaking</TableCell>
+                      <TableCell>Writing</TableCell>
+                      <TableCell>&nbsp;</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell>English</TableCell>
+                      <TableCell>
+                        <Chip variant="outlined" label="PROFICIENT" />
+                      </TableCell>
+                      <TableCell>
+                        <Chip variant="outlined" label="PROFICIENT" />
+                      </TableCell>
+                      <TableCell>
+                        <Link href="#">Change</Link>
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>French</TableCell>
+                      <TableCell>
+                        <Chip variant="outlined" label="BASIC" />
+                      </TableCell>
+                      <TableCell>
+                        <Chip variant="outlined" label="INDEPENDENT" />
+                      </TableCell>
+                      <TableCell>
+                        <Link href="#">Change</Link>
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </TabPanel>
+              <TabPanel hidden={value !== 2}>
+                <Typography variant="h2" gutterBottom>
+                  <Skills /> Skills you'd like to develop
+                </Typography>
+
+                <Table sx={{ minWidth: 650 }} aria-label="simple table" size="small">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Skill</TableCell>
+                      <TableCell>&nbsp;</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {[
+                      'Collaboration',
+                      'Customer service',
+                      'Health and wellbeing',
+                      'Independence',
+                      'Job coaching',
+                      'Market research',
+                      'Risk management'
+                    ].map((skill) => (
+                      <TableRow key={skill}>
+                        <TableCell scope="row">{skill}</TableCell>
+                        <TableCell scope="row" align="right">
+                          <Link href="#">Remove</Link>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TabPanel>
             </Box>
-
-            <Typography>Coding</Typography>
-            <Box width={300}>
-              <Slider defaultValue={50} aria-label="Default" valueLabelDisplay="auto" />
-            </Box>
-
-            <Typography>Drawing</Typography>
-            <Box width={300}>
-              <Slider defaultValue={20} aria-label="Default" valueLabelDisplay="auto" />
-            </Box>
-
-            <Typography>Speaking</Typography>
-            <Box width={300}>
-              <Slider defaultValue={80} aria-label="Default" valueLabelDisplay="auto" />
-            </Box>
-
-            <Typography>Maths</Typography>
-            <Box width={300}>
-              <Slider defaultValue={10} aria-label="Default" valueLabelDisplay="auto" />
-            </Box>
-
-            <Box sx={{ padding: '30px' }}>
-              <Divider variant="middle" />
-            </Box>
-
-            <ExampleSwitchGroup />
-          </Card>
-        </Grid>
-        <Grid item xs={8}>
-          <Card sx={{ padding: '20px', height: '100%' }}>
-            <ExampleTab />
           </Card>
         </Grid>
       </Grid>
@@ -83,4 +165,8 @@ const SkillsPage = () => {
 }
 
 export default SkillsPage
-SkillsPage.getLayout = (page) => <Page>{page}</Page>
+SkillsPage.getLayout = (page) => (
+  <AccountMenuPage title="Skills" breadcrumbs={[{ title: 'Skills' }]}>
+    {page}
+  </AccountMenuPage>
+)

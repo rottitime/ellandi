@@ -8,7 +8,9 @@ export const colors = {
   profileBlue: '#144E81',
   profilePink: '#80224D',
   profileGreen: '#10403C',
-  profileYellow: '#594D00'
+  profileYellow: '#594D00',
+  //ui
+  link: '#1976d2'
 }
 
 const breakpoints = {

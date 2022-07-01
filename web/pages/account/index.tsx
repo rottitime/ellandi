@@ -69,9 +69,6 @@ const IndexPage = () => {
   return (
     <>
       <Box sx={{ mb: 6 }}>
-        <Typography variant="h1" gutterBottom>
-          Welcome, Joe
-        </Typography>
         <Typography variant="subtitle1" gutterBottom>
           Use this service to add and review skills, view learning opportunities, plan
           your career pathway and keep up to date with communities.
@@ -102,7 +99,7 @@ const IndexPage = () => {
             </Typography>
 
             <ul>
-              {learningLinks.map((item, i) => (
+              {learningLinks.map((item) => (
                 <li key={item.title}>
                   <Typography>
                     <Link href={item.url}>{item.title}</Link>
@@ -149,4 +146,4 @@ const IndexPage = () => {
 }
 
 export default IndexPage
-IndexPage.getLayout = (page) => <Page>{page}</Page>
+IndexPage.getLayout = (page) => <Page title="Welcome, Joe">{page}</Page>

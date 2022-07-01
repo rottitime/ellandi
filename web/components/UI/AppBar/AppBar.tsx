@@ -32,11 +32,15 @@ const ResponsiveAppBar: FC<Props> = ({ pages, settings }) => {
     <AppBar position="static" elevation={0} sx={{ backgroundColor: colors.blueDark }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Crown style={{ fontSize: '32px', marginRight: '10px' }} />
+          <Link href="/account">
+            <a>
+              <Crown style={{ fontSize: '32px', marginRight: '10px', color: '#fff' }} />
+            </a>
+          </Link>
 
           <Box sx={{ flexGrow: 1, display: 'flex' }}>
             {pages.map((page) => (
-              <Link key={page.title} href={page.url} passHref>
+              <Link key={page.title} href={page.url}>
                 <Button sx={{ my: 2, color: 'white', display: 'block' }}>
                   {page.title}
                 </Button>

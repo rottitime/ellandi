@@ -5,7 +5,8 @@ import Link from '@/components/UI/Link'
 
 type Props = {
   children: ReactNode
-  breadcrumbs?: { title: string; url: string }[]
+  title: string
+  breadcrumbs?: { title: string; url?: string }[]
 }
 
 const pages = [
@@ -26,23 +27,31 @@ const Container = styled(MuiContainer)`
   padding-bottom: 20px;
 `
 
-const AccountMenuPage: FC<Props> = ({ breadcrumbs, children }) => (
+const AccountMenuPage: FC<Props> = ({ breadcrumbs, title, children }) => (
   <>
     <AppBar pages={pages} settings={settings} />
     <Container maxWidth="xl">
       {breadcrumbs && (
         <Breadcrumbs aria-label="breadcrumb" sx={{ mb: 3 }}>
-          {breadcrumbs.map((item, i) =>
-            i + 1 === breadcrumbs.length ? (
-              <Typography color="text.primary">{item.title}</Typography>
-            ) : (
+          <Link underline="hover" color="inherit" href="/account">
+            Home
+          </Link>
+
+          {breadcrumbs.map((item) =>
+            item.url ? (
               <Link underline="hover" color="inherit" href={item.url} key={item.title}>
                 {item.title}
               </Link>
+            ) : (
+              <Typography color="text.primary">{item.title}</Typography>
             )
           )}
         </Breadcrumbs>
       )}
+
+      <Typography variant="h1" gutterBottom>
+        {title}
+      </Typography>
 
       {children}
     </Container>
