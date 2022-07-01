@@ -1,7 +1,7 @@
 import Page from '@/components/GenericPage'
 import { Box, Typography, styled } from '@mui/material'
 import LinkButton from '@/components/LinkButton'
-import Link from '@/components/Link'
+import Link from '@/components/UI/Link'
 
 const DragBox = styled(Box)`
   border: 4px dashed #1976d2;

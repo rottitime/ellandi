@@ -1,5 +1,5 @@
 import { Typography, Box } from '@mui/material'
-import Page from '@/components/Page'
+import Page from '@/components/AccountMenuPage'
 
 const TestPage = () => (
   <>

@@ -1,4 +1,4 @@
-import Page from '@/components/Page'
+import Page from '@/components/AccountMenuPage'
 // import { Button, Heading, LabelText, Link, Select, Table, Tabs } from 'govuk-react'
 // import Page from '@/components/Page'
 import {
@@ -13,7 +13,7 @@ import {
 } from '@mui/material'
 
 import ExampleTab from '@/components/ExampleTab'
-import ExampleAutoComplete from '@/components/icons/ExampleAutoComplete'
+import ExampleAutoComplete from '@/components/Icons/ExampleAutoComplete'
 import ExampleSwitchGroup from '@/components/ExampleSwitchGroup'
 
 const SkillsPage = () => {

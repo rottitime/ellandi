@@ -10,10 +10,10 @@ import {
   Typography
 } from '@mui/material'
 import LinkButton from '@/components/LinkButton'
-import Link from '@/components/Link'
+import Link from '@/components/UI/Link'
 import ToggleChip from '@/components/ToggleChip'
 import { Delete } from '@mui/icons-material'
-import Divider from '@/components/ui/Divider'
+import Divider from '@/components/UI/Divider'
 
 const options = [
   'Auditing',

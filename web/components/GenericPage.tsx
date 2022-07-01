@@ -1,7 +1,7 @@
 import Template from '@/components/Template'
 import { Card, Grid, Typography, styled, LinearProgress, Hidden } from '@mui/material'
 import { FC, ReactNode } from 'react'
-import Crown from '@/components/icons/Crown'
+import Crown from '@/components/Icons/Crown'
 import List from '@/components/List'
 import {
   AccountBox,
@@ -79,7 +79,7 @@ const GridContainer = styled(Grid)`
   }
 `
 
-const GenericPage2: FC<Props> = ({ children, title, progress }) => (
+const GenericPage: FC<Props> = ({ children, title, progress }) => (
   <Template disableGutters={true}>
     <GridContainer spacing={0} container>
       <Grid item xs={12} md={4} className="promo-box">
@@ -145,4 +145,4 @@ const GenericPage2: FC<Props> = ({ children, title, progress }) => (
     </GridContainer>
   </Template>
 )
-export default GenericPage2
+export default GenericPage

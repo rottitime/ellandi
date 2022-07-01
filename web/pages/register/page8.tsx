@@ -1,8 +1,8 @@
 import Page from '@/components/GenericPage'
-import Link from '@/components/Link'
+import Link from '@/components/UI/Link'
 import { FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material'
 import LinkButton from '@/components/LinkButton'
-import Divider from '@/components/ui/Divider'
+import Divider from '@/components/UI/Divider'
 
 const RegisterPage = () => {
   return (

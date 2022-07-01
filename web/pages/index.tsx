@@ -1,5 +1,5 @@
 import Page from '@/components/GenericPage'
-import Link from '@/components/Link'
+import Link from '@/components/UI/Link'
 import { Typography } from '@mui/material'
 
 const RegisterPage = () => (

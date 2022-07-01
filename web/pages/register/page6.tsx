@@ -1,9 +1,9 @@
 // import { Button, Heading, HintText, LeadParagraph, Paragraph, Radio } from 'govuk-react'
-import Link from '@/components/Link'
+import Link from '@/components/UI/Link'
 import LinkButton from '@/components/LinkButton'
 import Page from '@/components/GenericPage'
 import { FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material'
-import Divider from '@/components/ui/Divider'
+import Divider from '@/components/UI/Divider'
 
 const options = [
   'Administrative Officer (AO) Equivalent',

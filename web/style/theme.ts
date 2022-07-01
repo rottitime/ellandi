@@ -1,5 +1,16 @@
 import { createTheme } from '@mui/material/styles'
 
+export const colors = {
+  blueDark: '#091f3e',
+  greyDark: '#ccc',
+  greyLight: '#f2f2f2',
+  //profiles
+  profileBlue: '#144E81',
+  profilePink: '#80224D',
+  profileGreen: '#10403C',
+  profileYellow: '#594D00'
+}
+
 const breakpoints = {
   xs: 0,
   md: 767,

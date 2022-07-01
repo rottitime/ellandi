@@ -1,7 +1,7 @@
 import Page from '@/components/GenericPage'
 import { Typography } from '@mui/material'
 import LinkButton from '@/components/LinkButton'
-import Divider from '@/components/ui/Divider'
+import Divider from '@/components/UI/Divider'
 
 const RegisterPage = () => {
   return (

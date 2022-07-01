@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import Page from '@/components/Page'
+import Page from '@/components/AccountMenuPage'
 import { Box, Typography } from '@mui/material'
 
 const FirstPost = () => {
