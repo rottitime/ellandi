@@ -1,7 +1,10 @@
+import os
+
 from django.contrib.auth import get_user_model
 from drf_spectacular.utils import extend_schema
 from rest_framework import decorators, permissions, routers, viewsets
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from . import exceptions, initial_data, models, serializers
 
@@ -116,3 +119,16 @@ def skills_list_view(request):
     skills = set(models.UserSkill.objects.all().values_list("skill_name", flat=True))
     skills = initial_data.INITIAL_SKILLS.union(skills)
     return Response(skills)
+
+
+class OneTimeLoginView(APIView):
+    def post(self, request):
+        email = request.data["email"]
+        try:
+            user_salt = models.UserSalt.objects.get(email=email)
+        except models.UserSalt.DoesNotExist:
+            user_salt = models.UserSalt(email=email, salt=os.urandom(16)).save()
+        one_time_login_token = user_salt.get_one_time_login()
+        return Response({"token": one_time_login_token})
+
+

@@ -18,6 +18,7 @@ api_urlpatterns = [
     path("", include(registration_router.urls)),
     path("register/", register_view, name="register"),
     path("skills/", skills_list_view, name="skills"),
+    path("one-time-login-token/", OneTimeLoginView.as_view()),
 ]
 
 schema_urlpatterns = [

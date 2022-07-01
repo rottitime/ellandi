@@ -1,4 +1,6 @@
 import datetime
+import hashlib
+import os
 import uuid
 
 import pytz
@@ -7,6 +9,8 @@ from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.text import slugify
+
+from ellandi.settings import SECRET_KEY
 
 
 def now():
@@ -172,3 +176,23 @@ class UserLanguage(TimeStampedModel):
 
     class Meta:
         unique_together = ["user", "language", "type"]
+
+
+class UserSalt(models.Model):
+    email = models.EmailField("email", unique=True, primary_key=True)
+    salt = models.BinaryField(max_length=16, blank=False, null=False)
+
+    def get_one_time_login(self):
+        tok = "|".join(self.salt, self.email, SECRET_KEY)
+        one_time_token = hashlib.sha256(tok)
+        return one_time_token
+
+    @classmethod
+    def is_one_time_login_valid(cls, email, one_time_token):
+        email = email # TODO - make lower case
+        user_salt = cls.objects.get("email")
+        # TODO - if email doesn't exist - return false
+        calculated_token = user_salt.get_one_time_login()
+        return calculated_token == one_time_token
+
+
