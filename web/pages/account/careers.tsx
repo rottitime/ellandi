@@ -4,14 +4,13 @@ import {
   FormControl,
   Grid,
   InputLabel,
-  MenuItem,
   Pagination,
   Select,
   styled,
+  TextField,
   Typography
 } from '@mui/material'
 import AccountMenuPage from '@/components/AccountMenuPage'
-import Learning from '@/components/Icons/Learning'
 import Card from '@/components/UI/Card'
 import Link from '@/components/UI/Link'
 import Divider from '@/components/UI/Divider'
@@ -19,6 +18,7 @@ import LearningStrands from '@/components/LearningStrands'
 import ContentBox from '@/components/ContentBox'
 import Forecasting from '@/components/Icons/Forecasting'
 import { StarBorder } from '@mui/icons-material'
+import Careers from '@/components/Icons/Careers'
 
 const results = [
   {
@@ -94,6 +94,15 @@ const results = [
   }
 ]
 
+const list = [
+  { title: 'Analysis', url: '#' },
+  { title: 'Commercial and Procurement', url: '#' },
+  { title: 'Communications', url: '#' },
+  { title: 'Counter Fraud', url: '#' },
+  { title: 'Digital, Data and Technology', url: '#' },
+  { title: 'View more', url: '#' }
+]
+
 const Header = styled('header')`
   display: flex;
   justify-content: space-between;
@@ -105,23 +114,11 @@ const Header = styled('header')`
   }
 `
 
-const filters = [
-  'Commercial awareness (1)',
-  'Communication (2)',
-  'Data management (1)',
-  'Financial management (2)',
-  'Forecasting (1)',
-  'Influencing (2)',
-  'Managing budgets (1)',
-  'Numeracy (1)',
-  'Presenting (1)'
-]
-
 const Page = () => {
   return (
     <>
       <Typography variant="subtitle1" gutterBottom>
-        Course suggestions are based on your current skills and skills you would like to
+        Career suggestions are based on your current skills and skills you would like to
         develop. <Link href="#">Change these preferences</Link>.
       </Typography>
 
@@ -132,36 +129,51 @@ const Page = () => {
               Filter by the skills you'd like to develop
             </Typography>
 
-            <Typography>All (10)</Typography>
-            {filters.map((filter) => (
-              <Typography key={filter} sx={{ mb: 1 }}>
-                <Link key={filter} href="#">
-                  {filter}
-                </Link>
-              </Typography>
-            ))}
+            <TextField
+              label="Location"
+              helperText="Enter a postcode, town or region"
+              size="small"
+              margin="normal"
+              fullWidth
+            />
 
-            <Box sx={{ mt: 4 }}>
-              {['Type of learning', 'Profession', 'Function', 'Department'].map(
-                (label) => (
-                  <FormControl size="small" sx={{ mb: 3 }} fullWidth>
-                    <InputLabel id="demo-select-small">{label}</InputLabel>
-                    <Select value={label} label={label}>
-                      <MenuItem value="">
-                        <em>None</em>
-                      </MenuItem>
-                      <MenuItem value={10}>Ten</MenuItem>
-                      <MenuItem value={20}>Twenty</MenuItem>
-                      <MenuItem value={30}>Thirty</MenuItem>
-                    </Select>
-                  </FormControl>
-                )
-              )}
-            </Box>
+            <Grid container spacing={4}>
+              <Grid item xs={6}>
+                <TextField
+                  label="Seaarch distance"
+                  size="small"
+                  margin="normal"
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField size="small" margin="normal" fullWidth />
+              </Grid>
+            </Grid>
+
+            {[
+              'Job role',
+              'Organisation',
+              'Profession',
+              'Function',
+              'Minimum salary',
+              'Job grade',
+              'Working pattern',
+              'Contract type'
+            ].map((item) => (
+              <FormControl fullWidth key={item} sx={{ mb: 3 }} size="small">
+                <InputLabel>{item}</InputLabel>
+                <Select label={item}>
+                  <option value="0">GOV.UK elements option 1</option>
+                  <option value="1">GOV.UK elements option 2</option>
+                  <option value="2">GOV.UK elements option 3</option>
+                </Select>
+              </FormControl>
+            ))}
 
             <Divider variant="middle" spacing={20} />
 
-            <LearningStrands />
+            <LearningStrands list={list} title="Suggested career pathways" />
           </Card>
         </Grid>
         <Grid item xs={8}>
@@ -212,10 +224,11 @@ const Page = () => {
 export default Page
 Page.getLayout = (page) => (
   <AccountMenuPage
-    breadcrumbs={[{ title: 'Learning' }]}
+    breadcrumbs={[{ title: 'Careers' }]}
     title={
       <>
-        <Learning /> Learning
+        <Careers />
+        Careers
       </>
     }
   >

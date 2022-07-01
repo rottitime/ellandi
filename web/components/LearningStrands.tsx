@@ -1,6 +1,11 @@
 import { Typography } from '@mui/material'
-import React from 'react'
+import React, { FC } from 'react'
 import Link from './UI/Link'
+
+type Props = {
+  list?: { title: string; url: string }[]
+  title?: string
+}
 
 const links = [
   { title: 'Foundations of public admin', url: '#' },
@@ -10,14 +15,17 @@ const links = [
   { title: 'Domain knowledge', url: '#' }
 ]
 
-const LearningStrands = () => (
+const LearningStrands: FC<Props> = ({
+  list = links,
+  title = 'Browse learning strands'
+}) => (
   <>
     <Typography variant="h3" sx={{ mb: 3 }}>
-      Browse learning strands
+      {title}
     </Typography>
 
     <ul>
-      {links.map((item) => (
+      {list.map((item) => (
         <li key={item.title}>
           <Typography>
             <Link href={item.url}>{item.title}</Link>
