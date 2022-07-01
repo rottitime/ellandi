@@ -1,36 +1,11 @@
 import AccountMenuPage from '@/components/AccountMenuPage'
-import {
-  Box,
-  Chip,
-  Grid,
-  styled,
-  Tab,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  Tabs,
-  Typography
-} from '@mui/material'
-import { SyntheticEvent, useState } from 'react'
+import { Grid, Typography } from '@mui/material'
 import Link from '@/components/UI/Link'
-import Skills from '@/components/Icons/Skills'
 import Communities from '@/components/Icons/Communities'
 import ContentBox from '@/components/ContentBox'
 import Card from '@/components/UI/Card'
 import LinkButton from '@/components/LinkButton'
 import Divider from '@/components/UI/Divider'
-import InsetDividers from '@/components/InsetDividers'
-
-const TabPanel = styled(Box)`
-  padding: 25px;
-  .MuiTypography-h2 {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-`
 
 const listCommunities = [
   {

@@ -144,7 +144,7 @@ const Page = () => {
             <Box sx={{ mt: 4 }}>
               {['Type of learning', 'Profession', 'Function', 'Department'].map(
                 (label) => (
-                  <FormControl size="small" sx={{ mb: 3 }} fullWidth>
+                  <FormControl size="small" sx={{ mb: 3 }} fullWidth key={label}>
                     <InputLabel id="demo-select-small">{label}</InputLabel>
                     <Select value={label} label={label}>
                       <MenuItem value="">
