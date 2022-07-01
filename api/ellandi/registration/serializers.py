@@ -3,6 +3,7 @@ from rest_framework import serializers
 
 from .models import (
     ContractType,
+    EmailSalt,
     Grade,
     Language,
     LanguageSkillLevel,
@@ -11,7 +12,6 @@ from .models import (
     Profession,
     User,
     UserLanguage,
-    UserSalt,
     UserSkill,
     UserSalt,
 )
@@ -107,7 +107,7 @@ class RegisterSerializer(serializers.Serializer):
 
 class UserSaltSerializer(serializers.ModelSerializer):
     class Meta:
-        model = UserSalt
+        model = EmailSalt
         fields = ["email"]
 
 

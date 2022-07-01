@@ -126,16 +126,16 @@ def skills_list_view(request):
 
 
 class OneTimeLoginView(CreateAPIView):
-    serializer_class = serializers.UserSaltSerializer
+    serializer_class = serializers.EmailSaltSerializer
 
     def post(self, request):
         email = request.data["email"]
         try:
-            user_salt = models.UserSalt.objects.get(email=email)
-        except models.UserSalt.DoesNotExist:
-            user_salt = models.UserSalt(email=email, salt=os.urandom(16))
-            user_salt.save()
-        one_time_login_token = user_salt.get_one_time_login()
+            email_salt = models.EmailSalt.objects.get(email=email)
+        except models.EmailSalt.DoesNotExist:
+            email_salt = models.EmailSalt(email=email, salt=os.urandom(16))
+            email_salt.save()
+        one_time_login_token = email_salt.get_one_time_login()
         return Response({"token": one_time_login_token})
 
 
@@ -146,14 +146,14 @@ class FirstLoginView(CreateAPIView):
         email = request.data["email"]
         one_time_token = request.data["token"]
         try:
-            user_salt = models.UserSalt.objects.get(email=email)
-            correct_token = user_salt.get_one_time_login()
+            email_salt = models.EmailSalt.objects.get(email=email)
+            correct_token = email_salt.get_one_time_login()
             if correct_token == one_time_token:
                 response = self.create(request)
                 # TODO - now user has been saved something to invalidate token/salt?
             else:
                 response = Response(status=status.HTTP_400_BAD_REQUEST)
                 # return incorrect token error?
-        except models.UserSalt.DoesNotExist:
+        except models.EmailSalt.DoesNotExist:
             response = Response(status=status.HTTP_400_BAD_REQUEST)
         return response
