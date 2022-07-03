@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate
 from drf_spectacular.extensions import OpenApiAuthenticationExtension
 from drf_spectacular.utils import extend_schema
 from knox.views import LoginView as KnoxLoginView
-from rest_framework import authentication, exceptions, serializers, permissions
+from rest_framework import authentication, exceptions, permissions, serializers
 
 
 class KnoxTokenScheme(OpenApiAuthenticationExtension):
