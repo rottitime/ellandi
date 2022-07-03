@@ -3,7 +3,6 @@ import { Stars, Delete } from '@mui/icons-material'
 import Card from '@/components/UI/Card'
 import AccountMenuPage from '@/components/AccountMenuPage'
 import { IconButton, styled, Typography } from '@mui/material'
-import { colors } from '@/style/theme'
 import Skills from '@/components/Icons/Skills'
 import Learning from '@/components/Icons/Learning'
 import Careers from '@/components/Icons/Careers'
@@ -73,10 +72,11 @@ const Page = () => {
       <Card>
         <Typography
           variant="h3"
-          style={{
+          sx={{
             display: 'flex',
             alignItems: 'center',
-            color: colors.profileBlue
+            mb: 2,
+            color: (p) => p.colors.profileBlue
           }}
         >
           <Skills style={{ marginRight: '10px' }} />
@@ -99,7 +99,7 @@ const Page = () => {
                 </Typography>
 
                 <IconButton aria-label="delete">
-                  <Delete style={{ fontSize: '20px' }} />
+                  <Delete sx={{ fontSize: '20px' }} />
                 </IconButton>
               </CardHeader>
             </ContentBox>
@@ -108,10 +108,11 @@ const Page = () => {
 
         <Typography
           variant="h3"
-          style={{
+          sx={{
             display: 'flex',
             alignItems: 'center',
-            color: colors.profilePink
+            mb: 2,
+            color: (p) => p.colors.profileBlue
           }}
         >
           <Learning style={{ marginRight: '10px' }} />
@@ -126,7 +127,7 @@ const Page = () => {
                   <Link href="#">{item.title}</Link>
                 </Typography>
                 <IconButton aria-label="delete">
-                  <Delete style={{ fontSize: '20px' }} />
+                  <Delete sx={{ fontSize: '20px' }} />
                 </IconButton>
               </CardHeader>
               <Typography>
@@ -140,10 +141,11 @@ const Page = () => {
 
         <Typography
           variant="h3"
-          style={{
+          sx={{
             display: 'flex',
             alignItems: 'center',
-            color: colors.profileGreen
+            mb: 2,
+            color: (p) => p.colors.profileBlue
           }}
         >
           <Careers style={{ marginRight: '10px' }} />
@@ -158,7 +160,7 @@ const Page = () => {
                   <Link href="#">{item.title}</Link>
                 </Typography>
                 <IconButton aria-label="delete">
-                  <Delete style={{ fontSize: '20px' }} />
+                  <Delete sx={{ fontSize: '20px' }} />
                 </IconButton>
               </CardHeader>
               <Typography>
@@ -174,10 +176,11 @@ const Page = () => {
 
         <Typography
           variant="h3"
-          style={{
+          sx={{
             display: 'flex',
             alignItems: 'center',
-            color: colors.profileYellow
+            mb: 2,
+            color: (p) => p.colors.profileBlue
           }}
         >
           <Communities style={{ marginRight: '10px' }} />
@@ -192,7 +195,7 @@ const Page = () => {
                   <Link href="#">{item.title}</Link>
                 </Typography>
                 <IconButton aria-label="delete">
-                  <Delete style={{ fontSize: '20px' }} />
+                  <Delete sx={{ fontSize: '20px' }} />
                 </IconButton>
               </CardHeader>
               <Typography>
@@ -211,7 +214,7 @@ Page.getLayout = (page) => (
   <AccountMenuPage
     title={
       <>
-        <Stars sx={{ color: colors.link }} />
+        <Stars sx={{ color: (p) => p.colors.profileBlue }} />
         Favourites
       </>
     }

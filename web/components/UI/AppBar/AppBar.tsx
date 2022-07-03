@@ -1,23 +1,33 @@
 import {
-  AppBar,
+  AppBar as MuiAppBar,
   Box,
   Button,
   Container,
   IconButton,
   Menu,
   MenuItem,
+  styled,
   Toolbar,
   Tooltip,
   Typography
 } from '@mui/material'
 import { AccountCircle } from '@mui/icons-material'
 import Link from 'next/link'
-import { colors } from '@/style/theme'
 import Crown from '../../Icons/Crown'
 import { FC, useState } from 'react'
 import { Props } from './types'
 
+const AppBar = styled(MuiAppBar)`
+  background-color: ${(p) => p.theme.colors.blueDark};
+  .icon-account {
+    color: ${(p) => p.theme.colors.greyLight};
+    font-size: 31px;
+  }
+`
+
 const ResponsiveAppBar: FC<Props> = ({ pages, settings }) => {
+  // const theme = useTheme()
+
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null)
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -29,7 +39,7 @@ const ResponsiveAppBar: FC<Props> = ({ pages, settings }) => {
   }
 
   return (
-    <AppBar position="static" elevation={0} sx={{ backgroundColor: colors.blueDark }}>
+    <AppBar position="static" elevation={0}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Link href="/account">
@@ -51,7 +61,7 @@ const ResponsiveAppBar: FC<Props> = ({ pages, settings }) => {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <AccountCircle sx={{ color: colors.greyLight, fontSize: '31px' }} />
+                <AccountCircle className="icon-account" />
               </IconButton>
             </Tooltip>
             <Menu

@@ -1,9 +1,8 @@
 // import { Button, Heading, HintText, LeadParagraph, Paragraph, Radio } from 'govuk-react'
 import Link from '@/components/UI/Link'
 import LinkButton from '@/components/LinkButton'
-import Page from '@/components/GenericPage'
+import Page, { FormFooter } from '@/components/GenericPage'
 import { FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material'
-import Divider from '@/components/UI/Divider'
 
 const options = [
   'Administrative Officer (AO) Equivalent',
@@ -52,11 +51,13 @@ const RegisterPage = () => {
         <Link href="/register/page7">Skip this step</Link>
       </Typography>
 
-      <Divider spacing={20} variant="middle" />
+      <FormFooter>
+        <LinkButton href="/register/page5" variant="outlined">
+          Back
+        </LinkButton>
 
-      <LinkButton href="/register/page7" fullWidth>
-        Continue
-      </LinkButton>
+        <LinkButton href="/register/page7">Continue</LinkButton>
+      </FormFooter>
     </>
   )
 }

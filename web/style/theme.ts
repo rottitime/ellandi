@@ -1,6 +1,21 @@
-import { createTheme } from '@mui/material/styles'
+/* eslint-disable @typescript-eslint/no-empty-interface */
+import { createTheme, PaletteColorOptions } from '@mui/material/styles'
+import { CSSProperties } from 'react'
 
-export const colors = {
+export type Colors = {
+  blueDark: CSSProperties['color']
+  greyDark: CSSProperties['color']
+  greyLight: CSSProperties['color']
+  //profiles
+  profileBlue: CSSProperties['color']
+  profilePink: CSSProperties['color']
+  profileGreen: CSSProperties['color']
+  profileYellow: CSSProperties['color']
+  //ui
+  link: CSSProperties['color']
+}
+
+const colors = {
   blueDark: '#091f3e',
   greyDark: '#ccc',
   greyLight: '#f2f2f2',
@@ -32,17 +47,70 @@ declare module '@mui/material/Typography' {
   }
 }
 
+declare module '@mui/material/AppBar' {
+  interface AppBarPropsColorOverrides {
+    blueDark: true
+    // apple: true;
+    // steelBlue: true;
+    // violet: true;
+  }
+}
+
 declare module '@mui/material/styles' {
+  interface Theme {
+    colors: Colors
+  }
+
+  interface ThemeOptions {
+    colors: Colors
+  }
+
+  interface CustomPalette {
+    blueDark: PaletteColorOptions
+    greyDark: PaletteColorOptions
+    greyLight: PaletteColorOptions
+    //profiles
+    profileBlue: PaletteColorOptions
+    profilePink: PaletteColorOptions
+    profileGreen: PaletteColorOptions
+    profileYellow: PaletteColorOptions
+    //ui
+    link: PaletteColorOptions
+  }
+
+  interface Palette extends CustomPalette {}
+  interface PaletteOptions extends CustomPalette {}
   interface BreakpointOverrides {
     sm: false
   }
 }
 
+const { palette } = createTheme()
+const { augmentColor } = palette
+const createColor = (mainColor) => augmentColor({ color: { main: mainColor } })
+
 const theme = createTheme({
+  colors,
   breakpoints: {
     values: breakpoints
   },
   palette: {
+    blueDark: createColor('#091f3e'),
+    greyDark: createColor('#ccc'),
+    greyLight: createColor('#f2f2f2'),
+    //profiles
+    profileBlue: createColor('#144E81'),
+    profilePink: createColor('#80224D'),
+    profileGreen: createColor('#10403C'),
+    profileYellow: createColor('#594D00'),
+    //ui
+    link: createColor('#1976d2'),
+
+    // anger: createColor('#cccccc'),
+    // apple: createColor('#5DBA40'),
+    // steelBlue: createColor('#5C76B7'),
+    // violet: createColor('#BC00A3'),
+
     background: {
       default: 'rgb(242, 242, 242)'
     }

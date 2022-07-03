@@ -83,7 +83,7 @@ const Page = () => {
         <Grid container spacing={4}>
           {listCommunities.map((community) => (
             <Grid item xs={4} key={community.title}>
-              <ContentBox>
+              <ContentBox sx={{ height: '100%' }}>
                 <Typography variant="h3">
                   <Link href="#">{community.title}</Link>
                 </Typography>

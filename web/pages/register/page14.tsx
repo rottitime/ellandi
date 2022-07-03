@@ -1,4 +1,4 @@
-import Page from '@/components/GenericPage'
+import Page, { FormFooter } from '@/components/GenericPage'
 import { styled } from '@mui/material/styles'
 import {
   Box,
@@ -13,7 +13,6 @@ import LinkButton from '@/components/LinkButton'
 import Link from '@/components/UI/Link'
 import ToggleChip from '@/components/ToggleChip'
 import { Delete } from '@mui/icons-material'
-import Divider from '@/components/UI/Divider'
 
 const options = [
   'Auditing',
@@ -96,11 +95,13 @@ const RegisterPage = () => {
         <Link href="/account">Skip this page</Link>
       </Typography>
 
-      <Divider spacing={20} variant="middle" />
+      <FormFooter>
+        <LinkButton href="/account" variant="outlined">
+          Back
+        </LinkButton>
 
-      <LinkButton href="/skills" fullWidth>
-        Continue
-      </LinkButton>
+        <LinkButton href="/account">Continue</LinkButton>
+      </FormFooter>
     </>
   )
 }

@@ -1,5 +1,6 @@
 import Template from '@/components/Template'
-import { Card, Grid, Typography, styled, LinearProgress, Hidden } from '@mui/material'
+import { Grid, Typography, styled, LinearProgress, Hidden, Box } from '@mui/material'
+import Card from '@/components/UI/Card'
 import { FC, ReactNode } from 'react'
 import Crown from '@/components/Icons/Crown'
 import List from '@/components/List'
@@ -44,9 +45,9 @@ const GridContainer = styled(Grid)`
   }
 
   .promo-box {
-    background-color: rgb(9, 31, 62);
+    /* background-color: rgb(9, 31, 62);
+    color: #fff; */
     position: relative;
-    color: #fff;
     padding: 20px;
 
     ${({ theme }) => theme.breakpoints.down('md')} {
@@ -58,7 +59,7 @@ const GridContainer = styled(Grid)`
     ${({ theme }) => theme.breakpoints.up('md')} {
       /* flex-direction: row;
       flex-wrap: wrap; */
-      padding: 140px 48px 24px;
+      padding: 100px 48px 24px;
     }
 
     &:after {
@@ -71,12 +72,21 @@ const GridContainer = styled(Grid)`
   }
 
   .main-content {
-    -webkit-box-pack: center;
     justify-content: center;
-    -webkit-box-align: center;
     align-items: center;
+    /* align-self: start; */
     display: flex;
+    ${({ theme }) => theme.breakpoints.up('md')} {
+      /* margin-top: 100px; */
+    }
   }
+`
+
+export const FormFooter = styled(Box)`
+  display: flex;
+  justify-content: end;
+  gap: 15px;
+  padding-top: 20px;
 `
 
 const GenericPage: FC<Props> = ({ children, title, progress }) => (
@@ -136,7 +146,11 @@ const GenericPage: FC<Props> = ({ children, title, progress }) => (
           </Typography>
 
           {progress && (
-            <LinearProgress variant="determinate" value={progress} sx={{ mb: 6 }} />
+            <LinearProgress
+              variant="determinate"
+              value={progress}
+              sx={{ mb: 6, height: '7px' }}
+            />
           )}
 
           {children}
@@ -145,4 +159,5 @@ const GenericPage: FC<Props> = ({ children, title, progress }) => (
     </GridContainer>
   </Template>
 )
+
 export default GenericPage

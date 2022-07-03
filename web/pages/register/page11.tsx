@@ -1,7 +1,6 @@
-import Page from '@/components/GenericPage'
+import Page, { FormFooter } from '@/components/GenericPage'
 import { Typography } from '@mui/material'
 import LinkButton from '@/components/LinkButton'
-import Divider from '@/components/UI/Divider'
 
 const RegisterPage = () => {
   return (
@@ -16,11 +15,13 @@ const RegisterPage = () => {
         <li>Skills that you'd like to develop</li>
       </ul>
 
-      <Divider spacing={20} variant="middle" />
+      <FormFooter>
+        <LinkButton href="/register/page10" variant="outlined">
+          Back
+        </LinkButton>
 
-      <LinkButton href="/register/page12" fullWidth>
-        Continue
-      </LinkButton>
+        <LinkButton href="/register/page12">Continue</LinkButton>
+      </FormFooter>
     </>
   )
 }

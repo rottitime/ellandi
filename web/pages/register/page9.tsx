@@ -1,4 +1,4 @@
-import Page from '@/components/GenericPage'
+import Page, { FormFooter } from '@/components/GenericPage'
 import { Box, Typography, styled } from '@mui/material'
 import LinkButton from '@/components/LinkButton'
 import Link from '@/components/UI/Link'
@@ -33,9 +33,13 @@ const RegisterPage = () => {
         <Link href="/register/page10">Skip this step</Link>
       </Typography>
 
-      <LinkButton href="/register/page10" fullWidth>
-        Continue
-      </LinkButton>
+      <FormFooter>
+        <LinkButton href="/register/page8" variant="outlined">
+          Back
+        </LinkButton>
+
+        <LinkButton href="/register/page10">Continue</LinkButton>
+      </FormFooter>
     </>
   )
 }

@@ -1,5 +1,5 @@
 import LinkButton from '@/components/LinkButton'
-import Page from '@/components/GenericPage'
+import Page, { FormFooter } from '@/components/GenericPage'
 import { TextField, Typography } from '@mui/material'
 import Divider from '@/components/UI/Divider'
 
@@ -55,9 +55,13 @@ const RegisterPage = () => {
 
       <Divider spacing={20} variant="middle" />
 
-      <LinkButton href="/register/page4" fullWidth>
-        Continue
-      </LinkButton>
+      <FormFooter>
+        <LinkButton href="/register/page2" variant="outlined">
+          Back
+        </LinkButton>
+
+        <LinkButton href="/register/page4">Continue</LinkButton>
+      </FormFooter>
     </>
   )
 }

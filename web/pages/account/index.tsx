@@ -1,8 +1,8 @@
 import Page from '@/components/AccountMenuPage'
-import { Box, Button, Grid, Typography } from '@mui/material'
+import { Box, Button, Grid, Typography, useTheme } from '@mui/material'
 import Card from '@/components/UI/Card'
 import Divider from '@/components/UI/Divider'
-import { colors } from '@/style/theme'
+import { Colors } from '@/style/theme'
 import Link from '@/components/UI/Link'
 import SkillsIcon from '@/components/Icons/Skills'
 import CareersIcon from '@/components/Icons/Careers'
@@ -17,7 +17,7 @@ type MenuDataType = {
   content: string
   linkText: string
   url: string
-  color: string
+  color: keyof Colors
   logo: ReactNode
 }[]
 
@@ -28,7 +28,7 @@ const profiles: MenuDataType = [
       'Update your skills profile to find learning and development opportunities tailored to you',
     linkText: 'Review your skills',
     url: '/account/skills',
-    color: colors.profileBlue,
+    color: 'profileBlue',
     logo: <SkillsIcon />
   },
   {
@@ -36,7 +36,7 @@ const profiles: MenuDataType = [
     content: 'Explore the wide variety of learning and training courses available to you',
     linkText: 'Find learning',
     url: '/account/learning',
-    color: colors.profilePink,
+    color: 'profilePink',
     logo: <LearningIcon />
   },
   {
@@ -45,7 +45,7 @@ const profiles: MenuDataType = [
       'View current job vacancies and career pathways to discover what they involve',
     linkText: 'Plan your career',
     url: '/account/careers',
-    color: colors.profileGreen,
+    color: 'profileGreen',
     logo: <CareersIcon />
   },
   {
@@ -54,12 +54,14 @@ const profiles: MenuDataType = [
       'Discuss ideas and share best practice with specific professions and functions',
     linkText: 'Access communities',
     url: '/account/communities',
-    color: colors.profileYellow,
+    color: 'profileYellow',
     logo: <CommunitiesIcon />
   }
 ]
 
 const IndexPage = () => {
+  const theme = useTheme()
+
   return (
     <>
       <Box sx={{ mb: 6 }}>
@@ -104,7 +106,7 @@ const IndexPage = () => {
                         display: 'flex',
                         alignItems: 'center',
                         gap: '10px',
-                        color: data.color
+                        color: theme.colors[data.color]
                       }}
                     >
                       {data.logo} {data.title}

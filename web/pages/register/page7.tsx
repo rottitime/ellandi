@@ -1,9 +1,8 @@
-import Page from '@/components/GenericPage'
+import Page, { FormFooter } from '@/components/GenericPage'
 import LinkButton from '@/components/LinkButton'
 import { Stack, styled, Typography } from '@mui/material'
 import Link from '@/components/UI/Link'
 import ToggleChip from '@/components/ToggleChip'
-import Divider from '@/components/UI/Divider'
 
 const List = styled(Stack)`
   .MuiChip-root {
@@ -56,11 +55,13 @@ const RegisterPage = () => {
         <Link href="/register/page8">Skip this step</Link>
       </Typography>
 
-      <Divider spacing={20} variant="middle" />
+      <FormFooter>
+        <LinkButton href="/register/page6" variant="outlined">
+          Back
+        </LinkButton>
 
-      <LinkButton href="/register/page8" fullWidth>
-        Continue
-      </LinkButton>
+        <LinkButton href="/register/page8">Continue</LinkButton>
+      </FormFooter>
     </>
   )
 }

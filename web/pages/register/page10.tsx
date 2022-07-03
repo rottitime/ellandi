@@ -1,7 +1,6 @@
-import Page from '@/components/GenericPage'
+import Page, { FormFooter } from '@/components/GenericPage'
 import { FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material'
 import LinkButton from '@/components/LinkButton'
-import Divider from '@/components/UI/Divider'
 
 const RegisterPage = () => {
   return (
@@ -19,11 +18,13 @@ const RegisterPage = () => {
         <FormControlLabel control={<Radio />} label="No" value="No" />
       </RadioGroup>
 
-      <Divider spacing={20} variant="middle" />
+      <FormFooter>
+        <LinkButton href="/register/page9" variant="outlined">
+          Back
+        </LinkButton>
 
-      <LinkButton href="/register/page11" fullWidth>
-        Continue
-      </LinkButton>
+        <LinkButton href="/register/page11">Continue</LinkButton>
+      </FormFooter>
     </>
   )
 }

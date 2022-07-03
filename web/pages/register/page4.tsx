@@ -1,8 +1,7 @@
-import Page from '@/components/GenericPage'
+import Page, { FormFooter } from '@/components/GenericPage'
 import Link from '@/components/UI/Link'
 import { Checkbox, FormControlLabel, FormGroup, Typography } from '@mui/material'
 import LinkButton from '@/components/LinkButton'
-import Divider from '@/components/UI/Divider'
 
 const RegisterPage = () => (
   <>
@@ -17,11 +16,13 @@ const RegisterPage = () => (
       />
     </FormGroup>
 
-    <Divider spacing={20} variant="middle" />
+    <FormFooter>
+      <LinkButton href="/register/page3" variant="outlined">
+        Back
+      </LinkButton>
 
-    <LinkButton href="/register/page5" fullWidth>
-      Continue
-    </LinkButton>
+      <LinkButton href="/register/page5">Continue</LinkButton>
+    </FormFooter>
   </>
 )
 
