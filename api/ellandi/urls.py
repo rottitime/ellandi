@@ -12,7 +12,6 @@ from ellandi.registration.views import registration_router
 
 api_urlpatterns = [
     path("", include(registration_router.urls)),
-    path("api-auth/", include("rest_framework.urls", namespace="rest_framework")),
 ]
 
 schema_urlpatterns = [
