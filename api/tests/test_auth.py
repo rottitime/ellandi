@@ -7,6 +7,15 @@ from ellandi import wsgi
 from ellandi.registration.models import User
 
 
+user_data = dict(email="mr_flibble@example.com", password="P455w0rd")
+
+
+def setup():
+    User.objects.create_user(**user_data)
+
+def teardown():
+    User.objects.filter(email=user_data['email']).delete()
+
 def with_client(func):
     @functools.wraps(func)
     def _inner(*args, **kwargs):
@@ -24,9 +33,6 @@ def test_homepage_no_auth(client):
 
 @with_client
 def test_login(client):
-    data = dict(email="mr_flibble@example.com", password="P455w0rd")
-    User.objects.create_user(**data)
-
-    response = client.post("/login/", json={'username': data['email'], "password": data['password']})
+    response = client.post("/login/", json={'username': user_data['email'], "password": user_data['password']})
     assert response.status_code == 200
     assert response.json()['token']
