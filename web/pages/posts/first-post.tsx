@@ -1,5 +1,4 @@
 import Head from 'next/head'
-import Page from '@/components/AccountMenuPage'
 import { Box, Typography } from '@mui/material'
 
 const FirstPost = () => {
@@ -66,4 +65,3 @@ const FirstPost = () => {
 }
 
 export default FirstPost
-FirstPost.getLayout = (page) => <Page>{page}</Page>
