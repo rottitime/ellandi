@@ -1,7 +1,6 @@
 from django.contrib.auth import get_user_model
 from drf_spectacular.utils import extend_schema
-from rest_framework import permissions, routers, viewsets
-from rest_framework.decorators import action, api_view, permission_classes
+from rest_framework import permissions, routers, viewsets, decorators
 from rest_framework.response import Response
 
 from . import exceptions, models, serializers
@@ -26,7 +25,7 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = get_user_model().objects.all().order_by("-created_at")
     serializer_class = serializers.UserSerializer
 
-    @action(detail=True, methods=["get"])
+    @decorators.action(detail=True, methods=["get"])
     def skills(self, request, pk):
         skills_qs = models.UserSkill.objects.filter(user__id=pk)
         serializer = serializers.UserSkillSerializer(skills_qs, many=True, context={"request": request})
@@ -87,8 +86,8 @@ class LanguageSkillLevelViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = serializers.LanguageSkillLevelSerializer
 
 
-@api_view(["POST"])
-@permission_classes((permissions.AllowAny,))
+@decorators.api_view(["POST"])
+@decorators.permission_classes((permissions.AllowAny,))
 @extend_schema(
     request=serializers.RegisterSerializer,
     responses=serializers.UserSerializer,
