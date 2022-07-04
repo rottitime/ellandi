@@ -1,9 +1,12 @@
 from django.contrib.auth import get_user_model
-from rest_framework import routers, viewsets
-from rest_framework.decorators import action
+from rest_framework import routers, viewsets, permissions
+from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.response import Response
+from drf_spectacular.utils import extend_schema
 
-from . import models, serializers
+
+from . import models, serializers, exceptions
+
 
 registration_router = routers.DefaultRouter()
 
@@ -84,3 +87,19 @@ class GradeViewSet(viewsets.ReadOnlyModelViewSet):
 class LanguageSkillLevelViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.LanguageSkillLevel.objects.all().order_by("name")
     serializer_class = serializers.LanguageSkillLevelSerializer
+
+
+@api_view(['POST'])
+@permission_classes((permissions.AllowAny,))
+@extend_schema(
+    request=serializers.RegisterSerializer,
+    responses=serializers.UserSerializer,
+)
+def register_view(request):
+    email = request.data.get("email")
+    password = request.data.get("password")
+    if get_user_model().objects.filter(email=email).exists():
+        raise exceptions.RegistrationError()
+    user = get_user_model().objects.create_user(email=email, password=password)
+    user_data = serializers.UserSerializer(user, context={'request': request}).data
+    return Response(user_data)

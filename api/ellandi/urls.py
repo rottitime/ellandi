@@ -8,10 +8,11 @@ from drf_spectacular.views import (
 )
 
 from ellandi import auth, views
-from ellandi.registration.views import registration_router
+from ellandi.registration.views import registration_router, register_view
 
 api_urlpatterns = [
     path("", include(registration_router.urls)),
+    path("register/", register_view, name="register"),
 ]
 
 schema_urlpatterns = [
