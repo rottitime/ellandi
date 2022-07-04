@@ -5,7 +5,7 @@ import Communities from '@/components/Icons/Communities'
 import ContentBox from '@/components/ContentBox'
 import Card from '@/components/UI/Card'
 import LinkButton from '@/components/LinkButton'
-import Divider from '@/components/UI/Divider'
+import Divider from '@/components/UI/Divider2'
 
 const listCommunities = [
   {

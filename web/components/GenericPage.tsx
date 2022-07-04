@@ -2,7 +2,7 @@ import Template from '@/components/Template'
 import { Grid, Typography, styled, LinearProgress, Hidden, Box } from '@mui/material'
 import Card from '@/components/UI/Card'
 import { FC, ReactNode } from 'react'
-import Crown from '@/components/Icons/Crown'
+import Crown from '@/components/Icons/CrownLogo'
 import List from '@/components/List'
 import {
   AccountBox,

@@ -1,7 +1,7 @@
 import LinkButton from '@/components/LinkButton'
 import Page, { FormFooter } from '@/components/GenericPage'
 import { TextField, Typography } from '@mui/material'
-import Divider from '@/components/UI/Divider'
+import Divider from '@/components/UI/Divider2'
 
 const RegisterPage = () => {
   return (

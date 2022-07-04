@@ -13,7 +13,7 @@ import {
 import AccountMenuPage from '@/components/AccountMenuPage'
 import Card from '@/components/UI/Card'
 import Link from '@/components/UI/Link'
-import Divider from '@/components/UI/Divider'
+import Divider from '@/components/UI/Divider2'
 import LearningStrands from '@/components/LearningStrands'
 import ContentBox from '@/components/ContentBox'
 import Forecasting from '@/components/Icons/Forecasting'

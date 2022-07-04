@@ -1,7 +1,7 @@
 import Page from '@/components/AccountMenuPage'
 import { Box, Button, Grid, Typography, useTheme } from '@mui/material'
 import Card from '@/components/UI/Card'
-import Divider from '@/components/UI/Divider'
+import Divider from '@/components/UI/Divider2'
 import { Colors } from '@/style/theme'
 import Link from '@/components/UI/Link'
 import SkillsIcon from '@/components/Icons/Skills'

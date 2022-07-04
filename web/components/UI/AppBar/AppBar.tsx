@@ -13,7 +13,7 @@ import {
 } from '@mui/material'
 import { AccountCircle } from '@mui/icons-material'
 import Link from 'next/link'
-import Crown from '../../Icons/Crown'
+import Crown from '@/components/Icons/CrownLogo'
 import { FC, useState } from 'react'
 import { Props } from './types'
 
