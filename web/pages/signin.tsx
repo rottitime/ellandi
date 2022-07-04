@@ -3,16 +3,20 @@ import Link from '@/components/UI/Link'
 import { Button, Typography } from '@mui/material'
 import { useForm, SubmitHandler, FormProvider } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from 'yup'
 import SignInForm from '@/components/Form/SignInForm/SignInForm'
-import { SignInType } from '@/components/Form/SignInForm/types'
+import { SchemaOf, object, string } from 'yup'
+import { useRouter } from 'next/router'
 
-const schema = yup.object().shape({
-  email: yup.string().email().required(),
-  password: yup.string().min(4).max(20).required()
+type SignInType = { email: string; password: string }
+
+const schema: SchemaOf<SignInType> = object().shape({
+  email: string().email().required(),
+  password: string().min(4).max(20).required()
 })
 
 const SigninPage = () => {
+  const router = useRouter()
+
   const methods = useForm<SignInType>({
     defaultValues: { email: '', password: '' },
     resolver: yupResolver(schema)
@@ -21,7 +25,9 @@ const SigninPage = () => {
   // console.log('watch variable email', methods.watch('email'))
 
   const onFormSubmit: SubmitHandler<SignInType> = (data) => {
+    // eslint-disable-next-line no-console
     console.log({ data })
+    router.push('/account')
   }
 
   return (
