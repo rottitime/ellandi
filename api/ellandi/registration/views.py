@@ -130,6 +130,7 @@ class OneTimeLoginView(CreateAPIView):
 
     def post(self, request):
         email = request.data["email"]
+        # TODO - what happens if the user already exists?
         try:
             email_salt = models.EmailSalt.objects.get(email=email)
         except models.EmailSalt.DoesNotExist:
@@ -143,13 +144,14 @@ class FirstLoginView(CreateAPIView):
     serializer_class = serializers.UserSerializer2
 
     def post(self, request):
-        email = request.data["email"]
+        email = request.data["email"] # TODO - make sure lower case
         one_time_token = request.data["token"]
         try:
             email_salt = models.EmailSalt.objects.get(email=email)
             correct_token = email_salt.get_one_time_login()
             if correct_token == one_time_token:
                 response = self.create(request)
+                # TODO - what happens if the user already exists?
                 # TODO - now user has been saved something to invalidate token/salt?
             else:
                 response = Response(status=status.HTTP_400_BAD_REQUEST)
