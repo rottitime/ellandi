@@ -1,16 +1,16 @@
-import ContolledTextField from '@/components/Form/ContolledTextField'
+import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldControlled'
 
 const SignInForm = () => {
   return (
     <>
-      <ContolledTextField
+      <TextFieldControlled
         name="email"
         type="email"
         label="Email address"
         placeholder="e.g. Joe.Bloggs@gmail.com"
       />
 
-      <ContolledTextField name="password" type="password" label="Password" />
+      <TextFieldControlled name="password" type="password" label="Password" />
     </>
   )
 }

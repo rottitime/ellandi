@@ -22,8 +22,6 @@ const SigninPage = () => {
     resolver: yupResolver(schema)
   })
 
-  // console.log('watch variable email', methods.watch('email'))
-
   const onFormSubmit: SubmitHandler<SignInType> = (data) => {
     // eslint-disable-next-line no-console
     console.log({ data })
