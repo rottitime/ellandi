@@ -144,7 +144,7 @@ class FirstLoginView(CreateAPIView):
     serializer_class = serializers.UserSerializer2
 
     def post(self, request):
-        email = request.data["email"] # TODO - make sure lower case
+        email = request.data["email"]  # TODO - make sure lower case
         one_time_token = request.data["token"]
         try:
             email_salt = models.EmailSalt.objects.get(email=email)
