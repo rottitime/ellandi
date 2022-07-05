@@ -14,7 +14,7 @@ api_urlpatterns = [
     path("", include(registration_router.urls)),
     path("register/", register_view, name="register"),
     path("api-auth/", include("rest_framework.urls", namespace="rest_framework")),
-    path("skills/", SkillsListView.as_view())
+    path("skills/", SkillsListView.as_view()),
 ]
 
 schema_urlpatterns = [

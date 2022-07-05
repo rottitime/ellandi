@@ -114,7 +114,28 @@ def register_view(request):
 
 class SkillsListView(APIView):
     def get(self, request):
-        initial_skills = set() # TODO - prepopulate with some skills
+        initial_skills = set(
+            [
+                "auditing",
+                "bookkeeping",
+                "communication",
+                "coding",
+                "creative thinking",
+                "customer service",
+                "data entry",
+                "diary management",
+                "flexibility",
+                "Microsoft Office",
+                "motivation",
+                "negotiation",
+                "planning",
+                "problem solving",
+                "project management",
+                "sales",
+                "social media",
+            ]
+        )
         skills = set(models.UserSkill.objects.all().values_list("skill_name", flat=True))
+        print(type(skills))
         skills = initial_skills.union(skills)
         return Response(skills)
