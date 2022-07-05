@@ -118,49 +118,49 @@ def test_get_user_userskills(client, user_id):
     response = client.delete(f"/user-skills/{user_skill_id}/")
     assert response.status_code == status.HTTP_204_NO_CONTENT
 
-class TestUserSkillsEndpoint(APITestCase):
-    def setUp(self):
-        self.client = APIClient()
-        self.user = User.objects.create(
-            email="jane@example.com", first_name="Jane", last_name="Green", organisation="DfE"
-        )
-        self.user_id = User.objects.get(email="jane@example.com").id
-        self.user_skill = UserSkill.objects.create(user=self.user, skill_name="Python", level="beginner")
-        self.user_skill_id = UserSkill.objects.get(user__email=self.user.email, skill_name="Python").id
-        self.user_skill_data = {
-            "user": f"{TEST_SERVER_URL}users/{self.user_id}/",
-            "skill_name": "maths",
-            "level": "proficient",
-        }
-        self.user_skill_data_updated = {
-            "user": f"{TEST_SERVER_URL}users/{self.user_id}/",
-            "skill_name": "maths",
-            "level": "beginner",
-        }
 
-    def test_get(self):
-        response = self.client.get("/user-skills/")
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+@utils.with_logged_in_client
+def test_get_userskills(client, user_id):
+    response = client.get("/user-skills/")
+    assert response.status_code == status.HTTP_200_OK
 
-    def test_get_user_skill(self):
-        response = self.client.get(f"/user-skills/{self.user_skill_id}/")
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data["skill_name"], "Python")
 
-    def test_post_user_skill(self):
-        response = self.client.post("/user-skills/", self.user_skill_data)
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+@utils.with_logged_in_client
+def test_post_get_put_delete_user_skill(client, user_id):
+    response = client.get("/user-skills/")
+    assert len(response.json()) == 0
 
-    def test_put_user_skill(self):
-        response = self.client.put(f"/user-skills/{self.user_skill_id}/", self.user_skill_data_updated)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data["level"], "beginner")
+    user_skill_data = {
+        "user": f"{TEST_SERVER_URL}users/{user_id}/",
+        "skill_name": "maths",
+        "level": "proficient",
+    }
+    response = client.post("/user-skills/", json=user_skill_data)
+    assert response.status_code == status.HTTP_201_CREATED
+    user_skill_id = response.json()['id']
+    assert response.json()["skill_name"] == "maths"
+    assert response.json()["level"] == "proficient"
 
-    def test_delete_user_skill(self):
-        response = self.client.delete(f"/user-skills/{self.user_skill_id}/")
-        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-        number_matching_user_skills = UserSkill.objects.filter(id=self.user_skill_id).count()
-        self.assertEqual(number_matching_user_skills, 0)
+    response = client.get(f"/user-skills/{user_skill_id}/")
+    assert response.status_code == status.HTTP_200_OK
+    assert response.json()["skill_name"] == "maths"
+    assert response.json()["level"] == "proficient"
+
+    user_skill_data_updated = {
+        "user": f"{TEST_SERVER_URL}users/{user_id}/",
+        "skill_name": "maths",
+        "level": "beginner",
+    }
+    response = client.put(f"/user-skills/{user_skill_id}/", json=user_skill_data_updated)
+    assert response.status_code == status.HTTP_200_OK
+    assert response.json()["skill_name"] == "maths"
+    assert response.json()["level"] == "beginner"
+
+    response = client.delete(f"/user-skills/{user_skill_id}/")
+    assert response.status_code == status.HTTP_204_NO_CONTENT
+
+    response = client.get("/user-skills/")
+    assert len(response.json()) == 0
 
 
 class TestUserLanguagesEndpoint(APITestCase):
