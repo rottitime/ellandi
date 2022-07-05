@@ -133,7 +133,7 @@ class OneTimeLoginView(CreateAPIView):
         if email:
             email = email.lower()
         try:
-            email_salt = models.EmailSalt.objects.get(email_iexact=email)
+            email_salt = models.EmailSalt.objects.get(email__iexact=email)
         except models.EmailSalt.DoesNotExist:
             email_salt = models.EmailSalt(email=email, salt=os.urandom(16))
             email_salt.save()
