@@ -98,12 +98,25 @@ def test_delete(client, user_id):
 
 
 @utils.with_logged_in_client
-def test_get_skills(client, user_id):
+def test_get_user_userskills(client, user_id):
+    user_skill_data = {
+        "user": f"{TEST_SERVER_URL}users/{user_id}/",
+        "skill_name": "typing",
+        "level": "proficient",
+    }
+    response = client.post("/user-skills/", json=user_skill_data)
+    assert response.status_code == status.HTTP_201_CREATED
+    user_skill_id = response.json()['id']
+    assert response.json()["skill_name"] == "typing"
+    assert response.json()["level"] == "proficient"
+
     response = client.get(f"/users/{user_id}/skills/")
     assert response.status_code == status.HTTP_200_OK
-    assert response.json()[0]["skill_name"] == "Python"
-    assert response.json()[0]["level"] == "beginner"
+    assert response.json()[0]["skill_name"] == "typing"
+    assert response.json()[0]["level"] == "proficient"
 
+    response = client.delete(f"/user-skills/{user_skill_id}/")
+    assert response.status_code == status.HTTP_204_NO_CONTENT
 
 class TestUserSkillsEndpoint(APITestCase):
     def setUp(self):

@@ -27,7 +27,6 @@ def with_logged_in_client(func):
     @functools.wraps(func)
     def _inner(*args, **kwargs):
         user = User.objects.create_user(**user_data)
-        UserSkill.objects.create(user=user, skill_name="Python", level="beginner")
 
         with httpx.Client(app=wsgi.application, base_url="http://testserver:8000") as client:
             response = client.post("/login/", json={"username": user_data["email"], "password": user_data["password"]})
