@@ -28,6 +28,9 @@ class DropDownListModel(models.Model):
         self.slug = slugify(self.name)
         return super().save(*args, **kwargs)
 
+    def __str__(self):
+        return self.name
+
     class Meta:
         abstract = True
 
