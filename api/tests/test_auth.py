@@ -12,6 +12,7 @@ def setup():
 
 def teardown():
     User.objects.filter(email=user_data["email"]).delete()
+    User.objects.filter(email=new_user_data["email"]).delete()
 
 
 @utils.with_client
