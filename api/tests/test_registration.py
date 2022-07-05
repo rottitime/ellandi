@@ -120,12 +120,6 @@ def test_get_user_userskills(client, user_id):
 
 
 @utils.with_logged_in_client
-def test_get_userskills(client, user_id):
-    response = client.get("/user-skills/")
-    assert response.status_code == status.HTTP_200_OK
-
-
-@utils.with_logged_in_client
 def test_post_get_put_delete_user_skill(client, user_id):
     response = client.get("/user-skills/")
     assert len(response.json()) == 0
@@ -140,6 +134,9 @@ def test_post_get_put_delete_user_skill(client, user_id):
     user_skill_id = response.json()['id']
     assert response.json()["skill_name"] == "maths"
     assert response.json()["level"] == "proficient"
+
+    response = client.get("/user-skills/")
+    assert len(response.json()) == 1
 
     response = client.get(f"/user-skills/{user_skill_id}/")
     assert response.status_code == status.HTTP_200_OK
