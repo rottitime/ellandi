@@ -7,6 +7,12 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.text import slugify
 
+import pytz
+
+
+def now():
+    return datetime.datetime.now(tz=pytz.UTC)
+
 
 class DropDownListModel(models.Model):
     """Base class for lists for drop-downs etc."""
@@ -85,8 +91,8 @@ class UserManager(BaseUserManager):
 
 
 class TimeStampedModel(models.Model):
-    created_at = models.DateTimeField(editable=False, default=datetime.datetime.now)
-    modified_at = models.DateTimeField(editable=False, default=datetime.datetime.now)
+    created_at = models.DateTimeField(editable=False, default=now)
+    modified_at = models.DateTimeField(editable=False, default=now)
 
     def save(self, *args, **kwargs):
         update_fields = kwargs.get("update_fields", None)
