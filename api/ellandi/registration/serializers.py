@@ -111,10 +111,9 @@ class UserSaltSerializer(serializers.ModelSerializer):
         fields = ["email"]
 
 
-# TODO - rename!!
-class UserSerializer2(serializers.ModelSerializer):
-    token = serializers.CharField(required=True)
+class UserLoginSerializer(serializers.ModelSerializer):
+    one_time_token = serializers.CharField(required=True)
 
     class Meta:
         model = User
-        fields = ["email", "token"]
+        fields = ["email", "one_time_token"]

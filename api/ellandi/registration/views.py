@@ -130,9 +130,10 @@ class OneTimeLoginView(CreateAPIView):
 
     def post(self, request):
         email = request.data["email"]
-        # TODO - what happens if the user already exists?
+        if email:
+            email = email.lower()
         try:
-            email_salt = models.EmailSalt.objects.get(email=email)
+            email_salt = models.EmailSalt.objects.get(email_iexact=email)
         except models.EmailSalt.DoesNotExist:
             email_salt = models.EmailSalt(email=email, salt=os.urandom(16))
             email_salt.save()
@@ -141,21 +142,22 @@ class OneTimeLoginView(CreateAPIView):
 
 
 class FirstLoginView(CreateAPIView):
-    serializer_class = serializers.UserSerializer2
+    serializer_class = serializers.UserLoginSerializer
 
     def post(self, request):
-        email = request.data["email"]  # TODO - make sure lower case
-        one_time_token = request.data["token"]
+        email = request.data["email"]
+        if email:
+            email = email.lower()
+        one_time_token = request.data["one_time_token"]
         try:
-            email_salt = models.EmailSalt.objects.get(email=email)
+            email_salt = models.EmailSalt.objects.get(email__iexact=email)
             correct_token = email_salt.get_one_time_login()
             if correct_token == one_time_token:
                 response = self.create(request)
-                # TODO - what happens if the user already exists?
-                # TODO - now user has been saved something to invalidate token/salt?
+                email_salt.salt = os.urandom(16)
+                email_salt.save()
             else:
-                response = Response(status=status.HTTP_400_BAD_REQUEST)
-                # return incorrect token error?
+                response = Response(data="Incorrect token", status=status.HTTP_400_BAD_REQUEST)
         except models.EmailSalt.DoesNotExist:
-            response = Response(status=status.HTTP_400_BAD_REQUEST)
+            response = Response(data="Email does not exist", status=status.HTTP_400_BAD_REQUEST)
         return response
