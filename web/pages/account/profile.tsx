@@ -1,5 +1,5 @@
 import { Table, TableBody, TableCell, TableRow, Typography } from '@mui/material'
-import AccountMenuPage from '@/components/AccountMenuPage'
+import AccountMenuPage from '@/components/Layout/AccountMenuPage'
 import Card from '@/components/UI/Card'
 import Link from '@/components/UI/Link'
 

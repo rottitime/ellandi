@@ -1,4 +1,4 @@
-import GenericPage, { FormFooter } from '@/components/GenericPage'
+import GenericPage, { FormFooter } from '@/components/Layout/GenericPage'
 import Link from '@/components/UI/Link'
 import { Button, Typography } from '@mui/material'
 import { useForm, SubmitHandler, FormProvider } from 'react-hook-form'

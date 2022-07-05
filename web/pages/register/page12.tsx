@@ -1,6 +1,6 @@
 import Link from '@/components/UI/Link'
 import LinkButton from '@/components/LinkButton'
-import Page, { FormFooter } from '@/components/GenericPage'
+import Page, { FormFooter } from '@/components/Layout/GenericPage'
 import { FormControlLabel, Radio, RadioGroup, TextField, Typography } from '@mui/material'
 
 const optionsSpeaking = [

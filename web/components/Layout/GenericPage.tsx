@@ -1,4 +1,4 @@
-import Template from '@/components/Template'
+import Template from '@/components/Layout/Template'
 import { Grid, Typography, styled, LinearProgress, Hidden, Box } from '@mui/material'
 import Card from '@/components/UI/Card'
 import { FC, ReactNode } from 'react'
@@ -59,7 +59,7 @@ const GridContainer = styled(Grid)`
     ${({ theme }) => theme.breakpoints.up('md')} {
       /* flex-direction: row;
       flex-wrap: wrap; */
-      padding: 100px 48px 24px;
+      padding: 80px 48px 24px;
     }
 
     &:after {

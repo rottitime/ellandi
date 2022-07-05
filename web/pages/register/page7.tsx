@@ -1,4 +1,4 @@
-import Page, { FormFooter } from '@/components/GenericPage'
+import Page, { FormFooter } from '@/components/Layout/GenericPage'
 import LinkButton from '@/components/LinkButton'
 import { Stack, styled, Typography } from '@mui/material'
 import Link from '@/components/UI/Link'

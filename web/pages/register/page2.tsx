@@ -1,4 +1,4 @@
-import Page from '@/components/GenericPage'
+import Page from '@/components/Layout/GenericPage'
 import Highlight from '@/components/Highlight'
 import { Box, Typography } from '@mui/material'
 import SendIcon from '@mui/icons-material/Send'

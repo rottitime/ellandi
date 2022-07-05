@@ -1,4 +1,4 @@
-import Page, { FormFooter } from '@/components/GenericPage'
+import Page, { FormFooter } from '@/components/Layout/GenericPage'
 import { styled } from '@mui/material/styles'
 import {
   Box,

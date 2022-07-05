@@ -1,4 +1,4 @@
-import AccountMenuPage from '@/components/AccountMenuPage'
+import AccountMenuPage from '@/components/Layout/AccountMenuPage'
 import { Grid, Typography } from '@mui/material'
 import Link from '@/components/UI/Link'
 import Communities from '@/components/Icons/Communities'

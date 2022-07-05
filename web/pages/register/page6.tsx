@@ -1,7 +1,7 @@
 // import { Button, Heading, HintText, LeadParagraph, Paragraph, Radio } from 'govuk-react'
 import Link from '@/components/UI/Link'
 import LinkButton from '@/components/LinkButton'
-import Page, { FormFooter } from '@/components/GenericPage'
+import Page, { FormFooter } from '@/components/Layout/GenericPage'
 import { FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material'
 
 const options = [

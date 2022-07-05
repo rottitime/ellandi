@@ -1,8 +1,8 @@
-import Template from '@/components/Layout/Template'
+import Page from '@/components/Layout/GenericPage'
 import Link from '@/components/UI/Link'
 import { Typography } from '@mui/material'
 
-const IndexPage = () => (
+const RegisterPage = () => (
   <>
     <Typography variant="h1" gutterBottom>
       Hi <Link href="#">joe.bloggs@cabinetoffice.gov.uk</Link>
@@ -39,5 +39,5 @@ const IndexPage = () => (
   </>
 )
 
-export default IndexPage
-IndexPage.getLayout = (page) => <Template>{page}</Template>
+export default RegisterPage
+RegisterPage.getLayout = (page) => <Page>{page}</Page>

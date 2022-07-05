@@ -1,4 +1,4 @@
-import Page from '@/components/AccountMenuPage'
+import Page from '@/components/Layout/AccountMenuPage'
 import { Box, Button, Grid, Typography, useTheme } from '@mui/material'
 import Card from '@/components/UI/Card'
 import Divider from '@/components/UI/Divider2'

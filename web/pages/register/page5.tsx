@@ -1,5 +1,5 @@
 import LinkButton from '@/components/LinkButton'
-import Page, { FormFooter } from '@/components/GenericPage'
+import Page, { FormFooter } from '@/components/Layout/GenericPage'
 import { TextField } from '@mui/material'
 
 const RegisterPage = () => {

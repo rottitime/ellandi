@@ -1,7 +1,7 @@
 import Link from '@/components/UI/Link'
 import { Stars, Delete } from '@mui/icons-material'
 import Card from '@/components/UI/Card'
-import AccountMenuPage from '@/components/AccountMenuPage'
+import AccountMenuPage from '@/components/Layout/AccountMenuPage'
 import { IconButton, styled, Typography } from '@mui/material'
 import Skills from '@/components/Icons/Skills'
 import Learning from '@/components/Icons/Learning'

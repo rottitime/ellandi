@@ -1,4 +1,4 @@
-import AccountMenuPage from '@/components/AccountMenuPage'
+import AccountMenuPage from '@/components/Layout/AccountMenuPage'
 import {
   Box,
   Card,
