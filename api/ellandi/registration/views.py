@@ -136,6 +136,5 @@ class SkillsListView(APIView):
             ]
         )
         skills = set(models.UserSkill.objects.all().values_list("skill_name", flat=True))
-        print(type(skills))
         skills = initial_skills.union(skills)
         return Response(skills)
