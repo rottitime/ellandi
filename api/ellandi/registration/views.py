@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 from drf_spectacular.utils import extend_schema
-from rest_framework import permissions, routers, viewsets, decorators
+from rest_framework import decorators, permissions, routers, viewsets
 from rest_framework.response import Response
 
 from . import exceptions, models, serializers

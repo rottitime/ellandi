@@ -3,7 +3,7 @@ import functools
 import httpx
 
 from ellandi import wsgi
-from ellandi.registration.models import User, UserSkill
+from ellandi.registration.models import User
 
 user_data = dict(
     email="jane@example.com",

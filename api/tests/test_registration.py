@@ -1,19 +1,9 @@
 from rest_framework import status
-from rest_framework.test import APIClient, APIRequestFactory, APITestCase
+from rest_framework.test import APIClient, APITestCase
 from tests import utils
 
-from ellandi.registration.models import (
-    ContractType,
-    DropDownListModel,
-    Grade,
-    Language,
-    Location,
-    Organisation,
-    Profession,
-    User,
-    UserLanguage,
-    UserSkill,
-)
+from ellandi.registration.models import User
+
 
 TEST_SERVER_URL = "http://testserver:8000/"
 
@@ -24,7 +14,7 @@ def test_users_get(client, user_id):
     assert response.status_code == status.HTTP_200_OK
     data = response.json()
     assert len(data) == 1
-    assert data[0]['email'] == "jane@example.com"
+    assert data[0]["email"] == "jane@example.com"
 
 
 @utils.with_logged_in_client
@@ -51,7 +41,7 @@ def test_user_post(client, user_id):
 
     response = client.post("/users/", json=data)
     assert response.status_code == status.HTTP_201_CREATED
-    user = User.objects.get(email=data['email'])
+    user = User.objects.get(email=data["email"])
 
     for key, value in data.items():
         assert getattr(user, key) == value, (key, value)
@@ -69,7 +59,7 @@ def test_post_no_email(client, user_id):
 
     response = client.post("/users/", data=data_incorrect)
     assert response.status_code == status.HTTP_400_BAD_REQUEST
-    assert response.json()['email'] == ['This field is required.']
+    assert response.json()["email"] == ["This field is required."]
 
 
 @utils.with_logged_in_client
@@ -106,7 +96,7 @@ def test_get_user_userskills(client, user_id):
     }
     response = client.post("/user-skills/", json=user_skill_data)
     assert response.status_code == status.HTTP_201_CREATED
-    user_skill_id = response.json()['id']
+    user_skill_id = response.json()["id"]
     assert response.json()["skill_name"] == "typing"
     assert response.json()["level"] == "proficient"
 
@@ -131,7 +121,7 @@ def test_post_get_put_delete_user_skill(client, user_id):
     }
     response = client.post("/user-skills/", json=user_skill_data)
     assert response.status_code == status.HTTP_201_CREATED
-    user_skill_id = response.json()['id']
+    user_skill_id = response.json()["id"]
     assert response.json()["skill_name"] == "maths"
     assert response.json()["level"] == "proficient"
 
@@ -160,7 +150,6 @@ def test_post_get_put_delete_user_skill(client, user_id):
     assert len(response.json()) == 0
 
 
-
 @utils.with_logged_in_client
 def test_post_get_put_delete_user_language(client, user_id):
     response = client.get("/user-languages/")
@@ -173,10 +162,8 @@ def test_post_get_put_delete_user_language(client, user_id):
         "type": "reading",
     }
     response = client.post("/user-languages/", json=user_language_data)
-    print(response)
-    print(response.text)
     assert response.status_code == status.HTTP_201_CREATED
-    user_language_id = response.json()['id']
+    user_language_id = response.json()["id"]
     assert response.json()["language"] == "latin"
     assert response.json()["level"] == "proficient"
     assert response.json()["type"] == "reading"
@@ -239,20 +226,18 @@ class TestDropDownList(APITestCase):
 def test_dropdown_list(client, user_id):
 
     data = [
-{'name': "Cabinet Office", 'slug': "cabinet-office", 'endpoint': "/organisations/"},
-
-{'name': "Fixed-term", 'slug': "fixed-term", 'endpoint': "/contract-types/"},
-
-{'name': "Salford", 'slug': "salford", 'endpoint': "/locations/"},
-
-{'name': "Bengali", 'slug': "bengali", 'endpoint': "/languages/"},
-
-{'name': "Government Operational Research Service", 'slug': "government-operational-research-service", 'endpoint': "/professions/"},
-
-{'name': "Grade 7", 'slug': "grade-7", 'endpoint': "/grades/"},
-
-{'name': "Independent", 'slug': "independent", 'endpoint': "/language-skill-levels/"},]
-
+        {"name": "Cabinet Office", "slug": "cabinet-office", "endpoint": "/organisations/"},
+        {"name": "Fixed-term", "slug": "fixed-term", "endpoint": "/contract-types/"},
+        {"name": "Salford", "slug": "salford", "endpoint": "/locations/"},
+        {"name": "Bengali", "slug": "bengali", "endpoint": "/languages/"},
+        {
+            "name": "Government Operational Research Service",
+            "slug": "government-operational-research-service",
+            "endpoint": "/professions/",
+        },
+        {"name": "Grade 7", "slug": "grade-7", "endpoint": "/grades/"},
+        {"name": "Independent", "slug": "independent", "endpoint": "/language-skill-levels/"},
+    ]
 
     def test_get(endpoint):
         response = client.get(endpoint)
@@ -268,10 +253,9 @@ def test_dropdown_list(client, user_id):
         response = client.post(endpoint, {"name": "a new name"})
         assert response.status_code == status.HTTP_405_METHOD_NOT_ALLOWED
 
-
     for item in data:
-        endpoint = item['endpoint']
-        slug = item['slug']
+        endpoint = item["endpoint"]
+        slug = item["slug"]
         yield test_get, endpoint
         yield test_get_item, endpoint, slug
         yield test_post, endpoint
