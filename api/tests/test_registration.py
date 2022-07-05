@@ -233,57 +233,45 @@ class TestDropDownList(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
 
-class TestOrganisationsEndpoint(TestDropDownList):
-    __test__ = True
-    name = "Cabinet Office"
-    slug = "cabinet-office"
-    endpoint = "/organisations/"
-    model = Organisation
 
 
-class TestContractTypesEndpoint(TestDropDownList):
-    __test__ = True
-    name = "Fixed-term"
-    slug = "fixed-term"
-    endpoint = "/contract-types/"
-    model = ContractType
+@utils.with_logged_in_client
+def test_dropdown_list(client, user_id):
+
+    data = [
+{'name': "Cabinet Office", 'slug': "cabinet-office", 'endpoint': "/organisations/"},
+
+{'name': "Fixed-term", 'slug': "fixed-term", 'endpoint': "/contract-types/"},
+
+{'name': "Salford", 'slug': "salford", 'endpoint': "/locations/"},
+
+{'name': "Bengali", 'slug': "bengali", 'endpoint': "/languages/"},
+
+{'name': "Government Operational Research Service", 'slug': "government-operational-research-service", 'endpoint': "/professions/"},
+
+{'name': "Grade 7", 'slug': "grade-7", 'endpoint': "/grades/"},
+
+{'name': "Independent", 'slug': "independent", 'endpoint': "/language-skill-levels/"},]
 
 
-class TestLocationsEndpoint(TestDropDownList):
-    __test__ = True
-    name = "Salford"
-    slug = "salford"
-    endpoint = "/locations/"
-    model = Location
+    def test_get(endpoint):
+        response = client.get(endpoint)
+        assert response.status_code == status.HTTP_200_OK
+        assert response.json()
+
+    def test_get_item(endpoint, slug):
+        response = client.get(f"{endpoint}{slug}/")
+        assert response.status_code == status.HTTP_200_OK
+        assert response.json()
+
+    def test_post(endpoint):
+        response = client.post(endpoint, {"name": "a new name"})
+        assert response.status_code == status.HTTP_405_METHOD_NOT_ALLOWED
 
 
-class TestLanguagesEndpoint(TestDropDownList):
-    __test__ = True
-    name = "Bengali"
-    slug = "bengali"
-    endpoint = "/languages/"
-    model = Language
-
-
-class TestProfessionsEndpoint(TestDropDownList):
-    __test__ = True
-    name = "Government Operational Research Service"
-    slug = "government-operational-research-service"
-    endpoint = "/professions/"
-    model = Profession
-
-
-class TestGradesEndpoint(TestDropDownList):
-    __test__ = True
-    name = "Grade 7"
-    slug = "grade-7"
-    endpoint = "/grades/"
-    model = Grade
-
-
-class TestLanguageSkillLevelEndpoint(TestDropDownList):
-    __test__ = True
-    name = "Independent"
-    slug = "independent"
-    endpoint = "/language-skill-levels/"
-    model = Grade
+    for item in data:
+        endpoint = item['endpoint']
+        slug = item['slug']
+        yield test_get, endpoint
+        yield test_get_item, endpoint, slug
+        yield test_post, endpoint
