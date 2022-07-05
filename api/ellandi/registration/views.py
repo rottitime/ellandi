@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from drf_spectacular.utils import extend_schema
 from rest_framework import decorators, permissions, routers, viewsets
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from . import exceptions, models, serializers
 
@@ -109,3 +110,11 @@ def register_view(request):
     user = get_user_model().objects.create_user(email=email, password=password)
     user_data = serializers.UserSerializer(user, context={"request": request}).data
     return Response(user_data)
+
+
+class SkillsListView(APIView):
+    def get(self, request):
+        initial_skills = set() # TODO - prepopulate with some skills
+        skills = set(models.UserSkill.objects.all().values_list("skill_name", flat=True))
+        skills = initial_skills.union(skills)
+        return Response(skills)
