@@ -1,6 +1,5 @@
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import TextFieldControlled from './TextFieldControlled'
-import '@testing-library/jest-dom'
 import { FormProvider, useForm } from 'react-hook-form'
 
 const Wrapper = ({ children }) => {
@@ -10,7 +9,7 @@ const Wrapper = ({ children }) => {
 
 describe('TextFieldControlled', () => {
   it('renders', () => {
-    const { container } = render(
+    render(
       <Wrapper>
         <TextFieldControlled
           name="email-field"
@@ -21,11 +20,8 @@ describe('TextFieldControlled', () => {
       </Wrapper>
     )
 
-    const textfield = container.querySelector('input')
-    const label = container.querySelector('label')
-    expect(textfield).toHaveAttribute('type', 'email')
-    expect(textfield).toHaveAttribute('name', 'email-field')
-    expect(label).toHaveTextContent('Email address')
+    const textfield = screen.getByRole('textbox', { name: /Email address/i })
+    expect(textfield).toBeInTheDocument()
   })
 
   it('validates', () => {

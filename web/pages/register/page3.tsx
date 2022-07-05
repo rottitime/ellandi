@@ -7,7 +7,6 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, SubmitHandler, FormProvider } from 'react-hook-form'
 import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldControlled'
 import { useRouter } from 'next/router'
-import { LoadingButton } from '@mui/lab'
 
 type CreateAccountType = {
   email: string
@@ -76,10 +75,11 @@ const RegisterPage = () => {
             <LinkButton href="/register/page2" variant="outlined">
               Back
             </LinkButton>
+            <input type="submit" />
 
-            <LoadingButton variant="contained" type="submit">
+            <Button variant="contained" type="submit">
               Continue
-            </LoadingButton>
+            </Button>
           </FormFooter>
         </form>
       </FormProvider>
