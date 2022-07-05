@@ -12,7 +12,6 @@ from ellandi.registration.models import (
     User,
     UserLanguage,
     UserSkill,
-    WebError,
 )
 
 TEST_SERVER_URL = "http://testserver:8000/"
@@ -181,54 +180,6 @@ class TestUserLanguagesEndpoint(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         number_matching_user_langs = UserLanguage.objects.filter(id=self.user_language_id).count()
         self.assertEqual(number_matching_user_langs, 0)
-
-
-class TestWebErrorEndpoint(APITestCase):
-    def setUp(self):
-        self.client = APIClient()
-        self.example_error = WebError.objects.create(message="test message 1", line_number=25, column_number=2)
-        self.error_id = WebError.objects.get(message="test message 1").id
-        self.updated_error = {
-            "message": "test message 1",
-            "stack": "here is the stack trace",
-            "userAgent": "user agent",
-            "fileName": "made_up.py",
-            "lineNum": 57,
-            "colNum": 13,
-            "createdAt": "2022-06-12T17:27:00Z",
-        }
-        self.new_error_data = {
-            "message": "test message post",
-            "stack": "sample stack trace",
-            "userAgent": "user agent",
-            "fileName": "sample_file.py",
-            "lineNum": 57,
-            "colNum": 13,
-            "createdAt": "2022-06-12T17:27:00Z",
-        }
-
-    def test_get(self):
-        response = self.client.get("/web-error/")
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-    def test_get_error(self):
-        response = self.client.get(f"/web-error/{self.error_id}/")
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-    def test_put(self):
-        response = self.client.put(f"/web-error/{self.error_id}/", self.updated_error)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data["lineNum"], 57)
-
-    def test_post(self):
-        response = self.client.post("/web-error/", self.new_error_data)
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-
-    def test_delete(self):
-        response = self.client.delete(f"/web-error/{self.error_id}/")
-        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-        number_matching_errors = WebError.objects.filter(id=self.error_id).count()
-        self.assertEqual(number_matching_errors, 0)
 
 
 class TestDropDownList(APITestCase):

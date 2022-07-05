@@ -32,12 +32,6 @@ class UserViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
-@register("web-error")
-class WebErrorViewSet(viewsets.ModelViewSet):
-    queryset = models.WebError.objects.all().order_by("-created_at")
-    serializer_class = serializers.WebErrorSerializer
-
-
 @register("user-skills")
 class UserSkillViewSet(viewsets.ModelViewSet):
     queryset = models.UserSkill.objects.all().order_by("user")
