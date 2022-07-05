@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import TextFieldControlled from './TextFieldControlled'
+import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldControlled'
 import { FormProvider, useForm } from 'react-hook-form'
 
 const Wrapper = ({ children }) => {
@@ -25,7 +25,7 @@ describe('TextFieldControlled', () => {
   })
 
   it('validates', () => {
-    const { container } = render(
+    render(
       <Wrapper>
         <TextFieldControlled
           name="email-field"
@@ -36,10 +36,10 @@ describe('TextFieldControlled', () => {
       </Wrapper>
     )
 
-    const textfield = container.querySelector('input')
-    const label = container.querySelector('label')
+    const textfield = screen.getByRole('textbox', { name: 'Email address' })
+    const label = screen.getByLabelText('Email address')
     expect(textfield).toHaveAttribute('type', 'email')
     expect(textfield).toHaveAttribute('name', 'email-field')
-    expect(label).toHaveTextContent('Email address')
+    expect(label).toBeInTheDocument()
   })
 })

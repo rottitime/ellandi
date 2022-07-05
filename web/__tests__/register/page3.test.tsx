@@ -53,5 +53,7 @@ describe('Page: Registration 3', () => {
     expect(screen.getAllByText('Does not match with password')).toHaveLength(2)
   })
 
-  it.skip('submits', async () => {})
+  it.skip('submits', async () => {
+    //tobe decided
+  })
 })

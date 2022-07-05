@@ -75,7 +75,6 @@ const RegisterPage = () => {
             <LinkButton href="/register/page2" variant="outlined">
               Back
             </LinkButton>
-            <input type="submit" />
 
             <Button variant="contained" type="submit">
               Continue
