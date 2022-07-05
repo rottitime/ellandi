@@ -1,5 +1,6 @@
 from rest_framework import status
 from rest_framework.test import APIClient, APIRequestFactory, APITestCase
+from tests import utils
 
 from ellandi.registration.models import (
     ContractType,
@@ -17,77 +18,91 @@ from ellandi.registration.models import (
 TEST_SERVER_URL = "http://testserver:8000/"
 
 
-class TestUserEndpoint(APITestCase):
-    def setUp(self):
-        self.client = APIClient()
-        self.request = APIRequestFactory()
-        self.data = {
-            "email": "bob@example.com",
-            "first_name": "Bob",
-            "last_name": "Smith",
-            "organisation": "Cabinet Office",
-            "job_title": "Farmer",
-            "line_manager_email": "line@example.com",
-            "country": "Spain",
-            "contract_type": "permanent",
-            "grade": "Grade 6",
-            "privacy_policy_agreement": True,
-        }
-        self.data_incorrect = {
-            "first_name": "Bob",
-            "last_name": "Smith",
-            "organisation": "Cabinet Office",
-        }
-        self.user = User.objects.create(
-            email="jane@example.com", first_name="Jane", last_name="Green", organisation="DfE"
-        )
-        self.user_id = User.objects.get(email="jane@example.com").id
-        self.updated_user_data = {
-            "email": "jane@example.com",
-            "first_name": "Jane",
-            "last_name": "Brown",
-            "profession": [
-                f"{TEST_SERVER_URL}professions/government-operational-research-service/",
-                f"{TEST_SERVER_URL}professions/digital-data-and-technology-professions/",
-            ],
-        }
-        self.user_skill = UserSkill.objects.create(user=self.user, skill_name="Python", level="beginner")
+@utils.with_logged_in_client
+def test_users_get(client, user_id):
+    response = client.get("/users/")
+    assert response.status_code == status.HTTP_200_OK
+    data = response.json()
+    assert len(data) == 1
+    assert data[0]['email'] == "jane@example.com"
 
-    def test_get(self):
-        response = self.client.get("/users/")
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_get_user(self):
-        response = self.client.get(f"/users/{self.user_id}/")
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data["first_name"], "Jane")
+@utils.with_logged_in_client
+def test_user_get(client, user_id):
+    response = client.get(f"/users/{user_id}/")
+    assert response.status_code == status.HTTP_200_OK
+    data = response.json()
+    assert data["first_name"] == "Jane"
 
-    def test_post(self):
-        response = self.client.post("/users/", self.data)
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        user = User.objects.get(email="bob@example.com")
-        self.assertIsInstance(user, User)
 
-    def test_post_no_email(self):
-        response = self.client.post("/users/", self.data_incorrect)
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+@utils.with_logged_in_client
+def test_user_post(client, user_id):
+    data = {
+        "email": "bob@example.com",
+        "first_name": "Bob",
+        "last_name": "Smith",
+        "organisation": "Cabinet Office",
+        "job_title": "Farmer",
+        "line_manager_email": "line@example.com",
+        "contract_type": "permanent",
+        "grade": "Grade 6",
+        "privacy_policy_agreement": True,
+    }
 
-    def test_put(self):
-        response = self.client.put(f"/users/{self.user_id}/", self.updated_user_data)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data["last_name"], "Brown")
+    response = client.post("/users/", json=data)
+    assert response.status_code == status.HTTP_201_CREATED
+    user = User.objects.get(email=data['email'])
 
-    def test_delete(self):
-        response = self.client.delete(f"/users/{self.user_id}/")
-        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-        number_matching_users = User.objects.filter(id=self.user_id).count()
-        self.assertEqual(number_matching_users, 0)
+    for key, value in data.items():
+        assert getattr(user, key) == value, (key, value)
 
-    def test_get_skills(self):
-        response = self.client.get(f"/users/{self.user_id}/skills/")
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data[0]["skill_name"], "Python")
-        self.assertEqual(response.data[0]["level"], "beginner")
+    user.delete()
+
+
+@utils.with_logged_in_client
+def test_post_no_email(client, user_id):
+    data_incorrect = {
+        "first_name": "Bob",
+        "last_name": "Smith",
+        "organisation": "Cabinet Office",
+    }
+
+    response = client.post("/users/", data=data_incorrect)
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
+    assert response.json()['email'] == ['This field is required.']
+
+
+@utils.with_logged_in_client
+def test_put(client, user_id):
+    updated_user_data = {
+        "email": "jane@example.com",
+        "first_name": "Jane",
+        "last_name": "Brown",
+        "profession": [
+            f"{TEST_SERVER_URL}professions/government-operational-research-service/",
+            f"{TEST_SERVER_URL}professions/digital-data-and-technology-professions/",
+        ],
+    }
+
+    response = client.put(f"/users/{user_id}/", data=updated_user_data)
+    assert response.status_code == status.HTTP_200_OK
+    assert response.json()["last_name"] == "Brown"
+
+
+@utils.with_logged_in_client
+def test_delete(client, user_id):
+    response = client.delete(f"/users/{user_id}/")
+    assert response.status_code == status.HTTP_204_NO_CONTENT
+    number_matching_users = User.objects.filter(id=user_id).count()
+    assert number_matching_users == 0
+
+
+@utils.with_logged_in_client
+def test_get_skills(client, user_id):
+    response = client.get(f"/users/{user_id}/skills/")
+    assert response.status_code == status.HTTP_200_OK
+    assert response.json()[0]["skill_name"] == "Python"
+    assert response.json()[0]["level"] == "beginner"
 
 
 class TestUserSkillsEndpoint(APITestCase):
