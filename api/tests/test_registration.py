@@ -160,51 +160,53 @@ def test_post_get_put_delete_user_skill(client, user_id):
     assert len(response.json()) == 0
 
 
-class TestUserLanguagesEndpoint(APITestCase):
-    def setUp(self):
-        self.client = APIClient()
-        self.user = User.objects.create(
-            email="jane@example.com", first_name="Jane", last_name="Green", organisation="DfE"
-        )
-        self.user_id = User.objects.get(email="jane@example.com").id
-        self.user_language = UserLanguage.objects.create(user=self.user, language="Italian", level="beginner")
-        self.user_language_id = UserLanguage.objects.get(user__email=self.user.email, language="Italian").id
-        self.user_language_data = {
-            "user": f"{TEST_SERVER_URL}users/{self.user_id}/",
-            "language": "Spanish",
-            "level": "proficient",
-            "type": "reading",
-        }
-        self.user_language_data_updated = {
-            "user": f"{TEST_SERVER_URL}users/{self.user_id}/",
-            "language": "Spanish",
-            "level": "beginner",
-            "type": "reading",
-        }
 
-    def test_get(self):
-        response = self.client.get("/user-languages/")
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+@utils.with_logged_in_client
+def test_post_get_put_delete_user_language(client, user_id):
+    response = client.get("/user-languages/")
+    assert len(response.json()) == 0
 
-    def test_get_user_languages(self):
-        response = self.client.get(f"/user-languages/{self.user_language_id}/")
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data["language"], "Italian")
+    user_language_data = {
+        "user": f"{TEST_SERVER_URL}users/{user_id}/",
+        "language": "latin",
+        "level": "proficient",
+        "type": "reading",
+    }
+    response = client.post("/user-languages/", json=user_language_data)
+    print(response)
+    print(response.text)
+    assert response.status_code == status.HTTP_201_CREATED
+    user_language_id = response.json()['id']
+    assert response.json()["language"] == "latin"
+    assert response.json()["level"] == "proficient"
+    assert response.json()["type"] == "reading"
 
-    def test_post_user_languages(self):
-        response = self.client.post("/user-languages/", self.user_language_data)
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+    response = client.get("/user-languages/")
+    assert len(response.json()) == 1
 
-    def test_put_user_languages(self):
-        response = self.client.put(f"/user-languages/{self.user_language_id}/", self.user_language_data_updated)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data["level"], "beginner")
+    response = client.get(f"/user-languages/{user_language_id}/")
+    assert response.status_code == status.HTTP_200_OK
+    assert response.json()["language"] == "latin"
+    assert response.json()["level"] == "proficient"
+    assert response.json()["type"] == "reading"
 
-    def test_delete_user_languages(self):
-        response = self.client.delete(f"/user-languages/{self.user_language_id}/")
-        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-        number_matching_user_langs = UserLanguage.objects.filter(id=self.user_language_id).count()
-        self.assertEqual(number_matching_user_langs, 0)
+    user_language_data_updated = {
+        "user": f"{TEST_SERVER_URL}users/{user_id}/",
+        "language": "latin",
+        "level": "beginner",
+        "type": "writing",
+    }
+    response = client.put(f"/user-languages/{user_language_id}/", json=user_language_data_updated)
+    assert response.status_code == status.HTTP_200_OK
+    assert response.json()["language"] == "latin"
+    assert response.json()["level"] == "beginner"
+    assert response.json()["type"] == "writing"
+
+    response = client.delete(f"/user-languages/{user_language_id}/")
+    assert response.status_code == status.HTTP_204_NO_CONTENT
+
+    response = client.get("/user-languages/")
+    assert len(response.json()) == 0
 
 
 class TestDropDownList(APITestCase):
