@@ -6,6 +6,7 @@
     "start": "next start",
     "lint": "next lint",
     "test:watch": "jest --watch",
+    "test:all": "next lint && jest",
     "test": "jest"
   },
   "dependencies": {
