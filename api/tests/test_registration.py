@@ -196,32 +196,6 @@ def test_post_get_put_delete_user_language(client, user_id):
     assert len(response.json()) == 0
 
 
-class TestDropDownList(APITestCase):
-    __test__ = False
-    name = None
-    slug = None
-    endpoint = None
-    model = DropDownListModel
-
-    def setUp(self):
-        self.client = APIClient()
-        self.model(name=self.name).save()
-
-    def test_get(self):
-        response = self.client.get(self.endpoint)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-    def test_get_item(self):
-        response = self.client.get(f"{self.endpoint}{self.slug}/")
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-    def test_post(self):
-        response = self.client.post(self.endpoint, {"name": "a new name"})
-        self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
-
-
-
-
 @utils.with_logged_in_client
 def test_dropdown_list(client, user_id):
 
