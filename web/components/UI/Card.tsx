@@ -1,13 +1,20 @@
-import styled from 'styled-components'
+import { Card as MuiCard } from '@mui/material'
+import { ComponentProps, FC, ReactNode } from 'react'
 
-type Props = {
-  noMargin?: boolean
+type Props = { children: ReactNode; fullHeight?: boolean } & ComponentProps<
+  typeof MuiCard
+>
+
+const Card: FC<Props> = ({ children, fullHeight, elevation = 0, ...props }) => {
+  return (
+    <MuiCard
+      sx={{ padding: '20px', height: fullHeight ? '100%' : 'auto' }}
+      elevation={elevation}
+      {...props}
+    >
+      {children}
+    </MuiCard>
+  )
 }
-
-const Card = styled('div')<Props>`
-  border: 1px solid ${(p) => p.theme.colors.greyDark};
-  padding: 10px;
-  margin: ${(p) => (!!p.noMargin ? '0px' : '25px')};
-`
 
 export default Card

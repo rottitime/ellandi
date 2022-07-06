@@ -1,70 +1,94 @@
-import { Button, FormGroup, Heading, HintText, InputField } from 'govuk-react'
-import Layout from '@/components/Layout'
-import Link from 'next/link'
-import { Text } from '@/components/UI/Shared/Shared'
+import LinkButton from '@/components/LinkButton'
+import Page, { FormFooter } from '@/components/Layout/GenericPage'
+import { Button, Typography } from '@mui/material'
+import Divider from '@/components/UI/Divider2'
+import { object, SchemaOf, string, ref } from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { useForm, SubmitHandler, FormProvider } from 'react-hook-form'
+import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldControlled'
+import { useRouter } from 'next/router'
 
-const Page = () => {
+type CreateAccountType = {
+  email: string
+  emailConfirm: string
+  password: string
+  passwordConfirm: string
+}
+
+const schema: SchemaOf<CreateAccountType> = object().shape({
+  email: string().email().required(),
+  emailConfirm: string()
+    .oneOf([ref('email'), null], 'Does not match with email')
+    .required('this is a required field'),
+
+  password: string().min(8).max(20).required(),
+  passwordConfirm: string()
+    .oneOf([ref('password'), null], 'Does not match with password')
+    .required('this is a required field')
+})
+
+const RegisterPage = () => {
+  const router = useRouter()
+  const methods = useForm<CreateAccountType>({
+    defaultValues: { email: '', password: '' },
+    resolver: yupResolver(schema)
+  })
+
+  const onFormSubmit: SubmitHandler<CreateAccountType> = (data) => {
+    // eslint-disable-next-line no-console
+    console.log({ data })
+    router.push('/register/page4')
+  }
+
   return (
-    <Layout backLink={true}>
-      <Heading>Create an account</Heading>
-      <Text>You need to create an account before using this service</Text>
+    <>
+      <FormProvider {...methods}>
+        <form onSubmit={methods.handleSubmit(onFormSubmit)} noValidate>
+          <Typography variant="subtitle1" gutterBottom>
+            You need to create an account before using this service
+          </Typography>
 
-      <Heading size={'MEDIUM'}>Enter your email address</Heading>
+          <Typography variant="h3">Enter your email address</Typography>
 
-      <FormGroup>
-        <InputField
-          input={{
-            name: 'group0'
-          }}
-        >
-          Email address
-        </InputField>
-      </FormGroup>
-      <FormGroup>
-        <InputField
-          input={{
-            name: 'group0'
-          }}
-        >
-          Confirm your email address
-        </InputField>
-      </FormGroup>
+          <TextFieldControlled name="email" label="Email address" />
+          <TextFieldControlled name="emailConfirm" label="Confirm your email address" />
 
-      <Heading size={'MEDIUM'}>Create a password</Heading>
+          <Typography variant="h3" gutterBottom>
+            Create a password
+          </Typography>
 
-      <Heading size="MEDIUM" style={{ marginBottom: '0' }}>
-        Before you start
-      </Heading>
-      <HintText>
-        Your password should have at least 8 characters and not include your name or email
-        address
-      </HintText>
+          <Typography gutterBottom>
+            Your password should have at least 8 characters and not include your name or
+            email address
+          </Typography>
 
-      <FormGroup>
-        <InputField
-          input={{
-            name: 'group0'
-          }}
-        >
-          Password
-        </InputField>
-      </FormGroup>
+          <TextFieldControlled name="password" label="Password" type="password" />
+          <TextFieldControlled
+            name="passwordConfirm"
+            label="Confirm your password"
+            type="password"
+          />
 
-      <FormGroup>
-        <InputField
-          input={{
-            name: 'group0'
-          }}
-        >
-          Confirm your password
-        </InputField>
-      </FormGroup>
+          <Divider spacing={20} variant="middle" />
 
-      <Link href="/register/page4" passHref>
-        <Button>Continue</Button>
-      </Link>
-    </Layout>
+          <FormFooter>
+            <LinkButton href="/register/page2" variant="outlined">
+              Back
+            </LinkButton>
+
+            <Button variant="contained" type="submit">
+              Continue
+            </Button>
+          </FormFooter>
+        </form>
+      </FormProvider>
+    </>
   )
 }
 
-export default Page
+export default RegisterPage
+RegisterPage.getLayout = (page) => (
+  <Page title="Create an account" progress={5}>
+    {page}
+  </Page>
+)

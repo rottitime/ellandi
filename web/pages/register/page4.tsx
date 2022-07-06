@@ -1,20 +1,35 @@
-import { Button, Checkbox, Heading } from 'govuk-react'
-import Layout from '@/components/Layout'
-import { Text } from '@/components/UI/Shared/Shared'
+import Page, { FormFooter } from '@/components/Layout/GenericPage'
 import Link from '@/components/UI/Link'
+import { Checkbox, FormControlLabel, FormGroup, Typography } from '@mui/material'
+import LinkButton from '@/components/LinkButton'
 
-const Page = () => (
-  <Layout backLink={true}>
-    <Heading>Create an account - Privacy policy</Heading>
-    <Text>
-      <Link href="#">Privacy policy</Link>
-    </Text>
-    <Checkbox>I agree to the privacy policy</Checkbox>
+const RegisterPage = () => (
+  <>
+    <Typography gutterBottom>
+      <Link href="#">Privacy policy (opens in a new tab)</Link>
+    </Typography>
 
-    <Link href="/register/page5">
-      <Button>Continue</Button>
-    </Link>
-  </Layout>
+    <FormGroup sx={{ mb: 5 }}>
+      <FormControlLabel
+        control={<Checkbox defaultChecked />}
+        label="I agree to the privacy policy"
+      />
+    </FormGroup>
+
+    <FormFooter>
+      <LinkButton href="/register/page3" variant="outlined">
+        Back
+      </LinkButton>
+
+      <LinkButton href="/register/page5">Continue</LinkButton>
+    </FormFooter>
+  </>
 )
 
-export default Page
+export default RegisterPage
+
+RegisterPage.getLayout = (page) => (
+  <Page title="Create an account - Privacy policy" progress={10}>
+    {page}
+  </Page>
+)

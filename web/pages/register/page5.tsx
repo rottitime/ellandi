@@ -1,67 +1,60 @@
-import { Button, FormGroup, Heading, InputField } from 'govuk-react'
-import Layout from '@/components/Layout'
-import Link from 'next/link'
+import LinkButton from '@/components/LinkButton'
+import Page, { FormFooter } from '@/components/Layout/GenericPage'
+import { TextField } from '@mui/material'
 
-const Page = () => {
+const RegisterPage = () => {
   return (
-    <Layout backLink={true}>
-      <Heading size="LARGE">Create an account - Your details</Heading>
+    <>
+      <TextField
+        margin="normal"
+        label="Full name"
+        variant="filled"
+        size="small"
+        fullWidth
+      />
+      <TextField
+        margin="normal"
+        label="Department"
+        variant="filled"
+        size="small"
+        fullWidth
+      />
+      <TextField
+        margin="normal"
+        label="Job title"
+        variant="filled"
+        size="small"
+        fullWidth
+      />
+      <TextField
+        margin="normal"
+        label="Your line manager's email address"
+        variant="filled"
+        size="small"
+        fullWidth
+      />
+      <TextField
+        margin="normal"
+        label="Country"
+        variant="filled"
+        size="small"
+        fullWidth
+      />
 
-      <FormGroup>
-        <InputField
-          input={{
-            name: 'group0'
-          }}
-        >
-          Full name
-        </InputField>
-      </FormGroup>
+      <FormFooter>
+        <LinkButton href="/register/page4" variant="outlined">
+          Back
+        </LinkButton>
 
-      <FormGroup>
-        <InputField
-          input={{
-            name: 'group0'
-          }}
-        >
-          Department
-        </InputField>
-      </FormGroup>
-
-      <FormGroup>
-        <InputField
-          input={{
-            name: 'group0'
-          }}
-        >
-          Job title
-        </InputField>
-      </FormGroup>
-
-      <FormGroup>
-        <InputField
-          input={{
-            name: 'group0'
-          }}
-        >
-          Your line manager's email address
-        </InputField>
-      </FormGroup>
-
-      <FormGroup>
-        <InputField
-          input={{
-            name: 'group0'
-          }}
-        >
-          Country
-        </InputField>
-      </FormGroup>
-
-      <Link href="/register/page6" passHref>
-        <Button>Continue</Button>
-      </Link>
-    </Layout>
+        <LinkButton href="/register/page6">Continue</LinkButton>
+      </FormFooter>
+    </>
   )
 }
 
-export default Page
+export default RegisterPage
+RegisterPage.getLayout = (page) => (
+  <Page title="Create an account - Your details" progress={20}>
+    {page}
+  </Page>
+)

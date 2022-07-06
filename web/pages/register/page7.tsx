@@ -1,56 +1,74 @@
-import { Button, Checkbox, Heading, HintText, LeadParagraph } from 'govuk-react'
-import { Text } from '@/components/UI/Shared/Shared'
-import Layout from '@/components/Layout'
+import Page, { FormFooter } from '@/components/Layout/GenericPage'
+import LinkButton from '@/components/LinkButton'
+import { Stack, styled, Typography } from '@mui/material'
 import Link from '@/components/UI/Link'
+import ToggleChip from '@/components/ToggleChip'
 
-const Page = () => {
+const List = styled(Stack)`
+  .MuiChip-root {
+    margin: 3px;
+  }
+`
+
+const RegisterPage = () => {
   return (
-    <Layout backLink={true}>
-      <Heading size="LARGE">Create an account - Current profession</Heading>
-      <LeadParagraph>
+    <>
+      <Typography variant="subtitle1" gutterBottom>
         Select the Profession(s) that you belong to. You may choose more than one
-      </LeadParagraph>
+      </Typography>
 
-      <HintText>
+      <Typography gutterBottom>
         We'll use this to suggest learning and career development opportunities that are
         relevant to you
-      </HintText>
-      <Checkbox>Corporate Finance Profession</Checkbox>
-      <Checkbox>Counter-fraud Standards and Profession</Checkbox>
-      <Checkbox>Digital, Data and Technology Professions</Checkbox>
-      <Checkbox>Government Communication Service</Checkbox>
-      <Checkbox>Government Economic Service</Checkbox>
-      <Checkbox>Government Finance Profession</Checkbox>
-      <Checkbox>Government IT Profession</Checkbox>
-      <Checkbox>Government Knowledge and Information Management Profession</Checkbox>
-      <Checkbox>Government Legal Profession</Checkbox>
-      <Checkbox>Government Occupational Psychology Profession</Checkbox>
-      <Checkbox>Government Operational Research Service</Checkbox>
-      <Checkbox>Government Planning Inspectors</Checkbox>
-      <Checkbox>Government Planning Profession</Checkbox>
-      <Checkbox>Government Property Profession</Checkbox>
-      <Checkbox>Government Security Profession</Checkbox>
-      <Checkbox>Government Science and Engineering Profession</Checkbox>
-      <Checkbox>Government Social Research Profession</Checkbox>
-      <Checkbox>Government Tax Profession</Checkbox>
-      <Checkbox>Government Veterinary Profession</Checkbox>
-      <Checkbox>Human Resources Profession</Checkbox>
-      <Checkbox>Intelligence Analysis</Checkbox>
-      <Checkbox>Internal Audit Profession</Checkbox>
-      <Checkbox>Operational Delivery Profession</Checkbox>
-      <Checkbox>Policy Profession</Checkbox>
-      <Checkbox>Procurement Profession</Checkbox>
-      <Checkbox>Project Delivery Profession</Checkbox>
+      </Typography>
 
-      <Text>
+      <List direction="row" flexWrap="wrap" spacing={0} justifyContent="center">
+        <ToggleChip label="Corporate Finance Profession" />
+        <ToggleChip label="Counter-fraud Standards and Profession" />
+        <ToggleChip label="Digital, Data and Technology Professions" />
+        <ToggleChip label="Government Communication Service" />
+        <ToggleChip label="Government Economic Service" />
+        <ToggleChip label="Government Finance Profession" />
+        <ToggleChip label="Government IT Profession" />
+        <ToggleChip label="Government Knowledge and Information Management Profession" />
+        <ToggleChip label="Government Legal Profession" />
+        <ToggleChip label="Government Occupational Psychology Profession" />
+        <ToggleChip label="Government Operational Research Service" />
+        <ToggleChip label="Government Planning Inspectors" />
+        <ToggleChip label="Government Planning Profession" />
+        <ToggleChip label="Government Property Profession" />
+        <ToggleChip label="Government Security Profession" />
+        <ToggleChip label="Government Science and Engineering Profession" />
+        <ToggleChip label="Government Social Research Profession" />
+        <ToggleChip label="Government Tax Profession" />
+        <ToggleChip label="Government Veterinary Profession" />
+        <ToggleChip label="Human Resources Profession" />
+        <ToggleChip label="Intelligence Analysis" />
+        <ToggleChip label="Internal Audit Profession" />
+        <ToggleChip label="Operational Delivery Profession" />
+        <ToggleChip label="Policy Profession" />
+        <ToggleChip label="Procurement Profession" />
+        <ToggleChip label="Project Delivery Profession" />
+      </List>
+
+      <Typography gutterBottom>
         <Link href="/register/page8">Skip this step</Link>
-      </Text>
+      </Typography>
 
-      <Link href="/register/page8">
-        <Button>Continue</Button>
-      </Link>
-    </Layout>
+      <FormFooter>
+        <LinkButton href="/register/page6" variant="outlined">
+          Back
+        </LinkButton>
+
+        <LinkButton href="/register/page8">Continue</LinkButton>
+      </FormFooter>
+    </>
   )
 }
 
-export default Page
+export default RegisterPage
+RegisterPage.getLayout = (page) => (
+  <Page title="Create an account - Current profession" progress={40}>
+    {page}
+  </Page>
+)

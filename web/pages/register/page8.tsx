@@ -1,31 +1,44 @@
-import { Button, Heading, HintText, LeadParagraph, Radio } from 'govuk-react'
-import { Text } from '@/components/UI/Shared/Shared'
-import Layout from '@/components/Layout'
+import Page, { FormFooter } from '@/components/Layout/GenericPage'
 import Link from '@/components/UI/Link'
+import { FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material'
+import LinkButton from '@/components/LinkButton'
 
-const Page = () => {
+const RegisterPage = () => {
   return (
-    <Layout backLink={true}>
-      <Heading size="LARGE">Create an account - Current contract type</Heading>
-      <LeadParagraph>Select your contract type. You can only choose one</LeadParagraph>
-      <HintText>
-        We’ll use this to suggest learning and career development opportunities that are
+    <>
+      <Typography variant="subtitle1" gutterBottom>
+        Select your contract type. You can only choose one
+      </Typography>
+      <Typography gutterBottom>
+        We'll use this to suggest learning and career development opportunities that are
         relevant to you
-      </HintText>
-      <Radio name="group1">Permanent</Radio>
-      <Radio name="group1">Fixed term</Radio>
-      <Radio name="group1">Agency</Radio>
-      <Radio name="group1">Other</Radio>
+      </Typography>
 
-      <Text>
+      <RadioGroup>
+        <FormControlLabel control={<Radio />} label="Permanent" value="Permanent" />
+        <FormControlLabel control={<Radio />} label="Fixed term" value="Fixed term" />
+        <FormControlLabel control={<Radio />} label="Agency" value="Agency" />
+        <FormControlLabel control={<Radio />} label="Other" value="Other" />
+      </RadioGroup>
+
+      <Typography gutterBottom>
         <Link href="/register/page9">Skip this step</Link>
-      </Text>
+      </Typography>
 
-      <Link href="/register/page9">
-        <Button>Continue</Button>
-      </Link>
-    </Layout>
+      <FormFooter>
+        <LinkButton href="/register/page7" variant="outlined">
+          Back
+        </LinkButton>
+
+        <LinkButton href="/register/page9">Continue</LinkButton>
+      </FormFooter>
+    </>
   )
 }
 
-export default Page
+export default RegisterPage
+RegisterPage.getLayout = (page) => (
+  <Page title="Create an account - Current contract type" progress={50}>
+    {page}
+  </Page>
+)

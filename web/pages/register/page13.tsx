@@ -1,93 +1,109 @@
-import { Button, Heading, HintText, LeadParagraph, Table as GovTable } from 'govuk-react'
-import { Text } from '@/components/UI/Shared/Shared'
-import Layout from '@/components/Layout'
+import Page, { FormFooter } from '@/components/Layout/GenericPage'
+import { styled } from '@mui/material/styles'
+import {
+  Box,
+  Button,
+  Table,
+  TableCell,
+  TableContainer,
+  TableRow,
+  Typography
+} from '@mui/material'
+import LinkButton from '@/components/LinkButton'
 import Link from '@/components/UI/Link'
-import styled from 'styled-components'
+import ToggleChip from '@/components/ToggleChip'
+import { Delete } from '@mui/icons-material'
 
-const Table = styled(GovTable)`
-  .cta {
-    text-align: right;
+const Stack = styled(Box)`
+  .MuiChip-root {
+    margin: 5px;
   }
 `
 
-const ToggleButton = styled(Button)`
-  margin-right: 10px;
-`
-
-const Page = () => (
+const RegisterPage = () => (
   <>
-    <Heading size="LARGE">Create a profile - Your current skills</Heading>
-
-    <LeadParagraph>
+    <Typography variant="subtitle1" gutterBottom>
       Select any skills that you already have. You can change or add to these later
-    </LeadParagraph>
-    <HintText>
-      We’ll use this to suggest learning and career development opportunities that are
+    </Typography>
+    <Typography gutterBottom>
+      We'll use this to suggest learning and career development opportunities that are
       relevant to you
-    </HintText>
+    </Typography>
+    <Stack sx={{ mb: 3 }}>
+      <ToggleChip label="Auditing" variant="outlined" />
+      <ToggleChip label="Bookkeeping" variant="outlined" />
+      <ToggleChip label="Communication" variant="outlined" />
+      <ToggleChip label="Coding" variant="outlined" />
+      <ToggleChip label="Creative thinking" variant="outlined" />
+      <ToggleChip label="Customer service" variant="outlined" />
+      <ToggleChip label="Data entry" variant="outlined" />
+      <ToggleChip label="Diary management" variant="outlined" />
+      <ToggleChip label="Flexibility" variant="outlined" />
+      <ToggleChip label="Microsoft Office" variant="outlined" />
+      <ToggleChip label="Motivation" variant="outlined" />
+      <ToggleChip label="Negotiation" />
+      <ToggleChip label="Planning" variant="outlined" />
+      <ToggleChip label="Problem solving" />
+      <ToggleChip label="Project management" variant="outlined" />
+      <ToggleChip label="Sales" variant="outlined" />
+      <ToggleChip label="Social media" variant="outlined" />
+      <ToggleChip label="Teamwork" variant="outlined" />
+    </Stack>
 
-    <ToggleButton buttonColour="#1d70b8">Auditing</ToggleButton>
-    <ToggleButton buttonColour="#1d70b8">Bookkeeping</ToggleButton>
-    <ToggleButton buttonColour="#1d70b8">Communication</ToggleButton>
-    <ToggleButton buttonColour="#1d70b8">Coding</ToggleButton>
-    <ToggleButton buttonColour="#1d70b8">Creative thinking</ToggleButton>
-    <ToggleButton buttonColour="#1d70b8">Customer service</ToggleButton>
-    <ToggleButton buttonColour="#1d70b8">Data entry</ToggleButton>
-    <ToggleButton buttonColour="#1d70b8">Diary management</ToggleButton>
-    <ToggleButton buttonColour="#1d70b8">Flexibility</ToggleButton>
-    <ToggleButton buttonColour="#1d70b8">Microsoft Office</ToggleButton>
-    <ToggleButton buttonColour="#1d70b8">Motivation</ToggleButton>
-    <ToggleButton buttonColour="#1d70b8">Negotiation</ToggleButton>
-    <ToggleButton buttonColour="#1d70b8">Planning</ToggleButton>
-    <ToggleButton buttonColour="#1d70b8">Problem solving</ToggleButton>
-    <ToggleButton buttonColour="#1d70b8">Project management</ToggleButton>
-    <ToggleButton buttonColour="#1d70b8">Sales</ToggleButton>
-    <ToggleButton buttonColour="#1d70b8">Social media</ToggleButton>
-    <ToggleButton buttonColour="#1d70b8">Teamwork</ToggleButton>
-
-    <Button
-      buttonColour="#f3f2f1"
-      buttonTextColour="#0B0C0C"
-      style={{ display: 'block' }}
-    >
-      {' '}
+    <Button variant="contained" color="secondary" sx={{ mb: 3 }}>
       Load more skills
     </Button>
 
-    <Table>
-      <Table.Row>
-        <Table.Cell>Selected skill</Table.Cell>
-        <Table.Cell>&nbsp;</Table.Cell>
-      </Table.Row>
-      <Table.Row>
-        <Table.Cell>Skill 1</Table.Cell>
-        <Table.Cell className="cta">
-          <Link href="#">Remove</Link>
-        </Table.Cell>
-      </Table.Row>
-      <Table.Row>
-        <Table.Cell>Skill 2</Table.Cell>
-        <Table.Cell className="cta">
-          <Link href="#">Remove</Link>
-        </Table.Cell>
-      </Table.Row>
-      <Table.Row>
-        <Table.Cell>Skill 3</Table.Cell>
-        <Table.Cell className="cta">
-          <Link href="#">Remove</Link>
-        </Table.Cell>
-      </Table.Row>
-    </Table>
+    <TableContainer>
+      <Table size="small">
+        <TableRow>
+          <TableCell>Selected skill</TableCell>
+          <TableCell>&nbsp;</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell>Skill 1</TableCell>
+          <TableCell>
+            <Button>
+              <Delete />
+            </Button>
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell>Skill 2</TableCell>
+          <TableCell>
+            <Button>
+              <Delete />
+            </Button>
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell>Skill 3</TableCell>
+          <TableCell>
+            <Button>
+              <Delete />
+            </Button>
+          </TableCell>
+        </TableRow>
+      </Table>
+    </TableContainer>
 
-    <Text>
+    <Typography gutterBottom>
       <Link href="/register/page14">Skip this step</Link>
-    </Text>
+    </Typography>
 
-    <Link href="/register/page14">
-      <Button>Continue</Button>
-    </Link>
+    <FormFooter>
+      <LinkButton href="/register/page12" variant="outlined">
+        Back
+      </LinkButton>
+
+      <LinkButton href="/register/page14">Continue</LinkButton>
+    </FormFooter>
   </>
 )
 
-export default Page
-Page.getLayout = (page) => <Layout>{page}</Layout>
+export default RegisterPage
+RegisterPage.getLayout = (page) => (
+  <Page title="Create a profile - Your current skills" progress={90}>
+    {page}
+  </Page>
+)

@@ -81,7 +81,7 @@ format-python-code:
 
 .PHONY: validate-frontend
 validate-frontend: ## Check style and syntax with
-	cd web && npm run lint
+	cd web && npm run test:all
 
 .PHONY: reset-db
 reset-db:

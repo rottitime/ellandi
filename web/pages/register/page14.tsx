@@ -1,93 +1,114 @@
-import { Button, Heading, HintText, LeadParagraph, Table as GovTable } from 'govuk-react'
-import { Text } from '@/components/UI/Shared/Shared'
-import Layout from '@/components/Layout'
+import Page, { FormFooter } from '@/components/Layout/GenericPage'
+import { styled } from '@mui/material/styles'
+import {
+  Box,
+  Button,
+  Table,
+  TableCell,
+  TableContainer,
+  TableRow,
+  Typography
+} from '@mui/material'
+import LinkButton from '@/components/LinkButton'
 import Link from '@/components/UI/Link'
-import styled from 'styled-components'
+import ToggleChip from '@/components/ToggleChip'
+import { Delete } from '@mui/icons-material'
 
-const Table = styled(GovTable)`
-  .cta {
-    text-align: right;
+const options = [
+  'Auditing',
+  'Bookkeeping',
+  'Communication',
+  'Coding',
+  'Creative thinking',
+  'Customer service',
+  'Data entry',
+  'Diary management',
+  'Flexibility',
+  'Microsoft Office',
+  'Motivation',
+  'Negotiation',
+  'Planning',
+  'Problem solving',
+  'Project management',
+  'Sales',
+  'Social media',
+  'Teamwork'
+]
+
+const Stack = styled(Box)`
+  .MuiChip-root {
+    margin: 10px;
   }
 `
 
-const ToggleButton = styled(Button)`
-  margin-right: 10px;
-`
+const RegisterPage = () => {
+  return (
+    <>
+      <Typography variant="subtitle1" gutterBottom>
+        Select any skills that you'd like to develop. You can change or add to these later
+      </Typography>
+      <Typography gutterBottom>
+        We'll use this to suggest learning and career development opportunities that are
+        relevant to you
+      </Typography>
+      <Stack>
+        {options.map((option) => (
+          <ToggleChip label={option} variant="outlined" key={option} />
+        ))}
+      </Stack>
+      <Button>Load more skills</Button>
 
-const Page = () => (
-  <>
-    <Heading size="LARGE">Create a profile - Skills you'd like to develop</Heading>
+      <TableContainer>
+        <Table size="small">
+          <TableRow>
+            <TableCell>Selected skill</TableCell>
+            <TableCell>&nbsp;</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>Skill 1</TableCell>
+            <TableCell>
+              <Button>
+                <Delete />
+              </Button>
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>Skill 2</TableCell>
+            <TableCell>
+              <Button>
+                <Delete />
+              </Button>
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>Skill 3</TableCell>
+            <TableCell>
+              <Button>
+                <Delete />
+              </Button>
+            </TableCell>
+          </TableRow>
+        </Table>
+      </TableContainer>
 
-    <LeadParagraph>
-      Select any skills that you'd like to develop. You can change or add to these later
-    </LeadParagraph>
-    <HintText>
-      We'll use this to suggest learning and career development opportunities that are
-      relevant to you
-    </HintText>
+      <Typography gutterBottom>
+        <Link href="/account">Skip this page</Link>
+      </Typography>
 
-    <ToggleButton buttonColour="#1d70b8">Auditing</ToggleButton>
-    <ToggleButton buttonColour="#1d70b8">Bookkeeping</ToggleButton>
-    <ToggleButton buttonColour="#1d70b8">Communication</ToggleButton>
-    <ToggleButton buttonColour="#1d70b8">Coding</ToggleButton>
-    <ToggleButton buttonColour="#1d70b8">Creative thinking</ToggleButton>
-    <ToggleButton buttonColour="#1d70b8">Customer service</ToggleButton>
-    <ToggleButton buttonColour="#1d70b8">Data entry</ToggleButton>
-    <ToggleButton buttonColour="#1d70b8">Diary management</ToggleButton>
-    <ToggleButton buttonColour="#1d70b8">Flexibility</ToggleButton>
-    <ToggleButton buttonColour="#1d70b8">Microsoft Office</ToggleButton>
-    <ToggleButton buttonColour="#1d70b8">Motivation</ToggleButton>
-    <ToggleButton buttonColour="#1d70b8">Negotiation</ToggleButton>
-    <ToggleButton buttonColour="#1d70b8">Planning</ToggleButton>
-    <ToggleButton buttonColour="#1d70b8">Problem solving</ToggleButton>
-    <ToggleButton buttonColour="#1d70b8">Project management</ToggleButton>
-    <ToggleButton buttonColour="#1d70b8">Sales</ToggleButton>
-    <ToggleButton buttonColour="#1d70b8">Social media</ToggleButton>
-    <ToggleButton buttonColour="#1d70b8">Teamwork</ToggleButton>
+      <FormFooter>
+        <LinkButton href="/account" variant="outlined">
+          Back
+        </LinkButton>
 
-    <Button
-      buttonColour="#f3f2f1"
-      buttonTextColour="#0B0C0C"
-      style={{ display: 'block' }}
-    >
-      {' '}
-      Load more skills
-    </Button>
+        <LinkButton href="/account">Continue</LinkButton>
+      </FormFooter>
+    </>
+  )
+}
 
-    <Table>
-      <Table.Row>
-        <Table.Cell>Selected skill</Table.Cell>
-        <Table.Cell>&nbsp;</Table.Cell>
-      </Table.Row>
-      <Table.Row>
-        <Table.Cell>Skill 1</Table.Cell>
-        <Table.Cell className="cta">
-          <Link href="#">Remove</Link>
-        </Table.Cell>
-      </Table.Row>
-      <Table.Row>
-        <Table.Cell>Skill 2</Table.Cell>
-        <Table.Cell className="cta">
-          <Link href="#">Remove</Link>
-        </Table.Cell>
-      </Table.Row>
-      <Table.Row>
-        <Table.Cell>Skill 3</Table.Cell>
-        <Table.Cell className="cta">
-          <Link href="#">Remove</Link>
-        </Table.Cell>
-      </Table.Row>
-    </Table>
-
-    <Text>
-      <Link href="/account/">Skip this step</Link>
-    </Text>
-
-    <Link href="/account/">
-      <Button>Continue</Button>
-    </Link>
-  </>
+export default RegisterPage
+RegisterPage.getLayout = (page) => (
+  <Page title="Create a profile - Skills you'd like to develop" progress={100}>
+    {page}
+  </Page>
 )
-
-export default Page
-Page.getLayout = (page) => <Layout>{page}</Layout>

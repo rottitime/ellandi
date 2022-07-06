@@ -1,44 +1,43 @@
-import { Button, ButtonArrow, Heading, ListItem, UnorderedList } from 'govuk-react'
-import Layout from '@/components/Layout'
-import Link from 'next/link'
-import { Text } from '@/components/UI/Shared/Shared'
+import Page from '@/components/Layout/GenericPage'
+import Highlight from '@/components/Highlight'
+import { Box, Typography } from '@mui/material'
+import SendIcon from '@mui/icons-material/Send'
+import LinkButton from '@/components/LinkButton'
 
-const Page = () => (
-  <>
-    <Heading>Civil Service Skills &amp; Learning</Heading>
-    <Text variant="h1">Civil Service Skills &amp; Learning</Text>
+const RegisterPage = () => {
+  return (
+    <>
+      <Box sx={{ textAlign: 'center' }}>
+        <LinkButton
+          href="/register/page3"
+          endIcon={<SendIcon />}
+          variant="contained"
+          fullWidth
+          sx={{ mb: 5, maxWidth: '200px' }}
+        >
+          Start now
+        </LinkButton>
+      </Box>
+      <Typography variant="h3" gutterBottom>
+        Before you start
+      </Typography>
+      <Typography gutterBottom>
+        You'll be asked to upload your CV. If you don't have a CV available you can add
+        one later by going to your Profile.
+      </Typography>
+    </>
+  )
+}
 
-    <Text>You can use this service to</Text>
-    <UnorderedList>
-      <ListItem>upload and maintain your skills profile</ListItem>
-      <ListItem>specify any skills youd like to develop in the future</ListItem>
-      <ListItem>view job suggestions based on your skills</ListItem>
-      <ListItem>find courses based on your interests</ListItem>
-      <ListItem>help you plan the next steps in your career</ListItem>
-      <ListItem>facilitate discussions about skills with your line manager</ListItem>
-    </UnorderedList>
-    <Text>Registering takes around 5 -10 minutes.</Text>
-
-    <Link href="/register/page3" passHref>
-      <Button
-        icon={<ButtonArrow />}
-        start
-        // onClick={() => {
-        //   navigate('/page3')
-        // }}
-      >
-        Start now
-      </Button>
-    </Link>
-
-    <Heading size="MEDIUM">Before you start</Heading>
-    <Text>
-      You'll be asked to upload your CV. If you don't have a CV available you can add one
-      later by going to your Profile.
-    </Text>
-  </>
+export default RegisterPage
+RegisterPage.getLayout = (page) => (
+  <Page
+    title={
+      <>
+        Register in just <Highlight>10 minutes</Highlight>
+      </>
+    }
+  >
+    {page}
+  </Page>
 )
-
-export default Page
-
-Page.getLayout = (page) => <Layout>{page}</Layout>

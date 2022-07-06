@@ -1,24 +1,24 @@
 import {
-  Checkbox,
-  GridCol,
-  GridRow,
-  Heading,
-  LabelText,
-  LeadParagraph,
+  Box,
+  Chip,
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
   Pagination,
-  SectionBreak,
   Select,
-  Tag
-} from 'govuk-react'
-import AccountLayout from '@/components/AccountLayout'
-import styled, { useTheme } from 'styled-components'
-import Learning from '@/components/svg/Learning'
-import GreyLinkList from '@/components/UI/GreyLinkList'
-import Link from '@/components/UI/Link'
-import { Text } from '@/components/UI/Shared/Shared'
-import Star from '@/components/svg/Star'
-import Forecasting from '@/components/svg/Forecasting'
+  styled,
+  Typography
+} from '@mui/material'
+import AccountMenuPage from '@/components/Layout/AccountMenuPage'
+import Learning from '@/components/Icons/Learning'
 import Card from '@/components/UI/Card'
+import Link from '@/components/UI/Link'
+import Divider from '@/components/UI/Divider2'
+import LearningStrands from '@/components/LearningStrands'
+import ContentBox from '@/components/ContentBox'
+import Forecasting from '@/components/Icons/Forecasting'
+import { StarBorder } from '@mui/icons-material'
 
 const results = [
   {
@@ -94,18 +94,16 @@ const results = [
   }
 ]
 
-const GreyBox = styled('div')`
-  background-color: ${(p) => p.theme.colors.greyLight};
-  padding: 13px;
+const Header = styled('header')`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  > .MuiTypography-root {
+    display: flex;
+    align-items: center;
+  }
 `
-
-const learningItems = [
-  { title: 'Foundations of public admin', url: '#' },
-  { title: 'Working in government', url: '#' },
-  { title: 'Leading and managing', url: '#' },
-  { title: 'Specialist skills', url: '#' },
-  { title: 'Domain knowledge', url: '#' }
-]
 
 const filters = [
   'Commercial awareness (1)',
@@ -120,123 +118,107 @@ const filters = [
 ]
 
 const Page = () => {
-  const theme = useTheme()
-
   return (
     <>
-      <Heading style={{ color: theme.palette.profile.learning.color }}>
-        <Learning style={{ marginRight: '10px' }} />
-        Learning
-      </Heading>
-
-      <LeadParagraph>
+      <Typography variant="subtitle1" gutterBottom>
         Course suggestions are based on your current skills and skills you would like to
         develop. <Link href="#">Change these preferences</Link>.
-      </LeadParagraph>
+      </Typography>
 
-      <GridRow>
-        <GridCol setWidth="one-third">
-          <GreyBox>
-            <Text>
-              <b>Filter by the skills you'd like to develop</b>
-            </Text>
+      <Grid container spacing={4}>
+        <Grid item xs={4}>
+          <Card>
+            <Typography variant="h3" gutterBottom>
+              Filter by the skills you'd like to develop
+            </Typography>
 
-            <Text>All (10)</Text>
+            <Typography>All (10)</Typography>
             {filters.map((filter) => (
-              <Text key={filter}>
+              <Typography key={filter} sx={{ mb: 1 }}>
                 <Link key={filter} href="#">
                   {filter}
                 </Link>
-              </Text>
+              </Typography>
             ))}
 
-            {['Type of learning', 'Profession', 'Function', 'Department'].map((label) => (
-              <Select
-                key={label}
-                input={{
-                  name: 'group1'
-                }}
-                label={label}
-              >
-                <option value="0">GOV.UK elements option 1</option>
-                <option value="1">GOV.UK elements option 2</option>
-                <option value="2">GOV.UK elements option 3</option>
-              </Select>
-            ))}
-          </GreyBox>
+            <Box sx={{ mt: 4 }}>
+              {['Type of learning', 'Profession', 'Function', 'Department'].map(
+                (label) => (
+                  <FormControl size="small" sx={{ mb: 3 }} fullWidth key={label}>
+                    <InputLabel id="demo-select-small">{label}</InputLabel>
+                    <Select value={label} label={label}>
+                      <MenuItem value="">
+                        <em>None</em>
+                      </MenuItem>
+                      <MenuItem value={10}>Ten</MenuItem>
+                      <MenuItem value={20}>Twenty</MenuItem>
+                      <MenuItem value={30}>Thirty</MenuItem>
+                    </Select>
+                  </FormControl>
+                )
+              )}
+            </Box>
 
-          <SectionBreak level="LARGE" visible />
+            <Divider variant="middle" spacing={20} />
 
-          <GreyLinkList title="Browse learning strands" items={learningItems} />
-        </GridCol>
-        <GridCol setWidth="two-thirds">
-          <Pagination>
-            <Pagination.Anchor href="#prev" previousPage>
-              Previous page
-            </Pagination.Anchor>
-            <Pagination.Anchor href="#next" nextPage>
-              Next page
-            </Pagination.Anchor>
-          </Pagination>
+            <LearningStrands />
+          </Card>
+        </Grid>
+        <Grid item xs={8}>
+          <Card fullHeight>
+            <Box sx={{ display: 'flex', justifyContent: 'center', p: 1 }}>
+              <Pagination count={10} shape="rounded" size="large" />
+            </Box>
 
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              marginBottom: '20px'
-            }}
-          >
-            <label>
-              <LabelText>
-                <Select label="Order by:">
-                  <option value="0">Most relevant</option>
-                </Select>
-              </LabelText>
-            </label>
+            {results.map((result) => (
+              <ContentBox key={result.title} sx={{ mb: 3 }}>
+                <Header>
+                  <Typography variant="h3">
+                    <Link href="#">
+                      <Forecasting style={{ marginRight: '10px' }} />
+                      {result.title}
+                    </Link>
+                  </Typography>
 
-            <Checkbox>&pound;Free only</Checkbox>
-          </div>
-
-          {results.map((result) => (
-            <Card key={result.title}>
-              <header
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center'
-                }}
-              >
-                <Heading as="h2" size="S" style={{ margin: 0 }}>
                   <Link href="#">
-                    <Forecasting style={{ marginRight: '10px' }} />
-                    {result.title}
+                    <StarBorder style={{ fontSize: '23px', marginRight: '5px' }} />
+                    Favourite
                   </Link>
-                </Heading>
+                </Header>
+                <Typography>
+                  <b>Duration:</b> {result.Duration}
+                </Typography>
+                <Typography>
+                  <b>Skills you will develop:</b> {result.develop}
+                </Typography>
+                <Divider variant="middle" spacing={20} />
 
-                <Link href="#">
-                  <Star style={{ fontSize: '23px', marginRight: '5px' }} />
-                  Favourite
-                </Link>
-              </header>
-              <Text>
-                <b>Duration:</b> {result.Duration}
-              </Text>
-              <Text>
-                <b>Skills you will develop:</b> {result.develop}
-              </Text>
-              <SectionBreak level="" visible />
-              <Text>
-                {result.content} <Link href="#">Read more</Link>
-              </Text>
+                <Typography>
+                  {result.content} <Link href="#">Read more</Link>
+                </Typography>
 
-              <Tag>specialist skills</Tag>
-            </Card>
-          ))}
-        </GridCol>
-      </GridRow>
+                <Box sx={{ textAlign: 'right' }}>
+                  <Chip label="specialist skills" />
+                </Box>
+              </ContentBox>
+            ))}
+          </Card>
+        </Grid>
+      </Grid>
     </>
   )
 }
 
 export default Page
-Page.getLayout = (page) => <AccountLayout activeMenu={2}>{page}</AccountLayout>
+Page.getLayout = (page) => (
+  <AccountMenuPage
+    breadcrumbs={[{ title: 'Learning' }]}
+    title={
+      <>
+        <Learning /> Learning
+      </>
+    }
+  >
+    {page}
+  </AccountMenuPage>
+)

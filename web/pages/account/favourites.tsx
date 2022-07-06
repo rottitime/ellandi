@@ -1,14 +1,13 @@
-import { Heading, LeadParagraph } from 'govuk-react'
-import AccountLayout from '@/components/AccountLayout'
-import styled, { useTheme } from 'styled-components'
 import Link from '@/components/UI/Link'
-import { Text } from '@/components/UI/Shared/Shared'
-import Communities from '@/components/svg/Communities'
+import { Stars, Delete } from '@mui/icons-material'
 import Card from '@/components/UI/Card'
-import Skills from '@/components/svg/Skills'
-import Trash from '@/components/svg/Trash'
-import Learning from '@/components/svg/Learning'
-import Careers from '@/components/svg/Careers'
+import AccountMenuPage from '@/components/Layout/AccountMenuPage'
+import { IconButton, styled, Typography } from '@mui/material'
+import Skills from '@/components/Icons/Skills'
+import Learning from '@/components/Icons/Learning'
+import Careers from '@/components/Icons/Careers'
+import Communities from '@/components/Icons/Communities'
+import ContentBox from '@/components/ContentBox'
 
 const CardHeader = styled('div')`
   display: flex;
@@ -63,141 +62,164 @@ const listCommunities = [
 ]
 
 const Page = () => {
-  const theme = useTheme()
-
   return (
     <>
-      <Heading>Profile</Heading>
-      <LeadParagraph>Personal details</LeadParagraph>
+      <Typography variant="subtitle1">
+        You can favourite skills, learning, careers and communities across the service.
+        Click the red trash icon to remove.
+      </Typography>
 
-      <Heading
-        as="h2"
-        size="S"
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          color: theme.palette.profile.skills.color
-        }}
-      >
-        <Skills style={{ marginRight: '10px' }} />
-        Skills (6)
-      </Heading>
+      <Card>
+        <Typography
+          variant="h3"
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            mb: 2,
+            color: (p) => p.colors.profileBlue
+          }}
+        >
+          <Skills style={{ marginRight: '10px' }} />
+          Skills (6)
+        </Typography>
 
-      <BoxList columns={4}>
-        {[
-          'Team building',
-          'Communication',
-          'Leadership',
-          'HTML/CSS',
-          'Job coaching',
-          'Figma'
-        ].map((item) => (
-          <Card key={item} noMargin>
-            <CardHeader>
-              <Heading as="h3" size="S">
-                <Link href="#">{item}</Link>
-              </Heading>
-              <Trash style={{ fontSize: '20px' }} />
-            </CardHeader>
-          </Card>
-        ))}
-      </BoxList>
+        <BoxList columns={4}>
+          {[
+            'Team building',
+            'Communication',
+            'Leadership',
+            'HTML/CSS',
+            'Job coaching',
+            'Figma'
+          ].map((item) => (
+            <ContentBox key={item}>
+              <CardHeader>
+                <Typography variant="h3">
+                  <Link href="#">{item}</Link>
+                </Typography>
 
-      <Heading
-        as="h2"
-        size="S"
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          color: theme.palette.profile.learning.color
-        }}
-      >
-        <Learning style={{ marginRight: '10px' }} />
-        Learning (3)
-      </Heading>
+                <IconButton aria-label="delete">
+                  <Delete sx={{ fontSize: '20px' }} />
+                </IconButton>
+              </CardHeader>
+            </ContentBox>
+          ))}
+        </BoxList>
 
-      <BoxList columns={3}>
-        {listLearning.map((item) => (
-          <Card noMargin key={item.title}>
-            <CardHeader>
-              <Heading as="h3" size="S">
-                <Link href="#">{item.title}</Link>
-              </Heading>
-              <Trash style={{ fontSize: '20px' }} />
-            </CardHeader>
-            <Text noMargin>
-              <b>Duration:</b> {item.duration}
-              <br />
-              <b>Skills you will develop:</b> {item.develop}
-            </Text>
-          </Card>
-        ))}
-      </BoxList>
+        <Typography
+          variant="h3"
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            mb: 2,
+            color: (p) => p.colors.profileBlue
+          }}
+        >
+          <Learning style={{ marginRight: '10px' }} />
+          Learning (3)
+        </Typography>
 
-      <Heading
-        as="h2"
-        size="S"
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          color: theme.palette.profile.careers.color
-        }}
-      >
-        <Careers style={{ marginRight: '10px' }} />
-        Careers (2)
-      </Heading>
+        <BoxList columns={3}>
+          {listLearning.map((item) => (
+            <ContentBox key={item.title}>
+              <CardHeader>
+                <Typography variant="h3">
+                  <Link href="#">{item.title}</Link>
+                </Typography>
+                <IconButton aria-label="delete">
+                  <Delete sx={{ fontSize: '20px' }} />
+                </IconButton>
+              </CardHeader>
+              <Typography>
+                <b>Duration:</b> {item.duration}
+                <br />
+                <b>Skills you will develop:</b> {item.develop}
+              </Typography>
+            </ContentBox>
+          ))}
+        </BoxList>
 
-      <BoxList columns={3}>
-        {listCareers.map((item) => (
-          <Card noMargin key={item.title}>
-            <CardHeader>
-              <Heading as="h3" size="S">
-                <Link href="#">{item.title}</Link>
-              </Heading>
-              <Trash style={{ fontSize: '20px' }} />
-            </CardHeader>
-            <Text noMargin>
-              <b>{item.content}</b>
-              <br />
-              <b>Salary:</b> &pound;{item.salary}
-              <br />
-              <b>Reference:</b> &pound;{item.reference}
-            </Text>
-          </Card>
-        ))}
-      </BoxList>
+        <Typography
+          variant="h3"
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            mb: 2,
+            color: (p) => p.colors.profileBlue
+          }}
+        >
+          <Careers style={{ marginRight: '10px' }} />
+          Careers (2)
+        </Typography>
 
-      <Heading
-        as="h2"
-        size="S"
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          color: theme.palette.profile.communities.color
-        }}
-      >
-        <Communities style={{ marginRight: '10px' }} />
-        Communities (2)
-      </Heading>
+        <BoxList columns={3}>
+          {listCareers.map((item) => (
+            <ContentBox key={item.title}>
+              <CardHeader>
+                <Typography variant="h3">
+                  <Link href="#">{item.title}</Link>
+                </Typography>
+                <IconButton aria-label="delete">
+                  <Delete sx={{ fontSize: '20px' }} />
+                </IconButton>
+              </CardHeader>
+              <Typography>
+                <b>{item.content}</b>
+                <br />
+                <b>Salary:</b> &pound;{item.salary}
+                <br />
+                <b>Reference:</b> &pound;{item.reference}
+              </Typography>
+            </ContentBox>
+          ))}
+        </BoxList>
 
-      <BoxList columns={3}>
-        {listCommunities.map((item) => (
-          <Card noMargin key={item.title}>
-            <CardHeader>
-              <Heading as="h3" size="S">
-                <Link href="#">{item.title}</Link>
-              </Heading>
-              <Trash style={{ fontSize: '20px' }} />
-            </CardHeader>
-            <Text noMargin>
-              <b>Last activity:</b> {item.activity}
-            </Text>
-          </Card>
-        ))}
-      </BoxList>
+        <Typography
+          variant="h3"
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            mb: 2,
+            color: (p) => p.colors.profileBlue
+          }}
+        >
+          <Communities style={{ marginRight: '10px' }} />
+          Communities (2)
+        </Typography>
+
+        <BoxList columns={3}>
+          {listCommunities.map((item) => (
+            <ContentBox key={item.title}>
+              <CardHeader>
+                <Typography variant="h3">
+                  <Link href="#">{item.title}</Link>
+                </Typography>
+                <IconButton aria-label="delete">
+                  <Delete sx={{ fontSize: '20px' }} />
+                </IconButton>
+              </CardHeader>
+              <Typography>
+                <b>Last activity:</b> {item.activity}
+              </Typography>
+            </ContentBox>
+          ))}
+        </BoxList>
+      </Card>
     </>
   )
 }
 
 export default Page
-Page.getLayout = (page) => <AccountLayout activeMenu={6}>{page}</AccountLayout>
+Page.getLayout = (page) => (
+  <AccountMenuPage
+    title={
+      <>
+        <Stars sx={{ color: (p) => p.colors.profileBlue }} />
+        Favourites
+      </>
+    }
+    breadcrumbs={[{ title: 'Favourites' }]}
+  >
+    {page}
+  </AccountMenuPage>
+)

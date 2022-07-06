@@ -1,272 +1,172 @@
-import { Button, Heading, LabelText, Link, Select, Table, Tabs } from 'govuk-react'
-import AccountLayout from '@/components/AccountLayout'
-import styled from 'styled-components'
-import { useState } from 'react'
+import AccountMenuPage from '@/components/Layout/AccountMenuPage'
+import {
+  Box,
+  Card,
+  Chip,
+  Grid,
+  styled,
+  Tab,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Tabs,
+  Typography
+} from '@mui/material'
+import { SyntheticEvent, useState } from 'react'
+import Link from '@/components/UI/Link'
+import Skills from '@/components/Icons/Skills'
 
-const IconSkills = styled.img`
-  display: inline-block;
-  vertical-align: middle;
-  margin-right: 12px;
+const TabPanel = styled(Box)`
+  padding: 25px;
+  .MuiTypography-h2 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
 `
 
-const Cell = styled(Table.Cell)`
-  vertical-align: middle;
-`
-
-const BlueButton = styled(Button)`
-  background-color: #1d70b8;
-  margin: 0;
-`
-
-const Page = () => {
-  const [tabIndex, setTabIndex] = useState(0)
+const SkillsPage = () => {
+  const [value, setValue] = useState(0)
+  const handleChange = (_: SyntheticEvent, newValue: number) => setValue(newValue)
 
   return (
     <>
-      <Tabs>
-        <Tabs.Title>Contents</Tabs.Title>
-        <Tabs.List>
-          <Tabs.Tab
-            href="#0"
-            selected={tabIndex === 0}
-            onClick={(event_) => {
-              event_.preventDefault()
-              setTabIndex(0)
-            }}
-          >
-            Your skills
-          </Tabs.Tab>
-          <Tabs.Tab
-            href="#1"
-            selected={tabIndex === 1}
-            onClick={(event_) => {
-              event_.preventDefault()
-              setTabIndex(1)
-            }}
-          >
-            Language skills
-          </Tabs.Tab>
-          <Tabs.Tab
-            href="#2"
-            selected={tabIndex === 2}
-            onClick={(event_) => {
-              event_.preventDefault()
-              setTabIndex(2)
-            }}
-          >
-            Skills you'd like to develop
-          </Tabs.Tab>
-        </Tabs.List>
-        <Tabs.Panel id="0" selected={tabIndex === 0}>
-          <Heading size="LARGE">
-            <IconSkills src="/images/skills.svg" />
-            Skills
-          </Heading>
-          <Table
-            head={
-              <Table.Row>
-                <Table.CellHeader>Skill</Table.CellHeader>
-                <Table.CellHeader>Skill level</Table.CellHeader>
-                <Table.CellHeader>Validated</Table.CellHeader>
-              </Table.Row>
-            }
-          >
-            <Table.Row>
-              <Cell>Auditing</Cell>
-              <Cell>Not set</Cell>
-              <Cell>
-                <IconSkills src="/images/status_closed.svg" alt="closed" />
-                <Link href="#">Set skill level</Link>
-              </Cell>
-            </Table.Row>
-            <Table.Row>
-              <Cell>Bookkeeping</Cell>
-              <Cell>Not set</Cell>
-              <Cell>
-                <IconSkills src="/images/status_closed.svg" alt="closed" />
-                <Link href="#">Set skill level</Link>
-              </Cell>
-            </Table.Row>
-            <Table.Row>
-              <Cell>Communication</Cell>
-              <Cell>Not set</Cell>
-              <Cell>
-                <IconSkills src="/images/status_closed.svg" alt="closed" />
-                <Link href="#">Set skill level</Link>
-              </Cell>
-            </Table.Row>
-            <Table.Row>
-              <Cell>Design</Cell>
-              <Cell>Not set</Cell>
-              <Cell>
-                <IconSkills src="/images/status_closed.svg" alt="closed" />
-                <Link href="#">Set skill level</Link>
-              </Cell>
-            </Table.Row>
-            <Table.Row>
-              <Cell>Enthusiasm</Cell>
-              <Cell>Not set</Cell>
-              <Cell>
-                <IconSkills src="/images/status_closed.svg" alt="closed" />
-                <Link href="#">Set skill level</Link>
-              </Cell>
-            </Table.Row>
-            <Table.Row>
-              <Cell>Microsoft Office</Cell>
-              <Cell>Not set</Cell>
-              <Cell>
-                <IconSkills src="/images/status_closed.svg" alt="closed" />
-                <Link href="#">Set skill level</Link>
-              </Cell>
-            </Table.Row>
-            <Table.Row>
-              <Cell>Negotiation</Cell>
-              <Cell>Not set</Cell>
-              <Cell>
-                <IconSkills src="/images/status_closed.svg" alt="closed" />
-                <Link href="#">Set skill level</Link>
-              </Cell>
-            </Table.Row>
-            <Table.Row>
-              <Cell>Project management</Cell>
-              <Cell>Not set</Cell>
-              <Cell>
-                <IconSkills src="/images/status_closed.svg" alt="closed" />
-                <Link href="#">Set skill level</Link>
-              </Cell>
-            </Table.Row>
-          </Table>
-        </Tabs.Panel>
+      <Grid container spacing={4}>
+        <Grid item xs={12}>
+          <Card sx={{ padding: '20px', height: '100%' }}>
+            <Box sx={{ width: '100%' }}>
+              <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                <Tabs
+                  value={value}
+                  onChange={handleChange}
+                  aria-label="basic tabs example"
+                >
+                  <Tab label="Your skills" />
+                  <Tab label="Language skills" />
+                  <Tab label="Skills you’d like to develop" />
+                </Tabs>
+              </Box>
+              <TabPanel hidden={value !== 0}>
+                <Typography variant="h2" gutterBottom>
+                  <Skills /> Skill
+                </Typography>
 
-        <Tabs.Panel id="1" selected={tabIndex === 1}>
-          <Heading size="LARGE">
-            <IconSkills src="/images/skills.svg" />
-            Language skills
-          </Heading>
+                <Table sx={{ minWidth: 650 }} aria-label="simple table" size="small">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Skill</TableCell>
+                      <TableCell>&nbsp;</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {[
+                      'Collaboration',
+                      'Customer service',
+                      'Health and wellbeing',
+                      'Independence',
+                      'Job coaching',
+                      'Market research',
+                      'Risk management'
+                    ].map((skill) => (
+                      <TableRow key={skill}>
+                        <TableCell scope="row">{skill}</TableCell>
 
-          <Table
-            head={
-              <Table.Row>
-                <Table.CellHeader>Skill</Table.CellHeader>
-                <Table.CellHeader>Speaking</Table.CellHeader>
-                <Table.CellHeader>Writing</Table.CellHeader>
-                <Table.CellHeader>&nbsp;</Table.CellHeader>
-              </Table.Row>
-            }
-          >
-            <Table.Row>
-              <Cell>English</Cell>
-              <Cell>
-                <BlueButton>PROFICIENT</BlueButton>
-              </Cell>
-              <Cell>
-                <BlueButton>PROFICIENT</BlueButton>
-              </Cell>
-              <Cell>
-                <Link href="#">Change</Link>
-              </Cell>
-            </Table.Row>
-            <Table.Row>
-              <Cell>French</Cell>
-              <Cell>
-                <BlueButton>BASIC</BlueButton>
-              </Cell>
-              <Cell>
-                <BlueButton>INDEPENDENT</BlueButton>
-              </Cell>
-              <Cell>
-                <Link href="#">Change</Link>
-              </Cell>
-            </Table.Row>
-          </Table>
-        </Tabs.Panel>
+                        <TableCell scope="row" align="right">
+                          <Link href="#">Remove</Link>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TabPanel>
+              <TabPanel hidden={value !== 1}>
+                <Typography variant="h2" gutterBottom>
+                  {' '}
+                  <Skills /> Language skills
+                </Typography>
 
-        <Tabs.Panel id="2" selected={tabIndex === 2}>
-          <Heading size="LARGE">
-            <IconSkills src="/images/skills.svg" />
-            Skills you’d like to develop
-          </Heading>
+                <Table size="small">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Skill</TableCell>
+                      <TableCell>Speaking</TableCell>
+                      <TableCell>Writing</TableCell>
+                      <TableCell>&nbsp;</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell>English</TableCell>
+                      <TableCell>
+                        <Chip variant="outlined" label="PROFICIENT" />
+                      </TableCell>
+                      <TableCell>
+                        <Chip variant="outlined" label="PROFICIENT" />
+                      </TableCell>
+                      <TableCell>
+                        <Link href="#">Change</Link>
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>French</TableCell>
+                      <TableCell>
+                        <Chip variant="outlined" label="BASIC" />
+                      </TableCell>
+                      <TableCell>
+                        <Chip variant="outlined" label="INDEPENDENT" />
+                      </TableCell>
+                      <TableCell>
+                        <Link href="#">Change</Link>
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </TabPanel>
+              <TabPanel hidden={value !== 2}>
+                <Typography variant="h2" gutterBottom>
+                  <Skills /> Skills you'd like to develop
+                </Typography>
 
-          <label>
-            <LabelText>
-              Order by:
-              <Select label="">
-                <option value="0">Most recent</option>
-              </Select>
-            </LabelText>
-          </label>
-
-          <Table
-            head={
-              <Table.Row>
-                <Table.CellHeader>Skill</Table.CellHeader>
-                <Table.CellHeader>&nbsp;</Table.CellHeader>
-              </Table.Row>
-            }
-          >
-            <Table.Row>
-              <Cell>
-                <Link href="#">Collaboration</Link>
-              </Cell>
-              <Cell>
-                <Link href="#">Remove</Link>
-              </Cell>
-            </Table.Row>
-            <Table.Row>
-              <Cell>
-                <Link href="#">Customer service</Link>
-              </Cell>
-              <Cell>
-                <Link href="#">Remove</Link>
-              </Cell>
-            </Table.Row>
-            <Table.Row>
-              <Cell>
-                <Link href="#">Health and wellbeing</Link>
-              </Cell>
-              <Cell>
-                <Link href="#">Remove</Link>
-              </Cell>
-            </Table.Row>
-            <Table.Row>
-              <Cell>
-                <Link href="#">Independence</Link>
-              </Cell>
-              <Cell>
-                <Link href="#">Remove</Link>
-              </Cell>
-            </Table.Row>
-            <Table.Row>
-              <Cell>
-                <Link href="#">Job coaching</Link>
-              </Cell>
-              <Cell>
-                <Link href="#">Remove</Link>
-              </Cell>
-            </Table.Row>
-            <Table.Row>
-              <Cell>
-                <Link href="#">Market research</Link>
-              </Cell>
-              <Cell>
-                <Link href="#">Remove</Link>
-              </Cell>
-            </Table.Row>
-            <Table.Row>
-              <Cell>
-                <Link href="#">Risk management</Link>
-              </Cell>
-              <Cell>
-                <Link href="#">Remove</Link>
-              </Cell>
-            </Table.Row>
-          </Table>
-          <Link href="#">Add a skill</Link>
-        </Tabs.Panel>
-      </Tabs>
+                <Table sx={{ minWidth: 650 }} aria-label="simple table" size="small">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Skill</TableCell>
+                      <TableCell>&nbsp;</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {[
+                      'Collaboration',
+                      'Customer service',
+                      'Health and wellbeing',
+                      'Independence',
+                      'Job coaching',
+                      'Market research',
+                      'Risk management'
+                    ].map((skill) => (
+                      <TableRow key={skill}>
+                        <TableCell scope="row">{skill}</TableCell>
+                        <TableCell scope="row" align="right">
+                          <Link href="#">Remove</Link>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TabPanel>
+            </Box>
+          </Card>
+        </Grid>
+      </Grid>
     </>
   )
 }
 
-export default Page
-Page.getLayout = (page) => <AccountLayout activeMenu={1}>{page}</AccountLayout>
+export default SkillsPage
+SkillsPage.getLayout = (page) => (
+  <AccountMenuPage title="Skills" breadcrumbs={[{ title: 'Skills' }]}>
+    {page}
+  </AccountMenuPage>
+)

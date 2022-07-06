@@ -1,46 +1,29 @@
-import Layout from '@/components/Layout'
-import Link from '@/components/UI/Link'
-import { Text } from '@/components/UI/Shared/Shared'
-
-// const Text = () => <p>deded</p>
+import Template from '@/components/Layout/Template'
+import LinkButton from '@/components/LinkButton'
+import Card from '@/components/UI/Card'
+import { Divider, Grid, Typography } from '@mui/material'
 
 const IndexPage = () => (
-  <>
-    <Text variant="h1">
-      Hi <Link href="#">joe.bloggs@cabinetoffice.gov.uk</Link>
-    </Text>
-
-    <Text>
-      You are invited to register on Civil Service Skills &amp; Learning. Please select
-      the following one-time-only link to sign up:
-    </Text>
-
-    <Text>
-      <Link href="/register/page2">
-        http://skills.civilservice.gov.uk/signup/123AbcDefgh1238910ABCdefghk
-      </Link>
-    </Text>
-    <Text>
-      The above is a one-time-only link; you can only use this link once. If you use this
-      link more than once, your invitation expires and you will not be able to sign up to
-      Civil Service Skills.
-    </Text>
-    <Text>
-      Please contact{' '}
-      <Link href="mailto:mailto:support.learn@csskills.gov.uk">
-        support.learn@csskills.gov.uk
-      </Link>{' '}
-      if you need the sign-up link to be resent.
-    </Text>
-
-    <Text>
-      Regards
-      <br />
-      skills.civilservice Team
-    </Text>
-  </>
+  <Grid container gap={5}>
+    <Grid item xs>
+      <Card>
+        <Typography variant="h2" gutterBottom>
+          Register
+        </Typography>
+        <LinkButton href="/register">Register</LinkButton>
+      </Card>
+    </Grid>
+    <Divider orientation="vertical" flexItem></Divider>
+    <Grid item xs>
+      <Card>
+        <Typography variant="h2" gutterBottom>
+          Sign in
+        </Typography>
+        <LinkButton href="/signin">Sign in</LinkButton>
+      </Card>
+    </Grid>
+  </Grid>
 )
 
 export default IndexPage
-
-IndexPage.getLayout = (page) => <Layout>{page}</Layout>
+IndexPage.getLayout = (page) => <Template>{page}</Template>
