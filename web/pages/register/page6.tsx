@@ -10,17 +10,23 @@ import {
   Typography
 } from '@mui/material'
 import { useQuery } from 'react-query'
-import Error from 'next/error'
 import RadioSkeleton from '@/components/UI/Skeleton/RadioSkeleton'
 import { fetchGrades } from '@/service/api'
 import { GradeData } from '@/service/types'
+import { useUiContext } from '@/context/UiContext'
+import { useEffect } from 'react'
 
 const RegisterPage = () => {
-  const { isLoading, isError, data } = useQuery<GradeData[], Error>(
+  const { setLoading } = useUiContext()
+  const { isLoading, isError, data } = useQuery<GradeData[], { message?: string }>(
     'grades',
     fetchGrades,
     { staleTime: Infinity }
   )
+
+  useEffect(() => {
+    setLoading(isLoading)
+  }, [isLoading, setLoading])
 
   if (isError)
     return (

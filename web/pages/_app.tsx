@@ -8,6 +8,7 @@ import createEmotionCache from '@/style/createEmotionCache'
 import { ReactNode } from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
+import { UiProvider } from '@/context/UiContext'
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache()
@@ -32,9 +33,8 @@ export default function MyApp({
 
       <ThemeProvider theme={theme}>
         <CssBaseline />
-
         <QueryClientProvider client={queryClient}>
-          {getLayout(<Component {...pageProps} />)}
+          <UiProvider>{getLayout(<Component {...pageProps} />)}</UiProvider>
           <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </ThemeProvider>

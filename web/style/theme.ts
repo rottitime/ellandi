@@ -6,6 +6,7 @@ export type Colors = {
   blueDark: CSSProperties['color']
   greyDark: CSSProperties['color']
   greyLight: CSSProperties['color']
+  white: CSSProperties['color']
   //profiles
   profileBlue: CSSProperties['color']
   profilePink: CSSProperties['color']
@@ -13,19 +14,6 @@ export type Colors = {
   profileYellow: CSSProperties['color']
   //ui
   link: CSSProperties['color']
-}
-
-const colors = {
-  blueDark: '#091f3e',
-  greyDark: '#ccc',
-  greyLight: '#f2f2f2',
-  //profiles
-  profileBlue: '#144E81',
-  profilePink: '#80224D',
-  profileGreen: '#10403C',
-  profileYellow: '#594D00',
-  //ui
-  link: '#1976d2'
 }
 
 const breakpoints = {
@@ -69,6 +57,7 @@ declare module '@mui/material/styles' {
     blueDark: PaletteColorOptions
     greyDark: PaletteColorOptions
     greyLight: PaletteColorOptions
+    white: PaletteColorOptions
     //profiles
     profileBlue: PaletteColorOptions
     profilePink: PaletteColorOptions
@@ -90,7 +79,19 @@ const { augmentColor } = palette
 const createColor = (mainColor) => augmentColor({ color: { main: mainColor } })
 
 const theme = createTheme({
-  colors,
+  colors: {
+    blueDark: '#091f3e',
+    greyDark: '#ccc',
+    greyLight: '#f2f2f2',
+    white: '#fff',
+    //profiles
+    profileBlue: '#144E81',
+    profilePink: '#80224D',
+    profileGreen: '#10403C',
+    profileYellow: '#594D00',
+    //ui
+    link: '#1976d2'
+  },
   breakpoints: {
     values: breakpoints
   },
