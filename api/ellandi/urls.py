@@ -8,7 +8,11 @@ from drf_spectacular.views import (
 )
 
 from ellandi import auth, views
-from ellandi.registration.views import register_view, registration_router, SkillsListView
+from ellandi.registration.views import (
+    SkillsListView,
+    register_view,
+    registration_router,
+)
 
 api_urlpatterns = [
     path("", include(registration_router.urls)),
