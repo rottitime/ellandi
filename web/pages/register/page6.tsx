@@ -16,7 +16,7 @@ import { fetchGrades } from '@/service/api'
 import { GradeData } from '@/service/types'
 
 const RegisterPage = () => {
-  const { isLoading, isError, data, error } = useQuery<GradeData[], Error>(
+  const { isLoading, isError, data } = useQuery<GradeData[], Error>(
     'grades',
     fetchGrades,
     { staleTime: Infinity }
@@ -27,7 +27,6 @@ const RegisterPage = () => {
       <Alert severity="error">
         <AlertTitle>Service Unavailable</AlertTitle>
         Please try again later.
-        {error?.message}
       </Alert>
     )
 

@@ -5,7 +5,6 @@ import CssBaseline from '@mui/material/CssBaseline'
 import { CacheProvider } from '@emotion/react'
 import theme from '@/style/theme'
 import createEmotionCache from '@/style/createEmotionCache'
-import { SnackbarProvider } from 'notistack'
 import { ReactNode } from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
@@ -33,12 +32,11 @@ export default function MyApp({
 
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <SnackbarProvider maxSnack={10}>
-          <QueryClientProvider client={queryClient}>
-            {getLayout(<Component {...pageProps} />)}
-            <ReactQueryDevtools initialIsOpen={false} />
-          </QueryClientProvider>
-        </SnackbarProvider>
+
+        <QueryClientProvider client={queryClient}>
+          {getLayout(<Component {...pageProps} />)}
+          <ReactQueryDevtools initialIsOpen={false} />
+        </QueryClientProvider>
       </ThemeProvider>
     </CacheProvider>
   )
