@@ -86,3 +86,7 @@ validate-frontend: ## Check style and syntax with
 .PHONY: reset-db
 reset-db:
 	docker-compose down --volumes
+
+.PHONY: integration ## Run playwright tests
+integration:
+	docker-compose up --build --force-recreate --renew-anon-volumes integration
