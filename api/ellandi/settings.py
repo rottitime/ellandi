@@ -27,6 +27,17 @@ ALLOWED_HOSTS = [
     "testserver",
 ]
 
+CORS_ALLOWED_ORIGINS = [
+    "http://ellandi-api-demo.london.cloudapps.digital",
+    "http://ellandi-api-develop.london.cloudapps.digital",
+    "http://ellandi-api.london.cloudapps.digital",
+    "https://example.com",
+    "https://sub.example.com",
+    "http://localhost:3000",
+    "http://localhost:8000",
+    "http://127.0.0.1:3000",
+    "http://127.0.0.1:8000",
+]
 
 # Application definition
 
