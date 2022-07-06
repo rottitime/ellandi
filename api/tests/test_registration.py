@@ -245,5 +245,13 @@ def test_dropdown_list(client, user_id):
 
 @utils.with_logged_in_client
 def test_skills_list(client, user_id):
+    user_skill_data = {
+        "user": f"{TEST_SERVER_URL}users/{user_id}/",
+        "skill_name": "new user skill",
+        "level": "proficient",
+    }
+    response = client.post("/user-skills/", json=user_skill_data)
     response = client.get("/skills/")
     assert response.status_code == status.HTTP_200_OK
+    assert len(response.json()) > 0
+    assert "new user skill" in response.json()
