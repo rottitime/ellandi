@@ -158,13 +158,3 @@ class UserLanguage(TimeStampedModel):
 
     class Meta:
         unique_together = ["user", "language", "type"]
-
-
-class WebError(TimeStampedModel):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    message = models.CharField(max_length=1024, blank=False, null=True)
-    stack = models.CharField(max_length=16384, blank=False, null=True)
-    user_agent = models.CharField(max_length=1024, blank=False, null=True)
-    file_name = models.CharField(max_length=1024, blank=False, null=True)
-    line_number = models.IntegerField(blank=False, null=True)
-    column_number = models.IntegerField(blank=False, null=True)

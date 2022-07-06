@@ -11,7 +11,6 @@ from .models import (
     Profession,
     UserLanguage,
     UserSkill,
-    WebError,
 )
 
 
@@ -94,17 +93,3 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
             "skills",
             "languages",
         ]
-
-
-class WebErrorSerializer(serializers.ModelSerializer):
-    message = serializers.CharField(required=True)
-    stack = serializers.CharField(required=True)
-    userAgent = serializers.CharField(source="user_agent", required=True)  # noqa N815
-    fileName = serializers.CharField(source="file_name", required=True)  # noqa N815
-    lineNum = serializers.IntegerField(source="line_number", required=True)  # noqa N815
-    colNum = serializers.IntegerField(source="column_number", required=True)  # noqa N815
-    createdAt = serializers.DateTimeField(source="created_at")  # noqa N815
-
-    class Meta:
-        model = WebError
-        fields = ["id", "message", "stack", "userAgent", "fileName", "lineNum", "colNum", "createdAt"]
