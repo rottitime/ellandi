@@ -9,6 +9,7 @@ import { useUiContext } from '@/context/UiContext'
 
 type Props = {
   children: ReactNode
+  footer?: ReactNode
   title?: string | ReactNode
   progress?: number
 }
@@ -96,6 +97,7 @@ const GridContainer = styled(Grid)`
     justify-content: center;
     align-items: center;
     /* align-self: start; */
+    flex-direction: column;
     display: flex;
     ${({ theme }) => theme.breakpoints.up('md')} {
       /* margin-top: 100px; */
@@ -108,9 +110,10 @@ export const FormFooter = styled(Box)`
   justify-content: end;
   gap: 15px;
   padding-top: 20px;
+  align-items: center;
 `
 
-const GenericPage: FC<Props> = ({ children, title, progress }) => {
+const GenericPage: FC<Props> = ({ children, title, progress, footer }) => {
   const { loading } = useUiContext()
   return (
     <Template disableGutters={true}>
@@ -176,6 +179,7 @@ const GenericPage: FC<Props> = ({ children, title, progress }) => {
 
             {loading && <LinearProgress className="loading-bar" />}
           </Card>
+          {footer}
         </Grid>
       </GridContainer>
     </Template>

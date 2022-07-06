@@ -61,10 +61,6 @@ const RegisterPage = () => {
             ))}
       </RadioGroup>
 
-      <Typography gutterBottom>
-        <Link href="/register/page9">Skip this step</Link>
-      </Typography>
-
       <FormFooter>
         <LinkButton href="/register/page7" variant="outlined">
           Back
@@ -78,7 +74,15 @@ const RegisterPage = () => {
 
 export default RegisterPage
 RegisterPage.getLayout = (page) => (
-  <Page title="Create an account - Current contract type" progress={50}>
+  <Page
+    title="Create an account - Current contract type"
+    footer={
+      <Typography gutterBottom>
+        <Link href="/register/page9">Skip this step</Link>
+      </Typography>
+    }
+    progress={50}
+  >
     {page}
   </Page>
 )

@@ -103,10 +103,6 @@ const RegisterPage = () => {
         </TableContainer>
       )}
 
-      <Typography gutterBottom>
-        <Link href="/account">Skip this step</Link>
-      </Typography>
-
       <FormFooter>
         <LinkButton href="/register/page12" variant="outlined">
           Back
@@ -120,7 +116,15 @@ const RegisterPage = () => {
 
 export default RegisterPage
 RegisterPage.getLayout = (page) => (
-  <Page title="Create a profile - Your current skills" progress={90}>
+  <Page
+    title="Create a profile - Your current skills"
+    footer={
+      <Typography gutterBottom>
+        <Link href="/account">Skip this step</Link>
+      </Typography>
+    }
+    progress={90}
+  >
     {page}
   </Page>
 )

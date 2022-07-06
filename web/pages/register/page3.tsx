@@ -1,7 +1,6 @@
 import LinkButton from '@/components/LinkButton'
 import Page, { FormFooter } from '@/components/Layout/GenericPage'
 import { Button, Typography } from '@mui/material'
-import Divider from '@/components/UI/Divider2'
 import { object, SchemaOf, string, ref } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, SubmitHandler, FormProvider } from 'react-hook-form'
@@ -68,8 +67,6 @@ const RegisterPage = () => {
             label="Confirm your password"
             type="password"
           />
-
-          <Divider spacing={20} variant="middle" />
 
           <FormFooter>
             <LinkButton href="/register/page2" variant="outlined">

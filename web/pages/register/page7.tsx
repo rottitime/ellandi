@@ -60,10 +60,6 @@ const RegisterPage = () => {
           : data.map(({ name, slug }) => <ToggleChip key={slug} label={name} />)}
       </List>
 
-      <Typography gutterBottom>
-        <Link href="/register/page8">Skip this step</Link>
-      </Typography>
-
       <FormFooter>
         <LinkButton href="/register/page6" variant="outlined">
           Back
@@ -77,7 +73,15 @@ const RegisterPage = () => {
 
 export default RegisterPage
 RegisterPage.getLayout = (page) => (
-  <Page title="Create an account - Current profession" progress={40}>
+  <Page
+    title="Create an account - Current profession"
+    footer={
+      <Typography gutterBottom>
+        <Link href="/register/page8">Skip this step</Link>
+      </Typography>
+    }
+    progress={40}
+  >
     {page}
   </Page>
 )

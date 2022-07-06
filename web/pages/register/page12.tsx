@@ -156,9 +156,6 @@ const RegisterPage = () => {
       <Typography gutterBottom>
         <Link href="/register/page13">Add language</Link>
       </Typography>
-      <Typography gutterBottom>
-        <Link href="/register/page13">Skip this step</Link>
-      </Typography>
 
       <FormFooter>
         <LinkButton href="/register/page11" variant="outlined">
@@ -173,7 +170,15 @@ const RegisterPage = () => {
 
 export default RegisterPage
 RegisterPage.getLayout = (page) => (
-  <Page title="Create a profile - Language skills" progress={80}>
+  <Page
+    title="Create a profile - Language skills"
+    footer={
+      <Typography gutterBottom>
+        <Link href="/register/page13">Skip this step</Link>
+      </Typography>
+    }
+    progress={80}
+  >
     {page}
   </Page>
 )
