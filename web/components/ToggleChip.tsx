@@ -1,4 +1,4 @@
-import { FC, useState, ComponentProps } from 'react'
+import { FC, useState, ComponentProps, MouseEvent, useEffect } from 'react'
 import { Chip as MuiChip } from '@mui/material'
 import { styled } from '@mui/material/styles'
 // import { IcPlus, IcChipCross } from '../icons/generated'
@@ -6,6 +6,7 @@ import { styled } from '@mui/material/styles'
 type Props = {
   toggle?: boolean
   active?: boolean
+  onToggle?: (e: MouseEvent<HTMLDivElement>, active: boolean) => void
 } & ComponentProps<typeof MuiChip>
 
 const StyledChip = styled(MuiChip)<Props>`
@@ -32,15 +33,20 @@ const StyledChip = styled(MuiChip)<Props>`
   }
 `
 
-const ToggleChip: FC<Props> = ({ toggle = true, active = false, onClick, ...rest }) => {
+const ToggleChip: FC<Props> = ({ toggle = true, active = false, onToggle, ...rest }) => {
   const [chipActive, setChipActive] = useState(active)
+
+  useEffect(() => {
+    setChipActive(active)
+  }, [active])
 
   return (
     <StyledChip
       className={`${toggle ? 'can-toggle' : ''} ${chipActive ? 'active' : ''} `}
       onClick={(e) => {
-        setChipActive((p) => !p)
-        if (typeof onClick === 'function') onClick(e)
+        const active = !chipActive
+        setChipActive(active)
+        if (typeof onToggle === 'function') onToggle(e, active)
       }}
       {...rest}
     />

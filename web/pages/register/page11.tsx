@@ -1,6 +1,7 @@
 import Page, { FormFooter } from '@/components/Layout/GenericPage'
-import { Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import LinkButton from '@/components/LinkButton'
+import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 
 const RegisterPage = () => {
   return (
@@ -28,7 +29,15 @@ const RegisterPage = () => {
 
 export default RegisterPage
 RegisterPage.getLayout = (page) => (
-  <Page title="Thank you for completing your details" progress={70}>
+  <Page
+    title={
+      <>
+        <CheckCircleIcon sx={{ display: 'block', margin: '0 auto', fontSize: '60px' }} />
+        Thank you for completing your details
+      </>
+    }
+    progress={70}
+  >
     {page}
   </Page>
 )

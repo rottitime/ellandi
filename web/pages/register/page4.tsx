@@ -10,10 +10,7 @@ const RegisterPage = () => (
     </Typography>
 
     <FormGroup sx={{ mb: 5 }}>
-      <FormControlLabel
-        control={<Checkbox defaultChecked />}
-        label="I agree to the privacy policy"
-      />
+      <FormControlLabel control={<Checkbox />} label="I agree to the privacy policy" />
     </FormGroup>
 
     <FormFooter>

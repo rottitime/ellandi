@@ -12,13 +12,13 @@ import {
 import { useQuery } from 'react-query'
 import RadioSkeleton from '@/components/UI/Skeleton/RadioSkeleton'
 import { fetchGrades } from '@/service/api'
-import { GradeData } from '@/service/types'
+import { GenericDataList } from '@/service/types'
 import { useUiContext } from '@/context/UiContext'
 import { useEffect } from 'react'
 
 const RegisterPage = () => {
   const { setLoading } = useUiContext()
-  const { isLoading, isError, data } = useQuery<GradeData[], { message?: string }>(
+  const { isLoading, isError, data } = useQuery<GenericDataList[], { message?: string }>(
     'grades',
     fetchGrades,
     { staleTime: Infinity }
