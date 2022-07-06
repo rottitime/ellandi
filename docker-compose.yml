@@ -23,6 +23,9 @@ services:
     build:
       context: .
       dockerfile: ./docker/web/Dockerfile
+      args:
+        NODE_ENV: development
+        NEXT_PUBLIC_API_URL: http://localhost:8000
     image: ellandi_web
     env_file:
       - ./.envs/web
