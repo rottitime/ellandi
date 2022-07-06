@@ -92,6 +92,7 @@ def test_get_user_userskills(client, user_id):
         "skill_name": "typing",
         "level": "proficient",
     }
+
     response = client.post("/user-skills/", json=user_skill_data)
     assert response.status_code == status.HTTP_201_CREATED
     user_skill_id = response.json()["id"]
@@ -104,6 +105,30 @@ def test_get_user_userskills(client, user_id):
     assert response.json()[0]["level"] == "proficient"
 
     response = client.delete(f"/user-skills/{user_skill_id}/")
+    assert response.status_code == status.HTTP_204_NO_CONTENT
+
+
+@utils.with_logged_in_client
+def test_get_user_userlanguages(client, user_id):
+    user_languages_data = {
+        "user": f"{TEST_SERVER_URL}users/{user_id}/",
+        "language": "spanish",
+        "level": "proficient",
+        "type": "reading",
+    }
+
+    response = client.post("/user-languages/", json=user_languages_data)
+    assert response.status_code == status.HTTP_201_CREATED
+    user_language_id = response.json()["id"]
+    assert response.json()["language"] == "spanish"
+    assert response.json()["level"] == "proficient"
+
+    response = client.get(f"/users/{user_id}/languages/")
+    assert response.status_code == status.HTTP_200_OK
+    assert response.json()[0]["language"] == "spanish"
+    assert response.json()[0]["level"] == "proficient"
+
+    response = client.delete(f"/user-languages/{user_language_id}/")
     assert response.status_code == status.HTTP_204_NO_CONTENT
 
 

@@ -31,7 +31,7 @@ class UserViewSet(viewsets.ModelViewSet):
         serializer = serializers.UserSkillSerializer(skills_qs, many=True, context={"request": request})
         return Response(serializer.data)
 
-    @action(detail=True, methods=["get"])
+    @decorators.action(detail=True, methods=["get"])
     def languages(self, request, pk):
         languages_qs = models.UserLanguage.objects.filter(user__id=pk)
         serializer = serializers.UserLanguageSerializer(languages_qs, many=True, context={"request": request})
