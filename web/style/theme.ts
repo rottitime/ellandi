@@ -57,7 +57,6 @@ declare module '@mui/material/styles' {
     blueDark: PaletteColorOptions
     greyDark: PaletteColorOptions
     greyLight: PaletteColorOptions
-    white: PaletteColorOptions
     //profiles
     profileBlue: PaletteColorOptions
     profilePink: PaletteColorOptions
@@ -106,11 +105,6 @@ const theme = createTheme({
     profileYellow: createColor('#594D00'),
     //ui
     link: createColor('#1976d2'),
-
-    // anger: createColor('#cccccc'),
-    // apple: createColor('#5DBA40'),
-    // steelBlue: createColor('#5C76B7'),
-    // violet: createColor('#BC00A3'),
 
     background: {
       default: 'rgb(242, 242, 242)'

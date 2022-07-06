@@ -1,14 +1,5 @@
 import Template from '@/components/Layout/Template'
-import {
-  Grid,
-  Typography,
-  styled,
-  LinearProgress,
-  Hidden,
-  Box,
-  Alert,
-  AlertTitle
-} from '@mui/material'
+import { Grid, Typography, styled, LinearProgress, Hidden, Box } from '@mui/material'
 import Card from '@/components/UI/Card'
 import { FC, ReactNode } from 'react'
 import Crown from '@/components/Icons/CrownLogo'

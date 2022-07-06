@@ -47,8 +47,6 @@ const list = [
 const RegisterPage = () => {
   const [skills, setSkills] = useState<string[]>([])
 
-  console.log({ skills })
-
   return (
     <>
       <Typography variant="subtitle1" gutterBottom>

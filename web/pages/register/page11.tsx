@@ -1,5 +1,5 @@
 import Page, { FormFooter } from '@/components/Layout/GenericPage'
-import { Box, Typography } from '@mui/material'
+import { Typography } from '@mui/material'
 import LinkButton from '@/components/LinkButton'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 
