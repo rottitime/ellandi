@@ -48,8 +48,6 @@ services:
     image: ellandi_integration
     depends_on:
       - web
-    entrypoint: /entrypoint.sh
-    command: python3 /app/integration/signup.py
     profiles:
       - testing
 
