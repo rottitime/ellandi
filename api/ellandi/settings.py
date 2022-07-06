@@ -28,12 +28,12 @@ ALLOWED_HOSTS = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    "http://ellandi-api-demo.london.cloudapps.digital",
-    "http://ellandi-api-develop.london.cloudapps.digital",
-    "http://ellandi-api.london.cloudapps.digital",
-    "http://ellandi-web-demo.london.cloudapps.digital",
-    "http://ellandi-web-develop.london.cloudapps.digital",
-    "http://ellandi-web.london.cloudapps.digital",
+    "https://ellandi-api-demo.london.cloudapps.digital",
+    "https://ellandi-api-develop.london.cloudapps.digital",
+    "https://ellandi-api.london.cloudapps.digital",
+    "https://ellandi-web-demo.london.cloudapps.digital",
+    "https://ellandi-web-develop.london.cloudapps.digital",
+    "https://ellandi-web.london.cloudapps.digital",
     "https://example.com",
     "https://sub.example.com",
     "http://localhost:3000",
