@@ -27,6 +27,18 @@ ALLOWED_HOSTS = [
     "testserver",
 ]
 
+CORS_ALLOWED_ORIGINS = [
+    "https://ellandi-api-demo.london.cloudapps.digital",
+    "https://ellandi-api-develop.london.cloudapps.digital",
+    "https://ellandi-api.london.cloudapps.digital",
+    "https://ellandi-web-demo.london.cloudapps.digital",
+    "https://ellandi-web-develop.london.cloudapps.digital",
+    "https://ellandi-web.london.cloudapps.digital",
+    "http://localhost:3000",
+    "http://localhost:8000",
+    "http://127.0.0.1:3000",
+    "http://127.0.0.1:8000",
+]
 
 # Application definition
 
@@ -40,9 +52,11 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "drf_spectacular",
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
