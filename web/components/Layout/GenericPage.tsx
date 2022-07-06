@@ -4,14 +4,7 @@ import Card from '@/components/UI/Card'
 import { FC, ReactNode } from 'react'
 import Crown from '@/components/Icons/CrownLogo'
 import List from '@/components/List'
-import {
-  AccountBox,
-  Yard,
-  Work,
-  Search,
-  FormatListBulleted,
-  QuestionAnswer
-} from '@mui/icons-material'
+import { AccountBox, Yard, Search, QuestionAnswer } from '@mui/icons-material'
 import { useUiContext } from '@/context/UiContext'
 
 type Props = {

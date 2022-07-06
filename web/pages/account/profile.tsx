@@ -35,7 +35,7 @@ const Page = () => {
             {list.map((item) => (
               <TableRow key={item.name}>
                 <TableCell>{item.name}</TableCell>
-                <TableCell>{item.value || '&nbsp;'}</TableCell>
+                <TableCell>{item.value || ' '}</TableCell>
                 <TableCell className="cta">
                   <Link href="#">Change</Link>
                 </TableCell>

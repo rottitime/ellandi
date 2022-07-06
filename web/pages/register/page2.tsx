@@ -1,6 +1,6 @@
 import Page from '@/components/Layout/GenericPage'
 import Highlight from '@/components/Highlight'
-import { Box, Typography } from '@mui/material'
+import { Box } from '@mui/material'
 import LinkButton from '@/components/LinkButton'
 import { ChevronRight } from '@mui/icons-material'
 
