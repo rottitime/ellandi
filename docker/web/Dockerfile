@@ -1,5 +1,8 @@
 FROM node:16
 
+ARG NODE_ENV
+ARG NEXT_PUBLIC_API_URL
+
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 WORKDIR /app/web
