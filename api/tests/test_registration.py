@@ -1,9 +1,7 @@
 from rest_framework import status
-from rest_framework.test import APIClient, APITestCase
 from tests import utils
 
 from ellandi.registration.models import User
-
 
 TEST_SERVER_URL = "http://testserver:8000/"
 
