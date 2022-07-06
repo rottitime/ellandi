@@ -12,9 +12,12 @@ import {
 import { useQuery } from 'react-query'
 import Error from 'next/error'
 import RadioSkeleton from '@/components/UI/Skeleton/RadioSkeleton'
+import getConfig from 'next/config'
+
+const { publicRuntimeConfig } = getConfig()
 
 const fetchGrades = async () => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/grades/`)
+  const res = await fetch(`${publicRuntimeConfig.apiUrl}/grades/`)
   return res.json()
 }
 
