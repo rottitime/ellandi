@@ -106,7 +106,7 @@ const RegisterPage = () => {
       )}
 
       <Typography gutterBottom>
-        <Link href="/register/page14">Skip this step</Link>
+        <Link href="/account">Skip this step</Link>
       </Typography>
 
       <FormFooter>
@@ -114,7 +114,7 @@ const RegisterPage = () => {
           Back
         </LinkButton>
 
-        <LinkButton href="/register/page14">Continue</LinkButton>
+        <LinkButton href="/account">Continue</LinkButton>
       </FormFooter>
     </>
   )
