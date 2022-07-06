@@ -19,7 +19,6 @@
     "@mui/lab": "^5.0.0-alpha.88",
     "@mui/material": "^5.8.5",
     "next": "12.2.0",
-    "notistack": "^2.0.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.33.1",
