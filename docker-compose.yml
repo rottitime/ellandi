@@ -48,7 +48,6 @@ services:
     image: ellandi_integration
     depends_on:
       - web
-    entrypoint: /entrypoint.sh
     profiles:
       - testing
 

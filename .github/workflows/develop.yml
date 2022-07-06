@@ -10,15 +10,13 @@ on:
       - develop
 
 permissions:
-    packages: write
-    repository-projects: read
-    id-token: write
-    contents: read
+  packages: write
+  repository-projects: read
+  id-token: write
+  contents: read
 
 jobs:
-
   push_images:
-
     runs-on: ubuntu-latest
 
     env:
@@ -27,7 +25,7 @@ jobs:
 
     strategy:
       matrix:
-        app: [ ellandi-api, ellandi-web ]
+        app: [ellandi-api, ellandi-web]
         include:
           - app: ellandi-api
             dockerfile: docker/api/Dockerfile
@@ -65,7 +63,7 @@ jobs:
 
     strategy:
       matrix:
-        app: [ ellandi-api, ellandi-web ]
+        app: [ellandi-api, ellandi-web]
 
     steps:
       - name: Donwload CF CLI
