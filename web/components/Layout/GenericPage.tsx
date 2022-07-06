@@ -125,42 +125,31 @@ const GenericPage: FC<Props> = ({ children, title, progress }) => {
         <Grid item xs={12} md={4} className="promo-box">
           <Crown className="logo" />
           <Typography variant="h1" gutterBottom>
-            Civil Service Skills &amp; Learning
+            Civil Service Skills and Learning
           </Typography>
           <Hidden initialWidth="md" mdDown={true}>
-            <Typography>You can use this service to:</Typography>
+            <Typography variant="h3" component="p">
+              You can use this service to:
+            </Typography>
             <List
               className="list"
               list={[
                 {
                   icon: <AccountBox />,
-                  title: 'Your own skills profile',
-                  content: 'Upload and maintain your skills profile'
+                  title: 'Upload and maintain your skills and learning profile'
                 },
                 {
                   icon: <Yard />,
-                  title: 'Develop in the future',
-                  content: 'Specify any skills youd like to develop in the future'
-                },
-                {
-                  icon: <Work />,
-                  title: 'Job suggestions',
-                  content: 'View job suggestions based on your skills'
+                  title: "Specify any skills you'd like to develop in the future"
                 },
                 {
                   icon: <Search />,
-                  title: 'Find courses',
-                  content: 'Find courses based on your interests'
-                },
-                {
-                  icon: <FormatListBulleted />,
-                  title: 'Plan your career',
-                  content: 'Help you plan the next steps in your career'
+                  title: 'Find courses and development opportunities'
                 },
                 {
                   icon: <QuestionAnswer />,
-                  title: 'Discuss your skills',
-                  content: 'Facilitate discussions about skills with your line manager'
+                  title:
+                    'support discussions about skills and career development with your line manager'
                 }
               ]}
             />

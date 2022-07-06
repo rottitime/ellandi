@@ -1,8 +1,8 @@
 import Page from '@/components/Layout/GenericPage'
 import Highlight from '@/components/Highlight'
 import { Box, Typography } from '@mui/material'
-import SendIcon from '@mui/icons-material/Send'
 import LinkButton from '@/components/LinkButton'
+import { ChevronRight } from '@mui/icons-material'
 
 const RegisterPage = () => {
   return (
@@ -10,21 +10,14 @@ const RegisterPage = () => {
       <Box sx={{ textAlign: 'center' }}>
         <LinkButton
           href="/register/page3"
-          endIcon={<SendIcon />}
+          endIcon={<ChevronRight />}
           variant="contained"
-          fullWidth
-          sx={{ mb: 5, maxWidth: '200px' }}
+          // fullWidth
+          sx={{ mb: 5 }}
         >
           Start now
         </LinkButton>
       </Box>
-      <Typography variant="h3" gutterBottom>
-        Before you start
-      </Typography>
-      <Typography gutterBottom>
-        You'll be asked to upload your CV. If you don't have a CV available you can add
-        one later by going to your Profile.
-      </Typography>
     </>
   )
 }
@@ -34,7 +27,7 @@ RegisterPage.getLayout = (page) => (
   <Page
     title={
       <>
-        Register in just <Highlight>10 minutes</Highlight>
+        Registering takes around <Highlight newLine>5 -10 minutes</Highlight>
       </>
     }
   >
