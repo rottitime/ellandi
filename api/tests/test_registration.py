@@ -241,3 +241,9 @@ def test_dropdown_list(client, user_id):
         yield test_get, endpoint
         yield test_get_item, endpoint, slug
         yield test_post, endpoint
+
+
+@utils.with_logged_in_client
+def test_skills_list(client, user_id):
+    response = client.get("/skills/")
+    assert response.status_code == status.HTTP_200_OK
