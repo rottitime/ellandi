@@ -1,25 +1,58 @@
-// import { Button, Heading, HintText, LeadParagraph, Paragraph, Radio } from 'govuk-react'
 import Link from '@/components/UI/Link'
 import LinkButton from '@/components/LinkButton'
 import Page, { FormFooter } from '@/components/Layout/GenericPage'
-import { FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material'
+import {
+  Alert,
+  AlertTitle,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+  Typography
+} from '@mui/material'
+import { useQuery } from 'react-query'
+import Error from 'next/error'
+import RadioSkeleton from '@/components/UI/Skeleton/RadioSkeleton'
 
-const options = [
-  'Administrative Officer (AO) Equivalent',
-  'Administrative Assistant (AA) Equivalent',
-  'Executive Officer (EO) Equivalent',
-  'Higher Executive Officer (HEO) Equivalent',
-  'Senior Executive Officer (SEO) Equivalent',
-  'Grade 7 Equivalent',
-  'Grade 6 Equivalent',
-  'Senior Civil Servant - Deputy Director (PB1/1A',
-  'Senior Civil Servant - Director (PB2',
-  'Senior Civil Servant - Director General (PB3',
-  'Senior Civil Servant - Permanent Secretary',
-  'Other equivalent grade'
-]
+const fetchGrades = async () => {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/grades/`)
+  return res.json()
+}
+
+type GradeData = {
+  slug: string
+  name: string
+}
+
+// const grades = [
+//   'Administrative Officer (AO) Equivalent',
+//   'Administrative Assistant (AA) Equivalent',
+//   'Executive Officer (EO) Equivalent',
+//   'Higher Executive Officer (HEO) Equivalent',
+//   'Senior Executive Officer (SEO) Equivalent',
+//   'Grade 7 Equivalent',
+//   'Grade 6 Equivalent',
+//   'Senior Civil Servant - Deputy Director (PB1/1A',
+//   'Senior Civil Servant - Director (PB2',
+//   'Senior Civil Servant - Director General (PB3',
+//   'Senior Civil Servant - Permanent Secretary',
+//   'Other equivalent grade'
+// ]
 
 const RegisterPage = () => {
+  const { isLoading, isError, data } = useQuery<GradeData[], Error>(
+    'grades',
+    fetchGrades,
+    { staleTime: 10 * 1000 }
+  )
+
+  if (isError)
+    return (
+      <Alert severity="error">
+        <AlertTitle>Service Unavailable</AlertTitle>
+        Please try again later.
+      </Alert>
+    )
+
   return (
     <>
       <Typography variant="h1" gutterBottom></Typography>
@@ -35,16 +68,22 @@ const RegisterPage = () => {
 
       <RadioGroup
         aria-labelledby="demo-radio-buttons-group-label"
+        aria-live="polite"
+        aria-busy={isLoading}
         name="radio-buttons-group"
       >
-        {options.map((option) => (
-          <FormControlLabel
-            key={option}
-            control={<Radio />}
-            label={option}
-            value={option}
-          />
-        ))}
+        {isLoading
+          ? [...Array(5).keys()].map((i) => (
+              <RadioSkeleton key={i} width="80%" sx={{ mb: 1 }} />
+            ))
+          : data.map(({ name, slug }) => (
+              <FormControlLabel
+                key={slug}
+                control={<Radio />}
+                label={name}
+                value={slug}
+              />
+            ))}
       </RadioGroup>
 
       <Typography gutterBottom>

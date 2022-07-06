@@ -139,7 +139,13 @@ const GenericPage: FC<Props> = ({ children, title, progress }) => (
       <Grid item xs className="main-content">
         <Card
           elevation={0}
-          sx={{ maxWidth: '540px', padding: '24px', wordWrap: 'break-word', m: 2 }}
+          sx={{
+            maxWidth: '540px',
+            padding: '24px',
+            wordWrap: 'break-word',
+            m: 2,
+            width: '100%'
+          }}
         >
           <Typography variant="h1" sx={{ textAlign: 'center', mb: 3 }} component="h2">
             {title}
