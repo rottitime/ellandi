@@ -7,3 +7,4 @@ drf-spectacular
 jinja2
 govuk-frontend-jinja
 whitenoise
+django-cors-headers
