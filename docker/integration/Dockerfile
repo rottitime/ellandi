@@ -20,3 +20,7 @@ COPY ./integration /app/integration
 
 COPY ./docker/integration/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
+
+COPY ./docker/tests/start.sh /start.sh
+RUN chmod +x /start.sh
+
