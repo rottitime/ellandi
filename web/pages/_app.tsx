@@ -13,7 +13,9 @@ import { ReactQueryDevtools } from 'react-query/devtools'
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache()
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+  defaultOptions: { queries: { staleTime: 5 * 1000 } }
+})
 
 export default function MyApp({
   Component,

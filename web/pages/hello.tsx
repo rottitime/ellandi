@@ -3,8 +3,9 @@ import { Typography, Box } from '@mui/material'
 const HelloPage = () => (
   <>
     <Box sx={{ width: '100%', maxWidth: 500 }}>
-      <p>process.env.NEXT_PUBLIC_ANALYTICS_ID: {process.env.NEXT_PUBLIC_ANALYTICS_ID}</p>
+      <p>NEXT_PUBLIC_ANALYTICS_ID: {process.env.NEXT_PUBLIC_ANALYTICS_ID}</p>
       <p>NODE_ENV: {process.env.NODE_ENV}</p>
+      <p>NEXT_PUBLIC_API_URL: {process.env.NEXT_PUBLIC_API_URL}</p>
 
       <Typography variant="h1" gutterBottom>
         h1. Heading

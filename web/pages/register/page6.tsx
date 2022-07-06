@@ -12,40 +12,14 @@ import {
 import { useQuery } from 'react-query'
 import Error from 'next/error'
 import RadioSkeleton from '@/components/UI/Skeleton/RadioSkeleton'
-import getConfig from 'next/config'
-
-const { publicRuntimeConfig } = getConfig()
-
-const fetchGrades = async () => {
-  const res = await fetch(`${publicRuntimeConfig.apiUrl}/grades/`)
-  return res.json()
-}
-
-type GradeData = {
-  slug: string
-  name: string
-}
-
-// const grades = [
-//   'Administrative Officer (AO) Equivalent',
-//   'Administrative Assistant (AA) Equivalent',
-//   'Executive Officer (EO) Equivalent',
-//   'Higher Executive Officer (HEO) Equivalent',
-//   'Senior Executive Officer (SEO) Equivalent',
-//   'Grade 7 Equivalent',
-//   'Grade 6 Equivalent',
-//   'Senior Civil Servant - Deputy Director (PB1/1A',
-//   'Senior Civil Servant - Director (PB2',
-//   'Senior Civil Servant - Director General (PB3',
-//   'Senior Civil Servant - Permanent Secretary',
-//   'Other equivalent grade'
-// ]
+import { fetchGrades } from '@/service/api'
+import { GradeData } from '@/service/types'
 
 const RegisterPage = () => {
-  const { isLoading, isError, data } = useQuery<GradeData[], Error>(
+  const { isLoading, isError, data, error } = useQuery<GradeData[], Error>(
     'grades',
     fetchGrades,
-    { staleTime: 10 * 1000 }
+    { staleTime: Infinity }
   )
 
   if (isError)
@@ -53,6 +27,7 @@ const RegisterPage = () => {
       <Alert severity="error">
         <AlertTitle>Service Unavailable</AlertTitle>
         Please try again later.
+        {error?.message}
       </Alert>
     )
 
