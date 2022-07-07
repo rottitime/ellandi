@@ -2,19 +2,16 @@ import { FC } from 'react'
 import { Typography } from '@mui/material'
 import { object, SchemaOf, string, ref } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useForm, SubmitHandler, FormProvider } from 'react-hook-form'
+import { useForm, FormProvider } from 'react-hook-form'
 import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldControlled'
 import FormFooter from '../FormFooter'
+import { StandardRegisterProps } from './types'
 
 type CreateAccountType = {
   email: string
   emailConfirm: string
   password: string
   passwordConfirm: string
-}
-
-type Props = {
-  onFormSubmit: SubmitHandler<CreateAccountType>
 }
 
 const schema: SchemaOf<CreateAccountType> = object().shape({
@@ -29,7 +26,9 @@ const schema: SchemaOf<CreateAccountType> = object().shape({
     .required('this is a required field')
 })
 
-const CreateAccountForm: FC<Props> = ({ onFormSubmit }) => {
+const CreateAccountForm: FC<StandardRegisterProps<CreateAccountType>> = ({
+  onFormSubmit
+}) => {
   const methods = useForm<CreateAccountType>({
     defaultValues: { email: '', password: '' },
     resolver: yupResolver(schema)
