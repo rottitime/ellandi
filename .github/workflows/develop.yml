@@ -50,7 +50,7 @@ jobs:
           DOCKER_IMAGE: ${{ matrix.app }}
 
         run: |
-          docker build . --file $DOCKER_FILE --tag $DOCKER_REPOSITORY/${{ github.repository_owner }}/$DOCKER_IMAGE:$IMAGE_TAG --build-arg NODE_ENV=${{ NODE_ENV }} --build-arg NEXT_PUBLIC_API_URL=${{ NEXT_PUBLIC_API_URL }}
+          docker build . --file $DOCKER_FILE --tag $DOCKER_REPOSITORY/${{ github.repository_owner }}/$DOCKER_IMAGE:$IMAGE_TAG --build-arg NODE_ENV=$NODE_ENV --build-arg NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
           docker push -a $DOCKER_REPOSITORY/${{ github.repository_owner }}/$DOCKER_IMAGE
 
   deploy_develop:
