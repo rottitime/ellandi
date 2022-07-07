@@ -7,6 +7,11 @@ from rest_framework.decorators import action, api_view
 from rest_framework.response import Response
 from rest_framework import routers, status, viewsets
 from rest_framework.generics import CreateAPIView
+from rest_framework import routers, status, viewsets, decorators
+from rest_framework.decorators import action
+from rest_framework.generics import CreateAPIView
+from rest_framework.response import Response
+from drf_spectacular.utils import extend_schema
 
 
 from . import exceptions, initial_data, models, serializers
@@ -143,6 +148,19 @@ class OneTimeLoginView(CreateAPIView):
 #         return Response(data={"one_time_token": one_time_login_token}, status=status.HTTP_200_OK)
 
 
+@decorators.api_view(["POST"])
+@extend_schema(request=serializers.EmailSaltSerializer)
+def one_time_login_view(request):
+    email = request.data["email"]
+    if email:
+        email = email.lower()
+        try:
+            email_salt = models.EmailSalt.objects.get(email__iexact=email)
+        except models.EmailSalt.DoesNotExist:
+            email_salt = models.EmailSalt(email=email, salt=os.urandom(16))
+    email_salt.save()
+    one_time_login_token = email_salt.get_one_time_login()
+    return Response(data={"one_time_token": one_time_login_token}, status=status.HTTP_200_OK)
 
 
 class FirstLoginView(CreateAPIView):
