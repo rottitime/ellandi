@@ -1,9 +1,41 @@
 import Page, { FormFooter } from '@/components/Layout/GenericPage'
 import Link from '@/components/UI/Link'
-import { FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material'
+import {
+  Alert,
+  AlertTitle,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+  Typography
+} from '@mui/material'
 import LinkButton from '@/components/LinkButton'
+import { useUiContext } from '@/context/UiContext'
+import { GenericDataList } from '@/service/types'
+import { useQuery } from 'react-query'
+import { fetchContractTypes } from '@/service/api'
+import { useEffect } from 'react'
+import RadioSkeleton from '@/components/UI/Skeleton/RadioSkeleton'
 
 const RegisterPage = () => {
+  const { setLoading } = useUiContext()
+  const { isLoading, isError, data } = useQuery<GenericDataList[], { message?: string }>(
+    'contract-types',
+    fetchContractTypes,
+    { staleTime: Infinity }
+  )
+
+  useEffect(() => {
+    setLoading(isLoading)
+  }, [isLoading, setLoading])
+
+  if (isError)
+    return (
+      <Alert severity="error">
+        <AlertTitle>Service Unavailable</AlertTitle>
+        Please try again later.
+      </Alert>
+    )
+
   return (
     <>
       <Typography variant="subtitle1" gutterBottom>
@@ -15,15 +47,19 @@ const RegisterPage = () => {
       </Typography>
 
       <RadioGroup>
-        <FormControlLabel control={<Radio />} label="Permanent" value="Permanent" />
-        <FormControlLabel control={<Radio />} label="Fixed term" value="Fixed term" />
-        <FormControlLabel control={<Radio />} label="Agency" value="Agency" />
-        <FormControlLabel control={<Radio />} label="Other" value="Other" />
+        {isLoading
+          ? [...Array(4).keys()].map((i) => (
+              <RadioSkeleton key={i} width="80%" sx={{ mb: 1 }} />
+            ))
+          : data.map(({ name, slug }) => (
+              <FormControlLabel
+                key={slug}
+                control={<Radio />}
+                label={name}
+                value={slug}
+              />
+            ))}
       </RadioGroup>
-
-      <Typography gutterBottom>
-        <Link href="/register/page9">Skip this step</Link>
-      </Typography>
 
       <FormFooter>
         <LinkButton href="/register/page7" variant="outlined">
@@ -38,7 +74,15 @@ const RegisterPage = () => {
 
 export default RegisterPage
 RegisterPage.getLayout = (page) => (
-  <Page title="Create an account - Current contract type" progress={50}>
+  <Page
+    title="Create an account - Current contract type"
+    footer={
+      <Typography gutterBottom>
+        <Link href="/register/page9">Skip this step</Link>
+      </Typography>
+    }
+    progress={50}
+  >
     {page}
   </Page>
 )

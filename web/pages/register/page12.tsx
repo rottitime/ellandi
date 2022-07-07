@@ -1,7 +1,21 @@
 import Link from '@/components/UI/Link'
 import LinkButton from '@/components/LinkButton'
 import Page, { FormFooter } from '@/components/Layout/GenericPage'
-import { FormControlLabel, Radio, RadioGroup, TextField, Typography } from '@mui/material'
+import {
+  Alert,
+  AlertTitle,
+  Autocomplete,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+  TextField,
+  Typography
+} from '@mui/material'
+import { useUiContext } from '@/context/UiContext'
+import { GenericDataList } from '@/service/types'
+import { fetchLanguages } from '@/service/api'
+import { useEffect } from 'react'
+import { useQuery } from 'react-query'
 
 const optionsSpeaking = [
   {
@@ -40,6 +54,24 @@ const optionsWriting = [
 ]
 
 const RegisterPage = () => {
+  const { setLoading } = useUiContext()
+  const { isLoading, isError, data, isSuccess } = useQuery<
+    GenericDataList[],
+    { message?: string }
+  >('languages', fetchLanguages, { staleTime: Infinity })
+
+  useEffect(() => {
+    setLoading(isLoading)
+  }, [isLoading, setLoading])
+
+  if (isError)
+    return (
+      <Alert severity="error">
+        <AlertTitle>Service Unavailable</AlertTitle>
+        Please try again later.
+      </Alert>
+    )
+
   return (
     <>
       <Typography variant="subtitle1" gutterBottom>
@@ -53,12 +85,23 @@ const RegisterPage = () => {
         Language one
       </Typography>
 
-      <TextField
-        margin="normal"
-        label="Select a language:"
-        variant="filled"
-        size="small"
-        fullWidth
+      <Autocomplete
+        disablePortal
+        id="combo-box-demo"
+        options={
+          isSuccess ? data.map(({ name, slug }) => ({ label: name, id: slug })) : []
+        }
+        sx={{ width: 300 }}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label="language"
+            variant="filled"
+            size="small"
+            margin="normal"
+            fullWidth
+          />
+        )}
       />
 
       <Typography variant="h3" gutterBottom>
@@ -113,9 +156,6 @@ const RegisterPage = () => {
       <Typography gutterBottom>
         <Link href="/register/page13">Add language</Link>
       </Typography>
-      <Typography gutterBottom>
-        <Link href="/register/page13">Skip this step</Link>
-      </Typography>
 
       <FormFooter>
         <LinkButton href="/register/page11" variant="outlined">
@@ -130,7 +170,15 @@ const RegisterPage = () => {
 
 export default RegisterPage
 RegisterPage.getLayout = (page) => (
-  <Page title="Create a profile - Language skills" progress={80}>
+  <Page
+    title="Create a profile - Language skills"
+    footer={
+      <Typography gutterBottom>
+        <Link href="/register/page13">Skip this step</Link>
+      </Typography>
+    }
+    progress={80}
+  >
     {page}
   </Page>
 )

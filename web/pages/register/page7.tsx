@@ -1,8 +1,13 @@
 import Page, { FormFooter } from '@/components/Layout/GenericPage'
 import LinkButton from '@/components/LinkButton'
-import { Stack, styled, Typography } from '@mui/material'
+import { Alert, AlertTitle, Skeleton, Stack, styled, Typography } from '@mui/material'
 import Link from '@/components/UI/Link'
 import ToggleChip from '@/components/ToggleChip'
+import { fetchProfessions } from '@/service/api'
+import { GenericDataList } from '@/service/types'
+import { useUiContext } from '@/context/UiContext'
+import { useQuery } from 'react-query'
+import { useEffect } from 'react'
 
 const List = styled(Stack)`
   .MuiChip-root {
@@ -11,6 +16,24 @@ const List = styled(Stack)`
 `
 
 const RegisterPage = () => {
+  const { setLoading } = useUiContext()
+  const { isLoading, isError, data } = useQuery<GenericDataList[], { message?: string }>(
+    'professions',
+    fetchProfessions,
+    { staleTime: Infinity }
+  )
+  useEffect(() => {
+    setLoading(isLoading)
+  }, [isLoading, setLoading])
+
+  if (isError)
+    return (
+      <Alert severity="error">
+        <AlertTitle>Service Unavailable</AlertTitle>
+        Please try again later.
+      </Alert>
+    )
+
   return (
     <>
       <Typography variant="subtitle1" gutterBottom>
@@ -22,38 +45,20 @@ const RegisterPage = () => {
         relevant to you
       </Typography>
 
-      <List direction="row" flexWrap="wrap" spacing={0} justifyContent="center">
-        <ToggleChip label="Corporate Finance Profession" />
-        <ToggleChip label="Counter-fraud Standards and Profession" />
-        <ToggleChip label="Digital, Data and Technology Professions" />
-        <ToggleChip label="Government Communication Service" />
-        <ToggleChip label="Government Economic Service" />
-        <ToggleChip label="Government Finance Profession" />
-        <ToggleChip label="Government IT Profession" />
-        <ToggleChip label="Government Knowledge and Information Management Profession" />
-        <ToggleChip label="Government Legal Profession" />
-        <ToggleChip label="Government Occupational Psychology Profession" />
-        <ToggleChip label="Government Operational Research Service" />
-        <ToggleChip label="Government Planning Inspectors" />
-        <ToggleChip label="Government Planning Profession" />
-        <ToggleChip label="Government Property Profession" />
-        <ToggleChip label="Government Security Profession" />
-        <ToggleChip label="Government Science and Engineering Profession" />
-        <ToggleChip label="Government Social Research Profession" />
-        <ToggleChip label="Government Tax Profession" />
-        <ToggleChip label="Government Veterinary Profession" />
-        <ToggleChip label="Human Resources Profession" />
-        <ToggleChip label="Intelligence Analysis" />
-        <ToggleChip label="Internal Audit Profession" />
-        <ToggleChip label="Operational Delivery Profession" />
-        <ToggleChip label="Policy Profession" />
-        <ToggleChip label="Procurement Profession" />
-        <ToggleChip label="Project Delivery Profession" />
+      <List
+        direction="row"
+        flexWrap="wrap"
+        spacing={0}
+        justifyContent="center"
+        aria-live="polite"
+        aria-busy={isLoading}
+      >
+        {isLoading
+          ? [...Array(22).keys()].map((i) => (
+              <Skeleton key={i} width={100} sx={{ m: 1 }} />
+            ))
+          : data.map(({ name, slug }) => <ToggleChip key={slug} label={name} />)}
       </List>
-
-      <Typography gutterBottom>
-        <Link href="/register/page8">Skip this step</Link>
-      </Typography>
 
       <FormFooter>
         <LinkButton href="/register/page6" variant="outlined">
@@ -68,7 +73,15 @@ const RegisterPage = () => {
 
 export default RegisterPage
 RegisterPage.getLayout = (page) => (
-  <Page title="Create an account - Current profession" progress={40}>
+  <Page
+    title="Create an account - Current profession"
+    footer={
+      <Typography gutterBottom>
+        <Link href="/register/page8">Skip this step</Link>
+      </Typography>
+    }
+    progress={40}
+  >
     {page}
   </Page>
 )

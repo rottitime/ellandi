@@ -33,7 +33,7 @@ const SigninPage = () => {
       <form onSubmit={methods.handleSubmit(onFormSubmit)} noValidate>
         <Typography variant="subtitle1">
           If this is the first time you have used this website, you will need to{' '}
-          <Link href="/">create an account</Link>.
+          <Link href="/register">create an account</Link>.
         </Typography>
 
         <SignInForm />

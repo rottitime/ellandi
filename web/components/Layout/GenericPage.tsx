@@ -4,17 +4,12 @@ import Card from '@/components/UI/Card'
 import { FC, ReactNode } from 'react'
 import Crown from '@/components/Icons/CrownLogo'
 import List from '@/components/List'
-import {
-  AccountBox,
-  Yard,
-  Work,
-  Search,
-  FormatListBulleted,
-  QuestionAnswer
-} from '@mui/icons-material'
+import { AccountBox, Yard, Search, QuestionAnswer } from '@mui/icons-material'
+import { useUiContext } from '@/context/UiContext'
 
 type Props = {
   children: ReactNode
+  footer?: ReactNode
   title?: string | ReactNode
   progress?: number
 }
@@ -31,6 +26,33 @@ const GridContainer = styled(Grid)`
   > .MuiGrid-item {
     ${({ theme }) => theme.breakpoints.down('md')} {
       flex-basis: auto;
+    }
+  }
+
+  .card-content {
+    position: relative;
+    transition: opacity ease-in-out 0.3;
+    &.loading-active {
+      :after {
+        pointer-events: none;
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        opacity: 0.3;
+        background-color: ${(p) => p.theme.colors.white};
+        z-index: 1;
+      }
+    }
+
+    .loading-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 2;
     }
   }
 
@@ -75,6 +97,7 @@ const GridContainer = styled(Grid)`
     justify-content: center;
     align-items: center;
     /* align-self: start; */
+    flex-direction: column;
     display: flex;
     ${({ theme }) => theme.breakpoints.up('md')} {
       /* margin-top: 100px; */
@@ -87,83 +110,80 @@ export const FormFooter = styled(Box)`
   justify-content: end;
   gap: 15px;
   padding-top: 20px;
+  align-items: center;
 `
 
-const GenericPage: FC<Props> = ({ children, title, progress }) => (
-  <Template disableGutters={true}>
-    <GridContainer spacing={0} container>
-      <Grid item xs={12} md={4} className="promo-box">
-        <Crown className="logo" />
-        <Typography variant="h1" gutterBottom>
-          Civil Service Skills &amp; Learning
-        </Typography>
-        <Hidden initialWidth="md" mdDown={true}>
-          <Typography>You can use this service to:</Typography>
-          <List
-            className="list"
-            list={[
-              {
-                icon: <AccountBox />,
-                title: 'Your own skills profile',
-                content: 'Upload and maintain your skills profile'
-              },
-              {
-                icon: <Yard />,
-                title: 'Develop in the future',
-                content: 'Specify any skills youd like to develop in the future'
-              },
-              {
-                icon: <Work />,
-                title: 'Job suggestions',
-                content: 'View job suggestions based on your skills'
-              },
-              {
-                icon: <Search />,
-                title: 'Find courses',
-                content: 'Find courses based on your interests'
-              },
-              {
-                icon: <FormatListBulleted />,
-                title: 'Plan your career',
-                content: 'Help you plan the next steps in your career'
-              },
-              {
-                icon: <QuestionAnswer />,
-                title: 'Discuss your skills',
-                content: 'Facilitate discussions about skills with your line manager'
-              }
-            ]}
-          />
-        </Hidden>
-      </Grid>
-      <Grid item xs className="main-content">
-        <Card
-          elevation={0}
-          sx={{
-            maxWidth: '540px',
-            padding: '24px',
-            wordWrap: 'break-word',
-            m: 2,
-            width: '100%'
-          }}
-        >
-          <Typography variant="h1" sx={{ textAlign: 'center', mb: 3 }} component="h2">
-            {title}
+const GenericPage: FC<Props> = ({ children, title, progress, footer }) => {
+  const { loading } = useUiContext()
+  return (
+    <Template disableGutters={true}>
+      <GridContainer spacing={0} container>
+        <Grid item xs={12} md={4} className="promo-box">
+          <Crown className="logo" />
+          <Typography variant="h1" gutterBottom>
+            Civil Service Skills and Learning
           </Typography>
-
-          {progress && (
-            <LinearProgress
-              variant="determinate"
-              value={progress}
-              sx={{ mb: 6, height: '7px' }}
+          <Hidden initialWidth="md" mdDown={true}>
+            <Typography variant="h3" component="p">
+              You can use this service to:
+            </Typography>
+            <List
+              className="list"
+              list={[
+                {
+                  icon: <AccountBox />,
+                  title: 'Upload and maintain your skills and learning profile'
+                },
+                {
+                  icon: <Yard />,
+                  title: "Specify any skills you'd like to develop in the future"
+                },
+                {
+                  icon: <Search />,
+                  title: 'Find courses and development opportunities'
+                },
+                {
+                  icon: <QuestionAnswer />,
+                  title:
+                    'support discussions about skills and career development with your line manager'
+                }
+              ]}
             />
-          )}
+          </Hidden>
+        </Grid>
+        <Grid item xs className="main-content">
+          <Card
+            elevation={0}
+            className={`card-content ${loading ? 'loading-active' : ''}`}
+            sx={{
+              maxWidth: '540px',
+              padding: '24px',
+              wordWrap: 'break-word',
+              m: 2,
+              width: '100%'
+            }}
+          >
+            <Typography variant="h1" sx={{ textAlign: 'center', mb: 3 }} component="h2">
+              {title}
+            </Typography>
 
-          {children}
-        </Card>
-      </Grid>
-    </GridContainer>
-  </Template>
-)
+            {progress && (
+              <LinearProgress
+                variant="determinate"
+                value={progress}
+                sx={{ mb: 6, height: '7px' }}
+              />
+            )}
+
+            {children}
+
+            {loading && <LinearProgress className="loading-bar" />}
+          </Card>
+          {footer}
+        </Grid>
+      </GridContainer>
+    </Template>
+  )
+}
 
 export default GenericPage

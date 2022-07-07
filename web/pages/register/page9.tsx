@@ -25,14 +25,6 @@ const RegisterPage = () => {
 
       <DragBox>Drag your files here</DragBox>
 
-      {/* <Box sx={{ mb: 4 }}>
-        <input type="file" id="myFile" name="filename" />
-      </Box> */}
-
-      <Typography gutterBottom>
-        <Link href="/register/page10">Skip this step</Link>
-      </Typography>
-
       <FormFooter>
         <LinkButton href="/register/page8" variant="outlined">
           Back
@@ -46,7 +38,15 @@ const RegisterPage = () => {
 
 export default RegisterPage
 RegisterPage.getLayout = (page) => (
-  <Page title="Create an account - Upload your CV" progress={60}>
+  <Page
+    title="Create an account - Upload your CV"
+    footer={
+      <Typography gutterBottom>
+        <Link href="/register/page10">Skip this step</Link>
+      </Typography>
+    }
+    progress={60}
+  >
     {page}
   </Page>
 )

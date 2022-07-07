@@ -6,6 +6,7 @@ export type Colors = {
   blueDark: CSSProperties['color']
   greyDark: CSSProperties['color']
   greyLight: CSSProperties['color']
+  white: CSSProperties['color']
   //profiles
   profileBlue: CSSProperties['color']
   profilePink: CSSProperties['color']
@@ -13,19 +14,6 @@ export type Colors = {
   profileYellow: CSSProperties['color']
   //ui
   link: CSSProperties['color']
-}
-
-const colors = {
-  blueDark: '#091f3e',
-  greyDark: '#ccc',
-  greyLight: '#f2f2f2',
-  //profiles
-  profileBlue: '#144E81',
-  profilePink: '#80224D',
-  profileGreen: '#10403C',
-  profileYellow: '#594D00',
-  //ui
-  link: '#1976d2'
 }
 
 const breakpoints = {
@@ -90,7 +78,19 @@ const { augmentColor } = palette
 const createColor = (mainColor) => augmentColor({ color: { main: mainColor } })
 
 const theme = createTheme({
-  colors,
+  colors: {
+    blueDark: '#091f3e',
+    greyDark: '#ccc',
+    greyLight: '#f2f2f2',
+    white: '#fff',
+    //profiles
+    profileBlue: '#144E81',
+    profilePink: '#80224D',
+    profileGreen: '#10403C',
+    profileYellow: '#594D00',
+    //ui
+    link: '#1976d2'
+  },
   breakpoints: {
     values: breakpoints
   },
@@ -105,11 +105,6 @@ const theme = createTheme({
     profileYellow: createColor('#594D00'),
     //ui
     link: createColor('#1976d2'),
-
-    // anger: createColor('#cccccc'),
-    // apple: createColor('#5DBA40'),
-    // steelBlue: createColor('#5C76B7'),
-    // violet: createColor('#BC00A3'),
 
     background: {
       default: 'rgb(242, 242, 242)'

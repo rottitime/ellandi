@@ -10,17 +10,23 @@ import {
   Typography
 } from '@mui/material'
 import { useQuery } from 'react-query'
-import Error from 'next/error'
 import RadioSkeleton from '@/components/UI/Skeleton/RadioSkeleton'
 import { fetchGrades } from '@/service/api'
-import { GradeData } from '@/service/types'
+import { GenericDataList } from '@/service/types'
+import { useUiContext } from '@/context/UiContext'
+import { useEffect } from 'react'
 
 const RegisterPage = () => {
-  const { isLoading, isError, data } = useQuery<GradeData[], Error>(
+  const { setLoading } = useUiContext()
+  const { isLoading, isError, data } = useQuery<GenericDataList[], { message?: string }>(
     'grades',
     fetchGrades,
     { staleTime: Infinity }
   )
+
+  useEffect(() => {
+    setLoading(isLoading)
+  }, [isLoading, setLoading])
 
   if (isError)
     return (
@@ -63,15 +69,10 @@ const RegisterPage = () => {
             ))}
       </RadioGroup>
 
-      <Typography gutterBottom>
-        <Link href="/register/page7">Skip this step</Link>
-      </Typography>
-
       <FormFooter>
         <LinkButton href="/register/page5" variant="outlined">
           Back
         </LinkButton>
-
         <LinkButton href="/register/page7">Continue</LinkButton>
       </FormFooter>
     </>
@@ -80,7 +81,15 @@ const RegisterPage = () => {
 
 export default RegisterPage
 RegisterPage.getLayout = (page) => (
-  <Page title="Create a profile - Grade" progress={30}>
+  <Page
+    title="Create a profile - Grade"
+    footer={
+      <Typography>
+        <Link href="/register/page7">Skip this step</Link>
+      </Typography>
+    }
+    progress={30}
+  >
     {page}
   </Page>
 )

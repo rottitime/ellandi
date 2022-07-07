@@ -14,9 +14,9 @@ const list = [
   { name: 'Contact preference', value: 'Yes' },
   { name: 'Organisation', value: 'Cabinet Office' },
   { name: 'Job title', value: 'Service Designer' },
-  { name: 'Line manager email', value: 'alan@gov.uk' },
   { name: 'Country', value: 'United Kingdom' },
   { name: 'Work location', value: 'London' },
+  { name: 'Line manager email', value: 'alan@gov.uk' },
   { name: 'Grade', value: 'Senior Executive Officer (SEO)' },
   { name: 'Profession', value: 'Digital, Data and Technology' },
   { name: 'Contract type', value: 'Permanent' }
@@ -35,7 +35,7 @@ const Page = () => {
             {list.map((item) => (
               <TableRow key={item.name}>
                 <TableCell>{item.name}</TableCell>
-                <TableCell>{item.value || '&nbsp;'}</TableCell>
+                <TableCell>{item.value || ' '}</TableCell>
                 <TableCell className="cta">
                   <Link href="#">Change</Link>
                 </TableCell>

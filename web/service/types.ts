@@ -1,4 +1,4 @@
-export type GradeData = {
+export type GenericDataList = {
   slug: string
   name: string
 }
