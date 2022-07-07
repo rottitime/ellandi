@@ -11,8 +11,7 @@ import {
 } from '@mui/material'
 import { useQuery } from 'react-query'
 import RadioSkeleton from '@/components/UI/Skeleton/RadioSkeleton'
-import { fetchGrades } from '@/service/api'
-import { GenericDataList } from '@/service/types'
+import { fetchGrades, GenericDataList } from '@/service/api'
 import { useUiContext } from '@/context/UiContext'
 import { useEffect } from 'react'
 
