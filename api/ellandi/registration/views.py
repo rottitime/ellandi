@@ -2,7 +2,6 @@ from django.contrib.auth import get_user_model
 from drf_spectacular.utils import extend_schema
 from rest_framework import decorators, permissions, routers, viewsets
 from rest_framework.response import Response
-from rest_framework.views import APIView
 
 from . import exceptions, models, serializers
 
@@ -112,29 +111,29 @@ def register_view(request):
     return Response(user_data)
 
 
-class SkillsListView(APIView):
-    def get(self, request):
-        initial_skills = set(
-            [
-                "auditing",
-                "bookkeeping",
-                "communication",
-                "coding",
-                "creative thinking",
-                "customer service",
-                "data entry",
-                "diary management",
-                "flexibility",
-                "Microsoft Office",
-                "motivation",
-                "negotiation",
-                "planning",
-                "problem solving",
-                "project management",
-                "sales",
-                "social media",
-            ]
-        )
-        skills = set(models.UserSkill.objects.all().values_list("skill_name", flat=True))
-        skills = initial_skills.union(skills)
-        return Response(skills)
+@decorators.api_view(["GET"])
+def skills_list_view(request):
+    initial_skills = set(
+        [
+            "auditing",
+            "bookkeeping",
+            "communication",
+            "coding",
+            "creative thinking",
+            "customer service",
+            "data entry",
+            "diary management",
+            "flexibility",
+            "Microsoft Office",
+            "motivation",
+            "negotiation",
+            "planning",
+            "problem solving",
+            "project management",
+            "sales",
+            "social media",
+        ]
+    )  # Example placeholder skills - these will change
+    skills = set(models.UserSkill.objects.all().values_list("skill_name", flat=True))
+    skills = initial_skills.union(skills)
+    return Response(skills)
