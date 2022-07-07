@@ -116,3 +116,7 @@ class UserLoginSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["email", "one_time_token"]
+
+
+class OneTimeTokenSerializer(serializers.Serializer):
+    one_time_token = serializers.CharField(max_length=100) #TODO - check this
