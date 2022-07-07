@@ -1,10 +1,11 @@
 {
-  "plugins": ["@typescript-eslint"],
   "extends": [
     "next/core-web-vitals",
     "plugin:@typescript-eslint/recommended",
+    "plugin:jest-dom/recommended",
     "prettier"
   ],
+  "plugins": ["@typescript-eslint", "testing-library", "jest-dom"],
   "rules": {
     "prefer-const": 0,
     "react/jsx-uses-vars": 1,
@@ -24,5 +25,16 @@
       { "args": "all", "argsIgnorePattern": "^_" }
     ]
   },
-  "ignorePatterns": ["node_modules", "build", "public"]
+  "ignorePatterns": ["node_modules", "build", "public"],
+  "overrides": [
+    {
+      // only run testling library linting on test files not entire codebase
+      "files": ["**/__tests__/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[jt]s?(x)"],
+      "extends": ["plugin:testing-library/react"],
+      "rules": {
+        "testing-library/no-container": "warn",
+        "testing-library/no-node-access": "warn"
+      }
+    }
+  ]
 }

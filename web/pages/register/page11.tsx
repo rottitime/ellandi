@@ -1,45 +1,43 @@
-import { Button, ListItem, UnorderedList } from 'govuk-react'
-import { Text } from '@/components/UI/Shared/Shared'
-import Layout from '@/components/Layout'
-import NextLink from 'next/link'
-import styled from 'styled-components'
+import Page, { FormFooter } from '@/components/Layout/GenericPage'
+import { Typography } from '@mui/material'
+import LinkButton from '@/components/LinkButton'
+import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 
-const BlueBox = styled('div')`
-  background-color: ${(p) => p.theme.colors.blue};
-  padding: 30px;
-  color: ${(p) => p.theme.colors.white};
+const RegisterPage = () => {
+  return (
+    <>
+      <Typography variant="subtitle1" gutterBottom>
+        We're now going to ask you about your skills, including:
+      </Typography>
 
-  ul {
-    color: inherit;
-  }
-`
+      <ul>
+        <li>Your language skills</li>
+        <li>Other skills that you already have</li>
+        <li>Skills that you'd like to develop</li>
+      </ul>
 
-const Page = () => (
-  <BlueBox>
-    <Text variant="h1">
-      Thank you for completing your details. We're now going to ask you about your skills,
-      including:
-    </Text>
+      <FormFooter>
+        <LinkButton href="/register/page10" variant="outlined">
+          Back
+        </LinkButton>
 
-    <UnorderedList>
-      <ListItem>Your language skills</ListItem>
-      <ListItem>Other skills that you already have</ListItem>
-      <ListItem>Skills that you'd like to develop</ListItem>
-    </UnorderedList>
+        <LinkButton href="/register/page12">Continue</LinkButton>
+      </FormFooter>
+    </>
+  )
+}
 
-    <NextLink href="/register/page12" passHref>
-      <Button
-        buttonColour="#f3f2f1"
-        buttonTextColour="#0B0C0C"
-        style={{ display: 'block' }}
-      >
-        {' '}
-        Continue
-      </Button>
-    </NextLink>
-  </BlueBox>
+export default RegisterPage
+RegisterPage.getLayout = (page) => (
+  <Page
+    title={
+      <>
+        <CheckCircleIcon sx={{ display: 'block', margin: '0 auto', fontSize: '60px' }} />
+        Thank you for completing your details
+      </>
+    }
+    progress={70}
+  >
+    {page}
+  </Page>
 )
-
-export default Page
-
-Page.getLayout = (page) => <Layout>{page}</Layout>

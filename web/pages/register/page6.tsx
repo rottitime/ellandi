@@ -1,42 +1,95 @@
-import { Button, Heading, HintText, LeadParagraph, Radio } from 'govuk-react'
-import Layout from '@/components/Layout'
-import { Text } from '@/components/UI/Shared/Shared'
 import Link from '@/components/UI/Link'
+import LinkButton from '@/components/LinkButton'
+import Page, { FormFooter } from '@/components/Layout/GenericPage'
+import {
+  Alert,
+  AlertTitle,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+  Typography
+} from '@mui/material'
+import { useQuery } from 'react-query'
+import RadioSkeleton from '@/components/UI/Skeleton/RadioSkeleton'
+import { fetchGrades } from '@/service/api'
+import { GenericDataList } from '@/service/types'
+import { useUiContext } from '@/context/UiContext'
+import { useEffect } from 'react'
 
-const Page = () => {
+const RegisterPage = () => {
+  const { setLoading } = useUiContext()
+  const { isLoading, isError, data } = useQuery<GenericDataList[], { message?: string }>(
+    'grades',
+    fetchGrades,
+    { staleTime: Infinity }
+  )
+
+  useEffect(() => {
+    setLoading(isLoading)
+  }, [isLoading, setLoading])
+
+  if (isError)
+    return (
+      <Alert severity="error">
+        <AlertTitle>Service Unavailable</AlertTitle>
+        Please try again later.
+      </Alert>
+    )
+
   return (
-    <Layout backLink={true}>
-      <Heading size="LARGE">Create a profile - Grade</Heading>
+    <>
+      <Typography variant="h1" gutterBottom></Typography>
 
-      <LeadParagraph>Select your grade. You may only choose one</LeadParagraph>
+      <Typography variant="subtitle1" gutterBottom>
+        Select your grade. You may only choose one
+      </Typography>
 
-      <HintText>
+      <Typography gutterBottom>
         We'll use this to suggest learning and career development opportunities that are
         relevant to you
-      </HintText>
+      </Typography>
 
-      <Radio name="group1">Administrative Officer (AO) Equivalent</Radio>
-      <Radio name="group1">Administrative Assistant (AA) Equivalent</Radio>
-      <Radio name="group1">Executive Officer (EO) Equivalent</Radio>
-      <Radio name="group1">Higher Executive Officer (HEO) Equivalent</Radio>
-      <Radio name="group1">Senior Executive Officer (SEO) Equivalent</Radio>
-      <Radio name="group1">Grade 7 Equivalent</Radio>
-      <Radio name="group1">Grade 6 Equivalent</Radio>
-      <Radio name="group1">Senior Civil Servant - Deputy Director (PB1/1A)</Radio>
-      <Radio name="group1">Senior Civil Servant - Director (PB2)</Radio>
-      <Radio name="group1">Senior Civil Servant - Director General (PB3)</Radio>
-      <Radio name="group1">Senior Civil Servant - Permanent Secretary</Radio>
-      <Radio name="group1">Other equivalent grade</Radio>
+      <RadioGroup
+        aria-labelledby="demo-radio-buttons-group-label"
+        aria-live="polite"
+        aria-busy={isLoading}
+        name="radio-buttons-group"
+      >
+        {isLoading
+          ? [...Array(5).keys()].map((i) => (
+              <RadioSkeleton key={i} width="80%" sx={{ mb: 1 }} />
+            ))
+          : data.map(({ name, slug }) => (
+              <FormControlLabel
+                key={slug}
+                control={<Radio />}
+                label={name}
+                value={slug}
+              />
+            ))}
+      </RadioGroup>
 
-      <Text>
-        <Link href="/register/page7">Skip this step</Link>
-      </Text>
-
-      <Link href="/register/page7">
-        <Button>Continue</Button>
-      </Link>
-    </Layout>
+      <FormFooter>
+        <LinkButton href="/register/page5" variant="outlined">
+          Back
+        </LinkButton>
+        <LinkButton href="/register/page7">Continue</LinkButton>
+      </FormFooter>
+    </>
   )
 }
 
-export default Page
+export default RegisterPage
+RegisterPage.getLayout = (page) => (
+  <Page
+    title="Create a profile - Grade"
+    footer={
+      <Typography>
+        <Link href="/register/page7">Skip this step</Link>
+      </Typography>
+    }
+    progress={30}
+  >
+    {page}
+  </Page>
+)

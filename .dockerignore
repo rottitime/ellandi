@@ -1,4 +1,6 @@
 web/node_modules
+web/__tests__
+web/.env.local
 
 *.pyc
 .env

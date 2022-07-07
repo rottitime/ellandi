@@ -1,32 +1,52 @@
-import { Button, FileUpload, Heading, HintText, LeadParagraph } from 'govuk-react'
-import { Text } from '@/components/UI/Shared/Shared'
-import Layout from '@/components/Layout'
+import Page, { FormFooter } from '@/components/Layout/GenericPage'
+import { Box, Typography, styled } from '@mui/material'
+import LinkButton from '@/components/LinkButton'
 import Link from '@/components/UI/Link'
 
-const Page = () => {
+const DragBox = styled(Box)`
+  border: 4px dashed #1976d2;
+  background-color: #efefef;
+  border-radius: 5px;
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 30px;
+`
+
+const RegisterPage = () => {
   return (
     <>
-      <Heading size="LARGE">Create an account - Upload your CV</Heading>
-
-      <LeadParagraph>
+      <Typography variant="subtitle1" gutterBottom>
         If you don't have a CV available you can add one later by going to your Profile
-      </LeadParagraph>
-      <HintText>
+      </Typography>
+      <Typography gutterBottom>
         We'll use the information in your CV to suggest skills and opportunities that are
         more relevant to you
-      </HintText>
-      <FileUpload name="group0">Upload a document</FileUpload>
+      </Typography>
 
-      <Text>
-        <Link href="/register/page10">Skip this step</Link>
-      </Text>
+      <DragBox>Drag your files here</DragBox>
 
-      <Link href="/register/page10">
-        <Button>Continue</Button>
-      </Link>
+      <FormFooter>
+        <LinkButton href="/register/page8" variant="outlined">
+          Back
+        </LinkButton>
+
+        <LinkButton href="/register/page10">Continue</LinkButton>
+      </FormFooter>
     </>
   )
 }
 
-export default Page
-Page.getLayout = (page) => <Layout>{page}</Layout>
+export default RegisterPage
+RegisterPage.getLayout = (page) => (
+  <Page
+    title="Create an account - Upload your CV"
+    footer={
+      <Typography gutterBottom>
+        <Link href="/register/page10">Skip this step</Link>
+      </Typography>
+    }
+    progress={60}
+  >
+    {page}
+  </Page>
+)

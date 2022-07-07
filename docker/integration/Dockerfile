@@ -14,7 +14,15 @@ WORKDIR /app
 COPY ./integration/requirements.txt /app/integration/requirements.txt
 RUN python3 -m pip install -r /app/integration/requirements.txt --no-cache-dir
 
+RUN playwright install
+
 COPY ./integration /app/integration
 
 COPY ./docker/integration/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
+
+COPY ./docker/integration/start.sh /start.sh
+RUN chmod +x /start.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["sh","/start.sh"]

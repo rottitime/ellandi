@@ -1,30 +1,37 @@
-import { Button, Heading, HintText, LeadParagraph, Radio } from 'govuk-react'
-import Layout from '@/components/Layout'
-import Link from '@/components/UI/Link'
+import Page, { FormFooter } from '@/components/Layout/GenericPage'
+import { FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material'
+import LinkButton from '@/components/LinkButton'
 
-const Page = () => {
+const RegisterPage = () => {
   return (
     <>
-      <Heading size="LARGE">Contact preference</Heading>
+      <Typography variant="subtitle1" gutterBottom>
+        Select your contract type. You can only choose one
+      </Typography>
+      <Typography gutterBottom>
+        We'll use this to suggest learning and career development opportunities that are
+        relevant to you
+      </Typography>
 
-      <LeadParagraph>
-        Are you happy for recruitment and HR to contact you with opportunities from time
-        to time based on your skills? You can change this later
-      </LeadParagraph>
-      <HintText>
-        This will only be in cases of emergency or an identified skills shortage in a
-        particular area
-      </HintText>
+      <RadioGroup sx={{ mb: 3 }}>
+        <FormControlLabel control={<Radio />} label="Yes" value="Yes" />
+        <FormControlLabel control={<Radio />} label="No" value="No" />
+      </RadioGroup>
 
-      <Radio name="group1">Yes</Radio>
-      <Radio name="group1">No</Radio>
+      <FormFooter>
+        <LinkButton href="/register/page9" variant="outlined">
+          Back
+        </LinkButton>
 
-      <Link href="/register/page11">
-        <Button>Continue</Button>
-      </Link>
+        <LinkButton href="/register/page11">Continue</LinkButton>
+      </FormFooter>
     </>
   )
 }
 
-export default Page
-Page.getLayout = (page) => <Layout>{page}</Layout>
+export default RegisterPage
+RegisterPage.getLayout = (page) => (
+  <Page title="Create an account - Current contract type" progress={70}>
+    {page}
+  </Page>
+)

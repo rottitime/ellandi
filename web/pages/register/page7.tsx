@@ -1,56 +1,87 @@
-import { Button, Checkbox, Heading, HintText, LeadParagraph } from 'govuk-react'
-import { Text } from '@/components/UI/Shared/Shared'
-import Layout from '@/components/Layout'
+import Page, { FormFooter } from '@/components/Layout/GenericPage'
+import LinkButton from '@/components/LinkButton'
+import { Alert, AlertTitle, Skeleton, Stack, styled, Typography } from '@mui/material'
 import Link from '@/components/UI/Link'
+import ToggleChip from '@/components/ToggleChip'
+import { fetchProfessions } from '@/service/api'
+import { GenericDataList } from '@/service/types'
+import { useUiContext } from '@/context/UiContext'
+import { useQuery } from 'react-query'
+import { useEffect } from 'react'
 
-const Page = () => {
+const List = styled(Stack)`
+  .MuiChip-root {
+    margin: 3px;
+  }
+`
+
+const RegisterPage = () => {
+  const { setLoading } = useUiContext()
+  const { isLoading, isError, data } = useQuery<GenericDataList[], { message?: string }>(
+    'professions',
+    fetchProfessions,
+    { staleTime: Infinity }
+  )
+  useEffect(() => {
+    setLoading(isLoading)
+  }, [isLoading, setLoading])
+
+  if (isError)
+    return (
+      <Alert severity="error">
+        <AlertTitle>Service Unavailable</AlertTitle>
+        Please try again later.
+      </Alert>
+    )
+
   return (
-    <Layout backLink={true}>
-      <Heading size="LARGE">Create an account - Current profession</Heading>
-      <LeadParagraph>
+    <>
+      <Typography variant="subtitle1" gutterBottom>
         Select the Profession(s) that you belong to. You may choose more than one
-      </LeadParagraph>
+      </Typography>
 
-      <HintText>
+      <Typography gutterBottom>
         We'll use this to suggest learning and career development opportunities that are
         relevant to you
-      </HintText>
-      <Checkbox>Corporate Finance Profession</Checkbox>
-      <Checkbox>Counter-fraud Standards and Profession</Checkbox>
-      <Checkbox>Digital, Data and Technology Professions</Checkbox>
-      <Checkbox>Government Communication Service</Checkbox>
-      <Checkbox>Government Economic Service</Checkbox>
-      <Checkbox>Government Finance Profession</Checkbox>
-      <Checkbox>Government IT Profession</Checkbox>
-      <Checkbox>Government Knowledge and Information Management Profession</Checkbox>
-      <Checkbox>Government Legal Profession</Checkbox>
-      <Checkbox>Government Occupational Psychology Profession</Checkbox>
-      <Checkbox>Government Operational Research Service</Checkbox>
-      <Checkbox>Government Planning Inspectors</Checkbox>
-      <Checkbox>Government Planning Profession</Checkbox>
-      <Checkbox>Government Property Profession</Checkbox>
-      <Checkbox>Government Security Profession</Checkbox>
-      <Checkbox>Government Science and Engineering Profession</Checkbox>
-      <Checkbox>Government Social Research Profession</Checkbox>
-      <Checkbox>Government Tax Profession</Checkbox>
-      <Checkbox>Government Veterinary Profession</Checkbox>
-      <Checkbox>Human Resources Profession</Checkbox>
-      <Checkbox>Intelligence Analysis</Checkbox>
-      <Checkbox>Internal Audit Profession</Checkbox>
-      <Checkbox>Operational Delivery Profession</Checkbox>
-      <Checkbox>Policy Profession</Checkbox>
-      <Checkbox>Procurement Profession</Checkbox>
-      <Checkbox>Project Delivery Profession</Checkbox>
+      </Typography>
 
-      <Text>
-        <Link href="/register/page8">Skip this step</Link>
-      </Text>
+      <List
+        direction="row"
+        flexWrap="wrap"
+        spacing={0}
+        justifyContent="center"
+        aria-live="polite"
+        aria-busy={isLoading}
+      >
+        {isLoading
+          ? [...Array(22).keys()].map((i) => (
+              <Skeleton key={i} width={100} sx={{ m: 1 }} />
+            ))
+          : data.map(({ name, slug }) => <ToggleChip key={slug} label={name} />)}
+      </List>
 
-      <Link href="/register/page8">
-        <Button>Continue</Button>
-      </Link>
-    </Layout>
+      <FormFooter>
+        <LinkButton href="/register/page6" variant="outlined">
+          Back
+        </LinkButton>
+
+        <LinkButton href="/register/page8">Continue</LinkButton>
+      </FormFooter>
+    </>
   )
 }
 
-export default Page
+export default RegisterPage
+RegisterPage.getLayout = (page) => (
+  <Page
+    title="Create an account - Current profession"
+    footer={
+      <Typography gutterBottom>
+        <Link href="/register/page8">Skip this step</Link>
+      </Typography>
+    }
+    progress={40}
+  >
+    {page}
+  </Page>
+)

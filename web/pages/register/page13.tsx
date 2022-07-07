@@ -1,93 +1,130 @@
-import { Button, Heading, HintText, LeadParagraph, Table as GovTable } from 'govuk-react'
-import { Text } from '@/components/UI/Shared/Shared'
-import Layout from '@/components/Layout'
+import Page, { FormFooter } from '@/components/Layout/GenericPage'
+import { styled } from '@mui/material/styles'
+import {
+  Box,
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography
+} from '@mui/material'
+import LinkButton from '@/components/LinkButton'
 import Link from '@/components/UI/Link'
-import styled from 'styled-components'
+import ToggleChip from '@/components/ToggleChip'
+import { Delete } from '@mui/icons-material'
+import { useState } from 'react'
 
-const Table = styled(GovTable)`
-  .cta {
-    text-align: right;
+const Stack = styled(Box)`
+  .MuiChip-root {
+    margin: 5px;
   }
 `
 
-const ToggleButton = styled(Button)`
-  margin-right: 10px;
-`
+const list = [
+  'Auditing',
+  'Bookkeeping',
+  'Communication',
+  'Coding',
+  'Creative thinking',
+  'Customer service',
+  'Data entry',
+  'Diary management',
+  'Flexibility',
+  'Microsoft Office',
+  'Motivation',
+  'Negotiation',
+  'Planning',
+  'Problem solving',
+  'Project management',
+  'Sales',
+  'Social media',
+  'Teamwork'
+]
 
-const Page = () => (
-  <>
-    <Heading size="LARGE">Create a profile - Your current skills</Heading>
+const RegisterPage = () => {
+  const [skills, setSkills] = useState<string[]>([])
 
-    <LeadParagraph>
-      Select any skills that you already have. You can change or add to these later
-    </LeadParagraph>
-    <HintText>
-      We’ll use this to suggest learning and career development opportunities that are
-      relevant to you
-    </HintText>
+  return (
+    <>
+      <Typography variant="subtitle1" gutterBottom>
+        Select any skills that you already have. You can change or add to these later
+      </Typography>
+      <Typography gutterBottom>
+        We'll use this to suggest learning and career development opportunities that are
+        relevant to you
+      </Typography>
+      <Stack sx={{ mb: 3 }}>
+        {list.map((skill) => (
+          <ToggleChip
+            key={skill}
+            label={skill}
+            active={!!skills.includes(skill)}
+            variant="outlined"
+            onToggle={(_e, active) => {
+              setSkills((p) =>
+                active ? [...p, skill] : p.filter((item) => item !== skill)
+              )
+            }}
+          />
+        ))}
+      </Stack>
 
-    <ToggleButton buttonColour="#1d70b8">Auditing</ToggleButton>
-    <ToggleButton buttonColour="#1d70b8">Bookkeeping</ToggleButton>
-    <ToggleButton buttonColour="#1d70b8">Communication</ToggleButton>
-    <ToggleButton buttonColour="#1d70b8">Coding</ToggleButton>
-    <ToggleButton buttonColour="#1d70b8">Creative thinking</ToggleButton>
-    <ToggleButton buttonColour="#1d70b8">Customer service</ToggleButton>
-    <ToggleButton buttonColour="#1d70b8">Data entry</ToggleButton>
-    <ToggleButton buttonColour="#1d70b8">Diary management</ToggleButton>
-    <ToggleButton buttonColour="#1d70b8">Flexibility</ToggleButton>
-    <ToggleButton buttonColour="#1d70b8">Microsoft Office</ToggleButton>
-    <ToggleButton buttonColour="#1d70b8">Motivation</ToggleButton>
-    <ToggleButton buttonColour="#1d70b8">Negotiation</ToggleButton>
-    <ToggleButton buttonColour="#1d70b8">Planning</ToggleButton>
-    <ToggleButton buttonColour="#1d70b8">Problem solving</ToggleButton>
-    <ToggleButton buttonColour="#1d70b8">Project management</ToggleButton>
-    <ToggleButton buttonColour="#1d70b8">Sales</ToggleButton>
-    <ToggleButton buttonColour="#1d70b8">Social media</ToggleButton>
-    <ToggleButton buttonColour="#1d70b8">Teamwork</ToggleButton>
+      <Button variant="outlined" sx={{ mb: 3 }} disabled>
+        Load more skills
+      </Button>
 
-    <Button
-      buttonColour="#f3f2f1"
-      buttonTextColour="#0B0C0C"
-      style={{ display: 'block' }}
-    >
-      {' '}
-      Load more skills
-    </Button>
+      {!!skills.length && (
+        <TableContainer>
+          <Table size="small">
+            <TableHead>
+              <TableRow>
+                <TableCell>Selected skill</TableCell>
+                <TableCell>&nbsp;</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {skills.map((skill) => (
+                <TableRow key={skill}>
+                  <TableCell>{skill}</TableCell>
+                  <TableCell align="right">
+                    <Button
+                      onClick={() => setSkills((p) => p.filter((item) => item !== skill))}
+                    >
+                      <Delete />
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
 
-    <Table>
-      <Table.Row>
-        <Table.Cell>Selected skill</Table.Cell>
-        <Table.Cell>&nbsp;</Table.Cell>
-      </Table.Row>
-      <Table.Row>
-        <Table.Cell>Skill 1</Table.Cell>
-        <Table.Cell className="cta">
-          <Link href="#">Remove</Link>
-        </Table.Cell>
-      </Table.Row>
-      <Table.Row>
-        <Table.Cell>Skill 2</Table.Cell>
-        <Table.Cell className="cta">
-          <Link href="#">Remove</Link>
-        </Table.Cell>
-      </Table.Row>
-      <Table.Row>
-        <Table.Cell>Skill 3</Table.Cell>
-        <Table.Cell className="cta">
-          <Link href="#">Remove</Link>
-        </Table.Cell>
-      </Table.Row>
-    </Table>
+      <FormFooter>
+        <LinkButton href="/register/page12" variant="outlined">
+          Back
+        </LinkButton>
 
-    <Text>
-      <Link href="/register/page14">Skip this step</Link>
-    </Text>
+        <LinkButton href="/account">Continue</LinkButton>
+      </FormFooter>
+    </>
+  )
+}
 
-    <Link href="/register/page14">
-      <Button>Continue</Button>
-    </Link>
-  </>
+export default RegisterPage
+RegisterPage.getLayout = (page) => (
+  <Page
+    title="Create a profile - Your current skills"
+    footer={
+      <Typography gutterBottom>
+        <Link href="/account">Skip this step</Link>
+      </Typography>
+    }
+    progress={90}
+  >
+    {page}
+  </Page>
 )
-
-export default Page
-Page.getLayout = (page) => <Layout>{page}</Layout>

@@ -1,5 +1,8 @@
 FROM node:16
 
+ARG NODE_ENV
+ARG NEXT_PUBLIC_API_URL
+
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 WORKDIR /app/web
@@ -13,11 +16,8 @@ COPY . /app
 
 WORKDIR /app/web
 
-ENV NODE_ENV=development
 RUN npm install
 RUN npm run build
-
-ENV NODE_ENV=production
 
 EXPOSE 3000
 CMD [ "npm", "start" ]
