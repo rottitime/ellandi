@@ -7,24 +7,21 @@ import {
   Typography
 } from '@mui/material'
 import { boolean, object, SchemaOf } from 'yup'
-import { Controller, SubmitHandler, useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FC } from 'react'
 import FormFooter from '../FormFooter'
+import { StandardRegisterProps } from './types'
 
 type PrivacyAcceptType = {
   privacyAccept: boolean
-}
-
-type Props = {
-  onFormSubmit: SubmitHandler<PrivacyAcceptType>
 }
 
 const schema: SchemaOf<PrivacyAcceptType> = object().shape({
   privacyAccept: boolean().required().oneOf([true], 'You must accept the privacy policy')
 })
 
-const PrivacyForm: FC<Props> = ({ onFormSubmit }) => {
+const PrivacyForm: FC<StandardRegisterProps<PrivacyAcceptType>> = ({ onFormSubmit }) => {
   const {
     handleSubmit,
     control,

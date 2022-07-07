@@ -2,7 +2,7 @@ import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import RegistrationPage3 from '@/pages/register/page3'
 
-describe('Page: Registration 3', () => {
+describe.skip('Page: Registration 3', () => {
   it.only('renders', () => {
     render(<RegistrationPage3 />)
 

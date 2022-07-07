@@ -4,23 +4,18 @@ import { Box } from '@mui/material'
 import LinkButton from '@/components/LinkButton'
 import { ChevronRight } from '@mui/icons-material'
 
-const RegisterPage = () => {
-  return (
-    <>
-      <Box sx={{ textAlign: 'center' }}>
-        <LinkButton
-          href="/register/page3"
-          endIcon={<ChevronRight />}
-          variant="contained"
-          // fullWidth
-          sx={{ mb: 5 }}
-        >
-          Start now
-        </LinkButton>
-      </Box>
-    </>
-  )
-}
+const RegisterPage = () => (
+  <Box sx={{ textAlign: 'center' }}>
+    <LinkButton
+      href="/register/page3"
+      endIcon={<ChevronRight />}
+      variant="contained"
+      sx={{ mb: 5 }}
+    >
+      Start now
+    </LinkButton>
+  </Box>
+)
 
 export default RegisterPage
 RegisterPage.getLayout = (page) => (

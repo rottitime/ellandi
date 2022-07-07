@@ -1,10 +1,11 @@
 import React, { FC } from 'react'
-import { useForm, SubmitHandler, FormProvider, Controller } from 'react-hook-form'
+import { useForm, FormProvider, Controller } from 'react-hook-form'
 import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldControlled'
 import { object, SchemaOf, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormControl, FormHelperText, InputLabel, MenuItem, Select } from '@mui/material'
 import FormFooter from '@/components/Form/FormFooter'
+import { StandardRegisterProps } from './types'
 
 export type RegisterDetailsType = {
   fullname: string
@@ -24,11 +25,9 @@ const schema: SchemaOf<RegisterDetailsType> = object().shape({
   country: string().required('This field is required')
 })
 
-type Props = {
-  onFormSubmit: SubmitHandler<RegisterDetailsType>
-}
-
-const RegisterDetailsForm: FC<Props> = ({ onFormSubmit }) => {
+const RegisterDetailsForm: FC<StandardRegisterProps<RegisterDetailsType>> = ({
+  onFormSubmit
+}) => {
   const methods = useForm<RegisterDetailsType>({
     defaultValues: {
       fullname: '',

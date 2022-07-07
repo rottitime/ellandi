@@ -1,33 +1,17 @@
-import Page, { FormFooter } from '@/components/Layout/GenericPage'
-import { FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material'
-import LinkButton from '@/components/LinkButton'
+import Page from '@/components/Layout/GenericPage'
 
-const RegisterPage = () => {
-  return (
-    <>
-      <Typography variant="subtitle1" gutterBottom>
-        Select your contract type. You can only choose one
-      </Typography>
-      <Typography gutterBottom>
-        We'll use this to suggest learning and career development opportunities that are
-        relevant to you
-      </Typography>
+import router from 'next/router'
+import ContractType from '@/components/Form/Register/ContractType'
 
-      <RadioGroup sx={{ mb: 3 }}>
-        <FormControlLabel control={<Radio />} label="Yes" value="Yes" />
-        <FormControlLabel control={<Radio />} label="No" value="No" />
-      </RadioGroup>
-
-      <FormFooter>
-        <LinkButton href="/register/page9" variant="outlined">
-          Back
-        </LinkButton>
-
-        <LinkButton href="/register/page11">Continue</LinkButton>
-      </FormFooter>
-    </>
-  )
-}
+const RegisterPage = () => (
+  <ContractType
+    onFormSubmit={(data) => {
+      // eslint-disable-next-line no-console
+      console.log({ data })
+      router.push('/register/page11')
+    }}
+  />
+)
 
 export default RegisterPage
 RegisterPage.getLayout = (page) => (
