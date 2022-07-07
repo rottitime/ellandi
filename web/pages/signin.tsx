@@ -1,4 +1,4 @@
-import GenericPage, { FormFooter } from '@/components/Layout/GenericPage'
+import GenericPage from '@/components/Layout/GenericPage'
 import Link from '@/components/UI/Link'
 import { Button, Typography } from '@mui/material'
 import { useForm, SubmitHandler, FormProvider } from 'react-hook-form'
@@ -6,6 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import SignInForm from '@/components/Form/SignInForm/SignInForm'
 import { SchemaOf, object, string } from 'yup'
 import { useRouter } from 'next/router'
+import FormFooter from '@/components/Form/FormFooter'
 
 type SignInType = { email: string; password: string }
 

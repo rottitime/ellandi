@@ -1,5 +1,5 @@
 import { FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material'
-import FormFooter from '../FormFooter'
+import FormFooter from '@/components/Form/FormFooter'
 import { FC } from 'react'
 import { StandardRegisterProps } from './types'
 import { useForm } from 'react-hook-form'

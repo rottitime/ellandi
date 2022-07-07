@@ -16,7 +16,7 @@ import { FC, useEffect } from 'react'
 import { useQuery } from 'react-query'
 import { StandardRegisterProps } from './types'
 import { useForm } from 'react-hook-form'
-import FormFooter from '../FormFooter'
+import FormFooter from '@/components/Form/FormFooter'
 
 const optionsSpeaking = [
   {

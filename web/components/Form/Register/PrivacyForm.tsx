@@ -10,7 +10,7 @@ import { boolean, object, SchemaOf } from 'yup'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FC } from 'react'
-import FormFooter from '../FormFooter'
+import FormFooter from '@/components/Form/FormFooter'
 import { StandardRegisterProps } from './types'
 
 type PrivacyAcceptType = {

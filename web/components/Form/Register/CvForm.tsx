@@ -1,7 +1,7 @@
 import { Box, Typography, styled } from '@mui/material'
 import { StandardRegisterProps } from './types'
 import { FC } from 'react'
-import FormFooter from '../FormFooter'
+import FormFooter from '@/components/Form/FormFooter'
 import { useForm } from 'react-hook-form'
 
 const DragBox = styled(Box)`

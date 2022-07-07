@@ -105,14 +105,6 @@ const GridContainer = styled(Grid)`
   }
 `
 
-export const FormFooter = styled(Box)`
-  display: flex;
-  justify-content: end;
-  gap: 15px;
-  padding-top: 20px;
-  align-items: center;
-`
-
 const GenericPage: FC<Props> = ({ children, title, progress, footer }) => {
   const { loading } = useUiContext()
   return (

@@ -11,7 +11,7 @@ import RadioSkeleton from '@/components/UI/Skeleton/RadioSkeleton'
 import { fetchGrades, GenericDataList } from '@/service/api'
 import { useUiContext } from '@/context/UiContext'
 import { FC, useEffect } from 'react'
-import FormFooter from '../FormFooter'
+import FormFooter from '@/components/Form/FormFooter'
 import { StandardRegisterProps } from './types'
 import { useForm } from 'react-hook-form'
 

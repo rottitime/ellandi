@@ -4,7 +4,7 @@ import { object, SchemaOf, string, ref } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, FormProvider } from 'react-hook-form'
 import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldControlled'
-import FormFooter from '../FormFooter'
+import FormFooter from '@/components/Form/FormFooter'
 import { StandardRegisterProps } from './types'
 
 type CreateAccountType = {

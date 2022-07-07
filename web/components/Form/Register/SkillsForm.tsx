@@ -15,7 +15,7 @@ import { Delete } from '@mui/icons-material'
 import { FC, useState } from 'react'
 import { StandardRegisterProps } from './types'
 import { useForm } from 'react-hook-form'
-import FormFooter from '../FormFooter'
+import FormFooter from '@/components/Form/FormFooter'
 
 const Stack = styled(Box)`
   .MuiChip-root {

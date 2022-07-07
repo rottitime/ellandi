@@ -14,7 +14,7 @@ import { FC, useEffect } from 'react'
 import RadioSkeleton from '@/components/UI/Skeleton/RadioSkeleton'
 import { useForm } from 'react-hook-form'
 import { StandardRegisterProps } from './types'
-import FormFooter from '../FormFooter'
+import FormFooter from '@/components/Form/FormFooter'
 
 const ContractForm: FC<StandardRegisterProps<null>> = ({ onFormSubmit }) => {
   const { handleSubmit } = useForm()

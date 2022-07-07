@@ -5,7 +5,7 @@ import { GenericDataList } from '@/service/types'
 import { useUiContext } from '@/context/UiContext'
 import { useQuery } from 'react-query'
 import { FC, useEffect } from 'react'
-import FormFooter from '../FormFooter'
+import FormFooter from '@/components/Form/FormFooter'
 import { StandardRegisterProps } from './types'
 import { useForm } from 'react-hook-form'
 
