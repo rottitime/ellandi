@@ -4,6 +4,7 @@ import PrivacyForm from '@/components/Form/Register/PrivacyForm'
 
 const RegisterPage = () => (
   <PrivacyForm
+    backUrl="/register/page3"
     onFormSubmit={(data) => {
       // eslint-disable-next-line no-console
       console.log({ data })

@@ -15,7 +15,7 @@ const List = styled(Stack)`
   }
 `
 
-const ProfessionForm: FC<StandardRegisterProps<null>> = ({ onFormSubmit }) => {
+const ProfessionForm: FC<StandardRegisterProps<null>> = ({ backUrl, onFormSubmit }) => {
   const { handleSubmit } = useForm()
   const { setLoading } = useUiContext()
   const { isLoading, isError, data } = useQuery<GenericDataList[], { message?: string }>(
@@ -61,7 +61,7 @@ const ProfessionForm: FC<StandardRegisterProps<null>> = ({ onFormSubmit }) => {
           : data.map(({ name, slug }) => <ToggleChip key={slug} label={name} />)}
       </List>
 
-      <FormFooter backUrl="/register/page6" />
+      <FormFooter backUrl={backUrl} />
     </form>
   )
 }

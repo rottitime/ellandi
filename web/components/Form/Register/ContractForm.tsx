@@ -16,7 +16,7 @@ import { useForm } from 'react-hook-form'
 import { StandardRegisterProps } from './types'
 import FormFooter from '@/components/Form/FormFooter'
 
-const ContractForm: FC<StandardRegisterProps<null>> = ({ onFormSubmit }) => {
+const ContractForm: FC<StandardRegisterProps<null>> = ({ onFormSubmit, backUrl }) => {
   const { handleSubmit } = useForm()
   const { setLoading } = useUiContext()
   const { isLoading, isError, data } = useQuery<GenericDataList[], { message?: string }>(
@@ -62,7 +62,7 @@ const ContractForm: FC<StandardRegisterProps<null>> = ({ onFormSubmit }) => {
             ))}
       </RadioGroup>
 
-      <FormFooter backUrl="/register/page7" />
+      <FormFooter backUrl={backUrl} />
     </form>
   )
 }

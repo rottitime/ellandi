@@ -14,7 +14,7 @@ const RegisterPage = () => (
     </Typography>
 
     <Typography gutterBottom>
-      <Link href="/register/page2">
+      <Link href="/register">
         http://skills.civilservice.gov.uk/signup/123AbcDefgh1238910ABCdefghk
       </Link>
     </Typography>

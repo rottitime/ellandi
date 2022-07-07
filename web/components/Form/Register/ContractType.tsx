@@ -4,7 +4,7 @@ import { FC } from 'react'
 import { StandardRegisterProps } from './types'
 import { useForm } from 'react-hook-form'
 
-const ContractType: FC<StandardRegisterProps<null>> = ({ onFormSubmit }) => {
+const ContractType: FC<StandardRegisterProps<null>> = ({ backUrl, onFormSubmit }) => {
   const { handleSubmit } = useForm()
   return (
     <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
@@ -19,7 +19,7 @@ const ContractType: FC<StandardRegisterProps<null>> = ({ onFormSubmit }) => {
         <FormControlLabel control={<Radio />} label="Yes" value="Yes" />
         <FormControlLabel control={<Radio />} label="No" value="No" />
       </RadioGroup>
-      <FormFooter backUrl="/register/page9" />
+      <FormFooter backUrl={backUrl} />
     </form>
   )
 }

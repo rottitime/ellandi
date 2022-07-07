@@ -27,6 +27,7 @@ const schema: SchemaOf<CreateAccountType> = object().shape({
 })
 
 const CreateAccountForm: FC<StandardRegisterProps<CreateAccountType>> = ({
+  backUrl,
   onFormSubmit
 }) => {
   const methods = useForm<CreateAccountType>({
@@ -62,7 +63,7 @@ const CreateAccountForm: FC<StandardRegisterProps<CreateAccountType>> = ({
           type="password"
         />
 
-        <FormFooter backUrl="/register/page2" />
+        <FormFooter backUrl={backUrl} />
       </form>
     </FormProvider>
   )

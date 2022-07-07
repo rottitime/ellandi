@@ -5,10 +5,11 @@ import ContractType from '@/components/Form/Register/ContractType'
 
 const RegisterPage = () => (
   <ContractType
+    backUrl="/register/page9"
     onFormSubmit={(data) => {
       // eslint-disable-next-line no-console
       console.log({ data })
-      router.push('/register/page11')
+      router.push('/register/thankyou')
     }}
   />
 )

@@ -21,7 +21,10 @@ const schema: SchemaOf<PrivacyAcceptType> = object().shape({
   privacyAccept: boolean().required().oneOf([true], 'You must accept the privacy policy')
 })
 
-const PrivacyForm: FC<StandardRegisterProps<PrivacyAcceptType>> = ({ onFormSubmit }) => {
+const PrivacyForm: FC<StandardRegisterProps<PrivacyAcceptType>> = ({
+  backUrl,
+  onFormSubmit
+}) => {
   const {
     handleSubmit,
     control,
@@ -56,7 +59,7 @@ const PrivacyForm: FC<StandardRegisterProps<PrivacyAcceptType>> = ({ onFormSubmi
       </FormGroup>
 
       <FormFooter
-        backUrl="/register/page3"
+        backUrl={backUrl}
         buttonProps={{
           disabled: !isDirty && !isValid
         }}

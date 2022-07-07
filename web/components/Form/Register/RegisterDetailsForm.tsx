@@ -26,6 +26,7 @@ const schema: SchemaOf<RegisterDetailsType> = object().shape({
 })
 
 const RegisterDetailsForm: FC<StandardRegisterProps<RegisterDetailsType>> = ({
+  backUrl,
   onFormSubmit
 }) => {
   const methods = useForm<RegisterDetailsType>({
@@ -80,7 +81,7 @@ const RegisterDetailsForm: FC<StandardRegisterProps<RegisterDetailsType>> = ({
           )}
         />
 
-        <FormFooter backUrl="/register/page4" />
+        <FormFooter backUrl={backUrl} />
       </form>
     </FormProvider>
   )

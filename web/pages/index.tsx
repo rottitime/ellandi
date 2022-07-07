@@ -10,7 +10,7 @@ const IndexPage = () => (
         <Typography variant="h2" gutterBottom>
           Register
         </Typography>
-        <LinkButton href="/register">Register</LinkButton>
+        <LinkButton href="/register/invite">Register</LinkButton>
       </Card>
     </Grid>
     <Divider orientation="vertical" flexItem></Divider>

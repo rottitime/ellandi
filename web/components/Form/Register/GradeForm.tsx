@@ -15,7 +15,7 @@ import FormFooter from '@/components/Form/FormFooter'
 import { StandardRegisterProps } from './types'
 import { useForm } from 'react-hook-form'
 
-const GradeForm: FC<StandardRegisterProps<null>> = ({ onFormSubmit }) => {
+const GradeForm: FC<StandardRegisterProps<null>> = ({ backUrl, onFormSubmit }) => {
   const { handleSubmit } = useForm()
   const { setLoading } = useUiContext()
   const { isLoading, isError, data } = useQuery<GenericDataList[], { message?: string }>(
@@ -69,7 +69,7 @@ const GradeForm: FC<StandardRegisterProps<null>> = ({ onFormSubmit }) => {
             ))}
       </RadioGroup>
 
-      <FormFooter backUrl="/register/page5" />
+      <FormFooter backUrl={backUrl} />
     </form>
   )
 }

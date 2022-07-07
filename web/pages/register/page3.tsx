@@ -4,6 +4,7 @@ import CreateAccountForm from '@/components/Form/Register/CreateAccountForm'
 
 const RegisterPage = () => (
   <CreateAccountForm
+    backUrl="/register"
     onFormSubmit={(data) => {
       // eslint-disable-next-line no-console
       console.log({ data })

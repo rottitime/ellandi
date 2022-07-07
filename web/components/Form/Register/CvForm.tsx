@@ -13,7 +13,7 @@ const DragBox = styled(Box)`
   margin-bottom: 30px;
 `
 
-const CvForm: FC<StandardRegisterProps<null>> = ({ onFormSubmit }) => {
+const CvForm: FC<StandardRegisterProps<null>> = ({ backUrl, onFormSubmit }) => {
   const { handleSubmit } = useForm()
 
   return (
@@ -28,7 +28,7 @@ const CvForm: FC<StandardRegisterProps<null>> = ({ onFormSubmit }) => {
 
       <DragBox>Drag your files here</DragBox>
 
-      <FormFooter backUrl="/register/page8" />
+      <FormFooter backUrl={backUrl} />
     </form>
   )
 }

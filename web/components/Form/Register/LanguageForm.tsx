@@ -54,7 +54,7 @@ const optionsWriting = [
   }
 ]
 
-const LanguageForm: FC<StandardRegisterProps<null>> = ({ onFormSubmit }) => {
+const LanguageForm: FC<StandardRegisterProps<null>> = ({ backUrl, onFormSubmit }) => {
   const { handleSubmit } = useForm()
   const { setLoading } = useUiContext()
   const { isLoading, isError, data, isSuccess } = useQuery<
@@ -156,10 +156,10 @@ const LanguageForm: FC<StandardRegisterProps<null>> = ({ onFormSubmit }) => {
       </RadioGroup>
 
       <Typography gutterBottom>
-        <Link href="/register/page13">Add language</Link>
+        <Link href="#">Add language</Link>
       </Typography>
 
-      <FormFooter backUrl="/register/page11" />
+      <FormFooter backUrl={backUrl} />
     </form>
   )
 }

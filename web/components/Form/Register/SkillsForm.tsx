@@ -44,7 +44,7 @@ const list = [
   'Teamwork'
 ]
 
-const SkillsForm: FC<StandardRegisterProps<null>> = ({ onFormSubmit }) => {
+const SkillsForm: FC<StandardRegisterProps<null>> = ({ backUrl, onFormSubmit }) => {
   const { handleSubmit } = useForm()
   const [skills, setSkills] = useState<string[]>([])
 
@@ -104,7 +104,7 @@ const SkillsForm: FC<StandardRegisterProps<null>> = ({ onFormSubmit }) => {
         </TableContainer>
       )}
 
-      <FormFooter backUrl="/register/page12" />
+      <FormFooter backUrl={backUrl} />
     </form>
   )
 }

@@ -6,6 +6,7 @@ import router from 'next/router'
 
 const RegisterPage = () => (
   <ProfessionForm
+    backUrl="/register/page6"
     onFormSubmit={(data) => {
       // eslint-disable-next-line no-console
       console.log({ data })
