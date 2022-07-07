@@ -20,12 +20,12 @@ class KnoxTokenScheme(OpenApiAuthenticationExtension):
 
 class SimpleAuthentication(authentication.BaseAuthentication):
     def authenticate(self, request):
-        username = request.data.get("username")
+        email = request.data.get("email")
         password = request.data.get("password")
-        if not username:
+        if not email:
             return None
 
-        user = authenticate(username=username, password=password)
+        user = authenticate(email=email, password=password)
         if not user:
             raise exceptions.AuthenticationFailed("No such user")
 
@@ -33,7 +33,7 @@ class SimpleAuthentication(authentication.BaseAuthentication):
 
 
 class LoginSerializer(serializers.Serializer):
-    username = serializers.EmailField()
+    email = serializers.EmailField()
     password = serializers.CharField()
 
 

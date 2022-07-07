@@ -29,7 +29,7 @@ def with_logged_in_client(func):
         user = User.objects.create_user(**user_data)
 
         with httpx.Client(app=wsgi.application, base_url="http://testserver:8000") as client:
-            response = client.post("/login/", json={"username": user_data["email"], "password": user_data["password"]})
+            response = client.post("/login/", json={"email": user_data["email"], "password": user_data["password"]})
             assert response.status_code == 200
             token = response.json()["token"]
             assert token

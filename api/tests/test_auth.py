@@ -40,7 +40,7 @@ def test_homepage_no_auth(client):
 
 @utils.with_client
 def test_logout(client):
-    response = client.post("/login/", json={"username": user_data["email"], "password": user_data["password"]})
+    response = client.post("/login/", json={"email": user_data["email"], "password": user_data["password"]})
     assert response.status_code == 200
     token = response.json()["token"]
     assert token
@@ -58,6 +58,6 @@ def test_logout(client):
 
 @utils.with_client
 def test_login(client):
-    response = client.post("/login/", json={"username": user_data["email"], "password": user_data["password"]})
+    response = client.post("/login/", json={"email": user_data["email"], "password": user_data["password"]})
     assert response.status_code == 200
     assert response.json()["token"]
