@@ -13,7 +13,6 @@ from .models import (
     User,
     UserLanguage,
     UserSkill,
-    UserSalt,
 )
 
 
@@ -105,7 +104,7 @@ class RegisterSerializer(serializers.Serializer):
     password = serializers.CharField()
 
 
-class UserSaltSerializer(serializers.ModelSerializer):
+class EmailSaltSerializer(serializers.ModelSerializer):
     class Meta:
         model = EmailSalt
         fields = ["email"]

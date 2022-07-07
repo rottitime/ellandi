@@ -178,7 +178,7 @@ class UserLanguage(TimeStampedModel):
         unique_together = ["user", "language", "type"]
 
 
-class UserSalt(models.Model):
+class EmailSalt(models.Model):
     email = models.EmailField("email", unique=True, primary_key=True)
     salt = models.BinaryField(max_length=16, blank=False, null=False)
 
