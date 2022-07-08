@@ -1,0 +1,6 @@
+import { SubmitHandler } from 'react-hook-form'
+
+export type StandardRegisterProps<t> = {
+  backUrl: string
+  onFormSubmit: SubmitHandler<t>
+}

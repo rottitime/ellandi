@@ -1,56 +1,17 @@
-import LinkButton from '@/components/LinkButton'
-import Page, { FormFooter } from '@/components/Layout/GenericPage'
-import { TextField } from '@mui/material'
+import Page from '@/components/Layout/GenericPage'
+import router from 'next/router'
+import RegisterDetailsForm from '@/components/Form/Register/RegisterDetailsForm'
 
-const RegisterPage = () => {
-  return (
-    <>
-      <TextField
-        margin="normal"
-        label="Full name"
-        variant="filled"
-        size="small"
-        fullWidth
-      />
-      <TextField
-        margin="normal"
-        label="Department"
-        variant="filled"
-        size="small"
-        fullWidth
-      />
-      <TextField
-        margin="normal"
-        label="Job title"
-        variant="filled"
-        size="small"
-        fullWidth
-      />
-      <TextField
-        margin="normal"
-        label="Your line manager's email address"
-        variant="filled"
-        size="small"
-        fullWidth
-      />
-      <TextField
-        margin="normal"
-        label="Country"
-        variant="filled"
-        size="small"
-        fullWidth
-      />
-
-      <FormFooter>
-        <LinkButton href="/register/page4" variant="outlined">
-          Back
-        </LinkButton>
-
-        <LinkButton href="/register/page6">Continue</LinkButton>
-      </FormFooter>
-    </>
-  )
-}
+const RegisterPage = () => (
+  <RegisterDetailsForm
+    backUrl="/register/page4"
+    onFormSubmit={(data) => {
+      // eslint-disable-next-line no-console
+      console.log({ data })
+      router.push('/register/page6')
+    }}
+  />
+)
 
 export default RegisterPage
 RegisterPage.getLayout = (page) => (

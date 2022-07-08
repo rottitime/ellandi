@@ -1,85 +1,22 @@
 import Link from '@/components/UI/Link'
-import LinkButton from '@/components/LinkButton'
-import Page, { FormFooter } from '@/components/Layout/GenericPage'
-import {
-  Alert,
-  AlertTitle,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
-  Typography
-} from '@mui/material'
-import { useQuery } from 'react-query'
-import RadioSkeleton from '@/components/UI/Skeleton/RadioSkeleton'
-import { fetchGrades } from '@/service/api'
-import { GenericDataList } from '@/service/types'
-import { useUiContext } from '@/context/UiContext'
-import { useEffect } from 'react'
+import Page from '@/components/Layout/GenericPage'
+import { Typography } from '@mui/material'
+import GradeForm from '@/components/Form/Register/GradeForm'
+import router from 'next/router'
 
-const RegisterPage = () => {
-  const { setLoading } = useUiContext()
-  const { isLoading, isError, data } = useQuery<GenericDataList[], { message?: string }>(
-    'grades',
-    fetchGrades,
-    { staleTime: Infinity }
-  )
-
-  useEffect(() => {
-    setLoading(isLoading)
-  }, [isLoading, setLoading])
-
-  if (isError)
-    return (
-      <Alert severity="error">
-        <AlertTitle>Service Unavailable</AlertTitle>
-        Please try again later.
-      </Alert>
-    )
-
-  return (
-    <>
-      <Typography variant="h1" gutterBottom></Typography>
-
-      <Typography variant="subtitle1" gutterBottom>
-        Select your grade. You may only choose one
-      </Typography>
-
-      <Typography gutterBottom>
-        We'll use this to suggest learning and career development opportunities that are
-        relevant to you
-      </Typography>
-
-      <RadioGroup
-        aria-labelledby="demo-radio-buttons-group-label"
-        aria-live="polite"
-        aria-busy={isLoading}
-        name="radio-buttons-group"
-      >
-        {isLoading
-          ? [...Array(5).keys()].map((i) => (
-              <RadioSkeleton key={i} width="80%" sx={{ mb: 1 }} />
-            ))
-          : data.map(({ name, slug }) => (
-              <FormControlLabel
-                key={slug}
-                control={<Radio />}
-                label={name}
-                value={slug}
-              />
-            ))}
-      </RadioGroup>
-
-      <FormFooter>
-        <LinkButton href="/register/page5" variant="outlined">
-          Back
-        </LinkButton>
-        <LinkButton href="/register/page7">Continue</LinkButton>
-      </FormFooter>
-    </>
-  )
-}
+const RegisterPage = () => (
+  <GradeForm
+    backUrl="/register/page5"
+    onFormSubmit={(data) => {
+      // eslint-disable-next-line no-console
+      console.log({ data })
+      router.push('/register/page7')
+    }}
+  />
+)
 
 export default RegisterPage
+
 RegisterPage.getLayout = (page) => (
   <Page
     title="Create a profile - Grade"

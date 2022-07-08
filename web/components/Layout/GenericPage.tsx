@@ -1,5 +1,5 @@
 import Template from '@/components/Layout/Template'
-import { Grid, Typography, styled, LinearProgress, Hidden, Box } from '@mui/material'
+import { Grid, Typography, styled, LinearProgress, Hidden } from '@mui/material'
 import Card from '@/components/UI/Card'
 import { FC, ReactNode } from 'react'
 import Crown from '@/components/Icons/CrownLogo'
@@ -105,15 +105,7 @@ const GridContainer = styled(Grid)`
   }
 `
 
-export const FormFooter = styled(Box)`
-  display: flex;
-  justify-content: end;
-  gap: 15px;
-  padding-top: 20px;
-  align-items: center;
-`
-
-const GenericPage: FC<Props> = ({ children, title, progress, footer }) => {
+const GenericPage: FC<Props> = ({ children, title, footer, progress }) => {
   const { loading } = useUiContext()
   return (
     <Template disableGutters={true}>

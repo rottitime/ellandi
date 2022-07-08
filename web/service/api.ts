@@ -30,3 +30,5 @@ export const fetchLanguages = async (): Promise<GenericDataList[]> => {
   if (res.ok) return res.json()
   throw new Error('Service unavailable')
 }
+
+export * from './types'
