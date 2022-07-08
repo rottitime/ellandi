@@ -28,6 +28,9 @@ class DropDownListModel(models.Model):
         self.slug = slugify(self.name)
         return super().save(*args, **kwargs)
 
+    def __str__(self):
+        return self.name
+
     class Meta:
         abstract = True
 
@@ -148,6 +151,9 @@ class UserSkill(TimeStampedModel):
     level = models.CharField(max_length=64, choices=SkillLevel.choices, blank=True, null=False)
     validated = models.BooleanField(default=False, blank=False)
 
+    def __str__(self):
+        return f"{self.skill_name} ({self.id})"
+
     class Meta:
         unique_together = ["user", "skill_name"]
 
@@ -160,6 +166,9 @@ class UserLanguage(TimeStampedModel):
     language = models.CharField(max_length=127, blank=True, null=False)
     type = models.CharField(max_length=127, blank=True, null=False)  # eg reading, writing
     level = models.CharField(max_length=127, blank=True, null=False)
+
+    def __str__(self):
+        return f"{self.language} ({self.id})"
 
     class Meta:
         unique_together = ["user", "language", "type"]
