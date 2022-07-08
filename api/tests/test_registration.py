@@ -1,3 +1,4 @@
+from nose.tools import with_setup
 from rest_framework import status
 from tests import utils
 
@@ -5,7 +6,11 @@ from tests import utils
 =======
 from ellandi.registration.models import EmailSalt, User
 
+<<<<<<< HEAD
 >>>>>>> 1ded8bf (remove print statement)
+=======
+
+>>>>>>> 06ce739 (update tests)
 TEST_SERVER_URL = "http://testserver:8000/"
 
 
@@ -262,33 +267,35 @@ def test_skills_list(client, user_id):
     assert "new user skill" in response.json()
 
 
+def setup_one_time_login():
+    EmailSalt(email="test_login@example.com", salt="fake_salt".encode("utf-8")).save()
+
+
+def teardown_one_time_login():
+    EmailSalt.objects.get(email__iexact="test_login@example.com").delete()
+    User.objects.filter(email__iexact="test_login@example.com").delete()
+
+
 @utils.with_client
+@with_setup(None, teardown_one_time_login)
 def test_post_one_time_login(client):
-    EmailSalt.objects.all().delete()
-    response = client.post("/one-time-login-token/", json={"email": "user@example.com"})
+    response = client.post("/one-time-login-token/", json={"email": "test_login@example.com"})
     one_time_token = response.json()["one_time_token"]
     assert response.status_code == status.HTTP_200_OK
     assert one_time_token
-    # TODO - do this properly!
-    EmailSalt.objects.all().delete()
 
 
 @utils.with_client
+@with_setup(setup_one_time_login, teardown_one_time_login)
 def test_post_first_time_login(client):
-    User.objects.all().delete()
-    EmailSalt.objects.all().delete()
-    print(EmailSalt.objects.all().count())
-    email_salt = EmailSalt(email="Test_Login@example.com", salt="fake_salt".encode("utf-8"))
-    email_salt.save()
-    tok = email_salt.get_one_time_login()
+    tok = EmailSalt.objects.get(email="test_login@example.com").get_one_time_login()
     response = client.post("/first-time-login/", json={"email": "test_login@Example.com", "one_time_token": tok})
+    user = User.objects.get(email="test_login@example.com")
     assert response.status_code == status.HTTP_201_CREATED
+    assert user
     response = client.post("/first-time-login/", json={"email": "test_login@example.com", "one_time_token": tok})
     assert response.status_code == status.HTTP_400_BAD_REQUEST, "token invalid after used once"
     response = client.post(
         "/first-time-login/", json={"email": "non-existent-email@example.com", "one_time_token": "tok"}
     )
     assert response.status_code == status.HTTP_400_BAD_REQUEST
-    # TODO - do this properly!
-    User.objects.all().delete()
-    EmailSalt.objects.all().delete()
