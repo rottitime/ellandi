@@ -27,7 +27,6 @@ admin_urlpatterns = [
 
 page_urlpatterns = [
     path("page/<int:page_num>", views.page_view),
-    path(r"api/auth/", include("knox.urls")),
 ]
 
 auth_urlpatterns = [
