@@ -122,6 +122,7 @@ def skills_list_view(request):
 
 @extend_schema(request=serializers.EmailSaltSerializer, responses=serializers.OneTimeTokenSerializer)
 @decorators.api_view(["POST"])
+@decorators.permission_classes((permissions.AllowAny,))
 def one_time_login_view(request):
     email = request.data["email"]
     if email:
@@ -137,6 +138,7 @@ def one_time_login_view(request):
 
 @extend_schema(request=serializers.UserLoginSerializer)
 @decorators.api_view(["POST"])
+@decorators.permission_classes((permissions.AllowAny,))
 def first_log_in_view(request):
     email = request.data["email"]
     if email:
