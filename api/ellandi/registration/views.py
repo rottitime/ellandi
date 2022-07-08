@@ -122,29 +122,8 @@ def skills_list_view(request):
     return Response(skills)
 
 
-
-class OneTimeLoginView(CreateAPIView):
-    serializer_class = serializers.EmailSaltSerializer
-
-
-# class OneTimeLoginView(CreateAPIView):
-#     serializer_class = serializers.EmailSaltSerializer
-
-#     def post(self, request):
-#         email = request.data["email"]
-#         if email:
-#             email = email.lower()
-#         try:
-#             email_salt = models.EmailSalt.objects.get(email__iexact=email)
-#         except models.EmailSalt.DoesNotExist:
-#             email_salt = models.EmailSalt(email=email, salt=os.urandom(16))
-#             email_salt.save()
-#         one_time_login_token = email_salt.get_one_time_login()
-#         return Response(data={"one_time_token": one_time_login_token}, status=status.HTTP_200_OK)
-
-
-@decorators.api_view(["POST"])
 @extend_schema(request=serializers.EmailSaltSerializer)
+@decorators.api_view(["POST"])
 def one_time_login_view(request):
     email = request.data["email"]
     if email:
