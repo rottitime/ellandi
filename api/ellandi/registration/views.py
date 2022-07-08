@@ -86,12 +86,12 @@ class LanguageSkillLevelViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = serializers.LanguageSkillLevelSerializer
 
 
-@decorators.api_view(["POST"])
-@decorators.permission_classes((permissions.AllowAny,))
 @extend_schema(
     request=serializers.RegisterSerializer,
     responses=serializers.UserSerializer,
 )
+@decorators.api_view(["POST"])
+@decorators.permission_classes((permissions.AllowAny,))
 def register_view(request):
     email = request.data.get("email")
     password = request.data.get("password")
