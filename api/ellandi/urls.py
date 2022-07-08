@@ -17,9 +17,9 @@ from ellandi import views
 from ellandi.registration.views import (
     FirstLoginView,
     one_time_login_view,
+    register_view,
     registration_router,
 )
-
 
 api_urlpatterns = [
     path("", include(registration_router.urls)),

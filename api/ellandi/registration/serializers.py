@@ -119,4 +119,4 @@ class UserLoginSerializer(serializers.ModelSerializer):
 
 
 class OneTimeTokenSerializer(serializers.Serializer):
-    one_time_token = serializers.CharField(max_length=100) #TODO - check this
+    one_time_token = serializers.CharField(max_length=100)  # TODO - check this

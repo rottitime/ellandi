@@ -2,17 +2,10 @@ import os
 
 from django.contrib.auth import get_user_model
 from drf_spectacular.utils import extend_schema
-from rest_framework import decorators, permissions, routers, viewsets
+from rest_framework import decorators, permissions, routers, status, viewsets
 from rest_framework.decorators import action, api_view
-from rest_framework.response import Response
-from rest_framework import routers, status, viewsets
-from rest_framework.generics import CreateAPIView
-from rest_framework import routers, status, viewsets, decorators
-from rest_framework.decorators import action
 from rest_framework.generics import CreateAPIView
 from rest_framework.response import Response
-from drf_spectacular.utils import extend_schema
-
 
 from . import exceptions, initial_data, models, serializers
 
@@ -132,6 +125,8 @@ def skills_list_view(request):
 
 class OneTimeLoginView(CreateAPIView):
     serializer_class = serializers.EmailSaltSerializer
+
+
 # class OneTimeLoginView(CreateAPIView):
 #     serializer_class = serializers.EmailSaltSerializer
 
