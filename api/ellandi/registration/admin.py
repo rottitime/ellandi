@@ -3,6 +3,7 @@ from django.contrib import admin
 
 from .models import (
     ContractType,
+    EmailSalt,
     Grade,
     Language,
     LanguageSkillLevel,
@@ -12,7 +13,6 @@ from .models import (
     User,
     UserLanguage,
     UserSkill,
-    EmailSalt
 )
 
 
