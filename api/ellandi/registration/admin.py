@@ -12,6 +12,7 @@ from .models import (
     User,
     UserLanguage,
     UserSkill,
+    EmailSalt
 )
 
 
@@ -101,3 +102,4 @@ admin.site.register(Language, LanguageAdmin)
 admin.site.register(Profession, ProfessionAdmin)
 admin.site.register(Grade, GradeAdmin)
 admin.site.register(LanguageSkillLevel, LanguageSkillLevelAdmin)
+admin.site.register(EmailSalt)

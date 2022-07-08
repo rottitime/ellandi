@@ -190,3 +190,7 @@ class EmailSalt(models.Model):
     def is_one_time_login_valid(self, token_to_validate):
         correct_token = self.get_one_time_login()
         return correct_token == token_to_validate
+
+    def save(self, *args, **kwargs):
+        self.email = self.email.lower()
+        super(EmailSalt, self).save(*args, **kwargs)

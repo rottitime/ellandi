@@ -264,6 +264,7 @@ def test_skills_list(client, user_id):
 
 @utils.with_client
 def test_post_one_time_login(client):
+    EmailSalt.objects.all().delete()
     response = client.post("/one-time-login-token/", json={"email": "user@example.com"})
     one_time_token = response.json()["one_time_token"]
     assert response.status_code == status.HTTP_200_OK
@@ -274,10 +275,13 @@ def test_post_one_time_login(client):
 
 @utils.with_client
 def test_post_first_time_login(client):
-    email_salt = EmailSalt(email="test_login@example.com", salt="fake_salt".encode("utf-8"))
+    User.objects.all().delete()
+    EmailSalt.objects.all().delete()
+    print(EmailSalt.objects.all().count())
+    email_salt = EmailSalt(email="Test_Login@example.com", salt="fake_salt".encode("utf-8"))
     email_salt.save()
     tok = email_salt.get_one_time_login()
-    response = client.post("/first-time-login/", json={"email": "Test_login@Example.com", "one_time_token": tok})
+    response = client.post("/first-time-login/", json={"email": "test_login@Example.com", "one_time_token": tok})
     assert response.status_code == status.HTTP_201_CREATED
     response = client.post("/first-time-login/", json={"email": "test_login@example.com", "one_time_token": tok})
     assert response.status_code == status.HTTP_400_BAD_REQUEST, "token invalid after used once"
