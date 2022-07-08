@@ -3,8 +3,6 @@ import os
 from django.contrib.auth import get_user_model
 from drf_spectacular.utils import extend_schema
 from rest_framework import decorators, permissions, routers, status, viewsets
-from rest_framework.decorators import action, api_view
-from rest_framework.generics import CreateAPIView
 from rest_framework.response import Response
 
 from . import exceptions, initial_data, models, serializers
@@ -122,7 +120,7 @@ def skills_list_view(request):
     return Response(skills)
 
 
-@extend_schema(request=serializers.EmailSaltSerializer)
+@extend_schema(request=serializers.EmailSaltSerializer, responses=serializers.OneTimeTokenSerializer)
 @decorators.api_view(["POST"])
 def one_time_login_view(request):
     email = request.data["email"]
@@ -137,26 +135,25 @@ def one_time_login_view(request):
     return Response(data={"one_time_token": one_time_login_token}, status=status.HTTP_200_OK)
 
 
-class FirstLoginView(CreateAPIView):
-    serializer_class = serializers.UserLoginSerializer
-
-    def post(self, request):
-        email = request.data["email"]
-        if email:
-            email = email.lower()
-        one_time_token = request.data["one_time_token"]
-        try:
-            email_salt = models.EmailSalt.objects.get(email__iexact=email)
-            correct_token = email_salt.get_one_time_login()
-            if correct_token == one_time_token:
-                models.User.objects.update_or_create(email=email)
-                # Create a new salt, as user can only log-in with token once
-                # TODO - in future won't have tokens for users that already exist
-                email_salt.salt = os.urandom(16)
-                email_salt.save()
-                response = Response(status=status.HTTP_201_CREATED)
-            else:
-                response = Response(data="Incorrect token", status=status.HTTP_400_BAD_REQUEST)
-        except models.EmailSalt.DoesNotExist:
-            response = Response(data="Email does not exist", status=status.HTTP_400_BAD_REQUEST)
-        return response
+@extend_schema(request=serializers.UserLoginSerializer)
+@decorators.api_view(["POST"])
+def first_log_in_view(request):
+    email = request.data["email"]
+    if email:
+        email = email.lower()
+    one_time_token = request.data["one_time_token"]
+    try:
+        email_salt = models.EmailSalt.objects.get(email__iexact=email)
+        correct_token = email_salt.get_one_time_login()
+        if correct_token == one_time_token:
+            models.User.objects.update_or_create(email=email)
+            # Create a new salt, as user can only log-in with token once
+            # TODO - in future won't have tokens for users that already exist
+            email_salt.salt = os.urandom(16)
+            email_salt.save()
+            response = Response(status=status.HTTP_201_CREATED)
+        else:
+            response = Response(data="Incorrect token", status=status.HTTP_400_BAD_REQUEST)
+    except models.EmailSalt.DoesNotExist:
+        response = Response(data="Email does not exist", status=status.HTTP_400_BAD_REQUEST)
+    return response
