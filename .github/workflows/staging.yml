@@ -10,26 +10,24 @@ on:
       - main
 
 permissions:
-    packages: write
-    repository-projects: read
-    id-token: write
-    contents: read
+  packages: write
+  repository-projects: read
+  id-token: write
+  contents: read
 
 jobs:
-
   push_images:
-
     runs-on: ubuntu-latest
 
     env:
       IMAGE_TAG: latest
       DOCKER_REPOSITORY: ghcr.io
       NODE_ENV: development
-      NEXT_PUBLIC_API_URL: https://ellandi-api.london.cloudapps.digital/
+      NEXT_PUBLIC_API_URL: https://ellandi-api.london.cloudapps.digital
 
     strategy:
       matrix:
-        app: [ ellandi-api, ellandi-web ]
+        app: [ellandi-api, ellandi-web]
         include:
           - app: ellandi-api
             dockerfile: docker/api/Dockerfile
@@ -67,7 +65,7 @@ jobs:
 
     strategy:
       matrix:
-        app: [ ellandi-api, ellandi-web ]
+        app: [ellandi-api, ellandi-web]
 
     steps:
       - name: Donwload CF CLI
