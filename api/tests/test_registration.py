@@ -2,15 +2,9 @@ from nose.tools import with_setup
 from rest_framework import status
 from tests import utils
 
-<<<<<<< HEAD
-=======
 from ellandi.registration.models import EmailSalt, User
 
-<<<<<<< HEAD
->>>>>>> 1ded8bf (remove print statement)
-=======
 
->>>>>>> 06ce739 (update tests)
 TEST_SERVER_URL = "http://testserver:8000/"
 
 
