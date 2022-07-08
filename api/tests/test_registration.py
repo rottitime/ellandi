@@ -77,12 +77,12 @@ def test_put(client, user_id):
     assert response.json()["last_name"] == "Brown"
 
 
-@utils.with_logged_in_client
-def test_delete(client, user_id):
-    response = client.delete(f"/users/{user_id}/")
-    assert response.status_code == status.HTTP_204_NO_CONTENT
-    number_matching_users = User.objects.filter(id=user_id).count()
-    assert number_matching_users == 0
+# @utils.with_logged_in_client
+# def test_delete(client, user_id):
+#     response = client.delete(f"/users/{user_id}/")
+#     assert response.status_code == status.HTTP_204_NO_CONTENT
+#     number_matching_users = User.objects.filter(id=user_id).count()
+#     assert number_matching_users == 0
 
 
 @utils.with_logged_in_client

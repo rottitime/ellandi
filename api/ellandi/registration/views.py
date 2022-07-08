@@ -24,6 +24,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
     queryset = get_user_model().objects.all().order_by("-created_at")
     serializer_class = serializers.UserSerializer
+    http_method_names = ["get", "post", "put"]
 
     @decorators.action(detail=True, methods=["get"])
     def skills(self, request, pk):
