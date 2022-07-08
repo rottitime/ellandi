@@ -31,11 +31,12 @@ def test_create_user(client):
     assert user["id"]
 
 
-@utils.with_client
-def test_homepage_no_auth(client):
-    response = client.get("/")
-    assert response.status_code == 401
-    assert response.json() == {"detail": "Authentication credentials were not provided."}
+# TODO: Uncomment when we re-enable auth
+# @utils.with_client
+# def test_homepage_no_auth(client):
+#     response = client.get("/")
+#     assert response.status_code == 401
+#     assert response.json() == {"detail": "Authentication credentials were not provided."}
 
 
 @utils.with_client
