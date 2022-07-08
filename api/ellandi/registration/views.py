@@ -1,9 +1,9 @@
 from django.contrib.auth import get_user_model
-from rest_framework import routers, viewsets
-from rest_framework.decorators import action
+from drf_spectacular.utils import extend_schema
+from rest_framework import decorators, permissions, routers, viewsets
 from rest_framework.response import Response
 
-from . import models, serializers
+from . import exceptions, models, serializers
 
 registration_router = routers.DefaultRouter()
 
@@ -25,7 +25,7 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = get_user_model().objects.all().order_by("-created_at")
     serializer_class = serializers.UserSerializer
 
-    @action(detail=True, methods=["get"])
+    @decorators.action(detail=True, methods=["get"])
     def skills(self, request, pk):
         skills_qs = models.UserSkill.objects.filter(user__id=pk)
         serializer = serializers.UserSkillSerializer(skills_qs, many=True, context={"request": request})
@@ -84,3 +84,19 @@ class GradeViewSet(viewsets.ReadOnlyModelViewSet):
 class LanguageSkillLevelViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.LanguageSkillLevel.objects.all().order_by("name")
     serializer_class = serializers.LanguageSkillLevelSerializer
+
+
+@extend_schema(
+    request=serializers.RegisterSerializer,
+    responses=serializers.UserSerializer,
+)
+@decorators.api_view(["POST"])
+@decorators.permission_classes((permissions.AllowAny,))
+def register_view(request):
+    email = request.data.get("email")
+    password = request.data.get("password")
+    if get_user_model().objects.filter(email=email).exists():
+        raise exceptions.RegistrationError()
+    user = get_user_model().objects.create_user(email=email, password=password)
+    user_data = serializers.UserSerializer(user, context={"request": request}).data
+    return Response(user_data)

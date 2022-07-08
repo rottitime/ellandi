@@ -93,3 +93,8 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
             "skills",
             "languages",
         ]
+
+
+class RegisterSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    password = serializers.CharField()

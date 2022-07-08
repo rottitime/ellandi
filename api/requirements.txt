@@ -8,3 +8,4 @@ jinja2
 govuk-frontend-jinja
 whitenoise
 django-cors-headers
+django-rest-knox
