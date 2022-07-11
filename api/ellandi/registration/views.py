@@ -3,7 +3,7 @@ from drf_spectacular.utils import extend_schema
 from rest_framework import decorators, permissions, routers, viewsets
 from rest_framework.response import Response
 
-from . import exceptions, models, serializers
+from . import exceptions, initial_data, models, serializers
 
 registration_router = routers.DefaultRouter()
 
@@ -109,3 +109,10 @@ def register_view(request):
     user = get_user_model().objects.create_user(email=email, password=password)
     user_data = serializers.UserSerializer(user, context={"request": request}).data
     return Response(user_data)
+
+
+@decorators.api_view(["GET"])
+def skills_list_view(request):
+    skills = set(models.UserSkill.objects.all().values_list("skill_name", flat=True))
+    skills = initial_data.INITIAL_SKILLS.union(skills)
+    return Response(skills)
