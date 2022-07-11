@@ -156,9 +156,6 @@ def first_log_in_view(request):
     if correct_token != one_time_token:
         return Response(data="Incorrect token", status=status.HTTP_400_BAD_REQUEST)
     models.User.objects.update_or_create(email=email)
-    # Create a new salt, as user can only log-in with token once
-    # TODO - in future won't have tokens for users that already exist
-    email_salt.salt = os.urandom(16)
-    email_salt.save()
+    # TODO - in future will change so can only log-in once with same token
     response = Response(status=status.HTTP_201_CREATED)
     return response

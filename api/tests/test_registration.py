@@ -294,9 +294,3 @@ def test_post_first_time_login(client):
     user = User.objects.get(email="test_login@example.com")
     assert response.status_code == status.HTTP_201_CREATED
     assert user
-    response = client.post("/first-time-login/", json={"email": "test_login@example.com", "one_time_token": tok})
-    assert response.status_code == status.HTTP_400_BAD_REQUEST, "token invalid after used once"
-    response = client.post(
-        "/first-time-login/", json={"email": "non-existent-email@example.com", "one_time_token": "tok"}
-    )
-    assert response.status_code == status.HTTP_400_BAD_REQUEST
