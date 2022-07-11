@@ -3,8 +3,7 @@ from drf_spectacular.utils import extend_schema
 from rest_framework import decorators, permissions, routers, viewsets
 from rest_framework.response import Response
 
-from . import exceptions, models, serializers, initial_data
-
+from . import exceptions, initial_data, models, serializers
 
 registration_router = routers.DefaultRouter()
 
