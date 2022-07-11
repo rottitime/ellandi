@@ -38,25 +38,25 @@ const profiles: MenuDataType = [
     url: '/account/learning',
     color: 'profilePink',
     logo: <LearningIcon />
-  },
-  {
-    title: 'Careers',
-    content:
-      'View current job vacancies and career pathways to discover what they involve',
-    linkText: 'Plan your career',
-    url: '/account/careers',
-    color: 'profileGreen',
-    logo: <CareersIcon />
-  },
-  {
-    title: 'Communities',
-    content:
-      'Discuss ideas and share best practice with specific professions and functions',
-    linkText: 'Access communities',
-    url: '/account/communities',
-    color: 'profileYellow',
-    logo: <CommunitiesIcon />
   }
+  // {
+  //   title: 'Careers',
+  //   content:
+  //     'View current job vacancies and career pathways to discover what they involve',
+  //   linkText: 'Plan your career',
+  //   url: '/account/careers',
+  //   color: 'profileGreen',
+  //   logo: <CareersIcon />
+  // },
+  // {
+  //   title: 'Communities',
+  //   content:
+  //     'Discuss ideas and share best practice with specific professions and functions',
+  //   linkText: 'Access communities',
+  //   url: '/account/communities',
+  //   color: 'profileYellow',
+  //   logo: <CommunitiesIcon />
+  // }
 ]
 
 const IndexPage = () => {
