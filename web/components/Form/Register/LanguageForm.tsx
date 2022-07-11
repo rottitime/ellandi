@@ -80,8 +80,7 @@ const LanguageForm: FC<StandardRegisterProps<null>> = ({ backUrl, onFormSubmit }
         Add any languages that you use. You can change or add to these later.
       </Typography>
       <Typography gutterBottom>
-        We'll use this to suggest learning and career development opportunities that are
-        relevant to you
+        We'll use this to suggest learning opportunities that are relevant to you
       </Typography>
       <Typography variant="h3" gutterBottom>
         Language one
@@ -89,7 +88,6 @@ const LanguageForm: FC<StandardRegisterProps<null>> = ({ backUrl, onFormSubmit }
 
       <Autocomplete
         disablePortal
-        id="combo-box-demo"
         options={
           isSuccess ? data.map(({ name, slug }) => ({ label: name, id: slug })) : []
         }
@@ -97,7 +95,7 @@ const LanguageForm: FC<StandardRegisterProps<null>> = ({ backUrl, onFormSubmit }
         renderInput={(params) => (
           <TextField
             {...params}
-            label="language"
+            label="Select a language"
             variant="filled"
             size="small"
             margin="normal"
@@ -134,7 +132,7 @@ const LanguageForm: FC<StandardRegisterProps<null>> = ({ backUrl, onFormSubmit }
       <Typography gutterBottom variant="h3">
         Writing
       </Typography>
-      <Typography gutterBottom>Set a proficiency level for speaking:</Typography>
+      <Typography gutterBottom>Set a proficiency level for writing:</Typography>
       <RadioGroup
         aria-labelledby="demo-radio-buttons-group-label"
         name="radio-buttons-group2"

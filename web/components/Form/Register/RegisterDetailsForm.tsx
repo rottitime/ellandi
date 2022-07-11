@@ -51,10 +51,7 @@ const RegisterDetailsForm: FC<StandardRegisterProps<RegisterDetailsType>> = ({
         <TextFieldControlled name="fullname" label="Full name" />
         <TextFieldControlled name="department" label="Department" />
         <TextFieldControlled name="job" label="Job title" />
-        <TextFieldControlled
-          name="lineManagerEmail"
-          label="Your line manager's email address"
-        />
+        <TextFieldControlled name="lineManagerEmail" label="Line manager email" />
 
         <Controller
           name="country"

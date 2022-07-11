@@ -11,9 +11,9 @@ const RegisterPage = () => (
     </Typography>
 
     <ul>
-      <li>Your language skills</li>
-      <li>Other skills that you already have</li>
-      <li>Skills that you'd like to develop</li>
+      <li>your language skills</li>
+      <li>other skills that you already have</li>
+      <li>skills that you'd like to develop</li>
     </ul>
 
     <Footer>

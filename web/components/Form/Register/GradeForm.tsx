@@ -38,15 +38,12 @@ const GradeForm: FC<StandardRegisterProps<null>> = ({ backUrl, onFormSubmit }) =
 
   return (
     <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
-      <Typography variant="h1" gutterBottom></Typography>
-
       <Typography variant="subtitle1" gutterBottom>
         Select your grade. You may only choose one
       </Typography>
 
       <Typography gutterBottom>
-        We'll use this to suggest learning and career development opportunities that are
-        relevant to you
+        We'll use this to suggest learning opportunities that are relevant to you
       </Typography>
 
       <RadioGroup

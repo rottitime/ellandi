@@ -5,36 +5,27 @@ import { Typography } from '@mui/material'
 const RegisterPage = () => (
   <>
     <Typography variant="h1" gutterBottom>
-      Hi <Link href="#">joe.bloggs@cabinetoffice.gov.uk</Link>
+      Hi Joe Bloggs
     </Typography>
 
     <Typography gutterBottom>
-      You are invited to register on Civil Service Skills. Please select the following
-      link to sign up:
-    </Typography>
-
-    <Typography gutterBottom>
-      <Link href="/register">
-        http://skills.civilservice.gov.uk/signup/123AbcDefgh1238910ABCdefghk
-      </Link>
+      You are invited to register for Civil Service Skills and Learning.
     </Typography>
     <Typography gutterBottom>
-      The above is a one-time-only link; you can only use this link once. If you use this
-      link more than once, your invitation expires and you will not be able to sign up to
-      Civil Service Skills.
+      You can <Link href="/register">register with this one time only link</Link>. If you
+      use the link more than once, your invitation will expire.
     </Typography>
     <Typography gutterBottom>
-      Please contact{' '}
+      You need to contact{' '}
       <Link href="mailto:mailto:support.learn@csskills.gov.uk">
         support.learn@csskills.gov.uk
       </Link>{' '}
-      if you need the sign-up link to be resent.
+      if you need the registration link to be resent.
     </Typography>
-
     <Typography gutterBottom>
       Regards
       <br />
-      skills.civilservice Team
+      Civil Service Skills and Learning team
     </Typography>
   </>
 )

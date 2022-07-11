@@ -16,7 +16,7 @@ const RegisterPage = () => (
 
 export default RegisterPage
 RegisterPage.getLayout = (page) => (
-  <Page title="Create an account - Current contract type" progress={70}>
+  <Page title="Contact preference" progress={70}>
     {page}
   </Page>
 )
