@@ -143,19 +143,20 @@ def first_log_in_view(request):
     email = request.data["email"]
     if email:
         email = email.lower()
+    else:
+        response = Response(data="Email does not exist", status=status.HTTP_400_BAD_REQUEST)
+        return response
+
     one_time_token = request.data["one_time_token"]
-    try:
-        email_salt = models.EmailSalt.objects.get(email__iexact=email)
-        correct_token = email_salt.get_one_time_login()
-        if correct_token == one_time_token:
-            models.User.objects.update_or_create(email=email)
+    email_salt = models.EmailSalt.objects.get(email__iexact=email)
+    correct_token = email_salt.get_one_time_login()
+    if correct_token == one_time_token:
+        models.User.objects.update_or_create(email=email)
             # Create a new salt, as user can only log-in with token once
             # TODO - in future won't have tokens for users that already exist
             email_salt.salt = os.urandom(16)
             email_salt.save()
             response = Response(status=status.HTTP_201_CREATED)
-        else:
-            response = Response(data="Incorrect token", status=status.HTTP_400_BAD_REQUEST)
-    except models.EmailSalt.DoesNotExist:
-        response = Response(data="Email does not exist", status=status.HTTP_400_BAD_REQUEST)
+    else:
+        response = Response(data="Incorrect token", status=status.HTTP_400_BAD_REQUEST)
     return response
