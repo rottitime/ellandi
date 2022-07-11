@@ -266,7 +266,7 @@ def setup_one_time_login():
 
 
 def teardown_one_time_login():
-    EmailSalt.objects.get(email__iexact="test_login@example.com").delete()
+    EmailSalt.objects.filter(email__iexact="test_login@example.com").delete()
     User.objects.filter(email__iexact="test_login@example.com").delete()
 
 
