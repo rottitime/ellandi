@@ -272,11 +272,18 @@ def teardown_one_time_login():
 
 @utils.with_client
 @with_setup(None, teardown_one_time_login)
-def test_post_one_time_login(client):
+def test_post_create_one_time_login(client):
     response = client.post("/one-time-login-token/", json={"email": "test_login@example.com"})
     one_time_token = response.json()["one_time_token"]
     assert response.status_code == status.HTTP_200_OK
     assert one_time_token
+
+
+@utils.with_client
+@with_setup(None, teardown_one_time_login)
+def test_post_create_one_time_login_no_email(client):
+    response = client.post("/one-time-login-token/")
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
 
 
 @utils.with_client

@@ -10,7 +10,8 @@ from drf_spectacular.views import (
 from ellandi import auth, views
 from ellandi import views
 from ellandi.registration.views import (
-    one_time_login_view,
+    create_one_time_login_view,
+    first_log_in_view,
     register_view,
     registration_router,
     first_log_in_view,
@@ -20,7 +21,7 @@ api_urlpatterns = [
     path("", include(registration_router.urls)),
     path("register/", register_view, name="register"),
     path("skills/", skills_list_view, name="skills"),
-    path("one-time-login-token/", one_time_login_view),
+    path("one-time-login-token/", create_one_time_login_view),
     path("first-time-login/", first_log_in_view),
 ]
 

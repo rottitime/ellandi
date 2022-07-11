@@ -123,9 +123,11 @@ def skills_list_view(request):
 @extend_schema(request=serializers.EmailSaltSerializer, responses=serializers.OneTimeTokenSerializer)
 @decorators.api_view(["POST"])
 @decorators.permission_classes((permissions.AllowAny,))
-def one_time_login_view(request):
-    email = request.data["email"]
-    if email:
+def create_one_time_login_view(request):
+    if "email" not in request.data:
+        return Response(data="You need to provide an email", status=status.HTTP_400_BAD_REQUEST)
+    else:
+        email = request.data["email"]
         email = email.lower()
         try:
             email_salt = models.EmailSalt.objects.get(email__iexact=email)
@@ -140,22 +142,23 @@ def one_time_login_view(request):
 @decorators.api_view(["POST"])
 @decorators.permission_classes((permissions.AllowAny,))
 def first_log_in_view(request):
-    email = request.data["email"]
-    if email:
+    if "email" not in request.data:
+        return Response(data="You need to provide an email", status=status.HTTP_400_BAD_REQUEST)
+    else:
+        email = request.data["email"]
         email = email.lower()
-    else:
-        response = Response(data="Email does not exist", status=status.HTTP_400_BAD_REQUEST)
-        return response
     one_time_token = request.data["one_time_token"]
-    email_salt = models.EmailSalt.objects.get(email__iexact=email)
+    try:
+        email_salt = models.EmailSalt.objects.get(email__iexact=email)
+    except models.EmailSalt.DoesNotExist:
+        return Response(data="One-time token has not been generated for this email", status=status.HTTP_400_BAD_REQUEST)
     correct_token = email_salt.get_one_time_login()
-    if correct_token == one_time_token:
-        models.User.objects.update_or_create(email=email)
-        # Create a new salt, as user can only log-in with token once
-        # TODO - in future won't have tokens for users that already exist
-        email_salt.salt = os.urandom(16)
-        email_salt.save()
-        response = Response(status=status.HTTP_201_CREATED)
-    else:
-        response = Response(data="Incorrect token", status=status.HTTP_400_BAD_REQUEST)
+    if correct_token != one_time_token:
+        return Response(data="Incorrect token", status=status.HTTP_400_BAD_REQUEST)
+    models.User.objects.update_or_create(email=email)
+    # Create a new salt, as user can only log-in with token once
+    # TODO - in future won't have tokens for users that already exist
+    email_salt.salt = os.urandom(16)
+    email_salt.save()
+    response = Response(status=status.HTTP_201_CREATED)
     return response
