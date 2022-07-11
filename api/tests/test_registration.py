@@ -38,26 +38,13 @@ def test_user_post(client, user_id):
     }
 
     response = client.post("/users/", json=data)
-    assert response.status_code == status.HTTP_201_CREATED
-    user = User.objects.get(email=data["email"])
-
-    for key, value in data.items():
-        assert getattr(user, key) == value, (key, value)
-
-    user.delete()
+    assert response.status_code == status.HTTP_405_METHOD_NOT_ALLOWED
 
 
 @utils.with_logged_in_client
-def test_post_no_email(client, user_id):
-    data_incorrect = {
-        "first_name": "Bob",
-        "last_name": "Smith",
-        "organisation": "Cabinet Office",
-    }
-
-    response = client.post("/users/", data=data_incorrect)
-    assert response.status_code == status.HTTP_400_BAD_REQUEST
-    assert response.json()["email"] == ["This field is required."]
+def test_delete(client, user_id):
+    response = client.delete(f"/users/{user_id}/")
+    assert response.status_code == status.HTTP_405_METHOD_NOT_ALLOWED
 
 
 @utils.with_logged_in_client
@@ -77,7 +64,13 @@ def test_put(client, user_id):
     assert response.json()["last_name"] == "Brown"
 
 
-# TODO - test patch
+@utils.with_logged_in_client
+def test_patch(client, user_id):
+    updated_user_data = {"email": "jane@example.com", "first_name": "Alice"}
+    response = client.patch(f"/users/{user_id}/", data=updated_user_data)
+    assert response.status_code == status.HTTP_200_OK
+    assert response.json()["last_name"] == "Green"
+    assert response.json()["first_name"] == "Alice"
 
 
 @utils.with_logged_in_client
