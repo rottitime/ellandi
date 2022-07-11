@@ -11,8 +11,13 @@ type Props = {
 }
 
 const schema: SchemaOf<SignInType> = object().shape({
-  email: string().email().required(),
-  password: string().min(4).max(20).required()
+  email: string()
+    .email('Enter an email address in the correct format, like name@example.com')
+    .required('This is a required field'),
+  password: string()
+    .min(8, 'Password must be 8 characters or more')
+    .max(20)
+    .required('This is a required field')
 })
 
 const SignInForm: FC<Props> = ({ onFormSubmit }) => {
