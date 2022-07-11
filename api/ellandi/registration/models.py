@@ -63,7 +63,7 @@ class Grade(DropDownListModel):
 
 
 class LanguageSkillLevel(DropDownListModel):
-    pass
+    description = models.CharField(max_length=255, blank=False, null=False)
 
 
 class UserManager(BaseUserManager):
