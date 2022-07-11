@@ -10,7 +10,7 @@ const RegisterPage = () => (
     onFormSubmit={(data) => {
       // eslint-disable-next-line no-console
       console.log({ data })
-      router.push('/register/page9')
+      router.push('/register/page10')
     }}
   />
 )
@@ -21,7 +21,7 @@ RegisterPage.getLayout = (page) => (
     title="Contract type"
     footer={
       <Typography gutterBottom>
-        <Link href="/register/page9">Skip this step</Link>
+        <Link href="/register/page10">Skip this step</Link>
       </Typography>
     }
     progress={50}
