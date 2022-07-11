@@ -124,15 +124,15 @@ const GenericPage: FC<Props> = ({ children, title, footer, progress }) => {
               list={[
                 {
                   icon: <AccountBox />,
-                  title: 'Upload and maintain your skills and learning profile'
+                  title: 'upload and maintain your skills and learning profile'
                 },
                 {
                   icon: <Yard />,
-                  title: "Specify any skills you'd like to develop in the future"
+                  title: "specify any skills you'd like to develop in the future"
                 },
                 {
                   icon: <Search />,
-                  title: 'Find courses and development opportunities'
+                  title: 'find courses and development opportunities'
                 },
                 {
                   icon: <QuestionAnswer />,

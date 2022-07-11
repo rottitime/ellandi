@@ -22,7 +22,7 @@ RegisterPage.getLayout = (page) => (
   <Page
     title={
       <>
-        Registering takes around <Highlight newLine>5 -10 minutes</Highlight>
+        Registering takes around <Highlight newLine>5 - 10 minutes</Highlight>
       </>
     }
   >

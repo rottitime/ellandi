@@ -26,6 +26,7 @@ export default function MyApp({
   return (
     <CacheProvider value={emotionCache}>
       <Head>
+        <title>Civil Service Skills and Learning</title>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
