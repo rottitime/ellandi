@@ -55,7 +55,7 @@ class GradeSerializer(serializers.ModelSerializer):
 class LanguageSkillLevelSerializer(serializers.ModelSerializer):
     class Meta:
         model = LanguageSkillLevel
-        fields = ["slug", "name"]
+        fields = ["slug", "name", "description"]
 
 
 class UserSkillSerializer(serializers.HyperlinkedModelSerializer):
