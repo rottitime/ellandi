@@ -105,17 +105,17 @@ const Header = styled('header')`
   }
 `
 
-const filters = [
-  'Commercial awareness (1)',
-  'Communication (2)',
-  'Data management (1)',
-  'Financial management (2)',
-  'Forecasting (1)',
-  'Influencing (2)',
-  'Managing budgets (1)',
-  'Numeracy (1)',
-  'Presenting (1)'
-]
+// const filters = [
+//   'Commercial awareness (1)',
+//   'Communication (2)',
+//   'Data management (1)',
+//   'Financial management (2)',
+//   'Forecasting (1)',
+//   'Influencing (2)',
+//   'Managing budgets (1)',
+//   'Numeracy (1)',
+//   'Presenting (1)'
+// ]
 
 const Page = () => {
   return (
