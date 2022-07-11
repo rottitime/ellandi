@@ -8,15 +8,14 @@ from drf_spectacular.views import (
 )
 
 from ellandi import auth, views
-from ellandi import views
 from ellandi.registration.views import (
     create_one_time_login_view,
     first_log_in_view,
     register_view,
     registration_router,
-    first_log_in_view,
-    skills_list_view
+    skills_list_view,
 )
+
 api_urlpatterns = [
     path("", include(registration_router.urls)),
     path("register/", register_view, name="register"),

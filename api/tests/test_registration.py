@@ -4,7 +4,6 @@ from tests import utils
 
 from ellandi.registration.models import EmailSalt, User
 
-
 TEST_SERVER_URL = "http://testserver:8000/"
 
 
