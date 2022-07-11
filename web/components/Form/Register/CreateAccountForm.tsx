@@ -15,15 +15,20 @@ type CreateAccountType = {
 }
 
 const schema: SchemaOf<CreateAccountType> = object().shape({
-  email: string().email().required(),
+  email: string()
+    .email('Enter an email address in the correct format, like name@example.com')
+    .required('This is a required field'),
   emailConfirm: string()
     .oneOf([ref('email'), null], 'Does not match with email')
-    .required('this is a required field'),
+    .required('This is a required field'),
 
-  password: string().min(8).max(20).required(),
+  password: string()
+    .min(8, 'Password must be 8 characters or more')
+    .max(20)
+    .required('This is a required field'),
   passwordConfirm: string()
     .oneOf([ref('password'), null], 'Does not match with password')
-    .required('this is a required field')
+    .required('This is a required field')
 })
 
 const CreateAccountForm: FC<StandardRegisterProps<CreateAccountType>> = ({
