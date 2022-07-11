@@ -1,7 +1,6 @@
 from rest_framework import status
 from tests import utils
 
-
 TEST_SERVER_URL = "http://testserver:8000/"
 
 
@@ -25,7 +24,6 @@ def test_user_get(client, user_id):
 @utils.with_logged_in_client
 def test_user_post(client, user_id):
     data = {
-        "email": "bob@example.com",
         "first_name": "Bob",
         "last_name": "Smith",
         "organisation": "Cabinet Office",

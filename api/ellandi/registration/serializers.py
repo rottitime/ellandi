@@ -80,8 +80,8 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         model = get_user_model()
         fields = [
             "id",
-            "url",
             "email",
+            "url",
             "first_name",
             "last_name",
             "privacy_policy_agreement",
