@@ -3,7 +3,8 @@ from drf_spectacular.utils import extend_schema
 from rest_framework import decorators, permissions, routers, viewsets
 from rest_framework.response import Response
 
-from . import exceptions, models, serializers
+from . import exceptions, models, serializers, initial_data
+
 
 registration_router = routers.DefaultRouter()
 
@@ -113,27 +114,6 @@ def register_view(request):
 
 @decorators.api_view(["GET"])
 def skills_list_view(request):
-    initial_skills = set(
-        [
-            "auditing",
-            "bookkeeping",
-            "communication",
-            "coding",
-            "creative thinking",
-            "customer service",
-            "data entry",
-            "diary management",
-            "flexibility",
-            "Microsoft Office",
-            "motivation",
-            "negotiation",
-            "planning",
-            "problem solving",
-            "project management",
-            "sales",
-            "social media",
-        ]
-    )  # Example placeholder skills - these will change
     skills = set(models.UserSkill.objects.all().values_list("skill_name", flat=True))
-    skills = initial_skills.union(skills)
+    skills = initial_data.INITIAL_SKILLS.union(skills)
     return Response(skills)
