@@ -182,7 +182,8 @@ class EmailSalt(models.Model):
     salt = models.BinaryField(max_length=16, blank=False, null=False)
 
     def get_one_time_login(self):
-        tok = "|".join([b64encode(self.salt).decode("utf-8"), self.email, settings.SECRET_KEY])
+        salt_str = b64encode(self.salt).decode("utf-8")
+        tok = "|".join([salt_str, self.email, settings.SECRET_KEY])
         one_time_token = hashlib.sha256(tok.encode("utf-8")).hexdigest()
         return one_time_token
 
