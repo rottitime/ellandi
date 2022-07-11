@@ -12,10 +12,10 @@ type Props = {
 
 const pages = [
   { title: 'Skills', url: '/account/skills' },
-  { title: 'Learning', url: '/account/learning' },
-  { title: 'Careers', url: '/account/careers' },
-  { title: 'Communities', url: '/account/communities' },
-  { title: 'Favourites', url: '/account/favourites' }
+  { title: 'Learning', url: '/account/learning' }
+  // { title: 'Careers', url: '/account/careers' },
+  // { title: 'Communities', url: '/account/communities' },
+  // { title: 'Favourites', url: '/account/favourites' }
 ]
 
 const settings = [

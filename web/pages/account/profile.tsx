@@ -5,7 +5,7 @@ import Link from '@/components/UI/Link'
 
 const list = [
   { name: 'Full name', value: 'John Smith' },
-  { name: 'Primary emailaddress', value: 'john.smith@cabinetoffice.gov.uk' },
+  { name: 'Primary email address', value: 'john.smith@cabinetoffice.gov.uk' },
   { name: 'Secondary email' },
   { name: 'address' },
   { name: 'Password' },

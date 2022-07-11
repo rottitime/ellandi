@@ -15,7 +15,7 @@ const RegisterPage = () => (
 
 export default RegisterPage
 RegisterPage.getLayout = (page) => (
-  <Page title="Create an account - Your details" progress={20}>
+  <Page title="Your details" progress={20}>
     {page}
   </Page>
 )

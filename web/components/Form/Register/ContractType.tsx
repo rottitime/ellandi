@@ -9,11 +9,12 @@ const ContractType: FC<StandardRegisterProps<null>> = ({ backUrl, onFormSubmit }
   return (
     <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
       <Typography variant="subtitle1" gutterBottom>
-        Select your contract type. You can only choose one
+        Are you happy for recruitment and HR to contact you with opportunities from time
+        to time based on your skills? You can change this later
       </Typography>
       <Typography gutterBottom>
-        We'll use this to suggest learning and career development opportunities that are
-        relevant to you
+        This will only be in cases of emergency or an identified skills shortage in a
+        particular area
       </Typography>
       <RadioGroup sx={{ mb: 3 }}>
         <FormControlLabel control={<Radio />} label="Yes" value="Yes" />

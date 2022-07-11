@@ -18,7 +18,7 @@ const RegisterPage = () => (
 export default RegisterPage
 RegisterPage.getLayout = (page) => (
   <Page
-    title="Create a profile - Language skills"
+    title="Language skills"
     footer={
       <Typography gutterBottom>
         <Link href="/register/page13">Skip this step</Link>

@@ -5,7 +5,7 @@ import ContractType from '@/components/Form/Register/ContractType'
 
 const RegisterPage = () => (
   <ContractType
-    backUrl="/register/page9"
+    backUrl="/register/page8"
     onFormSubmit={(data) => {
       // eslint-disable-next-line no-console
       console.log({ data })
@@ -16,7 +16,7 @@ const RegisterPage = () => (
 
 export default RegisterPage
 RegisterPage.getLayout = (page) => (
-  <Page title="Create an account - Current contract type" progress={70}>
+  <Page title="Contact preference" progress={70}>
     {page}
   </Page>
 )

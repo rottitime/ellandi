@@ -19,7 +19,7 @@ export default RegisterPage
 
 RegisterPage.getLayout = (page) => (
   <Page
-    title="Create a profile - Grade"
+    title="Grade"
     footer={
       <Typography>
         <Link href="/register/page7">Skip this step</Link>

@@ -4,7 +4,7 @@ import { fetchProfessions } from '@/service/api'
 import { GenericDataList } from '@/service/types'
 import { useUiContext } from '@/context/UiContext'
 import { useQuery } from 'react-query'
-import { FC, useEffect } from 'react'
+import { FC, useEffect, useState } from 'react'
 import FormFooter from '@/components/Form/FormFooter'
 import { StandardRegisterProps } from './types'
 import { useForm } from 'react-hook-form'
@@ -16,6 +16,7 @@ const List = styled(Stack)`
 `
 
 const ProfessionForm: FC<StandardRegisterProps<null>> = ({ backUrl, onFormSubmit }) => {
+  const [profession, setProfession] = useState<string[]>([])
   const { handleSubmit } = useForm()
   const { setLoading } = useUiContext()
   const { isLoading, isError, data } = useQuery<GenericDataList[], { message?: string }>(
@@ -42,8 +43,7 @@ const ProfessionForm: FC<StandardRegisterProps<null>> = ({ backUrl, onFormSubmit
       </Typography>
 
       <Typography gutterBottom>
-        We'll use this to suggest learning and career development opportunities that are
-        relevant to you
+        We'll use this to suggest learning opportunities that are relevant to you
       </Typography>
 
       <List
@@ -58,10 +58,20 @@ const ProfessionForm: FC<StandardRegisterProps<null>> = ({ backUrl, onFormSubmit
           ? [...Array(22).keys()].map((i) => (
               <Skeleton key={i} width={100} sx={{ m: 1 }} />
             ))
-          : data.map(({ name, slug }) => <ToggleChip key={slug} label={name} />)}
+          : data.map(({ name, slug }) => (
+              <ToggleChip
+                key={slug}
+                label={name}
+                onToggle={(_e, active) => {
+                  setProfession((p) =>
+                    active ? [...p, name] : p.filter((item) => item !== name)
+                  )
+                }}
+              />
+            ))}
       </List>
 
-      <FormFooter backUrl={backUrl} />
+      <FormFooter backUrl={backUrl} buttonProps={{ disabled: !profession.length }} />
     </form>
   )
 }

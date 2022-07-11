@@ -5,8 +5,8 @@ import Divider from '@/components/UI/Divider2'
 import { Colors } from '@/style/theme'
 import Link from '@/components/UI/Link'
 import SkillsIcon from '@/components/Icons/Skills'
-import CareersIcon from '@/components/Icons/Careers'
-import CommunitiesIcon from '@/components/Icons/Communities'
+// import CareersIcon from '@/components/Icons/Careers'
+// import CommunitiesIcon from '@/components/Icons/Communities'
 import LearningIcon from '@/components/Icons/Learning'
 import { ReactNode } from 'react'
 import LearningStrands from '@/components/LearningStrands'
@@ -25,7 +25,7 @@ const profiles: MenuDataType = [
   {
     title: 'Skills',
     content:
-      'Update your skills profile to find learning and development opportunities tailored to you',
+      'Update your skills profile to record your current skills and ones you would like to develop',
     linkText: 'Review your skills',
     url: '/account/skills',
     color: 'profileBlue',
@@ -38,25 +38,25 @@ const profiles: MenuDataType = [
     url: '/account/learning',
     color: 'profilePink',
     logo: <LearningIcon />
-  },
-  {
-    title: 'Careers',
-    content:
-      'View current job vacancies and career pathways to discover what they involve',
-    linkText: 'Plan your career',
-    url: '/account/careers',
-    color: 'profileGreen',
-    logo: <CareersIcon />
-  },
-  {
-    title: 'Communities',
-    content:
-      'Discuss ideas and share best practice with specific professions and functions',
-    linkText: 'Access communities',
-    url: '/account/communities',
-    color: 'profileYellow',
-    logo: <CommunitiesIcon />
   }
+  // {
+  //   title: 'Careers',
+  //   content:
+  //     'View current job vacancies and career pathways to discover what they involve',
+  //   linkText: 'Plan your career',
+  //   url: '/account/careers',
+  //   color: 'profileGreen',
+  //   logo: <CareersIcon />
+  // },
+  // {
+  //   title: 'Communities',
+  //   content:
+  //     'Discuss ideas and share best practice with specific professions and functions',
+  //   linkText: 'Access communities',
+  //   url: '/account/communities',
+  //   color: 'profileYellow',
+  //   logo: <CommunitiesIcon />
+  // }
 ]
 
 const IndexPage = () => {
@@ -66,8 +66,7 @@ const IndexPage = () => {
     <>
       <Box sx={{ mb: 6 }}>
         <Typography variant="subtitle1" gutterBottom>
-          Use this service to add and review skills, view learning opportunities, plan
-          your career pathway and keep up to date with communities.
+          Use this service to add and review your skills and find learning opportunities
         </Typography>
       </Box>
 
