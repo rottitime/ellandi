@@ -4,13 +4,12 @@ import uuid
 from base64 import b64encode
 
 import pytz
+from django.conf import settings
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.text import slugify
-
-from ellandi.settings import SECRET_KEY
 
 
 def now():
@@ -183,7 +182,7 @@ class EmailSalt(models.Model):
     salt = models.BinaryField(max_length=16, blank=False, null=False)
 
     def get_one_time_login(self):
-        tok = "|".join([b64encode(self.salt).decode("utf-8"), self.email, SECRET_KEY])
+        tok = "|".join([b64encode(self.salt).decode("utf-8"), self.email, settings.SECRET_KEY])
         one_time_token = hashlib.sha256(tok.encode("utf-8")).hexdigest()
         return one_time_token
 
