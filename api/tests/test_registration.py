@@ -46,7 +46,7 @@ def test_delete(client, user_id):
 @utils.with_logged_in_client
 def test_put(client, user_id):
     updated_user_data = {
-        "email": "jane1@example.com",
+        "email": "jane_modified@example.com",
         "first_name": "Jane",
         "last_name": "Brown",
         "profession": [
@@ -62,7 +62,7 @@ def test_put(client, user_id):
 
 @utils.with_logged_in_client
 def test_patch(client, user_id):
-    updated_user_data = {"email": "jane1@example.com", "first_name": "Alice"}
+    updated_user_data = {"email": "jane_modified@example.com", "first_name": "Alice"}
     response = client.patch(f"/users/{user_id}/", data=updated_user_data)
     assert response.status_code == status.HTTP_200_OK
     assert response.json()["email"] == "jane@example.com", "Email field should be read-only"
