@@ -3,7 +3,7 @@ export type GenericDataList = {
   name: string
 }
 
-export interface ValidUser {
+export interface AuthUser {
   expiry: string
   token: string
 }
