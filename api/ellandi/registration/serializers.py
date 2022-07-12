@@ -3,6 +3,7 @@ from rest_framework import serializers
 
 from .models import (
     ContractType,
+    Country,
     EmailSalt,
     Grade,
     Language,
@@ -13,7 +14,6 @@ from .models import (
     User,
     UserLanguage,
     UserSkill,
-    Country,
 )
 
 
