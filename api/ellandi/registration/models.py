@@ -66,6 +66,10 @@ class LanguageSkillLevel(DropDownListModel):
     description = models.CharField(max_length=255, blank=False, null=False, default="")
 
 
+class Country(DropDownListModel):
+    pass
+
+
 class UserManager(BaseUserManager):
     use_in_migrations = True
 
