@@ -97,6 +97,12 @@ class LanguageSkillLevelViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = serializers.LanguageSkillLevelSerializer
 
 
+@register("countries")
+class CountryViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.Country.objects.all().order_by("name")
+    serializer_class = serializers.CountrySerializer
+
+
 @extend_schema(
     request=serializers.RegisterSerializer,
     responses=serializers.UserSerializer,

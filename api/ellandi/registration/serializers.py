@@ -13,6 +13,7 @@ from .models import (
     User,
     UserLanguage,
     UserSkill,
+    Country,
 )
 
 
@@ -56,6 +57,12 @@ class LanguageSkillLevelSerializer(serializers.ModelSerializer):
     class Meta:
         model = LanguageSkillLevel
         fields = ["slug", "name", "description"]
+
+
+class CountrySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Country
+        fields = ["slug", "name"]
 
 
 class UserSkillSerializer(serializers.HyperlinkedModelSerializer):
