@@ -9,11 +9,10 @@ from django.utils.text import slugify
 def populate_countries(apps, schema_editor):
     Country = apps.get_model("registration", "Country")
     countries = []
-    filename = "ellandi/registration/migrations/0029_FCDO-geographical-names-index-Feb22.csv"
-    with open(filename) as csvfile:
-        csv_reader = csv.DictReader(csvfile)
-        for row in csv_reader:
-            name = row["name"]
+    filename = "ellandi/registration/migrations/0029_FCDO-geographical-names-index-Feb22.txt"
+    with open(filename) as file:
+        for line in file:
+            name = line.strip()
             country = Country(name=name, slug=slugify(name))
             countries.append(country)
         Country.objects.bulk_create(countries)
