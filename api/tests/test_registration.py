@@ -238,6 +238,7 @@ def test_dropdown_list(client, user_id):
     def test_post(endpoint):
         response = client.post(endpoint, {"name": "a new name"})
         assert response.status_code == status.HTTP_405_METHOD_NOT_ALLOWED
+        assert "detail" in response.json()
 
     for item in data:
         endpoint = item["endpoint"]
@@ -284,6 +285,7 @@ def test_post_create_one_time_login(client):
 def test_post_create_one_time_login_no_email(client):
     response = client.post("/one-time-login-token/")
     assert response.status_code == status.HTTP_400_BAD_REQUEST
+    assert "detail" in response.json()
 
 
 @utils.with_client
