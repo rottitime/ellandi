@@ -1,5 +1,8 @@
+from nose.tools import with_setup
 from rest_framework import status
 from tests import utils
+
+from ellandi.registration.models import EmailSalt, User
 
 TEST_SERVER_URL = "http://testserver:8000/"
 
@@ -255,3 +258,38 @@ def test_skills_list(client, user_id):
     assert response.status_code == status.HTTP_200_OK
     assert len(response.json()) > 0
     assert "new user skill" in response.json()
+
+
+def setup_one_time_login():
+    EmailSalt(email="test_login@example.com", salt="fake_salt".encode("utf-8")).save()
+
+
+def teardown_one_time_login():
+    EmailSalt.objects.filter(email__iexact="test_login@example.com").delete()
+    User.objects.filter(email__iexact="test_login@example.com").delete()
+
+
+@utils.with_client
+@with_setup(None, teardown_one_time_login)
+def test_post_create_one_time_login(client):
+    response = client.post("/one-time-login-token/", json={"email": "test_login@example.com"})
+    one_time_token = response.json()["one_time_token"]
+    assert response.status_code == status.HTTP_200_OK
+    assert one_time_token
+
+
+@utils.with_client
+@with_setup(None, teardown_one_time_login)
+def test_post_create_one_time_login_no_email(client):
+    response = client.post("/one-time-login-token/")
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
+
+
+@utils.with_client
+@with_setup(setup_one_time_login, teardown_one_time_login)
+def test_post_first_time_login(client):
+    tok = EmailSalt.objects.get(email="test_login@example.com").get_one_time_login()
+    response = client.post("/first-time-login/", json={"email": "test_login@Example.com", "one_time_token": tok})
+    user = User.objects.get(email="test_login@example.com")
+    assert response.status_code == status.HTTP_201_CREATED
+    assert user

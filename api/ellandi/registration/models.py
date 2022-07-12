@@ -1,7 +1,10 @@
 import datetime
+import hashlib
 import uuid
+from base64 import b64encode
 
 import pytz
+from django.conf import settings
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
@@ -172,3 +175,22 @@ class UserLanguage(TimeStampedModel):
 
     class Meta:
         unique_together = ["user", "language", "type"]
+
+
+class EmailSalt(models.Model):
+    email = models.EmailField("email", unique=True, primary_key=True)
+    salt = models.BinaryField(max_length=16, blank=False, null=False)
+
+    def get_one_time_login(self):
+        salt_str = b64encode(self.salt).decode("utf-8")
+        tok = "|".join([salt_str, self.email, settings.SECRET_KEY])
+        one_time_token = hashlib.sha256(tok.encode("utf-8")).hexdigest()
+        return one_time_token
+
+    def is_one_time_login_valid(self, token_to_validate):
+        correct_token = self.get_one_time_login()
+        return correct_token == token_to_validate
+
+    def save(self, *args, **kwargs):
+        self.email = self.email.lower()
+        super(EmailSalt, self).save(*args, **kwargs)

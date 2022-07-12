@@ -3,6 +3,7 @@ from django.contrib import admin
 
 from .models import (
     ContractType,
+    EmailSalt,
     Grade,
     Language,
     LanguageSkillLevel,
@@ -101,3 +102,4 @@ admin.site.register(Language, LanguageAdmin)
 admin.site.register(Profession, ProfessionAdmin)
 admin.site.register(Grade, GradeAdmin)
 admin.site.register(LanguageSkillLevel, LanguageSkillLevelAdmin)
+admin.site.register(EmailSalt)

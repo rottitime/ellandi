@@ -3,12 +3,14 @@ from rest_framework import serializers
 
 from .models import (
     ContractType,
+    EmailSalt,
     Grade,
     Language,
     LanguageSkillLevel,
     Location,
     Organisation,
     Profession,
+    User,
     UserLanguage,
     UserSkill,
 )
@@ -100,3 +102,21 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 class RegisterSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField()
+
+
+class EmailSaltSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EmailSalt
+        fields = ["email"]
+
+
+class UserLoginSerializer(serializers.ModelSerializer):
+    one_time_token = serializers.CharField(required=True)
+
+    class Meta:
+        model = User
+        fields = ["email", "one_time_token"]
+
+
+class OneTimeTokenSerializer(serializers.Serializer):
+    one_time_token = serializers.CharField(required=True)

@@ -1,6 +1,8 @@
+import os
+
 from django.contrib.auth import get_user_model
 from drf_spectacular.utils import extend_schema
-from rest_framework import decorators, permissions, routers, viewsets
+from rest_framework import decorators, permissions, routers, status, viewsets
 from rest_framework.response import Response
 
 from . import exceptions, initial_data, models, serializers
@@ -116,3 +118,43 @@ def skills_list_view(request):
     skills = set(models.UserSkill.objects.all().values_list("skill_name", flat=True))
     skills = initial_data.INITIAL_SKILLS.union(skills)
     return Response(skills)
+
+
+@extend_schema(request=serializers.EmailSaltSerializer, responses=serializers.OneTimeTokenSerializer)
+@decorators.api_view(["POST"])
+@decorators.permission_classes((permissions.AllowAny,))
+def create_one_time_login_view(request):
+    if "email" not in request.data:
+        return Response(data="You need to provide an email", status=status.HTTP_400_BAD_REQUEST)
+    email = request.data["email"]
+    email = email.lower()
+    try:
+        email_salt = models.EmailSalt.objects.get(email__iexact=email)
+    except models.EmailSalt.DoesNotExist:
+        email_salt = models.EmailSalt(email=email, salt=os.urandom(16))
+    email_salt.save()
+    one_time_login_token = email_salt.get_one_time_login()
+    return Response(data={"one_time_token": one_time_login_token}, status=status.HTTP_200_OK)
+
+
+@extend_schema(request=serializers.UserLoginSerializer)
+@decorators.api_view(["POST"])
+@decorators.permission_classes((permissions.AllowAny,))
+def first_log_in_view(request):
+    if "email" not in request.data:
+        return Response(data="You need to provide an email", status=status.HTTP_400_BAD_REQUEST)
+    else:
+        email = request.data["email"]
+        email = email.lower()
+    one_time_token = request.data["one_time_token"]
+    try:
+        email_salt = models.EmailSalt.objects.get(email__iexact=email)
+    except models.EmailSalt.DoesNotExist:
+        return Response(data="One-time token has not been generated for this email", status=status.HTTP_400_BAD_REQUEST)
+    correct_token = email_salt.get_one_time_login()
+    if correct_token != one_time_token:
+        return Response(data="Incorrect token", status=status.HTTP_400_BAD_REQUEST)
+    models.User.objects.update_or_create(email=email)
+    # TODO - in future will change so can only log-in once with same token
+    response = Response(status=status.HTTP_201_CREATED)
+    return response
