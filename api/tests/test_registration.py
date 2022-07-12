@@ -222,6 +222,7 @@ def test_dropdown_list(client, user_id):
         },
         {"name": "Grade 7", "slug": "grade-7", "endpoint": "/grades/"},
         {"name": "Independent", "slug": "independent", "endpoint": "/language-skill-levels/"},
+        {"name": "United Kingdom", "slug": "united-kingdom", "endpoint": "/countries/"}
     ]
 
     def test_get(endpoint):
