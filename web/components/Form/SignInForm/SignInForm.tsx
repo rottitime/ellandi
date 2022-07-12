@@ -5,9 +5,10 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { SchemaOf, object, string } from 'yup'
 import FormFooter from '../FormFooter'
 
-type SignInType = { email: string; password: string }
+export type SignInType = { email: string; password: string }
 type Props = {
   onFormSubmit: SubmitHandler<SignInType>
+  loading: boolean
 }
 
 const schema: SchemaOf<SignInType> = object().shape({
@@ -20,7 +21,7 @@ const schema: SchemaOf<SignInType> = object().shape({
     .required('This is a required field')
 })
 
-const SignInForm: FC<Props> = ({ onFormSubmit }) => {
+const SignInForm: FC<Props> = ({ onFormSubmit, loading }) => {
   const methods = useForm<SignInType>({
     defaultValues: { email: '', password: '' },
     resolver: yupResolver(schema)
@@ -38,7 +39,7 @@ const SignInForm: FC<Props> = ({ onFormSubmit }) => {
 
         <TextFieldControlled name="password" type="password" label="Password" />
 
-        <FormFooter />
+        <FormFooter buttonProps={{ loading }} />
       </form>
     </FormProvider>
   )
