@@ -26,7 +26,7 @@ class OrganisationSerializer(serializers.ModelSerializer):
 class ContractTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = ContractType
-        fields = ["slug", "name"]
+        fields = ["slug", "name", "order"]
 
 
 class LocationSerializer(serializers.ModelSerializer):
@@ -50,7 +50,7 @@ class ProfessionSerializer(serializers.ModelSerializer):
 class GradeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Grade
-        fields = ["slug", "name"]
+        fields = ["slug", "name", "order"]
 
 
 class LanguageSkillLevelSerializer(serializers.ModelSerializer):
