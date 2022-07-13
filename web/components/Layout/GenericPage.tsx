@@ -108,7 +108,7 @@ const GridContainer = styled(Grid)`
 const GenericPage: FC<Props> = ({ children, title, footer, progress }) => {
   const { loading } = useUiContext()
   return (
-    <Template disableGutters={true}>
+    <Template disableGutters>
       <GridContainer spacing={0} container>
         <Grid item xs={12} md={4} className="promo-box">
           <Crown className="logo" />
