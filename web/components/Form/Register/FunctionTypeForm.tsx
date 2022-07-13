@@ -30,7 +30,7 @@ const schema: SchemaOf<FunctionType> = object().shape({
   })
 })
 
-const GradeForm: FC<StandardRegisterProps<FunctionType>> = ({
+const FunctionTypeForm: FC<StandardRegisterProps<FunctionType>> = ({
   backUrl,
   onFormSubmit
 }) => {
@@ -50,7 +50,16 @@ const GradeForm: FC<StandardRegisterProps<FunctionType>> = ({
 
   const { isLoading, isError, data } = useQuery<GenericDataList[], { message?: string }>(
     'functions',
-    fetchFunctions
+    fetchFunctions,
+    {
+      staleTime: Infinity,
+      initialData: [
+        {
+          name: '11',
+          slug: 'deed'
+        }
+      ]
+    }
   )
 
   useEffect(() => {
@@ -109,7 +118,7 @@ const GradeForm: FC<StandardRegisterProps<FunctionType>> = ({
         />
 
         {watchFunctionType === 'other' && (
-          <TextFieldControlled name="other" label="Other" />
+          <TextFieldControlled name="other" label="Enter function" />
         )}
 
         <FormFooter
@@ -123,4 +132,4 @@ const GradeForm: FC<StandardRegisterProps<FunctionType>> = ({
   )
 }
 
-export default GradeForm
+export default FunctionTypeForm

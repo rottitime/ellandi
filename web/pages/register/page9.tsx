@@ -2,13 +2,13 @@ import Page from '@/components/Layout/GenericPage'
 import router from 'next/router'
 import { dehydrate, QueryClient } from 'react-query'
 import { fetchFunctions } from '@/service/api'
-import FunctionForm from '@/components/Form/Register/FunctionForm'
+import FunctionTypeForm from '@/components/Form/Register/FunctionTypeForm'
 
 const RegisterPage = () => (
-  <FunctionForm
-    backUrl="/register/page5"
+  <FunctionTypeForm
+    backUrl="/register/page8"
     onFormSubmit={(_data) => {
-      router.push('/register/page8')
+      router.push('/register/page10')
     }}
   />
 )
