@@ -33,7 +33,8 @@ const schema: SchemaOf<CreateAccountType> = object().shape({
 
 const CreateAccountForm: FC<StandardRegisterProps<CreateAccountType>> = ({
   backUrl,
-  onFormSubmit
+  onFormSubmit,
+  loading
 }) => {
   const methods = useForm<CreateAccountType>({
     defaultValues: { email: '', password: '' },
@@ -68,7 +69,7 @@ const CreateAccountForm: FC<StandardRegisterProps<CreateAccountType>> = ({
           type="password"
         />
 
-        <FormFooter backUrl={backUrl} />
+        <FormFooter backUrl={backUrl} buttonProps={{ loading }} />
       </form>
     </FormProvider>
   )
