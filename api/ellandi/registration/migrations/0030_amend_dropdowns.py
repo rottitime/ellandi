@@ -13,9 +13,10 @@ def add_profession(apps, schema_editor):
 
 def change_grade(apps, schema_editor):
     Grade = apps.get_model("registration", "Grade")
-    other_grade = Grade.objects.get(slug="other-equivalent-grade")
-    other_grade.name = "Other"
-    other_grade.slug = "other"
+    other_equiv_grade = Grade.objects.get(slug="other-equivalent-grade")
+    other_equiv_grade.delete()
+    name = "Other"
+    other_grade = Grade(name=name, slug=slugify(name))
     other_grade.save()
 
 

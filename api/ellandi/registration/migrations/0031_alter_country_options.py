@@ -6,12 +6,12 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('registration', '0030_amend_dropdowns'),
+        ("registration", "0030_amend_dropdowns"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='country',
-            options={'verbose_name_plural': 'Countries'},
+            name="country",
+            options={"verbose_name_plural": "Countries"},
         ),
     ]
