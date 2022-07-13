@@ -125,7 +125,7 @@ const theme = createTheme({
       fontSize: '30px',
       lineHeight: '35px',
       '&.MuiTypography-gutterBottom': {
-        marginBottom: 50
+        marginBottom: '15px'
       }
     },
     h2: {

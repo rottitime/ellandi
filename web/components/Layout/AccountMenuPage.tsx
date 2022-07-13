@@ -8,6 +8,7 @@ type Props = {
   children: ReactNode
   title: string | ReactNode
   breadcrumbs?: { title: string; url?: string }[]
+  teaser?: string
 }
 
 const pages = [
@@ -23,9 +24,9 @@ const settings = [
   { title: 'Logout', url: '/' }
 ]
 
-const AccountMenuPage: FC<Props> = ({ breadcrumbs, title, children }) => (
+const AccountMenuPage: FC<Props> = ({ breadcrumbs, title, children, teaser }) => (
   <Template header={<AppBar pages={pages} settings={settings} />}>
-    <Box component="header" sx={{ m: 3 }}>
+    <Box component="header" sx={{ my: 4 }}>
       {breadcrumbs && (
         <Breadcrumbs aria-label="breadcrumb" sx={{ mb: 3 }}>
           <Link underline="hover" color="inherit" href="/account">
@@ -43,11 +44,17 @@ const AccountMenuPage: FC<Props> = ({ breadcrumbs, title, children }) => (
           )}
         </Breadcrumbs>
       )}
-    </Box>
 
-    <Typography variant="h1" gutterBottom>
-      {title}
-    </Typography>
+      <Typography variant="h1" gutterBottom>
+        {title}
+      </Typography>
+
+      {teaser && (
+        <Typography variant="subtitle1" gutterBottom>
+          {teaser}
+        </Typography>
+      )}
+    </Box>
 
     {children}
   </Template>
