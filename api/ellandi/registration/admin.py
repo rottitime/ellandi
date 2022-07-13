@@ -70,7 +70,7 @@ class OrganisationAdmin(DropDownListAdmin):
 
 
 class ContractTypeAdmin(DropDownListAdmin):
-    pass
+    readonly_fields = ("name", "slug", "order")
 
 
 class LocationAdmin(DropDownListAdmin):
