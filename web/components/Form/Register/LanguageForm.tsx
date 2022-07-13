@@ -76,13 +76,13 @@ const LanguageForm: FC<StandardRegisterProps<null>> = ({ backUrl, onFormSubmit }
 
   return (
     <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
-      <Typography variant="subtitle1" gutterBottom>
+      <Typography variant="h3" gutterBottom>
         Add any languages that you use. You can change or add to these later.
       </Typography>
-      <Typography gutterBottom>
+      <Typography variant="subtitle1" gutterBottom>
         We'll use this to suggest learning opportunities that are relevant to you
       </Typography>
-      <Typography variant="h3" gutterBottom>
+      <Typography variant="h4" gutterBottom>
         Language one
       </Typography>
 
@@ -104,7 +104,7 @@ const LanguageForm: FC<StandardRegisterProps<null>> = ({ backUrl, onFormSubmit }
         )}
       />
 
-      <Typography variant="h3" gutterBottom>
+      <Typography variant="h4" gutterBottom>
         Speaking
       </Typography>
       <Typography gutterBottom>Set a proficiency level for speaking:</Typography>
@@ -129,7 +129,7 @@ const LanguageForm: FC<StandardRegisterProps<null>> = ({ backUrl, onFormSubmit }
         ))}
       </RadioGroup>
 
-      <Typography gutterBottom variant="h3">
+      <Typography gutterBottom variant="h4">
         Writing
       </Typography>
       <Typography gutterBottom>Set a proficiency level for writing:</Typography>

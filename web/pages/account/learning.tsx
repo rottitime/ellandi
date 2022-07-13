@@ -1,6 +1,7 @@
 import {
   Box,
   Chip,
+  Divider,
   FormControl,
   Grid,
   InputLabel,
@@ -14,7 +15,6 @@ import AccountMenuPage from '@/components/Layout/AccountMenuPage'
 import Learning from '@/components/Icons/Learning'
 import Card from '@/components/UI/Card'
 import Link from '@/components/UI/Link'
-import Divider from '@/components/UI/Divider2'
 import LearningStrands from '@/components/LearningStrands'
 import ContentBox from '@/components/ContentBox'
 import Forecasting from '@/components/Icons/Forecasting'
@@ -156,7 +156,7 @@ const Page = () => {
               ))}
             </Box>
 
-            <Divider variant="middle" spacing={20} />
+            <Divider variant="middle" />
 
             <LearningStrands />
           </Card>
@@ -188,7 +188,7 @@ const Page = () => {
                 <Typography>
                   <b>Skills you will develop:</b> {result.develop}
                 </Typography>
-                <Divider variant="middle" spacing={20} />
+                <Divider variant="middle" />
 
                 <Typography>
                   {result.content} <Link href="#">Read more</Link>

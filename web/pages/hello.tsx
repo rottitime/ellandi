@@ -7,6 +7,10 @@ const HelloPage = () => (
       <p>NODE_ENV: {process.env.NODE_ENV}</p>
       <p>NEXT_PUBLIC_API_URL: {process.env.NEXT_PUBLIC_API_URL}</p>
 
+      <Typography variant="leader" gutterBottom>
+        Leader Heading
+      </Typography>
+
       <Typography variant="h1" gutterBottom>
         h1. Heading
       </Typography>

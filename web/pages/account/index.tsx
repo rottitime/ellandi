@@ -1,12 +1,9 @@
 import Page from '@/components/Layout/AccountMenuPage'
-import { Box, Button, Grid, Typography, useTheme } from '@mui/material'
+import { Box, Button, Divider, Grid, Typography, useTheme } from '@mui/material'
 import Card from '@/components/UI/Card'
-import Divider from '@/components/UI/Divider2'
 import { Colors } from '@/style/theme'
 import Link from '@/components/UI/Link'
 import SkillsIcon from '@/components/Icons/Skills'
-// import CareersIcon from '@/components/Icons/Careers'
-// import CommunitiesIcon from '@/components/Icons/Communities'
 import LearningIcon from '@/components/Icons/Learning'
 import { ReactNode } from 'react'
 import LearningStrands from '@/components/LearningStrands'
@@ -87,7 +84,7 @@ const IndexPage = () => {
               </ul>
             </ContentBox>
 
-            <Divider variant="middle" spacing={30} />
+            <Divider variant="middle" />
 
             <LearningStrands />
           </Card>

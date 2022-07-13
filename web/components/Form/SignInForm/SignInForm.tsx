@@ -4,6 +4,7 @@ import { useForm, SubmitHandler, FormProvider } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { SchemaOf, object, string } from 'yup'
 import FormFooter from '../FormFooter'
+import { Divider } from '@mui/material'
 
 export type SignInType = { email: string; password: string }
 type Props = {
@@ -27,6 +28,8 @@ const SignInForm: FC<Props> = ({ onFormSubmit, loading }) => {
   return (
     <FormProvider {...methods}>
       <form onSubmit={methods.handleSubmit(onFormSubmit)} noValidate>
+        <Divider>OR</Divider>
+
         <TextFieldControlled
           name="email"
           type="email"
@@ -36,7 +39,7 @@ const SignInForm: FC<Props> = ({ onFormSubmit, loading }) => {
 
         <TextFieldControlled name="password" type="password" label="Password" />
 
-        <FormFooter buttonProps={{ loading }} />
+        <FormFooter buttonProps={{ loading, fullWidth: true }} submitText="Sign in" />
       </form>
     </FormProvider>
   )

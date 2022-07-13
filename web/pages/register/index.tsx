@@ -1,8 +1,9 @@
 import Page from '@/components/Layout/GenericPage'
-import Highlight from '@/components/Highlight'
 import { Box } from '@mui/material'
 import LinkButton from '@/components/LinkButton'
 import { ChevronRight } from '@mui/icons-material'
+
+//TODO: Convert all steps to single dynamic page
 
 const RegisterPage = () => (
   <Box sx={{ textAlign: 'center' }}>
@@ -10,7 +11,7 @@ const RegisterPage = () => (
       href="/register/page3"
       endIcon={<ChevronRight />}
       variant="contained"
-      sx={{ mb: 5 }}
+      sx={{ mt: 4 }}
     >
       Start now
     </LinkButton>
@@ -23,7 +24,7 @@ RegisterPage.getLayout = (page) => (
     showPromo={true}
     title={
       <>
-        Registering takes around <Highlight newLine>5 - 10 minutes</Highlight>
+        Registering takes around <br />5 - 10 minutes
       </>
     }
   >

@@ -11,7 +11,9 @@ const RegisterPage = () => (
     </Typography>
 
     <Footer>
-      <LinkButton href="/account">Continue</LinkButton>
+      <LinkButton href="/account" fullWidth>
+        Continue
+      </LinkButton>
     </Footer>
   </>
 )

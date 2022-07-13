@@ -18,7 +18,7 @@ import { FC, useState } from 'react'
 import { Props } from './types'
 
 const AppBar = styled(MuiAppBar)`
-  background-color: ${(p) => p.theme.colors.blueDark};
+  background: linear-gradient(127.55deg, #141e30 3.73%, #243b55 92.26%);
   .icon-account {
     color: ${(p) => p.theme.colors.greyLight};
     font-size: 31px;

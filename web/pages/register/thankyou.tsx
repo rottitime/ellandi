@@ -6,7 +6,7 @@ import { Footer } from '@/components/Form/FormFooter'
 
 const RegisterPage = () => (
   <>
-    <Typography variant="subtitle1" gutterBottom>
+    <Typography variant="h3" gutterBottom>
       We're now going to ask you about your skills, including:
     </Typography>
 

@@ -25,8 +25,8 @@ const breakpoints = {
 
 declare module '@mui/material/Typography' {
   interface TypographyPropsVariantOverrides {
+    leader: true
     small: true
-    h4: false
     h5: false
     h6: false
     subtitle2: false
@@ -45,6 +45,10 @@ declare module '@mui/material/AppBar' {
 }
 
 declare module '@mui/material/styles' {
+  interface TypographyVariantsOptions {
+    leader?: CSSProperties
+  }
+
   interface Theme {
     colors: Colors
   }
@@ -79,7 +83,7 @@ const createColor = (mainColor) => augmentColor({ color: { main: mainColor } })
 
 const theme = createTheme({
   colors: {
-    blueDark: '#091f3e',
+    blueDark: '#161E2F',
     greyDark: '#ccc',
     greyLight: '#f2f2f2',
     white: '#fff',
@@ -111,10 +115,15 @@ const theme = createTheme({
     }
   },
   typography: {
+    leader: {
+      fontWeight: 700,
+      fontSize: '35px',
+      lineHeight: '130%'
+    },
     h1: {
-      fontSize: '32px',
-      lineHeight: '40px',
-      fontWeight: 400,
+      fontWeight: 700,
+      fontSize: '30px',
+      lineHeight: '35px',
       '&.MuiTypography-gutterBottom': {
         marginBottom: 50
       }
@@ -122,15 +131,23 @@ const theme = createTheme({
     h2: {
       fontSize: '24px',
       lineHeight: '32px',
-      fontWeight: 400
+      fontWeight: 600
     },
     h3: {
       fontSize: '18px',
       lineHeight: '24px',
-      fontWeight: 400
+      fontWeight: 600
+    },
+    h4: {
+      fontSize: '16px',
+      lineHeight: '24px',
+      fontWeight: 600
     },
     subtitle1: {
-      fontSize: '17px'
+      fontWeight: 400,
+      fontSize: '18px',
+      lineHeight: '130%',
+      color: '#8F99A8'
     },
     body1: {
       fontSize: '16px',
@@ -143,14 +160,38 @@ const theme = createTheme({
       fontSize: '14px',
       lineHeight: '24px'
     },
-    h4: undefined,
     h5: undefined,
     h6: undefined,
     subtitle2: undefined,
     // body2: undefined,
     overline: undefined
   },
+  spacing: [0, 4, 8, 16, 30, 60, 80],
   components: {
+    MuiLink: {
+      styleOverrides: {
+        root: {
+          fontWeight: 500,
+          textDecoration: 'none',
+          '&:hover': {
+            textDecoration: 'underline'
+          }
+        }
+      }
+    },
+    MuiTypography: {
+      defaultProps: {
+        variantMapping: {
+          leader: 'h1',
+          h1: 'h1',
+          h2: 'h2',
+          h3: 'h3',
+          subtitle1: 'h3',
+          body1: 'p',
+          body2: 'p'
+        }
+      }
+    },
     MuiCssBaseline: {
       styleOverrides: {
         body: {

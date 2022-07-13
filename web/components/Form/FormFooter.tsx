@@ -6,6 +6,7 @@ import { LoadingButton } from '@mui/lab'
 
 type Props = {
   buttonProps?: ComponentProps<typeof LoadingButton>
+  submitText?: string
   backUrl?: string
 }
 
@@ -15,18 +16,19 @@ export const Footer = styled(Box)`
   gap: 15px;
   padding-top: 20px;
   align-items: center;
+  justify-content: space-between;
 `
 
-const FormFooter: FC<Props> = ({ backUrl, buttonProps }) => {
+const FormFooter: FC<Props> = ({ backUrl, buttonProps, submitText = 'Continue' }) => {
   return (
     <Footer>
       {backUrl && (
-        <LinkButton href={backUrl} variant="outlined">
+        <LinkButton href={backUrl} variant="outlined" size="small">
           Back
         </LinkButton>
       )}
       <LoadingButton variant="contained" type="submit" {...buttonProps}>
-        Continue
+        {submitText}
       </LoadingButton>
     </Footer>
   )

@@ -52,13 +52,7 @@ const FunctionTypeForm: FC<StandardRegisterProps<FunctionType>> = ({
     'functions',
     fetchFunctions,
     {
-      staleTime: Infinity,
-      initialData: [
-        {
-          name: '11',
-          slug: 'deed'
-        }
-      ]
+      staleTime: Infinity
     }
   )
 
@@ -77,11 +71,11 @@ const FunctionTypeForm: FC<StandardRegisterProps<FunctionType>> = ({
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
-        <Typography variant="subtitle1" gutterBottom>
+        <Typography variant="h3" gutterBottom>
           Select one Function which describes your area of specialism
         </Typography>
 
-        <Typography gutterBottom>
+        <Typography variant="subtitle1" gutterBottom>
           We'll use this to suggest learning opportunities that are relevant to you
         </Typography>
 

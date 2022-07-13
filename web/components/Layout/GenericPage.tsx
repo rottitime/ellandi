@@ -1,5 +1,13 @@
 import Template from '@/components/Layout/Template'
-import { Grid, Typography, styled, LinearProgress, Hidden } from '@mui/material'
+import {
+  Grid,
+  Typography,
+  styled,
+  LinearProgress,
+  Hidden,
+  Box,
+  Divider
+} from '@mui/material'
 import Card from '@/components/UI/Card'
 import { FC, ReactNode } from 'react'
 import Crown from '@/components/Icons/CrownLogo'
@@ -59,7 +67,13 @@ const GridContainer = styled(Grid)`
 
   .logo {
     font-size: 45px;
-    margin-bottom: 40px;
+
+    ${({ theme }) => theme.breakpoints.up('md')} {
+      margin-bottom: 40px;
+      position: absolute;
+      top: ${(p) => p.theme.spacing(4)};
+      left: ${(p) => p.theme.spacing(4)};
+    }
   }
 
   .list svg {
@@ -68,10 +82,8 @@ const GridContainer = styled(Grid)`
   }
 
   .promo-box {
-    background-color: ${(p) => p.theme.colors.white};
-
-    /* background-color: rgb(9, 31, 62);
-    color: #fff; */
+    background: linear-gradient(127.55deg, #141e30 3.73%, #243b55 92.26%);
+    color: ${(p) => p.theme.colors.white};
     position: relative;
     padding: 20px;
 
@@ -84,7 +96,10 @@ const GridContainer = styled(Grid)`
     ${({ theme }) => theme.breakpoints.up('md')} {
       /* flex-direction: row;
       flex-wrap: wrap; */
-      padding: 80px 48px 24px;
+      padding: 80px 48px 60px;
+
+      display: flex;
+      align-items: center;
     }
 
     &:after {
@@ -92,7 +107,11 @@ const GridContainer = styled(Grid)`
       position: absolute;
       inset: 0px 0px 0px -100vw;
       z-index: -1;
-      background-color: inherit;
+      background-color: ${({ theme }) => theme.colors.blueDark};
+    }
+
+    .MuiDivider-root {
+      border-color: ${(p) => p.theme.colors.white};
     }
   }
 
@@ -116,36 +135,40 @@ const GenericPage: FC<Props> = ({ children, showPromo, title, footer, progress }
         {!!showPromo && (
           <Grid item xs={12} md={4} className="promo-box">
             <Crown className="logo" />
-            <Typography variant="h1" gutterBottom>
-              Civil Service Skills and Learning
-            </Typography>
-            <Hidden initialWidth="md" mdDown={true}>
-              <Typography variant="h3" component="p">
-                You can use this service to:
+            <Box>
+              <Typography variant="leader" gutterBottom textAlign="center">
+                Civil Service Skills and Learning
               </Typography>
-              <List
-                className="list"
-                list={[
-                  {
-                    icon: <AccountBox />,
-                    title: 'upload and maintain your skills and learning profile'
-                  },
-                  {
-                    icon: <Yard />,
-                    title: "specify any skills you'd like to develop in the future"
-                  },
-                  {
-                    icon: <Search />,
-                    title: 'find courses and development opportunities'
-                  },
-                  {
-                    icon: <QuestionAnswer />,
-                    title:
-                      'support discussions about skills and career development with your line manager'
-                  }
-                ]}
-              />
-            </Hidden>
+
+              <Hidden initialWidth="md" mdDown={true}>
+                <Divider variant="middle" sx={{ my: 4 }} />
+                <Typography variant="h3" component="p">
+                  You can use this service to:
+                </Typography>
+                <List
+                  className="list"
+                  list={[
+                    {
+                      icon: <AccountBox />,
+                      title: 'upload and maintain your skills and learning profile'
+                    },
+                    {
+                      icon: <Yard />,
+                      title: "specify any skills you'd like to develop in the future"
+                    },
+                    {
+                      icon: <Search />,
+                      title: 'find courses and development opportunities'
+                    },
+                    {
+                      icon: <QuestionAnswer />,
+                      title:
+                        'support discussions about skills and career development with your line manager'
+                    }
+                  ]}
+                />
+              </Hidden>
+            </Box>
           </Grid>
         )}
         <Grid item xs className="main-content">
@@ -168,7 +191,7 @@ const GenericPage: FC<Props> = ({ children, showPromo, title, footer, progress }
               <LinearProgress
                 variant="determinate"
                 value={progress}
-                sx={{ mb: 6, height: '7px' }}
+                sx={{ mb: 4, height: '7px' }}
               />
             )}
 

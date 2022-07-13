@@ -38,10 +38,10 @@ const ContractTypeForm: FC<StandardRegisterProps<null>> = ({ onFormSubmit, backU
 
   return (
     <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
-      <Typography variant="subtitle1" gutterBottom>
+      <Typography variant="h3" gutterBottom>
         Select your current contract type. You can only choose one
       </Typography>
-      <Typography gutterBottom>
+      <Typography variant="subtitle1" gutterBottom>
         We'll use this to suggest learning opportunities that are relevant to you
       </Typography>
 
