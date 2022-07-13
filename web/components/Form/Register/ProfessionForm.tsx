@@ -21,8 +21,7 @@ const ProfessionForm: FC<StandardRegisterProps<null>> = ({ backUrl, onFormSubmit
   const { setLoading } = useUiContext()
   const { isLoading, isError, data } = useQuery<GenericDataList[], { message?: string }>(
     'professions',
-    fetchProfessions,
-    { staleTime: Infinity }
+    fetchProfessions
   )
   useEffect(() => {
     setLoading(isLoading)

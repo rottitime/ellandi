@@ -20,8 +20,7 @@ const GradeForm: FC<StandardRegisterProps<null>> = ({ backUrl, onFormSubmit }) =
   const { setLoading } = useUiContext()
   const { isLoading, isError, data } = useQuery<GenericDataList[], { message?: string }>(
     'grades',
-    fetchGrades,
-    { staleTime: Infinity }
+    fetchGrades
   )
 
   useEffect(() => {

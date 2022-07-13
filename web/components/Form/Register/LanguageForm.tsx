@@ -60,7 +60,7 @@ const LanguageForm: FC<StandardRegisterProps<null>> = ({ backUrl, onFormSubmit }
   const { isLoading, isError, data, isSuccess } = useQuery<
     GenericDataList[],
     { message?: string }
-  >('languages', fetchLanguages, { staleTime: Infinity })
+  >('languages', fetchLanguages)
 
   useEffect(() => {
     setLoading(isLoading)

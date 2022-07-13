@@ -16,13 +16,12 @@ import { useForm } from 'react-hook-form'
 import { StandardRegisterProps } from './types'
 import FormFooter from '@/components/Form/FormFooter'
 
-const ContractForm: FC<StandardRegisterProps<null>> = ({ onFormSubmit, backUrl }) => {
+const ContractTypeForm: FC<StandardRegisterProps<null>> = ({ onFormSubmit, backUrl }) => {
   const { handleSubmit } = useForm()
   const { setLoading } = useUiContext()
   const { isLoading, isError, data } = useQuery<GenericDataList[], { message?: string }>(
     'contract-types',
-    fetchContractTypes,
-    { staleTime: Infinity }
+    fetchContractTypes
   )
 
   useEffect(() => {
@@ -66,4 +65,4 @@ const ContractForm: FC<StandardRegisterProps<null>> = ({ onFormSubmit, backUrl }
   )
 }
 
-export default ContractForm
+export default ContractTypeForm

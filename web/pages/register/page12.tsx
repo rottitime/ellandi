@@ -3,6 +3,8 @@ import Page from '@/components/Layout/GenericPage'
 import { Typography } from '@mui/material'
 import LanguageForm from '@/components/Form/Register/LanguageForm'
 import router from 'next/router'
+import { dehydrate, QueryClient } from 'react-query'
+import { fetchLanguages } from '@/service/api'
 
 const RegisterPage = () => (
   <LanguageForm
@@ -16,6 +18,17 @@ const RegisterPage = () => (
 )
 
 export default RegisterPage
+
+export async function getStaticProps() {
+  const queryClient = new QueryClient()
+  await queryClient.prefetchQuery('languages', fetchLanguages)
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient)
+    }
+  }
+}
+
 RegisterPage.getLayout = (page) => (
   <Page
     title="Language skills"

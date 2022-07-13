@@ -1,10 +1,10 @@
 import Page from '@/components/Layout/GenericPage'
 
 import router from 'next/router'
-import ContractType from '@/components/Form/Register/ContractType'
+import ContactForm from '@/components/Form/Register/ContactForm'
 
 const RegisterPage = () => (
-  <ContractType
+  <ContactForm
     backUrl="/register/page8"
     onFormSubmit={(data) => {
       // eslint-disable-next-line no-console

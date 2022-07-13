@@ -4,7 +4,7 @@ import { FC } from 'react'
 import { StandardRegisterProps } from './types'
 import { useForm } from 'react-hook-form'
 
-const ContractType: FC<StandardRegisterProps<null>> = ({ backUrl, onFormSubmit }) => {
+const ContactForm: FC<StandardRegisterProps<null>> = ({ backUrl, onFormSubmit }) => {
   const { handleSubmit } = useForm()
   return (
     <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
@@ -25,4 +25,4 @@ const ContractType: FC<StandardRegisterProps<null>> = ({ backUrl, onFormSubmit }
   )
 }
 
-export default ContractType
+export default ContactForm

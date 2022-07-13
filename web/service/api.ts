@@ -37,4 +37,11 @@ export const fetchCountries = async (): Promise<GenericDataList[]> => {
   throw new Error('Service unavailable')
 }
 
+export const fetchFunctions = async (): Promise<GenericDataList[]> => {
+  //const res = await fetch(`${publicRuntimeConfig.apiUrl}/functions/`)
+  const res = await fetch(`${publicRuntimeConfig.apiUrl}/grades/`)
+  if (res.ok) return res.json()
+  throw new Error('Service unavailable')
+}
+
 export * from './types'
