@@ -13,6 +13,7 @@ type CreateAccountType = {
   password: string
   passwordConfirm: string
 }
+const minPassword = 8
 
 const schema: SchemaOf<CreateAccountType> = object().shape({
   email: string()
@@ -23,7 +24,7 @@ const schema: SchemaOf<CreateAccountType> = object().shape({
     .required('This is a required field'),
 
   password: string()
-    .min(8, 'Password must be 8 characters or more')
+    .min(minPassword, `Password must be ${minPassword} characters or more`)
     .max(20)
     .required('This is a required field'),
   passwordConfirm: string()
@@ -58,8 +59,8 @@ const CreateAccountForm: FC<StandardRegisterProps<CreateAccountType>> = ({
         </Typography>
 
         <Typography gutterBottom>
-          Your password should have at least 8 characters and not include your name or
-          email address
+          Your password should have at least {minPassword} characters and not include your
+          name or email address
         </Typography>
 
         <TextFieldControlled name="password" label="Password" type="password" />
