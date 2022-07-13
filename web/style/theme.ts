@@ -107,7 +107,7 @@ const theme = createTheme({
     link: createColor('#1976d2'),
 
     background: {
-      default: 'rgb(242, 242, 242)'
+      default: '#F6F8FB'
     }
   },
   typography: {
