@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event'
 import RegistrationPage3 from '@/pages/register/page3'
 
 describe.skip('Page: Registration 3', () => {
-  it.only('renders', () => {
+  it('renders', () => {
     render(<RegistrationPage3 />)
 
     expect(screen.getByRole('button', { name: /Continue/i })).toBeInTheDocument()
@@ -14,7 +14,7 @@ describe.skip('Page: Registration 3', () => {
     expect(screen.getByLabelText('Password')).toBeInTheDocument()
     expect(screen.getByLabelText('Confirm your password')).toBeInTheDocument()
   })
-  it.only('shows default errors', async () => {
+  it('shows default errors', async () => {
     render(<RegistrationPage3 />)
 
     const button = screen.getByRole('button', { name: /Continue/i })

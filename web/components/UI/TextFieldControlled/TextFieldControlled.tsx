@@ -21,6 +21,7 @@ const TextFieldControlled: FC<Props> = ({ label, name, ...props }) => {
       fullWidth
       {...props}
       {...register(name)}
+      inputProps={{ 'data-testid': `textfield_${name}` }}
     />
   )
 }
