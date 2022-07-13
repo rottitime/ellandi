@@ -16,6 +16,7 @@ import { StandardRegisterProps } from './types'
 import { fetchCountries, GenericDataList } from '@/service/api'
 import { useUiContext } from '@/context/UiContext'
 import { useQuery } from 'react-query'
+import { Field } from '@/components/Form/Field'
 
 export type RegisterDetailsType = {
   fullname: string
@@ -67,44 +68,54 @@ const RegisterDetailsForm: FC<StandardRegisterProps<RegisterDetailsType>> = ({
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
-        <TextFieldControlled name="fullname" label="Full name" />
-        <TextFieldControlled name="department" label="Department" />
-        <TextFieldControlled name="job" label="Job title" />
-        <TextFieldControlled name="lineManagerEmail" label="Line manager email" />
+        <Field>
+          <TextFieldControlled name="fullname" label="Full name" />
+        </Field>
+        <Field>
+          <TextFieldControlled name="department" label="Department" />
+        </Field>
+        <Field>
+          <TextFieldControlled name="job" label="Job title" />
+        </Field>
+        <Field>
+          <TextFieldControlled name="lineManagerEmail" label="Line manager email" />
+        </Field>
 
-        <Controller
-          name="country"
-          control={control}
-          render={({ field }) => (
-            <>
-              <FormControl fullWidth error={!!errors.country} size="small">
-                <InputLabel>Country</InputLabel>
+        <Field>
+          <Controller
+            name="country"
+            control={control}
+            render={({ field }) => (
+              <>
+                <FormControl fullWidth error={!!errors.country} size="small">
+                  <InputLabel>Country</InputLabel>
 
-                {isLoading ? (
-                  <Skeleton width={100} sx={{ m: 1 }} />
-                ) : (
-                  <Select
-                    label="Country"
-                    margin="none"
-                    variant="outlined"
-                    // size="small"
-                    {...field}
-                  >
-                    {data.map(({ name, slug }) => (
-                      <MenuItem key={slug} value={slug}>
-                        {name}
-                      </MenuItem>
-                    ))}
-                  </Select>
+                  {isLoading ? (
+                    <Skeleton width={100} sx={{ m: 1 }} />
+                  ) : (
+                    <Select
+                      label="Country"
+                      margin="none"
+                      variant="outlined"
+                      // size="small"
+                      {...field}
+                    >
+                      {data.map(({ name, slug }) => (
+                        <MenuItem key={slug} value={slug}>
+                          {name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  )}
+                </FormControl>
+
+                {errors.country && (
+                  <FormHelperText error>{errors.country.message}</FormHelperText>
                 )}
-              </FormControl>
-
-              {errors.country && (
-                <FormHelperText error>{errors.country.message}</FormHelperText>
-              )}
-            </>
-          )}
-        />
+              </>
+            )}
+          />
+        </Field>
 
         <FormFooter backUrl={backUrl} />
       </form>

@@ -14,7 +14,7 @@ const SigninPage = () => {
     <>
       <Typography variant="subtitle1" gutterBottom>
         If this is the first time you have used this website, you will need to{' '}
-        <Link href="/register">create an account</Link>.
+        <Link href="/register/invite">create an account</Link>.
       </Typography>
 
       {error && (

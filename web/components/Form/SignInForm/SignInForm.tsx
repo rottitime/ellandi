@@ -5,6 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { SchemaOf, object, string } from 'yup'
 import FormFooter from '../FormFooter'
 import { Divider } from '@mui/material'
+import { Field } from '../Field'
 
 export type SignInType = { email: string; password: string }
 type Props = {
@@ -28,16 +29,21 @@ const SignInForm: FC<Props> = ({ onFormSubmit, loading }) => {
   return (
     <FormProvider {...methods}>
       <form onSubmit={methods.handleSubmit(onFormSubmit)} noValidate>
-        <Divider>OR</Divider>
+        <Divider variant="middle" sx={{ my: 3 }}>
+          OR
+        </Divider>
 
-        <TextFieldControlled
-          name="email"
-          type="email"
-          label="Email address"
-          placeholder="e.g. Joe.Bloggs@gmail.com"
-        />
-
-        <TextFieldControlled name="password" type="password" label="Password" />
+        <Field>
+          <TextFieldControlled
+            name="email"
+            type="email"
+            label="Email address"
+            placeholder="e.g. Joe.Bloggs@gmail.com"
+          />
+        </Field>
+        <Field>
+          <TextFieldControlled name="password" type="password" label="Password" />
+        </Field>
 
         <FormFooter buttonProps={{ loading, fullWidth: true }} submitText="Sign in" />
       </form>

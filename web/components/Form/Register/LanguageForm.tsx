@@ -17,6 +17,7 @@ import { useQuery } from 'react-query'
 import { StandardRegisterProps } from './types'
 import { useForm } from 'react-hook-form'
 import FormFooter from '@/components/Form/FormFooter'
+import { Field } from '../Field'
 
 const optionsSpeaking = [
   {
@@ -86,72 +87,81 @@ const LanguageForm: FC<StandardRegisterProps<null>> = ({ backUrl, onFormSubmit }
         Language one
       </Typography>
 
-      <Autocomplete
-        disablePortal
-        options={
-          isSuccess ? data.map(({ name, slug }) => ({ label: name, id: slug })) : []
-        }
-        sx={{ width: 300 }}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            label="Select a language"
-            variant="filled"
-            size="small"
-            margin="normal"
-            fullWidth
-          />
-        )}
-      />
+      <Field>
+        <Autocomplete
+          disablePortal
+          options={
+            isSuccess ? data.map(({ name, slug }) => ({ label: name, id: slug })) : []
+          }
+          sx={{ width: 300 }}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label="Select a language"
+              variant="filled"
+              size="small"
+              margin="normal"
+              fullWidth
+            />
+          )}
+        />
+      </Field>
 
-      <Typography variant="h4" gutterBottom>
-        Speaking
-      </Typography>
-      <Typography gutterBottom>Set a proficiency level for speaking:</Typography>
+      <Field>
+        <Typography variant="h4" gutterBottom>
+          Speaking
+        </Typography>
+        <Typography gutterBottom>Set a proficiency level for speaking:</Typography>
 
-      <RadioGroup
-        aria-labelledby="demo-radio-buttons-group-label"
-        name="radio-buttons-group"
-      >
-        {optionsSpeaking.map((option) => (
-          <FormControlLabel
-            key={option.title}
-            control={<Radio />}
-            label={
-              <>
-                <Typography>{option.title}</Typography>
-                <Typography variant="body2">{option.content}</Typography>
-              </>
-            }
-            value={option.title}
-            name="group1"
-          />
-        ))}
-      </RadioGroup>
+        <RadioGroup
+          aria-labelledby="demo-radio-buttons-group-label"
+          name="radio-buttons-group"
+        >
+          {optionsSpeaking.map((option) => (
+            <Field key={option.title}>
+              <FormControlLabel
+                control={<Radio />}
+                label={
+                  <>
+                    <Typography variant="h4">{option.title}</Typography>
+                    <Typography variant="body2">{option.content}</Typography>
+                  </>
+                }
+                value={option.title}
+                name="group1"
+              />
+            </Field>
+          ))}
+        </RadioGroup>
+      </Field>
 
-      <Typography gutterBottom variant="h4">
-        Writing
-      </Typography>
-      <Typography gutterBottom>Set a proficiency level for writing:</Typography>
-      <RadioGroup
-        aria-labelledby="demo-radio-buttons-group-label"
-        name="radio-buttons-group2"
-      >
-        {optionsWriting.map((option) => (
-          <FormControlLabel
-            key={option.title}
-            control={<Radio />}
-            label={
-              <>
-                <Typography>{option.title}</Typography>
-                <Typography variant="body2">{option.content}</Typography>
-              </>
-            }
-            value={option.title}
-            name="group1"
-          />
-        ))}
-      </RadioGroup>
+      <Field>
+        <Typography gutterBottom variant="h4">
+          Writing
+        </Typography>
+        <Typography gutterBottom>Set a proficiency level for writing:</Typography>
+        <RadioGroup
+          aria-labelledby="demo-radio-buttons-group-label"
+          name="radio-buttons-group2"
+        >
+          {optionsWriting.map((option) => (
+            <Field key={option.title}>
+              <FormControlLabel
+                key={option.title}
+                control={<Radio />}
+                label={
+                  <>
+                    <Typography variant="h4">{option.title}</Typography>
+                    <Typography variant="body2">{option.content}</Typography>
+                  </>
+                }
+                value={option.title}
+                name="group1"
+              />
+            </Field>
+          ))}
+        </RadioGroup>
+      </Field>
 
       <Typography gutterBottom>
         <Link href="#">Add language</Link>

@@ -23,7 +23,9 @@ RegisterPage.getLayout = (page) => (
   <Page
     title={
       <>
-        <CheckCircleIcon sx={{ display: 'block', margin: '0 auto', fontSize: '60px' }} />
+        <CheckCircleIcon
+          sx={{ display: 'block', margin: '0 auto', fontSize: '60px', color: '#44D600' }}
+        />
         Congratulations You are signed up for Civil Service Skills and Learning
       </>
     }

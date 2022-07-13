@@ -6,6 +6,7 @@ import { useForm, FormProvider } from 'react-hook-form'
 import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldControlled'
 import FormFooter from '@/components/Form/FormFooter'
 import { StandardRegisterProps } from './types'
+import { Field } from '@/components/Form/Field'
 
 type CreateAccountType = {
   email: string
@@ -50,9 +51,12 @@ const CreateAccountForm: FC<StandardRegisterProps<CreateAccountType>> = ({
         </Typography>
 
         <Typography variant="h4">Enter your email address</Typography>
-
-        <TextFieldControlled name="email" label="Email address" />
-        <TextFieldControlled name="emailConfirm" label="Confirm your email address" />
+        <Field>
+          <TextFieldControlled name="email" label="Email address" />
+        </Field>
+        <Field>
+          <TextFieldControlled name="emailConfirm" label="Confirm your email address" />
+        </Field>
 
         <Typography variant="h4" gutterBottom>
           Create a password
@@ -63,12 +67,16 @@ const CreateAccountForm: FC<StandardRegisterProps<CreateAccountType>> = ({
           name or email address
         </Typography>
 
-        <TextFieldControlled name="password" label="Password" type="password" />
-        <TextFieldControlled
-          name="passwordConfirm"
-          label="Confirm your password"
-          type="password"
-        />
+        <Field>
+          <TextFieldControlled name="password" label="Password" type="password" />
+        </Field>
+        <Field>
+          <TextFieldControlled
+            name="passwordConfirm"
+            label="Confirm your password"
+            type="password"
+          />
+        </Field>
 
         <FormFooter backUrl={backUrl} buttonProps={{ loading }} />
       </form>

@@ -6,6 +6,7 @@ export type Colors = {
   blueDark: CSSProperties['color']
   greyDark: CSSProperties['color']
   greyLight: CSSProperties['color']
+  green: CSSProperties['color']
   white: CSSProperties['color']
   //profiles
   profileBlue: CSSProperties['color']
@@ -61,6 +62,7 @@ declare module '@mui/material/styles' {
     blueDark: PaletteColorOptions
     greyDark: PaletteColorOptions
     greyLight: PaletteColorOptions
+    green: PaletteColorOptions
     //profiles
     profileBlue: PaletteColorOptions
     profilePink: PaletteColorOptions
@@ -86,6 +88,7 @@ const theme = createTheme({
     blueDark: '#161E2F',
     greyDark: '#ccc',
     greyLight: '#f2f2f2',
+    green: '#44D600',
     white: '#fff',
     //profiles
     profileBlue: '#144E81',
@@ -102,6 +105,7 @@ const theme = createTheme({
     blueDark: createColor('#091f3e'),
     greyDark: createColor('#ccc'),
     greyLight: createColor('#f2f2f2'),
+    green: createColor('#44D600'),
     //profiles
     profileBlue: createColor('#144E81'),
     profilePink: createColor('#80224D'),

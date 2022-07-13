@@ -11,7 +11,6 @@ const TextFieldControlled: FC<Props> = ({ label, name, ...props }) => {
 
   return (
     <TextField
-      margin="normal"
       label={label}
       variant="outlined"
       size="small"

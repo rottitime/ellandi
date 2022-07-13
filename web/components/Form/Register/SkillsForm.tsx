@@ -1,9 +1,10 @@
-import { Box, Chip, Typography, Stack, Divider } from '@mui/material'
+import { Chip, Typography, Stack, Divider } from '@mui/material'
 import { FC, useState } from 'react'
 import { StandardRegisterProps } from './types'
 import { useForm } from 'react-hook-form'
 import FormFooter from '@/components/Form/FormFooter'
 import Autocomplete from '../Autocomplete'
+import { Field } from '../Field'
 
 const list = [
   'Auditing',
@@ -35,11 +36,11 @@ const SkillsForm: FC<StandardRegisterProps<null>> = ({ backUrl, onFormSubmit }) 
       <Typography variant="h3" gutterBottom>
         Add any skills that you already have. You can change or add to these later
       </Typography>
-      <Typography variant="subtitle1" gutterBottom>
+      <Typography variant="subtitle1" sx={{ mb: 4 }}>
         We'll use this to suggest learning opportunities that are relevant to you
       </Typography>
 
-      <Box sx={{ mb: 3 }}>
+      <Field>
         <Autocomplete
           label="Select a skill or enter your own skill"
           data={list.map((item) => ({ name: item }))}
@@ -51,13 +52,13 @@ const SkillsForm: FC<StandardRegisterProps<null>> = ({ backUrl, onFormSubmit }) 
               )
           }}
         />
-      </Box>
+      </Field>
 
       {!!skills.length && (
         <>
-          <Divider sx={{ mb: 3, mt: 3 }} />
+          <Divider variant="middle" sx={{ my: 4 }} />
 
-          <Typography variant="h3" gutterBottom>
+          <Typography variant="h3" sx={{ mb: 3 }}>
             Your selected skills
           </Typography>
 
