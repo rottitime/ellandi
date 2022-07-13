@@ -1,27 +1,9 @@
-import { styled } from '@mui/material/styles'
-import {
-  Box,
-  Button,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography
-} from '@mui/material'
-import ToggleChip from '@/components/ToggleChip'
-import { Delete } from '@mui/icons-material'
+import { Box, Chip, Typography, Stack, Divider } from '@mui/material'
 import { FC, useState } from 'react'
 import { StandardRegisterProps } from './types'
 import { useForm } from 'react-hook-form'
 import FormFooter from '@/components/Form/FormFooter'
-
-const Stack = styled(Box)`
-  .MuiChip-root {
-    margin: 5px;
-  }
-`
+import Autocomplete from '../Autocomplete'
 
 const list = [
   'Auditing',
@@ -56,51 +38,39 @@ const SkillsForm: FC<StandardRegisterProps<null>> = ({ backUrl, onFormSubmit }) 
       <Typography gutterBottom>
         We'll use this to suggest learning opportunities that are relevant to you
       </Typography>
-      <Stack sx={{ mb: 3 }}>
-        {list.map((skill) => (
-          <ToggleChip
-            key={skill}
-            label={skill}
-            active={!!skills.includes(skill)}
-            variant="outlined"
-            onToggle={(_e, active) => {
-              setSkills((p) =>
-                active ? [...p, skill] : p.filter((item) => item !== skill)
-              )
-            }}
-          />
-        ))}
-      </Stack>
 
-      <Button variant="outlined" sx={{ mb: 3 }} disabled>
-        Load more skills
-      </Button>
+      <Box sx={{ mb: 3 }}>
+        <Autocomplete
+          label="Select a skill or enter your own skill"
+          data={list.map((item) => ({ name: item }))}
+          onSelected={(_event, value) => {
+            const name = value?.name
+            name &&
+              setSkills((p) =>
+                !!p.includes(name) ? p.filter((item) => item !== name) : [...p, name]
+              )
+          }}
+        />
+      </Box>
 
       {!!skills.length && (
-        <TableContainer>
-          <Table size="small">
-            <TableHead>
-              <TableRow>
-                <TableCell>Selected skill</TableCell>
-                <TableCell>&nbsp;</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {skills.map((skill) => (
-                <TableRow key={skill}>
-                  <TableCell>{skill}</TableCell>
-                  <TableCell align="right">
-                    <Button
-                      onClick={() => setSkills((p) => p.filter((item) => item !== skill))}
-                    >
-                      <Delete />
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+        <>
+          <Divider sx={{ mb: 3, mt: 3 }} />
+
+          <Typography variant="h3" gutterBottom>
+            Your selected skills
+          </Typography>
+
+          <Stack direction="row" spacing={1}>
+            {skills.map((skill) => (
+              <Chip
+                key={skill}
+                label={skill}
+                onDelete={() => setSkills((p) => p.filter((item) => item !== skill))}
+              />
+            ))}
+          </Stack>
+        </>
       )}
 
       <FormFooter backUrl={backUrl} />

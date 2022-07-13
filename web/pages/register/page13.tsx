@@ -8,14 +8,16 @@ const page = 13
 
 const RegisterPage = () => {
   return (
-    <SkillsForm
-      backUrl={`/register/page${page - 1}`}
-      onFormSubmit={(data) => {
-        // eslint-disable-next-line no-console
-        console.log({ data })
-        router.push('/register/complete')
-      }}
-    />
+    <>
+      <SkillsForm
+        backUrl={`/register/page${page - 1}`}
+        onFormSubmit={(data) => {
+          // eslint-disable-next-line no-console
+          console.log({ data })
+          router.push('/register/complete')
+        }}
+      />
+    </>
   )
 }
 
