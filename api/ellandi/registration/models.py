@@ -67,7 +67,8 @@ class LanguageSkillLevel(DropDownListModel):
 
 
 class Country(DropDownListModel):
-    pass
+    class Meta:
+        verbose_name_plural = "Countries"
 
 
 class UserManager(BaseUserManager):
