@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
             field=models.PositiveSmallIntegerField(null=True),
         ),
         migrations.AddField(
-            model_name="profession",
+            model_name="grade",
             name="order",
             field=models.PositiveSmallIntegerField(null=True),
         ),

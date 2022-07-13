@@ -22,9 +22,6 @@ def add_order_grades(apps, schema_editor):
     for i in range(0, 12):
         grade = Grade.objects.get(name=grades[i])
         grade.order = i
-        print(grade)
-        print(i)
-        print("here")
         grade.save()
 
 
