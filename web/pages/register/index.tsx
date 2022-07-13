@@ -20,6 +20,7 @@ const RegisterPage = () => (
 export default RegisterPage
 RegisterPage.getLayout = (page) => (
   <Page
+    showPromo={true}
     title={
       <>
         Registering takes around <Highlight newLine>5 - 10 minutes</Highlight>

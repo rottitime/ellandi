@@ -1,11 +1,21 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect } from 'react'
 import { useForm, FormProvider, Controller } from 'react-hook-form'
 import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldControlled'
 import { object, SchemaOf, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { FormControl, FormHelperText, InputLabel, MenuItem, Select } from '@mui/material'
+import {
+  FormControl,
+  FormHelperText,
+  InputLabel,
+  MenuItem,
+  Select,
+  Skeleton
+} from '@mui/material'
 import FormFooter from '@/components/Form/FormFooter'
 import { StandardRegisterProps } from './types'
+import { fetchCountries, GenericDataList } from '@/service/api'
+import { useUiContext } from '@/context/UiContext'
+import { useQuery } from 'react-query'
 
 export type RegisterDetailsType = {
   fullname: string
@@ -29,6 +39,15 @@ const RegisterDetailsForm: FC<StandardRegisterProps<RegisterDetailsType>> = ({
   backUrl,
   onFormSubmit
 }) => {
+  const { setLoading } = useUiContext()
+  const { isLoading, data } = useQuery<GenericDataList[], { message?: string }>(
+    'countries',
+    fetchCountries
+  )
+  useEffect(() => {
+    setLoading(isLoading)
+  }, [isLoading, setLoading])
+
   const methods = useForm<RegisterDetailsType>({
     defaultValues: {
       fullname: '',
@@ -58,17 +77,26 @@ const RegisterDetailsForm: FC<StandardRegisterProps<RegisterDetailsType>> = ({
           control={control}
           render={({ field }) => (
             <>
-              <FormControl fullWidth error={!!errors.country}>
+              <FormControl fullWidth error={!!errors.country} size="small">
                 <InputLabel>Country</InputLabel>
-                <Select
-                  label="Country"
-                  margin="none"
-                  variant="filled"
-                  size="small"
-                  {...field}
-                >
-                  <MenuItem value="UK">United Kingdom</MenuItem>
-                </Select>
+
+                {isLoading ? (
+                  <Skeleton width={100} sx={{ m: 1 }} />
+                ) : (
+                  <Select
+                    label="Country"
+                    margin="none"
+                    variant="outlined"
+                    // size="small"
+                    {...field}
+                  >
+                    {data.map(({ name, slug }) => (
+                      <MenuItem key={slug} value={slug}>
+                        {name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                )}
               </FormControl>
 
               {errors.country && (

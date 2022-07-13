@@ -13,7 +13,7 @@ const TextFieldControlled: FC<Props> = ({ label, name, ...props }) => {
     <TextField
       margin="normal"
       label={label}
-      variant="filled"
+      variant="outlined"
       size="small"
       error={!!errors[name]}
       data-testid={name}

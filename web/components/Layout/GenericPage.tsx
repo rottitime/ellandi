@@ -12,6 +12,7 @@ type Props = {
   footer?: ReactNode
   title?: string | ReactNode
   progress?: number
+  showPromo?: boolean
 }
 
 const GridContainer = styled(Grid)`
@@ -107,44 +108,46 @@ const GridContainer = styled(Grid)`
   }
 `
 
-const GenericPage: FC<Props> = ({ children, title, footer, progress }) => {
+const GenericPage: FC<Props> = ({ children, showPromo, title, footer, progress }) => {
   const { loading } = useUiContext()
   return (
     <Template disableGutters>
       <GridContainer spacing={0} container>
-        <Grid item xs={12} md={4} className="promo-box">
-          <Crown className="logo" />
-          <Typography variant="h1" gutterBottom>
-            Civil Service Skills and Learning
-          </Typography>
-          <Hidden initialWidth="md" mdDown={true}>
-            <Typography variant="h3" component="p">
-              You can use this service to:
+        {!!showPromo && (
+          <Grid item xs={12} md={4} className="promo-box">
+            <Crown className="logo" />
+            <Typography variant="h1" gutterBottom>
+              Civil Service Skills and Learning
             </Typography>
-            <List
-              className="list"
-              list={[
-                {
-                  icon: <AccountBox />,
-                  title: 'upload and maintain your skills and learning profile'
-                },
-                {
-                  icon: <Yard />,
-                  title: "specify any skills you'd like to develop in the future"
-                },
-                {
-                  icon: <Search />,
-                  title: 'find courses and development opportunities'
-                },
-                {
-                  icon: <QuestionAnswer />,
-                  title:
-                    'support discussions about skills and career development with your line manager'
-                }
-              ]}
-            />
-          </Hidden>
-        </Grid>
+            <Hidden initialWidth="md" mdDown={true}>
+              <Typography variant="h3" component="p">
+                You can use this service to:
+              </Typography>
+              <List
+                className="list"
+                list={[
+                  {
+                    icon: <AccountBox />,
+                    title: 'upload and maintain your skills and learning profile'
+                  },
+                  {
+                    icon: <Yard />,
+                    title: "specify any skills you'd like to develop in the future"
+                  },
+                  {
+                    icon: <Search />,
+                    title: 'find courses and development opportunities'
+                  },
+                  {
+                    icon: <QuestionAnswer />,
+                    title:
+                      'support discussions about skills and career development with your line manager'
+                  }
+                ]}
+              />
+            </Hidden>
+          </Grid>
+        )}
         <Grid item xs className="main-content">
           <Card
             elevation={0}

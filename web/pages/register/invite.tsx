@@ -4,10 +4,6 @@ import { Typography } from '@mui/material'
 
 const RegisterPage = () => (
   <>
-    <Typography variant="h1" gutterBottom>
-      Hi Joe Bloggs
-    </Typography>
-
     <Typography gutterBottom>
       You are invited to register for Civil Service Skills and Learning.
     </Typography>
@@ -31,4 +27,8 @@ const RegisterPage = () => (
 )
 
 export default RegisterPage
-RegisterPage.getLayout = (page) => <Page>{page}</Page>
+RegisterPage.getLayout = (page) => (
+  <Page showPromo={true} title="Hi Joe Bloggs">
+    {page}
+  </Page>
+)
