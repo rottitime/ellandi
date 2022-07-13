@@ -30,7 +30,22 @@ export const mockRouter: NextRouter = {
   isPreview: false
 }
 
-export const renderWithProviders = (
+export const renderWithProviders = async (
+  ui: ReactNode,
+  options: Omit<RenderOptions, 'queries'> = {}
+) => {
+  const { rerender, ...props } = await render(
+    <RouterContext.Provider value={mockRouter}>
+      <ThemeProvider theme={theme}>
+        <>{ui}</>
+      </ThemeProvider>
+    </RouterContext.Provider>,
+    options
+  )
+  return { ...props, rerender }
+}
+
+export const renderWithProviders2 = (
   ui: ReactNode,
   options: Omit<RenderOptions, 'queries'> = {}
 ): RenderResult => {
@@ -40,5 +55,6 @@ export const renderWithProviders = (
     </RouterContext.Provider>,
     options
   )
+
   return { ...props, rerender }
 }
