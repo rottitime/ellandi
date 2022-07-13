@@ -67,6 +67,8 @@ const GridContainer = styled(Grid)`
   }
 
   .promo-box {
+    background-color: ${(p) => p.theme.colors.white};
+
     /* background-color: rgb(9, 31, 62);
     color: #fff; */
     position: relative;
