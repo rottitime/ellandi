@@ -1,12 +1,9 @@
 import Page from '@/components/Layout/AccountMenuPage'
-import { Box, Button, Grid, Typography, useTheme } from '@mui/material'
+import { Button, Divider, Grid, Typography, useTheme } from '@mui/material'
 import Card from '@/components/UI/Card'
-import Divider from '@/components/UI/Divider2'
 import { Colors } from '@/style/theme'
 import Link from '@/components/UI/Link'
 import SkillsIcon from '@/components/Icons/Skills'
-import CareersIcon from '@/components/Icons/Careers'
-import CommunitiesIcon from '@/components/Icons/Communities'
 import LearningIcon from '@/components/Icons/Learning'
 import { ReactNode } from 'react'
 import LearningStrands from '@/components/LearningStrands'
@@ -25,7 +22,7 @@ const profiles: MenuDataType = [
   {
     title: 'Skills',
     content:
-      'Update your skills profile to find learning and development opportunities tailored to you',
+      'Update your skills profile to record your current skills and ones you would like to develop',
     linkText: 'Review your skills',
     url: '/account/skills',
     color: 'profileBlue',
@@ -38,25 +35,25 @@ const profiles: MenuDataType = [
     url: '/account/learning',
     color: 'profilePink',
     logo: <LearningIcon />
-  },
-  {
-    title: 'Careers',
-    content:
-      'View current job vacancies and career pathways to discover what they involve',
-    linkText: 'Plan your career',
-    url: '/account/careers',
-    color: 'profileGreen',
-    logo: <CareersIcon />
-  },
-  {
-    title: 'Communities',
-    content:
-      'Discuss ideas and share best practice with specific professions and functions',
-    linkText: 'Access communities',
-    url: '/account/communities',
-    color: 'profileYellow',
-    logo: <CommunitiesIcon />
   }
+  // {
+  //   title: 'Careers',
+  //   content:
+  //     'View current job vacancies and career pathways to discover what they involve',
+  //   linkText: 'Plan your career',
+  //   url: '/account/careers',
+  //   color: 'profileGreen',
+  //   logo: <CareersIcon />
+  // },
+  // {
+  //   title: 'Communities',
+  //   content:
+  //     'Discuss ideas and share best practice with specific professions and functions',
+  //   linkText: 'Access communities',
+  //   url: '/account/communities',
+  //   color: 'profileYellow',
+  //   logo: <CommunitiesIcon />
+  // }
 ]
 
 const IndexPage = () => {
@@ -64,13 +61,6 @@ const IndexPage = () => {
 
   return (
     <>
-      <Box sx={{ mb: 6 }}>
-        <Typography variant="subtitle1" gutterBottom>
-          Use this service to add and review skills, view learning opportunities, plan
-          your career pathway and keep up to date with communities.
-        </Typography>
-      </Box>
-
       <Grid container spacing={4}>
         <Grid item xs={4}>
           <Card fullHeight>
@@ -88,41 +78,42 @@ const IndexPage = () => {
               </ul>
             </ContentBox>
 
-            <Divider variant="middle" spacing={30} />
+            <Divider variant="middle" />
 
             <LearningStrands />
           </Card>
         </Grid>
         <Grid item xs={8}>
-          <Card fullHeight>
-            <Grid container spacing={4}>
-              {profiles.map((data) => (
-                <Grid item xs={6} key={data.title}>
-                  <ContentBox>
-                    <Typography
-                      gutterBottom
-                      variant="h3"
-                      sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '10px',
-                        color: theme.colors[data.color]
-                      }}
-                    >
-                      {data.logo} {data.title}
-                    </Typography>
-                    <Typography color="text.secondary" gutterBottom>
-                      {data.content}
-                    </Typography>
+          <Grid container spacing={4}>
+            {profiles.map((data) => (
+              <Grid item xs={6} key={data.title}>
+                <Card>
+                  <Typography
+                    gutterBottom
+                    variant="h3"
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '10px',
+                      color: theme.colors[data.color]
+                    }}
+                  >
+                    {data.logo} {data.title}
+                  </Typography>
+                  <Typography color="text.secondary" gutterBottom>
+                    {data.content}
+                  </Typography>
 
-                    <Link href={data.url}>
-                      <Button variant="contained">{data.linkText}</Button>
-                    </Link>
-                  </ContentBox>
-                </Grid>
-              ))}
-            </Grid>
-          </Card>
+                  <Divider variant="middle" sx={{ my: 3 }} />
+                  <Link href={data.url}>
+                    <Button variant="contained" fullWidth>
+                      {data.linkText}
+                    </Button>
+                  </Link>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
         </Grid>
       </Grid>
     </>
@@ -130,4 +121,11 @@ const IndexPage = () => {
 }
 
 export default IndexPage
-IndexPage.getLayout = (page) => <Page title="Welcome, Joe">{page}</Page>
+IndexPage.getLayout = (page) => (
+  <Page
+    title="Welcome, Joe"
+    teaser="Use this service to add and review your skills and find learning opportunities"
+  >
+    {page}
+  </Page>
+)

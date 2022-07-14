@@ -23,7 +23,7 @@ jobs:
       IMAGE_TAG: latest
       DOCKER_REPOSITORY: ghcr.io
       NODE_ENV: development
-      NEXT_PUBLIC_API_URL: https://ellandi-api-develop.london.cloudapps.digital/
+      NEXT_PUBLIC_API_URL: https://ellandi-api-develop.london.cloudapps.digital
 
     strategy:
       matrix:

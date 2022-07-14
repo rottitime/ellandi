@@ -1,7 +1,10 @@
 import datetime
+import hashlib
 import uuid
+from base64 import b64encode
 
 import pytz
+from django.conf import settings
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
@@ -27,6 +30,9 @@ class DropDownListModel(models.Model):
         self.clean()
         self.slug = slugify(self.name)
         return super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
 
     class Meta:
         abstract = True
@@ -57,6 +63,10 @@ class Grade(DropDownListModel):
 
 
 class LanguageSkillLevel(DropDownListModel):
+    description = models.CharField(max_length=255, blank=False, null=False, default="")
+
+
+class Country(DropDownListModel):
     pass
 
 
@@ -148,6 +158,9 @@ class UserSkill(TimeStampedModel):
     level = models.CharField(max_length=64, choices=SkillLevel.choices, blank=True, null=False)
     validated = models.BooleanField(default=False, blank=False)
 
+    def __str__(self):
+        return f"{self.skill_name} ({self.id})"
+
     class Meta:
         unique_together = ["user", "skill_name"]
 
@@ -161,5 +174,27 @@ class UserLanguage(TimeStampedModel):
     type = models.CharField(max_length=127, blank=True, null=False)  # eg reading, writing
     level = models.CharField(max_length=127, blank=True, null=False)
 
+    def __str__(self):
+        return f"{self.language} ({self.id})"
+
     class Meta:
         unique_together = ["user", "language", "type"]
+
+
+class EmailSalt(models.Model):
+    email = models.EmailField("email", unique=True, primary_key=True)
+    salt = models.BinaryField(max_length=16, blank=False, null=False)
+
+    def get_one_time_login(self):
+        salt_str = b64encode(self.salt).decode("utf-8")
+        tok = "|".join([salt_str, self.email, settings.SECRET_KEY])
+        one_time_token = hashlib.sha256(tok.encode("utf-8")).hexdigest()
+        return one_time_token
+
+    def is_one_time_login_valid(self, token_to_validate):
+        correct_token = self.get_one_time_login()
+        return correct_token == token_to_validate
+
+    def save(self, *args, **kwargs):
+        self.email = self.email.lower()
+        super(EmailSalt, self).save(*args, **kwargs)

@@ -11,9 +11,8 @@ const TextFieldControlled: FC<Props> = ({ label, name, ...props }) => {
 
   return (
     <TextField
-      margin="normal"
       label={label}
-      variant="filled"
+      variant="outlined"
       size="small"
       error={!!errors[name]}
       data-testid={name}
@@ -21,6 +20,7 @@ const TextFieldControlled: FC<Props> = ({ label, name, ...props }) => {
       fullWidth
       {...props}
       {...register(name)}
+      inputProps={{ 'data-testid': `textfield_${name}` }}
     />
   )
 }

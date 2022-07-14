@@ -1,11 +1,10 @@
 import AccountMenuPage from '@/components/Layout/AccountMenuPage'
-import { Grid, Typography } from '@mui/material'
+import { Divider, Grid, Typography } from '@mui/material'
 import Link from '@/components/UI/Link'
 import Communities from '@/components/Icons/Communities'
 import ContentBox from '@/components/ContentBox'
 import Card from '@/components/UI/Card'
 import LinkButton from '@/components/LinkButton'
-import Divider from '@/components/UI/Divider2'
 
 const listCommunities = [
   {
@@ -102,7 +101,7 @@ const Page = () => {
           View all communities
         </LinkButton>
 
-        <Divider spacing={10} variant="middle" />
+        <Divider variant="middle" />
 
         <Grid container spacing={4}>
           <Grid item xs={8}>
@@ -119,7 +118,7 @@ const Page = () => {
                   Comments: {post.comments}
                 </Typography>
 
-                <Divider spacing={5} />
+                <Divider />
               </>
             ))}
           </Grid>

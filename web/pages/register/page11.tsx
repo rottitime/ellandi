@@ -1,43 +1,23 @@
-import Page, { FormFooter } from '@/components/Layout/GenericPage'
-import { Typography } from '@mui/material'
-import LinkButton from '@/components/LinkButton'
-import CheckCircleIcon from '@mui/icons-material/CheckCircle'
+import Page from '@/components/Layout/GenericPage'
+import router from 'next/router'
+import ContactForm from '@/components/Form/Register/ContactForm'
 
-const RegisterPage = () => {
-  return (
-    <>
-      <Typography variant="subtitle1" gutterBottom>
-        We're now going to ask you about your skills, including:
-      </Typography>
+const page = 11
 
-      <ul>
-        <li>Your language skills</li>
-        <li>Other skills that you already have</li>
-        <li>Skills that you'd like to develop</li>
-      </ul>
-
-      <FormFooter>
-        <LinkButton href="/register/page10" variant="outlined">
-          Back
-        </LinkButton>
-
-        <LinkButton href="/register/page12">Continue</LinkButton>
-      </FormFooter>
-    </>
-  )
-}
+const RegisterPage = () => (
+  <ContactForm
+    backUrl={`/register/page${page - 1}`}
+    onFormSubmit={(data) => {
+      // eslint-disable-next-line no-console
+      console.log({ data })
+      router.push('/register/thankyou')
+    }}
+  />
+)
 
 export default RegisterPage
 RegisterPage.getLayout = (page) => (
-  <Page
-    title={
-      <>
-        <CheckCircleIcon sx={{ display: 'block', margin: '0 auto', fontSize: '60px' }} />
-        Thank you for completing your details
-      </>
-    }
-    progress={70}
-  >
+  <Page title="Contact preference" progress={70}>
     {page}
   </Page>
 )

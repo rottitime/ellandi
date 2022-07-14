@@ -1,6 +1,7 @@
 import {
   Box,
   Chip,
+  Divider,
   FormControl,
   Grid,
   InputLabel,
@@ -14,7 +15,6 @@ import AccountMenuPage from '@/components/Layout/AccountMenuPage'
 import Learning from '@/components/Icons/Learning'
 import Card from '@/components/UI/Card'
 import Link from '@/components/UI/Link'
-import Divider from '@/components/UI/Divider2'
 import LearningStrands from '@/components/LearningStrands'
 import ContentBox from '@/components/ContentBox'
 import Forecasting from '@/components/Icons/Forecasting'
@@ -105,30 +105,29 @@ const Header = styled('header')`
   }
 `
 
-const filters = [
-  'Commercial awareness (1)',
-  'Communication (2)',
-  'Data management (1)',
-  'Financial management (2)',
-  'Forecasting (1)',
-  'Influencing (2)',
-  'Managing budgets (1)',
-  'Numeracy (1)',
-  'Presenting (1)'
-]
+// const filters = [
+//   'Commercial awareness (1)',
+//   'Communication (2)',
+//   'Data management (1)',
+//   'Financial management (2)',
+//   'Forecasting (1)',
+//   'Influencing (2)',
+//   'Managing budgets (1)',
+//   'Numeracy (1)',
+//   'Presenting (1)'
+// ]
 
 const Page = () => {
   return (
     <>
       <Typography variant="subtitle1" gutterBottom>
-        Course suggestions are based on your current skills and skills you would like to
-        develop. <Link href="#">Change these preferences</Link>.
+        Course suggestions are based on your current role
       </Typography>
 
       <Grid container spacing={4}>
         <Grid item xs={4}>
           <Card>
-            <Typography variant="h3" gutterBottom>
+            {/* <Typography variant="h3" gutterBottom>
               Filter by the skills you'd like to develop
             </Typography>
 
@@ -139,27 +138,25 @@ const Page = () => {
                   {filter}
                 </Link>
               </Typography>
-            ))}
+            ))} */}
 
             <Box sx={{ mt: 4 }}>
-              {['Type of learning', 'Profession', 'Function', 'Department'].map(
-                (label) => (
-                  <FormControl size="small" sx={{ mb: 3 }} fullWidth key={label}>
-                    <InputLabel id="demo-select-small">{label}</InputLabel>
-                    <Select value={label} label={label}>
-                      <MenuItem value="">
-                        <em>None</em>
-                      </MenuItem>
-                      <MenuItem value={10}>Ten</MenuItem>
-                      <MenuItem value={20}>Twenty</MenuItem>
-                      <MenuItem value={30}>Thirty</MenuItem>
-                    </Select>
-                  </FormControl>
-                )
-              )}
+              {['Type of learning', 'Profession', 'Function'].map((label) => (
+                <FormControl size="small" sx={{ mb: 3 }} fullWidth key={label}>
+                  <InputLabel id="demo-select-small">{label}</InputLabel>
+                  <Select value={label} label={label}>
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    <MenuItem value={10}>Ten</MenuItem>
+                    <MenuItem value={20}>Twenty</MenuItem>
+                    <MenuItem value={30}>Thirty</MenuItem>
+                  </Select>
+                </FormControl>
+              ))}
             </Box>
 
-            <Divider variant="middle" spacing={20} />
+            <Divider variant="middle" />
 
             <LearningStrands />
           </Card>
@@ -191,7 +188,7 @@ const Page = () => {
                 <Typography>
                   <b>Skills you will develop:</b> {result.develop}
                 </Typography>
-                <Divider variant="middle" spacing={20} />
+                <Divider variant="middle" />
 
                 <Typography>
                   {result.content} <Link href="#">Read more</Link>

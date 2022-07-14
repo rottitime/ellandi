@@ -1,50 +1,49 @@
-import GenericPage, { FormFooter } from '@/components/Layout/GenericPage'
+import GenericPage from '@/components/Layout/GenericPage'
 import Link from '@/components/UI/Link'
-import { Button, Typography } from '@mui/material'
-import { useForm, SubmitHandler, FormProvider } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
+import { Alert, Fade, Typography } from '@mui/material'
 import SignInForm from '@/components/Form/SignInForm/SignInForm'
-import { SchemaOf, object, string } from 'yup'
-import { useRouter } from 'next/router'
-
-type SignInType = { email: string; password: string }
-
-const schema: SchemaOf<SignInType> = object().shape({
-  email: string().email().required(),
-  password: string().min(4).max(20).required()
-})
+import { loginWithEmailAndPassword } from '@/service/auth'
+import router from 'next/router'
+import { useState } from 'react'
 
 const SigninPage = () => {
-  const router = useRouter()
-
-  const methods = useForm<SignInType>({
-    defaultValues: { email: '', password: '' },
-    resolver: yupResolver(schema)
-  })
-
-  const onFormSubmit: SubmitHandler<SignInType> = (data) => {
-    // eslint-disable-next-line no-console
-    console.log({ data })
-    router.push('/account')
-  }
+  const [fetching, setFetching] = useState(false)
+  const [error, setError] = useState(null)
 
   return (
-    <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(onFormSubmit)} noValidate>
-        <Typography variant="subtitle1">
-          If this is the first time you have used this website, you will need to{' '}
-          <Link href="/register">create an account</Link>.
-        </Typography>
+    <>
+      <Typography variant="subtitle1" gutterBottom>
+        If this is the first time you have used this website, you will need to{' '}
+        <Link href="/register">create an account</Link>.
+      </Typography>
 
-        <SignInForm />
+      {error && (
+        <Fade in={!!error}>
+          <Alert severity="error" sx={{ mt: 3, mb: 3 }}>
+            {error}
+          </Alert>
+        </Fade>
+      )}
 
-        <FormFooter>
-          <Button variant="contained" type="submit">
-            Continue
-          </Button>
-        </FormFooter>
-      </form>
-    </FormProvider>
+      <SignInForm
+        loading={fetching}
+        onFormSubmit={async (data) => {
+          // eslint-disable-next-line no-console
+          console.log({ data })
+          setFetching(true)
+
+          try {
+            const res = await loginWithEmailAndPassword(data)
+            sessionStorage.setItem('token', res.token)
+            router.push('/account')
+          } catch (err) {
+            setError(err.message)
+          }
+
+          setFetching(false)
+        }}
+      />
+    </>
   )
 }
 

@@ -1,9 +1,11 @@
+import os
+
 from django.contrib.auth import get_user_model
-from rest_framework import routers, viewsets
-from rest_framework.decorators import action
+from drf_spectacular.utils import extend_schema
+from rest_framework import decorators, permissions, routers, status, viewsets
 from rest_framework.response import Response
 
-from . import models, serializers
+from . import exceptions, initial_data, models, serializers
 
 registration_router = routers.DefaultRouter()
 
@@ -24,11 +26,18 @@ class UserViewSet(viewsets.ModelViewSet):
 
     queryset = get_user_model().objects.all().order_by("-created_at")
     serializer_class = serializers.UserSerializer
+    http_method_names = ["get", "put", "patch"]
 
-    @action(detail=True, methods=["get"])
+    @decorators.action(detail=True, methods=["get"])
     def skills(self, request, pk):
         skills_qs = models.UserSkill.objects.filter(user__id=pk)
         serializer = serializers.UserSkillSerializer(skills_qs, many=True, context={"request": request})
+        return Response(serializer.data)
+
+    @decorators.action(detail=True, methods=["get"])
+    def languages(self, request, pk):
+        languages_qs = models.UserLanguage.objects.filter(user__id=pk)
+        serializer = serializers.UserLanguageSerializer(languages_qs, many=True, context={"request": request})
         return Response(serializer.data)
 
 
@@ -36,12 +45,14 @@ class UserViewSet(viewsets.ModelViewSet):
 class UserSkillViewSet(viewsets.ModelViewSet):
     queryset = models.UserSkill.objects.all().order_by("user")
     serializer_class = serializers.UserSkillSerializer
+    http_method_names = ["get", "post", "put", "patch", "delete"]
 
 
 @register("user-languages")
 class UserLanguageViewSet(viewsets.ModelViewSet):
     queryset = models.UserLanguage.objects.all().order_by("user")
     serializer_class = serializers.UserLanguageSerializer
+    http_method_names = ["get", "post", "put", "patch", "delete"]
 
 
 @register("organisations")
@@ -84,3 +95,72 @@ class GradeViewSet(viewsets.ReadOnlyModelViewSet):
 class LanguageSkillLevelViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.LanguageSkillLevel.objects.all().order_by("name")
     serializer_class = serializers.LanguageSkillLevelSerializer
+
+
+@register("countries")
+class CountryViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.Country.objects.all().order_by("name")
+    serializer_class = serializers.CountrySerializer
+
+
+@extend_schema(
+    request=serializers.RegisterSerializer,
+    responses=serializers.UserSerializer,
+)
+@decorators.api_view(["POST"])
+@decorators.permission_classes((permissions.AllowAny,))
+def register_view(request):
+    email = request.data.get("email")
+    password = request.data.get("password")
+    if get_user_model().objects.filter(email=email).exists():
+        raise exceptions.RegistrationError()
+    user = get_user_model().objects.create_user(email=email, password=password)
+    user_data = serializers.UserSerializer(user, context={"request": request}).data
+    return Response(user_data)
+
+
+@decorators.api_view(["GET"])
+def skills_list_view(request):
+    skills = set(models.UserSkill.objects.all().values_list("skill_name", flat=True))
+    skills = initial_data.INITIAL_SKILLS.union(skills)
+    return Response(skills)
+
+
+@extend_schema(request=serializers.EmailSaltSerializer, responses=serializers.OneTimeTokenSerializer)
+@decorators.api_view(["POST"])
+@decorators.permission_classes((permissions.AllowAny,))
+def create_one_time_login_view(request):
+    if "email" not in request.data:
+        return Response(data="You need to provide an email", status=status.HTTP_400_BAD_REQUEST)
+    email = request.data["email"]
+    email = email.lower()
+    try:
+        email_salt = models.EmailSalt.objects.get(email__iexact=email)
+    except models.EmailSalt.DoesNotExist:
+        email_salt = models.EmailSalt(email=email, salt=os.urandom(16))
+    email_salt.save()
+    one_time_login_token = email_salt.get_one_time_login()
+    return Response(data={"one_time_token": one_time_login_token}, status=status.HTTP_200_OK)
+
+
+@extend_schema(request=serializers.UserLoginSerializer)
+@decorators.api_view(["POST"])
+@decorators.permission_classes((permissions.AllowAny,))
+def first_log_in_view(request):
+    if "email" not in request.data:
+        return Response(data="You need to provide an email", status=status.HTTP_400_BAD_REQUEST)
+    else:
+        email = request.data["email"]
+        email = email.lower()
+    one_time_token = request.data["one_time_token"]
+    try:
+        email_salt = models.EmailSalt.objects.get(email__iexact=email)
+    except models.EmailSalt.DoesNotExist:
+        return Response(data="One-time token has not been generated for this email", status=status.HTTP_400_BAD_REQUEST)
+    correct_token = email_salt.get_one_time_login()
+    if correct_token != one_time_token:
+        return Response(data="Incorrect token", status=status.HTTP_400_BAD_REQUEST)
+    models.User.objects.update_or_create(email=email)
+    # TODO - in future will change so can only log-in once with same token
+    response = Response(status=status.HTTP_201_CREATED)
+    return response

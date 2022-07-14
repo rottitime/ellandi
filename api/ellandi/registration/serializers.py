@@ -3,12 +3,15 @@ from rest_framework import serializers
 
 from .models import (
     ContractType,
+    Country,
+    EmailSalt,
     Grade,
     Language,
     LanguageSkillLevel,
     Location,
     Organisation,
     Profession,
+    User,
     UserLanguage,
     UserSkill,
 )
@@ -53,6 +56,12 @@ class GradeSerializer(serializers.ModelSerializer):
 class LanguageSkillLevelSerializer(serializers.ModelSerializer):
     class Meta:
         model = LanguageSkillLevel
+        fields = ["slug", "name", "description"]
+
+
+class CountrySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Country
         fields = ["slug", "name"]
 
 
@@ -71,15 +80,17 @@ class UserLanguageSerializer(serializers.HyperlinkedModelSerializer):
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     skills = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name="userskill-detail")
     languages = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name="userlanguage-detail")
+    email = serializers.CharField(read_only=True)
 
     class Meta:
         skills = UserSkillSerializer(many=True, read_only=True)
         languages = UserLanguageSerializer(many=True, read_only=True)
+
         model = get_user_model()
         fields = [
             "id",
-            "url",
             "email",
+            "url",
             "first_name",
             "last_name",
             "privacy_policy_agreement",
@@ -93,3 +104,26 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
             "skills",
             "languages",
         ]
+
+
+class RegisterSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    password = serializers.CharField()
+
+
+class EmailSaltSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EmailSalt
+        fields = ["email"]
+
+
+class UserLoginSerializer(serializers.ModelSerializer):
+    one_time_token = serializers.CharField(required=True)
+
+    class Meta:
+        model = User
+        fields = ["email", "one_time_token"]
+
+
+class OneTimeTokenSerializer(serializers.Serializer):
+    one_time_token = serializers.CharField(required=True)
