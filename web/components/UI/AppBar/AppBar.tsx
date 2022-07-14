@@ -16,6 +16,7 @@ import Link from 'next/link'
 import Crown from '@/components/Icons/CrownLogo'
 import { FC, useState } from 'react'
 import { Props } from './types'
+import router from 'next/router'
 
 const AppBar = styled(MuiAppBar)`
   background: linear-gradient(127.55deg, #141e30 3.73%, #243b55 92.26%);
@@ -80,12 +81,18 @@ const ResponsiveAppBar: FC<Props> = ({ pages, settings }) => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <Link href={setting.url} key={setting.title} passHref>
-                  <MenuItem onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting.title}</Typography>
-                  </MenuItem>
-                </Link>
+              {settings.map(({ url, title, onClick }) => (
+                <MenuItem
+                  key={title}
+                  onClick={(e) => {
+                    handleCloseUserMenu()
+
+                    if (onClick !== undefined) onClick(e)
+                    if (url) router.push(url)
+                  }}
+                >
+                  <Typography textAlign="center">{title}</Typography>
+                </MenuItem>
               ))}
             </Menu>
           </Box>

@@ -40,3 +40,10 @@ export const loginWithEmailAndPassword = async (data: SignInType): Promise<AuthU
 
   return Promise.reject(new Error('Service unavailable'))
 }
+
+export const logoutUser = async (token: string) => {
+  await fetch(`${publicRuntimeConfig.apiUrl}/logout/`, {
+    method: 'POST',
+    headers: { Authorization: `Token ${token}` }
+  })
+}
