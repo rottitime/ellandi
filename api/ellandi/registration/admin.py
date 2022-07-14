@@ -30,7 +30,6 @@ class UserAdmin(django.contrib.auth.admin.UserAdmin):
                     "organisation",
                     "job_title",
                     "line_manager_email",
-                    "country",
                     "contract_type",
                 )
             },
@@ -47,7 +46,6 @@ class UserAdmin(django.contrib.auth.admin.UserAdmin):
                     "organisation",
                     "job_title",
                     "line_manager_email",
-                    "country",
                     "contract_type",
                 )
             },
