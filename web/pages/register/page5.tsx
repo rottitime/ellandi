@@ -4,13 +4,15 @@ import RegisterDetailsForm from '@/components/Form/Register/RegisterDetailsForm'
 import { dehydrate, QueryClient } from 'react-query'
 import { fetchCountries } from '@/service/api'
 
+const page = 5
+
 const RegisterPage = () => (
   <RegisterDetailsForm
-    backUrl="/register/page4"
+    backUrl={`/register/page${page - 1}`}
     onFormSubmit={(data) => {
       // eslint-disable-next-line no-console
       console.log({ data })
-      router.push('/register/page6')
+      router.push(`/register/page${page + 1}`)
     }}
   />
 )

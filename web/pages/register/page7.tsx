@@ -6,13 +6,15 @@ import router from 'next/router'
 import { dehydrate, QueryClient } from 'react-query'
 import { fetchProfessions } from '@/service/api'
 
+const page = 7
+
 const RegisterPage = () => (
   <ProfessionForm
-    backUrl="/register/page6"
+    backUrl={`/register/page${page - 1}`}
     onFormSubmit={(data) => {
       // eslint-disable-next-line no-console
       console.log({ data })
-      router.push('/register/page8')
+      router.push(`/register/page${page + 1}`)
     }}
   />
 )
@@ -34,7 +36,7 @@ RegisterPage.getLayout = (page) => (
     title="Profession"
     footer={
       <Typography gutterBottom>
-        <Link href="/register/page8">Skip this step</Link>
+        <Link href={`/register/page${page + 1}`}>Skip this step</Link>
       </Typography>
     }
     progress={40}

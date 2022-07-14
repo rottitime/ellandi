@@ -4,11 +4,13 @@ import { dehydrate, QueryClient } from 'react-query'
 import { fetchFunctions } from '@/service/api'
 import FunctionTypeForm from '@/components/Form/Register/FunctionTypeForm'
 
+const page = 9
+
 const RegisterPage = () => (
   <FunctionTypeForm
-    backUrl="/register/page8"
+    backUrl={`/register/page${page - 1}`}
     onFormSubmit={(_data) => {
-      router.push('/register/page10')
+      router.push(`/register/page${page + 1}`)
     }}
   />
 )
