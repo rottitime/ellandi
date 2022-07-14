@@ -6,16 +6,16 @@ class RegistrationError(APIException):
     default_detail = "User already exists"
 
 
-class OneTimeLoginEmailError(APIException):
+class LoginMissingEmailError(APIException):
     status_code = 400
     default_detail = "You need to provide an email"
 
 
-class OneTimeLoginNoEmailError(APIException):
+class LoginNoTokenError(APIException):
     status_code = 400
     default_detail = "One-time token has not been generated for this email"
 
 
-class OneTimeTokenIncorrectError(APIException):
+class LoginIncorrectTokenError(APIException):
     status_code = 400
     default_detail = "Incorrect token"

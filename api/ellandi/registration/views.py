@@ -131,7 +131,7 @@ def skills_list_view(request):
 @decorators.permission_classes((permissions.AllowAny,))
 def create_one_time_login_view(request):
     if "email" not in request.data:
-        raise exceptions.OneTimeLoginEmailError
+        raise exceptions.LoginMissingEmailError
     email = request.data["email"]
     email = email.lower()
     try:
@@ -148,7 +148,7 @@ def create_one_time_login_view(request):
 @decorators.permission_classes((permissions.AllowAny,))
 def first_log_in_view(request):
     if "email" not in request.data:
-        raise exceptions.OneTimeLoginEmailError
+        raise exceptions.LoginMissingEmailError
     else:
         email = request.data["email"]
         email = email.lower()
@@ -156,10 +156,10 @@ def first_log_in_view(request):
     try:
         email_salt = models.EmailSalt.objects.get(email__iexact=email)
     except models.EmailSalt.DoesNotExist:
-        raise exceptions.OneTimeLoginNoEmailError
+        raise exceptions.LoginNoTokenError
     correct_token = email_salt.get_one_time_login()
     if correct_token != one_time_token:
-        raise exceptions.OneTimeTokenIncorrectError
+        raise exceptions.LoginIncorrectTokenError
     models.User.objects.update_or_create(email=email)
     # TODO - in future will change so can only log-in once with same token
     response = Response(status=status.HTTP_201_CREATED)
