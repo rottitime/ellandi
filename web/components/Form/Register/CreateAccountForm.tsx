@@ -6,6 +6,7 @@ import { useForm, FormProvider } from 'react-hook-form'
 import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldControlled'
 import FormFooter from '@/components/Form/FormFooter'
 import { StandardRegisterProps } from './types'
+import { Field } from '@/components/Form/Field'
 
 type CreateAccountType = {
   email: string
@@ -13,6 +14,7 @@ type CreateAccountType = {
   password: string
   passwordConfirm: string
 }
+const minPassword = 8
 
 const schema: SchemaOf<CreateAccountType> = object().shape({
   email: string()
@@ -23,7 +25,7 @@ const schema: SchemaOf<CreateAccountType> = object().shape({
     .required('This is a required field'),
 
   password: string()
-    .min(8, 'Password must be 8 characters or more')
+    .min(minPassword, `Password must be ${minPassword} characters or more`)
     .max(20)
     .required('This is a required field'),
   passwordConfirm: string()
@@ -33,7 +35,8 @@ const schema: SchemaOf<CreateAccountType> = object().shape({
 
 const CreateAccountForm: FC<StandardRegisterProps<CreateAccountType>> = ({
   backUrl,
-  onFormSubmit
+  onFormSubmit,
+  loading
 }) => {
   const methods = useForm<CreateAccountType>({
     defaultValues: { email: '', password: '' },
@@ -47,28 +50,37 @@ const CreateAccountForm: FC<StandardRegisterProps<CreateAccountType>> = ({
           You need to create an account before using this service
         </Typography>
 
-        <Typography variant="h3">Enter your email address</Typography>
+        <Typography variant="h4" gutterBottom>
+          Enter your email address
+        </Typography>
+        <Field>
+          <TextFieldControlled name="email" label="Email address" />
+        </Field>
+        <Field>
+          <TextFieldControlled name="emailConfirm" label="Confirm your email address" />
+        </Field>
 
-        <TextFieldControlled name="email" label="Email address" />
-        <TextFieldControlled name="emailConfirm" label="Confirm your email address" />
-
-        <Typography variant="h3" gutterBottom>
+        <Typography variant="h4" gutterBottom>
           Create a password
         </Typography>
 
         <Typography gutterBottom>
-          Your password should have at least 8 characters and not include your name or
-          email address
+          Your password should have at least {minPassword} characters and not include your
+          name or email address
         </Typography>
 
-        <TextFieldControlled name="password" label="Password" type="password" />
-        <TextFieldControlled
-          name="passwordConfirm"
-          label="Confirm your password"
-          type="password"
-        />
+        <Field>
+          <TextFieldControlled name="password" label="Password" type="password" />
+        </Field>
+        <Field>
+          <TextFieldControlled
+            name="passwordConfirm"
+            label="Confirm your password"
+            type="password"
+          />
+        </Field>
 
-        <FormFooter backUrl={backUrl} />
+        <FormFooter backUrl={backUrl} buttonProps={{ loading }} />
       </form>
     </FormProvider>
   )

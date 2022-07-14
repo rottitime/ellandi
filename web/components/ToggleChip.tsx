@@ -1,7 +1,6 @@
 import { FC, useState, ComponentProps, MouseEvent, useEffect } from 'react'
 import { Chip as MuiChip } from '@mui/material'
 import { styled } from '@mui/material/styles'
-// import { IcPlus, IcChipCross } from '../icons/generated'
 
 type Props = {
   toggle?: boolean

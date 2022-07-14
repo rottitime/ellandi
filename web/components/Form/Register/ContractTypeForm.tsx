@@ -16,13 +16,12 @@ import { useForm } from 'react-hook-form'
 import { StandardRegisterProps } from './types'
 import FormFooter from '@/components/Form/FormFooter'
 
-const ContractForm: FC<StandardRegisterProps<null>> = ({ onFormSubmit, backUrl }) => {
+const ContractTypeForm: FC<StandardRegisterProps<null>> = ({ onFormSubmit, backUrl }) => {
   const { handleSubmit } = useForm()
   const { setLoading } = useUiContext()
   const { isLoading, isError, data } = useQuery<GenericDataList[], { message?: string }>(
     'contract-types',
-    fetchContractTypes,
-    { staleTime: Infinity }
+    fetchContractTypes
   )
 
   useEffect(() => {
@@ -39,10 +38,10 @@ const ContractForm: FC<StandardRegisterProps<null>> = ({ onFormSubmit, backUrl }
 
   return (
     <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
-      <Typography variant="subtitle1" gutterBottom>
+      <Typography variant="h3" gutterBottom>
         Select your current contract type. You can only choose one
       </Typography>
-      <Typography gutterBottom>
+      <Typography variant="subtitle1" gutterBottom>
         We'll use this to suggest learning opportunities that are relevant to you
       </Typography>
 
@@ -66,4 +65,4 @@ const ContractForm: FC<StandardRegisterProps<null>> = ({ onFormSubmit, backUrl }
   )
 }
 
-export default ContractForm
+export default ContractTypeForm

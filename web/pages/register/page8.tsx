@@ -1,31 +1,20 @@
 import Page from '@/components/Layout/GenericPage'
-import Link from '@/components/UI/Link'
-import { Typography } from '@mui/material'
 import router from 'next/router'
-import ContractForm from '@/components/Form/Register/ContractForm'
+import PrimaryProfessionForm from '@/components/Form/Register/PrimaryProfessionForm'
 
 const RegisterPage = () => (
-  <ContractForm
+  <PrimaryProfessionForm
     backUrl="/register/page7"
-    onFormSubmit={(data) => {
-      // eslint-disable-next-line no-console
-      console.log({ data })
-      router.push('/register/page10')
+    onFormSubmit={(_data) => {
+      router.push('/register/page9')
     }}
   />
 )
 
 export default RegisterPage
+
 RegisterPage.getLayout = (page) => (
-  <Page
-    title="Contract type"
-    footer={
-      <Typography gutterBottom>
-        <Link href="/register/page10">Skip this step</Link>
-      </Typography>
-    }
-    progress={50}
-  >
+  <Page title="Primary profession" progress={40}>
     {page}
   </Page>
 )

@@ -1,11 +1,12 @@
-import { Box, Button } from '@mui/material'
+import { Box } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { ComponentProps, FC } from 'react'
 import LinkButton from '@/components/LinkButton'
-import useTranslation from '@/hooks/useTranslation'
+import { LoadingButton } from '@mui/lab'
 
 type Props = {
-  buttonProps?: ComponentProps<typeof Button>
+  buttonProps?: ComponentProps<typeof LoadingButton>
+  submitText?: string
   backUrl?: string
 }
 
@@ -15,20 +16,20 @@ export const Footer = styled(Box)`
   gap: 15px;
   padding-top: 20px;
   align-items: center;
+  justify-content: space-between;
 `
 
-const FormFooter: FC<Props> = ({ backUrl, buttonProps }) => {
-  const { t } = useTranslation()
+const FormFooter: FC<Props> = ({ backUrl, buttonProps, submitText = 'Continue' }) => {
   return (
     <Footer>
       {backUrl && (
-        <LinkButton href={backUrl} variant="outlined">
-          {t('buttonBack')}
+        <LinkButton href={backUrl} variant="outlined" size="small">
+          Back
         </LinkButton>
       )}
-      <Button variant="contained" type="submit" {...buttonProps}>
-        Continue
-      </Button>
+      <LoadingButton variant="contained" type="submit" {...buttonProps}>
+        {submitText}
+      </LoadingButton>
     </Footer>
   )
 }

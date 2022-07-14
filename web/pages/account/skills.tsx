@@ -1,7 +1,6 @@
 import AccountMenuPage from '@/components/Layout/AccountMenuPage'
 import {
   Box,
-  Card,
   Chip,
   Grid,
   styled,
@@ -17,6 +16,7 @@ import {
 import { SyntheticEvent, useState } from 'react'
 import Link from '@/components/UI/Link'
 import Skills from '@/components/Icons/Skills'
+import Card from '@/components/UI/Card'
 
 const TabPanel = styled(Box)`
   padding: 25px;

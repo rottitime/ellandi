@@ -4,15 +4,15 @@ import { FC } from 'react'
 import { StandardRegisterProps } from './types'
 import { useForm } from 'react-hook-form'
 
-const ContractType: FC<StandardRegisterProps<null>> = ({ backUrl, onFormSubmit }) => {
+const ContactForm: FC<StandardRegisterProps<null>> = ({ backUrl, onFormSubmit }) => {
   const { handleSubmit } = useForm()
   return (
     <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
-      <Typography variant="subtitle1" gutterBottom>
+      <Typography variant="h3" gutterBottom>
         Are you happy for recruitment and HR to contact you with opportunities from time
         to time based on your skills? You can change this later
       </Typography>
-      <Typography gutterBottom>
+      <Typography variant="subtitle1" gutterBottom>
         This will only be in cases of emergency or an identified skills shortage in a
         particular area
       </Typography>
@@ -25,4 +25,4 @@ const ContractType: FC<StandardRegisterProps<null>> = ({ backUrl, onFormSubmit }
   )
 }
 
-export default ContractType
+export default ContactForm

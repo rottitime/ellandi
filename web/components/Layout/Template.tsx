@@ -6,7 +6,7 @@ type Props = {
 } & ContainerProps
 
 const Container = styled(MuiContainer)`
-  padding: 20px ${({ disableGutters }) => (disableGutters ? '0px' : '16px')};
+  padding: 0 ${({ disableGutters }) => (disableGutters ? '0px' : '16px')};
   ${({ theme }) => theme.breakpoints.up('md')} {
     height: 100vh;
   }

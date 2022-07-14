@@ -4,16 +4,20 @@ import Link from '@/components/UI/Link'
 import SkillsForm from '@/components/Form/Register/SkillsForm'
 import router from 'next/router'
 
+const page = 13
+
 const RegisterPage = () => {
   return (
-    <SkillsForm
-      backUrl="/register/page12"
-      onFormSubmit={(data) => {
-        // eslint-disable-next-line no-console
-        console.log({ data })
-        router.push('/account')
-      }}
-    />
+    <>
+      <SkillsForm
+        backUrl={`/register/page${page - 1}`}
+        onFormSubmit={(data) => {
+          // eslint-disable-next-line no-console
+          console.log({ data })
+          router.push('/register/complete')
+        }}
+      />
+    </>
   )
 }
 
@@ -23,7 +27,7 @@ RegisterPage.getLayout = (page) => (
     title="Current skills"
     footer={
       <Typography gutterBottom>
-        <Link href="/account">Skip this step</Link>
+        <Link href="/register/complete">Skip this step</Link>
       </Typography>
     }
     progress={90}

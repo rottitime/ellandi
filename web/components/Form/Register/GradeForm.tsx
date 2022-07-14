@@ -20,8 +20,7 @@ const GradeForm: FC<StandardRegisterProps<null>> = ({ backUrl, onFormSubmit }) =
   const { setLoading } = useUiContext()
   const { isLoading, isError, data } = useQuery<GenericDataList[], { message?: string }>(
     'grades',
-    fetchGrades,
-    { staleTime: Infinity }
+    fetchGrades
   )
 
   useEffect(() => {
@@ -38,11 +37,11 @@ const GradeForm: FC<StandardRegisterProps<null>> = ({ backUrl, onFormSubmit }) =
 
   return (
     <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
-      <Typography variant="subtitle1" gutterBottom>
+      <Typography variant="h3" gutterBottom>
         Select your grade. You may only choose one
       </Typography>
 
-      <Typography gutterBottom>
+      <Typography variant="subtitle1" gutterBottom>
         We'll use this to suggest learning opportunities that are relevant to you
       </Typography>
 

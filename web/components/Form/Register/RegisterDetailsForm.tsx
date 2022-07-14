@@ -1,11 +1,22 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect } from 'react'
 import { useForm, FormProvider, Controller } from 'react-hook-form'
 import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldControlled'
 import { object, SchemaOf, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { FormControl, FormHelperText, InputLabel, MenuItem, Select } from '@mui/material'
+import {
+  FormControl,
+  FormHelperText,
+  InputLabel,
+  MenuItem,
+  Select,
+  Skeleton
+} from '@mui/material'
 import FormFooter from '@/components/Form/FormFooter'
 import { StandardRegisterProps } from './types'
+import { fetchCountries, GenericDataList } from '@/service/api'
+import { useUiContext } from '@/context/UiContext'
+import { useQuery } from 'react-query'
+import { Field } from '@/components/Form/Field'
 
 export type RegisterDetailsType = {
   fullname: string
@@ -29,6 +40,15 @@ const RegisterDetailsForm: FC<StandardRegisterProps<RegisterDetailsType>> = ({
   backUrl,
   onFormSubmit
 }) => {
+  const { setLoading } = useUiContext()
+  const { isLoading, data } = useQuery<GenericDataList[], { message?: string }>(
+    'countries',
+    fetchCountries
+  )
+  useEffect(() => {
+    setLoading(isLoading)
+  }, [isLoading, setLoading])
+
   const methods = useForm<RegisterDetailsType>({
     defaultValues: {
       fullname: '',
@@ -48,35 +68,54 @@ const RegisterDetailsForm: FC<StandardRegisterProps<RegisterDetailsType>> = ({
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
-        <TextFieldControlled name="fullname" label="Full name" />
-        <TextFieldControlled name="department" label="Department" />
-        <TextFieldControlled name="job" label="Job title" />
-        <TextFieldControlled name="lineManagerEmail" label="Line manager email" />
+        <Field>
+          <TextFieldControlled name="fullname" label="Full name" />
+        </Field>
+        <Field>
+          <TextFieldControlled name="department" label="Department" />
+        </Field>
+        <Field>
+          <TextFieldControlled name="job" label="Job title" />
+        </Field>
+        <Field>
+          <TextFieldControlled name="lineManagerEmail" label="Line manager email" />
+        </Field>
 
-        <Controller
-          name="country"
-          control={control}
-          render={({ field }) => (
-            <>
-              <FormControl fullWidth error={!!errors.country}>
-                <InputLabel>Country</InputLabel>
-                <Select
-                  label="Country"
-                  margin="none"
-                  variant="filled"
-                  size="small"
-                  {...field}
-                >
-                  <MenuItem value="UK">United Kingdom</MenuItem>
-                </Select>
-              </FormControl>
+        <Field>
+          <Controller
+            name="country"
+            control={control}
+            render={({ field }) => (
+              <>
+                <FormControl fullWidth error={!!errors.country} size="small">
+                  <InputLabel>Country</InputLabel>
 
-              {errors.country && (
-                <FormHelperText error>{errors.country.message}</FormHelperText>
-              )}
-            </>
-          )}
-        />
+                  {isLoading ? (
+                    <Skeleton width={100} sx={{ m: 1 }} />
+                  ) : (
+                    <Select
+                      label="Country"
+                      margin="none"
+                      variant="outlined"
+                      // size="small"
+                      {...field}
+                    >
+                      {data.map(({ name, slug }) => (
+                        <MenuItem key={slug} value={slug}>
+                          {name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  )}
+                </FormControl>
+
+                {errors.country && (
+                  <FormHelperText error>{errors.country.message}</FormHelperText>
+                )}
+              </>
+            )}
+          />
+        </Field>
 
         <FormFooter backUrl={backUrl} />
       </form>

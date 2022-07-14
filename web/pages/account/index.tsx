@@ -1,12 +1,9 @@
 import Page from '@/components/Layout/AccountMenuPage'
-import { Box, Button, Grid, Typography, useTheme } from '@mui/material'
+import { Button, Divider, Grid, Typography, useTheme } from '@mui/material'
 import Card from '@/components/UI/Card'
-import Divider from '@/components/UI/Divider2'
 import { Colors } from '@/style/theme'
 import Link from '@/components/UI/Link'
 import SkillsIcon from '@/components/Icons/Skills'
-// import CareersIcon from '@/components/Icons/Careers'
-// import CommunitiesIcon from '@/components/Icons/Communities'
 import LearningIcon from '@/components/Icons/Learning'
 import { ReactNode } from 'react'
 import LearningStrands from '@/components/LearningStrands'
@@ -64,12 +61,6 @@ const IndexPage = () => {
 
   return (
     <>
-      <Box sx={{ mb: 6 }}>
-        <Typography variant="subtitle1" gutterBottom>
-          Use this service to add and review your skills and find learning opportunities
-        </Typography>
-      </Box>
-
       <Grid container spacing={4}>
         <Grid item xs={4}>
           <Card fullHeight>
@@ -87,41 +78,42 @@ const IndexPage = () => {
               </ul>
             </ContentBox>
 
-            <Divider variant="middle" spacing={30} />
+            <Divider variant="middle" />
 
             <LearningStrands />
           </Card>
         </Grid>
         <Grid item xs={8}>
-          <Card fullHeight>
-            <Grid container spacing={4}>
-              {profiles.map((data) => (
-                <Grid item xs={6} key={data.title}>
-                  <ContentBox>
-                    <Typography
-                      gutterBottom
-                      variant="h3"
-                      sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '10px',
-                        color: theme.colors[data.color]
-                      }}
-                    >
-                      {data.logo} {data.title}
-                    </Typography>
-                    <Typography color="text.secondary" gutterBottom>
-                      {data.content}
-                    </Typography>
+          <Grid container spacing={4}>
+            {profiles.map((data) => (
+              <Grid item xs={6} key={data.title}>
+                <Card>
+                  <Typography
+                    gutterBottom
+                    variant="h3"
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '10px',
+                      color: theme.colors[data.color]
+                    }}
+                  >
+                    {data.logo} {data.title}
+                  </Typography>
+                  <Typography color="text.secondary" gutterBottom>
+                    {data.content}
+                  </Typography>
 
-                    <Link href={data.url}>
-                      <Button variant="contained">{data.linkText}</Button>
-                    </Link>
-                  </ContentBox>
-                </Grid>
-              ))}
-            </Grid>
-          </Card>
+                  <Divider variant="middle" sx={{ my: 3 }} />
+                  <Link href={data.url}>
+                    <Button variant="contained" fullWidth>
+                      {data.linkText}
+                    </Button>
+                  </Link>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
         </Grid>
       </Grid>
     </>
@@ -129,4 +121,11 @@ const IndexPage = () => {
 }
 
 export default IndexPage
-IndexPage.getLayout = (page) => <Page title="Welcome, Joe">{page}</Page>
+IndexPage.getLayout = (page) => (
+  <Page
+    title="Welcome, Joe"
+    teaser="Use this service to add and review your skills and find learning opportunities"
+  >
+    {page}
+  </Page>
+)

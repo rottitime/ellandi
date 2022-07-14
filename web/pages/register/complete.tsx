@@ -6,21 +6,14 @@ import { Footer } from '@/components/Form/FormFooter'
 
 const RegisterPage = () => (
   <>
-    <Typography variant="h3" gutterBottom>
-      We're now going to ask you about your skills, including:
+    <Typography variant="subtitle1" gutterBottom>
+      You will now be taken to your dashboard where you can navigate around the service
     </Typography>
 
-    <ul>
-      <li>your language skills</li>
-      <li>other skills that you already have</li>
-      <li>skills that you'd like to develop</li>
-    </ul>
-
     <Footer>
-      <LinkButton href="/register/page10" variant="outlined">
-        Back
+      <LinkButton href="/account" fullWidth>
+        Continue
       </LinkButton>
-      <LinkButton href="/register/page12">Continue</LinkButton>
     </Footer>
   </>
 )
@@ -33,10 +26,9 @@ RegisterPage.getLayout = (page) => (
         <CheckCircleIcon
           sx={{ display: 'block', margin: '0 auto', fontSize: '60px', color: '#44D600' }}
         />
-        Thank you for completing your details
+        Congratulations You are signed up for Civil Service Skills and Learning
       </>
     }
-    progress={70}
   >
     {page}
   </Page>
