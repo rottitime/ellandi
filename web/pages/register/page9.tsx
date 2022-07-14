@@ -26,7 +26,7 @@ export async function getStaticProps() {
 }
 
 RegisterPage.getLayout = (page) => (
-  <Page title="Function" progress={30}>
+  <Page title="Function" progress={50}>
     {page}
   </Page>
 )

@@ -1,8 +1,7 @@
 import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import SigninPage from '@/pages'
+import SigninPage from '@/pages/signin'
 import { renderWithProviders } from '@/lib/test-utils'
-
 import fetchMock from 'jest-fetch-mock'
 
 describe('Page: Sign in', () => {

@@ -39,7 +39,7 @@ RegisterPage.getLayout = (page) => (
         <Link href={`/register/page${page + 1}`}>Skip this step</Link>
       </Typography>
     }
-    progress={50}
+    progress={60}
   >
     {page}
   </Page>
