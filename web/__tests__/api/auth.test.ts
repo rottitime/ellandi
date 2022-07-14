@@ -7,7 +7,7 @@ const mockData = { email: 'test@test.com', password: 'test' },
     token: '111'
   },
   mockError = {
-    detail: 'error message froms server'
+    detail: 'error message from server'
   }
 
 describe('loginWithEmailAndPassword', () => {
@@ -25,9 +25,7 @@ describe('loginWithEmailAndPassword', () => {
   it('Error returned with detail from server', async () => {
     fetchMock.mockResponseOnce(JSON.stringify(mockError), { status: 400 })
 
-    expect(loginWithEmailAndPassword(mockData)).rejects.toThrow(
-      'error message froms server'
-    )
+    expect(loginWithEmailAndPassword(mockData)).rejects.toThrow(mockError.detail)
   })
 
   it('Error returned with default message', async () => {
