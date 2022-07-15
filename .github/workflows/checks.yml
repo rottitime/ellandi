@@ -41,6 +41,16 @@ jobs:
       run: |
         docker-compose run tests
 
+  check_migrations:
+    name: Check for missing migrations
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - run: make check-migrations
+
   check_frontend:
     runs-on: ubuntu-latest
 
