@@ -2,7 +2,8 @@ from django.shortcuts import render
 
 from ellandi.registration import models
 
-pages = ("index",)
+page_names = ("index", "your-details",)
+
 
 def get_values(model):
     values = tuple({"value": item.slug, "text": item.name} for item in model.objects.all())
@@ -14,6 +15,11 @@ def page_view(request, page_name="index"):
     professions = get_values(models.Profession)
     contract_types = get_values(models.ContractType)
     languages = get_values(models.Language)
+    assert page_name in page_names
+
+    index = page_names.index(page_name)
+    prev_page = index and page_names[index-1] or None
+    next_page = (index < len(page_names)-1) and page_names[index+1] or None
 
     return render(
         request,
@@ -23,5 +29,7 @@ def page_view(request, page_name="index"):
             "professions": professions,
             "contract_types": contract_types,
             "languages": languages,
+            "prev_page": prev_page,
+            "next_page": next_page,
         },
     )
