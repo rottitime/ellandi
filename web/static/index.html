@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="/inc/css/materialize.min.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="/inc/css/main.css"  media="screen,projection"/>
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  </head>
+
+  <body>
+
+    <div class="container">
+
+<!-- main content: start -->
+
+
+      <main class="card-panel">
+
+        <header>
+        <h1>Create an account</h1>
+        </header>
+
+        <p  class="subtitle">You need to create an account before using this service</p>
+
+        <form>
+
+        <h4>Enter your email address</h4>
+        <div class="row">
+          <div class="input-field">
+            <input type="email" class="validate" id="email">
+            <label for="email">Email address</label>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="input-field error">
+            <input type="email" class="invalid" value="wrong" id="emailConfirm">
+            <label for="emailConfirm">Confirm your email address</label>
+            <span class="helper-text" data-error="Enter an email address in the correct format, like name@example.com" data-success="right" />
+
+          </div>
+        </div>
+
+
+        <h4>Create a password</h4>
+        <p>Your password should have at least 8 characters and not include your name or email address</p>
+
+
+        <div class="row">
+          <div class="input-field ">
+            <input  type="password" class="validate" id="password">
+            <label for="password">Password</label>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="input-field ">
+            <input  type="password" class="validate" id="passwordConfirm">
+            <label for="passwordConfirm">Confirm your password</label>
+          </div>
+        </div>
+
+        <div class="buttons">
+          <a class="btn waves-effect waves-light" type="submit" name="action">
+            Back
+          </a>
+          <button class="btn waves-effect waves-light" type="submit" name="action">
+            Continue
+          </button>
+        </div>
+
+      </form>
+
+      </main>
+
+<!-- main content: end -->
+
+</div>
+
+
+
+    <!--JavaScript at end of body for optimized loading-->
+    <script type="text/javascript" src="/inc/js/materialize.min.js"></script>
+  </body>
+</html>
