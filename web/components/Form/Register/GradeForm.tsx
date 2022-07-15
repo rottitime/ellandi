@@ -8,20 +8,37 @@ import {
 } from '@mui/material'
 import { useQuery } from 'react-query'
 import RadioSkeleton from '@/components/UI/Skeleton/RadioSkeleton'
-import { fetchGrades, GenericDataList, Query } from '@/service/api'
+import { fetchGrades, GenericDataList, GradeType, Query } from '@/service/api'
 import { useUiContext } from '@/context/UiContext'
 import { FC, useEffect } from 'react'
 import FormFooter from '@/components/Form/FormFooter'
 import { StandardRegisterProps } from './types'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
+import { object, SchemaOf, string } from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
 
-const GradeForm: FC<StandardRegisterProps<null>> = ({ backUrl, onFormSubmit }) => {
-  const { handleSubmit } = useForm()
+const schema: SchemaOf<GradeType> = object().shape({
+  grade: string().required('This field is required')
+})
+
+const GradeForm: FC<StandardRegisterProps<GradeType>> = ({
+  backUrl,
+  onFormSubmit,
+  loading,
+  defaultValues = {
+    grade: ''
+  }
+}) => {
   const { setLoading } = useUiContext()
   const { isLoading, isError, data } = useQuery<GenericDataList[], { message?: string }>(
     Query.Grades,
     fetchGrades
   )
+
+  const { control, handleSubmit } = useForm<GradeType>({
+    defaultValues,
+    resolver: yupResolver(schema)
+  })
 
   useEffect(() => {
     setLoading(isLoading)
@@ -45,27 +62,28 @@ const GradeForm: FC<StandardRegisterProps<null>> = ({ backUrl, onFormSubmit }) =
         We'll use this to suggest learning opportunities that are relevant to you
       </Typography>
 
-      <RadioGroup
-        aria-labelledby="demo-radio-buttons-group-label"
-        aria-live="polite"
-        aria-busy={isLoading}
-        name="radio-buttons-group"
-      >
-        {isLoading
-          ? [...Array(5).keys()].map((i) => (
-              <RadioSkeleton key={i} width="80%" sx={{ mb: 1 }} />
-            ))
-          : data.map(({ name, slug }) => (
-              <FormControlLabel
-                key={slug}
-                control={<Radio />}
-                label={name}
-                value={slug}
-              />
-            ))}
-      </RadioGroup>
+      <Controller
+        name="grade"
+        control={control}
+        render={({ field }) => (
+          <RadioGroup aria-live="polite" aria-busy={isLoading} name="grade" {...field}>
+            {isLoading
+              ? [...Array(5).keys()].map((i) => (
+                  <RadioSkeleton key={i} width="80%" sx={{ mb: 1 }} />
+                ))
+              : data.map(({ name, slug }) => (
+                  <FormControlLabel
+                    key={slug}
+                    control={<Radio />}
+                    label={name}
+                    value={slug}
+                  />
+                ))}
+          </RadioGroup>
+        )}
+      />
 
-      <FormFooter backUrl={backUrl} />
+      <FormFooter backUrl={backUrl} buttonProps={{ loading }} />
     </form>
   )
 }

@@ -38,6 +38,7 @@ const RegisterPage = () => {
       )}
 
       <RegisterDetailsForm
+        defaultValues={data}
         loading={isLoading}
         backUrl={`/register/page${page - 1}`}
         onFormSubmit={(data) => mutate.mutate(data)}

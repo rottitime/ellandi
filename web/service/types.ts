@@ -32,6 +32,10 @@ export type RegisterDetailsType = {
   location: string
 }
 
+export type GradeType = {
+  grade: string
+}
+
 export type PrivacyAcceptType = {
   privacy_policy_agreement: boolean
 }
@@ -40,10 +44,10 @@ export type RegisterUserResponse = {
   id: string
   email: string
   url: string
-  grade: string
   profession: string[]
   contract_type: string
   skills: string[]
   languages: string[]
 } & PrivacyAcceptType &
-  RegisterDetailsType
+  RegisterDetailsType &
+  GradeType
