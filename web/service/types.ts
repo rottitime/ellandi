@@ -23,13 +23,16 @@ export type RegisterUser = {
   password: string
 }
 
+export type PrivacyAcceptType = {
+  privacy_policy_agreement: boolean
+}
+
 export type RegisterUserResponse = {
   id: string
   email: string
   url: string
   first_name: string
   last_name: string
-  privacy_policy_agreement: string
   organisation: string
   job_title: string
   grade: string
@@ -39,4 +42,4 @@ export type RegisterUserResponse = {
   location: string
   skills: string[]
   languages: string[]
-}
+} & PrivacyAcceptType

@@ -16,7 +16,7 @@ const RegisterPage = () => {
     RegisterUserResponse,
     Error,
     RegisterUser
-  >('register', async (data) => createUser(data), {
+  >(async (data) => createUser(data), {
     onSuccess: (data) => {
       queryClient.setQueryData(Query.RegisterUser, data)
       router.push(`/register/page${page + 1}`)

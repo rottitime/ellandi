@@ -12,13 +12,12 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { FC } from 'react'
 import FormFooter from '@/components/Form/FormFooter'
 import { StandardRegisterProps } from './types'
-
-type PrivacyAcceptType = {
-  privacyAccept: boolean
-}
+import { PrivacyAcceptType } from '@/service/types'
 
 const schema: SchemaOf<PrivacyAcceptType> = object().shape({
-  privacyAccept: boolean().required().oneOf([true], 'You must accept the privacy policy')
+  privacy_policy_agreement: boolean()
+    .required()
+    .oneOf([true], 'You must accept the privacy policy')
 })
 
 const PrivacyForm: FC<StandardRegisterProps<PrivacyAcceptType>> = ({
@@ -30,7 +29,7 @@ const PrivacyForm: FC<StandardRegisterProps<PrivacyAcceptType>> = ({
     control,
     formState: { errors, isDirty, isValid }
   } = useForm<PrivacyAcceptType>({
-    defaultValues: { privacyAccept: false },
+    defaultValues: { privacy_policy_agreement: false },
     resolver: yupResolver(schema)
   })
 
@@ -42,17 +41,15 @@ const PrivacyForm: FC<StandardRegisterProps<PrivacyAcceptType>> = ({
 
       <FormGroup sx={{ mb: 5 }}>
         <Controller
-          name="privacyAccept"
+          name="privacy_policy_agreement"
           control={control}
-          render={({ field }) => (
+          render={({ field, fieldState: { error } }) => (
             <>
               <FormControlLabel
                 control={<Checkbox {...field} />}
                 label="I agree to the privacy policy"
               />
-              {errors.privacyAccept && (
-                <FormHelperText error>{errors.privacyAccept.message}</FormHelperText>
-              )}
+              {error && <FormHelperText error>{error.message}</FormHelperText>}
             </>
           )}
         />
