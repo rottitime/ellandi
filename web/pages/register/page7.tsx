@@ -4,7 +4,7 @@ import Link from '@/components/UI/Link'
 import ProfessionForm from '@/components/Form/Register/ProfessionForm'
 import router from 'next/router'
 import { dehydrate, QueryClient } from 'react-query'
-import { fetchProfessions } from '@/service/api'
+import { fetchProfessions, Query } from '@/service/api'
 
 const page = 7
 
@@ -23,7 +23,7 @@ export default RegisterPage
 
 export async function getStaticProps() {
   const queryClient = new QueryClient()
-  await queryClient.prefetchQuery('professions', fetchProfessions)
+  await queryClient.prefetchQuery(Query.Professions, fetchProfessions)
   return {
     props: {
       dehydratedState: dehydrate(queryClient)

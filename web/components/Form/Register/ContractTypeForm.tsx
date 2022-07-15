@@ -7,7 +7,7 @@ import {
   Typography
 } from '@mui/material'
 import { useUiContext } from '@/context/UiContext'
-import { GenericDataList } from '@/service/types'
+import { GenericDataList, Query } from '@/service/types'
 import { useQuery } from 'react-query'
 import { fetchContractTypes } from '@/service/api'
 import { FC, useEffect } from 'react'
@@ -20,7 +20,7 @@ const ContractTypeForm: FC<StandardRegisterProps<null>> = ({ onFormSubmit, backU
   const { handleSubmit } = useForm()
   const { setLoading } = useUiContext()
   const { isLoading, isError, data } = useQuery<GenericDataList[], { message?: string }>(
-    'contract-types',
+    Query.ContractTypes,
     fetchContractTypes
   )
 

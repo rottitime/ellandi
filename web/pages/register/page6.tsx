@@ -4,7 +4,7 @@ import { Typography } from '@mui/material'
 import GradeForm from '@/components/Form/Register/GradeForm'
 import router from 'next/router'
 import { dehydrate, QueryClient } from 'react-query'
-import { fetchGrades } from '@/service/api'
+import { fetchGrades, Query } from '@/service/api'
 
 const page = 6
 
@@ -23,7 +23,7 @@ export default RegisterPage
 
 export async function getStaticProps() {
   const queryClient = new QueryClient()
-  await queryClient.prefetchQuery('grades', fetchGrades)
+  await queryClient.prefetchQuery(Query.Grades, fetchGrades)
   return {
     props: {
       dehydratedState: dehydrate(queryClient)

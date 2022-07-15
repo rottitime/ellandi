@@ -2,7 +2,7 @@ import Page from '@/components/Layout/GenericPage'
 import router from 'next/router'
 import RegisterDetailsForm from '@/components/Form/Register/RegisterDetailsForm'
 import { dehydrate, QueryClient } from 'react-query'
-import { fetchCountries } from '@/service/api'
+import { fetchCountries, Query } from '@/service/api'
 
 const page = 5
 
@@ -22,7 +22,7 @@ export default RegisterPage
 export async function getStaticProps() {
   const queryClient = new QueryClient()
 
-  await queryClient.prefetchQuery('countries', fetchCountries)
+  await queryClient.prefetchQuery(Query.Countries, fetchCountries)
 
   return {
     props: {

@@ -4,7 +4,7 @@ import { Typography } from '@mui/material'
 import router from 'next/router'
 import ContractTypeForm from '@/components/Form/Register/ContractTypeForm'
 import { dehydrate, QueryClient } from 'react-query'
-import { fetchContractTypes } from '@/service/api'
+import { fetchContractTypes, Query } from '@/service/api'
 
 const page = 10
 
@@ -23,7 +23,7 @@ export default RegisterPage
 
 export async function getStaticProps() {
   const queryClient = new QueryClient()
-  await queryClient.prefetchQuery('contract-types', fetchContractTypes)
+  await queryClient.prefetchQuery(Query.ContractTypes, fetchContractTypes)
   return {
     props: {
       dehydratedState: dehydrate(queryClient)

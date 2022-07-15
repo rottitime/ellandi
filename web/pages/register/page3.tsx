@@ -1,7 +1,7 @@
 import Page from '@/components/Layout/GenericPage'
 import CreateAccountForm from '@/components/Form/Register/CreateAccountForm'
 import { useQueryClient, useMutation } from 'react-query'
-import { RegisterUser, RegisterUserResponse } from '@/service/types'
+import { RegisterUser, RegisterUserResponse, Query } from '@/service/types'
 import { createUser } from '@/service/user'
 import router from 'next/router'
 import { Alert, Fade } from '@mui/material'
@@ -18,7 +18,7 @@ const RegisterPage = () => {
     RegisterUser
   >('register', async (data) => createUser(data), {
     onSuccess: (data) => {
-      queryClient.setQueryData('registerUser', data)
+      queryClient.setQueryData(Query.RegisterUser, data)
       router.push(`/register/page${page + 1}`)
     },
     onError: ({ message }) => setError(message)

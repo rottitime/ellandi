@@ -1,3 +1,13 @@
+export enum Query {
+  RegisterUser = 'RegisterUser',
+  Countries = 'countries',
+  Grades = 'grades',
+  Professions = 'professions',
+  Functions = 'functions',
+  ContractTypes = 'contract-types',
+  Languages = 'languages'
+}
+
 export type GenericDataList = {
   slug: string
   name: string

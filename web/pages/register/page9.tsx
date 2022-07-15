@@ -1,7 +1,7 @@
 import Page from '@/components/Layout/GenericPage'
 import router from 'next/router'
 import { dehydrate, QueryClient } from 'react-query'
-import { fetchFunctions } from '@/service/api'
+import { fetchFunctions, Query } from '@/service/api'
 import FunctionTypeForm from '@/components/Form/Register/FunctionTypeForm'
 
 const page = 9
@@ -19,7 +19,7 @@ export default RegisterPage
 
 export async function getStaticProps() {
   const queryClient = new QueryClient()
-  await queryClient.prefetchQuery('functions', fetchFunctions)
+  await queryClient.prefetchQuery(Query.Functions, fetchFunctions)
   return {
     props: {
       dehydratedState: dehydrate(queryClient)

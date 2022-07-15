@@ -8,7 +8,7 @@ import {
 } from '@mui/material'
 import { useQuery } from 'react-query'
 import RadioSkeleton from '@/components/UI/Skeleton/RadioSkeleton'
-import { fetchGrades, GenericDataList } from '@/service/api'
+import { fetchGrades, GenericDataList, Query } from '@/service/api'
 import { useUiContext } from '@/context/UiContext'
 import { FC, useEffect } from 'react'
 import FormFooter from '@/components/Form/FormFooter'
@@ -19,7 +19,7 @@ const GradeForm: FC<StandardRegisterProps<null>> = ({ backUrl, onFormSubmit }) =
   const { handleSubmit } = useForm()
   const { setLoading } = useUiContext()
   const { isLoading, isError, data } = useQuery<GenericDataList[], { message?: string }>(
-    'grades',
+    Query.Grades,
     fetchGrades
   )
 

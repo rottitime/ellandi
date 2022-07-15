@@ -1,7 +1,7 @@
 import { Alert, AlertTitle, Skeleton, Stack, styled, Typography } from '@mui/material'
 import ToggleChip from '@/components/ToggleChip'
 import { fetchProfessions } from '@/service/api'
-import { GenericDataList } from '@/service/types'
+import { GenericDataList, Query } from '@/service/types'
 import { useUiContext } from '@/context/UiContext'
 import { useQuery } from 'react-query'
 import { FC, useEffect, useState } from 'react'
@@ -20,7 +20,7 @@ const ProfessionForm: FC<StandardRegisterProps<null>> = ({ backUrl, onFormSubmit
   const { handleSubmit } = useForm()
   const { setLoading } = useUiContext()
   const { isLoading, isError, data } = useQuery<GenericDataList[], { message?: string }>(
-    'professions',
+    Query.Professions,
     fetchProfessions
   )
   useEffect(() => {

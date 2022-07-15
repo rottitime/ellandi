@@ -13,7 +13,7 @@ import {
 } from '@mui/material'
 import FormFooter from '@/components/Form/FormFooter'
 import { StandardRegisterProps } from './types'
-import { fetchCountries, GenericDataList } from '@/service/api'
+import { fetchCountries, GenericDataList, Query } from '@/service/api'
 import { useUiContext } from '@/context/UiContext'
 import { useQuery } from 'react-query'
 import { Field } from '@/components/Form/Field'
@@ -42,7 +42,7 @@ const RegisterDetailsForm: FC<StandardRegisterProps<RegisterDetailsType>> = ({
 }) => {
   const { setLoading } = useUiContext()
   const { isLoading, data } = useQuery<GenericDataList[], { message?: string }>(
-    'countries',
+    Query.Countries,
     fetchCountries
   )
   useEffect(() => {
