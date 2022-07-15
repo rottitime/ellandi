@@ -47,7 +47,7 @@ h4 {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  min-height: 100vh;
 }
 
 main.card-panel {
@@ -61,6 +61,25 @@ main.card-panel {
 
 main.card-panel > header {
   margin-bottom:30px;
+  text-align: center;
+}
+
+/* components */
+.complete {
+  display: inline-flex;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 24px;
+  height: 40px;
+  width: 40px;
+  justify-content: center;
+  align-items: center;
+  margin-bottom:10px;
+ background-color: #2AD337;
+}
+
+.complete i {
+  font-size: 35px;
 }
 
 /* Text */
