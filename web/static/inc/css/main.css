@@ -1,3 +1,4 @@
+/* native */
 body {
   margin: 0;
   color: rgba(0, 0, 0, 0.87);
@@ -7,6 +8,7 @@ body {
   font-weight: 400;
   letter-spacing: 0.00938em;
   background-color: #F6F8FB;
+  min-height: 100vh;
 }
 
 h1 {
@@ -40,6 +42,14 @@ h4 {
   margin-bottom: 0.35em;
 }
 
+/* template structure */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
 main.card-panel {
   max-width: 540px;
   padding: 24px;
@@ -53,6 +63,7 @@ main.card-panel > header {
   margin-bottom:30px;
 }
 
+/* Text */
 
 .subtitle {
   margin: 0px 0px 0.35em;
@@ -64,13 +75,7 @@ main.card-panel > header {
   letter-spacing: 0.00938em;
 }
 
-
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
+/* Form */
 
 .buttons {
   display: flex;
@@ -82,8 +87,5 @@ main.card-panel > header {
 }
 
 .buttons button:only-child {
-
     margin-left: auto;
-
-
 }
