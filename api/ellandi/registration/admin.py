@@ -31,6 +31,8 @@ class UserAdmin(django.contrib.auth.admin.UserAdmin):
                     "job_title",
                     "line_manager_email",
                     "contract_type",
+                    "created_at",
+                    "modified_at",
                 )
             },
         ),
@@ -46,11 +48,19 @@ class UserAdmin(django.contrib.auth.admin.UserAdmin):
                     "organisation",
                     "job_title",
                     "line_manager_email",
-                    "contract_type",
                 )
             },
         ),
     )
+    readonly_fields = ("created_at", "modified_at")
+
+
+class UserSkillAdmin(admin.ModelAdmin):
+    readonly_fields = ("created_at", "modified_at")
+
+
+class UserLanguageAdmin(admin.ModelAdmin):
+    readonly_fields = ("created_at", "modified_at")
 
 
 class DropDownListAdmin(admin.ModelAdmin):
@@ -96,8 +106,8 @@ class CountryAdmin(DropDownListAdmin):
 
 
 admin.site.register(User, UserAdmin)
-admin.site.register(UserSkill)
-admin.site.register(UserLanguage)
+admin.site.register(UserSkill, UserSkillAdmin)
+admin.site.register(UserLanguage, UserLanguageAdmin)
 admin.site.register(Organisation, OrganisationAdmin)
 admin.site.register(ContractType, ContractTypeAdmin)
 admin.site.register(Location, LocationAdmin)
