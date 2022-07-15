@@ -70,3 +70,10 @@ main.card-panel > header {
   align-items: center;
   justify-content: space-between;
 }
+
+.buttons button:only-child {
+
+    margin-left: auto;
+
+
+}
