@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.urls import reverse
 
 from ellandi.registration import models
 
@@ -20,6 +21,8 @@ def page_view(request, page_name="index"):
     index = page_names.index(page_name)
     prev_page = index and page_names[index-1] or None
     next_page = (index < len(page_names)-1) and page_names[index+1] or None
+    prev_url = prev_page and reverse("pages", args=(prev_page,))
+    next_url = next_page and reverse("pages", args=(next_page,))
 
     return render(
         request,
@@ -31,5 +34,7 @@ def page_view(request, page_name="index"):
             "languages": languages,
             "prev_page": prev_page,
             "next_page": next_page,
+            "prev_url": prev_url,
+            "next_url": next_url,
         },
     )
