@@ -22,6 +22,7 @@ h1 {
   margin-bottom: 16px;
 }
 
+.typography-h2,
 h2 {
   margin: 0;
   font-size: 18px;
@@ -80,6 +81,22 @@ main.card-panel > header {
 
 .complete i {
   font-size: 35px;
+}
+
+.skill-picker {
+  display: flex;
+}
+
+.skill-picker .s2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  align-items: center;
+}
+
+.divider {
+  margin:20px;
 }
 
 /* Text */
