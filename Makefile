@@ -73,6 +73,12 @@ check-python-code:
 	black --check .
 	flake8
 
+.PHONY: check-migrations
+check-migrations:
+	docker-compose build api
+	docker-compose run api python manage.py migrate
+	docker-compose run api python manage.py makemigrations --check
+
 .PHONY: format-python-code
 format-python-code:
 	isort .
