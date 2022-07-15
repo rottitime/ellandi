@@ -14,7 +14,7 @@ const { publicRuntimeConfig } = getConfig()
 //   throw new Error('Service unavailable')
 // }
 
-export const updateUser = async (id: string, data: RegisterUser) => {
+export const updateUser = async (id: string, data: Partial<RegisterUserResponse>) => {
   const res: Response = await fetch(`${publicRuntimeConfig.apiUrl}/users/${id}/`, {
     method: 'PATCH',
     headers: {

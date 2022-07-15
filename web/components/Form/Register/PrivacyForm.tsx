@@ -22,14 +22,16 @@ const schema: SchemaOf<PrivacyAcceptType> = object().shape({
 
 const PrivacyForm: FC<StandardRegisterProps<PrivacyAcceptType>> = ({
   backUrl,
-  onFormSubmit
+  onFormSubmit,
+  loading,
+  defaultValues = { privacy_policy_agreement: false }
 }) => {
   const {
     handleSubmit,
     control,
-    formState: { errors, isDirty, isValid }
+    formState: { isDirty, isValid }
   } = useForm<PrivacyAcceptType>({
-    defaultValues: { privacy_policy_agreement: false },
+    defaultValues,
     resolver: yupResolver(schema)
   })
 
@@ -58,6 +60,7 @@ const PrivacyForm: FC<StandardRegisterProps<PrivacyAcceptType>> = ({
       <FormFooter
         backUrl={backUrl}
         buttonProps={{
+          loading,
           disabled: !isDirty && !isValid
         }}
       />
