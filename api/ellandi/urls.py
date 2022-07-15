@@ -35,7 +35,7 @@ admin_urlpatterns = [
 ]
 
 page_urlpatterns = [
-    path("page/<int:page_num>", views.page_view),
+    path("page/<str:page_name>", views.page_view),
 ]
 
 auth_urlpatterns = [
