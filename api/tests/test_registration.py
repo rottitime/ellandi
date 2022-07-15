@@ -238,7 +238,7 @@ def test_dropdown_list(client, user_id):
     def test_post(endpoint):
         response = client.post(endpoint, {"name": "a new name"})
         assert response.status_code == status.HTTP_405_METHOD_NOT_ALLOWED
-        assert "detail" in response.json()
+        assert response.json()["detail"] == "Method not allowed"
 
     for item in data:
         endpoint = item["endpoint"]
