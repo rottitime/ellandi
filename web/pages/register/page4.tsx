@@ -1,7 +1,7 @@
 import Page from '@/components/Layout/GenericPage'
 import PrivacyForm from '@/components/Form/Register/PrivacyForm'
 import { useMutation, useQueryClient } from 'react-query'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Query, RegisterUserResponse } from '@/service/types'
 import { updateUser } from '@/service/user'
 import { Alert, Fade } from '@mui/material'
@@ -11,13 +11,9 @@ const page = 4
 
 const RegisterPage = () => {
   const queryClient = useQueryClient()
+
   const data = queryClient.getQueryData<RegisterUserResponse>(Query.RegisterUser)
   const id = data?.id
-
-  useEffect(() => {
-    if (!id) console.error('ID does not exist')
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   const [error, setError] = useState(null)
   const { isError, isLoading, ...mutate } = useMutation<

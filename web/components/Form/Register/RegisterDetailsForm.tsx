@@ -6,6 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import {
   FormControl,
   FormHelperText,
+  Grid,
   InputLabel,
   MenuItem,
   Select,
@@ -13,32 +14,39 @@ import {
 } from '@mui/material'
 import FormFooter from '@/components/Form/FormFooter'
 import { StandardRegisterProps } from './types'
-import { fetchCountries, GenericDataList, Query } from '@/service/api'
+import {
+  fetchCountries,
+  GenericDataList,
+  Query,
+  RegisterDetailsType
+} from '@/service/api'
 import { useUiContext } from '@/context/UiContext'
 import { useQuery } from 'react-query'
 import { Field } from '@/components/Form/Field'
 
-export type RegisterDetailsType = {
-  fullname: string
-  department: string
-  job: string
-  lineManagerEmail: string
-  country: string
-}
-
 const schema: SchemaOf<RegisterDetailsType> = object().shape({
-  fullname: string().required('This field is required'),
-  department: string().required('This field is required'),
-  job: string().required('This field is required'),
-  lineManagerEmail: string()
+  first_name: string().required('This field is required'),
+  last_name: string().required('This field is required'),
+  organisation: string().required('This field is required'),
+  job_title: string().required('This field is required'),
+  line_manager_email: string()
     .email('Email address must be valid')
     .required('This field is required'),
-  country: string().required('This field is required')
+  location: string().required('This field is required')
 })
 
 const RegisterDetailsForm: FC<StandardRegisterProps<RegisterDetailsType>> = ({
   backUrl,
-  onFormSubmit
+  onFormSubmit,
+  loading,
+  defaultValues = {
+    first_name: '',
+    last_name: '',
+    organisation: '',
+    job_title: '',
+    line_manager_email: '',
+    location: ''
+  }
 }) => {
   const { setLoading } = useUiContext()
   const { isLoading, data } = useQuery<GenericDataList[], { message?: string }>(
@@ -50,44 +58,42 @@ const RegisterDetailsForm: FC<StandardRegisterProps<RegisterDetailsType>> = ({
   }, [isLoading, setLoading])
 
   const methods = useForm<RegisterDetailsType>({
-    defaultValues: {
-      fullname: '',
-      department: '',
-      job: '',
-      lineManagerEmail: '',
-      country: ''
-    },
+    defaultValues,
     resolver: yupResolver(schema)
   })
-  const {
-    handleSubmit,
-    control,
-    formState: { errors }
-  } = methods
+  const { handleSubmit, control } = methods
 
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
+        <Grid container spacing={3}>
+          <Grid item xs={6}>
+            <TextFieldControlled name="frst_name" label="First name" />
+          </Grid>
+          <Grid item xs={6}>
+            <Field>
+              <TextFieldControlled name="last_name" label="Last name" />
+            </Field>
+          </Grid>
+        </Grid>
+
         <Field>
-          <TextFieldControlled name="fullname" label="Full name" />
+          <TextFieldControlled name="organisation" label="Department" />
         </Field>
         <Field>
-          <TextFieldControlled name="department" label="Department" />
+          <TextFieldControlled name="job_title" label="Job title" />
         </Field>
         <Field>
-          <TextFieldControlled name="job" label="Job title" />
-        </Field>
-        <Field>
-          <TextFieldControlled name="lineManagerEmail" label="Line manager email" />
+          <TextFieldControlled name="line_manager_email" label="Line manager email" />
         </Field>
 
         <Field>
           <Controller
-            name="country"
+            name="location"
             control={control}
-            render={({ field }) => (
+            render={({ field, fieldState: { error } }) => (
               <>
-                <FormControl fullWidth error={!!errors.country} size="small">
+                <FormControl fullWidth error={!!error} size="small">
                   <InputLabel>Country</InputLabel>
 
                   {isLoading ? (
@@ -109,15 +115,13 @@ const RegisterDetailsForm: FC<StandardRegisterProps<RegisterDetailsType>> = ({
                   )}
                 </FormControl>
 
-                {errors.country && (
-                  <FormHelperText error>{errors.country.message}</FormHelperText>
-                )}
+                {!!error && <FormHelperText error>{error.message}</FormHelperText>}
               </>
             )}
           />
         </Field>
 
-        <FormFooter backUrl={backUrl} />
+        <FormFooter backUrl={backUrl} buttonProps={{ loading }} />
       </form>
     </FormProvider>
   )
