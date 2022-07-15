@@ -53,6 +53,7 @@ class UserAdmin(django.contrib.auth.admin.UserAdmin):
         ),
     )
     readonly_fields = ("created_at", "modified_at")
+    list_display = ("email", "first_name", "last_name")
 
 
 class UserSkillAdmin(admin.ModelAdmin):
