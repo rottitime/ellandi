@@ -68,7 +68,7 @@ const RegisterDetailsForm: FC<StandardRegisterProps<RegisterDetailsType>> = ({
       <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
         <Grid container spacing={3}>
           <Grid item xs={6}>
-            <TextFieldControlled name="frst_name" label="First name" />
+            <TextFieldControlled name="first_name" label="First name" />
           </Grid>
           <Grid item xs={6}>
             <Field>

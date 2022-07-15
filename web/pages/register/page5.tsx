@@ -22,7 +22,7 @@ const RegisterPage = () => {
   >(async (data) => updateUser(id, data), {
     onSuccess: (data) => {
       queryClient.setQueryData(Query.RegisterUser, data)
-      // router.push(`/register/page${page + 1}`)
+      router.push(`/register/page${page + 1}`)
     },
     onError: ({ message }) => setError(message)
   })
