@@ -1,4 +1,15 @@
 {% extends "base.html" %}
+
+{% macro input(form, name, label) -%}
+  <div class="input-field error">
+    <input type="email" class="{{form[name].errors and 'invalid'}}" value="{{form[name].value() or ''}}" id="{{name}}" name="{{name}}">
+    <label for="{{name}}">{{label}}</label>
+    {% for error in form[name].errors %}
+      <span class="helper-text" data-error="{{error}}" data-success="right" />
+    {% endfor %}
+  </div>
+{%- endmacro %}
+
 {% block content %}
 
   <main class="card-panel">
@@ -20,12 +31,7 @@
       </div>
 
       <div class="row">
-        <div class="input-field error">
-          <input type="email" class="invalid" value="wrong" id="email_confirm" name="email_confirm">
-          <label for="email_confirm">Confirm your email address</label>
-          <span class="helper-text" data-error="Enter an email address in the correct format, like name@example.com" data-success="right" />
-
-        </div>
+        {{input(form, 'email_confirm', 'Confirm your email address')}}
       </div>
 
       <h4>Create a password</h4>
