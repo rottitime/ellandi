@@ -1,13 +1,15 @@
 import { Alert, AlertTitle, Skeleton, Stack, styled, Typography } from '@mui/material'
 import ToggleChip from '@/components/ToggleChip'
 import { fetchProfessions } from '@/service/api'
-import { GenericDataList, Query } from '@/service/types'
+import { GenericDataList, ProfessionType, Query } from '@/service/types'
 import { useUiContext } from '@/context/UiContext'
 import { useQuery } from 'react-query'
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect } from 'react'
 import FormFooter from '@/components/Form/FormFooter'
 import { StandardRegisterProps } from './types'
 import { useForm } from 'react-hook-form'
+import { array, object, SchemaOf, string } from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
 
 const List = styled(Stack)`
   .MuiChip-root {
@@ -15,9 +17,31 @@ const List = styled(Stack)`
   }
 `
 
-const ProfessionForm: FC<StandardRegisterProps<null>> = ({ backUrl, onFormSubmit }) => {
-  const [profession, setProfession] = useState<string[]>([])
-  const { handleSubmit } = useForm()
+const fieldName = 'profession'
+
+const schema: SchemaOf<ProfessionType> = object().shape({
+  profession: array().of(string()).min(1, 'This is a required field')
+})
+
+const ProfessionForm: FC<StandardRegisterProps<ProfessionType>> = ({
+  backUrl,
+  onFormSubmit,
+  loading,
+  defaultValues = {
+    profession: []
+  }
+}) => {
+  const {
+    handleSubmit,
+    getValues,
+    setValue,
+    register,
+    trigger,
+    formState: { isDirty, isValid }
+  } = useForm<ProfessionType>({
+    defaultValues,
+    resolver: yupResolver(schema)
+  })
   const { setLoading } = useUiContext()
   const { isLoading, isError, data } = useQuery<GenericDataList[], { message?: string }>(
     Query.Professions,
@@ -26,6 +50,8 @@ const ProfessionForm: FC<StandardRegisterProps<null>> = ({ backUrl, onFormSubmit
   useEffect(() => {
     setLoading(isLoading)
   }, [isLoading, setLoading])
+
+  register(fieldName)
 
   if (isError)
     return (
@@ -60,17 +86,31 @@ const ProfessionForm: FC<StandardRegisterProps<null>> = ({ backUrl, onFormSubmit
           : data.map(({ name, slug }) => (
               <ToggleChip
                 key={slug}
+                active={getValues(fieldName).includes(name)}
                 label={name}
-                onToggle={(_e, active) => {
-                  setProfession((p) =>
-                    active ? [...p, name] : p.filter((item) => item !== name)
+                onToggle={async () => {
+                  const data = getValues(fieldName)
+
+                  setValue(
+                    fieldName,
+                    data?.includes(name)
+                      ? data.filter((item) => item !== name)
+                      : [...data, name]
                   )
+
+                  await trigger(fieldName)
                 }}
               />
             ))}
       </List>
 
-      <FormFooter backUrl={backUrl} buttonProps={{ disabled: !profession.length }} />
+      <FormFooter
+        backUrl={backUrl}
+        buttonProps={{
+          loading,
+          disabled: !isDirty && !isValid
+        }}
+      />
     </form>
   )
 }

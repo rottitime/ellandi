@@ -59,7 +59,7 @@ export async function getStaticProps() {
   }
 }
 
-RegisterPage.getLayout = (page) => (
+RegisterPage.getLayout = (ui) => (
   <Page
     title="Grade"
     footer={
@@ -69,6 +69,6 @@ RegisterPage.getLayout = (page) => (
     }
     progress={30}
   >
-    {page}
+    {ui}
   </Page>
 )

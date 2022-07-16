@@ -40,14 +40,18 @@ export type PrivacyAcceptType = {
   privacy_policy_agreement: boolean
 }
 
+export type ProfessionType = {
+  profession: string[]
+}
+
 export type RegisterUserResponse = {
   id: string
   email: string
   url: string
-  profession: string[]
   contract_type: string
   skills: string[]
   languages: string[]
 } & PrivacyAcceptType &
   RegisterDetailsType &
-  GradeType
+  GradeType &
+  ProfessionType
