@@ -7,3 +7,14 @@
     {% endfor %}
   </div>
 {%- endmacro %}
+
+{% macro radios(form, name, options) -%}
+  {% for option in options %}
+    <p>
+      <label>
+        <input name="{{name}}" value="{{option.value}}" type="radio" />
+        <span>{{option.text}}</span>
+      </label>
+    </p>
+  {% endfor %}
+{%- endmacro %}
