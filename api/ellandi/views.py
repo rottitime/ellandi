@@ -3,7 +3,7 @@ from django.urls import reverse
 
 from ellandi.registration import models
 
-page_names = ("index", "your-details",)
+page_names = ("create-account", "your-details",)
 
 
 def get_values(model):
@@ -11,7 +11,7 @@ def get_values(model):
     return values
 
 
-def page_view(request, page_name="index"):
+def page_view(request, page_name="create-account"):
     grades = get_values(models.Grade)
     professions = get_values(models.Profession)
     contract_types = get_values(models.ContractType)
