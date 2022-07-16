@@ -1,3 +1,5 @@
+{% from 'macros.html' import radios %}
+
 {% extends "base.html" %}
 
 {% block content %}
@@ -14,72 +16,7 @@
 
     <form action="profession.html">
 
-      <p>
-        <label>
-          <input name="grade" type="radio" />
-          <span>Administrative Officer (AO) Equivalent</span>
-        </label>
-      </p>
-      <p>
-        <label>
-          <input name="grade" type="radio" />
-          <span>Administrative Assistant (AA) Equivalent</span>
-        </label>
-      </p>
-      <p>
-        <label>
-          <input name="grade" type="radio" />
-          <span>Executive Officer (EO) Equivalent</span>
-        </label>
-      </p>
-      <p>
-        <label>
-          <input name="grade" type="radio" />
-          <span>Higher Executive Officer (HEO) Equivalent</span>
-        </label>
-      </p>
-      <p>
-        <label>
-          <input name="grade" type="radio" />
-          <span>Senior Executive Officer (SEO) Equivalent</span>
-        </label>
-      </p>
-      <p>
-        <label>
-          <input name="grade" type="radio" />
-          <span>Grade 7 Equivalent</span>
-        </label>
-      </p>
-      <p>
-        <label>
-          <input name="grade" type="radio" />
-          <span>Grade 6 Equivalent</span>
-        </label>
-      </p>
-      <p>
-        <label>
-          <input name="grade" type="radio" />
-          <span>Senior Civil Servant - Deputy Director (PB1/1A)</span>
-        </label>
-      </p>
-      <p>
-        <label>
-          <input name="grade" type="radio" />
-          <span>Senior Civil Servant - Director (PB2)</span>
-        </label>
-      </p>
-      <p>
-        <label>
-          <input name="grade" type="radio" />
-          <span>Senior Civil Servant - Director General (PB3)</span>
-        </label>
-      </p>
-      <p>
-        <label>
-          <input name="grade" type="radio" />
-          <span>Senior Civil Servant - Permanent Secretary</span>
-        </label>
-      </p>
+      {{radios(form, 'grade', grades)}}
 
       <div class="buttons">
         <a class="btn waves-effect waves-light btn-small" href="{{prev_url}}">
