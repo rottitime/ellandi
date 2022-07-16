@@ -10,6 +10,7 @@ page_names = (
     "create-account",
     "your-details",
     "grade",
+    "profession",
 )
 
 view_map = {}
@@ -27,6 +28,10 @@ def get_values(model):
     values = tuple({"value": item.slug, "text": item.name} for item in model.objects.all())
     return values
 
+
+def get_choices(model):
+    choices = tuple((item.slug, item.name) for item in model.objects.all())
+    return choices
 
 class CreateAccountForm(forms.Form):
     email = forms.CharField(max_length=128)
@@ -90,6 +95,31 @@ def your_details_view(request, url_data):
         form = YourDetailsForm(data)
 
     return render(request, "your-details.html", {"form": form, **url_data})
+
+
+
+
+class GradeForm(forms.Form):
+    grade = forms.ChoiceField(required=False, choices=lambda: get_choices(models.Grade))
+
+
+@register("grade")
+def grade_view(request, url_data):
+    grades = get_values(models.Grade)
+    if request.method == "POST":
+        form = GradeForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            user = request.user
+            for key, value in data.items():
+                setattr(user, key, value)
+            user.save()
+            return redirect(url_data["next_url"])
+    else:
+        data = model_to_dict(request.user)
+        form = GradeForm(data)
+
+    return render(request, "grade.html", {"form": form, 'grades': grades, **url_data})
 
 
 def page_view(request, page_name="create-account"):

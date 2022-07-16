@@ -66,3 +66,15 @@ def test_resistration():
     assert form['department'] == "Basement"
     assert form['job_title'] == "Stuff doer"
     assert form['line_manager_email'] == "boss@example.com"
+
+    page = form.submit().follow()
+    assert page.status_code == 200, page.status_code
+    assert page.has_one("h1:contains('Grade')")
+
+    form = page.get_form()
+    form.check("Grade 6 Equivalent")
+
+    page = form.submit()
+
+    assert page.status_code == 200, page.status_code
+    assert page.has_one("h1:contains('Profession')")
