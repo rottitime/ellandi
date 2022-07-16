@@ -1,3 +1,4 @@
+import { StandardRegisterProps } from '@/components/Form/Register/types'
 import GenericPage from '@/components/Layout/GenericPage'
 // import { useUiContext } from '@/context/UiContext'
 import { Query, RegisterUser, RegisterUserResponse } from '@/service/types'
@@ -6,12 +7,14 @@ import { Alert, Fade } from '@mui/material'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 
-import { useState } from 'react'
+import { ComponentType, useState } from 'react'
 import { useMutation, useQueryClient } from 'react-query'
 
 const totalSteps = 4
 
-const steps = [
+const steps: {
+  form: ComponentType<StandardRegisterProps<unknown>>
+}[] = [
   {
     form: dynamic(() => import('@/components/Form/Register/PrivacyForm'), {
       suspense: true,
@@ -87,7 +90,11 @@ const RegisterPage = () => {
 
 export default RegisterPage
 
-RegisterPage.getLayout = (page) => <GenericPage title="Ready">{page}</GenericPage>
+RegisterPage.getLayout = (page) => {
+  const { props } = page
+  console.log({ props })
+  return <GenericPage title="Ready">{page}</GenericPage>
+}
 
 export async function getStaticPaths() {
   return {
@@ -97,5 +104,9 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps() {
-  return { props: {} } // will be passed to the page component as props }
+  return {
+    props: {
+      jatest: 'ddeded'
+    }
+  } // will be passed to the page component as props }
 }
