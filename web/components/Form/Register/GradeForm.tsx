@@ -66,7 +66,7 @@ const GradeForm: FC<StandardRegisterProps<GradeType>> = ({
         name="grade"
         control={control}
         render={({ field }) => (
-          <RadioGroup aria-live="polite" aria-busy={isLoading} name="grade" {...field}>
+          <RadioGroup aria-live="polite" aria-busy={isLoading} {...field}>
             {isLoading
               ? [...Array(5).keys()].map((i) => (
                   <RadioSkeleton key={i} width="80%" sx={{ mb: 1 }} />

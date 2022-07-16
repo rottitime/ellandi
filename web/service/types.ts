@@ -44,14 +44,18 @@ export type ProfessionType = {
   profession: string[]
 }
 
+export type ContactType = {
+  contract_type: string
+}
+
 export type RegisterUserResponse = {
   id: string
   email: string
   url: string
-  contract_type: string
   skills: string[]
   languages: string[]
 } & PrivacyAcceptType &
   RegisterDetailsType &
   GradeType &
-  ProfessionType
+  ProfessionType &
+  ContactType
