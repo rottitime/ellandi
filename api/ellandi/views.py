@@ -1,6 +1,7 @@
 from django import forms
 from django.shortcuts import redirect, render
 from django.urls import reverse
+from django.contrib.auth import login
 
 from ellandi.registration import models
 
@@ -48,6 +49,9 @@ def create_account_view(request, url_data):
     if request.method == "POST":
         form = CreateAccountForm(request.POST)
         if form.is_valid():
+            data =  form.cleaned_data
+            user = models.User.objects.create_user(email=data['email'], password=data['password'])
+            user = login(request, user)
             return redirect(url_data["next_url"])
     else:
         form = CreateAccountForm()
