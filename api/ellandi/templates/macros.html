@@ -1,4 +1,4 @@
-{% macro input(form, name, label, type) -%}
+{% macro input(form, name, label, type='text') -%}
   <div class="input-field {{form[name].errors and 'error'}}">
     <input type="{{type}}" class="{{form[name].errors and 'invalid'}}" value="{{form[name].value() or ''}}" id="{{name}}" name="{{name}}">
     <label for="{{name}}">{{label}}</label>
