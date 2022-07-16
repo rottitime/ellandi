@@ -14,7 +14,9 @@
 
     <p  class="subtitle">We'll use this to suggest learning opportunities that are relevant to you</p>
 
-    <form action="profession.html">
+    <form method="POST">
+
+      {{csrf_input}}
 
       {{radios(form, 'grade', grades)}}
 
