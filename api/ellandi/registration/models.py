@@ -132,6 +132,7 @@ class RegistrationAbstractUser(models.Model):
     contract_type = models.CharField(max_length=127, blank=True, null=False)
     line_manager_email = models.CharField(max_length=128, blank=True, null=True)
     location = models.CharField(max_length=127, blank=True, null=False)
+    department = models.CharField(max_length=127, blank=True, null=True)
 
 
 class User(AbstractUser, TimeStampedModel, RegistrationAbstractUser):
