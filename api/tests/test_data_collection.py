@@ -34,3 +34,11 @@ def test_resistration():
     assert page.status_code == 200, page.status_code
 
     assert page.has_one("h1:contains('Your details')")
+
+    form = page.get_form()
+
+    page = form.submit().follow()
+
+    assert page.status_code == 200, page.status_code
+
+    assert page.has_one("h1:contains('Grade')")

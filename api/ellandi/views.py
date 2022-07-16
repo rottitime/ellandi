@@ -8,6 +8,7 @@ from ellandi.registration import models
 page_names = (
     "create-account",
     "your-details",
+    "grade",
 )
 
 view_map = {}
@@ -62,6 +63,30 @@ def create_account_view(request, url_data):
         form = CreateAccountForm()
 
     return render(request, "create-account.html", {"form": form})
+
+
+class YourDetailsForm(forms.Form):
+    last_name = forms.CharField(max_length=128, required=False)
+    first_name = forms.CharField(max_length=128, required=False)
+    department = forms.CharField(max_length=128, required=False)
+    job_title = forms.CharField(max_length=128, required=False)
+    line_manager = forms.CharField(max_length=128, required=False)
+
+
+@register("your-details")
+def your_details_view(request, url_data):
+    if request.method == "POST":
+        form = YourDetailsForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            user = request.user
+            for key, value in data.items():
+                setattr(user, key, value)
+            return redirect(url_data["next_url"])
+    else:
+        form = YourDetailsForm()
+
+    return render(request, "your-details.html", {"form": form})
 
 
 def page_view(request, page_name="create-account"):
