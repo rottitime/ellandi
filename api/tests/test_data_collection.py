@@ -18,3 +18,9 @@ def test_resistration():
 
     assert page.has_one("span[data-error='Email does not match']")
     assert page.has_one("span[data-error='Password does not match']")
+
+    form = page.get_form()
+    assert form['email'] == "ed@example.com"
+    assert form['email_confirm'] == "fred@example.com"
+    assert form['password'] == "foo"
+    assert form['password_confirm'] == "boo"
