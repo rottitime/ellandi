@@ -1,3 +1,5 @@
+{% from 'macros.html' import select, input %}
+
 {% extends "base.html" %}
 
 {% block content %}
@@ -13,23 +15,13 @@
 
         <div class="col s5">
 
-          <div class="input-field ">
-            <select>
-              <option value="" disabled selected>Choose a skill</option>
-              <option value="afghanistan">Writing</option>
-              <option value="albania">Coding</option>
-            </select>
-            <label>Select a skill</label>
-          </div>
+          {{select(form, 'skill', 'Select a skill', [], empty_option="Choose a skill")}}
 
         </div>
         <div class="col s2 typography-h2">OR</div>
         <div class="col s5">
 
-          <div class="input-field">
-            <input type="text" class="validate" id="addsill">
-            <label for="addsill">Enter your own skill</label>
-          </div>
+          {{input(form, 'add_skill', "Enter your own skill")}}
 
         </div>
 
@@ -43,18 +35,17 @@
 
       <div class="divider"></div>
 
-      <div class="chip">
-        Skill name 1
-        <i class="close material-icons">close</i>
-      </div>
+      {% for skill in skills %}
 
-      <div class="chip">
-        Skill name 2
-        <i class="close material-icons">close</i>
-      </div>
+        <div class="chip">
+          {{skill.skill_name}}
+          <i class="close material-icons">close</i>
+        </div>
+
+      {% endfor %}
 
       <div class="buttons">
-        <a class="btn waves-effect waves-light btn-small" href="profession.html">
+        <a class="btn waves-effect waves-light btn-small" href="{{prev_url}}">
           Back
         </a>
         <button class="btn waves-effect waves-light" type="submit" name="action">
