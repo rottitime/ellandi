@@ -70,7 +70,7 @@ class YourDetailsForm(forms.Form):
     first_name = forms.CharField(max_length=128, required=False)
     department = forms.CharField(max_length=128, required=False)
     job_title = forms.CharField(max_length=128, required=False)
-    line_manager = forms.CharField(max_length=128, required=False)
+    line_manager_email = forms.CharField(max_length=128, required=False)
 
 
 @register("your-details")
