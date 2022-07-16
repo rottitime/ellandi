@@ -51,7 +51,6 @@ class CreateAccountForm(forms.Form):
 
 @register("create-account")
 def create_account_view(request, url_data):
-    print(request.POST)
     if request.method == "POST":
         form = CreateAccountForm(request.POST)
         if form.is_valid():
