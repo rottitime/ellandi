@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <main class="card-panel">
+
+    <header>
+      <h1>Current skills
+      </h1>
+    </header>
+
+    <form action="complete.html">
+      <div class="row skill-picker">
+
+        <div class="col s5">
+
+          <div class="input-field ">
+            <select>
+              <option value="" disabled selected>Choose a skill</option>
+              <option value="afghanistan">Writing</option>
+              <option value="albania">Coding</option>
+            </select>
+            <label>Select a skill</label>
+          </div>
+
+        </div>
+        <div class="col s2 typography-h2">OR</div>
+        <div class="col s5">
+
+          <div class="input-field">
+            <input type="text" class="validate" id="addsill">
+            <label for="addsill">Enter your own skill</label>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="center-align">
+        <button class="btn waves-effect waves-light" type="submit" name="action">
+          Add skill
+        </button>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="chip">
+        Skill name 1
+        <i class="close material-icons">close</i>
+      </div>
+
+      <div class="chip">
+        Skill name 2
+        <i class="close material-icons">close</i>
+      </div>
+
+      <div class="buttons">
+        <a class="btn waves-effect waves-light btn-small" href="profession.html">
+          Back
+        </a>
+        <button class="btn waves-effect waves-light" type="submit" name="action">
+          Continue
+        </button>
+      </div>
+
+    </form>
+
+  </main>
+
+{% endblock content %}
