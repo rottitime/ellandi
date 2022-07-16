@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth import login
 from django.shortcuts import redirect, render
 from django.urls import reverse
+from django.forms.models import model_to_dict
 
 from ellandi.registration import models
 
@@ -82,11 +83,13 @@ def your_details_view(request, url_data):
             user = request.user
             for key, value in data.items():
                 setattr(user, key, value)
+            user.save()
             return redirect(url_data["next_url"])
     else:
-        form = YourDetailsForm()
+        data = model_to_dict(request.user)
+        form = YourDetailsForm(data)
 
-    return render(request, "your-details.html", {"form": form})
+    return render(request, "your-details.html", {"form": form, **url_data})
 
 
 def page_view(request, page_name="create-account"):
