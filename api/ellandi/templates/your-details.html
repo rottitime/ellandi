@@ -1,4 +1,7 @@
+{% from 'macros.html' import input %}
+
 {% extends "base.html" %}
+
 {% block content %}
 
   <main class="card-panel">
@@ -10,32 +13,22 @@
 
     <form method="POST">
 
+      {{csrf_input}}
+
       <div class="row">
-        <div class="input-field">
-          <input type="text" class="validate" id="fullname" name="fullname">
-          <label for="fullname">Full name</label>
-        </div>
+        {{input(form, name='fullname', label='Full name')}}
       </div>
 
       <div class="row">
-        <div class="input-field">
-          <input type="text" class="validate" id="department" name="department">
-          <label for="department">Department</label>
-        </div>
+        {{input(form, name='department', label='Department')}}
       </div>
 
       <div class="row">
-        <div class="input-field">
-          <input type="text" class="validate" id="jobtitle" name="jobtitle">
-          <label for="jobtitle">Job title</label>
-        </div>
+        {{input(form, name='jobtitle', label='Job title')}}
       </div>
 
       <div class="row">
-        <div class="input-field">
-          <input type="email" class="validate" id="linemanager" name="linemanager">
-          <label for="linemanager">Line manager email</label>
-        </div>
+        {{input(form, name='linemanager', label='Line manager')}}
       </div>
 
       <div class="buttons">
