@@ -1,14 +1,6 @@
-{% extends "base.html" %}
+{% from 'macros.html' import input %}
 
-{% macro input(form, name, label, type) -%}
-  <div class="input-field {{form[name].errors and 'error'}}">
-    <input type="{{type}}" class="{{form[name].errors and 'invalid'}}" value="{{form[name].value() or ''}}" id="{{name}}" name="{{name}}">
-    <label for="{{name}}">{{label}}</label>
-    {% for error in form[name].errors %}
-      <span class="helper-text" data-error="{{error}}" data-success="right" />
-    {% endfor %}
-  </div>
-{%- endmacro %}
+{% extends "base.html" %}
 
 {% block content %}
 
