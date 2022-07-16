@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 
-{% macro input(form, name, label) -%}
+{% macro input(form, name, label, type) -%}
   <div class="input-field error">
-    <input type="email" class="{{form[name].errors and 'invalid'}}" value="{{form[name].value() or ''}}" id="{{name}}" name="{{name}}">
+    <input type="{{type}}" class="{{form[name].errors and 'invalid'}}" value="{{form[name].value() or ''}}" id="{{name}}" name="{{name}}">
     <label for="{{name}}">{{label}}</label>
     {% for error in form[name].errors %}
       <span class="helper-text" data-error="{{error}}" data-success="right" />
@@ -31,7 +31,7 @@
       </div>
 
       <div class="row">
-        {{input(form, 'email_confirm', 'Confirm your email address')}}
+        {{input(form, 'email_confirm', 'Confirm your email address', 'email')}}
       </div>
 
       <h4>Create a password</h4>
