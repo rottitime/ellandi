@@ -1,0 +1,37 @@
+{% from 'macros.html' import checkboxes %}
+
+{% extends "base.html" %}
+
+{% block content %}
+
+  <main class="card-panel">
+
+    <header>
+      <h1>Professions</h1>
+    </header>
+
+    <h2>Select the Profession(s) that you belong to. You may choose more than one
+    </h2>
+
+    <p  class="subtitle">We'll use this to suggest learning opportunities that are relevant to you</p>
+
+    <form method="POST">
+
+      {{csrf_input}}
+
+      {{checkboxes(form, 'professions', professions)}}
+
+      <div class="buttons">
+        <a class="btn waves-effect waves-light btn-small" href="{{prev_url}}">
+          Back
+        </a>
+        <button class="btn waves-effect waves-light" type="submit" name="action">
+          Continue
+        </button>
+      </div>
+
+    </form>
+
+  </main>
+
+{% endblock content %}
