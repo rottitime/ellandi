@@ -12,7 +12,7 @@
   {% for option in options %}
     <p>
       <label>
-        <input name="{{name}}" value="{{option.value}}" type="radio" />
+        <input name="{{name}}" value="{{option.value}}" type="radio" {{option.value==form.grade.value() and 'checked' or ''}}/>
         <span>{{option.text}}</span>
       </label>
     </p>
