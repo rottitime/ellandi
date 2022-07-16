@@ -35,10 +35,16 @@ class CreateAccountForm(forms.Form):
     def clean(self):
         cleaned_data = super().clean()
         password = cleaned_data.get("password")
-        confirm_password = cleaned_data.get("password_confirm")
+        password_confirm = cleaned_data.get("password_confirm")
 
-        if password != confirm_password:
-            self.add_error("confirm_password", "Password does not match")
+        if password != password_confirm:
+            self.add_error("password_confirm", "Password does not match")
+
+        email = cleaned_data.get("email")
+        email_confirm = cleaned_data.get("email_confirm")
+
+        if email != email_confirm:
+            self.add_error("email_confirm", "Email does not match")
 
         return cleaned_data
 
