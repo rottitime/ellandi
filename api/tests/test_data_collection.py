@@ -46,11 +46,11 @@ def test_resistration():
 
     form = page.get_form()
 
-    form['first_name'] = "Mr"
-    form['last_name'] = "Flibble"
-    form['department'] = "Basement"
-    form['job_title'] = "Stuff doer"
-    form['line_manager_email'] = "boss@example.com"
+    form["first_name"] = "Mr"
+    form["last_name"] = "Flibble"
+    form["department"] = "Basement"
+    form["job_title"] = "Stuff doer"
+    form["line_manager_email"] = "boss@example.com"
 
     page = form.submit().follow()
     assert page.status_code == 200, page.status_code
@@ -61,11 +61,11 @@ def test_resistration():
     assert page.has_one("h1:contains('Your details')")
 
     form = page.get_form()
-    assert form['first_name'] == "Mr"
-    assert form['last_name'] == "Flibble"
-    assert form['department'] == "Basement"
-    assert form['job_title'] == "Stuff doer"
-    assert form['line_manager_email'] == "boss@example.com"
+    assert form["first_name"] == "Mr"
+    assert form["last_name"] == "Flibble"
+    assert form["department"] == "Basement"
+    assert form["job_title"] == "Stuff doer"
+    assert form["line_manager_email"] == "boss@example.com"
 
     page = form.submit().follow()
     assert page.status_code == 200, page.status_code

@@ -1,18 +1,12 @@
 from django import forms
 from django.contrib.auth import login
+from django.forms.models import model_to_dict
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from django.forms.models import model_to_dict
 
 from ellandi.registration import models
 
-page_names = (
-    "create-account",
-    "your-details",
-    "grade",
-    "professions",
-    "skills"
-)
+page_names = ("create-account", "your-details", "grade", "professions", "skills")
 
 view_map = {}
 
@@ -33,6 +27,7 @@ def get_values(model):
 def get_choices(model):
     choices = tuple((item.slug, item.name) for item in model.objects.all())
     return choices
+
 
 class CreateAccountForm(forms.Form):
     email = forms.CharField(max_length=128)
@@ -98,8 +93,6 @@ def your_details_view(request, url_data):
     return render(request, "your-details.html", {"form": form, **url_data})
 
 
-
-
 class GradeForm(forms.Form):
     grade = forms.ChoiceField(required=False, choices=lambda: get_choices(models.Grade))
 
@@ -120,7 +113,7 @@ def grade_view(request, url_data):
         data = model_to_dict(request.user)
         form = GradeForm(data)
 
-    return render(request, "grade.html", {"form": form, 'grades': grades, **url_data})
+    return render(request, "grade.html", {"form": form, "grades": grades, **url_data})
 
 
 class ProfessionsForm(forms.Form):
@@ -135,7 +128,7 @@ def professions_view(request, url_data):
         if form.is_valid():
             data = form.cleaned_data
             user = request.user
-            for value in data['professions']:
+            for value in data["professions"]:
                 profession = models.Profession.objects.get(pk=value)
                 user.professions.add(profession)
             user.save()
@@ -144,7 +137,7 @@ def professions_view(request, url_data):
         data = model_to_dict(request.user)
         form = ProfessionsForm(data)
 
-    return render(request, "professions.html", {"form": form, 'professions': professions, **url_data})
+    return render(request, "professions.html", {"form": form, "professions": professions, **url_data})
 
 
 def page_view(request, page_name="create-account"):
