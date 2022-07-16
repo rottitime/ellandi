@@ -9,6 +9,9 @@
 {%- endmacro %}
 
 {% macro radios(form, name, options) -%}
+  {% for error in form[name].errors %}
+    <span class="helper-text" data-error="{{error}}" data-success="right" />
+  {% endfor %}
   {% for option in options %}
     <p>
       <label>
