@@ -29,3 +29,17 @@
     </p>
   {% endfor %}
 {%- endmacro %}
+
+{% macro select(form, name, label, options, empty_option=False) -%}
+  <div class="input-field">
+    <select>
+      {% if empty_option %}
+        <option value="" disabled selected>{{empty_option}}</option>
+      {% endif %}
+      {% for option in options %}
+        <option value="{{option.value}}">{{option.text}}</option>
+      {% endfor %}
+    </select>
+    <label>{{label}}</label>
+  </div>
+{%- endmacro %}
