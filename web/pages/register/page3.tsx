@@ -37,7 +37,7 @@ const RegisterPage = () => {
       <CreateAccountForm
         backUrl="/register"
         loading={isLoading}
-        onFormSubmit={({ email, password }) => mutate.mutate({ email, password })}
+        onFormSubmit={(data) => mutate.mutate(data)}
       />
     </>
   )
