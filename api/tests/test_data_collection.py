@@ -8,6 +8,8 @@ def test_resistration():
     page = agent.get("/page/create-account")
     assert page.status_code == 200, page.status_code
 
+    assert page.has_one("h1:contains('Create an account')")
+
     form = page.get_form()
     form['email'] = "ed@example.com"
     form['email_confirm'] = "fred@example.com"
@@ -24,3 +26,11 @@ def test_resistration():
     assert form['email_confirm'] == "fred@example.com"
     assert form['password'] == "foo"
     assert form['password_confirm'] == "boo"
+
+    form['email_confirm'] = "ed@example.com"
+    form['password_confirm'] = "foo"
+
+    page = form.submit().follow()
+    assert page.status_code == 200, page.status_code
+
+    assert page.has_one("h1:contains('Your details')")
