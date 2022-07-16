@@ -74,7 +74,14 @@ def test_resistration():
     form = page.get_form()
     form.check("Grade 6 Equivalent")
 
-    page = form.submit()
-
+    page = form.submit().follow()
     assert page.status_code == 200, page.status_code
     assert page.has_one("h1:contains('Profession')")
+
+    form = page.get_form()
+    form.check("Government Economic Service")
+    form.check("Policy Profession")
+
+    page = form.submit().follow()
+    assert page.status_code == 200, page.status_code
+    assert page.has_one("h1:contains('Current skills')")

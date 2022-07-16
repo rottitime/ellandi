@@ -10,7 +10,8 @@ page_names = (
     "create-account",
     "your-details",
     "grade",
-    "profession",
+    "professions",
+    "skills"
 )
 
 view_map = {}
@@ -120,6 +121,30 @@ def grade_view(request, url_data):
         form = GradeForm(data)
 
     return render(request, "grade.html", {"form": form, 'grades': grades, **url_data})
+
+
+class ProfessionsForm(forms.Form):
+    professions = forms.MultipleChoiceField(required=False, choices=lambda: get_choices(models.Profession))
+
+
+@register("professions")
+def professions_view(request, url_data):
+    professions = get_values(models.Profession)
+    if request.method == "POST":
+        form = ProfessionsForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            user = request.user
+            for value in data['professions']:
+                profession = models.Profession.objects.get(pk=value)
+                user.professions.add(profession)
+            user.save()
+            return redirect(url_data["next_url"])
+    else:
+        data = model_to_dict(request.user)
+        form = ProfessionsForm(data)
+
+    return render(request, "professions.html", {"form": form, 'professions': professions, **url_data})
 
 
 def page_view(request, page_name="create-account"):
