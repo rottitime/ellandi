@@ -160,8 +160,10 @@ def skills_view(request, url_data):
             data = form.cleaned_data
             if data['new_skill']:
                 skill = models.UserSkill(user=user, skill_name=data['new_skill'])
+                skill.save()
             if data['skill']:
                 skill = models.UserSkill(user=user, skill_name=data['skill'])
+                skill.save()
             if data['action'] == "add-skill":
                 return redirect(url_data["this_url"])
             else:
