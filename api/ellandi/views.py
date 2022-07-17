@@ -4,9 +4,9 @@ from django.forms.models import model_to_dict
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
-from ellandi.registration import models
+from ellandi.registration import models, initial_data
 
-page_names = ("create-account", "your-details", "grade", "professions", "skills")
+page_names = ("create-account", "your-details", "grade", "professions", "skills", "complete")
 
 view_map = {}
 
@@ -138,6 +138,38 @@ def professions_view(request, url_data):
         form = ProfessionsForm(data)
 
     return render(request, "professions.html", {"form": form, "professions": professions, **url_data})
+
+
+class SkillsForm(forms.Form):
+    skill = forms.ChoiceField(required=False, choices=[])
+    new_skill = forms.CharField(max_length=128, required=False)
+    action = forms.CharField(max_length=128, required=False)
+
+
+@register("skills")
+def skills_view(request, url_data):
+    skills = set(models.UserSkill.objects.all().values_list("skill_name", flat=True))
+    skills = initial_data.INITIAL_SKILLS.union(skills)
+    skills = tuple({'value': skill, 'text': skill} for skill in skills)
+    user = request.user
+    user_skills = user.skills.all()
+
+    if request.method == "POST":
+        form = SkillsForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            if data['new_skill']:
+                skill = models.UserSkill(user=user, skill_name=data['new_skill'])
+            if data['skill']:
+                skill = models.UserSkill(user=user, skill_name=data['skill'])
+            if data['action'] == "add-skill":
+                return redirect(url_data["this_url"])
+            else:
+                return redirect(url_data["next_url"])
+    else:
+        form = SkillsForm()
+
+    return render(request, "skills.html", {"form": form, "skills": skills, "user_skills": user_skills, **url_data})
 
 
 def page_view(request, page_name="create-account"):

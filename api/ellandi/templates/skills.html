@@ -18,27 +18,27 @@
 
         <div class="col s5">
 
-          {{select(form, 'skill', 'Select a skill', [], empty_option="Choose a skill")}}
+          {{select(form, 'skill', 'Select a skill', skills, empty_option="Choose a skill")}}
 
         </div>
         <div class="col s2 typography-h2">OR</div>
         <div class="col s5">
 
-          {{input(form, 'add_skill', "Enter your own skill")}}
+          {{input(form, 'new_skill', "Enter your own skill")}}
 
         </div>
 
       </div>
 
       <div class="center-align">
-        <button class="btn waves-effect waves-light" type="submit" name="action">
+        <button class="btn waves-effect waves-light" type="submit" name="action" value="add-skill">
           Add skill
         </button>
       </div>
 
       <div class="divider"></div>
 
-      {% for skill in skills %}
+      {% for skill in user_skills %}
 
         <div class="chip">
           {{skill.skill_name}}
@@ -51,7 +51,7 @@
         <a class="btn waves-effect waves-light btn-small" href="{{prev_url}}">
           Back
         </a>
-        <button class="btn waves-effect waves-light" type="submit" name="action">
+        <button class="btn waves-effect waves-light" type="submit" name="action" value="continue">
           Continue
         </button>
       </div>
