@@ -151,6 +151,7 @@ def page_view(request, page_name="create-account"):
     prev_page = index and page_names[index - 1] or None
     next_page = (index < len(page_names) - 1) and page_names[index + 1] or None
     prev_url = prev_page and reverse("pages", args=(prev_page,))
+    this_url = reverse("pages", args=(page_name,))
     next_url = next_page and reverse("pages", args=(next_page,))
 
     if page_name in view_map:
@@ -159,6 +160,7 @@ def page_view(request, page_name="create-account"):
             "prev_page": prev_page,
             "next_page": next_page,
             "prev_url": prev_url,
+            "this_url": this_url,
             "next_url": next_url,
         }
         return view_map[page_name](request, url_data)
