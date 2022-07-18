@@ -4,7 +4,7 @@ from django.forms.models import model_to_dict
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
-from ellandi.registration import models, initial_data
+from ellandi.registration import initial_data, models
 
 page_names = ("create-account", "your-details", "grade", "professions", "skills", "complete")
 
@@ -150,7 +150,7 @@ class SkillsForm(forms.Form):
 def skills_view(request, url_data):
     skills = set(models.UserSkill.objects.all().values_list("skill_name", flat=True))
     skills = initial_data.INITIAL_SKILLS.union(skills)
-    skills = tuple({'value': skill, 'text': skill} for skill in skills)
+    skills = tuple({"value": skill, "text": skill} for skill in skills)
     user = request.user
     user_skills = user.skills.all()
 
@@ -158,13 +158,13 @@ def skills_view(request, url_data):
         form = SkillsForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            if data['new_skill']:
-                skill = models.UserSkill(user=user, skill_name=data['new_skill'])
+            if data["new_skill"]:
+                skill = models.UserSkill(user=user, skill_name=data["new_skill"])
                 skill.save()
-            if data['skill']:
-                skill = models.UserSkill(user=user, skill_name=data['skill'])
+            if data["skill"]:
+                skill = models.UserSkill(user=user, skill_name=data["skill"])
                 skill.save()
-            if data['action'] == "add-skill":
+            if data["action"] == "add-skill":
                 return redirect(url_data["this_url"])
             else:
                 return redirect(url_data["next_url"])
