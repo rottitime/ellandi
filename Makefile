@@ -78,9 +78,13 @@ check-python-code:
 	black --check .
 	flake8
 
-.PHONY: test-backend
-test-backend:
-	docker-compose build tests && docker-compose run tests
+.PHONY: test-api
+test-api:
+	docker-compose build tests-api && docker-compose run tests-api
+
+.PHONY: test-organogram
+test-api:
+	docker-compose build tests-organogram && docker-compose run tests-organogram
 
 .PHONY: check-migrations
 check-migrations:
