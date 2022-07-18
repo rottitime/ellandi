@@ -1,0 +1,7 @@
+django<3.3
+djangorestframework
+django-environ
+psycopg2
+watchdog[watchmedo]
+jinja2
+whitenoise
