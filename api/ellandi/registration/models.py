@@ -43,7 +43,10 @@ class Organisation(DropDownListModel):
 
 
 class ContractType(DropDownListModel):
-    pass
+    order = models.PositiveSmallIntegerField(null=True)
+
+    class Meta:
+        ordering = ["order"]
 
 
 class Location(DropDownListModel):
@@ -59,7 +62,10 @@ class Profession(DropDownListModel):
 
 
 class Grade(DropDownListModel):
-    pass
+    order = models.PositiveSmallIntegerField(null=True)
+
+    class Meta:
+        ordering = ["order"]
 
 
 class LanguageSkillLevel(DropDownListModel):
@@ -67,7 +73,8 @@ class LanguageSkillLevel(DropDownListModel):
 
 
 class Country(DropDownListModel):
-    pass
+    class Meta:
+        verbose_name_plural = "Countries"
 
 
 class UserManager(BaseUserManager):

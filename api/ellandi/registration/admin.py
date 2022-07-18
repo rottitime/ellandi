@@ -3,6 +3,7 @@ from django.contrib import admin
 
 from .models import (
     ContractType,
+    Country,
     EmailSalt,
     Grade,
     Language,
@@ -69,7 +70,7 @@ class OrganisationAdmin(DropDownListAdmin):
 
 
 class ContractTypeAdmin(DropDownListAdmin):
-    pass
+    readonly_fields = ("name", "slug", "order")
 
 
 class LocationAdmin(DropDownListAdmin):
@@ -85,10 +86,14 @@ class ProfessionAdmin(DropDownListAdmin):
 
 
 class GradeAdmin(DropDownListAdmin):
-    pass
+    readonly_fields = ("name", "slug", "order")
 
 
 class LanguageSkillLevelAdmin(DropDownListAdmin):
+    pass
+
+
+class CountryAdmin(DropDownListAdmin):
     pass
 
 
@@ -102,4 +107,5 @@ admin.site.register(Language, LanguageAdmin)
 admin.site.register(Profession, ProfessionAdmin)
 admin.site.register(Grade, GradeAdmin)
 admin.site.register(LanguageSkillLevel, LanguageSkillLevelAdmin)
+admin.site.register(Country, CountryAdmin)
 admin.site.register(EmailSalt)

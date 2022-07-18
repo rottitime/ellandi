@@ -63,7 +63,7 @@ class OrganisationViewSet(viewsets.ReadOnlyModelViewSet):
 
 @register("contract-types")
 class ContractTypeViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = models.ContractType.objects.all().order_by("name")
+    queryset = models.ContractType.objects.all().order_by("order")
     serializer_class = serializers.ContractTypeSerializer
 
 
@@ -87,7 +87,7 @@ class ProfessionViewSet(viewsets.ReadOnlyModelViewSet):
 
 @register("grades")
 class GradeViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = models.Grade.objects.all().order_by("name")
+    queryset = models.Grade.objects.all().order_by("order")
     serializer_class = serializers.GradeSerializer
 
 
