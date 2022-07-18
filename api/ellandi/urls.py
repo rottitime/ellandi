@@ -35,6 +35,7 @@ admin_urlpatterns = [
 ]
 
 page_urlpatterns = [
+    path("page/", views.page_view, name="pages-index"),
     path("page/<str:page_name>", views.page_view, name="pages"),
 ]
 
