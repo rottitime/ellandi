@@ -131,3 +131,8 @@ main.card-panel > header {
 .buttons button:only-child {
     margin-left: auto;
 }
+
+/* overrides */
+.row.grid .col {
+  padding:0;
+}
