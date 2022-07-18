@@ -70,7 +70,6 @@ def create_account_view(request, url_data):
 class YourDetailsForm(forms.Form):
     last_name = forms.CharField(max_length=128, required=False)
     first_name = forms.CharField(max_length=128, required=False)
-    department = forms.CharField(max_length=128, required=False)
     job_title = forms.CharField(max_length=128, required=False)
     line_manager_email = forms.CharField(max_length=128, required=False)
 
