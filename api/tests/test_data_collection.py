@@ -48,7 +48,6 @@ def test_resistration():
 
     form["first_name"] = "Mr"
     form["last_name"] = "Flibble"
-    form["department"] = "Basement"
     form["job_title"] = "Stuff doer"
     form["line_manager_email"] = "boss@example.com"
 
@@ -63,7 +62,6 @@ def test_resistration():
     form = page.get_form()
     assert form["first_name"] == "Mr"
     assert form["last_name"] == "Flibble"
-    assert form["department"] == "Basement"
     assert form["job_title"] == "Stuff doer"
     assert form["line_manager_email"] == "boss@example.com"
 
