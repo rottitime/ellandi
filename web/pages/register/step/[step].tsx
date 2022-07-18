@@ -1,74 +1,99 @@
 import { StandardRegisterProps } from '@/components/Form/Register/types'
 import GenericPage from '@/components/Layout/GenericPage'
-// import { useUiContext } from '@/context/UiContext'
 import { Query, RegisterUser, RegisterUserResponse } from '@/service/types'
 import { createUser, updateUser } from '@/service/user'
 import { Alert, Fade } from '@mui/material'
+import { GetStaticPropsContext, NextPage } from 'next'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
-
-import { ComponentType, useState } from 'react'
+import { ComponentType, FC, useState } from 'react'
 import { useMutation, useQueryClient } from 'react-query'
 
-const totalSteps = 4
+type Props = {
+  stepNumber: number
+  title: string
+  backUrl: null | string
+  nextUrl: string
+}
 
-const steps: {
+type Steps = {
   form: ComponentType<StandardRegisterProps<unknown>>
-}[] = [
+  title: string
+  prevUrl?: string
+  nextUrl?: string
+}
+
+const steps: Steps[] = [
   {
-    form: dynamic(() => import('@/components/Form/Register/PrivacyForm'), {
-      suspense: true,
-      ssr: false
-    })
+    form: dynamic(() => import('@/components/Form/Register/CreateAccountForm')),
+    title: 'Create an account'
   },
   {
-    form: dynamic(() => import('@/components/Form/Register/RegisterDetailsForm'), {
-      suspense: true,
-      ssr: false
-    })
+    form: dynamic(() => import('@/components/Form/Register/PrivacyForm')),
+    title: 'Privacy policy'
   },
   {
-    form: dynamic(() => import('@/components/Form/Register/GradeForm'), {
-      suspense: true,
-      ssr: false
-    })
+    form: dynamic(() => import('@/components/Form/Register/RegisterDetailsForm')),
+    title: 'Your details'
   },
   {
-    form: dynamic(() => import('@/components/Form/Register/ProfessionForm'), {
-      suspense: true,
-      ssr: false
-    })
+    form: dynamic(() => import('@/components/Form/Register/GradeForm')),
+    title: 'Grade'
+  },
+  {
+    form: dynamic(() => import('@/components/Form/Register/ProfessionForm')),
+    title: 'Profession'
+  },
+  {
+    form: dynamic(() => import('@/components/Form/Register/PrimaryProfessionForm')),
+    title: 'Primary profession'
+  },
+  {
+    form: dynamic(() => import('@/components/Form/Register/FunctionTypeForm')),
+    title: 'Function'
+  },
+  {
+    form: dynamic(() => import('@/components/Form/Register/ContractTypeForm')),
+    title: 'Contract type'
+  },
+  {
+    form: dynamic(() => import('@/components/Form/Register/ContactForm')),
+    title: 'Contact preference',
+    nextUrl: '/register/thankyou2'
+  },
+  {
+    form: dynamic(() => import('@/components/Form/Register/LanguageForm')),
+    title: 'Language skills'
+  },
+  {
+    form: dynamic(() => import('@/components/Form/Register/SkillsForm')),
+    title: 'Current skills',
+    nextUrl: '/register/complete'
   }
 ]
 
-const RegisterPage = () => {
-  //const { setStatusIndicator } = useUiContext()
+const RegisterPage = ({ nextUrl, backUrl }: Props) => {
   const router = useRouter()
   const queryClient = useQueryClient()
   const { step } = router.query
   const stepInt = parseInt(step as string)
   const FormComponent = steps[stepInt].form
   const [error, setError] = useState(null)
+  const data = queryClient.getQueryData<RegisterUserResponse>(Query.RegisterUser)
+  const id = data?.id
 
   const { isError, isLoading, ...mutate } = useMutation<
     RegisterUserResponse,
     Error,
     Partial<RegisterUserResponse>
-  >(
-    async (data) =>
-      data.id ? updateUser(data.id, data) : createUser(data as RegisterUser),
-    {
-      onSuccess: (data) => {
-        queryClient.setQueryData(Query.RegisterUser, data)
-        router.push(`/register/page/step/${stepInt + 1}`)
-      },
-      onError: ({ message }) => setError(message)
-    }
-  )
-
-  // useEffect(() => {
-  //   setStatusIndicator((stepInt / totalSteps) * 100)
-  // }, [stepInt, setStatusIndicator])
+  >(async (data) => (id ? updateUser(id, data) : createUser(data as RegisterUser)), {
+    onSuccess: (data) => {
+      queryClient.setQueryData(Query.RegisterUser, data)
+      router.push(nextUrl)
+      setError(null)
+    },
+    onError: ({ message }) => setError(message)
+  })
 
   return (
     <>
@@ -79,9 +104,11 @@ const RegisterPage = () => {
           </Alert>
         </Fade>
       )}
+
       <FormComponent
-        backUrl={stepInt > 0 ? `/register/step/${stepInt - 1}` : '/register/step'}
+        backUrl={backUrl}
         loading={isLoading}
+        defaultValues={data}
         onFormSubmit={(data) => mutate.mutate(data)}
       />
     </>
@@ -92,21 +119,27 @@ export default RegisterPage
 
 RegisterPage.getLayout = (page) => {
   const { props } = page
-  console.log({ props })
-  return <GenericPage title="Ready">{page}</GenericPage>
+  return <GenericPage title={props.title}>{page}</GenericPage>
 }
 
 export async function getStaticPaths() {
   return {
-    paths: [...Array(totalSteps).keys()].map((i) => ({ params: { step: `${i}` } })),
+    paths: [...Array(steps.length).keys()].map((i) => ({ params: { step: `${i}` } })),
     fallback: false
   }
 }
 
-export async function getStaticProps() {
+export async function getStaticProps(context: GetStaticPropsContext) {
+  const { step, nextUrl } = context.params
+  const stepInt = parseInt(step as string)
+  const { title } = steps[stepInt]
+
   return {
     props: {
-      jatest: 'ddeded'
-    }
-  } // will be passed to the page component as props }
+      stepNumber: stepInt,
+      title,
+      backUrl: stepInt === 0 ? `/register` : `/register/step/${stepInt - 1}`,
+      nextUrl: nextUrl || `/register/step/${stepInt + 1}`
+    } as Props
+  }
 }
