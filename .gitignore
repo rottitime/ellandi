@@ -2,6 +2,7 @@
 *.pyc
 db.sqlite3
 /api/staticfiles
+/organogram/staticfiles
 
 # JavaScript
 node_modules
