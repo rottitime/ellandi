@@ -6,7 +6,7 @@ import LinkButton from '@/components/LinkButton'
 
 const RegisterPage = () => (
   <Box sx={{ textAlign: 'center' }}>
-    <LinkButton href="/register/page3" variant="contained" fullWidth sx={{ mt: 4 }}>
+    <LinkButton href="/register/step/0" variant="contained" fullWidth sx={{ mt: 4 }}>
       Start now
     </LinkButton>
   </Box>

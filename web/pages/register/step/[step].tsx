@@ -16,6 +16,7 @@ type Props = {
   backUrl: null | string
   nextUrl: string
   progress: number
+  skip: boolean
 }
 
 type Steps = {
@@ -23,6 +24,7 @@ type Steps = {
   title: string
   prevUrl?: string
   nextUrl?: string
+  skip?: boolean
 }
 
 const steps: Steps[] = [
@@ -40,11 +42,13 @@ const steps: Steps[] = [
   },
   {
     form: dynamic(() => import('@/components/Form/Register/GradeForm')),
-    title: 'Grade'
+    title: 'Grade',
+    skip: true
   },
   {
     form: dynamic(() => import('@/components/Form/Register/ProfessionForm')),
-    title: 'Profession'
+    title: 'Profession',
+    skip: true
   },
   {
     form: dynamic(() => import('@/components/Form/Register/PrimaryProfessionForm')),
@@ -56,7 +60,8 @@ const steps: Steps[] = [
   },
   {
     form: dynamic(() => import('@/components/Form/Register/ContractTypeForm')),
-    title: 'Contract type'
+    title: 'Contract type',
+    skip: true
   },
   {
     form: dynamic(() => import('@/components/Form/Register/ContactForm')),
@@ -65,12 +70,14 @@ const steps: Steps[] = [
   },
   {
     form: dynamic(() => import('@/components/Form/Register/LanguageForm')),
-    title: 'Language skills'
+    title: 'Language skills',
+    skip: true
   },
   {
     form: dynamic(() => import('@/components/Form/Register/SkillsForm')),
     title: 'Current skills',
-    nextUrl: '/register/complete'
+    nextUrl: '/register/complete',
+    skip: true
   }
 ]
 
@@ -126,9 +133,11 @@ RegisterPage.getLayout = (page) => {
       title={props.title}
       progress={props.progress}
       footer={
-        <Typography>
-          <Link href={props.nextUrl}>Skip this step</Link>
-        </Typography>
+        props.skip && (
+          <Typography>
+            <Link href={props.nextUrl}>Skip this step</Link>
+          </Typography>
+        )
       }
     >
       {page}
@@ -146,7 +155,7 @@ export async function getStaticPaths() {
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { step } = context.params
   const stepInt = parseInt(step as string)
-  const { title, nextUrl } = steps[stepInt]
+  const { title, nextUrl, skip } = steps[stepInt]
 
   return {
     props: {
@@ -154,7 +163,8 @@ export async function getStaticProps(context: GetStaticPropsContext) {
       stepNumber: stepInt,
       title,
       backUrl: stepInt === 0 ? `/register` : `/register/step/${stepInt - 1}`,
-      nextUrl: nextUrl || `/register/step/${stepInt + 1}`
+      nextUrl: nextUrl || `/register/step/${stepInt + 1}`,
+      skip: !!skip
     } as Props
   }
 }
