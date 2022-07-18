@@ -7,7 +7,7 @@ import { Alert, Fade, Typography } from '@mui/material'
 import { GetStaticPropsContext } from 'next'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
-import { ComponentType, FC, useState } from 'react'
+import { ComponentType, FC, useEffect, useState } from 'react'
 import { useMutation, useQueryClient } from 'react-query'
 
 type Props = {
@@ -91,6 +91,10 @@ const RegisterPage = ({ nextUrl, backUrl }: Props) => {
   const data = queryClient.getQueryData<RegisterUserResponse>(Query.RegisterUser)
   const id = data?.id
 
+  useEffect(() => {
+    setError(null)
+  }, [step])
+
   const { isError, isLoading, ...mutate } = useMutation<
     RegisterUserResponse,
     Error,
@@ -99,14 +103,13 @@ const RegisterPage = ({ nextUrl, backUrl }: Props) => {
     onSuccess: (data) => {
       queryClient.setQueryData(Query.RegisterUser, data)
       router.push(nextUrl)
-      setError(null)
     },
     onError: ({ message }) => setError(message)
   })
 
   return (
     <>
-      {isError && (
+      {!!error && (
         <Fade in={!!isError}>
           <Alert severity="error" sx={{ mt: 3, mb: 3 }}>
             <>{error}</>
