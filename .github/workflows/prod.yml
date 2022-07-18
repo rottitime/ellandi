@@ -1,0 +1,68 @@
+name: Deploy prod
+
+env:
+  DOCKER_BUILDKIT: 1
+
+on:
+  push:
+    branches:
+      - prod
+
+permissions:
+  packages: write
+  repository-projects: read
+  id-token: write
+  contents: read
+
+jobs:
+  push_images:
+    runs-on: ubuntu-latest
+
+    env:
+      IMAGE_TAG: prod
+      DOCKER_REPOSITORY: ghcr.io
+      APP_NAME: digital-organogram
+      DOCKERFILE: docker/api/Dockerfile
+      DOCKER_IMAGE: digital-organogram
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build, tag, and push ${{ APP_NAME }} image
+        env:
+          DOCKER_IMAGE: ${{ matrix.app }}
+
+        run: |
+          docker build . --file $DOCKER_FILE --tag $DOCKER_REPOSITORY/${{ github.repository_owner }}/$DOCKER_IMAGE:$IMAGE_TAG
+          docker push -a $DOCKER_REPOSITORY/${{ github.repository_owner }}/$DOCKER_IMAGE
+
+  deploy_prod:
+    needs: [push_images]
+
+    runs-on: ubuntu-latest
+
+    env:
+      IMAGE_TAG: latest
+      DOCKER_REPOSITORY: ghcr.io
+      CF_SPACE: prod
+      APP_NAME: digital-organogram
+
+    steps:
+      - name: Donwload CF CLI
+        run: curl -L "https://packages.cloudfoundry.org/stable?release=linux64-binary&version=v7&source=github" | tar -zx
+
+      - name: CF login
+        run: ./cf login -a api.london.cloud.service.gov.uk -u "${{ secrets.CF_USER }}" -p "${{ secrets.CF_PASSWORD }}" -o co-i-ai -s "$CF_SPACE"
+
+      - name: CF push ${{ APP_NAME }}
+        env:
+          CF_PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+          CF_PAT_TOKEN_USER: ${{ secrets.PAT_TOKEN_USER }}
+        run: CF_DOCKER_PASSWORD="$CF_PAT_TOKEN" ./cf push $APP_NAME --docker-image $DOCKER_REPOSITORY/${{ github.repository_owner }}/$DOCKER_IMAGE:$IMAGE_TAG --docker-username=$CF_PAT_TOKEN_USER

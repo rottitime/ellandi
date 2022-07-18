@@ -12,7 +12,6 @@ def test_users_get(client, user_id):
     response = client.get("/users/")
     assert response.status_code == status.HTTP_200_OK
     data = response.json()
-    assert len(data) == 1
     assert data[0]["email"] == "jane@example.com"
 
 
@@ -52,7 +51,7 @@ def test_put(client, user_id):
         "email": "jane_modified@example.com",
         "first_name": "Jane",
         "last_name": "Brown",
-        "profession": [
+        "professions": [
             f"{TEST_SERVER_URL}professions/government-operational-research-service/",
             f"{TEST_SERVER_URL}professions/digital-data-and-technology-professions/",
         ],
