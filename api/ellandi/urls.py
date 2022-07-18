@@ -7,7 +7,7 @@ from drf_spectacular.views import (
     SpectacularSwaggerView,
 )
 
-from ellandi import auth, views
+from ellandi import auth
 from ellandi.registration.views import (
     create_one_time_login_view,
     first_log_in_view,
