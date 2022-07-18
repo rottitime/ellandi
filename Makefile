@@ -83,7 +83,7 @@ test-api:
 	docker-compose build tests-api && docker-compose run tests-api
 
 .PHONY: test-organogram
-test-api:
+test-organogram:
 	docker-compose build tests-organogram && docker-compose run tests-organogram
 
 .PHONY: check-migrations
