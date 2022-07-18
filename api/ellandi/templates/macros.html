@@ -31,8 +31,9 @@
 {%- endmacro %}
 
 {% macro select(form, name, label, options, empty_option=False) -%}
-  <div class="input-field">
-    <select>
+  <div>
+    <label>{{label}}</label>
+    <select class="browser-default">
       {% if empty_option %}
         <option value="" disabled selected>{{empty_option}}</option>
       {% endif %}
@@ -40,6 +41,5 @@
         <option value="{{option.value}}">{{option.text}}</option>
       {% endfor %}
     </select>
-    <label>{{label}}</label>
   </div>
 {%- endmacro %}

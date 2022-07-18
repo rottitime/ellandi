@@ -85,6 +85,7 @@ main.card-panel > header {
 
 .skill-picker {
   display: flex;
+  align-items: center;
 }
 
 .skill-picker .s2 {
@@ -93,6 +94,11 @@ main.card-panel > header {
   align-items: center;
   align-content: center;
   align-items: center;
+}
+
+.skill-picker .select-field  {
+  position: relative;
+  top: -16px;
 }
 
 .divider {
