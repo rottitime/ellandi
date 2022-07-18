@@ -1,14 +1,24 @@
 import { StandardRegisterProps } from '@/components/Form/Register/types'
 import GenericPage from '@/components/Layout/GenericPage'
 import Link from '@/components/UI/Link'
-import { Query, RegisterUser, RegisterUserResponse } from '@/service/types'
+import {
+  fetchContractTypes,
+  fetchCountries,
+  fetchFunctions,
+  fetchGrades,
+  fetchLanguages,
+  fetchProfessions,
+  Query,
+  RegisterUser,
+  RegisterUserResponse
+} from '@/service/api'
 import { createUser, updateUser } from '@/service/user'
 import { Alert, Fade, Typography } from '@mui/material'
 import { GetStaticPropsContext } from 'next'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
-import { ComponentType, FC, useEffect, useState } from 'react'
-import { useMutation, useQueryClient } from 'react-query'
+import { ComponentType, useEffect, useState } from 'react'
+import { dehydrate, QueryClient, useMutation, useQueryClient } from 'react-query'
 
 type Props = {
   stepNumber: number
@@ -52,7 +62,8 @@ const steps: Steps[] = [
   },
   {
     form: dynamic(() => import('@/components/Form/Register/PrimaryProfessionForm')),
-    title: 'Primary profession'
+    title: 'Primary profession',
+    skip: true
   },
   {
     form: dynamic(() => import('@/components/Form/Register/FunctionTypeForm')),
@@ -160,6 +171,14 @@ export async function getStaticProps(context: GetStaticPropsContext) {
   const stepInt = parseInt(step as string)
   const { title, nextUrl, skip } = steps[stepInt]
 
+  const queryClient = new QueryClient()
+  await queryClient.prefetchQuery(Query.Countries, fetchCountries)
+  await queryClient.prefetchQuery(Query.Grades, fetchGrades)
+  await queryClient.prefetchQuery(Query.Professions, fetchProfessions)
+  await queryClient.prefetchQuery(Query.Functions, fetchFunctions)
+  await queryClient.prefetchQuery(Query.ContractTypes, fetchContractTypes)
+  await queryClient.prefetchQuery(Query.Languages, fetchLanguages)
+
   return {
     props: {
       progress: Math.floor((stepInt / (steps.length + 1)) * 100),
@@ -167,7 +186,8 @@ export async function getStaticProps(context: GetStaticPropsContext) {
       title,
       backUrl: stepInt === 0 ? `/register` : `/register/step/${stepInt - 1}`,
       nextUrl: nextUrl || `/register/step/${stepInt + 1}`,
-      skip: !!skip
+      skip: !!skip,
+      dehydratedState: dehydrate(queryClient)
     } as Props
   }
 }
