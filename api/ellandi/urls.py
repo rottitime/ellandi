@@ -40,4 +40,4 @@ auth_urlpatterns = [
     path(r"logoutall/", knox.views.LogoutAllView.as_view(), name="logoutall"),
 ]
 
-urlpatterns = api_urlpatterns + admin_urlpatterns + schema_urlpatterns + page_urlpatterns + auth_urlpatterns
+urlpatterns = api_urlpatterns + admin_urlpatterns + schema_urlpatterns + auth_urlpatterns
