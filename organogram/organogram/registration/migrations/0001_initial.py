@@ -8,7 +8,7 @@ import django.utils.timezone
 from django.conf import settings
 from django.db import migrations, models
 
-import ellandi.registration.models
+import organogram.registration.models
 
 
 class Migration(migrations.Migration):
@@ -103,7 +103,7 @@ class Migration(migrations.Migration):
                 "abstract": False,
             },
             managers=[
-                ("objects", ellandi.registration.models.UserManager()),
+                ("objects", organogram.registration.models.UserManager()),
             ],
         ),
         migrations.CreateModel(

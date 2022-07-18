@@ -2,7 +2,7 @@
 
 from django.db import migrations, models
 
-import ellandi.registration.models
+import organogram.registration.models
 
 
 class Migration(migrations.Migration):
@@ -15,41 +15,41 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="user",
             name="created_at",
-            field=models.DateTimeField(default=ellandi.registration.models.now, editable=False),
+            field=models.DateTimeField(default=organogram.registration.models.now, editable=False),
         ),
         migrations.AlterField(
             model_name="user",
             name="modified_at",
-            field=models.DateTimeField(default=ellandi.registration.models.now, editable=False),
+            field=models.DateTimeField(default=organogram.registration.models.now, editable=False),
         ),
         migrations.AlterField(
             model_name="userlanguage",
             name="created_at",
-            field=models.DateTimeField(default=ellandi.registration.models.now, editable=False),
+            field=models.DateTimeField(default=organogram.registration.models.now, editable=False),
         ),
         migrations.AlterField(
             model_name="userlanguage",
             name="modified_at",
-            field=models.DateTimeField(default=ellandi.registration.models.now, editable=False),
+            field=models.DateTimeField(default=organogram.registration.models.now, editable=False),
         ),
         migrations.AlterField(
             model_name="userskill",
             name="created_at",
-            field=models.DateTimeField(default=ellandi.registration.models.now, editable=False),
+            field=models.DateTimeField(default=organogram.registration.models.now, editable=False),
         ),
         migrations.AlterField(
             model_name="userskill",
             name="modified_at",
-            field=models.DateTimeField(default=ellandi.registration.models.now, editable=False),
+            field=models.DateTimeField(default=organogram.registration.models.now, editable=False),
         ),
         migrations.AlterField(
             model_name="weberror",
             name="created_at",
-            field=models.DateTimeField(default=ellandi.registration.models.now, editable=False),
+            field=models.DateTimeField(default=organogram.registration.models.now, editable=False),
         ),
         migrations.AlterField(
             model_name="weberror",
             name="modified_at",
-            field=models.DateTimeField(default=ellandi.registration.models.now, editable=False),
+            field=models.DateTimeField(default=organogram.registration.models.now, editable=False),
         ),
     ]

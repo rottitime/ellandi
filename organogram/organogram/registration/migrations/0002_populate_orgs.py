@@ -7,7 +7,7 @@ from django.utils.text import slugify
 def populate_orgs(apps, schema_editor):
     Organisation = apps.get_model("registration", "Organisation")
     orgs = []
-    with open("ellandi/registration/migrations/0002_populate_orgs.txt") as file:
+    with open("organogram/registration/migrations/0002_populate_orgs.txt") as file:
         for line in file:
             line = line.strip()
             slug = slugify(line)

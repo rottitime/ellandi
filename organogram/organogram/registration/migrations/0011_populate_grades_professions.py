@@ -18,13 +18,13 @@ def populate_model(model, filename):
 
 def populate_grades(apps, schema_editor):
     Grade = apps.get_model("registration", "Grade")
-    filename = "ellandi/registration/migrations/0011_grades.txt"
+    filename = "organogram/registration/migrations/0011_grades.txt"
     populate_model(Grade, filename)
 
 
 def populate_professions(apps, schema_editor):
     Profession = apps.get_model("registration", "Profession")
-    filename = "ellandi/registration/migrations/0011_professions.txt"
+    filename = "organogram/registration/migrations/0011_professions.txt"
     populate_model(Profession, filename)
 
 

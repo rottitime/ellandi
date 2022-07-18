@@ -7,7 +7,7 @@ from django.utils.text import slugify
 def populate_countries(apps, schema_editor):
     Country = apps.get_model("registration", "Country")
     countries = []
-    filename = "ellandi/registration/migrations/0029_FCDO-geographical-names-index-Feb22.txt"
+    filename = "organogram/registration/migrations/0029_FCDO-geographical-names-index-Feb22.txt"
     with open(filename) as file:
         for line in file:
             name = line.strip()
