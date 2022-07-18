@@ -33,13 +33,13 @@ jobs:
       run: |
         make check-python-code
 
-    - name: Build Tests
+    - name: Run API Tests
       run: |
-        docker-compose build tests
+        make test-api
 
-    - name: Run Tests
+    - name: Run Organogram Tests
       run: |
-        docker-compose run tests
+        make test-organogram
 
   check_migrations:
     name: Check for missing migrations
