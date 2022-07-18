@@ -22,7 +22,7 @@ jobs:
       IMAGE_TAG: prod
       DOCKER_REPOSITORY: ghcr.io
       APP_NAME: digital-organogram
-      DOCKERFILE: docker/api/Dockerfile
+      DOCKERFILE: docker/organogram/Dockerfile
       DOCKER_IMAGE: digital-organogram
 
     steps:
