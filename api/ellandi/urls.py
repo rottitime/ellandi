@@ -34,11 +34,6 @@ admin_urlpatterns = [
     path("admin/", admin.site.urls),
 ]
 
-page_urlpatterns = [
-    path("page/", views.page_view, name="pages-index"),
-    path("page/<str:page_name>", views.page_view, name="pages"),
-]
-
 auth_urlpatterns = [
     path(r"login/", auth.LoginView.as_view(), name="login"),
     path(r"logout/", knox.views.LogoutView.as_view(), name="logout"),
