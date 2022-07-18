@@ -21,9 +21,9 @@ jobs:
     env:
       IMAGE_TAG: prod
       DOCKER_REPOSITORY: ghcr.io
-      APP_NAME: ellandi
+      APP_NAME: digital-organogram
       DOCKERFILE: docker/api/Dockerfile
-      DOCKER_IMAGE: ellandi
+      DOCKER_IMAGE: digital-organogram
 
     steps:
       - uses: actions/checkout@v3
@@ -52,7 +52,7 @@ jobs:
       IMAGE_TAG: latest
       DOCKER_REPOSITORY: ghcr.io
       CF_SPACE: prod
-      APP_NAME: ellandi
+      APP_NAME: digital-organogram
 
     steps:
       - name: Donwload CF CLI
