@@ -17,7 +17,6 @@ from ellandi.registration.views import (
 )
 
 api_urlpatterns = [
-    path("", views.page_view, name="pages-index"),
     path("", include(registration_router.urls)),
     path("register/", register_view, name="register"),
     path("skills/", skills_list_view, name="skills"),
