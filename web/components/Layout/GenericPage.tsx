@@ -187,7 +187,7 @@ const GenericPage: FC<Props> = ({ children, showPromo, title, footer, progress }
               {title}
             </Typography>
 
-            {progress && (
+            {!!progress && (
               <LinearProgress
                 variant="determinate"
                 value={progress}

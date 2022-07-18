@@ -15,6 +15,7 @@ type Props = {
   title: string
   backUrl: null | string
   nextUrl: string
+  progress: number
 }
 
 type Steps = {
@@ -123,9 +124,10 @@ RegisterPage.getLayout = (page) => {
   return (
     <GenericPage
       title={props.title}
+      progress={props.progress}
       footer={
         <Typography>
-          <Link href={props.nextUrl}>Skip this step</Link>
+          <Link href={props.nextUrl}>Skip this step </Link>
         </Typography>
       }
     >
@@ -148,6 +150,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 
   return {
     props: {
+      progress: Math.floor((stepInt / (steps.length + 1)) * 100),
       stepNumber: stepInt,
       title,
       backUrl: stepInt === 0 ? `/register` : `/register/step/${stepInt - 1}`,
