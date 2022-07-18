@@ -24,7 +24,7 @@ def load_all_fixtures(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("registration", "0035_auto_20220713_1620"),
+        ("registration", "0001_initial"),
     ]
 
     operations = [migrations.RunPython(load_all_fixtures)]
