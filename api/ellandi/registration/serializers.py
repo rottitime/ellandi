@@ -97,7 +97,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
             "organisation",
             "job_title",
             "grade",
-            "profession",
+            "professions",
             "contract_type",
             "line_manager_email",
             "location",

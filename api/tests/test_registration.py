@@ -52,7 +52,7 @@ def test_put(client, user_id):
         "email": "jane_modified@example.com",
         "first_name": "Jane",
         "last_name": "Brown",
-        "profession": [
+        "professions": [
             f"{TEST_SERVER_URL}professions/government-operational-research-service/",
             f"{TEST_SERVER_URL}professions/digital-data-and-technology-professions/",
         ],
