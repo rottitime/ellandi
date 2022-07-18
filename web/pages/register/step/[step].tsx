@@ -1,9 +1,10 @@
 import { StandardRegisterProps } from '@/components/Form/Register/types'
 import GenericPage from '@/components/Layout/GenericPage'
+import Link from '@/components/UI/Link'
 import { Query, RegisterUser, RegisterUserResponse } from '@/service/types'
 import { createUser, updateUser } from '@/service/user'
-import { Alert, Fade } from '@mui/material'
-import { GetStaticPropsContext, NextPage } from 'next'
+import { Alert, Fade, Typography } from '@mui/material'
+import { GetStaticPropsContext } from 'next'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import { ComponentType, FC, useState } from 'react'
@@ -119,7 +120,18 @@ export default RegisterPage
 
 RegisterPage.getLayout = (page) => {
   const { props } = page
-  return <GenericPage title={props.title}>{page}</GenericPage>
+  return (
+    <GenericPage
+      title={props.title}
+      footer={
+        <Typography>
+          <Link href={props.nextUrl}>Skip this step</Link>
+        </Typography>
+      }
+    >
+      {page}
+    </GenericPage>
+  )
 }
 
 export async function getStaticPaths() {
@@ -130,9 +142,9 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps(context: GetStaticPropsContext) {
-  const { step, nextUrl } = context.params
+  const { step } = context.params
   const stepInt = parseInt(step as string)
-  const { title } = steps[stepInt]
+  const { title, nextUrl } = steps[stepInt]
 
   return {
     props: {
