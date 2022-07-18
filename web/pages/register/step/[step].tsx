@@ -127,7 +127,7 @@ RegisterPage.getLayout = (page) => {
       progress={props.progress}
       footer={
         <Typography>
-          <Link href={props.nextUrl}>Skip this step </Link>
+          <Link href={props.nextUrl}>Skip this step</Link>
         </Typography>
       }
     >
