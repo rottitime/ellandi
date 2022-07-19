@@ -57,13 +57,18 @@ docker:  ## Run python app in a docker container
 	docker-compose up --build --force-recreate --renew-anon-volumes
 
 define _update_requirements
-	docker-compose run requirements bash -c "pip install -U pip setuptools && pip install -U -r /app/api/$(1).txt && pip freeze > /app/api/$(1).lock"
+	docker-compose run requirements bash -c "pip install -U pip setuptools && pip install -U -r /app/$(1)/$(2).txt && pip freeze > /app/$(1)/$(2).lock"
 endef
 
 .PHONY: update-api-requirements
 update-api-requirements:
-	$(call _update_requirements,requirements)
-	$(call _update_requirements,requirements-dev)
+	$(call _update_requirements,api,requirements)
+	$(call _update_requirements,api,requirements-dev)
+
+.PHONY: update-organogram-requirements
+update-organogram-requirements:
+	$(call _update_requirements,organogram,requirements)
+	$(call _update_requirements,organogram,requirements-dev)
 
 # -------------------------------------- Code Style  -------------------------------------
 
@@ -73,9 +78,13 @@ check-python-code:
 	black --check .
 	flake8
 
-.PHONY: test-backend
-test-backend:
-	docker-compose build tests && docker-compose run tests
+.PHONY: test-api
+test-api:
+	docker-compose build tests-api && docker-compose run tests-api
+
+.PHONY: test-organogram
+test-organogram:
+	docker-compose build tests-organogram && docker-compose run tests-organogram
 
 .PHONY: check-migrations
 check-migrations:

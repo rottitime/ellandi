@@ -34,6 +34,21 @@ services:
     ports:
       - "3000:3000"
 
+  organogram:
+    build:
+      context: .
+      dockerfile: ./docker/organogram/Dockerfile
+    image: organogram
+    depends_on:
+      - postgres
+    env_file:
+      - ./.envs/organogram
+      - ./.envs/postgres
+    volumes:
+      - ./:/app/:z
+    ports:
+      - "9000:9000"
+
   postgres:
     image: postgres:13
     container_name: ellandi_postgres
@@ -54,11 +69,25 @@ services:
     profiles:
       - testing
 
-  tests:
+  tests-api:
     build:
       context: .
       dockerfile: ./docker/tests/Dockerfile
-    image: ellandi_tests
+      args:
+        APP: api
+    image: tests_api
+    env_file:
+      - ./.envs/tests
+    profiles:
+      - testing
+
+  tests-organogram:
+    build:
+      context: .
+      dockerfile: ./docker/tests/Dockerfile
+      args:
+        APP: organogram
+    image: tests_organogram
     env_file:
       - ./.envs/tests
     profiles:

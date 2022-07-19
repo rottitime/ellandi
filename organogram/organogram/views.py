@@ -4,7 +4,7 @@ from django.forms.models import model_to_dict
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
-from ellandi.registration import initial_data, models
+from organogram.registration import initial_data, models
 
 page_names = ("create-account", "your-details", "grade", "professions", "skills", "complete")
 
@@ -139,9 +139,17 @@ def professions_view(request, url_data):
     return render(request, "professions.html", {"form": form, "professions": professions, **url_data})
 
 
+def get_skills_choices():
+    skills = set(models.UserSkill.objects.all().values_list("skill_name", flat=True))
+    skills = initial_data.INITIAL_SKILLS.union(skills)
+    skills = tuple((skill, skill) for skill in skills)
+    return skills
+
+
 class SkillsForm(forms.Form):
-    skill = forms.ChoiceField(required=False, choices=[])
+    skill = forms.ChoiceField(required=False, choices=get_skills_choices)
     new_skill = forms.CharField(max_length=128, required=False)
+    level = forms.ChoiceField(required=False, choices=models.UserSkill.SkillLevel.choices)
     action = forms.CharField(max_length=128, required=False)
 
 
@@ -158,10 +166,10 @@ def skills_view(request, url_data):
         if form.is_valid():
             data = form.cleaned_data
             if data["new_skill"]:
-                skill = models.UserSkill(user=user, skill_name=data["new_skill"])
+                skill = models.UserSkill(user=user, skill_name=data["new_skill"], level=data['level'])
                 skill.save()
             if data["skill"]:
-                skill = models.UserSkill(user=user, skill_name=data["skill"])
+                skill = models.UserSkill(user=user, skill_name=data["skill"], level=data['level'])
                 skill.save()
             if data["action"] == "add-skill":
                 return redirect(url_data["this_url"])

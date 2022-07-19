@@ -1,11 +1,11 @@
 import testino
 
-from ellandi import wsgi
+from organogram import wsgi
 
 
 def test_resistration():
     agent = testino.WSGIAgent(wsgi.application, "http://testserver/")
-    page = agent.get("/page/create-account")
+    page = agent.get("/")
     assert page.status_code == 200, page.status_code
 
     assert page.has_one("h1:contains('Create an account')")

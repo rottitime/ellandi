@@ -3,8 +3,5 @@ djangorestframework
 django-environ
 psycopg2
 watchdog[watchmedo]
-drf-spectacular
 jinja2
 whitenoise
-django-cors-headers
-django-rest-knox

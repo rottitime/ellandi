@@ -7,7 +7,7 @@ from drf_spectacular.views import (
     SpectacularSwaggerView,
 )
 
-from ellandi import auth, views
+from ellandi import auth
 from ellandi.registration.views import (
     create_one_time_login_view,
     first_log_in_view,
@@ -34,15 +34,10 @@ admin_urlpatterns = [
     path("admin/", admin.site.urls),
 ]
 
-page_urlpatterns = [
-    path("page/", views.page_view, name="pages-index"),
-    path("page/<str:page_name>", views.page_view, name="pages"),
-]
-
 auth_urlpatterns = [
     path(r"login/", auth.LoginView.as_view(), name="login"),
     path(r"logout/", knox.views.LogoutView.as_view(), name="logout"),
     path(r"logoutall/", knox.views.LogoutAllView.as_view(), name="logoutall"),
 ]
 
-urlpatterns = api_urlpatterns + admin_urlpatterns + schema_urlpatterns + page_urlpatterns + auth_urlpatterns
+urlpatterns = api_urlpatterns + admin_urlpatterns + schema_urlpatterns + auth_urlpatterns
