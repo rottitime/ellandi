@@ -4,6 +4,7 @@ from django.forms.models import model_to_dict
 from django.http import Http404
 from django.shortcuts import redirect, render
 from django.urls import reverse
+from django.utils.text import slugify
 
 from organogram.registration import initial_data, models
 
@@ -20,8 +21,11 @@ def register(name):
     return _inner
 
 
-def get_values(model):
-    values = tuple({"value": item.slug, "text": item.name} for item in model.objects.all())
+def get_values(model, query_kwargs=None):
+    query = model.objects.all()
+    if query_kwargs:
+        query = query.filter(**query_kwargs)
+    values = tuple({"value": item.slug, "text": item.name} for item in query.all())
     return values
 
 
@@ -125,11 +129,12 @@ def grade_view(request, url_data):
 
 class ProfessionsForm(forms.Form):
     professions = forms.MultipleChoiceField(required=False, choices=lambda: get_choices(models.Profession))
+    other = forms.CharField(max_length=128, required=False)
 
 
 @register("professions")
 def professions_view(request, url_data):
-    professions = get_values(models.Profession)
+    professions = get_values(models.Profession, query_kwargs={'show': True})
     if request.method == "POST":
         form = ProfessionsForm(request.POST)
         if form.is_valid():
@@ -137,6 +142,13 @@ def professions_view(request, url_data):
             user = request.user
             for value in data["professions"]:
                 profession = models.Profession.objects.get(pk=value)
+                user.professions.add(profession)
+            if data['other']:
+                profession = models.Profession(
+                    name=data['other'],
+                    show=False,
+                )
+                profession.save()
                 user.professions.add(profession)
             user.save()
             return redirect(url_data["next_url"])

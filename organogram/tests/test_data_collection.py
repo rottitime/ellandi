@@ -1,7 +1,10 @@
 import testino
 from nose.tools import assert_raises
 
+from django.contrib.auth import get_user_model
+
 from organogram import wsgi
+from organogram.registration import models
 
 
 def test_favicon():
@@ -121,7 +124,15 @@ def test_resistration():
     form = page.get_form()
     form.check("Government Economic Service")
     form.check("Policy Profession")
+    form['other'] = "Flibbler"
 
     page = form.submit().follow()
     assert page.status_code == 200, page.status_code
     assert page.has_one("h1:contains('Current skills')")
+
+    user = get_user_model().objects.get(email="bob@example.com")
+    other_profession = models.Profession.objects.get(slug="flibbler")
+    assert other_profession in user.professions.all()
+
+    page = page.click(contains="Back")
+    assert not page.has_text("Flibbler")

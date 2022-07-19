@@ -1,4 +1,4 @@
-{% from 'macros.html' import checkboxes %}
+{% from 'macros.html' import checkboxes, input %}
 
 {% extends "base.html" %}
 
@@ -17,6 +17,8 @@
       {{csrf_input}}
 
       {{checkboxes(form, 'professions', professions)}}
+
+      {{input(form, 'other', "Other")}}
 
       <div class="buttons">
         <a class="btn waves-effect waves-light btn-small" href="{{prev_url}}">
