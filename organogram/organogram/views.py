@@ -203,3 +203,5 @@ def page_view(request, page_name="create-account"):
             "next_url": next_url,
         }
         return view_map[page_name](request, url_data)
+    else:
+        raise Http404()
