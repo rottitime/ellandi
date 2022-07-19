@@ -194,5 +194,12 @@
     },
     "model": "registration.profession",
     "pk": "project-delivery-profession"
+  },
+  {
+    "fields": {
+      "name": "No Profession"
+    },
+    "model": "registration.profession",
+    "pk": "project-delivery-profession"
   }
 ]
