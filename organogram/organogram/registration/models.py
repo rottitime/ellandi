@@ -58,7 +58,7 @@ class Language(DropDownListModel):
 
 
 class Profession(DropDownListModel):
-    pass
+    show = models.BooleanField(default=False, blank=False, null=False)
 
 
 class Grade(DropDownListModel):
