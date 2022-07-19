@@ -127,6 +127,7 @@ class RegistrationAbstractUser(models.Model):
 
     organisation = models.CharField(max_length=128, blank=True, null=True)
     business_unit = models.CharField(max_length=128, blank=True, null=True)
+    sub_unit = models.CharField(max_length=128, blank=True, null=True)
     team = models.CharField(max_length=128, blank=True, null=True)
     job_title = models.CharField(max_length=128, blank=True, null=True)
     grade = models.CharField(max_length=127, blank=True, null=False)
