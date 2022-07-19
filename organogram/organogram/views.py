@@ -183,10 +183,6 @@ def skills_view(request, url_data):
 
 
 def page_view(request, page_name="create-account"):
-    grades = get_values(models.Grade)
-    professions = get_values(models.Profession)
-    contract_types = get_values(models.ContractType)
-    languages = get_values(models.Language)
     if page_name not in page_names:
         raise Http404()
 
@@ -207,18 +203,3 @@ def page_view(request, page_name="create-account"):
             "next_url": next_url,
         }
         return view_map[page_name](request, url_data)
-
-    return render(
-        request,
-        template_name=f"{page_name}.html",
-        context={
-            "grades": grades,
-            "professions": professions,
-            "contract_types": contract_types,
-            "languages": languages,
-            "prev_page": prev_page,
-            "next_page": next_page,
-            "prev_url": prev_url,
-            "next_url": next_url,
-        },
-    )
