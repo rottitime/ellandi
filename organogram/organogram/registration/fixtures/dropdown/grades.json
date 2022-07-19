@@ -1,35 +1,43 @@
 [
   {
     "fields": {
-      "name": "Administrative Assistant (AA) Equivalent",
-      "order": 1
-    },
-    "model": "registration.grade",
-    "pk": "administrative-assistant-aa-equivalent"
-  },
-  {
-    "fields": {
-      "name": "Administrative Officer (AO) Equivalent",
+      "name": "Administrative Officer Equivalent",
       "order": 0
     },
     "model": "registration.grade",
-    "pk": "administrative-officer-ao-equivalent"
+    "pk": "administrative-officer-equivalent"
   },
   {
     "fields": {
-      "name": "Executive Officer (EO) Equivalent",
+      "name": "Administrative Assistant Equivalent",
+      "order": 1
+    },
+    "model": "registration.grade",
+    "pk": "administrative-assistant-equivalent"
+  },
+  {
+    "fields": {
+      "name": "Executive Officer Equivalent",
       "order": 2
     },
     "model": "registration.grade",
-    "pk": "executive-officer-eo-equivalent"
+    "pk": "executive-officer-equivalent"
   },
   {
     "fields": {
-      "name": "Grade 6 Equivalent",
-      "order": 6
+      "name": "Higher Executive Officer Equivalent",
+      "order": 3
     },
     "model": "registration.grade",
-    "pk": "grade-6-equivalent"
+    "pk": "higher-executive-officer-equivalent"
+  },
+  {
+    "fields": {
+      "name": "Senior Executive Officer Equivalent",
+      "order": 4
+    },
+    "model": "registration.grade",
+    "pk": "senior-executive-officer-equivalent"
   },
   {
     "fields": {
@@ -41,43 +49,35 @@
   },
   {
     "fields": {
-      "name": "Higher Executive Officer (HEO) Equivalent",
-      "order": 3
+      "name": "Grade 6 Equivalent",
+      "order": 6
     },
     "model": "registration.grade",
-    "pk": "higher-executive-officer-heo-equivalent"
+    "pk": "grade-6-equivalent"
   },
   {
     "fields": {
-      "name": "Other",
-      "order": 11
-    },
-    "model": "registration.grade",
-    "pk": "other"
-  },
-  {
-    "fields": {
-      "name": "Senior Civil Servant - Deputy Director (PB1/1A)",
+      "name": "Senior Civil Servant - Deputy Director",
       "order": 7
     },
     "model": "registration.grade",
-    "pk": "senior-civil-servant-deputy-director-pb11a"
+    "pk": "senior-civil-servant-deputy-director"
   },
   {
     "fields": {
-      "name": "Senior Civil Servant - Director General (PB3)",
-      "order": 9
-    },
-    "model": "registration.grade",
-    "pk": "senior-civil-servant-director-general-pb3"
-  },
-  {
-    "fields": {
-      "name": "Senior Civil Servant - Director (PB2)",
+      "name": "Senior Civil Servant - Director",
       "order": 8
     },
     "model": "registration.grade",
-    "pk": "senior-civil-servant-director-pb2"
+    "pk": "senior-civil-servant-director"
+  },
+  {
+    "fields": {
+      "name": "Senior Civil Servant - Director General",
+      "order": 9
+    },
+    "model": "registration.grade",
+    "pk": "senior-civil-servant-director-general"
   },
   {
     "fields": {
@@ -89,10 +89,10 @@
   },
   {
     "fields": {
-      "name": "Senior Executive Officer (SEO) Equivalent",
-      "order": 4
+      "name": "Other",
+      "order": 11
     },
     "model": "registration.grade",
-    "pk": "senior-executive-officer-seo-equivalent"
+    "pk": "other"
   }
 ]
