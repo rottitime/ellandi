@@ -1,6 +1,13 @@
+from nose.tools import assert_raises
 import testino
 
 from organogram import wsgi
+
+
+def test_favicon():
+    agent = testino.WSGIAgent(wsgi.application, "http://testserver/")
+    with assert_raises(testino.NotFound):
+        agent.get("/favicon.ico")
 
 
 def test_resistration():

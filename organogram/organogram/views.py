@@ -3,6 +3,7 @@ from django.contrib.auth import login
 from django.forms.models import model_to_dict
 from django.shortcuts import redirect, render
 from django.urls import reverse
+from django.http import Http404
 
 from organogram.registration import initial_data, models
 
@@ -186,7 +187,8 @@ def page_view(request, page_name="create-account"):
     professions = get_values(models.Profession)
     contract_types = get_values(models.ContractType)
     languages = get_values(models.Language)
-    assert page_name in page_names
+    if page_name not in page_names:
+        raise Http404()
 
     index = page_names.index(page_name)
     prev_page = index and page_names[index - 1] or None
