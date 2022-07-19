@@ -76,6 +76,9 @@ class YourDetailsForm(forms.Form):
     last_name = forms.CharField(max_length=128, required=False)
     first_name = forms.CharField(max_length=128, required=False)
     job_title = forms.CharField(max_length=128, required=False)
+    business_unit = forms.CharField(max_length=128, required=False)
+    sub_unit = forms.CharField(max_length=128, required=False)
+    team = forms.CharField(max_length=128, required=False)
     line_manager_email = forms.CharField(max_length=128, required=False)
 
 

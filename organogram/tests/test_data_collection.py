@@ -85,6 +85,9 @@ def test_resistration():
     form["first_name"] = "Mr"
     form["last_name"] = "Flibble"
     form["job_title"] = "Stuff doer"
+    form["business_unit"] = "My Business Unit"
+    form["sub_unit"] = "My Sub Unit"
+    form["team"] = "The Cool Kids"
     form["line_manager_email"] = "boss@example.com"
 
     page = form.submit().follow()
@@ -99,6 +102,9 @@ def test_resistration():
     assert form["first_name"] == "Mr"
     assert form["last_name"] == "Flibble"
     assert form["job_title"] == "Stuff doer"
+    assert form["business_unit"] == "My Business Unit"
+    assert form["sub_unit"] == "My Sub Unit"
+    assert form["team"] == "The Cool Kids"
     assert form["line_manager_email"] == "boss@example.com"
 
     page = form.submit().follow()
