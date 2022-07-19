@@ -208,4 +208,13 @@ def page_view(request, page_name="create-account"):
         }
         return view_map[page_name](request, url_data)
     else:
-        raise Http404()
+        return render(
+            request,
+            template_name=f"{page_name}.html",
+            context={
+                "prev_page": prev_page,
+                "next_page": next_page,
+                "prev_url": prev_url,
+                "next_url": next_url,
+            },
+        )
