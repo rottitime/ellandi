@@ -19,7 +19,7 @@ SECRET_KEY = "django-insecure-&3_9ebzl!$@-vv=v=u@6h=lm@abd69u&cfs4lj0ml0v$thw*f3
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "organogram.london.cloudapps.digital",
+    "digital-organogram.london.cloudapps.digital",
     "localhost",
     "127.0.0.1",
     "testserver",

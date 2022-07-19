@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      IMAGE_TAG: prod
+      IMAGE_TAG: latest
       DOCKER_REPOSITORY: ghcr.io
       APP_NAME: digital-organogram
       DOCKER_FILE: docker/organogram/Dockerfile
