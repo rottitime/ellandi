@@ -139,8 +139,15 @@ def professions_view(request, url_data):
     return render(request, "professions.html", {"form": form, "professions": professions, **url_data})
 
 
+def get_skills_choices():
+    skills = set(models.UserSkill.objects.all().values_list("skill_name", flat=True))
+    skills = initial_data.INITIAL_SKILLS.union(skills)
+    skills = tuple((skill, skill) for skill in skills)
+    return skills
+
+
 class SkillsForm(forms.Form):
-    skill = forms.ChoiceField(required=False, choices=[])
+    skill = forms.ChoiceField(required=False, choices=get_skills_choices)
     new_skill = forms.CharField(max_length=128, required=False)
     action = forms.CharField(max_length=128, required=False)
 
