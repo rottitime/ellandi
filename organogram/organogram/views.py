@@ -149,6 +149,7 @@ def get_skills_choices():
 class SkillsForm(forms.Form):
     skill = forms.ChoiceField(required=False, choices=get_skills_choices)
     new_skill = forms.CharField(max_length=128, required=False)
+    level = forms.ChoiceField(required=False, choices=models.UserSkill.SkillLevel.choices)
     action = forms.CharField(max_length=128, required=False)
 
 
@@ -165,10 +166,10 @@ def skills_view(request, url_data):
         if form.is_valid():
             data = form.cleaned_data
             if data["new_skill"]:
-                skill = models.UserSkill(user=user, skill_name=data["new_skill"])
+                skill = models.UserSkill(user=user, skill_name=data["new_skill"], level=data['level'])
                 skill.save()
             if data["skill"]:
-                skill = models.UserSkill(user=user, skill_name=data["skill"])
+                skill = models.UserSkill(user=user, skill_name=data["skill"], level=data['level'])
                 skill.save()
             if data["action"] == "add-skill":
                 return redirect(url_data["this_url"])
