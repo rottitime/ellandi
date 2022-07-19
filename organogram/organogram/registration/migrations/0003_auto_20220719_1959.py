@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('registration', '0002_loaddata_fixtures'),
+        ("registration", "0002_loaddata_fixtures"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='user',
-            name='business_unit',
+            model_name="user",
+            name="business_unit",
             field=models.CharField(blank=True, max_length=128, null=True),
         ),
         migrations.AddField(
-            model_name='user',
-            name='team',
+            model_name="user",
+            name="team",
             field=models.CharField(blank=True, max_length=128, null=True),
         ),
     ]
