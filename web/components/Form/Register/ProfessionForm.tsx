@@ -17,10 +17,10 @@ const List = styled(Stack)`
   }
 `
 
-const fieldName = 'profession'
+const fieldName: keyof ProfessionType = 'professions'
 
 const schema: SchemaOf<ProfessionType> = object().shape({
-  profession: array().of(string()).min(1, 'This is a required field')
+  professions: array().of(string()).min(1, 'This is a required field')
 })
 
 const ProfessionForm: FC<StandardRegisterProps<ProfessionType>> = ({
@@ -28,7 +28,7 @@ const ProfessionForm: FC<StandardRegisterProps<ProfessionType>> = ({
   onFormSubmit,
   loading,
   defaultValues = {
-    profession: []
+    professions: []
   }
 }) => {
   const {
