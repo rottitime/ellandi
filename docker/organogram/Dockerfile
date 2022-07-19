@@ -18,6 +18,6 @@ COPY . /app
 
 WORKDIR /app/organogram
 
-EXPOSE 8000
+EXPOSE 9000
 
 CMD ["sh","/start.sh"]
