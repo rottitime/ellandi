@@ -12,7 +12,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-&3_9ebzl!$@-vv=v=u@6h=lm@abd69u&cfs4lj0ml0v$thw*f3"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool("DEBUG", default=False)
 
 ALLOWED_HOSTS = [
     "digital-organogram.london.cloudapps.digital",
