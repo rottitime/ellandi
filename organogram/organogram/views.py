@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth import login
 from django.forms.models import model_to_dict
+from django.http import Http404
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
@@ -48,6 +49,10 @@ class CreateAccountForm(forms.Form):
 
         if email != email_confirm:
             self.add_error("email_confirm", "Email does not match")
+
+        email_exists = models.User.objects.filter(email=email).exists()
+        if email_exists:
+            self.add_error("email", "There is already a user with that email")
 
         return cleaned_data
 
@@ -166,10 +171,10 @@ def skills_view(request, url_data):
         if form.is_valid():
             data = form.cleaned_data
             if data["new_skill"]:
-                skill = models.UserSkill(user=user, skill_name=data["new_skill"], level=data['level'])
+                skill = models.UserSkill(user=user, skill_name=data["new_skill"], level=data["level"])
                 skill.save()
             if data["skill"]:
-                skill = models.UserSkill(user=user, skill_name=data["skill"], level=data['level'])
+                skill = models.UserSkill(user=user, skill_name=data["skill"], level=data["level"])
                 skill.save()
             if data["action"] == "add-skill":
                 return redirect(url_data["this_url"])
@@ -182,11 +187,8 @@ def skills_view(request, url_data):
 
 
 def page_view(request, page_name="create-account"):
-    grades = get_values(models.Grade)
-    professions = get_values(models.Profession)
-    contract_types = get_values(models.ContractType)
-    languages = get_values(models.Language)
-    assert page_name in page_names
+    if page_name not in page_names:
+        raise Http404()
 
     index = page_names.index(page_name)
     prev_page = index and page_names[index - 1] or None
@@ -205,18 +207,14 @@ def page_view(request, page_name="create-account"):
             "next_url": next_url,
         }
         return view_map[page_name](request, url_data)
-
-    return render(
-        request,
-        template_name=f"{page_name}.html",
-        context={
-            "grades": grades,
-            "professions": professions,
-            "contract_types": contract_types,
-            "languages": languages,
-            "prev_page": prev_page,
-            "next_page": next_page,
-            "prev_url": prev_url,
-            "next_url": next_url,
-        },
-    )
+    else:
+        return render(
+            request,
+            template_name=f"{page_name}.html",
+            context={
+                "prev_page": prev_page,
+                "next_page": next_page,
+                "prev_url": prev_url,
+                "next_url": next_url,
+            },
+        )
