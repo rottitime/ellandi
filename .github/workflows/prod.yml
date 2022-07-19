@@ -51,6 +51,7 @@ jobs:
       DOCKER_REPOSITORY: ghcr.io
       CF_SPACE: prod
       APP_NAME: digital-organogram
+      DOCKER_IMAGE: digital-organogram
 
     steps:
       - name: Donwload CF CLI
