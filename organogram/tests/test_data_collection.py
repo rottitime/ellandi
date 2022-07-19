@@ -47,7 +47,7 @@ def test_resistration():
     assert page.has_one("h1:contains('Create an account')")
 
     form = page.get_form()
-    form["email"] = "ed@example.com"
+    form["email"] = "bob@example.com"
     form["email_confirm"] = "fred@example.com"
     form["password"] = "foo"
     form["password_confirm"] = "boo"
@@ -58,12 +58,12 @@ def test_resistration():
     assert page.has_one("span[data-error='Password does not match']")
 
     form = page.get_form()
-    assert form["email"] == "ed@example.com"
+    assert form["email"] == "bob@example.com"
     assert form["email_confirm"] == "fred@example.com"
     assert form["password"] == "foo"
     assert form["password_confirm"] == "boo"
 
-    form["email_confirm"] = "ed@example.com"
+    form["email_confirm"] = "bob@example.com"
     form["password_confirm"] = "foo"
 
     page = form.submit().follow()
