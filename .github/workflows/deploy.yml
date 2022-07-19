@@ -20,76 +20,76 @@ jobs:
   get_space:
     runs-on: ubuntu-latest
     env:
-      SPACE: ${{ github.head_ref }}
+      SPACE: ${{ github.ref_name }}
     steps:
       - name: "Echo the Space"
         run: |
           echo "Space is $SPACE"
 
-  push_images:
-    runs-on: ubuntu-latest
+  # push_images:
+  #   runs-on: ubuntu-latest
 
-    env:
-      IMAGE_TAG: latest
-      DOCKER_REPOSITORY: ghcr.io
-      NODE_ENV: development
-      NEXT_PUBLIC_API_URL: https://ellandi-api-sandbox.london.cloudapps.digital
+  #   env:
+  #     IMAGE_TAG: latest
+  #     DOCKER_REPOSITORY: ghcr.io
+  #     NODE_ENV: development
+  #     NEXT_PUBLIC_API_URL: https://ellandi-api-sandbox.london.cloudapps.digital
 
-    strategy:
-      matrix:
-        app: [ellandi-api, ellandi-web, organogram]
-        include:
-          - app: ellandi-api
-            dockerfile: docker/api/Dockerfile
-          - app: ellandi-web
-            dockerfile: docker/web/Dockerfile
-          - app: organogram
-            dockerfile: docker/organogram/Dockerfile
+  #   strategy:
+  #     matrix:
+  #       app: [ellandi-api, ellandi-web, organogram]
+  #       include:
+  #         - app: ellandi-api
+  #           dockerfile: docker/api/Dockerfile
+  #         - app: ellandi-web
+  #           dockerfile: docker/web/Dockerfile
+  #         - app: organogram
+  #           dockerfile: docker/organogram/Dockerfile
 
-    steps:
-      - uses: actions/checkout@v3
+  #   steps:
+  #     - uses: actions/checkout@v3
 
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+  #     - name: Login to GitHub Container Registry
+  #       uses: docker/login-action@v2
+  #       with:
+  #         registry: ghcr.io
+  #         username: ${{ github.actor }}
+  #         password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build, tag, and push ${{ matrix.app }} image
-        env:
-          DOCKER_FILE: ${{ matrix.dockerfile }}
-          DOCKER_IMAGE: ${{ matrix.app }}
+  #     - name: Build, tag, and push ${{ matrix.app }} image
+  #       env:
+  #         DOCKER_FILE: ${{ matrix.dockerfile }}
+  #         DOCKER_IMAGE: ${{ matrix.app }}
 
-        run: |
-          docker build . --file $DOCKER_FILE --tag $DOCKER_REPOSITORY/${{ github.repository_owner }}/$DOCKER_IMAGE:$IMAGE_TAG --build-arg NODE_ENV=$NODE_ENV --build-arg NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
-          docker push -a $DOCKER_REPOSITORY/${{ github.repository_owner }}/$DOCKER_IMAGE
+  #       run: |
+  #         docker build . --file $DOCKER_FILE --tag $DOCKER_REPOSITORY/${{ github.repository_owner }}/$DOCKER_IMAGE:$IMAGE_TAG --build-arg NODE_ENV=$NODE_ENV --build-arg NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+  #         docker push -a $DOCKER_REPOSITORY/${{ github.repository_owner }}/$DOCKER_IMAGE
 
-  deploy_sandbox:
-    needs: [push_images]
+  # deploy_sandbox:
+  #   needs: [push_images]
 
-    runs-on: ubuntu-latest
+  #   runs-on: ubuntu-latest
 
-    env:
-      IMAGE_TAG: latest
-      DOCKER_REPOSITORY: ghcr.io
-      CF_SPACE: sandbox
+  #   env:
+  #     IMAGE_TAG: latest
+  #     DOCKER_REPOSITORY: ghcr.io
+  #     CF_SPACE: sandbox
 
-    strategy:
-      matrix:
-        app: [ellandi-api, ellandi-web, organogram]
+  #   strategy:
+  #     matrix:
+  #       app: [ellandi-api, ellandi-web, organogram]
 
-    steps:
-      - name: Donwload CF CLI
-        run: curl -L "https://packages.cloudfoundry.org/stable?release=linux64-binary&version=v7&source=github" | tar -zx
+  #   steps:
+  #     - name: Donwload CF CLI
+  #       run: curl -L "https://packages.cloudfoundry.org/stable?release=linux64-binary&version=v7&source=github" | tar -zx
 
-      - name: CF login
-        run: ./cf login -a api.london.cloud.service.gov.uk -u "${{ secrets.CF_USER }}" -p "${{ secrets.CF_PASSWORD }}" -o co-i-ai -s "$CF_SPACE"
+  #     - name: CF login
+  #       run: ./cf login -a api.london.cloud.service.gov.uk -u "${{ secrets.CF_USER }}" -p "${{ secrets.CF_PASSWORD }}" -o co-i-ai -s "$CF_SPACE"
 
-      - name: CF push ${{ matrix.app }}
-        env:
-          CF_PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
-          CF_PAT_TOKEN_USER: ${{ secrets.PAT_TOKEN_USER }}
-          DOCKER_FILE: ${{ matrix.dockerfile }}
-          DOCKER_IMAGE: ${{ matrix.app }}
-        run: CF_DOCKER_PASSWORD="$CF_PAT_TOKEN" ./cf push "${{ matrix.app }}-sandbox" --docker-image $DOCKER_REPOSITORY/${{ github.repository_owner }}/$DOCKER_IMAGE:$IMAGE_TAG --docker-username=$CF_PAT_TOKEN_USER
+  #     - name: CF push ${{ matrix.app }}
+  #       env:
+  #         CF_PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+  #         CF_PAT_TOKEN_USER: ${{ secrets.PAT_TOKEN_USER }}
+  #         DOCKER_FILE: ${{ matrix.dockerfile }}
+  #         DOCKER_IMAGE: ${{ matrix.app }}
+  #       run: CF_DOCKER_PASSWORD="$CF_PAT_TOKEN" ./cf push "${{ matrix.app }}-sandbox" --docker-image $DOCKER_REPOSITORY/${{ github.repository_owner }}/$DOCKER_IMAGE:$IMAGE_TAG --docker-username=$CF_PAT_TOKEN_USER
