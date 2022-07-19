@@ -32,8 +32,8 @@
 
 {% macro select(form, name, label, options, empty_option=False) -%}
   <div>
-    <label>{{label}}</label>
-    <select class="browser-default">
+    <label for="{{name}}">{{label}}</label>
+    <select name="{{name}}" id="{{name}}">
       {% if empty_option %}
         <option value="" disabled selected>{{empty_option}}</option>
       {% endif %}
