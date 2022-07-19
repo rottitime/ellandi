@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("registration", "0002_loaddata_fixtures"),
+        ("registration", "0001_initial"),
     ]
 
     operations = [
