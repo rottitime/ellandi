@@ -20,7 +20,7 @@ jobs:
   get_space:
     runs-on: ubuntu-latest
     env:
-      SPACE: ${{ github.GITHUB_HEAD_NAME }}
+      SPACE: $GITHUB_HEAD_NAME
     steps:
       - name: "Echo the Space"
         run: |
