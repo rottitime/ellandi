@@ -32,6 +32,7 @@
       "files": ["**/__tests__/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[jt]s?(x)"],
       "extends": ["plugin:testing-library/react"],
       "rules": {
+        "react/display-name": 0,
         "testing-library/no-container": 0,
         "testing-library/no-container": "warn",
         "testing-library/no-node-access": "warn"
