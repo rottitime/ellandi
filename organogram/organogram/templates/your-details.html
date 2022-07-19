@@ -11,6 +11,8 @@
       <h1>Your details</h1>
     </header>
 
+    <p>Please enter the details for the role you are currently operating in</p>
+
     <form method="POST">
 
       {{csrf_input}}
@@ -22,8 +24,6 @@
       <div class="row">
         {{input(form, name='last_name', label='Last name')}}
       </div>
-
-      <p>Please enter the details for the role you are currently operating in</p>
 
       <div class="row">
         {{input(form, name='job_title', label='Job title')}}
