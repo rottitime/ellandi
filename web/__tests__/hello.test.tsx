@@ -3,7 +3,7 @@ import Home from '@/pages/hello'
 import '@testing-library/jest-dom'
 import userEvent from '@testing-library/user-event'
 import Router from 'next/router'
-import { renderWithProviders, renderWithProviders2 } from '@/lib/test-utils'
+import { renderWithProviders } from '@/lib/test-utils'
 
 jest.mock('next/router', () => ({ push: jest.fn() }))
 

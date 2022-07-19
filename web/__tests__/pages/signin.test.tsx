@@ -1,31 +1,56 @@
-import { screen } from '@testing-library/react'
+import { screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import SigninPage from '@/pages/signin'
-import { renderWithProviders } from '@/lib/test-utils'
 import fetchMock from 'jest-fetch-mock'
+import Router from 'next/router'
+import { Props } from '@/components/Form/SignInForm/types'
+import { renderWithProviders } from '@/lib/test-utils'
+
+jest.mock('next/router', () => ({ push: jest.fn() }))
+
+jest.mock('@/components/Form/SignInForm/SignInForm', () => (props: Props) => (
+  <button
+    data-testid="mock-form-button"
+    onClick={() => {
+      props.onFormSubmit({ email: 'test@test.com', password: 'test123' })
+    }}
+  />
+))
 
 describe('Page: Sign in', () => {
-  it('renders', () => {
-    renderWithProviders(<SigninPage />)
-
-    expect(screen.getByRole('button', { name: /Sign in/i })).toBeInTheDocument()
-    expect(screen.getByTestId('textfield_email')).toBeInTheDocument()
-    expect(screen.getByTestId('textfield_password')).toBeInTheDocument()
+  afterEach(() => {
+    fetchMock.resetMocks()
   })
 
-  it('submits', async () => {
+  it('redirects on success', async () => {
     fetchMock.mockResponseOnce(JSON.stringify({ expiry: '1', token: '1' }), {
       status: 200
     })
-
     renderWithProviders(<SigninPage />)
-    const button = screen.getByRole('button', { name: /Sign in/i })
-    const inputEmail = screen.getByTestId('textfield_email')
-    const inputPassword = screen.getByTestId('textfield_password')
-    userEvent.type(inputEmail, 'test@test.com')
-    userEvent.type(inputPassword, 'mypassword123')
 
-    userEvent.click(button)
-    //TODO: spy on router push
+    const submitButton = screen.getByTestId('mock-form-button')
+
+    expect(submitButton).toBeVisible()
+
+    userEvent.click(submitButton)
+
+    await waitFor(async () => {
+      expect(Router.push).toHaveBeenCalledWith('/account')
+    })
+  })
+
+  it('shows server error', async () => {
+    fetchMock.mockResponseOnce(JSON.stringify({ detail: 'message from server' }), {
+      status: 400
+    })
+    renderWithProviders(<SigninPage />)
+    const submitButton = screen.getByTestId('mock-form-button')
+    userEvent.click(submitButton)
+
+    await waitFor(async () => {
+      expect(screen.getByText('Error: message from server')).toBeInTheDocument()
+    })
+
+    expect(Router.push).not.toHaveBeenCalled()
   })
 })
