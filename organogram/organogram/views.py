@@ -50,6 +50,10 @@ class CreateAccountForm(forms.Form):
         if email != email_confirm:
             self.add_error("email_confirm", "Email does not match")
 
+        email_exists = models.User.objects.filter(email=email).exists()
+        if email_exists:
+            self.add_error("email", "There is already a user with that email")
+
         return cleaned_data
 
 

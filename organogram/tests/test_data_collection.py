@@ -9,6 +9,33 @@ def test_favicon():
     with assert_raises(testino.NotFound):
         agent.get("/favicon.ico")
 
+def _fill_in_user_form(agent):
+    page = agent.get("/")
+    assert page.status_code == 200, page.status_code
+
+    assert page.has_one("h1:contains('Create an account')")
+
+    form = page.get_form()
+    form["email"] = "bob1@example.com"
+    form["email_confirm"] = "bob1@example.com"
+    form["password"] = "foo"
+    form["password_confirm"] = "foo"
+
+    return form
+
+def test_duplicate_user():
+    agent = testino.WSGIAgent(wsgi.application, "http://testserver/")
+
+    form = _fill_in_user_form(agent)
+    page = form.submit().follow()
+    assert page.status_code == 200, page.status_code
+    assert page.has_one("h1:contains('Your details')")
+
+    form = _fill_in_user_form(agent)
+
+    page = form.submit()
+    assert page.has_one("span[data-error='There is already a user with that email']")
+
 
 def test_resistration():
     agent = testino.WSGIAgent(wsgi.application, "http://testserver/")
