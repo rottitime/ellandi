@@ -18,7 +18,7 @@ COPY . /app
 
 WORKDIR /app/organogram
 
-RUN DJANGO_SECRET_KEY="temp" python manage.py collectstatic --no-input
+RUN DJANGO_SECRET_KEY="temp" DATABASE_URL="temp" python manage.py collectstatic --no-input
 
 EXPOSE 9000
 
