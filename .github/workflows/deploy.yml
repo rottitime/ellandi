@@ -33,6 +33,7 @@ jobs:
       IMAGE_TAG: latest
       DOCKER_REPOSITORY: ghcr.io
       NODE_ENV: development
+      SPACE: ${{ github.ref_name }}
       NEXT_PUBLIC_API_URL: https://ellandi-api-$SPACE.london.cloudapps.digital
 
     strategy:
@@ -73,7 +74,7 @@ jobs:
     env:
       IMAGE_TAG: latest
       DOCKER_REPOSITORY: ghcr.io
-      CF_SPACE: $SPACE
+      CF_SPACE: ${{ github.ref_name }}
 
     strategy:
       matrix:
