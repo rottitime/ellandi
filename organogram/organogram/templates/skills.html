@@ -75,7 +75,7 @@
       {% for skill in user_skills %}
 
         <div class="chip">
-          {{skill.skill_name}}
+          {{skill.skill_name}}{{skill.level and ": "+skill.level}}
           <i class="close material-icons">close</i>
         </div>
 
