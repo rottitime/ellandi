@@ -1,4 +1,4 @@
-name: deploy ${{ github.repository_name }}
+name: deploy
 
 env:
   DOCKER_BUILDKIT: 1
@@ -15,7 +15,17 @@ permissions:
   id-token: write
   contents: read
 
+
 jobs:
+  get_space:
+    runs-on: ubuntu-latest
+    env:
+      SPACE: ${{ github.GITHUB_HEAD_REF }}
+    steps:
+      - name: "Echo the Space"
+        run: |
+          echo "Space is $SPACE"
+
   push_images:
     runs-on: ubuntu-latest
 
