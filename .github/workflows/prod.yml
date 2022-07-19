@@ -35,7 +35,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build, tag, and push ${{ APP_NAME }} image
+      - name: Build, tag, and push $APP_NAME image
         env:
           DOCKER_IMAGE: ${{ matrix.app }}
 
@@ -61,7 +61,7 @@ jobs:
       - name: CF login
         run: ./cf login -a api.london.cloud.service.gov.uk -u "${{ secrets.CF_USER }}" -p "${{ secrets.CF_PASSWORD }}" -o co-i-ai -s "$CF_SPACE"
 
-      - name: CF push ${{ APP_NAME }}
+      - name: CF push $APP_NAME
         env:
           CF_PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
           CF_PAT_TOKEN_USER: ${{ secrets.PAT_TOKEN_USER }}
