@@ -1,9 +1,9 @@
 from django import forms
 from django.contrib.auth import login
 from django.forms.models import model_to_dict
+from django.http import Http404
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from django.http import Http404
 
 from organogram.registration import initial_data, models
 

@@ -1,5 +1,5 @@
-from nose.tools import assert_raises
 import testino
+from nose.tools import assert_raises
 
 from organogram import wsgi
 
@@ -8,6 +8,7 @@ def test_favicon():
     agent = testino.WSGIAgent(wsgi.application, "http://testserver/")
     with assert_raises(testino.NotFound):
         agent.get("/favicon.ico")
+
 
 def _fill_in_user_form(agent):
     page = agent.get("/")
@@ -22,6 +23,7 @@ def _fill_in_user_form(agent):
     form["password_confirm"] = "foo"
 
     return form
+
 
 def test_duplicate_user():
     agent = testino.WSGIAgent(wsgi.application, "http://testserver/")
