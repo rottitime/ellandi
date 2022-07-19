@@ -1,6 +1,5 @@
 import { ThemeProvider } from '@mui/material'
 import { render, RenderOptions } from '@testing-library/react'
-import { NextRouter } from 'next/router'
 import { ReactNode } from 'react'
 import theme from '@/style/theme'
 

@@ -1,6 +1,6 @@
 import getConfig from 'next/config'
 import { RegisterUser, RegisterUserResponse } from './types'
-import { SignInType } from '@/components/Form/SignInForm/SignInForm'
+import { SignInType } from '@/components/Form/SignInForm/types'
 import { AuthUser } from './types'
 const { publicRuntimeConfig } = getConfig()
 

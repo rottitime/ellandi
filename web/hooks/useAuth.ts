@@ -1,4 +1,4 @@
-import { SignInType } from '@/components/Form/SignInForm/SignInForm'
+import { SignInType } from '@/components/Form/SignInForm/types'
 import { loginWithEmailAndPassword, logoutUser } from '@/service/user'
 import { AuthUser } from '@/service/types'
 
