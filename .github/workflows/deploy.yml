@@ -1,4 +1,4 @@
-name: Deploy ${{ github.ref_name }}
+name: Deploy ${{ github.actor }}
 
 env:
   DOCKER_BUILDKIT: 1
