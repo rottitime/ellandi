@@ -5,4 +5,4 @@ set -o nounset
 
 python manage.py migrate --noinput
 
-watchmedo auto-restart --directory=./  --pattern='*.py' --recursive -- python manage.py runserver 0.0.0.0:9000 --noreload
+watchmedo auto-restart --directory=./  --pattern='*.py' --recursive -- python manage.py runserver 0.0.0.0:8001 --noreload
