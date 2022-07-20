@@ -7,7 +7,7 @@ from django.urls import reverse
 
 from organogram.registration import initial_data, models
 
-page_names = ("intro", "create-account", "your-details", "photo", "grade", "professions", "skills", "complete")
+page_names = ("intro", "create-account", "your-details", "biography", "photo", "grade", "professions", "skills", "complete")
 
 
 view_map = {}
@@ -118,6 +118,27 @@ def your_details_view(request, url_data):
         form = YourDetailsForm(data)
 
     return render(request, "your-details.html", {"form": form, **url_data})
+
+
+class BiographyForm(forms.Form):
+    biography = forms.CharField(max_length=4095, required=False)
+
+
+@register("biography")
+def biography_view(request, url_data):
+    if request.method == "POST":
+        form = BiographyForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            user = request.user
+            user.biography = data['biography']
+            user.save()
+            return redirect(url_data["next_url"])
+    else:
+        data = model_to_dict(request.user)
+        form = BiographyForm(data)
+
+    return render(request, "biography.html", {"form": form, **url_data})
 
 
 class PhotoForm(forms.Form):
