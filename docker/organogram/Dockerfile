@@ -20,6 +20,6 @@ WORKDIR /app/organogram
 
 RUN DJANGO_SECRET_KEY="temp" DATABASE_URL="temp" python manage.py collectstatic --no-input
 
-EXPOSE 9000
+EXPOSE 8001
 
 CMD ["sh","/start.sh"]
