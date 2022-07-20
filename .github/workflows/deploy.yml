@@ -23,7 +23,7 @@ jobs:
       CF_SPACE: ${{ github.ref_name }}
     steps:
       - name: "Echo the Space"
-        if: ${{ github.ref_name == 'sandbox' || github.ref_name == 'actions_refactor' }}
+        if: ${{ github.ref_name == 'sandbox' || github.ref_name == 'demo' || github.ref_name == 'develop' }}
         run: |
           echo "Deploying to space: $CF_SPACE"
 
