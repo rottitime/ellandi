@@ -81,7 +81,6 @@ INITIAL_SKILLS = set(
         "Semi-structured interviews",
         "Software development",
         "Software engineering",
-        "Spanish",
         "Sports science",
         "Stakeholder management",
         "Stakeholder presentation",
