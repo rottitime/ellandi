@@ -1,7 +1,6 @@
 import testino
-from nose.tools import assert_raises
-
 from django.contrib.auth import get_user_model
+from nose.tools import assert_raises
 
 from organogram import wsgi
 from organogram.registration import models
@@ -124,7 +123,7 @@ def test_resistration():
     form = page.get_form()
     form.check("Government Economic Service")
     form.check("Policy Profession")
-    form['other'] = "Flibbler"
+    form["other"] = "Flibbler"
 
     page = form.submit().follow()
     assert page.status_code == 200, page.status_code

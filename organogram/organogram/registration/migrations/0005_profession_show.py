@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('registration', '0004_user_sub_unit'),
+        ("registration", "0004_user_sub_unit"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='profession',
-            name='show',
+            model_name="profession",
+            name="show",
             field=models.BooleanField(default=False),
         ),
     ]

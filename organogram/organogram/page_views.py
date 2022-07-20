@@ -134,7 +134,7 @@ class ProfessionsForm(forms.Form):
 
 @register("professions")
 def professions_view(request, url_data):
-    professions = get_values(models.Profession, query_kwargs={'show': True})
+    professions = get_values(models.Profession, query_kwargs={"show": True})
     if request.method == "POST":
         form = ProfessionsForm(request.POST)
         if form.is_valid():
@@ -143,9 +143,9 @@ def professions_view(request, url_data):
             for value in data["professions"]:
                 profession = models.Profession.objects.get(pk=value)
                 user.professions.add(profession)
-            if data['other']:
+            if data["other"]:
                 profession = models.Profession(
-                    name=data['other'],
+                    name=data["other"],
                     show=False,
                 )
                 profession.save()
