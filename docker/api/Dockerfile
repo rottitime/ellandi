@@ -18,6 +18,8 @@ COPY . /app
 
 WORKDIR /app/api
 
+RUN DJANGO_SECRET_KEY="temp" DATABASE_URL="temp" python manage.py collectstatic --no-input
+
 EXPOSE 8000
 
 CMD ["sh","/start.sh"]

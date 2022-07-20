@@ -20,8 +20,11 @@ def register(name):
     return _inner
 
 
-def get_values(model):
-    values = tuple({"value": item.slug, "text": item.name} for item in model.objects.all())
+def get_values(model, query_kwargs=None):
+    query = model.objects.all()
+    if query_kwargs:
+        query = query.filter(**query_kwargs)
+    values = tuple({"value": item.slug, "text": item.name} for item in query.all())
     return values
 
 
@@ -76,6 +79,9 @@ class YourDetailsForm(forms.Form):
     last_name = forms.CharField(max_length=128, required=False)
     first_name = forms.CharField(max_length=128, required=False)
     job_title = forms.CharField(max_length=128, required=False)
+    business_unit = forms.CharField(max_length=128, required=False)
+    sub_unit = forms.CharField(max_length=128, required=False)
+    team = forms.CharField(max_length=128, required=False)
     line_manager_email = forms.CharField(max_length=128, required=False)
 
 
@@ -122,11 +128,12 @@ def grade_view(request, url_data):
 
 class ProfessionsForm(forms.Form):
     professions = forms.MultipleChoiceField(required=False, choices=lambda: get_choices(models.Profession))
+    other = forms.CharField(max_length=128, required=False)
 
 
 @register("professions")
 def professions_view(request, url_data):
-    professions = get_values(models.Profession)
+    professions = get_values(models.Profession, query_kwargs={"show": True})
     if request.method == "POST":
         form = ProfessionsForm(request.POST)
         if form.is_valid():
@@ -134,6 +141,13 @@ def professions_view(request, url_data):
             user = request.user
             for value in data["professions"]:
                 profession = models.Profession.objects.get(pk=value)
+                user.professions.add(profession)
+            if data["other"]:
+                profession = models.Profession(
+                    name=data["other"],
+                    show=False,
+                )
+                profession.save()
                 user.professions.add(profession)
             user.save()
             return redirect(url_data["next_url"])

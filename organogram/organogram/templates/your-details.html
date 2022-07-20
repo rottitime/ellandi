@@ -11,6 +11,8 @@
       <h1>Your details</h1>
     </header>
 
+    <p>Please enter the details for the role you are currently operating in</p>
+
     <form method="POST">
 
       {{csrf_input}}
@@ -25,6 +27,18 @@
 
       <div class="row">
         {{input(form, name='job_title', label='Job title')}}
+      </div>
+
+      <div class="row">
+        {{input(form, name='business_unit', label='Business unit')}}
+      </div>
+
+      <div class="row">
+        {{input(form, name='sub_unit', label='Sub unit')}}
+      </div>
+
+      <div class="row">
+        {{input(form, name='team', label='Team')}}
       </div>
 
       <div class="row">
