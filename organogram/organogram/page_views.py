@@ -7,7 +7,7 @@ from django.urls import reverse
 
 from organogram.registration import initial_data, models
 
-page_names = ("create-account", "your-details", "grade", "professions", "skills", "complete")
+page_names = ("create-account", "your-details", "photo", "grade", "professions", "skills", "complete")
 
 view_map = {}
 
