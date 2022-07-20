@@ -37,7 +37,7 @@ jobs:
       DOCKER_REPOSITORY: ghcr.io
       NODE_ENV: development
       CF_SPACE: ${{ github.ref_name }}
-      NEXT_PUBLIC_API_URL: https://ellandi-api-$CF_SPACE.london.cloudapps.digital
+      NEXT_PUBLIC_API_URL: https://ellandi-api-${{ github.ref_name }}.london.cloudapps.digital
 
     strategy:
       matrix:
