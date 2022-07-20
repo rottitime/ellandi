@@ -1,43 +1,44 @@
 [
   {
     "fields": {
-      "name": "Administrative Officer Equivalent",
+      "name": "Administrative Officer (AO) Equivalent",
       "order": 0
     },
     "model": "registration.grade",
-    "pk": "administrative-officer-equivalent"
+    "pk": "administrative-officer-ao-equivalent"
   },
   {
     "fields": {
-      "name": "Administrative Assistant Equivalent",
+      "name": "Administrative Assistant (AA) Equivalent",
       "order": 1
     },
     "model": "registration.grade",
-    "pk": "administrative-assistant-equivalent"
+    "pk": "administrative-assistant-aa-equivalent"
   },
+
   {
     "fields": {
-      "name": "Executive Officer Equivalent",
+      "name": "Executive Officer (EO) Equivalent",
       "order": 2
     },
     "model": "registration.grade",
-    "pk": "executive-officer-equivalent"
+    "pk": "executive-officer-eo-equivalent"
   },
   {
     "fields": {
-      "name": "Higher Executive Officer Equivalent",
+      "name": "Higher Executive Officer (HEO) Equivalent",
       "order": 3
     },
     "model": "registration.grade",
-    "pk": "higher-executive-officer-equivalent"
+    "pk": "higher-executive-officer-heo-equivalent"
   },
   {
     "fields": {
-      "name": "Senior Executive Officer Equivalent",
+      "name": "Senior Executive Officer (SEO) Equivalent",
       "order": 4
     },
     "model": "registration.grade",
-    "pk": "senior-executive-officer-equivalent"
+    "pk": "senior-executive-officer-seo-equivalent"
   },
   {
     "fields": {
