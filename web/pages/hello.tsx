@@ -1,5 +1,5 @@
 import { Typography, Box } from '@mui/material'
-import GenericPage from '@/components/Layout/GenericPage'
+import CardLayout from '@/components/Layout/CardLayout'
 import router from 'next/router'
 import { useState } from 'react'
 
@@ -86,7 +86,7 @@ const HelloPage = () => {
 export default HelloPage
 
 HelloPage.getLayout = (page) => (
-  <GenericPage title="Your details" progress={20}>
+  <CardLayout title="Your details" progress={20}>
     {page}
-  </GenericPage>
+  </CardLayout>
 )

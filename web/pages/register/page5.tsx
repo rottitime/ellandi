@@ -1,4 +1,4 @@
-import Page from '@/components/Layout/GenericPage'
+import CardLayout from '@/components/Layout/CardLayout'
 import router from 'next/router'
 import RegisterDetailsForm from '@/components/Form/Register/RegisterDetailsForm'
 import { dehydrate, QueryClient, useMutation, useQueryClient } from 'react-query'
@@ -62,7 +62,7 @@ export async function getStaticProps() {
 }
 
 RegisterPage.getLayout = (page) => (
-  <Page title="Your details" progress={20}>
+  <CardLayout title="Your details" progress={20}>
     {page}
-  </Page>
+  </CardLayout>
 )

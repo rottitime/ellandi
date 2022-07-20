@@ -1,4 +1,4 @@
-import Page from '@/components/Layout/GenericPage'
+import CardLayout from '@/components/Layout/CardLayout'
 import CreateAccountForm from '@/components/Form/Register/CreateAccountForm'
 import { useQueryClient, useMutation } from 'react-query'
 import { RegisterUser, RegisterUserResponse, Query } from '@/service/types'
@@ -46,7 +46,7 @@ const RegisterPage = () => {
 export default RegisterPage
 
 RegisterPage.getLayout = (page) => (
-  <Page title="Create an account" progress={5}>
+  <CardLayout title="Create an account" progress={5}>
     {page}
-  </Page>
+  </CardLayout>
 )

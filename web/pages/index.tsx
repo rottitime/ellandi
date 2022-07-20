@@ -1,4 +1,4 @@
-import GenericPage from '@/components/Layout/GenericPage'
+import CardLayout from '@/components/Layout/CardLayout'
 import LinkButton from '@/components/LinkButton'
 import Card from '@/components/UI/Card'
 import { Divider, Grid, Typography } from '@mui/material'
@@ -26,4 +26,4 @@ const IndexPage = () => (
 )
 
 export default IndexPage
-IndexPage.getLayout = (page) => <GenericPage showPromo={false}>{page}</GenericPage>
+IndexPage.getLayout = (page) => <CardLayout showPromo={false}>{page}</CardLayout>

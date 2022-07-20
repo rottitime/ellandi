@@ -11,7 +11,7 @@ import {
   Typography,
   Divider
 } from '@mui/material'
-import AccountMenuPage from '@/components/Layout/AccountMenuPage'
+import AccountLayout from '@/components/Layout/AccountLayout'
 import Card from '@/components/UI/Card'
 import Link from '@/components/UI/Link'
 import LearningStrands from '@/components/LearningStrands'
@@ -223,7 +223,7 @@ const Page = () => {
 
 export default Page
 Page.getLayout = (page) => (
-  <AccountMenuPage
+  <AccountLayout
     breadcrumbs={[{ title: 'Careers' }]}
     title={
       <>
@@ -233,5 +233,5 @@ Page.getLayout = (page) => (
     }
   >
     {page}
-  </AccountMenuPage>
+  </AccountLayout>
 )

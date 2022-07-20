@@ -1,5 +1,5 @@
 import Link from '@/components/UI/Link'
-import Page from '@/components/Layout/GenericPage'
+import CardLayout from '@/components/Layout/CardLayout'
 import { Alert, Fade, Typography } from '@mui/material'
 import GradeForm from '@/components/Form/Register/GradeForm'
 import router from 'next/router'
@@ -60,7 +60,7 @@ export async function getStaticProps() {
 }
 
 RegisterPage.getLayout = (ui) => (
-  <Page
+  <CardLayout
     title="Grade"
     footer={
       <Typography>
@@ -70,5 +70,5 @@ RegisterPage.getLayout = (ui) => (
     progress={30}
   >
     {ui}
-  </Page>
+  </CardLayout>
 )

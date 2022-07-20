@@ -1,5 +1,5 @@
 import { StandardRegisterProps } from '@/components/Form/Register/types'
-import GenericPage from '@/components/Layout/GenericPage'
+import CardLayout from '@/components/Layout/CardLayout'
 import Link from '@/components/UI/Link'
 import {
   fetchContractTypes,
@@ -143,7 +143,7 @@ export default RegisterPage
 RegisterPage.getLayout = (page) => {
   const { props } = page
   return (
-    <GenericPage
+    <CardLayout
       title={props.title}
       progress={props.progress}
       footer={
@@ -155,7 +155,7 @@ RegisterPage.getLayout = (page) => {
       }
     >
       {page}
-    </GenericPage>
+    </CardLayout>
   )
 }
 

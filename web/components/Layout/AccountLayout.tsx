@@ -2,7 +2,7 @@ import { FC, ReactNode } from 'react'
 import { Box, Breadcrumbs, Typography } from '@mui/material'
 import AppBar from '@/components/UI/AppBar/AppBar'
 import Link from '@/components/UI/Link'
-import Template from './Template'
+import Template from '@/components/Layout/Template'
 import useAuth from '@/hooks/useAuth'
 
 type Props = {
@@ -20,7 +20,7 @@ const pages = [
   // { title: 'Favourites', url: '/account/favourites' }
 ]
 
-const AccountMenuPage: FC<Props> = ({ breadcrumbs, title, children, teaser }) => {
+const AccountLayout: FC<Props> = ({ breadcrumbs, title, children, teaser }) => {
   const { logout } = useAuth()
 
   return (
@@ -76,4 +76,4 @@ const AccountMenuPage: FC<Props> = ({ breadcrumbs, title, children, teaser }) =>
   )
 }
 
-export default AccountMenuPage
+export default AccountLayout

@@ -1,4 +1,4 @@
-import Page from '@/components/Layout/GenericPage'
+import CardLayout from '@/components/Layout/CardLayout'
 import PrivacyForm from '@/components/Form/Register/PrivacyForm'
 import { useMutation, useQueryClient } from 'react-query'
 import { useState } from 'react'
@@ -51,7 +51,7 @@ const RegisterPage = () => {
 export default RegisterPage
 
 RegisterPage.getLayout = (page) => (
-  <Page title="Privacy policy" progress={10}>
+  <CardLayout title="Privacy policy" progress={10}>
     {page}
-  </Page>
+  </CardLayout>
 )

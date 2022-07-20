@@ -1,7 +1,7 @@
 import Link from '@/components/UI/Link'
 import { Stars, Delete } from '@mui/icons-material'
 import Card from '@/components/UI/Card'
-import AccountMenuPage from '@/components/Layout/AccountMenuPage'
+import AccountLayout from '@/components/Layout/AccountLayout'
 import { IconButton, styled, Typography } from '@mui/material'
 import Skills from '@/components/Icons/Skills'
 import Learning from '@/components/Icons/Learning'
@@ -211,7 +211,7 @@ const Page = () => {
 
 export default Page
 Page.getLayout = (page) => (
-  <AccountMenuPage
+  <AccountLayout
     title={
       <>
         <Stars sx={{ color: (p) => p.colors.profileBlue }} />
@@ -221,5 +221,5 @@ Page.getLayout = (page) => (
     breadcrumbs={[{ title: 'Favourites' }]}
   >
     {page}
-  </AccountMenuPage>
+  </AccountLayout>
 )

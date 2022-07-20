@@ -1,4 +1,4 @@
-import GenericPage from '@/components/Layout/GenericPage'
+import CardLayout from '@/components/Layout/CardLayout'
 import Link from '@/components/UI/Link'
 import { Alert, Fade, Typography } from '@mui/material'
 import SignInForm from '@/components/Form/SignInForm/SignInForm'
@@ -47,4 +47,4 @@ const SigninPage = () => {
 }
 
 export default SigninPage
-SigninPage.getLayout = (page) => <GenericPage title="Sign in">{page}</GenericPage>
+SigninPage.getLayout = (page) => <CardLayout title="Sign in">{page}</CardLayout>

@@ -1,5 +1,5 @@
 import Link from '@/components/UI/Link'
-import Page from '@/components/Layout/GenericPage'
+import CardLayout from '@/components/Layout/CardLayout'
 import { Typography } from '@mui/material'
 import LanguageForm from '@/components/Form/Register/LanguageForm'
 import router from 'next/router'
@@ -32,7 +32,7 @@ export async function getStaticProps() {
 }
 
 RegisterPage.getLayout = (page) => (
-  <Page
+  <CardLayout
     title="Language skills"
     footer={
       <Typography gutterBottom>
@@ -42,5 +42,5 @@ RegisterPage.getLayout = (page) => (
     progress={80}
   >
     {page}
-  </Page>
+  </CardLayout>
 )

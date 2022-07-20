@@ -1,4 +1,4 @@
-import Page from '@/components/Layout/GenericPage'
+import CardLayout from '@/components/Layout/CardLayout'
 import Link from '@/components/UI/Link'
 import { Alert, Fade, Typography } from '@mui/material'
 import router from 'next/router'
@@ -60,7 +60,7 @@ export async function getStaticProps() {
 }
 
 RegisterPage.getLayout = (ui) => (
-  <Page
+  <CardLayout
     title="Contract type"
     footer={
       <Typography gutterBottom>
@@ -70,5 +70,5 @@ RegisterPage.getLayout = (ui) => (
     progress={60}
   >
     {ui}
-  </Page>
+  </CardLayout>
 )

@@ -1,4 +1,4 @@
-import Page from '@/components/Layout/GenericPage'
+import CardLayout from '@/components/Layout/CardLayout'
 import { Typography } from '@mui/material'
 import LinkButton from '@/components/LinkButton'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
@@ -27,7 +27,7 @@ const RegisterPage = () => (
 
 export default RegisterPage
 RegisterPage.getLayout = (page) => (
-  <Page
+  <CardLayout
     title={
       <>
         <CheckCircleIcon
@@ -39,5 +39,5 @@ RegisterPage.getLayout = (page) => (
     progress={70}
   >
     {page}
-  </Page>
+  </CardLayout>
 )

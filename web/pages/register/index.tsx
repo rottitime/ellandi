@@ -1,4 +1,4 @@
-import Page from '@/components/Layout/GenericPage'
+import CardLayout from '@/components/Layout/CardLayout'
 import { Box } from '@mui/material'
 import LinkButton from '@/components/LinkButton'
 
@@ -14,7 +14,7 @@ const RegisterPage = () => (
 
 export default RegisterPage
 RegisterPage.getLayout = (page) => (
-  <Page
+  <CardLayout
     showPromo={true}
     title={
       <>
@@ -23,5 +23,5 @@ RegisterPage.getLayout = (page) => (
     }
   >
     {page}
-  </Page>
+  </CardLayout>
 )

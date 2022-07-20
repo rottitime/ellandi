@@ -127,7 +127,7 @@ const GridContainer = styled(Grid)`
   }
 `
 
-const GenericPage: FC<Props> = ({ children, showPromo, title, footer, progress }) => {
+const CardLayout: FC<Props> = ({ children, showPromo, title, footer, progress }) => {
   const { loading } = useUiContext()
   return (
     <Template disableGutters>
@@ -206,4 +206,4 @@ const GenericPage: FC<Props> = ({ children, showPromo, title, footer, progress }
   )
 }
 
-export default GenericPage
+export default CardLayout
