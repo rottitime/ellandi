@@ -2,7 +2,7 @@ import CardLayout from '@/components/Layout/CardLayout'
 import { Typography } from '@mui/material'
 import LinkButton from '@/components/LinkButton'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
-import { Footer } from '@/components/Form/FormFooter'
+import FooterButtons from '@/components/UI/FooterButtons/FooterButtons'
 
 const RegisterPage = () => (
   <>
@@ -10,11 +10,11 @@ const RegisterPage = () => (
       You will now be taken to your dashboard where you can navigate around the service
     </Typography>
 
-    <Footer>
+    <FooterButtons>
       <LinkButton href="/account" fullWidth>
         Continue
       </LinkButton>
-    </Footer>
+    </FooterButtons>
   </>
 )
 

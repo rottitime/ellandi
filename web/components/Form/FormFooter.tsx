@@ -3,6 +3,7 @@ import { styled } from '@mui/material/styles'
 import { ComponentProps, FC } from 'react'
 import LinkButton from '@/components/LinkButton'
 import { LoadingButton } from '@mui/lab'
+import FooterButtons from '@/components/UI/FooterButtons/FooterButtons'
 
 type Props = {
   buttonProps?: ComponentProps<typeof LoadingButton>
@@ -21,7 +22,7 @@ export const Footer = styled(Box)`
 
 const FormFooter: FC<Props> = ({ backUrl, buttonProps, submitText = 'Continue' }) => {
   return (
-    <Footer>
+    <FooterButtons>
       {backUrl && (
         <LinkButton href={backUrl} variant="outlined" size="small">
           Back
@@ -30,7 +31,7 @@ const FormFooter: FC<Props> = ({ backUrl, buttonProps, submitText = 'Continue' }
       <LoadingButton variant="contained" type="submit" {...buttonProps}>
         {submitText}
       </LoadingButton>
-    </Footer>
+    </FooterButtons>
   )
 }
 
