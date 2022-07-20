@@ -25,7 +25,6 @@ jobs:
       CF_SPACE: ${{ github.ref_name }}
     steps:
       - name: "Echo the Space"
-        if: ${{ github.ref_name == 'sandbox' || github.ref_name == 'demo' || github.ref_name == 'develop' }}
         run: |
           echo "Deploying to space: $CF_SPACE"
 
@@ -96,4 +95,4 @@ jobs:
           CF_PAT_TOKEN_USER: ${{ secrets.PAT_TOKEN_USER }}
           DOCKER_FILE: ${{ matrix.dockerfile }}
           DOCKER_IMAGE: ${{ matrix.app }}
-        run: CF_DOCKER_PASSWORD="$CF_PAT_TOKEN" ./cf push "${{ matrix.app }}-$SPACE" --docker-image $DOCKER_REPOSITORY/${{ github.repository_owner }}/$DOCKER_IMAGE:$IMAGE_TAG --docker-username=$CF_PAT_TOKEN_USER
+        run: CF_DOCKER_PASSWORD="$CF_PAT_TOKEN" ./cf push "${{ matrix.app }}-$CF_SPACE" --docker-image $DOCKER_REPOSITORY/${{ github.repository_owner }}/$DOCKER_IMAGE:$IMAGE_TAG --docker-username=$CF_PAT_TOKEN_USER
