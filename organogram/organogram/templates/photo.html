@@ -1,4 +1,4 @@
-{% from 'macros.html' import select, input %}
+{% from 'macros.html' import input %}
 
 {% extends "base.html" %}
 
@@ -14,7 +14,7 @@
 
     <form method="POST">
 
-      <input type="file" id="myFile" name="filename">
+      {{input(form, name='photo', label='Photo', type="file")}}
 
       <div class="buttons">
         <a class="btn waves-effect waves-light btn-small" href="{{prev_url}}">
