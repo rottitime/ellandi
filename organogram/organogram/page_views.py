@@ -131,7 +131,7 @@ def biography_view(request, url_data):
         if form.is_valid():
             data = form.cleaned_data
             user = request.user
-            user.biography = data['biography']
+            user.biography = data["biography"]
             user.save()
             return redirect(url_data["next_url"])
     else:
