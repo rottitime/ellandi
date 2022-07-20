@@ -113,7 +113,7 @@ def photo_view(request, url_data):
         form = PhotoForm(request.POST, request.FILES)
         if form.is_valid():
             data = form.cleaned_data
-            if data['photo']:
+            if data["photo"]:
                 user = request.user
                 user.photo = request.FILES["photo"]
                 user.save()
