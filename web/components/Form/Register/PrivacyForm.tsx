@@ -38,7 +38,9 @@ const PrivacyForm: FC<StandardRegisterProps<PrivacyAcceptType>> = ({
   return (
     <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
       <Typography gutterBottom>
-        <Link href="#">Privacy policy (opens in a new tab)</Link>
+        <Link href="/help/privacy-notice" target="_tab">
+          Privacy policy (opens in a new tab)
+        </Link>
       </Typography>
 
       <FormGroup sx={{ mb: 5 }}>
