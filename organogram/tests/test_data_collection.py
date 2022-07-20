@@ -121,8 +121,8 @@ def test_resistration():
     assert page.has_one("h1:contains('Profession')")
 
     form = page.get_form()
-    form.check("Government Economic Service")
-    form.check("Policy Profession")
+    form.check("Economic Service")
+    form.check("Policy")
     form["other"] = "Flibbler"
 
     page = form.submit().follow()
