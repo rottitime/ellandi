@@ -1,5 +1,5 @@
 import CardLayout from '@/components/Layout/CardLayout'
-import CreateAccountForm from '@/components/Form/Register/CreateAccountForm'
+import CreateAccountForm from '@/components/Form/Register/CreateAccountForm/CreateAccountForm'
 import { useQueryClient, useMutation } from 'react-query'
 import { RegisterUser, RegisterUserResponse, Query } from '@/service/types'
 import { createUser } from '@/service/user'

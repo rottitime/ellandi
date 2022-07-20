@@ -30,6 +30,7 @@ export type RegisterDetailsType = {
   job_title: string
   line_manager_email: string
   location: string
+  business_unit: string
 }
 
 export type GradeType = {

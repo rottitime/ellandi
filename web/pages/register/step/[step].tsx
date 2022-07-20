@@ -3,7 +3,6 @@ import CardLayout from '@/components/Layout/CardLayout'
 import Link from '@/components/UI/Link'
 import {
   fetchContractTypes,
-  fetchCountries,
   fetchFunctions,
   fetchGrades,
   fetchLanguages,
@@ -39,7 +38,9 @@ type Steps = {
 
 const steps: Steps[] = [
   {
-    form: dynamic(() => import('@/components/Form/Register/CreateAccountForm')),
+    form: dynamic(
+      () => import('@/components/Form/Register/CreateAccountForm/CreateAccountForm')
+    ),
     title: 'Create an account'
   },
   {
@@ -172,7 +173,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
   const { title, nextUrl, skip } = steps[stepInt]
 
   const queryClient = new QueryClient()
-  await queryClient.prefetchQuery(Query.Countries, fetchCountries)
+
   await queryClient.prefetchQuery(Query.Grades, fetchGrades)
   await queryClient.prefetchQuery(Query.Professions, fetchProfessions)
   await queryClient.prefetchQuery(Query.Functions, fetchFunctions)

@@ -1,7 +1,7 @@
 import { screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { renderWithProviders } from '@/lib/test-utils'
-import CreateAccountForm from '@/components/Form/Register/CreateAccountForm'
+import CreateAccountForm from './CreateAccountForm'
 
 describe('CreateAccountForm', () => {
   const email = 'nonmatch@test.com'

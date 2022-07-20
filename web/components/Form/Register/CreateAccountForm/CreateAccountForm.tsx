@@ -5,15 +5,10 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, FormProvider } from 'react-hook-form'
 import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldControlled'
 import FormFooter from '@/components/Form/FormFooter'
-import { StandardRegisterProps } from './types'
+import { StandardRegisterProps } from '@/components/Form/Register/types'
 import { Field } from '@/components/Form/Field'
+import { CreateAccountType } from './types'
 
-type CreateAccountType = {
-  email: string
-  emailConfirm: string
-  password: string
-  passwordConfirm: string
-}
 const minPassword = 8
 
 const schema: SchemaOf<CreateAccountType> = object().shape({
