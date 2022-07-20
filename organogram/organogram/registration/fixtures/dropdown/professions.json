@@ -226,7 +226,7 @@
   },
   {
     "fields": {
-      "name": "No Profession",
+      "name": "No profession",
       "show": true
     },
     "model": "registration.profession",
