@@ -7,8 +7,7 @@ from django.urls import reverse
 
 from organogram.registration import initial_data, models
 
-page_names = ("intro", "create-account", "your-details", "biography", "photo", "grade", "professions", "skills", "complete")
-
+page_names = ("intro", "create-account", "your-details", "biography", "photo", "grade", "professions", "primary_profession", "skills", "complete",)
 
 view_map = {}
 
@@ -216,6 +215,31 @@ def professions_view(request, url_data):
         form = ProfessionsForm(data)
 
     return render(request, "professions.html", {"form": form, "professions": professions, **url_data})
+
+
+class PrimaryProfessionForm(forms.Form):
+    primary_profession = forms.ChoiceField(required=False, choices=lambda: get_choices(models.Profession))
+
+
+@register("primary_profession")
+def primary_profession_view(request, url_data):
+    user = request.user
+    selected_professions = tuple({"value": item.slug, "text": item.name} for item in user.professions.all())
+
+    if request.method == "POST":
+        form = PrimaryProfessionForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            user = request.user
+            primary_profession = models.Profession.objects.get(pk=data['primary_profession'])
+            user.primary_profession = primary_profession
+            user.save()
+            return redirect(url_data["next_url"])
+    else:
+        data = model_to_dict(request.user)
+        form = PrimaryProfessionForm(data)
+
+    return render(request, "primary_profession.html", {"form": form, "selected_professions": selected_professions, **url_data})
 
 
 def get_skills_choices():
