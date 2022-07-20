@@ -7,7 +7,8 @@ from django.urls import reverse
 
 from organogram.registration import initial_data, models
 
-page_names = ("create-account", "your-details", "photo", "grade", "professions", "skills", "complete")
+page_names = ("intro", "create-account", "your-details", "photo", "grade", "professions", "skills", "complete")
+
 
 view_map = {}
 
@@ -31,6 +32,22 @@ def get_values(model, query_kwargs=None):
 def get_choices(model):
     choices = tuple((item.slug, item.name) for item in model.objects.all())
     return choices
+
+
+class IntroForm(forms.Form):
+    understand = forms.BooleanField()
+
+
+@register("intro")
+def intro_view(request, url_data):
+    if request.method == "POST":
+        form = IntroForm(request.POST)
+        if form.is_valid():
+            return redirect(url_data["next_url"])
+    else:
+        form = IntroForm()
+
+    return render(request, "intro.html", {"form": form, **url_data})
 
 
 class CreateAccountForm(forms.Form):
@@ -222,7 +239,7 @@ def skills_view(request, url_data):
     return render(request, "skills.html", {"form": form, "skills": skills, "user_skills": user_skills, **url_data})
 
 
-def page_view(request, page_name="create-account"):
+def page_view(request, page_name="intro"):
     if page_name not in page_names:
         raise Http404()
 
