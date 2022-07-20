@@ -114,7 +114,7 @@ def photo_view(request, url_data):
         if form.is_valid():
             data = form.cleaned_data
             user = request.user
-            user.photo = request.FILES['photo']
+            user.photo = request.FILES["photo"]
             user.save()
             return redirect(url_data["next_url"])
     else:

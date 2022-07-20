@@ -24,7 +24,7 @@ if VCAP_SERVICES:
     AWS_STORAGE_BUCKET_NAME = AWS_CREDENTIALS["bucket_name"]
     AWS_ACCESS_KEY_ID = AWS_CREDENTIALS["aws_access_key_id"]
     AWS_REGION = AWS_CREDENTIALS["aws_region"]
-    AWS_S3_ENDPOINT_URL=minio = env("AWS_S3_ENDPOINT_URL", default=None)  # Needed for MinIO only, not set in PaaS
+    AWS_S3_ENDPOINT_URL = minio = env("AWS_S3_ENDPOINT_URL", default=None)  # Needed for MinIO only, not set in PaaS
 
 if DEBUG:
     ALLOWED_HOSTS = [
