@@ -147,7 +147,7 @@ class RegistrationAbstractUser(models.Model):
     line_manager_email = models.CharField(max_length=128, blank=True, null=True)
     location = models.CharField(max_length=127, blank=True, null=False)
     department = models.CharField(max_length=127, blank=True, null=True)
-    photo =  models.FileField(upload_to=photo_upload_to, storage=PhotoStorage(), blank=True, null=True)
+    photo = models.FileField(upload_to=photo_upload_to, storage=PhotoStorage(), blank=True, null=True)
 
 
 class User(AbstractUser, TimeStampedModel, RegistrationAbstractUser):
