@@ -8,6 +8,9 @@ on:
     # Publish `$SPACE` as Docker `latest` image.
     branches:
       - actions_refactor
+      - sandbox
+      - demo
+      - develop
 
 permissions:
   packages: write
