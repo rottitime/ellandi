@@ -100,7 +100,7 @@ INITIAL_SKILLS = set(
         "Accounting",
         "Agile delivery",
         "Automation",
-        "Aws",
+        "AWS",
         "Azure",
         "Business case development",
         "Change management",
