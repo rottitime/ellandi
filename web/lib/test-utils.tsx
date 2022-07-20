@@ -2,6 +2,8 @@ import { ThemeProvider } from '@mui/material'
 import { render, RenderOptions } from '@testing-library/react'
 import { ReactNode } from 'react'
 import theme from '@/style/theme'
+import { QueryClient, QueryClientProvider } from 'react-query'
+import { UiProvider } from '@/context/UiContext'
 
 beforeAll(() => {
   Object.defineProperty(global, 'sessionStorage', { value: mockStorage })
@@ -34,10 +36,21 @@ export const renderWithProviders = async (
   ui: ReactNode,
   options: Omit<RenderOptions, 'queries'> = {}
 ) => {
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: false
+      }
+    }
+  })
   const { rerender, ...props } = await render(
-    <ThemeProvider theme={theme}>
-      <>{ui}</>
-    </ThemeProvider>,
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={theme}>
+        <UiProvider>
+          <>{ui}</>
+        </UiProvider>
+      </ThemeProvider>
+    </QueryClientProvider>,
     options
   )
   return { ...props, rerender }

@@ -54,7 +54,7 @@ const steps: Steps[] = [
     title: 'Your details'
   },
   {
-    form: dynamic(() => import('@/components/Form/Register/GradeForm')),
+    form: dynamic(() => import('@/components/Form/Register/GradeForm/GradeForm')),
     title: 'Grade',
     skip: true
   },

@@ -1,7 +1,7 @@
 import Link from '@/components/UI/Link'
 import CardLayout from '@/components/Layout/CardLayout'
 import { Alert, Fade, Typography } from '@mui/material'
-import GradeForm from '@/components/Form/Register/GradeForm'
+import GradeForm from '@/components/Form/Register/GradeForm/GradeForm'
 import router from 'next/router'
 import { dehydrate, QueryClient, useMutation, useQueryClient } from 'react-query'
 import { fetchGrades, Query, RegisterUserResponse } from '@/service/api'
