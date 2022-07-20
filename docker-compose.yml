@@ -2,6 +2,7 @@ version: '3'
 
 volumes:
   local_postgres_data: {}
+  minio_data: {}
 
 services:
   api:
@@ -58,6 +59,17 @@ services:
       - ./.envs/postgres
     ports:
       - "5432:5432"
+
+  minio:
+    image: minio/minio:RELEASE.2021-06-14T01-29-23Z
+    container_name: organogram_minio
+    volumes:
+      - minio_data:/data
+    env_file:
+      - ./.envs/minio
+    ports:
+      - "9000:9000"
+    command: server /data
 
   integration:
     build:
