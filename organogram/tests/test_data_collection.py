@@ -76,7 +76,7 @@ def test_resistration():
 
     page = form.submit().follow()
     assert page.status_code == 200, page.status_code
-    assert page.has_one("h1:contains('Grade')")
+    assert page.has_one("h1:contains('Upload a photo')")
 
     page = page.click(contains="Back")
     assert page.status_code == 200, page.status_code
@@ -94,7 +94,7 @@ def test_resistration():
 
     page = form.submit().follow()
     assert page.status_code == 200, page.status_code
-    assert page.has_one("h1:contains('Grade')")
+    assert page.has_one("h1:contains('Upload a photo')")
 
     page = page.click(contains="Back")
     assert page.status_code == 200, page.status_code
@@ -108,6 +108,13 @@ def test_resistration():
     assert form["sub_unit"] == "My Sub Unit"
     assert form["team"] == "The Cool Kids"
     assert form["line_manager_email"] == "boss@example.com"
+
+    page = form.submit().follow()
+    assert page.status_code == 200, page.status_code
+    assert page.has_one("h1:contains('Upload a photo')")
+
+    form = page.get_form()
+    page = form.submit().follow()
 
     page = form.submit().follow()
     assert page.status_code == 200, page.status_code
