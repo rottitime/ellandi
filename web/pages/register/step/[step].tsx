@@ -48,7 +48,9 @@ const steps: Steps[] = [
     title: 'Privacy policy'
   },
   {
-    form: dynamic(() => import('@/components/Form/Register/RegisterDetailsForm')),
+    form: dynamic(
+      () => import('@/components/Form/Register/RegisterDetailsForm/RegisterDetailsForm')
+    ),
     title: 'Your details'
   },
   {

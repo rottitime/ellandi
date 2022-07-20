@@ -1,6 +1,6 @@
 import CardLayout from '@/components/Layout/CardLayout'
 import router from 'next/router'
-import RegisterDetailsForm from '@/components/Form/Register/RegisterDetailsForm'
+import RegisterDetailsForm from '@/components/Form/Register/RegisterDetailsForm/RegisterDetailsForm'
 import { dehydrate, QueryClient, useMutation, useQueryClient } from 'react-query'
 import { fetchCountries, Query, RegisterUserResponse } from '@/service/api'
 import { updateUser } from '@/service/user'

@@ -5,9 +5,8 @@ import { object, SchemaOf, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Grid } from '@mui/material'
 import FormFooter from '@/components/Form/FormFooter'
-import { StandardRegisterProps } from './types'
+import { StandardRegisterProps } from '../types'
 import { RegisterDetailsType } from '@/service/api'
-
 import { Field } from '@/components/Form/Field'
 
 const schema: SchemaOf<RegisterDetailsType> = object().shape({
