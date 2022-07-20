@@ -4,7 +4,6 @@ from django.forms.models import model_to_dict
 from django.http import Http404
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from django.utils.text import slugify
 
 from organogram.registration import initial_data, models
 
