@@ -22,6 +22,7 @@ if DEBUG:
 else:
     ALLOWED_HOSTS = [
         "digital-organogram.london.cloudapps.digital",
+        "organogram-develop.london.cloudapps.digital",
         "localhost",
         "127.0.0.1",
         "testserver",
