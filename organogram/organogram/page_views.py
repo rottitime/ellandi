@@ -104,7 +104,7 @@ def your_details_view(request, url_data):
 
 
 class PhotoForm(forms.Form):
-    photo = forms.FileField()
+    photo = forms.FileField(required=False)
 
 
 @register("photo")
@@ -113,9 +113,10 @@ def photo_view(request, url_data):
         form = PhotoForm(request.POST, request.FILES)
         if form.is_valid():
             data = form.cleaned_data
-            user = request.user
-            user.photo = request.FILES["photo"]
-            user.save()
+            if data['photo']:
+                user = request.user
+                user.photo = request.FILES["photo"]
+                user.save()
             return redirect(url_data["next_url"])
     else:
         data = model_to_dict(request.user)
