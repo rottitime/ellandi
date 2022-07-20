@@ -12,9 +12,11 @@
 
     <h4>If you would like a photo of yourself to appear on the Digital Organogram, upload it here</h4>
 
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
 
-      {{input(form, name='photo', label='Photo', type="file")}}
+      {{csrf_input}}
+
+      {{input(form, name='photo', label='', type="file")}}
 
       <div class="buttons">
         <a class="btn waves-effect waves-light btn-small" href="{{prev_url}}">
