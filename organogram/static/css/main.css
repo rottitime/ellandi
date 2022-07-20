@@ -105,6 +105,20 @@ main.card-panel > header {
   margin:20px;
 }
 
+footer.logos {
+  text-align: right;
+  padding:20px;
+}
+
+footer.logos ul {
+  display:inline-flex;
+  gap:20px;
+}
+
+footer.logos li img {
+  max-height:45px;
+}
+
 /* Text */
 
 .subtitle {
