@@ -13,12 +13,16 @@ import { useUiContext } from '@/context/UiContext'
 import { FC, useEffect } from 'react'
 import FormFooter from '@/components/Form/FormFooter'
 import { StandardRegisterProps } from '../types'
-import { Controller, useForm } from 'react-hook-form'
+import { Controller, FormProvider, useForm } from 'react-hook-form'
 import { object, SchemaOf, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
+import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldControlled'
 
 const schema: SchemaOf<GradeType> = object().shape({
-  grade: string().required('This field is required')
+  grade: string().required('This field is required'),
+  grade_other: string().when('grade', (grade) => {
+    if (grade === 'other') return string().required('This is a required field')
+  })
 })
 
 const GradeForm: FC<StandardRegisterProps<GradeType>> = ({
@@ -35,10 +39,18 @@ const GradeForm: FC<StandardRegisterProps<GradeType>> = ({
     fetchGrades
   )
 
-  const { control, handleSubmit } = useForm<GradeType>({
+  const methods = useForm<GradeType>({
     defaultValues,
     resolver: yupResolver(schema)
   })
+  const {
+    control,
+    handleSubmit,
+    watch,
+    formState: { isDirty, isValid }
+  } = methods
+
+  const watchGrade = watch('grade')
 
   useEffect(() => {
     setLoading(isLoading)
@@ -53,38 +65,47 @@ const GradeForm: FC<StandardRegisterProps<GradeType>> = ({
     )
 
   return (
-    <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
-      <Typography variant="h3" gutterBottom>
-        Select your grade. You may only choose one
-      </Typography>
+    <FormProvider {...methods}>
+      <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
+        <Typography variant="h3" gutterBottom>
+          Select your grade. You may only choose one
+        </Typography>
 
-      <Typography variant="subtitle1" gutterBottom>
-        We'll use this to suggest learning opportunities that are relevant to you
-      </Typography>
+        <Typography variant="subtitle1" gutterBottom>
+          We'll use this to suggest learning opportunities that are relevant to you
+        </Typography>
 
-      <Controller
-        name="grade"
-        control={control}
-        render={({ field }) => (
-          <RadioGroup aria-live="polite" aria-busy={isLoading} {...field}>
-            {isLoading
-              ? [...Array(5).keys()].map((i) => (
-                  <RadioSkeleton key={i} width="80%" sx={{ mb: 1 }} />
-                ))
-              : data.map(({ name, slug }) => (
-                  <FormControlLabel
-                    key={slug}
-                    control={<Radio />}
-                    label={name}
-                    value={slug}
-                  />
-                ))}
-          </RadioGroup>
+        <Controller
+          name="grade"
+          control={control}
+          render={({ field }) => (
+            <RadioGroup aria-live="polite" aria-busy={isLoading} {...field}>
+              {isLoading
+                ? [...Array(5).keys()].map((i) => (
+                    <RadioSkeleton key={i} width="80%" sx={{ mb: 1 }} />
+                  ))
+                : data.map(({ name, slug }) => (
+                    <FormControlLabel
+                      key={slug}
+                      control={<Radio />}
+                      label={name}
+                      value={slug}
+                    />
+                  ))}
+            </RadioGroup>
+          )}
+        />
+
+        {watchGrade === 'other' && (
+          <TextFieldControlled name="grade_other" label="Enter grade" />
         )}
-      />
 
-      <FormFooter backUrl={backUrl} buttonProps={{ loading }} />
-    </form>
+        <FormFooter
+          backUrl={backUrl}
+          buttonProps={{ loading, disabled: !isDirty && !isValid }}
+        />
+      </form>
+    </FormProvider>
   )
 }
 

@@ -35,6 +35,7 @@ export type RegisterDetailsType = {
 
 export type GradeType = {
   grade: string
+  grade_other: string
 }
 
 export type PrivacyAcceptType = {
