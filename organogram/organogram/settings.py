@@ -14,6 +14,18 @@ SECRET_KEY = env.str("DJANGO_SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DEBUG", default=False)
 
+# VCAP_SERVICES
+VCAP_SERVICES = env.json("VCAP_SERVICES")
+
+if VCAP_SERVICES:
+    # AWS
+    AWS_CREDENTIALS = VCAP_SERVICES["aws-s3-bucket"][0]["credentials"]
+    AWS_SECRET_KEY = AWS_CREDENTIALS["aws_secret_access_key"]
+    AWS_BUCKET_NAME = AWS_CREDENTIALS["bucket_name"]
+    AWS_ACCESS_KEY = AWS_CREDENTIALS["aws_access_key_id"]
+    AWS_REGION = AWS_CREDENTIALS["aws_region"]
+    AWS_CLIENT_URL = env("AWS_CLIENT_URL", default=None)  # Needed for MinIO only, not set in PaaS
+
 if DEBUG:
     ALLOWED_HOSTS = [
         "localhost",
