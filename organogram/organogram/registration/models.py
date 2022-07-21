@@ -149,6 +149,7 @@ class RegistrationAbstractUser(models.Model):
         abstract = True
 
     organisation = models.CharField(max_length=128, blank=True, null=True)
+    team = models.ForeignKey(Team, blank=True, null=True, on_delete=models.CASCADE)
     job_title = models.CharField(max_length=128, blank=True, null=True)
     grade = models.CharField(max_length=127, blank=True, null=False)
     professions = models.ManyToManyField(Profession, blank=True)
