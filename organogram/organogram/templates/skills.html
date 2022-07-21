@@ -1,0 +1,94 @@
+{% from 'macros.html' import select, input %}
+
+{% extends "base.html" %}
+
+{% block content %}
+
+  <main class="card-panel">
+
+    <header>
+      <h1>Current skills</h1>
+    </header>
+
+    <p>Definition - A learned capacity to do something competently, a developed aptitude or ability. Skills are how work gets done</p>
+
+    <form method="POST">
+
+      {{csrf_input}}
+
+      <div class="row grid skill-picker">
+
+        <div class="col s5 select-field">
+
+          {{select(form, 'skill', 'Select a skill', skills, empty_option="Choose a skill")}}
+
+        </div>
+        <div class="col s2 typography-h2">OR</div>
+        <div class="col s5">
+
+          {{input(form, 'new_skill', "Enter your own skill")}}
+
+        </div>
+
+      </div>
+
+      <p>Select your skill level</p>
+
+      <div class="row grid">
+        <div class="col s4">
+          <p>
+            <label>
+              <input name="level" type="radio" value="beginner" />
+              <span>Beginner</span>
+            </label>
+          </p>
+        </div>
+        <div class="col s4">
+          <p>
+            <label>
+              <input name="level" type="radio" value="competent" />
+              <span>Competent</span>
+            </label>
+          </p>
+        </div>
+        <div class="col s4">
+          <p>
+            <label>
+              <input name="level" type="radio" value="expert" />
+              <span>Expert</span>
+            </label>
+          </p>
+        </div>
+      </div>
+
+      <div class="center-align">
+        <button class="btn waves-effect waves-light" type="submit" name="action" value="add-skill">
+          Add skill
+        </button>
+      </div>
+
+      <div class="divider"></div>
+
+      {% for skill in user_skills %}
+
+        <div class="chip">
+          {{skill.skill_name}}{{skill.level and ": "+skill.level}}
+          <i class="close material-icons">close</i>
+        </div>
+
+      {% endfor %}
+
+      <div class="buttons">
+        <a class="btn waves-effect waves-light btn-small" href="{{prev_url}}">
+          Back
+        </a>
+        <button class="btn waves-effect waves-light" type="submit" name="action" value="continue">
+          Continue
+        </button>
+      </div>
+
+    </form>
+
+  </main>
+
+{% endblock content %}

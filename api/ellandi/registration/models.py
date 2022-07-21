@@ -43,7 +43,10 @@ class Organisation(DropDownListModel):
 
 
 class ContractType(DropDownListModel):
-    pass
+    order = models.PositiveSmallIntegerField(null=True)
+
+    class Meta:
+        ordering = ["order"]
 
 
 class Location(DropDownListModel):
@@ -59,7 +62,10 @@ class Profession(DropDownListModel):
 
 
 class Grade(DropDownListModel):
-    pass
+    order = models.PositiveSmallIntegerField(null=True)
+
+    class Meta:
+        ordering = ["order"]
 
 
 class LanguageSkillLevel(DropDownListModel):
@@ -67,7 +73,8 @@ class LanguageSkillLevel(DropDownListModel):
 
 
 class Country(DropDownListModel):
-    pass
+    class Meta:
+        verbose_name_plural = "Countries"
 
 
 class UserManager(BaseUserManager):
@@ -121,10 +128,11 @@ class RegistrationAbstractUser(models.Model):
     organisation = models.CharField(max_length=128, blank=True, null=True)
     job_title = models.CharField(max_length=128, blank=True, null=True)
     grade = models.CharField(max_length=127, blank=True, null=False)
-    profession = models.ManyToManyField(Profession, blank=True)
+    professions = models.ManyToManyField(Profession, blank=True)
     contract_type = models.CharField(max_length=127, blank=True, null=False)
     line_manager_email = models.CharField(max_length=128, blank=True, null=True)
     location = models.CharField(max_length=127, blank=True, null=False)
+    department = models.CharField(max_length=127, blank=True, null=True)
 
 
 class User(AbstractUser, TimeStampedModel, RegistrationAbstractUser):

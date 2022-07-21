@@ -57,13 +57,18 @@ docker:  ## Run python app in a docker container
 	docker-compose up --build --force-recreate --renew-anon-volumes
 
 define _update_requirements
-	docker-compose run requirements bash -c "pip install -U pip setuptools && pip install -U -r /app/api/$(1).txt && pip freeze > /app/api/$(1).lock"
+	docker-compose run requirements bash -c "pip install -U pip setuptools && pip install -U -r /app/$(1)/$(2).txt && pip freeze > /app/$(1)/$(2).lock"
 endef
 
 .PHONY: update-api-requirements
 update-api-requirements:
-	$(call _update_requirements,requirements)
-	$(call _update_requirements,requirements-dev)
+	$(call _update_requirements,api,requirements)
+	$(call _update_requirements,api,requirements-dev)
+
+.PHONY: update-organogram-requirements
+update-organogram-requirements:
+	$(call _update_requirements,organogram,requirements)
+	$(call _update_requirements,organogram,requirements-dev)
 
 # -------------------------------------- Code Style  -------------------------------------
 
@@ -72,6 +77,20 @@ check-python-code:
 	isort --check .
 	black --check .
 	flake8
+
+.PHONY: test-api
+test-api:
+	docker-compose build tests-api && docker-compose run tests-api
+
+.PHONY: test-organogram
+test-organogram:
+	docker-compose build tests-organogram && docker-compose run tests-organogram
+
+.PHONY: check-migrations
+check-migrations:
+	docker-compose build api
+	docker-compose run api python manage.py migrate
+	docker-compose run api python manage.py makemigrations --check
 
 .PHONY: format-python-code
 format-python-code:
@@ -89,4 +108,8 @@ reset-db:
 
 .PHONY: integration ## Run playwright tests
 integration:
-	docker-compose up --build --force-recreate --renew-anon-volumes integration
+	docker-compose up --build --force-recreate
+
+.PHONY: setup
+setup:
+	docker-compose run organogram python manage.py create_minio_bucket

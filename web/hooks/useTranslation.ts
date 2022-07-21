@@ -1,6 +1,8 @@
 import { useRouter } from 'next/router'
 import en from '@/locales/en/common'
 
+type TranslationKey = keyof typeof en
+
 const languages = {
   en
 }
@@ -8,7 +10,7 @@ const languages = {
 const useTranslation = () => {
   const { locale } = useRouter()
 
-  const t = (translationKey: keyof typeof en) => {
+  const t = (translationKey: TranslationKey) => {
     return languages[locale][translationKey]
   }
 

@@ -27,12 +27,14 @@ jobs:
 
     strategy:
       matrix:
-        app: [ellandi-api, ellandi-web]
+        app: [ellandi-api, ellandi-web, organogram]
         include:
           - app: ellandi-api
             dockerfile: docker/api/Dockerfile
           - app: ellandi-web
             dockerfile: docker/web/Dockerfile
+          - app: organogram
+            dockerfile: docker/organogram/Dockerfile
 
     steps:
       - uses: actions/checkout@v3
@@ -65,7 +67,7 @@ jobs:
 
     strategy:
       matrix:
-        app: [ellandi-api, ellandi-web]
+        app: [ellandi-api, ellandi-web, organogram]
 
     steps:
       - name: Donwload CF CLI

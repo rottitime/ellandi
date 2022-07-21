@@ -12,7 +12,6 @@ def test_users_get(client, user_id):
     response = client.get("/users/")
     assert response.status_code == status.HTTP_200_OK
     data = response.json()
-    assert len(data) == 1
     assert data[0]["email"] == "jane@example.com"
 
 
@@ -52,7 +51,7 @@ def test_put(client, user_id):
         "email": "jane_modified@example.com",
         "first_name": "Jane",
         "last_name": "Brown",
-        "profession": [
+        "professions": [
             f"{TEST_SERVER_URL}professions/government-operational-research-service/",
             f"{TEST_SERVER_URL}professions/digital-data-and-technology-professions/",
         ],
@@ -238,6 +237,7 @@ def test_dropdown_list(client, user_id):
     def test_post(endpoint):
         response = client.post(endpoint, {"name": "a new name"})
         assert response.status_code == status.HTTP_405_METHOD_NOT_ALLOWED
+        assert response.json()["detail"] == "Method not allowed"
 
     for item in data:
         endpoint = item["endpoint"]
@@ -284,6 +284,7 @@ def test_post_create_one_time_login(client):
 def test_post_create_one_time_login_no_email(client):
     response = client.post("/one-time-login-token/")
     assert response.status_code == status.HTTP_400_BAD_REQUEST
+    assert response.json()["detail"] == "You need to provide an email"
 
 
 @utils.with_client

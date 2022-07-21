@@ -1,17 +1,12 @@
 import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldControlled'
 import { FC } from 'react'
-import { useForm, SubmitHandler, FormProvider } from 'react-hook-form'
+import { useForm, FormProvider } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { SchemaOf, object, string } from 'yup'
 import FormFooter from '../FormFooter'
 import { Divider } from '@mui/material'
 import { Field } from '../Field'
-
-export type SignInType = { email: string; password: string }
-type Props = {
-  onFormSubmit: SubmitHandler<SignInType>
-  loading: boolean
-}
+import { SignInType, Props } from './types'
 
 const schema: SchemaOf<SignInType> = object().shape({
   email: string()

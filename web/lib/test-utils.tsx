@@ -1,60 +1,57 @@
 import { ThemeProvider } from '@mui/material'
-import { render, RenderOptions, RenderResult } from '@testing-library/react'
-import { RouterContext } from 'next/dist/shared/lib/router-context'
-import { NextRouter } from 'next/router'
+import { render, RenderOptions } from '@testing-library/react'
 import { ReactNode } from 'react'
 import theme from '@/style/theme'
+import { QueryClient, QueryClientProvider } from 'react-query'
+import { UiProvider } from '@/context/UiContext'
 
-export const mockRouter: NextRouter = {
-  basePath: '',
-  pathname: '/',
-  route: '/',
-  query: {},
-  asPath: '/',
-  back: jest.fn(),
-  beforePopState: jest.fn(),
-  prefetch: jest.fn(),
-  push: jest.fn(),
-  reload: jest.fn(),
-  replace: jest.fn(),
-  events: {
-    on: jest.fn(),
-    off: jest.fn(),
-    emit: jest.fn()
-  },
-  isFallback: false,
-  isLocaleDomain: false,
-  isReady: true,
-  defaultLocale: 'en',
-  domainLocales: [],
-  isPreview: false
-}
+beforeAll(() => {
+  Object.defineProperty(global, 'sessionStorage', { value: mockStorage })
+  Object.defineProperty(global, 'localStorage', { value: mockStorage })
+})
+
+afterEach(() => {
+  window.sessionStorage.clear()
+})
+
+const mockStorage = (() => {
+  let store = {}
+  return {
+    getItem: function (key) {
+      return store[key] || null
+    },
+    setItem: function (key, value) {
+      store[key] = value.toString()
+    },
+    removeItem: function (key) {
+      delete store[key]
+    },
+    clear: function () {
+      store = {}
+    }
+  }
+})()
 
 export const renderWithProviders = async (
   ui: ReactNode,
   options: Omit<RenderOptions, 'queries'> = {}
 ) => {
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: false
+      }
+    }
+  })
   const { rerender, ...props } = await render(
-    <RouterContext.Provider value={mockRouter}>
+    <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
-        <>{ui}</>
+        <UiProvider>
+          <>{ui}</>
+        </UiProvider>
       </ThemeProvider>
-    </RouterContext.Provider>,
+    </QueryClientProvider>,
     options
   )
-  return { ...props, rerender }
-}
-
-export const renderWithProviders2 = (
-  ui: ReactNode,
-  options: Omit<RenderOptions, 'queries'> = {}
-): RenderResult => {
-  const { rerender, ...props } = render(
-    <RouterContext.Provider value={mockRouter}>
-      <ThemeProvider theme={theme}>{ui}</ThemeProvider>
-    </RouterContext.Provider>,
-    options
-  )
-
   return { ...props, rerender }
 }

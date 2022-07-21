@@ -1,29 +1,57 @@
-import Page from '@/components/Layout/GenericPage'
+import CardLayout from '@/components/Layout/CardLayout'
 import Link from '@/components/UI/Link'
-import { Typography } from '@mui/material'
+import { Alert, Fade, Typography } from '@mui/material'
 import router from 'next/router'
 import ContractTypeForm from '@/components/Form/Register/ContractTypeForm'
-import { dehydrate, QueryClient } from 'react-query'
-import { fetchContractTypes } from '@/service/api'
+import { dehydrate, QueryClient, useMutation, useQueryClient } from 'react-query'
+import { fetchContractTypes, Query, RegisterUserResponse } from '@/service/api'
+import { useState } from 'react'
+import { updateUser } from '@/service/user'
 
 const page = 10
 
-const RegisterPage = () => (
-  <ContractTypeForm
-    backUrl={`/register/page${page - 1}`}
-    onFormSubmit={(data) => {
-      // eslint-disable-next-line no-console
-      console.log({ data })
+const RegisterPage = () => {
+  const queryClient = useQueryClient()
+  const data = queryClient.getQueryData<RegisterUserResponse>(Query.RegisterUser)
+  const id = data?.id
+  const [error, setError] = useState(null)
+
+  const { isError, isLoading, ...mutate } = useMutation<
+    RegisterUserResponse,
+    Error,
+    Partial<RegisterUserResponse>
+  >(async (data) => updateUser(id, data), {
+    onSuccess: (data) => {
+      queryClient.setQueryData(Query.RegisterUser, data)
       router.push(`/register/page${page + 1}`)
-    }}
-  />
-)
+    },
+    onError: ({ message }) => setError(message)
+  })
+
+  return (
+    <>
+      {isError && (
+        <Fade in={!!isError}>
+          <Alert severity="error" sx={{ mt: 3, mb: 3 }}>
+            <>{error}</>
+          </Alert>
+        </Fade>
+      )}
+      <ContractTypeForm
+        defaultValues={data}
+        loading={isLoading}
+        backUrl={`/register/page${page - 1}`}
+        onFormSubmit={(data) => mutate.mutate(data)}
+      />
+    </>
+  )
+}
 
 export default RegisterPage
 
 export async function getStaticProps() {
   const queryClient = new QueryClient()
-  await queryClient.prefetchQuery('contract-types', fetchContractTypes)
+  await queryClient.prefetchQuery(Query.ContractTypes, fetchContractTypes)
   return {
     props: {
       dehydratedState: dehydrate(queryClient)
@@ -31,8 +59,8 @@ export async function getStaticProps() {
   }
 }
 
-RegisterPage.getLayout = (page) => (
-  <Page
+RegisterPage.getLayout = (ui) => (
+  <CardLayout
     title="Contract type"
     footer={
       <Typography gutterBottom>
@@ -41,6 +69,6 @@ RegisterPage.getLayout = (page) => (
     }
     progress={60}
   >
-    {page}
-  </Page>
+    {ui}
+  </CardLayout>
 )

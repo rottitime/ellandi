@@ -1,0 +1,26 @@
+[
+  {
+    "fields": {
+      "description": "You can understand and use basic phrases, introduce yourself and describe in simple terms aspects of your background and environment",
+      "name": "Basic"
+    },
+    "model": "registration.languageskilllevel",
+    "pk": "basic"
+  },
+  {
+    "fields": {
+      "description": "You can deal with most situations likely to arise while travelling in an area where the language is spoken and interact with a degree of fluency",
+      "name": "Independent"
+    },
+    "model": "registration.languageskilllevel",
+    "pk": "independent"
+  },
+  {
+    "fields": {
+      "description": "You can express ideas fluently and spontaneously and can use the language flexibly for social, academic and professional purposes",
+      "name": "Proficient"
+    },
+    "model": "registration.languageskilllevel",
+    "pk": "proficient"
+  }
+]

@@ -8,7 +8,7 @@ import {
 } from '@mui/material'
 import { useQuery } from 'react-query'
 import RadioSkeleton from '@/components/UI/Skeleton/RadioSkeleton'
-import { fetchFunctions, GenericDataList } from '@/service/api'
+import { fetchFunctions, GenericDataList, Query } from '@/service/api'
 import { useUiContext } from '@/context/UiContext'
 import { FC, useEffect } from 'react'
 import FormFooter from '@/components/Form/FormFooter'
@@ -49,7 +49,7 @@ const FunctionTypeForm: FC<StandardRegisterProps<FunctionType>> = ({
   const watchFunctionType = watch('functionType')
 
   const { isLoading, isError, data } = useQuery<GenericDataList[], { message?: string }>(
-    'functions',
+    Query.Functions,
     fetchFunctions,
     {
       staleTime: Infinity

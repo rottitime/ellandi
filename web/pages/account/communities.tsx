@@ -1,4 +1,4 @@
-import AccountMenuPage from '@/components/Layout/AccountMenuPage'
+import AccountLayout from '@/components/Layout/AccountLayout'
 import { Divider, Grid, Typography } from '@mui/material'
 import Link from '@/components/UI/Link'
 import Communities from '@/components/Icons/Communities'
@@ -147,7 +147,7 @@ const Page = () => {
 
 export default Page
 Page.getLayout = (page) => (
-  <AccountMenuPage
+  <AccountLayout
     title={
       <>
         <Communities /> Communities
@@ -156,5 +156,5 @@ Page.getLayout = (page) => (
     breadcrumbs={[{ title: 'Communities' }]}
   >
     {page}
-  </AccountMenuPage>
+  </AccountLayout>
 )

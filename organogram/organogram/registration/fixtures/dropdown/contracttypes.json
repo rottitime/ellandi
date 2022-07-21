@@ -1,0 +1,34 @@
+[
+  {
+    "fields": {
+      "name": "Agency",
+      "order": 2
+    },
+    "model": "registration.contracttype",
+    "pk": "agency"
+  },
+  {
+    "fields": {
+      "name": "Fixed-term",
+      "order": 1
+    },
+    "model": "registration.contracttype",
+    "pk": "fixed-term"
+  },
+  {
+    "fields": {
+      "name": "Other",
+      "order": 3
+    },
+    "model": "registration.contracttype",
+    "pk": "other"
+  },
+  {
+    "fields": {
+      "name": "Permanent",
+      "order": 0
+    },
+    "model": "registration.contracttype",
+    "pk": "permanent"
+  }
+]

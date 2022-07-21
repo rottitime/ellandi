@@ -1,0 +1,243 @@
+[
+  {
+    "fields": {
+      "name": "Communication Service",
+      "show": true
+    },
+    "model": "registration.profession",
+    "pk": "communication-service"
+  },
+  {
+    "fields": {
+      "name": "Corporate Finance",
+      "show": true
+    },
+    "model": "registration.profession",
+    "pk": "corporate-finance"
+  },
+  {
+    "fields": {
+      "name": "Counter-fraud",
+      "show": true
+    },
+    "model": "registration.profession",
+    "pk": "counter-fraud"
+  },
+  {
+    "fields": {
+      "name": "Digital, Data and Technology",
+      "show": true
+    },
+    "model": "registration.profession",
+    "pk": "digital-data-and-technology"
+  },
+
+  {
+    "fields": {
+      "name": "Economic Service",
+      "show": true
+    },
+    "model": "registration.profession",
+    "pk": "economic-service"
+  },
+  {
+    "fields": {
+      "name": "Finance",
+      "show": true
+    },
+    "model": "registration.profession",
+    "pk": "finance"
+  },
+  {
+    "fields": {
+      "name": "Human Resources",
+      "show": true
+    },
+    "model": "registration.profession",
+    "pk": "human-resources"
+  },
+  {
+    "fields": {
+      "name": "Intelligence Analysis",
+      "show": true
+    },
+    "model": "registration.profession",
+    "pk": "intelligence-analysis"
+  },
+  {
+    "fields": {
+      "name": "Internal Audit",
+      "show": true
+    },
+    "model": "registration.profession",
+    "pk": "internal-audit"
+  },
+  {
+    "fields": {
+      "name": "IT",
+      "show": true
+    },
+    "model": "registration.profession",
+    "pk": "it"
+  },
+  {
+    "fields": {
+      "name": "Knowledge and Information Management",
+      "show": true
+    },
+    "model": "registration.profession",
+    "pk": "knowledge-and-information-management"
+  },
+  {
+    "fields": {
+      "name": "Legal",
+      "show": true
+    },
+    "model": "registration.profession",
+    "pk": "legal"
+  },
+  {
+    "fields": {
+      "name": "Medical",
+      "show": true
+    },
+    "model": "registration.profession",
+    "pk": "medical"
+  },
+  {
+    "fields": {
+      "name": "Occupational Psychology",
+      "show": true
+    },
+    "model": "registration.profession",
+    "pk": "occupational-psychology"
+  },
+  {
+    "fields": {
+      "name": "Operational Delivery",
+      "show": true
+    },
+    "model": "registration.profession",
+    "pk": "operational-delivery"
+  },
+  {
+    "fields": {
+      "name": "Operational Research Service",
+      "show": true
+    },
+    "model": "registration.profession",
+    "pk": "operational-research-service"
+  },
+  {
+    "fields": {
+      "name": "Planning",
+      "show": true
+    },
+    "model": "registration.profession",
+    "pk": "planning"
+  },
+  {
+    "fields": {
+      "name": "Planning Inspectors",
+      "show": true
+    },
+    "model": "registration.profession",
+    "pk": "planning-inspectors"
+  },
+  {
+    "fields": {
+      "name": "Policy",
+      "show": true
+    },
+    "model": "registration.profession",
+    "pk": "policy"
+  },
+  {
+    "fields": {
+      "name": "Procurement",
+      "show": true
+    },
+    "model": "registration.profession",
+    "pk": "procurement"
+  },
+  {
+    "fields": {
+      "name": "Project Delivery",
+      "show": true
+    },
+    "model": "registration.profession",
+    "pk": "project-delivery"
+  },
+  {
+    "fields": {
+      "name": "Property",
+      "show": true
+    },
+    "model": "registration.profession",
+    "pk": "property"
+  },
+  {
+    "fields": {
+      "name": "Science and Engineering",
+      "show": true
+    },
+    "model": "registration.profession",
+    "pk": "science-and-engineering"
+  },
+  {
+    "fields": {
+      "name": "Security",
+      "show": true
+    },
+    "model": "registration.profession",
+    "pk": "security"
+  },
+  {
+    "fields": {
+      "name": "Social Research",
+      "show": true
+    },
+    "model": "registration.profession",
+    "pk": "social-research"
+  },
+  {
+    "fields": {
+      "name": "Statistical Service",
+      "show": true
+    },
+    "model": "registration.profession",
+    "pk": "statistical-service"
+  },
+  {
+    "fields": {
+      "name": "Tax",
+      "show": true
+    },
+    "model": "registration.profession",
+    "pk": "tax"
+  },
+  {
+    "fields": {
+      "name": "Veterinary",
+      "show": true
+    },
+    "model": "registration.profession",
+    "pk": "veterinary"
+  },
+  {
+    "fields": {
+      "name": "No profession",
+      "show": true
+    },
+    "model": "registration.profession",
+    "pk": "no-profession"
+  },
+  {
+    "fields": {
+      "name": "Other",
+      "show": true
+    },
+    "model": "registration.profession",
+    "pk": "other"
+  }
+]

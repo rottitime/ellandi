@@ -1,10 +1,10 @@
 import Link from '@/components/UI/Link'
-import Page from '@/components/Layout/GenericPage'
+import CardLayout from '@/components/Layout/CardLayout'
 import { Typography } from '@mui/material'
 import LanguageForm from '@/components/Form/Register/LanguageForm'
 import router from 'next/router'
 import { dehydrate, QueryClient } from 'react-query'
-import { fetchLanguages } from '@/service/api'
+import { fetchLanguages, Query } from '@/service/api'
 
 const page = 12
 
@@ -23,7 +23,7 @@ export default RegisterPage
 
 export async function getStaticProps() {
   const queryClient = new QueryClient()
-  await queryClient.prefetchQuery('languages', fetchLanguages)
+  await queryClient.prefetchQuery(Query.Languages, fetchLanguages)
   return {
     props: {
       dehydratedState: dehydrate(queryClient)
@@ -32,7 +32,7 @@ export async function getStaticProps() {
 }
 
 RegisterPage.getLayout = (page) => (
-  <Page
+  <CardLayout
     title="Language skills"
     footer={
       <Typography gutterBottom>
@@ -42,5 +42,5 @@ RegisterPage.getLayout = (page) => (
     progress={80}
   >
     {page}
-  </Page>
+  </CardLayout>
 )
