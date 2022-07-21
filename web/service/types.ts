@@ -3,6 +3,7 @@ export enum Query {
   Countries = 'countries',
   Grades = 'grades',
   Professions = 'professions',
+  PrimaryProfessions = 'primaryProfessions',
   Functions = 'functions',
   ContractTypes = 'contract-types',
   Languages = 'languages'
@@ -46,6 +47,10 @@ export type ProfessionType = {
   professions: string[]
 }
 
+export type PrimaryProfessionType = {
+  profession_primary: string
+}
+
 export type ContactType = {
   contract_type: string
 }
@@ -60,4 +65,5 @@ export type RegisterUserResponse = {
   RegisterDetailsType &
   GradeType &
   ProfessionType &
-  ContactType
+  ContactType &
+  PrimaryProfessionType
