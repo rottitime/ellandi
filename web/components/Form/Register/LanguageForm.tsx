@@ -3,6 +3,8 @@ import {
   Alert,
   AlertTitle,
   Autocomplete,
+  Box,
+  Collapse,
   FormControlLabel,
   Radio,
   RadioGroup,
@@ -10,7 +12,7 @@ import {
   Typography
 } from '@mui/material'
 import { useUiContext } from '@/context/UiContext'
-import { GenericDataList, Query } from '@/service/types'
+import { GenericDataList, LanguagesType, Query } from '@/service/types'
 import { fetchLanguages } from '@/service/api'
 import { FC, useEffect } from 'react'
 import { useQuery } from 'react-query'
@@ -18,6 +20,10 @@ import { StandardRegisterProps } from './types'
 import { useForm } from 'react-hook-form'
 import FormFooter from '@/components/Form/FormFooter'
 import { Field } from '../Field'
+import { array, object, SchemaOf, string } from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
+
+const fieldName: keyof LanguagesType = 'languages'
 
 const optionsSpeaking = [
   {
@@ -55,17 +61,40 @@ const optionsWriting = [
   }
 ]
 
-const LanguageForm: FC<StandardRegisterProps<null>> = ({ backUrl, onFormSubmit }) => {
-  const { handleSubmit } = useForm()
+const schema: SchemaOf<LanguagesType> = object().shape({
+  languages: array().of(
+    object().shape({
+      language: string().required(),
+      writing: string().required(),
+      speaking: string().required()
+    })
+  )
+})
+
+const LanguageForm: FC<StandardRegisterProps<LanguagesType>> = ({
+  backUrl,
+  onFormSubmit,
+  defaultValues = {
+    languages: []
+  }
+}) => {
   const { setLoading } = useUiContext()
   const { isLoading, isError, data, isSuccess } = useQuery<
     GenericDataList[],
     { message?: string }
   >(Query.Languages, fetchLanguages)
 
+  const { handleSubmit, register } = useForm<LanguagesType>({
+    defaultValues,
+    resolver: yupResolver(schema)
+  })
+
   useEffect(() => {
     setLoading(isLoading)
   }, [isLoading, setLoading])
+
+  const checked = true
+  register(fieldName)
 
   if (isError)
     return (
@@ -107,61 +136,66 @@ const LanguageForm: FC<StandardRegisterProps<null>> = ({ backUrl, onFormSubmit }
         />
       </Field>
 
-      <Field>
-        <Typography variant="h4" gutterBottom>
-          Speaking
-        </Typography>
-        <Typography gutterBottom>Set a proficiency level for speaking:</Typography>
+      <Box>
+        <Collapse in={checked}>
+          <Field>
+            <Typography variant="h4" gutterBottom>
+              Speaking
+            </Typography>
 
-        <RadioGroup
-          aria-labelledby="demo-radio-buttons-group-label"
-          name="radio-buttons-group"
-        >
-          {optionsSpeaking.map((option) => (
-            <Field key={option.title}>
-              <FormControlLabel
-                control={<Radio />}
-                label={
-                  <>
-                    <Typography variant="h4">{option.title}</Typography>
-                    <Typography variant="body2">{option.content}</Typography>
-                  </>
-                }
-                value={option.title}
-                name="group1"
-              />
-            </Field>
-          ))}
-        </RadioGroup>
-      </Field>
+            <Typography gutterBottom>Set a proficiency level for speaking:</Typography>
 
-      <Field>
-        <Typography gutterBottom variant="h4">
-          Writing
-        </Typography>
-        <Typography gutterBottom>Set a proficiency level for writing:</Typography>
-        <RadioGroup
-          aria-labelledby="demo-radio-buttons-group-label"
-          name="radio-buttons-group2"
-        >
-          {optionsWriting.map((option) => (
-            <Field key={option.title}>
-              <FormControlLabel
-                key={option.title}
-                control={<Radio />}
-                label={
-                  <>
-                    <Typography variant="h4">{option.title}</Typography>
-                    <Typography variant="body2">{option.content}</Typography>
-                  </>
-                }
-                value={option.title}
-                name="group1"
-              />
-            </Field>
-          ))}
-        </RadioGroup>
-      </Field>
+            <RadioGroup
+              aria-labelledby="demo-radio-buttons-group-label"
+              name="radio-buttons-group"
+            >
+              {optionsSpeaking.map((option) => (
+                <Field key={option.title}>
+                  <FormControlLabel
+                    control={<Radio />}
+                    label={
+                      <>
+                        <Typography variant="h4">{option.title}</Typography>
+                        <Typography variant="body2">{option.content}</Typography>
+                      </>
+                    }
+                    value={option.title}
+                    name="group1"
+                  />
+                </Field>
+              ))}
+            </RadioGroup>
+          </Field>
+
+          <Field>
+            <Typography gutterBottom variant="h4">
+              Writing
+            </Typography>
+            <Typography gutterBottom>Set a proficiency level for writing:</Typography>
+            <RadioGroup
+              aria-labelledby="demo-radio-buttons-group-label"
+              name="radio-buttons-group2"
+            >
+              {optionsWriting.map((option) => (
+                <Field key={option.title}>
+                  <FormControlLabel
+                    key={option.title}
+                    control={<Radio />}
+                    label={
+                      <>
+                        <Typography variant="h4">{option.title}</Typography>
+                        <Typography variant="body2">{option.content}</Typography>
+                      </>
+                    }
+                    value={option.title}
+                    name="group1"
+                  />
+                </Field>
+              ))}
+            </RadioGroup>
+          </Field>
+        </Collapse>
+      </Box>
 
       <Typography gutterBottom>
         <Link href="#">Add language</Link>

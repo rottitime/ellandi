@@ -65,15 +65,25 @@ export type FunctionType = {
   function_other: string
 }
 
+type LanguageType = {
+  language: string
+  speaking: string
+  writing: string
+}
+
+export type LanguagesType = {
+  languages: LanguageType[]
+}
+
 export type RegisterUserResponse = {
   id: string
   email: string
   url: string
   skills: string[]
-  languages: string[]
 } & PrivacyAcceptType &
   RegisterDetailsType &
   GradeType &
   ProfessionType &
   ContactType &
-  PrimaryProfessionType
+  PrimaryProfessionType &
+  LanguagesType

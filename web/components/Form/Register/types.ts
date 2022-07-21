@@ -4,5 +4,5 @@ export type StandardRegisterProps<t> = {
   backUrl: string
   onFormSubmit: SubmitHandler<t>
   loading?: boolean
-  defaultValues?: t
+  defaultValues: t
 }
