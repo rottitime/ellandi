@@ -110,6 +110,7 @@ class YourDetailsForm(forms.Form):
     sub_unit = forms.CharField(max_length=128, required=False)
     team = forms.CharField(max_length=128, required=False)
     line_manager_email = forms.CharField(max_length=128, required=False)
+    organogram_id = forms.CharField(max_length=128, required=False)
 
 
 @register("your-details")
