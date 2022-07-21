@@ -1,0 +1,43 @@
+{% from 'macros.html' import checkboxes %}
+
+{% extends "base.html" %}
+
+{% block content %}
+
+  <main class="card-panel">
+
+    <header>
+
+      <div class="complete">
+        <i class="material-icons">done</i>
+      </div>
+
+      <h1>Welcome</h1>
+
+      <p>Thank you for taking part in the Cabinet Office Organogram pilot! This application will help us quickly understand who is working where, who they work with, and what skills they have.</p>
+
+      <p>The next few screens will walk you through creating an acccount, telling us your role, profession, and where you work. That data will be available to all Cabinet Office colleagues, and in the future we'll use it to help direct you to training that will be most relevant to you.</p>
+
+      <p>Any data that you enter here will be shared openly across Cabinet Office and No 10.  You shouldn't enter anything that you wouldn't want to be made completely public.</p>
+
+      <p>Please check the box to confirm that you understand:</p>
+
+      <form method="POST">
+
+        {{csrf_input}}
+
+        {{checkboxes(form, 'understand', [{'text': 'I understand', 'value': 'understand'}])}}
+
+        <div class="buttons">
+          <button class="btn waves-effect waves-light" type="submit" name="action">
+            Continue
+          </button>
+        </div>
+
+      </form>
+
+    </header>
+
+  </main>
+
+{% endblock content %}

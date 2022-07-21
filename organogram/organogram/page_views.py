@@ -7,7 +7,18 @@ from django.urls import reverse
 
 from organogram.registration import initial_data, models
 
-page_names = ("create-account", "your-details", "photo", "grade", "professions", "skills", "complete")
+page_names = (
+    "intro",
+    "create-account",
+    "your-details",
+    "biography",
+    "photo",
+    "grade",
+    "professions",
+    "primary_profession",
+    "skills",
+    "complete",
+)
 
 view_map = {}
 
@@ -31,6 +42,22 @@ def get_values(model, query_kwargs=None):
 def get_choices(model):
     choices = tuple((item.slug, item.name) for item in model.objects.all())
     return choices
+
+
+class IntroForm(forms.Form):
+    understand = forms.BooleanField()
+
+
+@register("intro")
+def intro_view(request, url_data):
+    if request.method == "POST":
+        form = IntroForm(request.POST)
+        if form.is_valid():
+            return redirect(url_data["next_url"])
+    else:
+        form = IntroForm()
+
+    return render(request, "intro.html", {"form": form, **url_data})
 
 
 class CreateAccountForm(forms.Form):
@@ -101,6 +128,27 @@ def your_details_view(request, url_data):
         form = YourDetailsForm(data)
 
     return render(request, "your-details.html", {"form": form, **url_data})
+
+
+class BiographyForm(forms.Form):
+    biography = forms.CharField(max_length=4095, required=False)
+
+
+@register("biography")
+def biography_view(request, url_data):
+    if request.method == "POST":
+        form = BiographyForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            user = request.user
+            user.biography = data["biography"]
+            user.save()
+            return redirect(url_data["next_url"])
+    else:
+        data = model_to_dict(request.user)
+        form = BiographyForm(data)
+
+    return render(request, "biography.html", {"form": form, **url_data})
 
 
 class PhotoForm(forms.Form):
@@ -180,6 +228,33 @@ def professions_view(request, url_data):
     return render(request, "professions.html", {"form": form, "professions": professions, **url_data})
 
 
+class PrimaryProfessionForm(forms.Form):
+    primary_profession = forms.ChoiceField(required=False, choices=lambda: get_choices(models.Profession))
+
+
+@register("primary_profession")
+def primary_profession_view(request, url_data):
+    user = request.user
+    selected_professions = tuple({"value": item.slug, "text": item.name} for item in user.professions.all())
+
+    if request.method == "POST":
+        form = PrimaryProfessionForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            user = request.user
+            primary_profession = models.Profession.objects.get(pk=data["primary_profession"])
+            user.primary_profession = primary_profession
+            user.save()
+            return redirect(url_data["next_url"])
+    else:
+        data = model_to_dict(request.user)
+        form = PrimaryProfessionForm(data)
+
+    return render(
+        request, "primary_profession.html", {"form": form, "selected_professions": selected_professions, **url_data}
+    )
+
+
 def get_skills_choices():
     skills = set(models.UserSkill.objects.all().values_list("skill_name", flat=True))
     skills = initial_data.INITIAL_SKILLS.union(skills)
@@ -222,7 +297,7 @@ def skills_view(request, url_data):
     return render(request, "skills.html", {"form": form, "skills": skills, "user_skills": user_skills, **url_data})
 
 
-def page_view(request, page_name="create-account"):
+def page_view(request, page_name="intro"):
     if page_name not in page_names:
         raise Http404()
 

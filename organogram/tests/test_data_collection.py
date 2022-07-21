@@ -13,7 +13,7 @@ def test_favicon():
 
 
 def _fill_in_user_form(agent):
-    page = agent.get("/")
+    page = agent.get("/create-account")
     assert page.status_code == 200, page.status_code
 
     assert page.has_one("h1:contains('Create an account')")
@@ -46,6 +46,11 @@ def test_resistration():
     page = agent.get("/")
     assert page.status_code == 200, page.status_code
 
+    assert page.has_one("h1:contains('Welcome')")
+    form = page.get_form()
+    form["understand"] = True
+    page = form.submit().follow()
+
     assert page.has_one("h1:contains('Create an account')")
 
     form = page.get_form()
@@ -76,7 +81,7 @@ def test_resistration():
 
     page = form.submit().follow()
     assert page.status_code == 200, page.status_code
-    assert page.has_one("h1:contains('Upload a photo')")
+    assert page.has_one("h1:contains('Biography')")
 
     page = page.click(contains="Back")
     assert page.status_code == 200, page.status_code
@@ -94,7 +99,10 @@ def test_resistration():
 
     page = form.submit().follow()
     assert page.status_code == 200, page.status_code
-    assert page.has_one("h1:contains('Upload a photo')")
+    page = form.submit().follow()
+    assert page.status_code == 200, page.status_code
+
+    assert page.has_one("h1:contains('Biography')")
 
     page = page.click(contains="Back")
     assert page.status_code == 200, page.status_code
@@ -111,6 +119,11 @@ def test_resistration():
 
     page = form.submit().follow()
     assert page.status_code == 200, page.status_code
+    assert page.has_one("h1:contains('Biography')")
+    form = page.get_form()
+    form["biography"] = "blah, blah, blah"
+    page = form.submit().follow()
+
     assert page.has_one("h1:contains('Upload a photo')")
 
     form = page.get_form()
@@ -134,11 +147,15 @@ def test_resistration():
 
     page = form.submit().follow()
     assert page.status_code == 200, page.status_code
+    assert page.has_one("h1:contains('Primary profession')")
+
+    form = page.get_form()
+    form.check("Policy")
+
+    page = form.submit().follow()
+    assert page.status_code == 200, page.status_code
     assert page.has_one("h1:contains('Current skills')")
 
     user = get_user_model().objects.get(email="bob@example.com")
     other_profession = models.Profession.objects.get(slug="flibbler")
     assert other_profession in user.professions.all()
-
-    page = page.click(contains="Back")
-    assert not page.has_text("Flibbler")
