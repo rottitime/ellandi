@@ -152,6 +152,7 @@ class RegistrationAbstractUser(models.Model):
     department = models.CharField(max_length=127, blank=True, null=True)
     photo = models.FileField(upload_to=photo_upload_to, storage=PhotoStorage(), blank=True, null=True)
     biography = models.CharField(max_length=4095, blank=True, null=True)
+    organogram_id = models.CharField(max_length=4095, blank=True, null=True)
 
 
 class User(AbstractUser, TimeStampedModel, RegistrationAbstractUser):
