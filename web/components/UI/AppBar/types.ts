@@ -1,4 +1,4 @@
-import { MouseEvent } from 'React'
+import { MouseEvent } from 'react'
 
 export type MenuItem = {
   title: string
