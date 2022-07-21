@@ -10,10 +10,21 @@ from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.text import slugify
+from storages.backends.s3boto3 import S3Boto3Storage
 
 
 def now():
     return datetime.datetime.now(tz=pytz.UTC)
+
+
+def photo_upload_to(instance, filename):
+    subdir_name = str(instance.id)
+    filepath = "/".join((subdir_name, filename))
+    return filepath
+
+
+class PhotoStorage(S3Boto3Storage):
+    location = "photos"
 
 
 class DropDownListModel(models.Model):
@@ -136,6 +147,7 @@ class RegistrationAbstractUser(models.Model):
     line_manager_email = models.CharField(max_length=128, blank=True, null=True)
     location = models.CharField(max_length=127, blank=True, null=False)
     department = models.CharField(max_length=127, blank=True, null=True)
+    photo = models.FileField(upload_to=photo_upload_to, storage=PhotoStorage(), blank=True, null=True)
 
 
 class User(AbstractUser, TimeStampedModel, RegistrationAbstractUser):
