@@ -96,6 +96,7 @@ def test_resistration():
     form["sub_unit"] = "My Sub Unit"
     form["team"] = "The Cool Kids"
     form["line_manager_email"] = "boss@example.com"
+    form["organogram_id"] = "5"
 
     page = form.submit().follow()
     assert page.status_code == 200, page.status_code
@@ -116,6 +117,7 @@ def test_resistration():
     assert form["sub_unit"] == "My Sub Unit"
     assert form["team"] == "The Cool Kids"
     assert form["line_manager_email"] == "boss@example.com"
+    assert form["organogram_id"] == "5"
 
     page = form.submit().follow()
     assert page.status_code == 200, page.status_code
