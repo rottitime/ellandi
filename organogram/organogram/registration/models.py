@@ -88,6 +88,18 @@ class Country(DropDownListModel):
         verbose_name_plural = "Countries"
 
 
+class Team(models.Model):
+    name = models.CharField(max_length=255, blank=False, null=False)
+    sub_unit = models.CharField(max_length=255, blank=False, null=False)
+    business_unit = models.CharField(max_length=255, blank=False, null=False)
+
+    def __str__(self):
+        return f"{self.name} - {self.sub_unit} - {self.business_unit}"
+
+    class Meta:
+        unique_together = ["name", "sub_unit", "business_unit"]
+
+
 class UserManager(BaseUserManager):
     use_in_migrations = True
 
