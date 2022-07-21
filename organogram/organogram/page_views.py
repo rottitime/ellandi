@@ -7,7 +7,18 @@ from django.urls import reverse
 
 from organogram.registration import initial_data, models
 
-page_names = ("intro", "create-account", "your-details", "biography", "photo", "grade", "professions", "primary_profession", "skills", "complete",)
+page_names = (
+    "intro",
+    "create-account",
+    "your-details",
+    "biography",
+    "photo",
+    "grade",
+    "professions",
+    "primary_profession",
+    "skills",
+    "complete",
+)
 
 view_map = {}
 
@@ -231,7 +242,7 @@ def primary_profession_view(request, url_data):
         if form.is_valid():
             data = form.cleaned_data
             user = request.user
-            primary_profession = models.Profession.objects.get(pk=data['primary_profession'])
+            primary_profession = models.Profession.objects.get(pk=data["primary_profession"])
             user.primary_profession = primary_profession
             user.save()
             return redirect(url_data["next_url"])
@@ -239,7 +250,9 @@ def primary_profession_view(request, url_data):
         data = model_to_dict(request.user)
         form = PrimaryProfessionForm(data)
 
-    return render(request, "primary_profession.html", {"form": form, "selected_professions": selected_professions, **url_data})
+    return render(
+        request, "primary_profession.html", {"form": form, "selected_professions": selected_professions, **url_data}
+    )
 
 
 def get_skills_choices():
