@@ -51,6 +51,10 @@ export type PrimaryProfessionType = {
   profession_primary: string
 }
 
+export type ContactType = {
+  contact: string
+}
+
 export type ContractType = {
   contract_type: string
   contract_type_other: string
