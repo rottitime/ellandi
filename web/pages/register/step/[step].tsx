@@ -73,8 +73,7 @@ const steps: Steps[] = [
   },
   {
     form: dynamic(() => import('@/components/Form/Register/ContractTypeForm')),
-    title: 'Contract type',
-    skip: true
+    title: 'Contract type'
   },
   {
     form: dynamic(() => import('@/components/Form/Register/ContactForm')),

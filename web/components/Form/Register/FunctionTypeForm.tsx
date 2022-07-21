@@ -27,12 +27,13 @@ const schema: SchemaOf<FunctionType> = object().shape({
 
 const FunctionTypeForm: FC<StandardRegisterProps<FunctionType>> = ({
   backUrl,
+  defaultValues = { function: '', function_other: '' },
   onFormSubmit
 }) => {
   const { setLoading } = useUiContext()
 
   const methods = useForm<FunctionType>({
-    defaultValues: { function: '', function_other: '' },
+    defaultValues,
     resolver: yupResolver(schema)
   })
   const {
