@@ -48,7 +48,7 @@ def test_resistration():
 
     assert page.has_one("h1:contains('Welcome')")
     form = page.get_form()
-    form['understand'] = True
+    form["understand"] = True
     page = form.submit().follow()
 
     assert page.has_one("h1:contains('Create an account')")
@@ -121,7 +121,7 @@ def test_resistration():
     assert page.status_code == 200, page.status_code
     assert page.has_one("h1:contains('Biography')")
     form = page.get_form()
-    form['biography'] = "blah, blah, blah"
+    form["biography"] = "blah, blah, blah"
     page = form.submit().follow()
 
     assert page.has_one("h1:contains('Upload a photo')")
