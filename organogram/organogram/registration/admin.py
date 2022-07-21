@@ -11,6 +11,7 @@ from .models import (
     Location,
     Organisation,
     Profession,
+    Team,
     User,
     UserLanguage,
     UserSkill,
@@ -150,3 +151,4 @@ admin.site.register(Grade, GradeAdmin)
 admin.site.register(LanguageSkillLevel, LanguageSkillLevelAdmin)
 admin.site.register(Country, CountryAdmin)
 admin.site.register(EmailSalt)
+admin.site.register(Team)
