@@ -49,6 +49,14 @@ h4 {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+  margin-bottom: -85px;
+  flex-direction: column;
+}
+
+.container:after {
+  content: "";
+  display: block;
+  height: 85px; /* the footer's total height */
 }
 
 main.card-panel {
@@ -107,7 +115,8 @@ main.card-panel > header {
 
 footer.logos {
   text-align: right;
-  padding:20px;
+  padding: 0 20px;
+  height: 85px;
 }
 
 footer.logos ul {
