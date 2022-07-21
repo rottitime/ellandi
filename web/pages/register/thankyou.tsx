@@ -4,6 +4,8 @@ import LinkButton from '@/components/LinkButton'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import FooterButtons from '@/components/UI/FooterButtons/FooterButtons'
 
+const nextPage = 9
+
 const RegisterPage = () => (
   <>
     <Typography variant="h3" gutterBottom>
@@ -17,10 +19,10 @@ const RegisterPage = () => (
     </ul>
 
     <FooterButtons>
-      <LinkButton href="/register/page10" variant="outlined">
+      <LinkButton href={`/register/step/${nextPage - 1}`} variant="outlined">
         Back
       </LinkButton>
-      <LinkButton href="/register/page12">Continue</LinkButton>
+      <LinkButton href={`/register/step/${nextPage}`}>Continue</LinkButton>
     </FooterButtons>
   </>
 )

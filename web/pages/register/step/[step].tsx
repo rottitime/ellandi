@@ -79,7 +79,7 @@ const steps: Steps[] = [
   {
     form: dynamic(() => import('@/components/Form/Register/ContactForm')),
     title: 'Contact preference',
-    nextUrl: '/register/thankyou2'
+    nextUrl: '/register/thankyou'
   },
   {
     form: dynamic(() => import('@/components/Form/Register/LanguageForm')),
