@@ -55,6 +55,11 @@ export type ContactType = {
   contract_type: string
 }
 
+export type FunctionType = {
+  function: string
+  function_other: string
+}
+
 export type RegisterUserResponse = {
   id: string
   email: string

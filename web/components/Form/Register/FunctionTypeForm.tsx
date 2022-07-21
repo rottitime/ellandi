@@ -8,7 +8,7 @@ import {
 } from '@mui/material'
 import { useQuery } from 'react-query'
 import RadioSkeleton from '@/components/UI/Skeleton/RadioSkeleton'
-import { fetchFunctions, GenericDataList, Query } from '@/service/api'
+import { fetchFunctions, FunctionType, GenericDataList, Query } from '@/service/api'
 import { useUiContext } from '@/context/UiContext'
 import { FC, useEffect } from 'react'
 import FormFooter from '@/components/Form/FormFooter'
@@ -18,14 +18,9 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { object, SchemaOf, string } from 'yup'
 import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldControlled'
 
-type FunctionType = {
-  functionType: string
-  other: string
-}
-
 const schema: SchemaOf<FunctionType> = object().shape({
-  functionType: string().required(),
-  other: string().when('functionType', (functionType) => {
+  function: string().required(),
+  function_other: string().when('function', (functionType) => {
     if (functionType === 'other') return string().required('This is a required field')
   })
 })
@@ -37,7 +32,7 @@ const FunctionTypeForm: FC<StandardRegisterProps<FunctionType>> = ({
   const { setLoading } = useUiContext()
 
   const methods = useForm<FunctionType>({
-    defaultValues: { functionType: '', other: '' },
+    defaultValues: { function: '', function_other: '' },
     resolver: yupResolver(schema)
   })
   const {
@@ -46,7 +41,7 @@ const FunctionTypeForm: FC<StandardRegisterProps<FunctionType>> = ({
     watch,
     formState: { isDirty, isValid }
   } = methods
-  const watchFunctionType = watch('functionType')
+  const watchFunctionType = watch('function')
 
   const { isLoading, isError, data } = useQuery<GenericDataList[], { message?: string }>(
     Query.Functions,
@@ -80,7 +75,7 @@ const FunctionTypeForm: FC<StandardRegisterProps<FunctionType>> = ({
         </Typography>
 
         <Controller
-          name="functionType"
+          name="function"
           control={control}
           render={({ field }) => (
             <RadioGroup aria-live="polite" aria-busy={isLoading} name="function">
@@ -112,7 +107,7 @@ const FunctionTypeForm: FC<StandardRegisterProps<FunctionType>> = ({
         />
 
         {watchFunctionType === 'other' && (
-          <TextFieldControlled name="other" label="Enter function" />
+          <TextFieldControlled name="function_other" label="Enter function" />
         )}
 
         <FormFooter
