@@ -1,14 +1,16 @@
-import Page from '@/components/Layout/GenericPage'
+import CardLayout from '@/components/Layout/CardLayout'
 import router from 'next/router'
 import { dehydrate, QueryClient } from 'react-query'
-import { fetchFunctions } from '@/service/api'
+import { fetchFunctions, Query } from '@/service/api'
 import FunctionTypeForm from '@/components/Form/Register/FunctionTypeForm'
+
+const page = 9
 
 const RegisterPage = () => (
   <FunctionTypeForm
-    backUrl="/register/page8"
+    backUrl={`/register/page${page - 1}`}
     onFormSubmit={(_data) => {
-      router.push('/register/page10')
+      router.push(`/register/page${page + 1}`)
     }}
   />
 )
@@ -17,7 +19,7 @@ export default RegisterPage
 
 export async function getStaticProps() {
   const queryClient = new QueryClient()
-  await queryClient.prefetchQuery('functions', fetchFunctions)
+  await queryClient.prefetchQuery(Query.Functions, fetchFunctions)
   return {
     props: {
       dehydratedState: dehydrate(queryClient)
@@ -26,7 +28,7 @@ export async function getStaticProps() {
 }
 
 RegisterPage.getLayout = (page) => (
-  <Page title="Function" progress={50}>
+  <CardLayout title="Function" progress={50}>
     {page}
-  </Page>
+  </CardLayout>
 )

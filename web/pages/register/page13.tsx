@@ -1,4 +1,4 @@
-import Page from '@/components/Layout/GenericPage'
+import CardLayout from '@/components/Layout/CardLayout'
 import { Typography } from '@mui/material'
 import Link from '@/components/UI/Link'
 import SkillsForm from '@/components/Form/Register/SkillsForm'
@@ -23,7 +23,7 @@ const RegisterPage = () => {
 
 export default RegisterPage
 RegisterPage.getLayout = (page) => (
-  <Page
+  <CardLayout
     title="Current skills"
     footer={
       <Typography gutterBottom>
@@ -33,5 +33,5 @@ RegisterPage.getLayout = (page) => (
     progress={90}
   >
     {page}
-  </Page>
+  </CardLayout>
 )

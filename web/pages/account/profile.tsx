@@ -1,5 +1,5 @@
 import { Table, TableBody, TableCell, TableRow, Typography } from '@mui/material'
-import AccountMenuPage from '@/components/Layout/AccountMenuPage'
+import AccountLayout from '@/components/Layout/AccountLayout'
 import Card from '@/components/UI/Card'
 import Link from '@/components/UI/Link'
 
@@ -50,7 +50,7 @@ const Page = () => {
 
 export default Page
 Page.getLayout = (page) => (
-  <AccountMenuPage breadcrumbs={[{ title: 'Profile' }]} title="Profile">
+  <AccountLayout breadcrumbs={[{ title: 'Profile' }]} title="Profile">
     {page}
-  </AccountMenuPage>
+  </AccountLayout>
 )

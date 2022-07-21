@@ -15,7 +15,7 @@ const TextFieldControlled: FC<Props> = ({ label, name, ...props }) => {
       variant="outlined"
       size="small"
       error={!!errors[name]}
-      data-testid={name}
+      data-testid={`field_${name}`}
       helperText={<>{errors[name]?.message ?? ''}</>}
       fullWidth
       {...props}

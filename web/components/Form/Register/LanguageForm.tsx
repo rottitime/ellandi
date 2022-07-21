@@ -10,7 +10,7 @@ import {
   Typography
 } from '@mui/material'
 import { useUiContext } from '@/context/UiContext'
-import { GenericDataList } from '@/service/types'
+import { GenericDataList, Query } from '@/service/types'
 import { fetchLanguages } from '@/service/api'
 import { FC, useEffect } from 'react'
 import { useQuery } from 'react-query'
@@ -61,7 +61,7 @@ const LanguageForm: FC<StandardRegisterProps<null>> = ({ backUrl, onFormSubmit }
   const { isLoading, isError, data, isSuccess } = useQuery<
     GenericDataList[],
     { message?: string }
-  >('languages', fetchLanguages)
+  >(Query.Languages, fetchLanguages)
 
   useEffect(() => {
     setLoading(isLoading)

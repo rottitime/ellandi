@@ -1,4 +1,4 @@
-import Page from '@/components/Layout/GenericPage'
+import CardLayout from '@/components/Layout/CardLayout'
 import router from 'next/router'
 import ContactForm from '@/components/Form/Register/ContactForm'
 
@@ -17,7 +17,7 @@ const RegisterPage = () => (
 
 export default RegisterPage
 RegisterPage.getLayout = (page) => (
-  <Page title="Contact preference" progress={70}>
+  <CardLayout title="Contact preference" progress={70}>
     {page}
-  </Page>
+  </CardLayout>
 )

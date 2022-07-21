@@ -151,7 +151,10 @@ const theme = createTheme({
       fontWeight: 400,
       fontSize: '18px',
       lineHeight: '130%',
-      color: '#8F99A8'
+      color: '#8F99A8',
+      '&.MuiTypography-gutterBottom': {
+        marginBottom: '15px'
+      }
     },
     body1: {
       fontSize: '16px',
@@ -170,7 +173,7 @@ const theme = createTheme({
     // body2: undefined,
     overline: undefined
   },
-  spacing: [0, 4, 8, 16, 30, 60, 80],
+  spacing: [0, 4, 8, 16, 30, 60, 110],
   components: {
     MuiLink: {
       styleOverrides: {
