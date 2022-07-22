@@ -1,0 +1,20 @@
+---
+applications:
+- name: organogram-sandbox
+  env:
+    # DJANGO_SECRET_KEY: "" # <-- CHANGE THIS
+  docker:
+    image: ghcr.io/i-dot-ai/organogram:latest
+    # username:  # <-- CHANGE THIS
+  services:
+  - i-dot-ai-organogram-sandbox
+  - organogram-postgres-sandbox
+  routes:
+  - route: organogram-sandbox.london.cloudapps.digital
+    protocol: http1
+  processes:
+  - type: web
+    instances: 1
+    memory: 256M
+    disk_quota: 1024M
+    health-check-type: port
