@@ -1,9 +1,9 @@
 ---
 applications:
 - name: ellandi-api-sandbox
-  docker:
-    image: ghcr.io/i-dot-ai/ellandi-api:latest
-    # username:  # <-- CHANGE THIS
+  # docker:
+  #   image: ghcr.io/i-dot-ai/ellandi-api:latest
+  #   username: $GITHUB_ACTOR # <-- CHANGE THIS
   services:
   - ellandi-postgres-sandbox
   routes:
@@ -22,9 +22,9 @@ applications:
     VITE_IS_DEMO_MODE: 'true'
     NODE_ENV: production
     VITE_PROXY_ROOT_URL: 'false'
-  docker:
-    image: ghcr.io/i-dot-ai/ellandi-web:latest
-    # username:  # <-- CHANGE THIS
+  # docker:
+  #   image: ghcr.io/i-dot-ai/ellandi-web:latest
+  #   username: $GITHUB_ACTOR # <-- CHANGE THIS
   routes:
   - route: ellandi-web-sandbox.london.cloudapps.digital
     protocol: http1
