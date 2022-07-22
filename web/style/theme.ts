@@ -205,6 +205,10 @@ const theme = createTheme({
           //background: 'url(/images/test/bg1.webp) bottom center  no-repeat',
           //backgroundSize: 'cover',
           minHeight: '100vh'
+
+          // background: #E9EAEC url(/images/bg_crown.svg) no-repeat;
+          // background-position: right center;
+          // background-size: contain;
         }
       }
     }
