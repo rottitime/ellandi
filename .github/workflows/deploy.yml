@@ -19,15 +19,6 @@ permissions:
 
 
 jobs:
-  get_space:
-    runs-on: ubuntu-latest
-    env:
-      CF_SPACE: ${{ github.ref_name }}
-    steps:
-      - name: "Echo the Space"
-        run: |
-          echo "Deploying to space: $CF_SPACE"
-
   push_images:
     runs-on: ubuntu-latest
 
@@ -89,6 +80,8 @@ jobs:
             manifest: organogram-sandbox_manifest.yml
 
     steps:
+      - uses: actions/checkout@v3
+
       - name: Download CF CLI
         run: curl -L "https://packages.cloudfoundry.org/stable?release=linux64-binary&version=v7&source=github" | tar -zx
 
@@ -97,9 +90,7 @@ jobs:
 
       - name: CF push ${{ matrix.app }}
         env:
-          CF_PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
-          CF_PAT_TOKEN_USER: ${{ secrets.PAT_TOKEN_USER }}
           DOCKER_FILE: ${{ matrix.dockerfile }}
           DOCKER_IMAGE: ${{ matrix.app }}
         # run: CF_DOCKER_PASSWORD="$CF_PAT_TOKEN" ./cf push "${{ matrix.app }}-$CF_SPACE" --docker-image $DOCKER_REPOSITORY/${{ github.repository_owner }}/$DOCKER_IMAGE:$IMAGE_TAG --docker-username=$CF_PAT_TOKEN_USER
-        run: CF_DOCKER_PASSWORD="$GITHUB_TOKEN" ./cf push "${{ matrix.app }}-$CF_SPACE"
+        run: ls -ltr
