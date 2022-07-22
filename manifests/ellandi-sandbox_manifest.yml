@@ -1,0 +1,36 @@
+---
+applications:
+- name: ellandi-api-sandbox
+  docker:
+    image: ghcr.io/i-dot-ai/ellandi-api:latest
+    # username:  # <-- CHANGE THIS
+  services:
+  - ellandi-postgres-sandbox
+  routes:
+  - route: ellandi-api-sandbox.london.cloudapps.digital
+    protocol: http1
+  processes:
+  - type: web
+    instances: 1
+    memory: 256M
+    disk_quota: 1024M
+    health-check-type: port
+- name: ellandi-web-sandbox
+  env:
+    VITE_FRONTEND_HOST: https://ellandi-web-sandbox.london.cloudapps.digital
+    VITE_API_ROOT_URL: https://ellandi-api-sandbox.london.cloudapps.digital
+    VITE_IS_DEMO_MODE: 'true'
+    NODE_ENV: production
+    VITE_PROXY_ROOT_URL: 'false'
+  docker:
+    image: ghcr.io/i-dot-ai/ellandi-web:latest
+    # username:  # <-- CHANGE THIS
+  routes:
+  - route: ellandi-web-sandbox.london.cloudapps.digital
+    protocol: http1
+  processes:
+  - type: web
+    instances: 1
+    memory: 512M
+    disk_quota: 2048M
+    health-check-type: port
