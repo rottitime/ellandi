@@ -7,7 +7,6 @@ import {
   fetchGrades,
   fetchLanguages,
   fetchProfessions,
-  fetchSkills,
   Query,
   RegisterUser,
   RegisterUserResponse

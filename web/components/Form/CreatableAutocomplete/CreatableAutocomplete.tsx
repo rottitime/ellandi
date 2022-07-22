@@ -1,42 +1,27 @@
-import { ComponentProps, FC, SyntheticEvent, useState } from 'react'
-import {
-  TextField,
-  Autocomplete as MuiAutocomplete,
-  FormHelperText,
-  CircularProgress
-} from '@mui/material'
+import { FC, useState } from 'react'
+import { TextField, Autocomplete, FormHelperText, CircularProgress } from '@mui/material'
 import { createFilterOptions } from '@mui/material/Autocomplete'
-
-interface ListType {
-  inputValue?: string
-  name: string
-}
+import { Props, ListType } from './types'
 
 const filter = createFilterOptions<ListType>()
 
-type Props = {
-  onSelected: (e: SyntheticEvent<Element, Event>, newValue: ListType) => void
-  data: ListType[]
-  helperText?: string
-  label: string
-  loading?: boolean
-}
-
-const Autocomplete: FC<Props> = ({
+const CreatableAutocomplete: FC<Props> = ({
   onSelected,
   data,
   label,
   helperText,
-  loading = false
+  loading = false,
+  disableOptions = []
 }) => {
   const [value, setValue] = useState<ListType | null>(null)
 
   return (
     <>
-      <MuiAutocomplete
+      <Autocomplete
         loading={loading}
         value={value}
         fullWidth
+        getOptionDisabled={({ name }) => disableOptions.includes(name)}
         onChange={(event, name) => {
           if (name === null) return
 
@@ -51,8 +36,6 @@ const Autocomplete: FC<Props> = ({
             setValue({ name: name.name })
             onSelected(event, { name: name.name })
           }
-
-          //setValue(null)
         }}
         filterOptions={(options, params) => {
           const filtered = filter(options, params)
@@ -108,4 +91,4 @@ const Autocomplete: FC<Props> = ({
   )
 }
 
-export default Autocomplete
+export default CreatableAutocomplete

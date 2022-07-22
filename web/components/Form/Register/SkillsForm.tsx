@@ -1,22 +1,53 @@
-import { Chip, Typography, Stack, Divider, Alert, AlertTitle } from '@mui/material'
-import { FC, useState } from 'react'
+import {
+  Chip,
+  Typography,
+  Stack,
+  Divider,
+  Alert,
+  AlertTitle,
+  Skeleton
+} from '@mui/material'
+import { FC, useEffect } from 'react'
 import { StandardRegisterProps } from './types'
 import { useForm } from 'react-hook-form'
 import FormFooter from '@/components/Form/FormFooter'
-import Autocomplete from '../Autocomplete'
+import CreatableAutocomplete from '../CreatableAutocomplete/CreatableAutocomplete'
 import { Field } from '../Field'
 import { Query, SkillsType } from '@/service/types'
 import { fetchSkills } from '@/service/api'
 import { useQuery } from 'react-query'
+import { array, object, SchemaOf, string } from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
 
-const SkillsForm: FC<StandardRegisterProps<SkillsType>> = ({ backUrl, onFormSubmit }) => {
-  const { handleSubmit } = useForm()
-  const [skills, setSkills] = useState<string[]>([])
+const schema: SchemaOf<SkillsType> = object().shape({
+  skills: array().of(string())
+})
+const fieldName: keyof SkillsType = 'skills'
+
+const SkillsForm: FC<StandardRegisterProps<SkillsType>> = ({
+  backUrl,
+  onFormSubmit,
+
+  defaultValues = {
+    skills: []
+  }
+}) => {
+  const { handleSubmit, setValue, register, unregister, watch } = useForm<SkillsType>({
+    defaultValues,
+    resolver: yupResolver(schema)
+  })
 
   const { isLoading, isError, data } = useQuery<string[], { message?: string }>(
     Query.Skills,
     fetchSkills
   )
+
+  useEffect(() => {
+    register(fieldName)
+    return () => unregister(fieldName)
+  }, [register, unregister])
+
+  const skills = watch('skills')
 
   if (isError)
     return (
@@ -35,20 +66,26 @@ const SkillsForm: FC<StandardRegisterProps<SkillsType>> = ({ backUrl, onFormSubm
         We'll use this to suggest learning opportunities that are relevant to you
       </Typography>
 
-      <Field>
-        <Autocomplete
-          loading={isLoading}
-          label="Select a skill or enter your own skill"
-          data={isLoading ? [] : data.map((name) => ({ name }))}
-          onSelected={(_event, value) => {
-            const name = value?.name
-            name &&
-              setSkills((p) =>
-                !!p.includes(name) ? p.filter((item) => item !== name) : [...p, name]
+      {isLoading ? (
+        <Skeleton width={100} sx={{ m: 1 }} />
+      ) : (
+        <Field>
+          <CreatableAutocomplete
+            loading={isLoading}
+            disableOptions={skills}
+            label="Select a skill or enter your own skill"
+            data={isLoading ? [] : data.map((name) => ({ name }))}
+            onSelected={async (_event, { name }) => {
+              setValue(
+                fieldName,
+                skills?.includes(name)
+                  ? skills.filter((item) => item !== name)
+                  : [...skills, name]
               )
-          }}
-        />
-      </Field>
+            }}
+          />
+        </Field>
+      )}
 
       {!!skills.length && (
         <>
@@ -58,12 +95,17 @@ const SkillsForm: FC<StandardRegisterProps<SkillsType>> = ({ backUrl, onFormSubm
             Your selected skills
           </Typography>
 
-          <Stack direction="row" spacing={1}>
+          <Stack flexWrap="wrap" direction="row" gap={3}>
             {skills.map((skill) => (
               <Chip
                 key={skill}
                 label={skill}
-                onDelete={() => setSkills((p) => p.filter((item) => item !== skill))}
+                onDelete={() =>
+                  setValue(
+                    fieldName,
+                    skills.filter((item) => item !== skill)
+                  )
+                }
               />
             ))}
           </Stack>
