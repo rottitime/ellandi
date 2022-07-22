@@ -65,7 +65,7 @@ export type FunctionType = {
   function_other: string
 }
 
-type LanguageType = {
+export type LanguageType = {
   language: string
   speaking: string
   writing: string
