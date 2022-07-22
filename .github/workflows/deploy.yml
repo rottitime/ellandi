@@ -84,9 +84,9 @@ jobs:
         app: [ellandi, organogram]
         include:
           - app: ellandi
-            manifest: ${{ matrix.app }}-$CF_SPACE_manifest.yml
+            manifest: ellandi-sandbox_manifest.yml
           - app: organogram
-            manifest: ${{ matrix.app }}-$CF_SPACE_manifest.yml
+            manifest: organogram-sandbox_manifest.yml
 
     steps:
       - name: Download CF CLI
