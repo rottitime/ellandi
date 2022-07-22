@@ -6,7 +6,8 @@ export enum Query {
   PrimaryProfessions = 'primaryProfessions',
   Functions = 'functions',
   ContractTypes = 'contract-types',
-  Languages = 'languages'
+  Languages = 'languages',
+  Skills = 'skills'
 }
 
 export type GenericDataList = {
@@ -47,6 +48,10 @@ export type ProfessionType = {
   professions: string[]
 }
 
+export type SkillsType = {
+  skills: string[]
+}
+
 export type PrimaryProfessionType = {
   profession_primary: string
 }
@@ -79,11 +84,11 @@ export type RegisterUserResponse = {
   id: string
   email: string
   url: string
-  skills: string[]
 } & PrivacyAcceptType &
   RegisterDetailsType &
   GradeType &
   ProfessionType &
   ContactType &
   PrimaryProfessionType &
-  LanguagesType
+  LanguagesType &
+  SkillsType

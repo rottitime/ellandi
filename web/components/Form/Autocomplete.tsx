@@ -1,5 +1,10 @@
-import { FC, SyntheticEvent, useState } from 'react'
-import { TextField, Autocomplete as MuiAutocomplete, FormHelperText } from '@mui/material'
+import { ComponentProps, FC, SyntheticEvent, useState } from 'react'
+import {
+  TextField,
+  Autocomplete as MuiAutocomplete,
+  FormHelperText,
+  CircularProgress
+} from '@mui/material'
 import { createFilterOptions } from '@mui/material/Autocomplete'
 
 interface ListType {
@@ -14,14 +19,22 @@ type Props = {
   data: ListType[]
   helperText?: string
   label: string
+  loading?: boolean
 }
 
-const Autocomplete: FC<Props> = ({ onSelected, data, label, helperText }) => {
+const Autocomplete: FC<Props> = ({
+  onSelected,
+  data,
+  label,
+  helperText,
+  loading = false
+}) => {
   const [value, setValue] = useState<ListType | null>(null)
 
   return (
     <>
       <MuiAutocomplete
+        loading={loading}
         value={value}
         fullWidth
         onChange={(event, name) => {
@@ -74,7 +87,21 @@ const Autocomplete: FC<Props> = ({ onSelected, data, label, helperText }) => {
         }}
         renderOption={(props, option) => <li {...props}>{option.name}</li>}
         freeSolo
-        renderInput={(params) => <TextField {...params} label={label} />}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label={label}
+            InputProps={{
+              ...params.InputProps,
+              endAdornment: (
+                <>
+                  {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                  {params.InputProps.endAdornment}
+                </>
+              )
+            }}
+          />
+        )}
       />
       {helperText && <FormHelperText>{helperText}</FormHelperText>}
     </>

@@ -1,35 +1,30 @@
-import { Chip, Typography, Stack, Divider } from '@mui/material'
+import { Chip, Typography, Stack, Divider, Alert, AlertTitle } from '@mui/material'
 import { FC, useState } from 'react'
 import { StandardRegisterProps } from './types'
 import { useForm } from 'react-hook-form'
 import FormFooter from '@/components/Form/FormFooter'
 import Autocomplete from '../Autocomplete'
 import { Field } from '../Field'
+import { Query, SkillsType } from '@/service/types'
+import { fetchSkills } from '@/service/api'
+import { useQuery } from 'react-query'
 
-const list = [
-  'Auditing',
-  'Bookkeeping',
-  'Communication',
-  'Coding',
-  'Creative thinking',
-  'Customer service',
-  'Data entry',
-  'Diary management',
-  'Flexibility',
-  'Microsoft Office',
-  'Motivation',
-  'Negotiation',
-  'Planning',
-  'Problem solving',
-  'Project management',
-  'Sales',
-  'Social media',
-  'Teamwork'
-]
-
-const SkillsForm: FC<StandardRegisterProps<null>> = ({ backUrl, onFormSubmit }) => {
+const SkillsForm: FC<StandardRegisterProps<SkillsType>> = ({ backUrl, onFormSubmit }) => {
   const { handleSubmit } = useForm()
   const [skills, setSkills] = useState<string[]>([])
+
+  const { isLoading, isError, data } = useQuery<string[], { message?: string }>(
+    Query.Skills,
+    fetchSkills
+  )
+
+  if (isError)
+    return (
+      <Alert severity="error">
+        <AlertTitle>Service Unavailable</AlertTitle>
+        Please try again later.
+      </Alert>
+    )
 
   return (
     <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
@@ -42,8 +37,9 @@ const SkillsForm: FC<StandardRegisterProps<null>> = ({ backUrl, onFormSubmit }) 
 
       <Field>
         <Autocomplete
+          loading={isLoading}
           label="Select a skill or enter your own skill"
-          data={list.map((item) => ({ name: item }))}
+          data={isLoading ? [] : data.map((name) => ({ name }))}
           onSelected={(_event, value) => {
             const name = value?.name
             name &&

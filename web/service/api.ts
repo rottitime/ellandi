@@ -37,6 +37,12 @@ export const fetchCountries = async (): Promise<GenericDataList[]> => {
   throw new Error('Service unavailable')
 }
 
+export const fetchSkills = async (): Promise<string[]> => {
+  const res = await fetch(`${publicRuntimeConfig.apiUrl}/skills/`)
+  if (res.ok) return res.json()
+  throw new Error('Service unavailable')
+}
+
 export const fetchPrimaryProfession = async (): Promise<GenericDataList[]> => {
   return [
     { name: 'Corporate Finance Profession', slug: 'Corporate Finance Profession' },

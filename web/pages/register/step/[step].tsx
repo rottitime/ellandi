@@ -7,6 +7,7 @@ import {
   fetchGrades,
   fetchLanguages,
   fetchProfessions,
+  fetchSkills,
   Query,
   RegisterUser,
   RegisterUserResponse
@@ -173,7 +174,6 @@ export async function getStaticProps(context: GetStaticPropsContext) {
   const { title, nextUrl, skip } = steps[stepInt]
 
   const queryClient = new QueryClient()
-
   await queryClient.prefetchQuery(Query.Grades, fetchGrades)
   await queryClient.prefetchQuery(Query.Professions, fetchProfessions)
   await queryClient.prefetchQuery(Query.Functions, fetchFunctions)
