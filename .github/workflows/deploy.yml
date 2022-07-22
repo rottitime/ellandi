@@ -102,4 +102,4 @@ jobs:
           DOCKER_FILE: ${{ matrix.dockerfile }}
           DOCKER_IMAGE: ${{ matrix.app }}
         # run: CF_DOCKER_PASSWORD="$CF_PAT_TOKEN" ./cf push "${{ matrix.app }}-$CF_SPACE" --docker-image $DOCKER_REPOSITORY/${{ github.repository_owner }}/$DOCKER_IMAGE:$IMAGE_TAG --docker-username=$CF_PAT_TOKEN_USER
-        run: CF_DOCKER_PASSWORD="$GITHUB_TOKEN" ./cf push -f "${{ matrix.app }}-$CF_SPACE"_manifest.yml --docker-username=$GITHUB_ACTOR
+        run: CF_DOCKER_PASSWORD="$GITHUB_TOKEN" ./cf push --docker-username=$GITHUB_ACTOR
