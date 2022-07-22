@@ -10,7 +10,6 @@ on:
       - sandbox
       - demo
       - develop
-      - actions_refactor
 
 permissions:
   packages: write
