@@ -84,7 +84,11 @@ const LanguageForm: FC<StandardRegisterProps<LanguagesType>> = ({
     { message?: string }
   >(Query.Languages, fetchLanguages)
 
-  const { handleSubmit, register } = useForm<LanguagesType>({
+  const {
+    handleSubmit,
+    register,
+    formState: { errors }
+  } = useForm<LanguagesType>({
     defaultValues,
     resolver: yupResolver(schema)
   })
@@ -95,6 +99,8 @@ const LanguageForm: FC<StandardRegisterProps<LanguagesType>> = ({
 
   const checked = true
   register(fieldName)
+
+  console.log({ errors })
 
   if (isError)
     return (
