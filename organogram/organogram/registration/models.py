@@ -94,7 +94,7 @@ class Team(models.Model):
     business_unit = models.CharField(max_length=255, blank=False, null=False)
 
     def __str__(self):
-        return f"{self.name} - {self.sub_unit} - {self.business_unit}"
+        return f"{self.name} - sub-unit {self.sub_unit} - business-unit {self.business_unit}"
 
     class Meta:
         unique_together = ["name", "sub_unit", "business_unit"]

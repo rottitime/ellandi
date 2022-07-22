@@ -1,4 +1,4 @@
-{% from 'macros.html' import input %}
+{% from 'macros.html' import select, input %}
 
 {% extends "base.html" %}
 
@@ -29,16 +29,23 @@
         {{input(form, name='job_title', label='Job title')}}
       </div>
 
+
+      <div class="row select-field">
+        {{select(form, 'team', 'Select a team', teams, empty_option="")}}
+      </div>
+
+
       <div class="row">
-        {{input(form, name='business_unit', label='Business unit')}}
+        {{input(form, name='other_team', label='Other - team')}}
+      </div>
+
+
+      <div class="row">
+        {{input(form, name='other_business_unit', label='Other - business unit')}}
       </div>
 
       <div class="row">
-        {{input(form, name='sub_unit', label='Sub unit')}}
-      </div>
-
-      <div class="row">
-        {{input(form, name='team', label='Team')}}
+        {{input(form, name='other_sub_unit', label='Other - sub unit')}}
       </div>
 
       <div class="row">
