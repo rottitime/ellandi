@@ -1,7 +1,8 @@
 ---
 applications:
 - name: organogram-sandbox
-  env:
+  # env:
+    # DJANGO_SECRET_KEY: "" # <-- CHANGE THIS
   services:
   - i-dot-ai-organogram-sandbox
   - organogram-postgres-sandbox
