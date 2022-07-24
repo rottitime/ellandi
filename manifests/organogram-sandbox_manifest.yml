@@ -2,10 +2,6 @@
 applications:
 - name: organogram-sandbox
   env:
-    # DJANGO_SECRET_KEY: "" # <-- CHANGE THIS
-  docker:
-    image: ghcr.io/i-dot-ai/organogram:latest
-    # username:  # <-- CHANGE THIS
   services:
   - i-dot-ai-organogram-sandbox
   - organogram-postgres-sandbox
