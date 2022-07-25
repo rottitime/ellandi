@@ -33,12 +33,7 @@ class DropDownListModel(models.Model):
     name = models.CharField(max_length=127, blank=False, null=False)
     slug = models.CharField(max_length=127, blank=False, null=False, primary_key=True)
 
-    def clean(self):
-        if self.slug:
-            raise ValidationError("Do not set slug field, this is automatically calculated.")
-
     def save(self, *args, **kwargs):
-        self.clean()
         self.slug = slugify(self.name.replace("|", "_"))
         return super().save(*args, **kwargs)
 
@@ -94,7 +89,6 @@ class Team(DropDownListModel):
     business_unit = models.CharField(max_length=255, blank=False, null=False)
 
     def save(self, *args, **kwargs):
-        self.clean()
         self.name = f"{self.business_unit} | {self.sub_unit} | {self.team_name}"
         return super().save(*args, **kwargs)
 
