@@ -90,7 +90,9 @@ jobs:
           GITHUB_ACTOR: ${{ github.actor }}
         run: CF_DOCKER_PASSWORD="$GITHUB_TOKEN" ./cf push -f manifests/"${{ matrix.app }}-$CF_SPACE"_manifest.yml --docker-image $DOCKER_REPOSITORY/${{ github.repository_owner }}/$DOCKER_IMAGE:$IMAGE_TAG --docker-username=$GITHUB_ACTOR
 
-      - name: Set organogram SECRET_KEY_BASE
+      - name: Set organogram DJANGO_SECRET_KEY
         env:
-          SECRET_KEY_BASE: ${{ secrets.SECRET_KEY_BASE }}
+          DJANGO_SECRET_KEY: "${{ secrets.DJANGO_SECRET_KEY }}"
+        if:
+          - matrix.app == "organogram"
         run: ./cf set-env organogram-sandbox DJANGO_SECRET_KEY "${{ env.DJANGO_SECRET_KEY }}"
