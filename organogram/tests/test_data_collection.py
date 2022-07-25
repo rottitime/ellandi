@@ -125,7 +125,7 @@ def test_registration():
     page = page.click(contains="Back")
     assert page.has_one("option:contains('Business unit | Sub unit | Team name')")
     form = page.get_form()
-    form.select("team", "team-name-_-sub-unit-_-business-unit")
+    form.select("team", "business-unit-_-sub-unit-_-team-name")
     page = form.submit().follow()
 
     assert page.status_code == 200, page.status_code
