@@ -131,11 +131,6 @@ def your_details_view(request, url_data):
     return render(request, "your-details.html", {"form": form, "teams": teams, **url_data})
 
 
-def get_team_choices():
-    teams = tuple(set(models.Team.objects.all().values_list("slug", flat=True)))
-    return teams
-
-
 class TeamForm(forms.Form):
     team = forms.CharField(max_length=255, required=False)
     other_team = forms.CharField(max_length=255, required=False)
