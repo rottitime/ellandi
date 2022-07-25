@@ -3,6 +3,7 @@ import { createTheme, PaletteColorOptions, Shadows } from '@mui/material/styles'
 import { CSSProperties } from 'react'
 
 export type Colors = {
+  black: CSSProperties['color']
   blueDark: CSSProperties['color']
   greyDark: CSSProperties['color']
   greyLight: CSSProperties['color']
@@ -39,9 +40,6 @@ declare module '@mui/material/Typography' {
 declare module '@mui/material/AppBar' {
   interface AppBarPropsColorOverrides {
     blueDark: true
-    // apple: true;
-    // steelBlue: true;
-    // violet: true;
   }
 }
 
@@ -85,8 +83,9 @@ const createColor = (mainColor) => augmentColor({ color: { main: mainColor } })
 
 const theme = createTheme({
   colors: {
+    black: '#000',
     blueDark: '#161E2F',
-    greyDark: '#ccc',
+    greyDark: '#9F9F9F',
     greyLight: '#f2f2f2',
     green: '#44D600',
     white: '#fff',
@@ -121,7 +120,7 @@ const theme = createTheme({
   typography: {
     leader: {
       fontWeight: 700,
-      fontSize: '35px',
+      fontSize: '34px',
       lineHeight: '130%'
     },
     h1: {
@@ -203,13 +202,7 @@ const theme = createTheme({
     MuiCssBaseline: {
       styleOverrides: {
         body: {
-          //background: 'url(/images/test/bg1.webp) bottom center  no-repeat',
-          //backgroundSize: 'cover',
           minHeight: '100vh'
-
-          // background: #E9EAEC url(/images/bg_crown.svg) no-repeat;
-          // background-position: right center;
-          // background-size: contain;
         }
       }
     }

@@ -1,20 +1,12 @@
 import Template from '@/components/Layout/Template'
 import { withGovLogoBackground } from '@/style/global'
-import {
-  Grid,
-  Typography,
-  styled,
-  LinearProgress,
-  Hidden,
-  Box,
-  Divider
-} from '@mui/material'
-import Card from '@/components/UI/Card'
+import { Grid, Typography, styled, Hidden, Box, Divider } from '@mui/material'
 import { FC, ReactNode } from 'react'
 import Crown from '@/components/Icons/CrownLogo'
 import List from '@/components/List'
 import { AccountBox, Yard, Search, QuestionAnswer } from '@mui/icons-material'
 import { useUiContext } from '@/context/UiContext'
+import GovCard from '@/components/UI/Cards/GovCard/GovCard'
 
 type Props = {
   children: ReactNode
@@ -36,33 +28,6 @@ const GridContainer = styled(Grid)`
   > .MuiGrid-item {
     ${({ theme }) => theme.breakpoints.down('md')} {
       flex-basis: auto;
-    }
-  }
-
-  .card-content {
-    position: relative;
-    transition: opacity ease-in-out 0.3;
-    &.loading-active {
-      :after {
-        pointer-events: none;
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        opacity: 0.3;
-        background-color: ${(p) => p.theme.colors.white};
-        z-index: 1;
-      }
-    }
-
-    .loading-bar {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      z-index: 2;
     }
   }
 
@@ -176,33 +141,9 @@ const CardLayout: FC<Props> = ({ children, showPromo, title, footer, progress })
           </Grid>
         )}
         <Grid item xs className="main-content">
-          <Card
-            elevation={0}
-            className={`card-content ${loading ? 'loading-active' : ''}`}
-            sx={{
-              maxWidth: '540px',
-              padding: '24px',
-              wordWrap: 'break-word',
-              m: 2,
-              width: '100%'
-            }}
-          >
-            <Typography variant="h1" component="h2">
-              {title}
-            </Typography>
-
-            {!!progress && (
-              <LinearProgress
-                variant="determinate"
-                value={progress}
-                sx={{ mb: 4, height: '7px' }}
-              />
-            )}
-
+          <GovCard loading={loading} title={title} progress={progress}>
             {children}
-
-            {loading && <LinearProgress className="loading-bar" />}
-          </Card>
+          </GovCard>
           {footer}
         </Grid>
       </GridContainer>
