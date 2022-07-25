@@ -39,7 +39,7 @@ class DropDownListModel(models.Model):
 
     def save(self, *args, **kwargs):
         self.clean()
-        self.slug = slugify(self.name)
+        self.slug = slugify(self.name.replace("|", "_"))
         return super().save(*args, **kwargs)
 
     def __str__(self):
@@ -86,6 +86,21 @@ class LanguageSkillLevel(DropDownListModel):
 class Country(DropDownListModel):
     class Meta:
         verbose_name_plural = "Countries"
+
+
+class Team(DropDownListModel):
+    team_name = models.CharField(max_length=255, blank=False, null=False)
+    sub_unit = models.CharField(max_length=255, blank=False, null=False)
+    business_unit = models.CharField(max_length=255, blank=False, null=False)
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        self.name = f"{self.team_name} | {self.sub_unit} | {self.business_unit}"
+        return super().save(*args, **kwargs)
+
+    class Meta:
+        unique_together = ["team_name", "sub_unit", "business_unit"]
+        ordering = ["name"]
 
 
 class UserManager(BaseUserManager):
@@ -137,9 +152,7 @@ class RegistrationAbstractUser(models.Model):
         abstract = True
 
     organisation = models.CharField(max_length=128, blank=True, null=True)
-    business_unit = models.CharField(max_length=128, blank=True, null=True)
-    sub_unit = models.CharField(max_length=128, blank=True, null=True)
-    team = models.CharField(max_length=128, blank=True, null=True)
+    team = models.ForeignKey(Team, blank=True, null=True, on_delete=models.CASCADE)
     job_title = models.CharField(max_length=128, blank=True, null=True)
     grade = models.CharField(max_length=127, blank=True, null=False)
     professions = models.ManyToManyField(Profession, blank=True)

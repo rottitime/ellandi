@@ -35,10 +35,10 @@
     <label for="{{name}}">{{label}}</label>
     <select name="{{name}}" id="{{name}}">
       {% if empty_option %}
-        <option value="" disabled selected>{{empty_option}}</option>
+        <option value="" disabled {{(not form[name].value()) and 'selected'}}>{{empty_option}}</option>
       {% endif %}
       {% for option in options %}
-        <option value="{{option.value}}">{{option.text}}</option>
+        <option value="{{option.value}}" {{(form[name].value()) == option.value and 'selected'}}>{{option.text}}</option>
       {% endfor %}
     </select>
   </div>

@@ -81,7 +81,7 @@ def test_resistration():
 
     page = form.submit().follow()
     assert page.status_code == 200, page.status_code
-    assert page.has_one("h1:contains('Biography')")
+    assert page.has_one("h1:contains('Team')")
 
     page = page.click(contains="Back")
     assert page.status_code == 200, page.status_code
@@ -92,9 +92,6 @@ def test_resistration():
     form["first_name"] = "Mr"
     form["last_name"] = "Flibble"
     form["job_title"] = "Stuff doer"
-    form["business_unit"] = "My Business Unit"
-    form["sub_unit"] = "My Sub Unit"
-    form["team"] = "The Cool Kids"
     form["line_manager_email"] = "boss@example.com"
     form["organogram_id"] = "5"
 
@@ -103,7 +100,7 @@ def test_resistration():
     page = form.submit().follow()
     assert page.status_code == 200, page.status_code
 
-    assert page.has_one("h1:contains('Biography')")
+    assert page.has_one("h1:contains('Team')")
 
     page = page.click(contains="Back")
     assert page.status_code == 200, page.status_code
@@ -113,13 +110,24 @@ def test_resistration():
     assert form["first_name"] == "Mr"
     assert form["last_name"] == "Flibble"
     assert form["job_title"] == "Stuff doer"
-    assert form["business_unit"] == "My Business Unit"
-    assert form["sub_unit"] == "My Sub Unit"
-    assert form["team"] == "The Cool Kids"
     assert form["line_manager_email"] == "boss@example.com"
     assert form["organogram_id"] == "5"
 
     page = form.submit().follow()
+    assert page.status_code == 200, page.status_code
+    assert page.has_one("h1:contains('Team')")
+    form = page.get_form()
+    form["other_team"] = "Team name"
+    form["other_sub_unit"] = "Sub unit"
+    form["other_business_unit"] = "Business unit"
+    page = form.submit().follow()
+
+    page = page.click(contains="Back")
+    assert page.has_one("option:contains('Team name | Sub unit | Business unit')")
+    form = page.get_form()
+    form.select("team", "team-name-_-sub-unit-_-business-unit")
+    page = form.submit().follow()
+
     assert page.status_code == 200, page.status_code
     assert page.has_one("h1:contains('Biography')")
     form = page.get_form()

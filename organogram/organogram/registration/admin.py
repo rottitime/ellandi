@@ -11,6 +11,7 @@ from .models import (
     Location,
     Organisation,
     Profession,
+    Team,
     User,
     UserLanguage,
     UserSkill,
@@ -38,13 +39,11 @@ class UserAdmin(django.contrib.auth.admin.UserAdmin):
                     "job_title",
                     "contract_type",
                     "department",
-                    "business_unit",
-                    "sub_unit",
-                    "team",
                     "location",
                     "organisation",
                     "line_manager_email",
                     "organogram_id",
+                    "team",
                     "biography",
                     "photo",
                     "grade",
@@ -67,14 +66,12 @@ class UserAdmin(django.contrib.auth.admin.UserAdmin):
                     "job_title",
                     "contract_type",
                     "department",
-                    "business_unit",
-                    "sub_unit",
-                    "team",
                     "location",
                     "organisation",
                     "grade",
                     "line_manager_email",
                     "organogram_id",
+                    "team",
                     "biography",
                     "photo",
                     "professions",
@@ -150,3 +147,4 @@ admin.site.register(Grade, GradeAdmin)
 admin.site.register(LanguageSkillLevel, LanguageSkillLevelAdmin)
 admin.site.register(Country, CountryAdmin)
 admin.site.register(EmailSalt)
+admin.site.register(Team)

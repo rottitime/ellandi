@@ -11,6 +11,7 @@ page_names = (
     "intro",
     "create-account",
     "your-details",
+    "team",
     "biography",
     "photo",
     "grade",
@@ -106,17 +107,16 @@ class YourDetailsForm(forms.Form):
     last_name = forms.CharField(max_length=128, required=False)
     first_name = forms.CharField(max_length=128, required=False)
     job_title = forms.CharField(max_length=128, required=False)
-    business_unit = forms.CharField(max_length=128, required=False)
-    sub_unit = forms.CharField(max_length=128, required=False)
-    team = forms.CharField(max_length=128, required=False)
     line_manager_email = forms.CharField(max_length=128, required=False)
     organogram_id = forms.CharField(max_length=128, required=False)
 
 
 @register("your-details")
 def your_details_view(request, url_data):
+    teams = tuple({"value": team, "text": team} for team in models.Team.objects.all())
     if request.method == "POST":
         form = YourDetailsForm(request.POST)
+
         if form.is_valid():
             data = form.cleaned_data
             user = request.user
@@ -128,7 +128,55 @@ def your_details_view(request, url_data):
         data = model_to_dict(request.user)
         form = YourDetailsForm(data)
 
-    return render(request, "your-details.html", {"form": form, **url_data})
+    return render(request, "your-details.html", {"form": form, "teams": teams, **url_data})
+
+
+class TeamForm(forms.Form):
+    team = forms.CharField(max_length=255, required=False)
+    other_team = forms.CharField(max_length=255, required=False)
+    other_sub_unit = forms.CharField(max_length=255, required=False)
+    other_business_unit = forms.CharField(max_length=255, required=False)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        other_team_name = cleaned_data.get("other_team")
+        other_sub_unit = cleaned_data.get("other_sub_unit")
+        other_business_unit = cleaned_data.get("other_business_unit")
+        if other_team_name:
+            number_existing = models.Team.objects.filter(
+                name=other_team_name, sub_unit=other_sub_unit, business_unit=other_business_unit
+            ).count()
+            if number_existing > 0:
+                self.add_error("other_team", "This team already exists")
+        return cleaned_data
+
+
+@register("team")
+def team_view(request, url_data):
+    teams = get_values(models.Team)
+    if request.method == "POST":
+        form = TeamForm(request.POST)
+
+        if form.is_valid():
+            data = form.cleaned_data
+            user = request.user
+            if data["other_team"]:
+                team = models.Team(
+                    team_name=data["other_team"],
+                    sub_unit=data["other_sub_unit"],
+                    business_unit=data["other_business_unit"],
+                )
+                team.save()
+            else:
+                team = models.Team.objects.get(slug=data["team"])
+            user.team = team
+            user.save()
+            return redirect(url_data["next_url"])
+    else:
+        data = {"team": request.user.team and request.user.team.slug}
+        form = TeamForm(data)
+
+    return render(request, "team.html", {"form": form, "teams": teams, **url_data})
 
 
 class BiographyForm(forms.Form):
@@ -186,6 +234,7 @@ def grade_view(request, url_data):
         if form.is_valid():
             data = form.cleaned_data
             user = request.user
+
             for key, value in data.items():
                 setattr(user, key, value)
             user.save()

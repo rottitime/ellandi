@@ -1,0 +1,52 @@
+{% from 'macros.html' import select, input %}
+
+{% extends "base.html" %}
+
+{% block content %}
+
+  <main class="card-panel">
+    {{csrf_input}}
+
+    <header>
+      <h1>Teams</h1>
+    </header>
+
+    <form method="POST">
+
+      {{csrf_input}}
+
+      <p>Please select the team for the role you are currently operating in</p>
+
+      <div class="row select-field">
+        {{select(form, 'team', 'Select a team', teams, empty_option="Select your team")}}
+      </div>
+
+      <h4>Or:</h4>
+
+      <p>If your team isn't in the list, please enter the details below</p>
+
+      <div class="row">
+        {{input(form, name='other_team', label='Other: team')}}
+      </div>
+
+      <div class="row">
+        {{input(form, name='other_sub_unit', label='Other: sub unit')}}
+      </div>
+
+      <div class="row">
+        {{input(form, name='other_business_unit', label='Other: business unit')}}
+      </div>
+
+      <div class="buttons">
+        <a class="btn waves-effect waves-light btn-small" href="{{prev_url}}">
+          Back
+        </a>
+        <button class="btn waves-effect waves-light" type="submit" name="action">
+          Continue
+        </button>
+      </div>
+
+    </form>
+
+  </main>
+{% endblock content %}
