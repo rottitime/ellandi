@@ -1,0 +1,14 @@
+---
+applications:
+- name: ellandi-api-sandbox
+  services:
+  - ellandi-postgres-sandbox
+  routes:
+  - route: ellandi-api-sandbox.london.cloudapps.digital
+    protocol: http1
+  processes:
+  - type: web
+    instances: 1
+    memory: 64M
+    disk_quota: 1024M
+    health-check-type: port

@@ -1,0 +1,15 @@
+---
+applications:
+- name: organogram-demo
+  services:
+  - i-dot-ai-organogram-demo
+  - organogram-postgres-demo
+  routes:
+  - route: organogram-demo.london.cloudapps.digital
+    protocol: http1
+  processes:
+  - type: web
+    instances: 1
+    memory: 128M
+    disk_quota: 1024M
+    health-check-type: port

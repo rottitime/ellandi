@@ -1,19 +1,21 @@
-name: Deploy demo
+name: Deploy
 
 env:
   DOCKER_BUILDKIT: 1
 
 on:
   push:
-    # Publish `demo` as Docker `latest` image.
     branches:
+      - sandbox
       - demo
+      - develop
 
 permissions:
   packages: write
   repository-projects: read
   id-token: write
   contents: read
+
 
 jobs:
   push_images:
@@ -23,7 +25,8 @@ jobs:
       IMAGE_TAG: latest
       DOCKER_REPOSITORY: ghcr.io
       NODE_ENV: development
-      NEXT_PUBLIC_API_URL: https://ellandi-api-demo.london.cloudapps.digital
+      CF_SPACE: ${{ github.ref_name }}
+      NEXT_PUBLIC_API_URL: https://ellandi-api-${{ github.ref_name }}.london.cloudapps.digital
 
     strategy:
       matrix:
@@ -55,7 +58,7 @@ jobs:
           docker build . --file $DOCKER_FILE --tag $DOCKER_REPOSITORY/${{ github.repository_owner }}/$DOCKER_IMAGE:$IMAGE_TAG --build-arg NODE_ENV=$NODE_ENV --build-arg NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
           docker push -a $DOCKER_REPOSITORY/${{ github.repository_owner }}/$DOCKER_IMAGE
 
-  deploy_demo:
+  deploy_image:
     needs: [push_images]
 
     runs-on: ubuntu-latest
@@ -63,14 +66,16 @@ jobs:
     env:
       IMAGE_TAG: latest
       DOCKER_REPOSITORY: ghcr.io
-      CF_SPACE: demo
+      CF_SPACE: ${{ github.ref_name }}
 
     strategy:
       matrix:
         app: [ellandi-api, ellandi-web, organogram]
 
     steps:
-      - name: Donwload CF CLI
+      - uses: actions/checkout@v3
+
+      - name: Download CF CLI
         run: curl -L "https://packages.cloudfoundry.org/stable?release=linux64-binary&version=v7&source=github" | tar -zx
 
       - name: CF login
@@ -78,8 +83,14 @@ jobs:
 
       - name: CF push ${{ matrix.app }}
         env:
-          CF_PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
-          CF_PAT_TOKEN_USER: ${{ secrets.PAT_TOKEN_USER }}
           DOCKER_FILE: ${{ matrix.dockerfile }}
           DOCKER_IMAGE: ${{ matrix.app }}
-        run: CF_DOCKER_PASSWORD="$CF_PAT_TOKEN" ./cf push "${{ matrix.app }}-demo" --docker-image $DOCKER_REPOSITORY/${{ github.repository_owner }}/$DOCKER_IMAGE:$IMAGE_TAG --docker-username=$CF_PAT_TOKEN_USER
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_ACTOR: ${{ github.actor }}
+        run: CF_DOCKER_PASSWORD="$GITHUB_TOKEN" ./cf push -f manifests/"$CF_SPACE/${{ matrix.app }}"_manifest.yml --docker-image $DOCKER_REPOSITORY/${{ github.repository_owner }}/$DOCKER_IMAGE:$IMAGE_TAG --docker-username=$GITHUB_ACTOR
+
+      - name: Set organogram DJANGO_SECRET_KEY
+        env:
+          DJANGO_SECRET_KEY: "${{ secrets.DJANGO_SECRET_KEY }}"
+        if: ${{ matrix.app == 'organogram' }}
+        run: ./cf set-env organogram-"$CF_SPACE" DJANGO_SECRET_KEY "${{ env.DJANGO_SECRET_KEY }}"
