@@ -131,9 +131,13 @@ def your_details_view(request, url_data):
     return render(request, "your-details.html", {"form": form, "teams": teams, **url_data})
 
 
+def get_team_choices():
+    teams = tuple(set(models.Team.objects.all().values_list("slug", flat=True)))
+    return teams
+
+
 class TeamForm(forms.Form):
-    team = forms.ModelChoiceField(queryset=models.Team.objects.all(), blank=True)
-    # TODO - how should these other fields be named/structured
+    team = forms.CharField(max_length=255,required=False)
     other_team = forms.CharField(max_length=255, required=False)
     other_sub_unit = forms.CharField(max_length=255, required=False)
     other_business_unit = forms.CharField(max_length=255, required=False)
@@ -141,12 +145,12 @@ class TeamForm(forms.Form):
     def clean(self):
         cleaned_data = super().clean()
         # TODO not quite sure how this should work with "other team"
-        other_team = cleaned_data.get("other_team")
+        other_team_name = cleaned_data.get("other_team")
         other_sub_unit = cleaned_data.get("other_sub_unit")
         other_business_unit = cleaned_data.get("other_business_unit")
-        if other_team:
+        if other_team_name:
             number_existing = models.Team.objects.filter(
-                name=other_team, sub_unit=other_sub_unit, business_unit=other_business_unit
+                name=other_team_name, sub_unit=other_sub_unit, business_unit=other_business_unit
             ).count()
             if number_existing > 0:
                 self.add_error("other_team", "This team already exists")
@@ -156,7 +160,7 @@ class TeamForm(forms.Form):
 
 @register("team")
 def team_view(request, url_data):
-    teams = tuple({"value": team, "text": team} for team in models.Team.objects.all())
+    teams = get_values(models.Team)
     if request.method == "POST":
         form = TeamForm(request.POST)
 
@@ -164,18 +168,17 @@ def team_view(request, url_data):
             data = form.cleaned_data
             user = request.user
             if data["other_team"]:
-                new_team = models.Team(
-                    name=data["other_team"], sub_unit=data["sub_team"], business_unit=data["business_unit"]
+                team = models.Team(
+                    team_name=data["other_team"], sub_unit=data["other_sub_unit"], business_unit=data["other_business_unit"]
                 )
-                new_team.save()
-                user.team = new_team
-            for key, value in data.items():
-                if key not in ["other_team", "other_sub_unit", "other_business_unit"]:
-                    setattr(user, key, value)
+                team.save()
+            else:
+                team = models.Team.objects.get(slug=data['team'])
+            user.team = team
             user.save()
             return redirect(url_data["next_url"])
     else:
-        data = model_to_dict(request.user)
+        data = {'team': request.user.team and request.user.team.slug}
         form = TeamForm(data)
 
     return render(request, "team.html", {"form": form, "teams": teams, **url_data})
