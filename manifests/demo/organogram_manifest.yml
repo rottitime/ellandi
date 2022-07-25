@@ -10,6 +10,6 @@ applications:
   processes:
   - type: web
     instances: 1
-    memory: 256M
+    memory: 128M
     disk_quota: 1024M
     health-check-type: port
