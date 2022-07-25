@@ -20,6 +20,6 @@ from organogram import page_views
 
 urlpatterns = [
     path("", page_views.page_view, name="pages-index"),
-    path("<str:page_name>", page_views.page_view, name="pages"),
     path("admin/", admin.site.urls),
+    path("<str:page_name>", page_views.page_view, name="pages"),
 ]

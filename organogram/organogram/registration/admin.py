@@ -17,6 +17,14 @@ from .models import (
 )
 
 
+class UserSkillInline(admin.TabularInline):
+    model = UserSkill
+
+
+class UserLanguageInline(admin.TabularInline):
+    model = UserLanguage
+
+
 class UserAdmin(django.contrib.auth.admin.UserAdmin):
     ordering = ("email",)
     fieldsets = (
@@ -27,10 +35,21 @@ class UserAdmin(django.contrib.auth.admin.UserAdmin):
                     "email",
                     "first_name",
                     "last_name",
-                    "organisation",
                     "job_title",
-                    "line_manager_email",
                     "contract_type",
+                    "department",
+                    "business_unit",
+                    "sub_unit",
+                    "team",
+                    "location",
+                    "organisation",
+                    "line_manager_email",
+                    "organogram_id",
+                    "biography",
+                    "photo",
+                    "grade",
+                    "professions",
+                    "primary_profession",
                     "created_at",
                     "modified_at",
                 )
@@ -45,14 +64,27 @@ class UserAdmin(django.contrib.auth.admin.UserAdmin):
                     "email",
                     "first_name",
                     "last_name",
-                    "organisation",
                     "job_title",
+                    "contract_type",
+                    "department",
+                    "business_unit",
+                    "sub_unit",
+                    "team",
+                    "location",
+                    "organisation",
+                    "grade",
                     "line_manager_email",
+                    "organogram_id",
+                    "biography",
+                    "photo",
+                    "professions",
+                    "primary_profession",
                 )
             },
         ),
     )
-    readonly_fields = ("created_at", "modified_at")
+    inlines = [UserSkillInline, UserLanguageInline]
+    readonly_fields = ("created_at", "modified_at", "professions")
     list_display = ("email", "first_name", "last_name")
 
 
