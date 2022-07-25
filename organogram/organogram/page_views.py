@@ -137,7 +137,7 @@ def get_team_choices():
 
 
 class TeamForm(forms.Form):
-    team = forms.CharField(max_length=255,required=False)
+    team = forms.CharField(max_length=255, required=False)
     other_team = forms.CharField(max_length=255, required=False)
     other_sub_unit = forms.CharField(max_length=255, required=False)
     other_business_unit = forms.CharField(max_length=255, required=False)
@@ -169,16 +169,18 @@ def team_view(request, url_data):
             user = request.user
             if data["other_team"]:
                 team = models.Team(
-                    team_name=data["other_team"], sub_unit=data["other_sub_unit"], business_unit=data["other_business_unit"]
+                    team_name=data["other_team"],
+                    sub_unit=data["other_sub_unit"],
+                    business_unit=data["other_business_unit"],
                 )
                 team.save()
             else:
-                team = models.Team.objects.get(slug=data['team'])
+                team = models.Team.objects.get(slug=data["team"])
             user.team = team
             user.save()
             return redirect(url_data["next_url"])
     else:
-        data = {'team': request.user.team and request.user.team.slug}
+        data = {"team": request.user.team and request.user.team.slug}
         form = TeamForm(data)
 
     return render(request, "team.html", {"form": form, "teams": teams, **url_data})
