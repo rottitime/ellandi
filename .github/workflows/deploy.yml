@@ -74,9 +74,9 @@ jobs:
         app: [ellandi-api, ellandi-web, organogram]
 
     steps:
+      - name: Download CF CLI
       - uses: actions/checkout@v3
 
-      - name: Download CF CLI
         run: curl -L "https://packages.cloudfoundry.org/stable?release=linux64-binary&version=v7&source=github" | tar -zx
 
       - name: CF login
