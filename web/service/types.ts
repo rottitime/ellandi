@@ -1,3 +1,15 @@
+export enum Query {
+  RegisterUser = 'RegisterUser',
+  Countries = 'countries',
+  Grades = 'grades',
+  Professions = 'professions',
+  PrimaryProfessions = 'primaryProfessions',
+  Functions = 'functions',
+  ContractTypes = 'contract-types',
+  Languages = 'languages',
+  Skills = 'skills'
+}
+
 export type GenericDataList = {
   slug: string
   name: string
@@ -13,20 +25,70 @@ export type RegisterUser = {
   password: string
 }
 
+export type RegisterDetailsType = {
+  first_name: string
+  last_name: string
+  organisation: string
+  job_title: string
+  line_manager_email: string
+  location: string
+  business_unit: string
+}
+
+export type GradeType = {
+  grade: string
+  grade_other: string
+}
+
+export type PrivacyAcceptType = {
+  privacy_policy_agreement: boolean
+}
+
+export type ProfessionType = {
+  professions: string[]
+}
+
+export type SkillsType = {
+  skills: string[]
+}
+
+export type PrimaryProfessionType = {
+  profession_primary: string
+}
+
+export type ContactType = {
+  contact: string
+}
+
+export type ContractType = {
+  contract_type: string
+  contract_type_other: string
+}
+
+export type FunctionType = {
+  function: string
+  function_other: string
+}
+
+export type LanguageType = {
+  language: string
+  speaking: string
+  writing: string
+}
+
+export type LanguagesType = {
+  languages: LanguageType[]
+}
+
 export type RegisterUserResponse = {
   id: string
   email: string
   url: string
-  first_name: string
-  last_name: string
-  privacy_policy_agreement: string
-  organisation: string
-  job_title: string
-  grade: string
-  profession: string[]
-  contract_type: string
-  line_manager_email: string
-  location: string
-  skills: string[]
-  languages: string[]
-}
+} & PrivacyAcceptType &
+  RegisterDetailsType &
+  GradeType &
+  ProfessionType &
+  ContactType &
+  PrimaryProfessionType &
+  LanguagesType &
+  SkillsType

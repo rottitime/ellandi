@@ -108,4 +108,8 @@ reset-db:
 
 .PHONY: integration ## Run playwright tests
 integration:
-	docker-compose up --build --force-recreate --renew-anon-volumes integration
+	docker-compose up --build --force-recreate
+
+.PHONY: setup
+setup:
+	docker-compose run organogram python manage.py create_minio_bucket

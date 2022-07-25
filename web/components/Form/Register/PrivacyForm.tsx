@@ -12,47 +12,48 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { FC } from 'react'
 import FormFooter from '@/components/Form/FormFooter'
 import { StandardRegisterProps } from './types'
-
-type PrivacyAcceptType = {
-  privacyAccept: boolean
-}
+import { PrivacyAcceptType } from '@/service/types'
 
 const schema: SchemaOf<PrivacyAcceptType> = object().shape({
-  privacyAccept: boolean().required().oneOf([true], 'You must accept the privacy policy')
+  privacy_policy_agreement: boolean()
+    .required()
+    .oneOf([true], 'You must accept the privacy policy')
 })
 
 const PrivacyForm: FC<StandardRegisterProps<PrivacyAcceptType>> = ({
   backUrl,
-  onFormSubmit
+  onFormSubmit,
+  loading,
+  defaultValues = { privacy_policy_agreement: true }
 }) => {
   const {
     handleSubmit,
     control,
-    formState: { errors, isDirty, isValid }
+    formState: { isDirty, isValid }
   } = useForm<PrivacyAcceptType>({
-    defaultValues: { privacyAccept: false },
+    defaultValues,
     resolver: yupResolver(schema)
   })
 
   return (
     <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
       <Typography gutterBottom>
-        <Link href="#">Privacy policy (opens in a new tab)</Link>
+        <Link href="/help/privacy-notice" target="_tab">
+          Privacy policy (opens in a new tab)
+        </Link>
       </Typography>
 
       <FormGroup sx={{ mb: 5 }}>
         <Controller
-          name="privacyAccept"
+          name="privacy_policy_agreement"
           control={control}
-          render={({ field }) => (
+          render={({ field, fieldState: { error } }) => (
             <>
               <FormControlLabel
-                control={<Checkbox {...field} />}
+                control={<Checkbox defaultChecked={field.value} {...field} />}
                 label="I agree to the privacy policy"
               />
-              {errors.privacyAccept && (
-                <FormHelperText error>{errors.privacyAccept.message}</FormHelperText>
-              )}
+              {error && <FormHelperText error>{error.message}</FormHelperText>}
             </>
           )}
         />
@@ -61,6 +62,7 @@ const PrivacyForm: FC<StandardRegisterProps<PrivacyAcceptType>> = ({
       <FormFooter
         backUrl={backUrl}
         buttonProps={{
+          loading,
           disabled: !isDirty && !isValid
         }}
       />

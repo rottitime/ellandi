@@ -1,4 +1,4 @@
-{% from 'macros.html' import checkboxes %}
+{% from 'macros.html' import checkboxes, input %}
 
 {% extends "base.html" %}
 
@@ -10,14 +10,15 @@
       <h1>Professions</h1>
     </header>
 
-    <h2>Select the Profession(s) that you belong to. You may choose more than one
-    </h2>
+    <h2>Select the profession(s) that you belong to. You may choose more than one</h2>
 
     <form method="POST">
 
       {{csrf_input}}
 
       {{checkboxes(form, 'professions', professions)}}
+
+      {{input(form, 'other', "Other")}}
 
       <div class="buttons">
         <a class="btn waves-effect waves-light btn-small" href="{{prev_url}}">

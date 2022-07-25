@@ -1,4 +1,4 @@
-import AccountMenuPage from '@/components/Layout/AccountMenuPage'
+import AccountLayout from '@/components/Layout/AccountLayout'
 import {
   Box,
   Chip,
@@ -166,7 +166,7 @@ const SkillsPage = () => {
 
 export default SkillsPage
 SkillsPage.getLayout = (page) => (
-  <AccountMenuPage title="Skills" breadcrumbs={[{ title: 'Skills' }]}>
+  <AccountLayout title="Skills" breadcrumbs={[{ title: 'Skills' }]}>
     {page}
-  </AccountMenuPage>
+  </AccountLayout>
 )

@@ -1,8 +1,10 @@
-import Page from '@/components/Layout/GenericPage'
+import CardLayout from '@/components/Layout/CardLayout'
 import { Typography } from '@mui/material'
 import LinkButton from '@/components/LinkButton'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
-import { Footer } from '@/components/Form/FormFooter'
+import FooterButtons from '@/components/UI/FooterButtons/FooterButtons'
+
+const nextPage = 9
 
 const RegisterPage = () => (
   <>
@@ -16,18 +18,18 @@ const RegisterPage = () => (
       <li>skills that you'd like to develop</li>
     </ul>
 
-    <Footer>
-      <LinkButton href="/register/page10" variant="outlined">
+    <FooterButtons>
+      <LinkButton href={`/register/step/${nextPage - 1}`} variant="outlined">
         Back
       </LinkButton>
-      <LinkButton href="/register/page12">Continue</LinkButton>
-    </Footer>
+      <LinkButton href={`/register/step/${nextPage}`}>Continue</LinkButton>
+    </FooterButtons>
   </>
 )
 
 export default RegisterPage
 RegisterPage.getLayout = (page) => (
-  <Page
+  <CardLayout
     title={
       <>
         <CheckCircleIcon
@@ -39,5 +41,5 @@ RegisterPage.getLayout = (page) => (
     progress={70}
   >
     {page}
-  </Page>
+  </CardLayout>
 )
