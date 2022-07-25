@@ -144,7 +144,6 @@ class TeamForm(forms.Form):
 
     def clean(self):
         cleaned_data = super().clean()
-        # TODO not quite sure how this should work with "other team"
         other_team_name = cleaned_data.get("other_team")
         other_sub_unit = cleaned_data.get("other_sub_unit")
         other_business_unit = cleaned_data.get("other_business_unit")
@@ -154,7 +153,6 @@ class TeamForm(forms.Form):
             ).count()
             if number_existing > 0:
                 self.add_error("other_team", "This team already exists")
-            # TODO - maybe an error here if they have selected a team and populated "other"?
         return cleaned_data
 
 
