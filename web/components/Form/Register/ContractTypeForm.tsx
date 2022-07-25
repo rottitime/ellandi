@@ -7,27 +7,32 @@ import {
   Typography
 } from '@mui/material'
 import { useUiContext } from '@/context/UiContext'
-import { ContactType, GenericDataList, Query } from '@/service/types'
+import { ContractType, GenericDataList, Query } from '@/service/types'
 import { useQuery } from 'react-query'
 import { fetchContractTypes } from '@/service/api'
 import { FC, useEffect } from 'react'
 import RadioSkeleton from '@/components/UI/Skeleton/RadioSkeleton'
-import { Controller, useForm } from 'react-hook-form'
+import { Controller, FormProvider, useForm } from 'react-hook-form'
 import { StandardRegisterProps } from './types'
 import FormFooter from '@/components/Form/FormFooter'
 import { object, SchemaOf, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
+import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldControlled'
 
-const schema: SchemaOf<ContactType> = object().shape({
-  contract_type: string().required('This field is required')
+const schema: SchemaOf<ContractType> = object().shape({
+  contract_type: string().required('This field is required'),
+  contract_type_other: string().when('contract_type', (functionType) => {
+    if (functionType === 'other') return string().required('This is a required field')
+  })
 })
 
-const ContractTypeForm: FC<StandardRegisterProps<ContactType>> = ({
+const ContractTypeForm: FC<StandardRegisterProps<ContractType>> = ({
   onFormSubmit,
   backUrl,
   loading,
   defaultValues = {
-    contract_type: ''
+    contract_type: '',
+    contract_type_other: ''
   }
 }) => {
   const { setLoading } = useUiContext()
@@ -36,10 +41,19 @@ const ContractTypeForm: FC<StandardRegisterProps<ContactType>> = ({
     fetchContractTypes
   )
 
-  const { control, handleSubmit } = useForm<ContactType>({
+  const methods = useForm<ContractType>({
     defaultValues,
     resolver: yupResolver(schema)
   })
+
+  const {
+    control,
+    handleSubmit,
+    watch,
+    formState: { isDirty, isValid }
+  } = methods
+
+  const watchContractType = watch('contract_type')
 
   useEffect(() => {
     setLoading(isLoading)
@@ -54,37 +68,46 @@ const ContractTypeForm: FC<StandardRegisterProps<ContactType>> = ({
     )
 
   return (
-    <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
-      <Typography variant="h3" gutterBottom>
-        Select your current contract type. You can only choose one
-      </Typography>
-      <Typography variant="subtitle1" gutterBottom>
-        We'll use this to suggest learning opportunities that are relevant to you
-      </Typography>
+    <FormProvider {...methods}>
+      <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
+        <Typography variant="h3" gutterBottom>
+          Select your current contract type. You can only choose one
+        </Typography>
+        <Typography variant="subtitle1" gutterBottom>
+          We'll use this to suggest learning opportunities that are relevant to you
+        </Typography>
 
-      <Controller
-        name="contract_type"
-        control={control}
-        render={({ field }) => (
-          <RadioGroup {...field}>
-            {isLoading
-              ? [...Array(4).keys()].map((i) => (
-                  <RadioSkeleton key={i} width="80%" sx={{ mb: 1 }} />
-                ))
-              : data.map(({ name, slug }) => (
-                  <FormControlLabel
-                    key={slug}
-                    control={<Radio />}
-                    label={name}
-                    value={slug}
-                  />
-                ))}
-          </RadioGroup>
+        <Controller
+          name="contract_type"
+          control={control}
+          render={({ field }) => (
+            <RadioGroup {...field}>
+              {isLoading
+                ? [...Array(4).keys()].map((i) => (
+                    <RadioSkeleton key={i} width="80%" sx={{ mb: 1 }} />
+                  ))
+                : data.map(({ name, slug }) => (
+                    <FormControlLabel
+                      key={slug}
+                      control={<Radio />}
+                      label={name}
+                      value={slug}
+                    />
+                  ))}
+            </RadioGroup>
+          )}
+        />
+
+        {watchContractType === 'other' && (
+          <TextFieldControlled name="contract_type_other" label="Enter contract type" />
         )}
-      />
 
-      <FormFooter backUrl={backUrl} buttonProps={{ loading }} />
-    </form>
+        <FormFooter
+          backUrl={backUrl}
+          buttonProps={{ loading, disabled: !isDirty && !isValid }}
+        />
+      </form>
+    </FormProvider>
   )
 }
 

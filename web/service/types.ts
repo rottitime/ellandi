@@ -3,9 +3,11 @@ export enum Query {
   Countries = 'countries',
   Grades = 'grades',
   Professions = 'professions',
+  PrimaryProfessions = 'primaryProfessions',
   Functions = 'functions',
   ContractTypes = 'contract-types',
-  Languages = 'languages'
+  Languages = 'languages',
+  Skills = 'skills'
 }
 
 export type GenericDataList = {
@@ -46,18 +48,47 @@ export type ProfessionType = {
   professions: string[]
 }
 
+export type SkillsType = {
+  skills: string[]
+}
+
+export type PrimaryProfessionType = {
+  profession_primary: string
+}
+
 export type ContactType = {
+  contact: string
+}
+
+export type ContractType = {
   contract_type: string
+  contract_type_other: string
+}
+
+export type FunctionType = {
+  function: string
+  function_other: string
+}
+
+export type LanguageType = {
+  language: string
+  speaking: string
+  writing: string
+}
+
+export type LanguagesType = {
+  languages: LanguageType[]
 }
 
 export type RegisterUserResponse = {
   id: string
   email: string
   url: string
-  skills: string[]
-  languages: string[]
 } & PrivacyAcceptType &
   RegisterDetailsType &
   GradeType &
   ProfessionType &
-  ContactType
+  ContactType &
+  PrimaryProfessionType &
+  LanguagesType &
+  SkillsType

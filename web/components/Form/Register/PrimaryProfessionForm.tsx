@@ -1,39 +1,36 @@
-import { FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material'
+import {
+  Alert,
+  AlertTitle,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+  Typography
+} from '@mui/material'
 import { FC } from 'react'
 import FormFooter from '@/components/Form/FormFooter'
 import { StandardRegisterProps } from './types'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { object, SchemaOf, string } from 'yup'
-
-type PrimaryProfessionType = {
-  primaryProfession: string
-}
+import {
+  fetchPrimaryProfession,
+  GenericDataList,
+  PrimaryProfessionType,
+  Query
+} from '@/service/api'
+import { useQuery } from 'react-query'
+import RadioSkeleton from '@/components/UI/Skeleton/RadioSkeleton'
 
 const schema: SchemaOf<PrimaryProfessionType> = object().shape({
-  primaryProfession: string().required()
+  profession_primary: string().required()
 })
-
-/* TODO: Replace with api data */
-const isLoading = false
-const data = [
-  { name: 'Corporate Finance Profession', slug: 'Corporate Finance Profession' },
-  {
-    name: 'Counter-fraud Standards and Profession',
-    slug: 'Counter-fraud Standards and Profession'
-  },
-  {
-    name: 'Digital, Data and Technology Professions',
-    slug: 'Digital, Data and Technology Professions'
-  }
-]
 
 const PrimaryProfessionForm: FC<StandardRegisterProps<PrimaryProfessionType>> = ({
   backUrl,
   onFormSubmit
 }) => {
   const methods = useForm<PrimaryProfessionType>({
-    defaultValues: { primaryProfession: '' },
+    defaultValues: { profession_primary: '' },
     resolver: yupResolver(schema)
   })
   const {
@@ -41,6 +38,19 @@ const PrimaryProfessionForm: FC<StandardRegisterProps<PrimaryProfessionType>> = 
     control,
     formState: { isDirty, isValid }
   } = methods
+
+  const { isLoading, isError, data } = useQuery<GenericDataList[], { message?: string }>(
+    Query.PrimaryProfessions,
+    fetchPrimaryProfession
+  )
+
+  if (isError)
+    return (
+      <Alert severity="error">
+        <AlertTitle>Service Unavailable</AlertTitle>
+        Please try again later.
+      </Alert>
+    )
 
   return (
     <FormProvider {...methods}>
@@ -54,19 +64,23 @@ const PrimaryProfessionForm: FC<StandardRegisterProps<PrimaryProfessionType>> = 
         </Typography>
 
         <Controller
-          name="primaryProfession"
+          name="profession_primary"
           control={control}
           render={({ field }) => (
             <RadioGroup aria-live="polite" aria-busy={isLoading} name="function">
-              {data.map(({ name, slug }) => (
-                <FormControlLabel
-                  key={slug}
-                  {...field}
-                  control={<Radio />}
-                  label={name}
-                  value={slug}
-                />
-              ))}
+              {isLoading
+                ? [...Array(3).keys()].map((i) => (
+                    <RadioSkeleton key={i} width="80%" sx={{ mb: 1 }} />
+                  ))
+                : data.map(({ name, slug }) => (
+                    <FormControlLabel
+                      key={slug}
+                      {...field}
+                      control={<Radio />}
+                      label={name}
+                      value={slug}
+                    />
+                  ))}
             </RadioGroup>
           )}
         />

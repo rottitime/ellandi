@@ -73,13 +73,12 @@ const steps: Steps[] = [
   },
   {
     form: dynamic(() => import('@/components/Form/Register/ContractTypeForm')),
-    title: 'Contract type',
-    skip: true
+    title: 'Contract type'
   },
   {
     form: dynamic(() => import('@/components/Form/Register/ContactForm')),
     title: 'Contact preference',
-    nextUrl: '/register/thankyou2'
+    nextUrl: '/register/thankyou'
   },
   {
     form: dynamic(() => import('@/components/Form/Register/LanguageForm')),
@@ -174,7 +173,6 @@ export async function getStaticProps(context: GetStaticPropsContext) {
   const { title, nextUrl, skip } = steps[stepInt]
 
   const queryClient = new QueryClient()
-
   await queryClient.prefetchQuery(Query.Grades, fetchGrades)
   await queryClient.prefetchQuery(Query.Professions, fetchProfessions)
   await queryClient.prefetchQuery(Query.Functions, fetchFunctions)
