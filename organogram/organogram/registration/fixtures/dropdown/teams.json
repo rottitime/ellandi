@@ -21,12 +21,12 @@
 },
 {
   "model": "registration.team",
-  "pk": "administrativecorporate-support-_-policy-programmes-and-engagement-_-office-for-veteransi-affairs",
+  "pk": "administrativecorporate-support-_-policy-programmes-and-engagement-_-office-for-veterans-affairs",
   "fields": {
-    "name": "Administrative/Corporate Support | Policy, Programmes and Engagement | Office for Veteransí Affairs",
+    "name": "Administrative/Corporate Support | Policy, Programmes and Engagement | Office for Veterans' Affairs",
     "team_name": "Administrative/Corporate Support",
     "sub_unit": "Policy, Programmes and Engagement",
-    "business_unit": "Office for Veteransí Affairs"
+    "business_unit": "Office for Veterans' Affairs"
   }
 },
 {
@@ -331,12 +331,12 @@
 },
 {
   "model": "registration.team",
-  "pk": "business-management-_-policy-programmes-and-engagement-_-office-for-veteransi-affairs",
+  "pk": "business-management-_-policy-programmes-and-engagement-_-office-for-veterans-affairs",
   "fields": {
-    "name": "Business Management | Policy, Programmes and Engagement | Office for Veteransí Affairs",
+    "name": "Business Management | Policy, Programmes and Engagement | Office for Veterans' Affairs",
     "team_name": "Business Management",
     "sub_unit": "Policy, Programmes and Engagement",
-    "business_unit": "Office for Veteransí Affairs"
+    "business_unit": "Office for Veterans' Affairs"
   }
 },
 {
@@ -831,12 +831,12 @@
 },
 {
   "model": "registration.team",
-  "pk": "communications-_-policy-programmes-and-engagement-_-office-for-veteransi-affairs",
+  "pk": "communications-_-policy-programmes-and-engagement-_-office-for-veterans-affairs",
   "fields": {
-    "name": "Communications | Policy, Programmes and Engagement | Office for Veteransí Affairs",
+    "name": "Communications | Policy, Programmes and Engagement | Office for Veterans' Affairs",
     "team_name": "Communications",
     "sub_unit": "Policy, Programmes and Engagement",
-    "business_unit": "Office for Veteransí Affairs"
+    "business_unit": "Office for Veterans' Affairs"
   }
 },
 {
@@ -981,12 +981,12 @@
 },
 {
   "model": "registration.team",
-  "pk": "correspondence-_-policy-programmes-and-engagement-_-office-for-veteransi-affairs",
+  "pk": "correspondence-_-policy-programmes-and-engagement-_-office-for-veterans-affairs",
   "fields": {
-    "name": "Correspondence | Policy, Programmes and Engagement | Office for Veteransí Affairs",
+    "name": "Correspondence | Policy, Programmes and Engagement | Office for Veterans' Affairs",
     "team_name": "Correspondence",
     "sub_unit": "Policy, Programmes and Engagement",
-    "business_unit": "Office for Veteransí Affairs"
+    "business_unit": "Office for Veterans' Affairs"
   }
 },
 {
@@ -1361,10 +1361,10 @@
 },
 {
   "model": "registration.team",
-  "pk": "data-assests-management-_-data-governance-_-central-digital-and-data-office",
+  "pk": "data-assets-management-_-data-governance-_-central-digital-and-data-office",
   "fields": {
-    "name": "Data Assests Management | Data Governance | Central Digital and Data Office",
-    "team_name": "Data Assests Management",
+    "name": "Data Assets Management | Data Governance | Central Digital and Data Office",
+    "team_name": "Data Assets Management",
     "sub_unit": "Data Governance",
     "business_unit": "Central Digital and Data Office"
   }
@@ -5081,12 +5081,12 @@
 },
 {
   "model": "registration.team",
-  "pk": "policy-secretariat-_-policy-programmes-and-engagement-_-office-for-veteransi-affairs",
+  "pk": "policy-secretariat-_-policy-programmes-and-engagement-_-office-for-veterans-affairs",
   "fields": {
-    "name": "Policy & Secretariat | Policy, Programmes and Engagement | Office for Veteransí Affairs",
+    "name": "Policy & Secretariat | Policy, Programmes and Engagement | Office for Veterans' Affairs",
     "team_name": "Policy & Secretariat",
     "sub_unit": "Policy, Programmes and Engagement",
-    "business_unit": "Office for Veteransí Affairs"
+    "business_unit": "Office for Veterans' Affairs"
   }
 },
 {
@@ -5551,12 +5551,12 @@
 },
 {
   "model": "registration.team",
-  "pk": "project-delivery-_-policy-programmes-and-engagement-_-office-for-veteransi-affairs",
+  "pk": "project-delivery-_-policy-programmes-and-engagement-_-office-for-veterans-affairs",
   "fields": {
-    "name": "Project Delivery | Policy, Programmes and Engagement | Office for Veteransí Affairs",
+    "name": "Project Delivery | Policy, Programmes and Engagement | Office for Veterans' Affairs",
     "team_name": "Project Delivery",
     "sub_unit": "Policy, Programmes and Engagement",
-    "business_unit": "Office for Veteransí Affairs"
+    "business_unit": "Office for Veterans' Affairs"
   }
 },
 {
@@ -5871,12 +5871,12 @@
 },
 {
   "model": "registration.team",
-  "pk": "research-strategy-_-research-strategy-and-data-_-office-for-veteransi-affairs",
+  "pk": "research-strategy-_-research-strategy-and-data-_-office-for-veterans-affairs",
   "fields": {
-    "name": "Research & Strategy | Research, Strategy and Data | Office for Veteransí Affairs",
+    "name": "Research & Strategy | Research, Strategy and Data | Office for Veterans' Affairs",
     "team_name": "Research & Strategy",
     "sub_unit": "Research, Strategy and Data",
-    "business_unit": "Office for Veteransí Affairs"
+    "business_unit": "Office for Veterans' Affairs"
   }
 },
 {
@@ -6141,22 +6141,22 @@
 },
 {
   "model": "registration.team",
-  "pk": "senior-management-_-policy-programmes-and-engagement-_-office-for-veteransi-affairs",
+  "pk": "senior-management-_-policy-programmes-and-engagement-_-office-for-veterans-affairs",
   "fields": {
-    "name": "Senior Management | Policy, Programmes and Engagement | Office for Veteransí Affairs",
+    "name": "Senior Management | Policy, Programmes and Engagement | Office for Veterans' Affairs",
     "team_name": "Senior Management",
     "sub_unit": "Policy, Programmes and Engagement",
-    "business_unit": "Office for Veteransí Affairs"
+    "business_unit": "Office for Veterans' Affairs"
   }
 },
 {
   "model": "registration.team",
-  "pk": "senior-management-_-research-strategy-and-data-_-office-for-veteransi-affairs",
+  "pk": "senior-management-_-research-strategy-and-data-_-office-for-veterans-affairs",
   "fields": {
-    "name": "Senior Management | Research, Strategy and Data | Office for Veteransí Affairs",
+    "name": "Senior Management | Research, Strategy and Data | Office for Veterans' Affairs",
     "team_name": "Senior Management",
     "sub_unit": "Research, Strategy and Data",
-    "business_unit": "Office for Veteransí Affairs"
+    "business_unit": "Office for Veterans' Affairs"
   }
 },
 {
