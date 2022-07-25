@@ -11,6 +11,7 @@ page_names = (
     "intro",
     "create-account",
     "your-details",
+    "team",
     "biography",
     "photo",
     "grade",
@@ -106,13 +107,36 @@ class YourDetailsForm(forms.Form):
     last_name = forms.CharField(max_length=128, required=False)
     first_name = forms.CharField(max_length=128, required=False)
     job_title = forms.CharField(max_length=128, required=False)
+    line_manager_email = forms.CharField(max_length=128, required=False)
+    organogram_id = forms.CharField(max_length=128, required=False)
+
+
+@register("your-details")
+def your_details_view(request, url_data):
+    teams = tuple({"value": team, "text": team} for team in models.Team.objects.all())
+    if request.method == "POST":
+        form = YourDetailsForm(request.POST)
+
+        if form.is_valid():
+            data = form.cleaned_data
+            user = request.user
+            for key, value in data.items():
+                setattr(user, key, value)
+            user.save()
+            return redirect(url_data["next_url"])
+    else:
+        data = model_to_dict(request.user)
+        form = YourDetailsForm(data)
+
+    return render(request, "your-details.html", {"form": form, "teams": teams, **url_data})
+
+
+class TeamForm(forms.Form):
     team = forms.ModelChoiceField(queryset=models.Team.objects.all(), blank=True)
     # TODO - how should these other fields be named/structured
     other_team = forms.CharField(max_length=255, required=False)
     other_sub_unit = forms.CharField(max_length=255, required=False)
     other_business_unit = forms.CharField(max_length=255, required=False)
-    line_manager_email = forms.CharField(max_length=128, required=False)
-    organogram_id = forms.CharField(max_length=128, required=False)
 
     def clean(self):
         cleaned_data = super().clean()
@@ -130,11 +154,11 @@ class YourDetailsForm(forms.Form):
         return cleaned_data
 
 
-@register("your-details")
-def your_details_view(request, url_data):
+@register("team")
+def team_view(request, url_data):
     teams = tuple({"value": team, "text": team} for team in models.Team.objects.all())
     if request.method == "POST":
-        form = YourDetailsForm(request.POST)
+        form = TeamForm(request.POST)
 
         if form.is_valid():
             data = form.cleaned_data
@@ -152,9 +176,9 @@ def your_details_view(request, url_data):
             return redirect(url_data["next_url"])
     else:
         data = model_to_dict(request.user)
-        form = YourDetailsForm(data)
+        form = TeamForm(data)
 
-    return render(request, "your-details.html", {"form": form, "teams": teams, **url_data})
+    return render(request, "team.html", {"form": form, "teams": teams, **url_data})
 
 
 class BiographyForm(forms.Form):
