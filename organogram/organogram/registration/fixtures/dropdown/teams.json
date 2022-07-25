@@ -131,16 +131,6 @@
 },
 {
   "model": "registration.team",
-  "pk": "business_unit-_-sub_unit-_-team",
-  "fields": {
-    "name": "﻿business_unit | sub_unit | team",
-    "team_name": "team",
-    "sub_unit": "sub_unit",
-    "business_unit": "﻿business_unit"
-  }
-},
-{
-  "model": "registration.team",
   "pk": "cabinet-office-analysis-_-analysis-insight-_-analytical-projects",
   "fields": {
     "name": "Cabinet Office Analysis | Analysis & Insight | Analytical Projects",
