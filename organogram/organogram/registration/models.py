@@ -39,7 +39,7 @@ class DropDownListModel(models.Model):
 
     def save(self, *args, **kwargs):
         self.clean()
-        self.slug = slugify(self.name)
+        self.slug = slugify(self.name.replace("|", "_"))
         return super().save(*args, **kwargs)
 
     def __str__(self):
