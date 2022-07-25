@@ -1,4 +1,4 @@
-import Page from '@/components/Layout/AccountMenuPage'
+import AccountLayout from '@/components/Layout/AccountLayout'
 import { Button, Divider, Grid, Typography, useTheme } from '@mui/material'
 import Card from '@/components/UI/Card'
 import { Colors } from '@/style/theme'
@@ -122,10 +122,10 @@ const IndexPage = () => {
 
 export default IndexPage
 IndexPage.getLayout = (page) => (
-  <Page
+  <AccountLayout
     title="Welcome, Joe"
     teaser="Use this service to add and review your skills and find learning opportunities"
   >
     {page}
-  </Page>
+  </AccountLayout>
 )

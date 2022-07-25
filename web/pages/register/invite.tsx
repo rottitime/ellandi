@@ -1,4 +1,4 @@
-import Page from '@/components/Layout/GenericPage'
+import CardLayout from '@/components/Layout/CardLayout'
 import Link from '@/components/UI/Link'
 import { Typography } from '@mui/material'
 
@@ -28,7 +28,7 @@ const RegisterPage = () => (
 
 export default RegisterPage
 RegisterPage.getLayout = (page) => (
-  <Page showPromo={true} title="Hi Joe Bloggs">
+  <CardLayout showPromo={true} title="Hi Joe Bloggs">
     {page}
-  </Page>
+  </CardLayout>
 )

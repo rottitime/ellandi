@@ -2,10 +2,25 @@ import { FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material'
 import FormFooter from '@/components/Form/FormFooter'
 import { FC } from 'react'
 import { StandardRegisterProps } from './types'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
+import { ContactType } from '@/service/types'
+import { object, SchemaOf, string } from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
 
-const ContactForm: FC<StandardRegisterProps<null>> = ({ backUrl, onFormSubmit }) => {
-  const { handleSubmit } = useForm()
+const schema: SchemaOf<ContactType> = object().shape({
+  contact: string()
+})
+
+const ContactForm: FC<StandardRegisterProps<ContactType>> = ({
+  backUrl,
+  defaultValues = { contact: '' },
+  onFormSubmit
+}) => {
+  const { handleSubmit, control } = useForm<ContactType>({
+    defaultValues,
+    resolver: yupResolver(schema)
+  })
+
   return (
     <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
       <Typography variant="h3" gutterBottom>
@@ -16,10 +31,24 @@ const ContactForm: FC<StandardRegisterProps<null>> = ({ backUrl, onFormSubmit })
         This will only be in cases of emergency or an identified skills shortage in a
         particular area
       </Typography>
-      <RadioGroup sx={{ mb: 3 }}>
-        <FormControlLabel control={<Radio />} label="Yes" value="Yes" />
-        <FormControlLabel control={<Radio />} label="No" value="No" />
-      </RadioGroup>
+
+      <Controller
+        name="contact"
+        control={control}
+        render={({ field }) => (
+          <RadioGroup sx={{ mb: 3 }} {...field}>
+            {['Yes', 'No'].map((value) => (
+              <FormControlLabel
+                key={value}
+                control={<Radio />}
+                label={value}
+                value={value}
+              />
+            ))}
+          </RadioGroup>
+        )}
+      />
+
       <FormFooter backUrl={backUrl} />
     </form>
   )

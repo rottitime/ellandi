@@ -1,0 +1,39 @@
+{% from 'macros.html' import radios %}
+
+{% extends "base.html" %}
+
+{% block content %}
+
+  <main class="card-panel">
+
+    <header>
+      <h1>Biography</h1>
+    </header>
+
+    <h2>You may enter a biography.  It is completely optional.</h2>
+
+    <form method="POST">
+
+      {{csrf_input}}
+
+      <div class="row">
+        <div class="input-field ">
+          <textarea id="biography" name="biography" class="materialize-textarea"></textarea>
+          <label for="biography">Biography</label>
+        </div>
+      </div>
+
+      <div class="buttons">
+        <a class="btn waves-effect waves-light btn-small" href="{{prev_url}}">
+          Back
+        </a>
+        <button class="btn waves-effect waves-light" type="submit" name="action">
+          Continue
+        </button>
+      </div>
+
+    </form>
+
+  </main>
+
+{% endblock content %}

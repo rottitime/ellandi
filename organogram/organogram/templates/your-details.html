@@ -11,6 +11,8 @@
       <h1>Your details</h1>
     </header>
 
+    <p>Please enter the details for the role you are currently operating in</p>
+
     <form method="POST">
 
       {{csrf_input}}
@@ -28,7 +30,23 @@
       </div>
 
       <div class="row">
+        {{input(form, name='business_unit', label='Business unit')}}
+      </div>
+
+      <div class="row">
+        {{input(form, name='sub_unit', label='Sub unit')}}
+      </div>
+
+      <div class="row">
+        {{input(form, name='team', label='Team')}}
+      </div>
+
+      <div class="row">
         {{input(form, name='line_manager_email', label='Line manager email')}}
+      </div>
+
+      <div class="row">
+        {{input(form, name='organogram_id', label='The ID from your entry on the organogram')}}
       </div>
 
       <div class="buttons">

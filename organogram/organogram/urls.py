@@ -16,10 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from organogram import views
+from organogram import page_views
 
 urlpatterns = [
-    path("", views.page_view, name="pages-index"),
-    path("<str:page_name>", views.page_view, name="pages"),
+    path("", page_views.page_view, name="pages-index"),
     path("admin/", admin.site.urls),
+    path("<str:page_name>", page_views.page_view, name="pages"),
 ]

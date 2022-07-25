@@ -8,22 +8,37 @@ env = environ.Env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
-
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-&3_9ebzl!$@-vv=v=u@6h=lm@abd69u&cfs4lj0ml0v$thw*f3"
+SECRET_KEY = env.str("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool("DEBUG", default=False)
 
-ALLOWED_HOSTS = [
-    "organogram.london.cloudapps.digital",
-    "localhost",
-    "127.0.0.1",
-    "testserver",
-]
+# VCAP_SERVICES
+VCAP_SERVICES = env.json("VCAP_SERVICES")
+
+if VCAP_SERVICES:
+    # AWS
+    AWS_CREDENTIALS = VCAP_SERVICES["aws-s3-bucket"][0]["credentials"]
+    AWS_SECRET_ACCESS_KEY = AWS_CREDENTIALS["aws_secret_access_key"]
+    AWS_STORAGE_BUCKET_NAME = AWS_CREDENTIALS["bucket_name"]
+    AWS_ACCESS_KEY_ID = AWS_CREDENTIALS["aws_access_key_id"]
+    AWS_REGION = AWS_CREDENTIALS["aws_region"]
+    AWS_S3_ENDPOINT_URL = minio = env("AWS_S3_ENDPOINT_URL", default=None)  # Needed for MinIO only, not set in PaaS
+
+if DEBUG:
+    ALLOWED_HOSTS = [
+        "localhost",
+        "127.0.0.1",
+    ]
+else:
+    ALLOWED_HOSTS = [
+        "digital-organogram.london.cloudapps.digital",
+        "organogram-develop.london.cloudapps.digital",
+        "localhost",
+        "127.0.0.1",
+        "testserver",
+    ]
 
 
 # Application definition
@@ -40,6 +55,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -81,11 +97,10 @@ WSGI_APPLICATION = "organogram.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        **env.db("DATABASE_URL"),
+        **{"ATOMIC_REQUESTS": True},
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators

@@ -1,14 +1,15 @@
-import GenericPage from '@/components/Layout/GenericPage'
+import CardLayout from '@/components/Layout/CardLayout'
 import Link from '@/components/UI/Link'
 import { Alert, Fade, Typography } from '@mui/material'
 import SignInForm from '@/components/Form/SignInForm/SignInForm'
-import { loginWithEmailAndPassword } from '@/service/auth'
 import router from 'next/router'
 import { useState } from 'react'
+import useAuth from '@/hooks/useAuth'
 
 const SigninPage = () => {
   const [fetching, setFetching] = useState(false)
   const [error, setError] = useState(null)
+  const { login } = useAuth()
 
   return (
     <>
@@ -29,12 +30,10 @@ const SigninPage = () => {
         loading={fetching}
         onFormSubmit={async (data) => {
           // eslint-disable-next-line no-console
-          console.log({ data })
           setFetching(true)
 
           try {
-            const res = await loginWithEmailAndPassword(data)
-            sessionStorage.setItem('token', res.token)
+            await login(data)
             router.push('/account')
           } catch (err) {
             setError(err.message)
@@ -48,4 +47,4 @@ const SigninPage = () => {
 }
 
 export default SigninPage
-SigninPage.getLayout = (page) => <GenericPage title="Sign in">{page}</GenericPage>
+SigninPage.getLayout = (page) => <CardLayout title="Sign in">{page}</CardLayout>
