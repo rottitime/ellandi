@@ -88,16 +88,18 @@ class Country(DropDownListModel):
         verbose_name_plural = "Countries"
 
 
-class Team(models.Model):
-    name = models.CharField(max_length=255, blank=False, null=False)
+class Team(DropDownListModel):
+    team_name = models.CharField(max_length=255, blank=False, null=False)
     sub_unit = models.CharField(max_length=255, blank=False, null=False)
     business_unit = models.CharField(max_length=255, blank=False, null=False)
 
-    def __str__(self):
-        return f"{self.name} - sub-unit {self.sub_unit} - business-unit {self.business_unit}"
+    def save(self, *args, **kwargs):
+        self.clean()
+        self.name = f"{self.team_name} | {self.sub_unit} | {self.business_unit}"
+        return super().save(*args, **kwargs)
 
     class Meta:
-        unique_together = ["name", "sub_unit", "business_unit"]
+        unique_together = ["team_name", "sub_unit", "business_unit"]
 
 
 class UserManager(BaseUserManager):
