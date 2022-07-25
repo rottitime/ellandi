@@ -94,5 +94,5 @@ jobs:
         env:
           DJANGO_SECRET_KEY: "${{ secrets.DJANGO_SECRET_KEY }}"
         if:
-          - matrix.app == "organogram"
+          - ${{ matrix.app }} == "organogram"
         run: ./cf set-env organogram-sandbox DJANGO_SECRET_KEY "${{ env.DJANGO_SECRET_KEY }}"
