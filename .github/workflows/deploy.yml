@@ -5,7 +5,6 @@ env:
 
 on:
   push:
-    # Publish `$SPACE` as Docker `latest` image.
     branches:
       - sandbox
       - demo
@@ -41,6 +40,7 @@ jobs:
             dockerfile: docker/organogram/Dockerfile
 
     steps:
+      - name: Download CF CLI
       - uses: actions/checkout@v3
 
       - name: Login to GitHub Container Registry
@@ -88,7 +88,7 @@ jobs:
           DOCKER_IMAGE: ${{ matrix.app }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_ACTOR: ${{ github.actor }}
-        run: CF_DOCKER_PASSWORD="$GITHUB_TOKEN" ./cf push -f manifests/"${{ matrix.app }}-$CF_SPACE"_manifest.yml --docker-image $DOCKER_REPOSITORY/${{ github.repository_owner }}/$DOCKER_IMAGE:$IMAGE_TAG --docker-username=$GITHUB_ACTOR
+        run: CF_DOCKER_PASSWORD="$GITHUB_TOKEN" ./cf push -f manifests/"$CF_SPACE/${{ matrix.app }}"_manifest.yml --docker-image $DOCKER_REPOSITORY/${{ github.repository_owner }}/$DOCKER_IMAGE:$IMAGE_TAG --docker-username=$GITHUB_ACTOR
 
       - name: Set organogram DJANGO_SECRET_KEY
         env:
