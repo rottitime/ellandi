@@ -40,7 +40,6 @@ jobs:
             dockerfile: docker/organogram/Dockerfile
 
     steps:
-      - name: Download CF CLI
       - uses: actions/checkout@v3
 
       - name: Login to GitHub Container Registry
