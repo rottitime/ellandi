@@ -8,14 +8,14 @@ from django.utils.text import slugify
 def populate_teams(apps, schema_editor):
     Team = apps.get_model("registration", "Team")
     teams = set()
-    filename = "ellandi/registration/migrations/0010_initial_teams.csv"
+    filename = "organogram/registration/migrations/0010_initial_teams.csv"
 
-    with open(filename, mode="r") as csv_file:
-        csv_reader = csv.DictReader(csv_file)
+    with open(filename, encoding="utf-8") as csv_file:
+        csv_reader = csv.reader(csv_file)
         for row in csv_reader:
-            team_name = row["team"]
-            sub_unit = row["sub_unit"]
-            business_unit = row["business_unit"]
+            business_unit = row[0]
+            sub_unit = row[1]
+            team_name = row[2]
             name = f"{team_name} | {sub_unit} | {business_unit}"
             slug = slugify(name.replace("|", "_"))
             team = Team(name=name, slug=slug, team_name=team_name, sub_unit=sub_unit, business_unit=business_unit)
