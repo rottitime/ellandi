@@ -1,11 +1,11 @@
 ---
 applications:
-- name: organogram-develop
+- name: organogram-demo
   services:
-  - i-dot-ai-organogram-develop
-  - organogram-postgres-develop
+  - i-dot-ai-organogram-demo
+  - organogram-postgres-demo
   routes:
-  - route: organogram-develop.london.cloudapps.digital
+  - route: organogram-demo.london.cloudapps.digital
     protocol: http1
   processes:
   - type: web
