@@ -6,12 +6,12 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('registration', '0009_alter_team_options'),
+        ("registration", "0009_alter_team_options"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='team',
+            name="team",
             options={},
         ),
     ]
