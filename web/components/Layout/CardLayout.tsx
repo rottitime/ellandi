@@ -1,4 +1,5 @@
 import Template from '@/components/Layout/Template'
+import { withGovLogoBackground } from '@/style/global'
 import {
   Grid,
   Typography,
@@ -131,6 +132,9 @@ const CardLayout: FC<Props> = ({ children, showPromo, title, footer, progress })
   const { loading } = useUiContext()
   return (
     <Template disableGutters>
+      <style jsx global>
+        {withGovLogoBackground}
+      </style>
       <GridContainer spacing={0} container>
         {!!showPromo && (
           <Grid item xs={12} md={4} className="promo-box">
@@ -183,7 +187,7 @@ const CardLayout: FC<Props> = ({ children, showPromo, title, footer, progress })
               width: '100%'
             }}
           >
-            <Typography variant="h1" sx={{ textAlign: 'center', mb: 3 }} component="h2">
+            <Typography variant="h1" component="h2">
               {title}
             </Typography>
 

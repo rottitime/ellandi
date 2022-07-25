@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
-import { createTheme, PaletteColorOptions } from '@mui/material/styles'
+import { createTheme, PaletteColorOptions, Shadows } from '@mui/material/styles'
 import { CSSProperties } from 'react'
 
 export type Colors = {
@@ -115,7 +115,7 @@ const theme = createTheme({
     link: createColor('#1976d2'),
 
     background: {
-      default: '#F6F8FB'
+      default: '#E9EAEC'
     }
   },
   typography: {
@@ -174,6 +174,7 @@ const theme = createTheme({
     overline: undefined
   },
   spacing: [0, 4, 8, 16, 30, 60, 110],
+  shadows: Array(25).fill('none') as Shadows,
   components: {
     MuiLink: {
       styleOverrides: {
