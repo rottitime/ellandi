@@ -95,12 +95,11 @@ class Team(DropDownListModel):
 
     def save(self, *args, **kwargs):
         self.clean()
-        self.name = f"{self.team_name} | {self.sub_unit} | {self.business_unit}"
+        self.name = f"{self.business_unit} | {self.sub_unit} | {self.team_name}"
         return super().save(*args, **kwargs)
 
     class Meta:
         unique_together = ["team_name", "sub_unit", "business_unit"]
-        ordering = ["name"]
 
 
 class UserManager(BaseUserManager):
