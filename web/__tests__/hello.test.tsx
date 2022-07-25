@@ -27,7 +27,7 @@ describe('Home', () => {
 
     expect(screen.getByTestId('output')).toBeEmptyDOMElement()
 
-    userEvent.click(button)
+    await userEvent.click(button)
 
     await waitFor(async () => {
       expect(screen.getByTestId('output')).toHaveTextContent('done')
@@ -35,12 +35,10 @@ describe('Home', () => {
   })
 
   it('route spy', async () => {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-
     renderWithProviders(<Home />)
     const button = screen.getByTestId('route-button')
 
-    userEvent.click(button)
+    await userEvent.click(button)
 
     await waitFor(async () => {
       expect(Router.push).toHaveBeenCalledTimes(1)

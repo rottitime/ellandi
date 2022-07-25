@@ -1,5 +1,5 @@
 import CardLayout from '@/components/Layout/CardLayout'
-import LinkButton from '@/components/LinkButton'
+import Button from '@/components/UI/Button/Button'
 import Card from '@/components/UI/Card'
 import { Divider, Grid, Typography } from '@mui/material'
 
@@ -10,7 +10,9 @@ const IndexPage = () => (
         <Typography variant="h2" gutterBottom>
           Register
         </Typography>
-        <LinkButton href="/register">Register</LinkButton>
+        <Button variant="contained" href="/register">
+          Register
+        </Button>
       </Card>
     </Grid>
     <Divider orientation="vertical" flexItem></Divider>
@@ -19,7 +21,9 @@ const IndexPage = () => (
         <Typography variant="h2" gutterBottom>
           Sign in
         </Typography>
-        <LinkButton href="/signin">Sign in</LinkButton>
+        <Button variant="contained" href="/signin">
+          Sign in
+        </Button>
       </Card>
     </Grid>
   </Grid>

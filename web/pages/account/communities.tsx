@@ -4,7 +4,7 @@ import Link from '@/components/UI/Link'
 import Communities from '@/components/Icons/Communities'
 import ContentBox from '@/components/ContentBox'
 import Card from '@/components/UI/Card'
-import LinkButton from '@/components/LinkButton'
+import Button from '@/components/UI/Button/Button'
 
 const listCommunities = [
   {
@@ -97,9 +97,9 @@ const Page = () => {
             </Grid>
           ))}
         </Grid>
-        <LinkButton href="/register/page4" sx={{ my: 5 }}>
+        <Button href="/register/page4" sx={{ my: 5 }}>
           View all communities
-        </LinkButton>
+        </Button>
 
         <Divider variant="middle" />
 

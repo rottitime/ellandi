@@ -1,8 +1,8 @@
 import CardLayout from '@/components/Layout/CardLayout'
-import { Typography, Button } from '@mui/material'
-import LinkButton from '@/components/LinkButton'
+import { Typography } from '@mui/material'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import FooterButtons from '@/components/UI/FooterButtons/FooterButtons'
+import Button from '@/components/UI/Button/Button'
 import router from 'next/router'
 
 const nextPage = 9
@@ -23,7 +23,9 @@ const RegisterPage = () => (
       <Button variant="outlined" size="small" onClick={() => router.back()}>
         Back
       </Button>
-      <LinkButton href={`/register/step/${nextPage}`}>Continue</LinkButton>
+      <Button variant="contained" href={`/register/step/${nextPage}`}>
+        Continue
+      </Button>
     </FooterButtons>
   </>
 )
