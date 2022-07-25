@@ -46,6 +46,7 @@ export type PrivacyAcceptType = {
 
 export type ProfessionType = {
   professions: string[]
+  profession_other: string
 }
 
 export type SkillsType = {

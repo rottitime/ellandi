@@ -7,9 +7,10 @@ import { useQuery } from 'react-query'
 import { FC, useEffect } from 'react'
 import FormFooter from '@/components/Form/FormFooter'
 import { StandardRegisterProps } from './types'
-import { useForm } from 'react-hook-form'
+import { FormProvider, useForm } from 'react-hook-form'
 import { array, object, SchemaOf, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
+import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldControlled'
 
 const List = styled(Stack)`
   .MuiChip-root {
@@ -20,7 +21,10 @@ const List = styled(Stack)`
 const fieldName: keyof ProfessionType = 'professions'
 
 const schema: SchemaOf<ProfessionType> = object().shape({
-  professions: array().of(string()).min(1, 'This is a required field')
+  professions: array().of(string()).min(1, 'This is a required field'),
+  profession_other: string().when('professions', (value) => {
+    if (value.includes('Other')) return string().required('This is a required field')
+  })
 })
 
 const ProfessionForm: FC<StandardRegisterProps<ProfessionType>> = ({
@@ -28,20 +32,25 @@ const ProfessionForm: FC<StandardRegisterProps<ProfessionType>> = ({
   onFormSubmit,
   loading,
   defaultValues = {
-    professions: []
+    professions: [],
+    profession_other: ''
   }
 }) => {
+  const methods = useForm<ProfessionType>({
+    defaultValues,
+    resolver: yupResolver(schema)
+  })
+
   const {
     handleSubmit,
     getValues,
     setValue,
     register,
     trigger,
+    watch,
     formState: { isDirty, isValid }
-  } = useForm<ProfessionType>({
-    defaultValues,
-    resolver: yupResolver(schema)
-  })
+  } = methods
+
   const { setLoading } = useUiContext()
   const { isLoading, isError, data } = useQuery<GenericDataList[], { message?: string }>(
     Query.Professions,
@@ -50,6 +59,8 @@ const ProfessionForm: FC<StandardRegisterProps<ProfessionType>> = ({
   useEffect(() => {
     setLoading(isLoading)
   }, [isLoading, setLoading])
+
+  const watchProfessions = watch('professions')
 
   register(fieldName)
 
@@ -62,56 +73,66 @@ const ProfessionForm: FC<StandardRegisterProps<ProfessionType>> = ({
     )
 
   return (
-    <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
-      <Typography variant="h3" gutterBottom>
-        Select the Profession(s) that you belong to. You may choose more than one
-      </Typography>
+    <FormProvider {...methods}>
+      <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
+        <Typography variant="h3" gutterBottom>
+          Select the Profession(s) that you belong to. You may choose more than one
+        </Typography>
 
-      <Typography variant="subtitle1" gutterBottom>
-        We'll use this to suggest learning opportunities that are relevant to you
-      </Typography>
+        <Typography variant="subtitle1" gutterBottom>
+          We'll use this to suggest learning opportunities that are relevant to you
+        </Typography>
 
-      <List
-        direction="row"
-        flexWrap="wrap"
-        spacing={0}
-        justifyContent="center"
-        aria-live="polite"
-        aria-busy={isLoading}
-      >
-        {isLoading
-          ? [...Array(22).keys()].map((i) => (
-              <Skeleton key={i} width={100} sx={{ m: 1 }} />
-            ))
-          : data.map(({ name, slug }) => (
-              <ToggleChip
-                key={slug}
-                active={getValues(fieldName).includes(name)}
-                label={name}
-                onToggle={async () => {
-                  const data = getValues(fieldName)
+        <List
+          direction="row"
+          flexWrap="wrap"
+          spacing={0}
+          justifyContent="center"
+          aria-live="polite"
+          aria-busy={isLoading}
+        >
+          {isLoading
+            ? [...Array(22).keys()].map((i) => (
+                <Skeleton key={i} width={100} sx={{ m: 1 }} />
+              ))
+            : data.map(({ name }) => (
+                <>
+                  <ToggleChip
+                    key={name}
+                    active={getValues(fieldName).includes(name)}
+                    label={name}
+                    onToggle={async () => {
+                      const data = getValues(fieldName)
 
-                  setValue(
-                    fieldName,
-                    data?.includes(name)
-                      ? data.filter((item) => item !== name)
-                      : [...data, name]
-                  )
+                      setValue(
+                        fieldName,
+                        data?.includes(name)
+                          ? data.filter((item) => item !== name)
+                          : [...data, name]
+                      )
 
-                  await trigger(fieldName)
-                }}
-              />
-            ))}
-      </List>
+                      await trigger(fieldName)
+                    }}
+                  />
+                  {name === 'Other' && watchProfessions.includes('Other') && (
+                    <TextFieldControlled
+                      name="profession_other"
+                      label="Enter profession"
+                    />
+                  )}
+                </>
+              ))}
+        </List>
 
-      <FormFooter
-        backUrl={backUrl}
-        buttonProps={{
-          loading,
-          disabled: !isDirty && !isValid
-        }}
-      />
-    </form>
+        <FormFooter
+          backUrl={backUrl}
+          buttonProps={{
+            loading,
+            disabled: !isDirty && !isValid
+          }}
+        />
+      </form>
+    </FormProvider>
   )
 }
 
