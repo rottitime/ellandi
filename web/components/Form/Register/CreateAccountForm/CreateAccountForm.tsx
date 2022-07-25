@@ -45,7 +45,7 @@ const CreateAccountForm: FC<StandardRegisterProps<CreateAccountType>> = ({
           You need to create an account before using this service
         </Typography>
 
-        <Typography variant="h4" gutterBottom>
+        <Typography variant="subtitle1" gutterBottom>
           Enter your email address
         </Typography>
         <Field>
@@ -55,7 +55,7 @@ const CreateAccountForm: FC<StandardRegisterProps<CreateAccountType>> = ({
           <TextFieldControlled name="emailConfirm" label="Confirm your email address" />
         </Field>
 
-        <Typography variant="h4" gutterBottom>
+        <Typography variant="subtitle1" gutterBottom>
           Create a password
         </Typography>
 

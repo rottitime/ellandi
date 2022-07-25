@@ -16,6 +16,7 @@ export type Colors = {
   profileYellow: CSSProperties['color']
   //ui
   link: CSSProperties['color']
+  success: CSSProperties['color']
 }
 
 const breakpoints = {
@@ -87,7 +88,7 @@ const theme = createTheme({
     blueDark: '#161E2F',
     greyDark: '#9F9F9F',
     greyLight: '#f2f2f2',
-    green: '#44D600',
+    green: '#00E676',
     white: '#fff',
     //profiles
     profileBlue: '#144E81',
@@ -95,7 +96,8 @@ const theme = createTheme({
     profileGreen: '#10403C',
     profileYellow: '#594D00',
     //ui
-    link: '#1976d2'
+    link: '#1976d2',
+    success: '#00E676'
   },
   breakpoints: {
     values: breakpoints
@@ -147,10 +149,9 @@ const theme = createTheme({
       fontWeight: 600
     },
     subtitle1: {
-      fontWeight: 400,
-      fontSize: '18px',
+      fontWeight: 300,
+      fontSize: '24px',
       lineHeight: '130%',
-      color: '#8F99A8',
       '&.MuiTypography-gutterBottom': {
         marginBottom: '15px'
       }

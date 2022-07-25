@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react'
+import { screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import SignInForm from '@/components/Form/SignInForm/SignInForm'
 import { renderWithProviders } from '@/lib/test-utils'
@@ -33,7 +33,9 @@ describe('Page: Sign in', () => {
 
   it('shows errors', async () => {
     const mockSubmit = jest.fn()
-    await render(<SignInForm onFormSubmit={(data) => mockSubmit(data)} loading={false} />)
+    renderWithProviders(
+      <SignInForm onFormSubmit={(data) => mockSubmit(data)} loading={false} />
+    )
 
     const inputEmail = screen.getByTestId('textfield_email')
     const button = screen.getByRole('button', { name: /Sign in/i })
@@ -53,7 +55,9 @@ describe('Page: Sign in', () => {
 
   it('submits', async () => {
     const mockSubmit = jest.fn()
-    await render(<SignInForm onFormSubmit={(data) => mockSubmit(data)} loading={false} />)
+    renderWithProviders(
+      <SignInForm onFormSubmit={(data) => mockSubmit(data)} loading={false} />
+    )
 
     const inputEmail = screen.getByTestId('textfield_email')
     const inputPassword = screen.getByTestId('textfield_password')

@@ -75,11 +75,11 @@ const ProfessionForm: FC<StandardRegisterProps<ProfessionType>> = ({
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
-        <Typography variant="h3" gutterBottom>
+        <Typography variant="subtitle1" gutterBottom>
           Select the Profession(s) that you belong to. You may choose more than one
         </Typography>
 
-        <Typography variant="subtitle1" gutterBottom>
+        <Typography gutterBottom>
           We'll use this to suggest learning opportunities that are relevant to you
         </Typography>
 

@@ -124,10 +124,10 @@ const LanguageForm: FC<StandardRegisterProps<LanguagesType>> = ({
 
   return (
     <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
-      <Typography variant="h3" gutterBottom>
+      <Typography variant="subtitle1" gutterBottom>
         Add any languages that you use. You can change or add to these later.
       </Typography>
-      <Typography variant="subtitle1" gutterBottom>
+      <Typography gutterBottom>
         We'll use this to suggest learning opportunities that are relevant to you
       </Typography>
 

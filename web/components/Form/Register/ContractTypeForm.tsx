@@ -70,10 +70,10 @@ const ContractTypeForm: FC<StandardRegisterProps<ContractType>> = ({
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
-        <Typography variant="h3" gutterBottom>
+        <Typography variant="subtitle1" gutterBottom>
           Select your current contract type. You can only choose one
         </Typography>
-        <Typography variant="subtitle1" gutterBottom>
+        <Typography gutterBottom>
           We'll use this to suggest learning opportunities that are relevant to you
         </Typography>
 

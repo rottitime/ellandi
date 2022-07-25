@@ -1,6 +1,5 @@
 import CardLayout from '@/components/Layout/CardLayout'
 import { Typography } from '@mui/material'
-import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import FooterButtons from '@/components/UI/FooterButtons/FooterButtons'
 import Button from '@/components/UI/Button/Button'
 import router from 'next/router'
@@ -9,7 +8,7 @@ const nextPage = 9
 
 const RegisterPage = () => (
   <>
-    <Typography variant="h3" gutterBottom>
+    <Typography variant="subtitle1" gutterBottom>
       We're now going to ask you about your skills, including:
     </Typography>
 
@@ -32,17 +31,7 @@ const RegisterPage = () => (
 
 export default RegisterPage
 RegisterPage.getLayout = (page) => (
-  <CardLayout
-    title={
-      <>
-        <CheckCircleIcon
-          sx={{ display: 'block', margin: '0 auto', fontSize: '60px', color: '#44D600' }}
-        />
-        Thank you for completing your details
-      </>
-    }
-    progress={70}
-  >
+  <CardLayout title="Thank you for completing your details" progress={70}>
     {page}
   </CardLayout>
 )
