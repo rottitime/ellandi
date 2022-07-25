@@ -18,7 +18,7 @@
       <p>Please select the team for the role you are currently operating in</p>
 
       <div class="row select-field">
-        {{select(form, 'team', 'Select a team', teams, empty_option="")}}
+        {{select(form, 'team', 'Select a team', teams, empty_option="Select your team")}}
       </div>
 
       <h4>Or:</h4>
@@ -26,15 +26,15 @@
       <p>If your team isn't in the list, please enter the details below</p>
 
       <div class="row">
-        {{input(form, name='other_team', label='Other - team')}}
+        {{input(form, name='other_team', label='Other: team')}}
       </div>
 
       <div class="row">
-        {{input(form, name='other_business_unit', label='Other - business unit')}}
+        {{input(form, name='other_sub_unit', label='Other: sub unit')}}
       </div>
 
       <div class="row">
-        {{input(form, name='other_sub_unit', label='Other - sub unit')}}
+        {{input(form, name='other_business_unit', label='Other: business unit')}}
       </div>
 
       <div class="buttons">
