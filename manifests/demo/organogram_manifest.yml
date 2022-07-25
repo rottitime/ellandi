@@ -1,11 +1,11 @@
 ---
 applications:
-- name: organogram-sandbox
+- name: organogram-demo
   services:
-  - i-dot-ai-organogram-sandbox
-  - organogram-postgres-sandbox
+  - i-dot-ai-organogram-demo
+  - organogram-postgres-demo
   routes:
-  - route: organogram-sandbox.london.cloudapps.digital
+  - route: organogram-demo.london.cloudapps.digital
     protocol: http1
   processes:
   - type: web

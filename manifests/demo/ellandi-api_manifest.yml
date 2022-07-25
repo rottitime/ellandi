@@ -1,10 +1,10 @@
 ---
 applications:
-- name: ellandi-api-sandbox
+- name: ellandi-api-demo
   services:
-  - ellandi-postgres-sandbox
+  - ellandi-postgres-demo
   routes:
-  - route: ellandi-api-sandbox.london.cloudapps.digital
+  - route: ellandi-api-demo.london.cloudapps.digital
     protocol: http1
   processes:
   - type: web

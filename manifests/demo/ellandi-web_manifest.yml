@@ -1,14 +1,14 @@
 ---
 applications:
-- name: ellandi-web-sandbox
+- name: ellandi-web-demo
   env:
-    VITE_FRONTEND_HOST: https://ellandi-web-sandbox.london.cloudapps.digital
-    VITE_API_ROOT_URL: https://ellandi-api-sandbox.london.cloudapps.digital
+    VITE_FRONTEND_HOST: https://ellandi-web-demo.london.cloudapps.digital
+    VITE_API_ROOT_URL: https://ellandi-api-demo.london.cloudapps.digital
     VITE_IS_DEMO_MODE: 'true'
     NODE_ENV: production
     VITE_PROXY_ROOT_URL: 'false'
   routes:
-  - route: ellandi-web-sandbox.london.cloudapps.digital
+  - route: ellandi-web-demo.london.cloudapps.digital
     protocol: http1
   processes:
   - type: web
