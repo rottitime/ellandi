@@ -2,6 +2,7 @@
 import csv
 
 from django.db import migrations
+from django.utils.text import slugify
 
 
 def populate_teams(apps, schema_editor):
@@ -12,7 +13,12 @@ def populate_teams(apps, schema_editor):
     with open(filename, mode="r") as csv_file:
         csv_reader = csv.DictReader(csv_file)
         for row in csv_reader:
-            team = Team(name = row["team"], sub_unit = row["sub_unit"], business_unit = row["business_unit"])
+            team_name = row["team"]
+            sub_unit = row["sub_unit"]
+            business_unit = row["business_unit"]
+            name = f"{team_name} | {sub_unit} | {business_unit}"
+            slug = slugify(name.replace("|", "_"))
+            team = Team(name=name, slug=slug, team_name=team_name, sub_unit=sub_unit, business_unit=business_unit)
             teams.add(team)
     Team.objects.bulk_create(teams)
 
@@ -20,7 +26,7 @@ def populate_teams(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("registration", "0009_user_team"),
+        ("registration", "0007_auto_20220725_1157"),
     ]
 
     operations = [migrations.RunPython(populate_teams)]
