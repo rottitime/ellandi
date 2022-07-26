@@ -93,6 +93,7 @@ class Team(DropDownListModel):
 
     class Meta:
         unique_together = ["team_name", "sub_unit", "business_unit"]
+        ordering = ["name"]
 
 
 class UserManager(BaseUserManager):
