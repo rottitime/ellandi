@@ -7,7 +7,6 @@ import pytz
 from django.conf import settings
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
-from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.text import slugify
 from storages.backends.s3boto3 import S3Boto3Storage
@@ -33,12 +32,7 @@ class DropDownListModel(models.Model):
     name = models.CharField(max_length=127, blank=False, null=False)
     slug = models.CharField(max_length=127, blank=False, null=False, primary_key=True)
 
-    def clean(self):
-        if self.slug:
-            raise ValidationError("Do not set slug field, this is automatically calculated.")
-
     def save(self, *args, **kwargs):
-        self.clean()
         self.slug = slugify(self.name.replace("|", "_"))
         return super().save(*args, **kwargs)
 
@@ -94,8 +88,7 @@ class Team(DropDownListModel):
     business_unit = models.CharField(max_length=255, blank=False, null=False)
 
     def save(self, *args, **kwargs):
-        self.clean()
-        self.name = f"{self.team_name} | {self.sub_unit} | {self.business_unit}"
+        self.name = f"{self.business_unit} | {self.sub_unit} | {self.team_name}"
         return super().save(*args, **kwargs)
 
     class Meta:

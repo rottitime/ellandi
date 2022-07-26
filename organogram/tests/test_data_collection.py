@@ -41,7 +41,7 @@ def test_duplicate_user():
     assert page.has_one("span[data-error='There is already a user with that email']")
 
 
-def test_resistration():
+def test_registration():
     agent = testino.WSGIAgent(wsgi.application, "http://testserver/")
     page = agent.get("/")
     assert page.status_code == 200, page.status_code
@@ -116,6 +116,16 @@ def test_resistration():
     page = form.submit().follow()
     assert page.status_code == 200, page.status_code
     assert page.has_one("h1:contains('Team')")
+
+    # Submit empty form
+    form = page.get_form()
+    page = form.submit().follow()
+    assert page.status_code == 200, page.status_code
+    assert page.has_one("h1:contains('Biography')")
+    page = page.click(contains="Back")
+    assert page.status_code == 200, page.status_code
+    assert page.has_one("h1:contains('Team')")
+
     form = page.get_form()
     form["other_team"] = "Team name"
     form["other_sub_unit"] = "Sub unit"
@@ -123,9 +133,9 @@ def test_resistration():
     page = form.submit().follow()
 
     page = page.click(contains="Back")
-    assert page.has_one("option:contains('Team name | Sub unit | Business unit')")
+    assert page.has_one("option:contains('Business unit | Sub unit | Team name')")
     form = page.get_form()
-    form.select("team", "team-name-_-sub-unit-_-business-unit")
+    form.select("team", "business-unit-_-sub-unit-_-team-name")
     page = form.submit().follow()
 
     assert page.status_code == 200, page.status_code
