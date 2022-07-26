@@ -24,7 +24,10 @@ COPY . /app
 
 WORKDIR /app/organogram
 
-RUN VCAP_SERVICES="{}" DJANGO_SECRET_KEY="temp" DATABASE_URL="temp" python manage.py collectstatic --no-input
+RUN \
+    DJANGO_SETTINGS_MODULE=organogram.settings_base \
+    DJANGO_SECRET_KEY="temp" \
+    python manage.py collectstatic --no-input
 
 EXPOSE 8001
 
