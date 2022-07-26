@@ -11,8 +11,13 @@ const Wrapper = styled(Box)<Props>`
   display: flex;
   align-items: center;
 
+  .MuiLinearProgress-bar {
+    background-color: ${(p) => p.theme.colors.black};
+  }
+
   .MuiLinearProgress-root {
     height: 10px;
+    background-color: #e9eaec;
   }
 
   .progress-label {

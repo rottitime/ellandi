@@ -3,6 +3,7 @@ import {
   AlertTitle,
   Box,
   Button,
+  Collapse,
   FormControl,
   FormControlLabel,
   FormHelperText,
@@ -31,50 +32,47 @@ import { AddCircleOutline, Delete } from '@mui/icons-material'
 
 const fieldName: keyof LanguagesType = 'languages'
 
-const optionsSpeaking = [
-  {
-    title: 'Basic',
-    content:
-      'You can understand and use basic phrases, introduce yourself and describe in simple terms aspects of your background and environment'
-  },
-  {
-    title: 'Independent',
-    content:
-      'You can deal with most situations likely to arise while travelling in an area where the language is spoken and interact with a degree of fluency'
-  },
-  {
-    title: 'Proficient',
-    content:
-      'You can express ideas fluently and spontaneously and can use the language flexibly for social, academic and professional purposes'
-  }
-]
-
-const optionsWriting = [
-  {
-    title: 'Basic',
-    content:
-      'You can understand and use basic phrases, introduce yourself and describe in simple terms aspects of your background and environment'
-  },
-  {
-    title: 'Independent',
-    content:
-      'You can produce clear, detailed text on a wide range of subjects and explain the advantages and disadvantages of a topical issue'
-  },
-  {
-    title: 'Proficient',
-    content:
-      'You can produce clear, well-structured, detailed text on complex subjects and can express yourself fluently and precisely'
-  }
-]
+const options = {
+  speaking: [
+    {
+      title: 'Basic',
+      content:
+        'You can understand and use basic phrases, introduce yourself and describe in simple terms aspects of your background and environment'
+    },
+    {
+      title: 'Independent',
+      content:
+        'You can deal with most situations likely to arise while travelling in an area where the language is spoken and interact with a degree of fluency'
+    },
+    {
+      title: 'Proficient',
+      content:
+        'You can express ideas fluently and spontaneously and can use the language flexibly for social, academic and professional purposes'
+    }
+  ],
+  writing: [
+    {
+      title: 'Basic',
+      content:
+        'You can understand and use basic phrases, introduce yourself and describe in simple terms aspects of your background and environment'
+    },
+    {
+      title: 'Independent',
+      content:
+        'You can produce clear, detailed text on a wide range of subjects and explain the advantages and disadvantages of a topical issue'
+    },
+    {
+      title: 'Proficient',
+      content:
+        'You can produce clear, well-structured, detailed text on complex subjects and can express yourself fluently and precisely'
+    }
+  ]
+}
 
 const languageSchema: SchemaOf<LanguageType> = object({
-  language: string().optional(),
-  writing: string().when('language', (language) => {
-    if (language !== '') return string().required('This is a required field')
-  }),
-  speaking: string().when('language', (language) => {
-    if (language !== '') return string().required('This is a required field')
-  })
+  language: string().required('This is a required field'),
+  writing: string().required('This is a required field'),
+  speaking: string().required('This is a required field')
 })
 
 const schema: SchemaOf<LanguagesType> = object().shape({
@@ -175,81 +173,52 @@ const LanguageForm: FC<StandardRegisterProps<LanguagesType>> = ({
             </IconButton>
           </Box>
 
-          <Field>
-            <Controller
-              name={`languages.${index}.speaking`}
-              control={control}
-              render={({ field, fieldState: { error } }) => (
-                <FormControl fullWidth error={!!error} size="small">
-                  <FormLabel id={`${formId}${index}:speaking`}>
-                    <Typography gutterBottom variant="h4" component="div">
-                      Speaking
-                    </Typography>
-                    <Typography gutterBottom>
-                      Set a proficiency level for speaking:
-                    </Typography>
-                  </FormLabel>
+          <Typography gutterBottom>
+            Set a proficiency level for speaking and writing
+          </Typography>
 
-                  <RadioGroup aria-labelledby={`${formId}${index}:speaking`}>
-                    {optionsSpeaking.map((option) => (
-                      <Field key={option.title}>
-                        <FormControlLabel
-                          {...field}
-                          control={<Radio />}
-                          label={
-                            <>
-                              <Typography variant="h4">{option.title}</Typography>
-                              <Typography variant="body2">{option.content}</Typography>
-                            </>
-                          }
-                          value={option.title}
-                        />
-                      </Field>
-                    ))}
-                  </RadioGroup>
-                  {!!error && <FormHelperText>{error.message}</FormHelperText>}
-                </FormControl>
-              )}
-            />
-          </Field>
+          {['Speaking', 'Writing'].map((name) => (
+            <Field key={name}>
+              <Controller
+                name={`languages.${index}.${name.toLowerCase()}` as `languages.${number}`}
+                control={control}
+                render={({ field, fieldState: { error } }) => (
+                  <FormControl fullWidth error={!!error} size="small">
+                    <FormLabel
+                      id={`${formId}${index}:${name.toLowerCase()}`}
+                      sx={{ mb: 3 }}
+                    >
+                      {name}
+                    </FormLabel>
 
-          <Field>
-            <Controller
-              name={`languages.${index}.writing`}
-              control={control}
-              render={({ field, fieldState: { error } }) => (
-                <FormControl fullWidth error={!!error} size="small">
-                  <FormLabel id={`${formId}${index}:writing`}>
-                    <Typography gutterBottom variant="h4" component="div">
-                      Writing
-                    </Typography>
-                    <Typography gutterBottom>
-                      Set a proficiency level for writing:
-                    </Typography>
-                  </FormLabel>
-
-                  <RadioGroup aria-labelledby={`${formId}${index}:writing`}>
-                    {optionsWriting.map((option) => (
-                      <Field key={option.title}>
-                        <FormControlLabel
-                          {...field}
-                          control={<Radio />}
-                          label={
-                            <>
-                              <Typography variant="h4">{option.title}</Typography>
-                              <Typography variant="body2">{option.content}</Typography>
-                            </>
-                          }
-                          value={option.title}
-                        />
-                      </Field>
-                    ))}
-                  </RadioGroup>
-                  {!!error && <FormHelperText>{error.message}</FormHelperText>}
-                </FormControl>
-              )}
-            />
-          </Field>
+                    <RadioGroup
+                      aria-labelledby={`${formId}${index}:${name.toLowerCase()}`}
+                    >
+                      {options[name.toLowerCase()].map(({ title, content }) => (
+                        <Field key={title}>
+                          <FormControlLabel
+                            {...field}
+                            control={<Radio sx={{ pt: 0 }} />}
+                            sx={{ alignItems: 'flex-start' }}
+                            label={
+                              <>
+                                <Typography variant="h4">{title} </Typography>
+                                <Collapse in={field.value === title}>
+                                  <Typography variant="body2">{content}</Typography>
+                                </Collapse>
+                              </>
+                            }
+                            value={title}
+                          />
+                        </Field>
+                      ))}
+                    </RadioGroup>
+                    {!!error && <FormHelperText>{error.message}</FormHelperText>}
+                  </FormControl>
+                )}
+              />
+            </Field>
+          ))}
         </Box>
       ))}
 
