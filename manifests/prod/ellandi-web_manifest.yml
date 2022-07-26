@@ -1,0 +1,18 @@
+---
+applications:
+- name: ellandi-web
+  env:
+    VITE_FRONTEND_HOST: https://ellandi-web.london.cloudapps.digital
+    VITE_API_ROOT_URL: https://ellandi-api.london.cloudapps.digital
+    VITE_IS_DEMO_MODE: 'true'
+    NODE_ENV: production
+    VITE_PROXY_ROOT_URL: 'false'
+  routes:
+  - route: ellandi-web.london.cloudapps.digital
+    protocol: http1
+  processes:
+  - type: web
+    instances: 1
+    memory: 256M
+    disk_quota: 2048M
+    health-check-type: port
