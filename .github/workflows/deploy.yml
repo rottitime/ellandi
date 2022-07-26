@@ -92,7 +92,7 @@ jobs:
       - name: Set organogram DJANGO_SECRET_KEY non-production
         env:
           DJANGO_SECRET_KEY: "${{ secrets.DJANGO_SECRET_KEY }}"
-        if: ${{ matrix.app == 'organogram' }} && ${{ matrix.app != 'prod' }}
+        if: ${{ matrix.app == 'organogram' }} && ${{ github.ref_name != 'prod' }}
         run: ./cf set-env organogram-"$CF_SPACE" DJANGO_SECRET_KEY "${{ env.DJANGO_SECRET_KEY }}"
 
       - name: Set organogram DJANGO_SECRET_KEY production
