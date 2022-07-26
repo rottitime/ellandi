@@ -1,8 +1,7 @@
 import Template from '@/components/Layout/Template'
 import { withGovLogoBackground } from '@/style/global'
-import { Grid, Typography, styled, Hidden, Box, Divider } from '@mui/material'
+import { Grid, Typography, styled, Box, Divider } from '@mui/material'
 import { FC, ReactNode } from 'react'
-import Crown from '@/components/Icons/CrownLogo'
 import List from '@/components/List'
 import { AccountBox, Yard, Search, QuestionAnswer } from '@mui/icons-material'
 import { useUiContext } from '@/context/UiContext'
@@ -23,22 +22,10 @@ const GridContainer = styled(Grid)`
   ${({ theme }) => theme.breakpoints.up('md')} {
     flex-direction: row;
     flex-wrap: nowrap;
-    /* height: 100%; */
   }
   > .MuiGrid-item {
     ${({ theme }) => theme.breakpoints.down('md')} {
       flex-basis: auto;
-    }
-  }
-
-  .logo {
-    font-size: 45px;
-
-    ${({ theme }) => theme.breakpoints.up('md')} {
-      margin-bottom: 40px;
-      position: absolute;
-      top: ${(p) => p.theme.spacing(4)};
-      left: ${(p) => p.theme.spacing(4)};
     }
   }
 
@@ -52,6 +39,8 @@ const GridContainer = styled(Grid)`
     color: ${(p) => p.theme.colors.white};
     position: relative;
     padding: 20px;
+    order: 1;
+    flex-grow: 1;
 
     ${({ theme }) => theme.breakpoints.down('md')} {
       h1 {
@@ -60,8 +49,8 @@ const GridContainer = styled(Grid)`
     }
 
     ${({ theme }) => theme.breakpoints.up('md')} {
-      /* flex-direction: row;
-      flex-wrap: wrap; */
+      order: 0;
+      flex-grow: 0;
       padding: 80px 48px 60px;
 
       display: flex;
@@ -82,13 +71,22 @@ const GridContainer = styled(Grid)`
   }
 
   .main-content {
-    justify-content: center;
-    align-items: center;
-    /* align-self: start; */
-    flex-direction: column;
-    display: flex;
+    flex-grow: 0;
+    padding: ${(p) => p.theme.spacing(2)};
     ${({ theme }) => theme.breakpoints.up('md')} {
-      /* margin-top: 100px; */
+      flex-grow: 1;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      display: flex;
+    }
+
+    > .MuiPaper-root {
+      ${({ theme }) => theme.breakpoints.up('md')} {
+        max-width: 540px;
+        width: 100%;
+        margin: ${(p) => p.theme.spacing(2)};
+      }
     }
   }
 `
@@ -103,40 +101,37 @@ const CardLayout: FC<Props> = ({ children, showPromo, title, footer, progress })
       <GridContainer spacing={0} container>
         {!!showPromo && (
           <Grid item xs={12} md={4} className="promo-box">
-            <Crown className="logo" />
             <Box>
               <Typography variant="leader" gutterBottom textAlign="center">
                 Civil Service Skills and Learning
               </Typography>
 
-              <Hidden initialWidth="md" mdDown={true}>
-                <Divider variant="middle" sx={{ my: 4 }} />
-                <Typography variant="h3" component="p">
-                  You can use this service to:
-                </Typography>
-                <List
-                  className="list"
-                  list={[
-                    {
-                      icon: <AccountBox />,
-                      title: 'upload and maintain your skills and learning profile'
-                    },
-                    {
-                      icon: <Yard />,
-                      title: "specify any skills you'd like to develop in the future"
-                    },
-                    {
-                      icon: <Search />,
-                      title: 'find courses and development opportunities'
-                    },
-                    {
-                      icon: <QuestionAnswer />,
-                      title:
-                        'support discussions about skills and career development with your line manager'
-                    }
-                  ]}
-                />
-              </Hidden>
+              <Divider variant="middle" sx={{ my: 4 }} />
+              <Typography variant="h3" component="p">
+                You can use this service to:
+              </Typography>
+              <List
+                className="list"
+                list={[
+                  {
+                    icon: <AccountBox />,
+                    title: 'upload and maintain your skills and learning profile'
+                  },
+                  {
+                    icon: <Yard />,
+                    title: "specify any skills you'd like to develop in the future"
+                  },
+                  {
+                    icon: <Search />,
+                    title: 'find courses and development opportunities'
+                  },
+                  {
+                    icon: <QuestionAnswer />,
+                    title:
+                      'support discussions about skills and career development with your line manager'
+                  }
+                ]}
+              />
             </Box>
           </Grid>
         )}

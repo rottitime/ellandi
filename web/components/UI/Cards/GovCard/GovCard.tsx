@@ -14,12 +14,8 @@ import LinearProgress from '@/components/UI/LinearProgress/LinearProgress'
 const Card = styled(MuiCard)`
   position: relative;
   transition: opacity ease-in-out 0.3;
-  max-width: 540px;
   word-wrap: break-word;
-  margin: ${(p) => p.theme.spacing(2)};
-  width: 100%;
-  border-radius: 12px 12px 0px 0px;
-  //padding: 24px;
+  border-radius: 12px 12px 0 0;
 
   header {
     margin-bottom: ${(p) => p.theme.spacing(4)};
@@ -67,9 +63,9 @@ const Card = styled(MuiCard)`
   }
 `
 
-const GovCard: FC<Props> = ({ loading = false, children, progress, title }) => {
+const GovCard: FC<Props> = ({ loading = false, children, progress, title, ...props }) => {
   return (
-    <Card className={`${loading ? 'loading-active' : ''}`}>
+    <Card className={`${loading ? 'loading-active' : ''}`} {...props}>
       <Box className="card-logo">
         <Icon icon="crown-logo" />
       </Box>
