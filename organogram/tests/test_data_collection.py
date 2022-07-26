@@ -116,6 +116,16 @@ def test_registration():
     page = form.submit().follow()
     assert page.status_code == 200, page.status_code
     assert page.has_one("h1:contains('Team')")
+
+    # Submit empty form
+    form = page.get_form()
+    page = form.submit().follow()
+    assert page.status_code == 200, page.status_code
+    assert page.has_one("h1:contains('Biography')")
+    page = page.click(contains="Back")
+    assert page.status_code == 200, page.status_code
+    assert page.has_one("h1:contains('Team')")
+
     form = page.get_form()
     form["other_team"] = "Team name"
     form["other_sub_unit"] = "Sub unit"
