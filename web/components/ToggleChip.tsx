@@ -21,6 +21,11 @@ const StyledChip = styled(MuiChip)<Props>`
       .MuiChip-label {
         color: #efefef;
       }
+
+      .MuiAvatar-root {
+        background-color: #004e97;
+        color: #fff;
+      }
     }
     &:hover {
       color: #efefef;

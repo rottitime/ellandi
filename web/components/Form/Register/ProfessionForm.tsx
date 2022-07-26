@@ -1,4 +1,4 @@
-import { Alert, AlertTitle, Skeleton, Stack, styled, Typography } from '@mui/material'
+import { Alert, AlertTitle, Avatar, Box, Skeleton, Typography } from '@mui/material'
 import ToggleChip from '@/components/ToggleChip'
 import { fetchProfessions } from '@/service/api'
 import { GenericDataList, ProfessionType, Query } from '@/service/types'
@@ -11,12 +11,6 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { array, object, SchemaOf, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldControlled'
-
-const List = styled(Stack)`
-  .MuiChip-root {
-    margin: 3px;
-  }
-`
 
 const fieldName: keyof ProfessionType = 'professions'
 
@@ -83,46 +77,34 @@ const ProfessionForm: FC<StandardRegisterProps<ProfessionType>> = ({
           We'll use this to suggest learning opportunities that are relevant to you
         </Typography>
 
-        <List
-          direction="row"
-          flexWrap="wrap"
-          spacing={0}
-          justifyContent="center"
-          aria-live="polite"
-          aria-busy={isLoading}
-        >
-          {isLoading
-            ? [...Array(22).keys()].map((i) => (
-                <Skeleton key={i} width={100} sx={{ m: 1 }} />
-              ))
-            : data.map(({ name }) => (
-                <>
-                  <ToggleChip
-                    key={name}
-                    active={getValues(fieldName).includes(name)}
-                    label={name}
-                    onToggle={async () => {
-                      const data = getValues(fieldName)
+        {isLoading
+          ? [...Array(22).keys()].map((i) => (
+              <Skeleton key={i} width={100} sx={{ m: 1 }} />
+            ))
+          : data.map(({ name }) => (
+              <Box sx={{ mb: 1 }} key={name}>
+                <ToggleChip
+                  avatar={<Avatar>{name.charAt(0).toUpperCase()}</Avatar>}
+                  active={getValues(fieldName).includes(name)}
+                  label={name}
+                  onToggle={async () => {
+                    const data = getValues(fieldName)
 
-                      setValue(
-                        fieldName,
-                        data?.includes(name)
-                          ? data.filter((item) => item !== name)
-                          : [...data, name]
-                      )
+                    setValue(
+                      fieldName,
+                      data?.includes(name)
+                        ? data.filter((item) => item !== name)
+                        : [...data, name]
+                    )
 
-                      await trigger(fieldName)
-                    }}
-                  />
-                  {name === 'Other' && watchProfessions.includes('Other') && (
-                    <TextFieldControlled
-                      name="profession_other"
-                      label="Enter profession"
-                    />
-                  )}
-                </>
-              ))}
-        </List>
+                    await trigger(fieldName)
+                  }}
+                />
+                {name === 'Other' && watchProfessions.includes('Other') && (
+                  <TextFieldControlled name="profession_other" label="Enter profession" />
+                )}
+              </Box>
+            ))}
 
         <FormFooter
           backUrl={backUrl}
