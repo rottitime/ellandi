@@ -2,6 +2,7 @@
 from django.core.management import call_command
 from django.db import migrations
 
+
 def load_teams(apps, schema_editor):
     fixture_file = "dropdown/teams.json"
     call_command("loaddata", fixture_file, app_label="registration", ignorenonexistent=True)
@@ -10,7 +11,7 @@ def load_teams(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('registration', '0007_auto_20220725_1157'),
+        ("registration", "0007_auto_20220725_1157"),
     ]
 
     operations = [migrations.RunPython(load_teams)]
