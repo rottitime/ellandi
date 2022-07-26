@@ -106,7 +106,12 @@ validate-frontend: ## Check style and syntax with
 
 .PHONY: reset-db
 reset-db:
-	docker-compose down --volumes
+	docker-compose run postgres dropdb -U ellandi -h postgres ellandi
+	docker-compose run postgres createdb -U ellandi -h postgres ellandi
+
+.PHONY: psql
+psql:
+	docker-compose run postgres psql -U ellandi -h postgres ellandi
 
 .PHONY: integration ## Run playwright tests
 integration:
