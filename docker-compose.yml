@@ -11,7 +11,7 @@ services:
       dockerfile: ./docker/api/Dockerfile
     image: ellandi_api
     depends_on:
-      - postgres
+      - ellandi-postgres
     env_file:
       - ./.envs/api
       - ./.envs/postgres
@@ -51,7 +51,7 @@ services:
     ports:
       - "8001:8001"
 
-  postgres:
+  ellandi-postgres:
     image: postgres:13
     container_name: ellandi_postgres
     volumes:
