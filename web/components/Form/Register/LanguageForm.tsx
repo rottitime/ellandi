@@ -28,7 +28,7 @@ import FormFooter from '@/components/Form/FormFooter'
 import { Field } from '../Field'
 import { array, object, SchemaOf, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { AddCircleOutline, Delete } from '@mui/icons-material'
+import { Cancel } from '@mui/icons-material'
 
 const fieldName: keyof LanguagesType = 'languages'
 
@@ -169,7 +169,7 @@ const LanguageForm: FC<StandardRegisterProps<LanguagesType>> = ({
               />
             </Field>
             <IconButton aria-label="Remove" onClick={() => remove(index)}>
-              <Delete />
+              <Cancel />
             </IconButton>
           </Box>
 
@@ -222,10 +222,8 @@ const LanguageForm: FC<StandardRegisterProps<LanguagesType>> = ({
         </Box>
       ))}
 
-      <Field textAlign="right">
+      <Field>
         <Button
-          variant="outlined"
-          startIcon={<AddCircleOutline />}
           onClick={() => {
             append({ language: '', speaking: '', writing: '' })
           }}
