@@ -167,8 +167,10 @@ def team_view(request, url_data):
                     business_unit=data["other_business_unit"],
                 )
                 team.save()
-            else:
+            elif data['team']:
                 team = models.Team.objects.get(slug=data["team"])
+            else:
+                team = None
             user.team = team
             user.save()
             return redirect(url_data["next_url"])
