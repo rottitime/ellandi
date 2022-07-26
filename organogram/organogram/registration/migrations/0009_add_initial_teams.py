@@ -11,7 +11,7 @@ def load_teams(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("registration", "0007_auto_20220725_1157"),
+        ("registration", "0008_auto_20220726_1222"),
     ]
 
     operations = [migrations.RunPython(load_teams)]
