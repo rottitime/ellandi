@@ -167,7 +167,7 @@ def team_view(request, url_data):
                     business_unit=data["other_business_unit"],
                 )
                 team.save()
-            elif data['team']:
+            elif data["team"]:
                 team = models.Team.objects.get(slug=data["team"])
             else:
                 team = None
