@@ -88,15 +88,3 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_ACTOR: ${{ github.actor }}
         run: CF_DOCKER_PASSWORD="$GITHUB_TOKEN" ./cf push -f manifests/"$CF_SPACE/${{ matrix.app }}"_manifest.yml --docker-image $DOCKER_REPOSITORY/${{ github.repository_owner }}/$DOCKER_IMAGE:$IMAGE_TAG --docker-username=$GITHUB_ACTOR
-
-      - name: Set organogram DJANGO_SECRET_KEY non-production
-        env:
-          DJANGO_SECRET_KEY: "${{ secrets.DJANGO_SECRET_KEY }}"
-        if: ${{ matrix.app == 'organogram' }} && ${{ github.ref_name != 'prod' }}
-        run: ./cf set-env organogram-"$CF_SPACE" DJANGO_SECRET_KEY "${{ env.DJANGO_SECRET_KEY }}"
-
-      - name: Set organogram DJANGO_SECRET_KEY production
-        env:
-          PROD_DJANGO_SECRET_KEY: "${{ secrets.PROD_DJANGO_SECRET_KEY }}"
-        if: ${{ matrix.app == 'organogram' }} && ${{ github.ref_name == 'prod' }}
-        run: ./cf set-env digital-organogram DJANGO_SECRET_KEY "$PROD_DJANGO_SECRET_KEY"
