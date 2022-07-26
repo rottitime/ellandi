@@ -1,5 +1,11 @@
-from .settings_base import env, BASE_DIR, SECRET_KEY, STATIC_URL, STATICFILES_DIRS, STATIC_ROOT
-
+from .settings_base import (
+    BASE_DIR,
+    SECRET_KEY,
+    STATIC_ROOT,
+    STATIC_URL,
+    STATICFILES_DIRS,
+    env,
+)
 
 SECRET_KEY = SECRET_KEY
 STATIC_URL = STATIC_URL
@@ -129,7 +135,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 
 # Default primary key field type
