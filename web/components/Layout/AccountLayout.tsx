@@ -5,6 +5,7 @@ import Link from '@/components/UI/Link'
 import Template from '@/components/Layout/Template'
 import useAuth from '@/hooks/useAuth'
 import Footer from '@/components/Footer/Footer'
+import Icon, { IconsType } from '@/components/Icons/Icon'
 
 const Layout = styled(Box)`
   --footer-height: 60px;
@@ -36,10 +37,19 @@ const Layout = styled(Box)`
 
   .headline {
     margin-bottom: ${(p) => p.theme.spacing(5)};
+    .MuiTypography-h1 {
+      display: flex;
+      align-items: center;
+      svg {
+        font-size: 50px;
+        margin-right: ${(p) => p.theme.spacing(3)};
+      }
+    }
   }
 `
 type Props = {
   children: ReactNode
+  titleIcon?: IconsType
   title: string | ReactNode
   breadcrumbs?: { title: string; url?: string }[]
   teaserHeadline?: string
@@ -49,6 +59,7 @@ type Props = {
 const AccountLayout: FC<Props> = ({
   breadcrumbs = [],
   title,
+  titleIcon,
   children,
   teaserHeadline,
   teaserContent
@@ -87,6 +98,7 @@ const AccountLayout: FC<Props> = ({
 
         <Box className="headline">
           <Typography variant="h1" gutterBottom>
+            {titleIcon && <Icon icon={titleIcon} />}
             {title}
           </Typography>
 

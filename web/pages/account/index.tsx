@@ -1,8 +1,7 @@
 import AccountLayout from '@/components/Layout/AccountLayout'
 import { Button, Typography, styled, Box } from '@mui/material'
 import { Brands } from '@/style/theme'
-import Icon from '@/components/Icons/Icon'
-import { ReactNode } from 'react'
+import { IconsType } from '@/components/Icons/Icon'
 import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
 import Link from '@/components/UI/Link'
 
@@ -12,7 +11,7 @@ type MenuDataType = {
   linkText: string
   url: string
   color: keyof Brands
-  logo: ReactNode
+  logo: IconsType
 }[]
 
 const profiles: MenuDataType = [
@@ -23,7 +22,7 @@ const profiles: MenuDataType = [
     linkText: 'Review your skills',
     url: '/account/skills',
     color: 'brandSkills',
-    logo: <Icon icon="skills" />
+    logo: 'skills'
   },
   {
     title: 'Learning',
@@ -32,7 +31,7 @@ const profiles: MenuDataType = [
     linkText: 'Find learning',
     url: '/account/learning',
     color: 'brandLearning',
-    logo: <Icon icon="learning" />
+    logo: 'learning'
   }
 ]
 
@@ -117,6 +116,7 @@ const IndexPage = () => {
           <AccountCard
             color={profile.color}
             key={profile.title}
+            headerLogoSize="large"
             headerLogo={profile.logo}
             header={<Typography variant="h2">{profile.title}</Typography>}
             headerColorInherit
