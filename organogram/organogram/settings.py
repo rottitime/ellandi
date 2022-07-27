@@ -16,6 +16,7 @@ STATIC_ROOT = STATIC_ROOT
 DEBUG = env.bool("DEBUG", default=False)
 
 VCAP_SERVICES = env.json("VCAP_SERVICES")
+VCAP_APPLICATION = env.json("VCAP_APPLICATION")
 
 if VCAP_SERVICES:
     # AWS
