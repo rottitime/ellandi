@@ -42,6 +42,7 @@ else:
         "testserver",
     ]
 
+HOST_URL = VCAP_APPLICATION['application_uris'][0]
 
 # Application definition
 
