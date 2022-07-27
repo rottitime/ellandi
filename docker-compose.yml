@@ -1,7 +1,8 @@
 version: '3'
 
 volumes:
-  local_postgres_data: {}
+  organogram_postgres_data: {}
+  ellandi_postgres_data: {}
   minio_data: {}
 
 services:
@@ -11,10 +12,9 @@ services:
       dockerfile: ./docker/api/Dockerfile
     image: ellandi_api
     depends_on:
-      - postgres
+      - ellandi-db
     env_file:
       - ./.envs/api
-      - ./.envs/postgres
     volumes:
       - ./:/app/:z
     ports:
@@ -41,25 +41,34 @@ services:
       dockerfile: ./docker/organogram/Dockerfile
     image: organogram
     depends_on:
-      - postgres
+      - organogram-db
       - minio
     env_file:
       - ./.envs/organogram
-      - ./.envs/postgres
     volumes:
       - ./:/app/:z
     ports:
       - "8001:8001"
 
-  postgres:
+  ellandi-db:
     image: postgres:13
     container_name: ellandi_postgres
     volumes:
-      - local_postgres_data:/var/lib/postgresql/data:Z
+      - ellandi_postgres_data:/var/lib/postgresql/data:Z
     env_file:
-      - ./.envs/postgres
-    ports:
-      - "5432:5432"
+      - ./.envs/api
+    expose:
+      - "5432"
+
+  organogram-db:
+    image: postgres:13
+    container_name: organogram_postgres
+    volumes:
+      - organogram_postgres_data:/var/lib/postgresql/data:Z
+    env_file:
+      - ./.envs/organogram
+    expose:
+      - "5432"
 
   minio:
     image: minio/minio:RELEASE.2021-06-14T01-29-23Z

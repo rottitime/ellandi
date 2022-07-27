@@ -24,5 +24,5 @@ RUN chmod +x /entrypoint.sh
 COPY ./docker/integration/start.sh /start.sh
 RUN chmod +x /start.sh
 
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["sh","/entrypoint.sh"]
 CMD ["sh","/start.sh"]
