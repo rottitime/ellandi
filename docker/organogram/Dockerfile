@@ -16,6 +16,9 @@ RUN python3 -m pip install -r /app/organogram/requirements.lock --no-cache-dir
 COPY ./docker/organogram/start.sh /start.sh
 RUN chmod +x /start.sh
 
+COPY ./docker/organogram/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
 COPY . /app
 
 WORKDIR /app/organogram

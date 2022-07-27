@@ -16,6 +16,9 @@ RUN python3 -m pip install -r /app/api/requirements.lock --no-cache-dir
 COPY ./docker/api/start.sh /start.sh
 RUN chmod +x /start.sh
 
+COPY ./docker/api/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
 COPY . /app
 
 WORKDIR /app/api
