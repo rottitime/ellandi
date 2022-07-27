@@ -9,7 +9,8 @@ const Card = styled(MuiCard)<Props>`
 
   .card-header {
     margin-bottom: ${(p) => p.theme.spacing(4)};
-    color: ${({ theme, color }) => theme.colors[color]};
+    color: ${({ theme, color, headerColorInherit }) =>
+      !!headerColorInherit ? theme.colors[color] : 'inherit'};
     display: flex;
     align-items: center;
 

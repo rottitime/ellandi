@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
-import { createTheme, PaletteColorOptions, Shadows } from '@mui/material/styles'
+import { alpha, createTheme, PaletteColorOptions, Shadows } from '@mui/material/styles'
 import { CSSProperties } from 'react'
 
 export type Brands = {
@@ -94,7 +94,7 @@ const theme = createTheme({
     brandSkills: '#00897B',
     brandLearning: '#FF3D00',
 
-    link: '#1976d2',
+    link: '#1976D2',
     success: '#00E676'
   },
   breakpoints: {
@@ -174,10 +174,12 @@ const theme = createTheme({
     MuiLink: {
       styleOverrides: {
         root: {
+          color: '#1976D2',
+          textDecorationColor: 'inherit',
           fontWeight: 500,
-          textDecoration: 'none',
+          transition: 'opacity 0.3s ease-in-out',
           '&:hover': {
-            textDecoration: 'underline'
+            opacity: 0.7
           }
         }
       }

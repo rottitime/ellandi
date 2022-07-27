@@ -7,4 +7,5 @@ export type Props = {
   color?: keyof Brands
   headerLogo?: ReactNode
   header?: ReactNode
+  headerColorInherit?: boolean
 } & ComponentProps<typeof Card>

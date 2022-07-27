@@ -52,7 +52,7 @@ const Content = styled(Box)`
     padding: 0;
     margin: 0;
     li {
-      padding: ${(p) => p.theme.spacing(3)} 0;
+      padding: ${(p) => p.theme.spacing(2)} 0;
       border-bottom: 1px solid #d9d9d9;
     }
     .circle {
@@ -86,11 +86,31 @@ const IndexPage = () => {
             ))}
           </ul>
         </AccountCard>
-        <AccountCard color="brandSkills" className="single">
-          2
+
+        <AccountCard
+          color="brandSkills"
+          className="single"
+          header={<Typography variant="h2">Skills added</Typography>}
+        >
+          <Typography variant="h1" sx={{ mb: 4 }}>
+            16
+          </Typography>
+          <Link href="#">
+            <Typography variant="subtitle1">Add a skill</Typography>
+          </Link>
         </AccountCard>
-        <AccountCard color="brandLearning" className="single">
-          3
+
+        <AccountCard
+          color="brandLearning"
+          className="single"
+          header={<Typography variant="h2">Learning this week</Typography>}
+        >
+          <Typography variant="h1" sx={{ mb: 4 }}>
+            2hrs
+          </Typography>
+          <Link href="#">
+            <Typography variant="subtitle1">Record learning</Typography>
+          </Link>
         </AccountCard>
 
         {profiles.map((profile) => (
@@ -99,6 +119,7 @@ const IndexPage = () => {
             key={profile.title}
             headerLogo={profile.logo}
             header={<Typography variant="h2">{profile.title}</Typography>}
+            headerColorInherit
           >
             <Typography variant="subtitle1" gutterBottom>
               {profile.content}
