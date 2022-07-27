@@ -3,6 +3,6 @@
 set -o errexit
 set -o nounset
 
-wait-for-it "${POSTGRES_HOST}:${POSTGRES_PORT}" --timeout=30
+wait-for-db --mode postgres --connection-string $DATABASE_URL --timeout 60 --sql-query "select * from django_migrations;"
 
 exec "$@"
