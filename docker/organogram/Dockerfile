@@ -6,6 +6,8 @@ ENV TZ=UTC
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
+RUN apt update -y && apt install -y wait-for-it
+
 RUN python3 -m pip install -U pip setuptools wheel
 
 COPY ./organogram/requirements.lock /app/organogram/requirements.lock
