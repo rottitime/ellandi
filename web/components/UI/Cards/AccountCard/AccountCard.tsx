@@ -21,13 +21,15 @@ const Card = styled(MuiCard)<Props>`
 
   &:before {
     height: 20px;
-    content: '';
+    content: ${({ color }) => (!!color ? "''" : 'normal')};
     background-color: ${({ theme, color }) => theme.colors[color]};
     display: block;
+    margin-bottom: ${(p) => p.theme.spacing(3)};
   }
 
   .MuiCardContent-root {
-    padding: ${({ theme: { spacing } }) => `${spacing(2)}`};
+    padding: 0 ${({ theme: { spacing } }) => `${spacing(3)}`};
+    margin-bottom: ${(p) => p.theme.spacing(4)};
   }
 `
 

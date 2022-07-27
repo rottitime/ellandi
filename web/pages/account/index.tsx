@@ -4,6 +4,7 @@ import { Brands } from '@/style/theme'
 import Icon from '@/components/Icons/Icon'
 import { ReactNode } from 'react'
 import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
+import Link from '@/components/UI/Link'
 
 type MenuDataType = {
   title: string
@@ -38,11 +39,29 @@ const profiles: MenuDataType = [
 const Content = styled(Box)`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
-  gap: 20px;
+  gap: ${(p) => p.theme.spacing(4)};
   > .MuiCard-root {
     grid-column: span 2;
     &.single {
       grid-column: span 1;
+    }
+  }
+
+  .news-feed {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    li {
+      padding: ${(p) => p.theme.spacing(3)} 0;
+      border-bottom: 1px solid #d9d9d9;
+    }
+    .circle {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: red;
+      margin-right: ${(p) => p.theme.spacing(2)};
     }
   }
 `
@@ -51,7 +70,22 @@ const IndexPage = () => {
   return (
     <>
       <Content>
-        <AccountCard color="brandGov">1</AccountCard>
+        <AccountCard
+          color="brandGov"
+          header={<Typography variant="h2">Latest updates</Typography>}
+        >
+          <ul className="news-feed">
+            {[...Array(3).keys()].map((i) => (
+              <li key={i}>
+                <Typography>27.06.23 @ 14:00</Typography>
+                <Typography variant="subtitle1">
+                  <Box className="circle" />
+                  <Link href="#">Agile Bitesized</Link> learning course added
+                </Typography>
+              </li>
+            ))}
+          </ul>
+        </AccountCard>
         <AccountCard color="brandSkills" className="single">
           2
         </AccountCard>
