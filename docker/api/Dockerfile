@@ -24,4 +24,5 @@ RUN DJANGO_SECRET_KEY="temp" DATABASE_URL="temp" python manage.py collectstatic 
 
 EXPOSE 8000
 
+ENTRYPOINT ["sh","/entrypoint.sh"]
 CMD ["sh","/start.sh"]

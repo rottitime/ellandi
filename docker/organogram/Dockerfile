@@ -24,4 +24,5 @@ RUN VCAP_SERVICES="{}" DJANGO_SECRET_KEY="temp" DATABASE_URL="temp" python manag
 
 EXPOSE 8001
 
+ENTRYPOINT ["sh","/entrypoint.sh"]
 CMD ["sh","/start.sh"]
