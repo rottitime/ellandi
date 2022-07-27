@@ -14,7 +14,6 @@ services:
       - ellandi-postgres
     env_file:
       - ./.envs/api
-      - ./.envs/postgres
     volumes:
       - ./:/app/:z
     ports:
@@ -45,7 +44,6 @@ services:
       - minio
     env_file:
       - ./.envs/organogram
-      - ./.envs/postgres
     volumes:
       - ./:/app/:z
     ports:
@@ -57,7 +55,7 @@ services:
     volumes:
       - local_postgres_data:/var/lib/postgresql/data:Z
     env_file:
-      - ./.envs/postgres
+      - ./.envs/api
     expose:
       - "5432"
 
@@ -67,7 +65,7 @@ services:
     volumes:
       - local_postgres_data:/var/lib/postgresql/data:Z
     env_file:
-      - ./.envs/postgres
+      - ./.envs/organogram
     expose:
       - "5432"
 
