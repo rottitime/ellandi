@@ -45,7 +45,7 @@ const SkillsPage = () => {
                 >
                   <Tab label="Your skills" />
                   <Tab label="Language skills" />
-                  <Tab label="Skills you’d like to develop" />
+                  <Tab label="Skills you'd like to develop" />
                 </Tabs>
               </Box>
               <TabPanel hidden={value !== 0}>

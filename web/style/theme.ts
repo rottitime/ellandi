@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
-import { alpha, createTheme, PaletteColorOptions, Shadows } from '@mui/material/styles'
+import { createTheme, PaletteColorOptions, Shadows } from '@mui/material/styles'
 import { CSSProperties } from 'react'
 
 export type Brands = {

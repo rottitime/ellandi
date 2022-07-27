@@ -7,14 +7,15 @@ import {
   styled,
   Toolbar,
   Tooltip,
-  Typography
+  Typography,
+  useTheme
 } from '@mui/material'
 import Link from 'next/link'
 import { FC, useState } from 'react'
 import { Props } from './types'
-import Button from '@/components/UI/Button/Button'
 import Icon from '@/components/Icons/Icon'
 import { useRouter } from 'next/router'
+import Button from '../Button/Button'
 
 const AppBar = styled(MuiAppBar)`
   background: transparent;
@@ -47,6 +48,7 @@ const AppBar = styled(MuiAppBar)`
 `
 
 const ResponsiveAppBar: FC<Props> = ({ pages, settings }) => {
+  const theme = useTheme()
   const router = useRouter()
 
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null)
@@ -69,8 +71,9 @@ const ResponsiveAppBar: FC<Props> = ({ pages, settings }) => {
         </Link>
 
         <Box className="menu">
-          {pages.map(({ title, url }) => (
+          {pages.map(({ title, url, color }) => (
             <Button
+              style={{ textDecorationColor: theme.colors[color] }}
               key={title}
               href={url}
               className={` ${router.pathname === url ? 'active' : ''}`}

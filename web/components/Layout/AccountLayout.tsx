@@ -46,12 +46,6 @@ type Props = {
   teaserContent?: string
 }
 
-const pages = [
-  { title: 'Home', url: '/account' },
-  { title: 'Skills', url: '/account/skills' },
-  { title: 'Learning', url: '/account/learning' }
-]
-
 const AccountLayout: FC<Props> = ({
   breadcrumbs = [],
   title,
@@ -65,14 +59,14 @@ const AccountLayout: FC<Props> = ({
     <Layout>
       <Template>
         <AppBar
-          pages={pages}
+          pages={[
+            { title: 'Home', url: '/account' },
+            { title: 'Skills', url: '/account/skills', color: 'brandSkills' },
+            { title: 'Learning', url: '/account/learning', color: 'brandLearning' }
+          ]}
           settings={[
             { title: 'Profile', url: '/account/profile' },
-            {
-              title: 'Logout',
-              url: '/',
-              onClick: logout
-            }
+            { title: 'Logout', url: '/', onClick: logout }
           ]}
         />
         <Breadcrumbs aria-label="breadcrumb">
