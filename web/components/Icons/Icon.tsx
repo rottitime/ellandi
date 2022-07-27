@@ -10,7 +10,9 @@ type Props = {
 const icons = {
   'crown-logo': dynamic(() => import('@/components/Icons/CrownLogo')),
   'account-circle': dynamic(() => import('@/components/Icons/AccountCircle')),
-  crest: dynamic(() => import('@/components/Icons/Crest'))
+  crest: dynamic(() => import('@/components/Icons/Crest')),
+  skills: dynamic(() => import('@/components/Icons/Skills')),
+  learning: dynamic(() => import('@/components/Icons/Learning'))
 }
 
 const Icon: FC<Props> = ({ icon, ...props }) => {

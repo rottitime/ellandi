@@ -2,6 +2,12 @@
 import { createTheme, PaletteColorOptions, Shadows } from '@mui/material/styles'
 import { CSSProperties } from 'react'
 
+export type Brands = {
+  brandGov: CSSProperties['color']
+  brandSkills: CSSProperties['color']
+  brandLearning: CSSProperties['color']
+}
+
 export type Colors = {
   black: CSSProperties['color']
   blueDark: CSSProperties['color']
@@ -9,15 +15,11 @@ export type Colors = {
   greyLight: CSSProperties['color']
   green: CSSProperties['color']
   white: CSSProperties['color']
-  //profiles
-  profileBlue: CSSProperties['color']
-  profilePink: CSSProperties['color']
-  profileGreen: CSSProperties['color']
-  profileYellow: CSSProperties['color']
+
   //ui
   link: CSSProperties['color']
   success: CSSProperties['color']
-}
+} & Brands
 
 const breakpoints = {
   xs: 0,
@@ -63,10 +65,7 @@ declare module '@mui/material/styles' {
     greyLight: PaletteColorOptions
     green: PaletteColorOptions
     //profiles
-    profileBlue: PaletteColorOptions
-    profilePink: PaletteColorOptions
-    profileGreen: PaletteColorOptions
-    profileYellow: PaletteColorOptions
+
     //ui
     link: PaletteColorOptions
   }
@@ -90,12 +89,11 @@ const theme = createTheme({
     greyLight: '#f2f2f2',
     green: '#00E676',
     white: '#fff',
-    //profiles
-    profileBlue: '#144E81',
-    profilePink: '#80224D',
-    profileGreen: '#10403C',
-    profileYellow: '#594D00',
-    //ui
+
+    brandGov: '#000',
+    brandSkills: '#00897B',
+    brandLearning: '#FF3D00',
+
     link: '#1976d2',
     success: '#00E676'
   },
@@ -108,10 +106,7 @@ const theme = createTheme({
     greyLight: createColor('#f2f2f2'),
     green: createColor('#44D600'),
     //profiles
-    profileBlue: createColor('#144E81'),
-    profilePink: createColor('#80224D'),
-    profileGreen: createColor('#10403C'),
-    profileYellow: createColor('#594D00'),
+
     //ui
     link: createColor('#1976d2'),
 

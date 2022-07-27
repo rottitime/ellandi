@@ -1,20 +1,16 @@
 import AccountLayout from '@/components/Layout/AccountLayout'
-import { Button, Divider, Grid, Typography, useTheme } from '@mui/material'
-import Card from '@/components/UI/Card'
-import { Colors } from '@/style/theme'
-import Link from '@/components/UI/Link'
-import SkillsIcon from '@/components/Icons/Skills'
-import LearningIcon from '@/components/Icons/Learning'
+import { Button, Typography, styled, Box } from '@mui/material'
+import { Brands } from '@/style/theme'
+import Icon from '@/components/Icons/Icon'
 import { ReactNode } from 'react'
-import LearningStrands from '@/components/LearningStrands'
-import ContentBox from '@/components/ContentBox'
+import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
 
 type MenuDataType = {
   title: string
   content: string
   linkText: string
   url: string
-  color: keyof Colors
+  color: keyof Brands
   logo: ReactNode
 }[]
 
@@ -22,109 +18,75 @@ const profiles: MenuDataType = [
   {
     title: 'Skills',
     content:
-      'Update your skills profile to record your current skills and ones you would like to develop',
+      'Update your skills profile to record your current skills and ones you would like to develop.',
     linkText: 'Review your skills',
     url: '/account/skills',
-    color: 'profileBlue',
-    logo: <SkillsIcon />
+    color: 'brandSkills',
+    logo: <Icon icon="skills" />
   },
   {
     title: 'Learning',
-    content: 'Explore the wide variety of learning and training courses available to you',
+    content:
+      'Explore the wide variety of  learning and training courses available to you.',
     linkText: 'Find learning',
     url: '/account/learning',
-    color: 'profilePink',
-    logo: <LearningIcon />
+    color: 'brandLearning',
+    logo: <Icon icon="learning" />
   }
-  // {
-  //   title: 'Careers',
-  //   content:
-  //     'View current job vacancies and career pathways to discover what they involve',
-  //   linkText: 'Plan your career',
-  //   url: '/account/careers',
-  //   color: 'profileGreen',
-  //   logo: <CareersIcon />
-  // },
-  // {
-  //   title: 'Communities',
-  //   content:
-  //     'Discuss ideas and share best practice with specific professions and functions',
-  //   linkText: 'Access communities',
-  //   url: '/account/communities',
-  //   color: 'profileYellow',
-  //   logo: <CommunitiesIcon />
-  // }
 ]
 
-const IndexPage = () => {
-  const theme = useTheme()
+const Content = styled(Box)`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 20px;
+  > .MuiCard-root {
+    grid-column: span 2;
+    &.single {
+      grid-column: span 1;
+    }
+  }
+`
 
+const IndexPage = () => {
   return (
     <>
-      <Grid container spacing={4}>
-        <Grid item xs={4}>
-          <Card fullHeight>
-            <ContentBox>
-              <Typography variant="h3">Latest updates</Typography>
-              <ul>
-                <li>
-                  You currently have no skills on your profile. Try adding a new skill
-                </li>
-                <li>You need to complete your DDAT assessment</li>
-                <li>
-                  Government as a platform has been added as a new course Clear latest
-                  updates
-                </li>
-              </ul>
-            </ContentBox>
+      <Content>
+        <AccountCard color="brandGov">1</AccountCard>
+        <AccountCard color="brandSkills" className="single">
+          2
+        </AccountCard>
+        <AccountCard color="brandLearning" className="single">
+          3
+        </AccountCard>
 
-            <Divider variant="middle" />
-
-            <LearningStrands />
-          </Card>
-        </Grid>
-        <Grid item xs={8}>
-          <Grid container spacing={4}>
-            {profiles.map((data) => (
-              <Grid item xs={6} key={data.title}>
-                <Card>
-                  <Typography
-                    gutterBottom
-                    variant="h3"
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '10px',
-                      color: theme.colors[data.color]
-                    }}
-                  >
-                    {data.logo} {data.title}
-                  </Typography>
-                  <Typography color="text.secondary" gutterBottom>
-                    {data.content}
-                  </Typography>
-
-                  <Divider variant="middle" sx={{ my: 3 }} />
-                  <Link href={data.url}>
-                    <Button variant="contained" fullWidth>
-                      {data.linkText}
-                    </Button>
-                  </Link>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-        </Grid>
-      </Grid>
+        {profiles.map((profile) => (
+          <AccountCard
+            color={profile.color}
+            key={profile.title}
+            headerLogo={profile.logo}
+            header={<Typography variant="h2">{profile.title}</Typography>}
+          >
+            <Typography variant="subtitle1" gutterBottom>
+              {profile.content}
+            </Typography>
+            <Button variant="contained" href={profile.url}>
+              Review {profile.title}
+            </Button>
+          </AccountCard>
+        ))}
+      </Content>
     </>
   )
 }
 
 export default IndexPage
+
 IndexPage.getLayout = (page) => (
   <AccountLayout
-    title="Welcome, Joe"
-    teaser="Use this service to add and review your skills and find learning opportunities"
+    title="Hello Joe"
+    teaserHeadline="Welcome to the
+  Skills and Learning Service"
+    teaserContent="Use this service to add and review your skills and find learning opportunities."
   >
     {page}
   </AccountLayout>

@@ -33,12 +33,17 @@ const Layout = styled(Box)`
       font-weight: 700;
     }
   }
+
+  .headline {
+    margin-bottom: ${(p) => p.theme.spacing(5)};
+  }
 `
 type Props = {
   children: ReactNode
   title: string | ReactNode
   breadcrumbs?: { title: string; url?: string }[]
-  teaser?: string
+  teaserHeadline?: string
+  teaserContent?: string
 }
 
 const pages = [
@@ -47,7 +52,13 @@ const pages = [
   { title: 'Learning', url: '/account/learning' }
 ]
 
-const AccountLayout: FC<Props> = ({ breadcrumbs = [], title, children, teaser }) => {
+const AccountLayout: FC<Props> = ({
+  breadcrumbs = [],
+  title,
+  children,
+  teaserHeadline,
+  teaserContent
+}) => {
   const { logout } = useAuth()
 
   return (
@@ -80,16 +91,22 @@ const AccountLayout: FC<Props> = ({ breadcrumbs = [], title, children, teaser })
           )}
         </Breadcrumbs>
 
-        <Typography variant="h1" gutterBottom>
-          {title}
-        </Typography>
-
-        {teaser && (
-          <Typography variant="subtitle1" gutterBottom>
-            {teaser}
+        <Box className="headline">
+          <Typography variant="h1" gutterBottom>
+            {title}
           </Typography>
-        )}
 
+          {teaserHeadline && (
+            <Typography variant="h1" component="p" gutterBottom>
+              {teaserHeadline}
+            </Typography>
+          )}
+          {teaserContent && (
+            <Typography variant="subtitle1" component="p" gutterBottom>
+              {teaserContent}
+            </Typography>
+          )}
+        </Box>
         {children}
       </Template>
 
