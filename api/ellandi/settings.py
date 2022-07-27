@@ -19,6 +19,7 @@ SECRET_KEY = "django-insecure-j#j_k770^2hozr9st&u3wg=j!as-fjm*+vc6zxu-lv046+y$zk
 DEBUG = True
 
 ALLOWED_HOSTS = [
+    "ellandi-api-sandbox.london.cloudapps.digital",
     "ellandi-api-temp.london.cloudapps.digital",
     "ellandi-api-develop.london.cloudapps.digital",
     "ellandi-api.london.cloudapps.digital",
@@ -28,9 +29,11 @@ ALLOWED_HOSTS = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
+    "https://ellandi-api-sandbox.london.cloudapps.digital",
     "https://ellandi-api-temp.london.cloudapps.digital",
     "https://ellandi-api-develop.london.cloudapps.digital",
     "https://ellandi-api.london.cloudapps.digital",
+    "https://ellandi-web-sandbox.london.cloudapps.digital",
     "https://ellandi-web-temp.london.cloudapps.digital",
     "https://ellandi-web-develop.london.cloudapps.digital",
     "https://ellandi-web.london.cloudapps.digital",
