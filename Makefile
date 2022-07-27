@@ -54,7 +54,7 @@ npm-prepare: ## Check style and syntax with
 # -------------------------------------- Project Execution -------------------------------
 .PHONY: docker
 docker:  ## Run python app in a docker container
-	docker-compose up --build --force-recreate --renew-anon-volumes
+	docker-compose up --build --force-recreate --renew-anon-volumes --remove-orphans
 
 define _update_requirements
 	docker-compose run requirements bash -c "pip install -U pip setuptools && pip install -U -r /app/$(1)/$(2).txt && pip freeze > /app/$(1)/$(2).lock"
