@@ -1,5 +1,5 @@
 DJANGO_SETTINGS_MODULE=ellandi.settings
-POSTGRES_HOST=ellandi-postgres
+POSTGRES_HOST=ellandi-db
 POSTGRES_PORT=5432
 POSTGRES_DB=ellandi
 POSTGRES_USER=ellandi
