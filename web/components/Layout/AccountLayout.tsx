@@ -1,10 +1,39 @@
 import { FC, ReactNode } from 'react'
-import { Box, Breadcrumbs, Typography } from '@mui/material'
+import { Breadcrumbs, Typography, styled, alpha, Box } from '@mui/material'
 import AppBar from '@/components/UI/AppBar/AppBar'
 import Link from '@/components/UI/Link'
 import Template from '@/components/Layout/Template'
 import useAuth from '@/hooks/useAuth'
+import Footer from '@/components/Footer/Footer'
 
+const Layout = styled(Box)`
+  --footer-height: 60px;
+
+  > .MuiContainer-root {
+    padding-top: ${(p) => p.theme.spacing(3)};
+    padding-bottom: ${(p) => p.theme.spacing(3)};
+    min-height: calc(100vh - var(--footer-height));
+    height: auto;
+  }
+  .main-footer {
+    height: var(--footer-height);
+  }
+  .MuiBreadcrumbs-root {
+    margin-top: 36px;
+    border-bottom: 3px solid #000;
+    color: ${(p) => alpha(p.theme.colors.black, 0.6)};
+    margin-bottom: ${(p) => p.theme.spacing(4)};
+    li {
+      margin-bottom: 10px;
+    }
+    a {
+      color: inherit;
+    }
+    p {
+      font-weight: 700;
+    }
+  }
+`
 type Props = {
   children: ReactNode
   title: string | ReactNode
@@ -13,19 +42,17 @@ type Props = {
 }
 
 const pages = [
+  { title: 'Home', url: '/account' },
   { title: 'Skills', url: '/account/skills' },
   { title: 'Learning', url: '/account/learning' }
-  // { title: 'Careers', url: '/account/careers' },
-  // { title: 'Communities', url: '/account/communities' },
-  // { title: 'Favourites', url: '/account/favourites' }
 ]
 
-const AccountLayout: FC<Props> = ({ breadcrumbs, title, children, teaser }) => {
+const AccountLayout: FC<Props> = ({ breadcrumbs = [], title, children, teaser }) => {
   const { logout } = useAuth()
 
   return (
-    <Template
-      header={
+    <Layout>
+      <Template>
         <AppBar
           pages={pages}
           settings={[
@@ -33,32 +60,25 @@ const AccountLayout: FC<Props> = ({ breadcrumbs, title, children, teaser }) => {
             {
               title: 'Logout',
               url: '/',
-              onClick: () => {
-                logout()
-              }
+              onClick: logout
             }
           ]}
         />
-      }
-    >
-      <Box component="header" sx={{ my: 4 }}>
-        {breadcrumbs && (
-          <Breadcrumbs aria-label="breadcrumb" sx={{ mb: 3 }}>
-            <Link underline="hover" color="inherit" href="/account">
-              Home
-            </Link>
+        <Breadcrumbs aria-label="breadcrumb">
+          <Link underline="hover" color="inherit" href="/account">
+            Home
+          </Link>
 
-            {breadcrumbs.map((item) =>
-              item.url ? (
-                <Link underline="hover" color="inherit" href={item.url} key={item.title}>
-                  {item.title}
-                </Link>
-              ) : (
-                <Typography color="text.primary">{item.title}</Typography>
-              )
-            )}
-          </Breadcrumbs>
-        )}
+          {breadcrumbs.map((item) =>
+            item.url ? (
+              <Link underline="hover" href={item.url} key={item.title}>
+                {item.title}
+              </Link>
+            ) : (
+              <Typography key={item.title}>{item.title}</Typography>
+            )
+          )}
+        </Breadcrumbs>
 
         <Typography variant="h1" gutterBottom>
           {title}
@@ -69,10 +89,20 @@ const AccountLayout: FC<Props> = ({ breadcrumbs, title, children, teaser }) => {
             {teaser}
           </Typography>
         )}
-      </Box>
 
-      {children}
-    </Template>
+        {children}
+      </Template>
+
+      <Footer
+        menu={[
+          { title: 'Cookies', url: '#' },
+          { title: 'Privacy', url: '#' },
+          { title: 'Contact us', url: '#' },
+          { title: 'Help', url: '#' },
+          { title: 'Accessibility statement', url: '#' }
+        ]}
+      />
+    </Layout>
   )
 }
 

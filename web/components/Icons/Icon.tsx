@@ -8,7 +8,9 @@ type Props = {
 } & SVGProps<SVGSVGElement>
 
 const icons = {
-  'crown-logo': dynamic(() => import('@/components/Icons/CrownLogo'))
+  'crown-logo': dynamic(() => import('@/components/Icons/CrownLogo')),
+  'account-circle': dynamic(() => import('@/components/Icons/AccountCircle')),
+  crest: dynamic(() => import('@/components/Icons/Crest'))
 }
 
 const Icon: FC<Props> = ({ icon, ...props }) => {
