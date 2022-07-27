@@ -9,3 +9,4 @@ POSTGRES_DB=organogram
 POSTGRES_USER=organogram
 POSTGRES_PASSWORD=insecure
 DATABASE_URL="postgres://organogram:insecure@organogram-db:5432/organogram"
+EMAIL_BACKEND_TYPE=CONSOLE
