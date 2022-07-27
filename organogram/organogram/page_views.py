@@ -5,7 +5,9 @@ from django.http import Http404
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
+from organogram.verification import send_verification_email
 from organogram.registration import initial_data, models
+
 
 page_names = (
     "intro",
@@ -95,6 +97,7 @@ def create_account_view(request, url_data):
         if form.is_valid():
             data = form.cleaned_data
             user = models.User.objects.create_user(email=data["email"], password=data["password"])
+            send_verification_email(user)
             user = login(request, user)
             return redirect(url_data["next_url"])
     else:
