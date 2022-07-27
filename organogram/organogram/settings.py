@@ -15,7 +15,6 @@ STATIC_ROOT = STATIC_ROOT
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DEBUG", default=False)
 
-# VCAP_SERVICES
 VCAP_SERVICES = env.json("VCAP_SERVICES")
 
 if VCAP_SERVICES:
