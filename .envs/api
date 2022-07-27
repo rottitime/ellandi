@@ -4,4 +4,4 @@ POSTGRES_PORT=5432
 POSTGRES_DB=ellandi
 POSTGRES_USER=ellandi
 POSTGRES_PASSWORD=insecure
-DATABASE_URL="postgres://ellandi:insecure@ellandi-postgres:5432/ellandi"
+DATABASE_URL="postgres://ellandi:insecure@ellandi-db:5432/ellandi"

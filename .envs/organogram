@@ -8,4 +8,4 @@ POSTGRES_PORT=5432
 POSTGRES_DB=organogram
 POSTGRES_USER=organogram
 POSTGRES_PASSWORD=insecure
-DATABASE_URL="postgres://organogram:insecure@organogram-postgres:5432/organogram"
+DATABASE_URL="postgres://organogram:insecure@organogram-db:5432/organogram"
