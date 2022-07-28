@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 from drf_spectacular.utils import extend_schema
 from rest_framework import decorators, permissions, routers, status, viewsets
 from rest_framework.response import Response
+from django.forms.models import model_to_dict
 
 from . import exceptions, initial_data, models, serializers
 
@@ -163,4 +164,13 @@ def first_log_in_view(request):
     models.User.objects.update_or_create(email=email)
     # TODO - in future will change so can only log-in once with same token
     response = Response(status=status.HTTP_201_CREATED)
+    return response
+
+
+@decorators.api_view(["GET"])
+@decorators.permission_classes((permissions.AllowAny,))
+def me_view(request):
+    user = request.user
+    data = model_to_dict(user)
+    response = Response(data=data, status=status.HTTP_200_OK)
     return response
