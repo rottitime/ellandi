@@ -7,7 +7,6 @@ describe('RegisterDetailsForm', () => {
   const mockData = {
     first_name: 'test_first_name',
     last_name: 'test_last_name',
-    organisation: 'test_organisation',
     job_title: 'test_job_title',
     business_unit: 'test_business_unit',
     location: 'test_location',
@@ -15,13 +14,18 @@ describe('RegisterDetailsForm', () => {
   }
 
   it('renders', () => {
-    renderWithProviders(<RegisterDetailsForm backUrl="/back" onFormSubmit={jest.fn()} />)
+    renderWithProviders(
+      <RegisterDetailsForm
+        defaultValues={null}
+        backUrl="/back"
+        onFormSubmit={jest.fn()}
+      />
+    )
 
     expect(screen.getByRole('button', { name: /Continue/i })).toBeInTheDocument()
 
     expect(screen.getByTestId('textfield_first_name')).toBeInTheDocument()
     expect(screen.getByTestId('textfield_last_name')).toBeInTheDocument()
-    expect(screen.getByTestId('textfield_organisation')).toBeInTheDocument()
     expect(screen.getByTestId('textfield_job_title')).toBeInTheDocument()
     expect(screen.getByTestId('textfield_business_unit')).toBeInTheDocument()
     expect(screen.getByTestId('textfield_location')).toBeInTheDocument()
@@ -29,7 +33,13 @@ describe('RegisterDetailsForm', () => {
   })
 
   it('errors for required fields', async () => {
-    renderWithProviders(<RegisterDetailsForm backUrl="/back" onFormSubmit={jest.fn()} />)
+    renderWithProviders(
+      <RegisterDetailsForm
+        defaultValues={null}
+        backUrl="/back"
+        onFormSubmit={jest.fn()}
+      />
+    )
 
     const button = screen.getByRole('button', { name: /Continue/i })
     expect(button).toBeInTheDocument()
@@ -37,7 +47,7 @@ describe('RegisterDetailsForm', () => {
     await userEvent.click(button)
 
     await waitFor(async () => {
-      expect(screen.getAllByText('This field is required')).toHaveLength(7)
+      expect(screen.getAllByText('This field is required')).toHaveLength(6)
     })
   })
 
@@ -60,17 +70,17 @@ describe('RegisterDetailsForm', () => {
     const mockSubmit = jest.fn()
 
     renderWithProviders(
-      <RegisterDetailsForm backUrl="/back" onFormSubmit={(data) => mockSubmit(data)} />
+      <RegisterDetailsForm
+        defaultValues={null}
+        backUrl="/back"
+        onFormSubmit={(data) => mockSubmit(data)}
+      />
     )
 
     const button = screen.getByRole('button', { name: /Continue/i })
 
     await userEvent.type(screen.getByTestId('textfield_first_name'), mockData.first_name)
     await userEvent.type(screen.getByTestId('textfield_last_name'), mockData.last_name)
-    await userEvent.type(
-      screen.getByTestId('textfield_organisation'),
-      mockData.organisation
-    )
     await userEvent.type(screen.getByTestId('textfield_job_title'), mockData.job_title)
     await userEvent.type(
       screen.getByTestId('textfield_business_unit'),

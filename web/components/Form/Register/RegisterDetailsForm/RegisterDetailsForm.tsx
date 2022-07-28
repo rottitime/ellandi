@@ -12,7 +12,6 @@ import { Field } from '@/components/Form/Field'
 const schema: SchemaOf<RegisterDetailsType> = object().shape({
   first_name: string().required('This field is required'),
   last_name: string().required('This field is required'),
-  organisation: string().required('This field is required'),
   job_title: string().required('This field is required'),
   line_manager_email: string()
     .email('Email address must be valid')
@@ -28,7 +27,6 @@ const RegisterDetailsForm: FC<StandardRegisterProps<RegisterDetailsType>> = ({
   defaultValues = {
     first_name: '',
     last_name: '',
-    organisation: '',
     job_title: '',
     line_manager_email: '',
     location: '',
@@ -55,9 +53,6 @@ const RegisterDetailsForm: FC<StandardRegisterProps<RegisterDetailsType>> = ({
           </Grid>
         </Grid>
 
-        <Field>
-          <TextFieldControlled name="organisation" label="Department" />
-        </Field>
         <Field>
           <TextFieldControlled name="job_title" label="Job title" />
         </Field>
