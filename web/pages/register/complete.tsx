@@ -4,6 +4,8 @@ import Button from '@/components/UI/Button/Button'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import FooterButtons from '@/components/UI/FooterButtons/FooterButtons'
 import router from 'next/router'
+import { useEffect } from 'react'
+import useRegisterUser from '@/hooks/useRegisterUser'
 
 const Title = styled(Box)`
   display: flex;
@@ -14,25 +16,33 @@ const Title = styled(Box)`
   }
 `
 
-const RegisterPage = () => (
-  <>
-    <Typography variant="subtitle1" gutterBottom>
-      You have successfully signed up for the Civil Service Skills and Learning Service
-    </Typography>
-    <Typography gutterBottom>
-      You will now be taken to your dashboard where you can navigate around the service
-    </Typography>
+const RegisterPage = () => {
+  const { deleteUserId } = useRegisterUser()
 
-    <FooterButtons>
-      <Button variant="outlined" size="small" onClick={() => router.back()}>
-        Back
-      </Button>
-      <Button href="/account" variant="contained">
-        Finish
-      </Button>
-    </FooterButtons>
-  </>
-)
+  useEffect(() => {
+    deleteUserId()
+  }, [deleteUserId])
+
+  return (
+    <>
+      <Typography variant="subtitle1" gutterBottom>
+        You have successfully signed up for the Civil Service Skills and Learning Service
+      </Typography>
+      <Typography gutterBottom>
+        You will now be taken to your dashboard where you can navigate around the service
+      </Typography>
+
+      <FooterButtons>
+        <Button variant="outlined" size="small" onClick={() => router.back()}>
+          Back
+        </Button>
+        <Button href="/account" variant="contained">
+          Finish
+        </Button>
+      </FooterButtons>
+    </>
+  )
+}
 
 export default RegisterPage
 RegisterPage.getLayout = (page) => (

@@ -12,6 +12,7 @@ import {
   RegisterUser,
   RegisterUserResponse
 } from '@/service/api'
+import useRegisterUser from '@/hooks/useRegisterUser'
 import { createUser, updateUser } from '@/service/user'
 import { Typography } from '@mui/material'
 import { GetStaticPropsContext } from 'next'
@@ -100,48 +101,51 @@ const steps: Steps[] = [
 ]
 
 const RegisterPage = ({ nextUrl, backUrl, stepInt }: Props) => {
+  const { getUserId, deleteUserId, setUserId } = useRegisterUser()
   const { setLoading, setError } = useUiContext()
   const router = useRouter()
   const queryClient = useQueryClient()
   const FormComponent = steps[stepInt].form
   const data = queryClient.getQueryData<RegisterUserResponse>(Query.RegisterUser)
-  const id = data?.id
 
+  //handle unauthorized user (no id)
   useEffect(() => {
-    if (!id && stepInt > 0) {
+    setLoading(false)
+    if (!getUserId() && stepInt > 0) {
+      setLoading(true)
       router.replace({
         pathname: '/register/step/0',
         query: { ecode: 1 }
       })
-    } else {
-      setLoading(false)
     }
-  }, [id, stepInt, router, setLoading])
+  }, [stepInt, router, setLoading, deleteUserId, getUserId])
 
   const { isLoading, ...mutate } = useMutation<
     RegisterUserResponse,
     Error,
     Partial<RegisterUserResponse>
-  >(async (data) => (id ? updateUser(id, data) : createUser(data as RegisterUser)), {
-    onSuccess: (data) => {
-      queryClient.setQueryData(Query.RegisterUser, data)
-      router.push(nextUrl)
-    },
-    onError: ({ message }) => setError(message)
-  })
-
-  if (!id && stepInt > 0) {
-    setLoading(true)
-    return null
-  }
+  >(
+    async (data) =>
+      getUserId() ? updateUser(getUserId(), data) : createUser(data as RegisterUser),
+    {
+      onSuccess: (data) => {
+        setUserId(data.id)
+        queryClient.setQueryData(Query.RegisterUser, data)
+        router.push(nextUrl)
+      },
+      onError: ({ message }) => setError(message)
+    }
+  )
 
   return (
-    <FormComponent
-      backUrl={backUrl}
-      loading={isLoading}
-      defaultValues={data}
-      onFormSubmit={(data) => mutate.mutate(data)}
-    />
+    <>
+      <FormComponent
+        backUrl={backUrl}
+        loading={isLoading}
+        defaultValues={data}
+        onFormSubmit={(data) => mutate.mutate(data)}
+      />
+    </>
   )
 }
 

@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { Typography } from '@mui/material'
 import { object, SchemaOf, string, ref } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -8,6 +8,7 @@ import FormFooter from '@/components/Form/FormFooter'
 import { StandardRegisterProps } from '@/components/Form/Register/types'
 import { Field } from '@/components/Form/Field'
 import { CreateAccountType } from './types'
+import useRegisterUser from '@/hooks/useRegisterUser'
 
 const minPassword = 8
 
@@ -33,6 +34,13 @@ const CreateAccountForm: FC<StandardRegisterProps<CreateAccountType>> = ({
   onFormSubmit,
   loading
 }) => {
+  const { deleteUserId } = useRegisterUser()
+
+  useEffect(() => {
+    deleteUserId()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   const methods = useForm<CreateAccountType>({
     defaultValues: { email: '', password: '' },
     resolver: yupResolver(schema)
