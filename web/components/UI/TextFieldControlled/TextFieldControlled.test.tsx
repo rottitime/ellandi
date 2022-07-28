@@ -1,6 +1,7 @@
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldControlled'
 import { FormProvider, useForm } from 'react-hook-form'
+import { renderWithProviders } from '@/lib/test-utils'
 
 const Wrapper = ({ children }) => {
   const methods = useForm<{ email: string }>({})
@@ -9,7 +10,7 @@ const Wrapper = ({ children }) => {
 
 describe('TextFieldControlled', () => {
   it('renders', () => {
-    render(
+    renderWithProviders(
       <Wrapper>
         <TextFieldControlled
           name="email-field"
@@ -25,7 +26,7 @@ describe('TextFieldControlled', () => {
   })
 
   it('validates', () => {
-    render(
+    renderWithProviders(
       <Wrapper>
         <TextFieldControlled
           name="email-field"

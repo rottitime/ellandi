@@ -1,19 +1,11 @@
 import Template from '@/components/Layout/Template'
-import {
-  Grid,
-  Typography,
-  styled,
-  LinearProgress,
-  Hidden,
-  Box,
-  Divider
-} from '@mui/material'
-import Card from '@/components/UI/Card'
+import { withGovLogoBackground } from '@/style/global'
+import { Grid, Typography, styled, Box, Divider } from '@mui/material'
 import { FC, ReactNode } from 'react'
-import Crown from '@/components/Icons/CrownLogo'
 import List from '@/components/List'
 import { AccountBox, Yard, Search, QuestionAnswer } from '@mui/icons-material'
 import { useUiContext } from '@/context/UiContext'
+import GovCard from '@/components/UI/Cards/GovCard/GovCard'
 
 type Props = {
   children: ReactNode
@@ -30,49 +22,10 @@ const GridContainer = styled(Grid)`
   ${({ theme }) => theme.breakpoints.up('md')} {
     flex-direction: row;
     flex-wrap: nowrap;
-    /* height: 100%; */
   }
   > .MuiGrid-item {
     ${({ theme }) => theme.breakpoints.down('md')} {
       flex-basis: auto;
-    }
-  }
-
-  .card-content {
-    position: relative;
-    transition: opacity ease-in-out 0.3;
-    &.loading-active {
-      :after {
-        pointer-events: none;
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        opacity: 0.3;
-        background-color: ${(p) => p.theme.colors.white};
-        z-index: 1;
-      }
-    }
-
-    .loading-bar {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      z-index: 2;
-    }
-  }
-
-  .logo {
-    font-size: 45px;
-
-    ${({ theme }) => theme.breakpoints.up('md')} {
-      margin-bottom: 40px;
-      position: absolute;
-      top: ${(p) => p.theme.spacing(4)};
-      left: ${(p) => p.theme.spacing(4)};
     }
   }
 
@@ -86,6 +39,8 @@ const GridContainer = styled(Grid)`
     color: ${(p) => p.theme.colors.white};
     position: relative;
     padding: 20px;
+    order: 1;
+    flex-grow: 1;
 
     ${({ theme }) => theme.breakpoints.down('md')} {
       h1 {
@@ -94,8 +49,8 @@ const GridContainer = styled(Grid)`
     }
 
     ${({ theme }) => theme.breakpoints.up('md')} {
-      /* flex-direction: row;
-      flex-wrap: wrap; */
+      order: 0;
+      flex-grow: 0;
       padding: 80px 48px 60px;
 
       display: flex;
@@ -116,13 +71,22 @@ const GridContainer = styled(Grid)`
   }
 
   .main-content {
-    justify-content: center;
-    align-items: center;
-    /* align-self: start; */
-    flex-direction: column;
-    display: flex;
+    flex-grow: 0;
+    padding: ${(p) => p.theme.spacing(2)};
     ${({ theme }) => theme.breakpoints.up('md')} {
-      /* margin-top: 100px; */
+      flex-grow: 1;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      display: flex;
+    }
+
+    > .MuiPaper-root {
+      ${({ theme }) => theme.breakpoints.up('md')} {
+        max-width: 540px;
+        width: 100%;
+        margin: ${(p) => p.theme.spacing(2)};
+      }
     }
   }
 `
@@ -131,74 +95,50 @@ const CardLayout: FC<Props> = ({ children, showPromo, title, footer, progress })
   const { loading } = useUiContext()
   return (
     <Template disableGutters>
+      <style jsx global>
+        {withGovLogoBackground}
+      </style>
       <GridContainer spacing={0} container>
         {!!showPromo && (
           <Grid item xs={12} md={4} className="promo-box">
-            <Crown className="logo" />
             <Box>
               <Typography variant="leader" gutterBottom textAlign="center">
                 Civil Service Skills and Learning
               </Typography>
 
-              <Hidden initialWidth="md" mdDown={true}>
-                <Divider variant="middle" sx={{ my: 4 }} />
-                <Typography variant="h3" component="p">
-                  You can use this service to:
-                </Typography>
-                <List
-                  className="list"
-                  list={[
-                    {
-                      icon: <AccountBox />,
-                      title: 'upload and maintain your skills and learning profile'
-                    },
-                    {
-                      icon: <Yard />,
-                      title: "specify any skills you'd like to develop in the future"
-                    },
-                    {
-                      icon: <Search />,
-                      title: 'find courses and development opportunities'
-                    },
-                    {
-                      icon: <QuestionAnswer />,
-                      title:
-                        'support discussions about skills and career development with your line manager'
-                    }
-                  ]}
-                />
-              </Hidden>
+              <Divider variant="middle" sx={{ my: 4 }} />
+              <Typography variant="h3" component="p">
+                You can use this service to:
+              </Typography>
+              <List
+                className="list"
+                list={[
+                  {
+                    icon: <AccountBox />,
+                    title: 'upload and maintain your skills and learning profile'
+                  },
+                  {
+                    icon: <Yard />,
+                    title: "specify any skills you'd like to develop in the future"
+                  },
+                  {
+                    icon: <Search />,
+                    title: 'find courses and development opportunities'
+                  },
+                  {
+                    icon: <QuestionAnswer />,
+                    title:
+                      'support discussions about skills and career development with your line manager'
+                  }
+                ]}
+              />
             </Box>
           </Grid>
         )}
         <Grid item xs className="main-content">
-          <Card
-            elevation={0}
-            className={`card-content ${loading ? 'loading-active' : ''}`}
-            sx={{
-              maxWidth: '540px',
-              padding: '24px',
-              wordWrap: 'break-word',
-              m: 2,
-              width: '100%'
-            }}
-          >
-            <Typography variant="h1" sx={{ textAlign: 'center', mb: 3 }} component="h2">
-              {title}
-            </Typography>
-
-            {!!progress && (
-              <LinearProgress
-                variant="determinate"
-                value={progress}
-                sx={{ mb: 4, height: '7px' }}
-              />
-            )}
-
+          <GovCard loading={loading} title={title} progress={progress}>
             {children}
-
-            {loading && <LinearProgress className="loading-bar" />}
-          </Card>
+          </GovCard>
           {footer}
         </Grid>
       </GridContainer>

@@ -1,3 +1,5 @@
+//TODO: Deprecate. Use AccountCard instead
+
 import { Card as MuiCard } from '@mui/material'
 import { ComponentProps, FC, ReactNode } from 'react'
 

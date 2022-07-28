@@ -2,6 +2,7 @@ import { Typography, Box } from '@mui/material'
 import CardLayout from '@/components/Layout/CardLayout'
 import router from 'next/router'
 import { useState } from 'react'
+import Button from '@/components/UI/Button/Button'
 
 const HelloPage = () => {
   const [output, setOutput] = useState('')
@@ -12,6 +13,9 @@ const HelloPage = () => {
         <p>NEXT_PUBLIC_ANALYTICS_ID: {process.env.NEXT_PUBLIC_ANALYTICS_ID}</p>
         <p>NODE_ENV: {process.env.NODE_ENV}</p>
         <p>NEXT_PUBLIC_API_URL: {process.env.NEXT_PUBLIC_API_URL}</p>
+
+        <Button>Normallink</Button>
+        <Button href="/">Normallink with href</Button>
 
         <Typography variant="leader" gutterBottom>
           Leader Heading
@@ -26,6 +30,7 @@ const HelloPage = () => {
         <Typography variant="h3" gutterBottom>
           h3. Heading
         </Typography>
+
         {/* <Typography variant="h4" gutterBottom >
     h4. Heading
   </Typography>

@@ -1,33 +1,55 @@
 import {
   AppBar as MuiAppBar,
   Box,
-  Button,
-  Container,
   IconButton,
   Menu,
   MenuItem,
   styled,
   Toolbar,
   Tooltip,
-  Typography
+  Typography,
+  useTheme
 } from '@mui/material'
-import { AccountCircle } from '@mui/icons-material'
 import Link from 'next/link'
-import Crown from '@/components/Icons/CrownLogo'
 import { FC, useState } from 'react'
 import { Props } from './types'
-import router from 'next/router'
+import Icon from '@/components/Icons/Icon'
+import { useRouter } from 'next/router'
+import Button from '../Button/Button'
 
 const AppBar = styled(MuiAppBar)`
-  background: linear-gradient(127.55deg, #141e30 3.73%, #243b55 92.26%);
-  .icon-account {
-    color: ${(p) => p.theme.colors.greyLight};
-    font-size: 31px;
+  background: transparent;
+
+  .header-logo {
+    color: ${(p) => p.theme.colors.black};
+    font-size: 50px;
+    margin-right: 20px;
+  }
+
+  .menu {
+    flex-grow: 1;
+    display: flex;
+    a {
+      color: ${(p) => p.theme.colors.black};
+      font-weight: 700;
+      font-size: 20px;
+      text-transform: none;
+      display: block;
+    }
+    .active {
+      text-decoration: underline 4px;
+      text-underline-offset: 5px;
+    }
+  }
+
+  .icon-profile {
+    font-size: 32px;
   }
 `
 
 const ResponsiveAppBar: FC<Props> = ({ pages, settings }) => {
-  // const theme = useTheme()
+  const theme = useTheme()
+  const router = useRouter()
 
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null)
 
@@ -41,63 +63,64 @@ const ResponsiveAppBar: FC<Props> = ({ pages, settings }) => {
 
   return (
     <AppBar position="static" elevation={0}>
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <Link href="/account">
-            <a>
-              <Crown style={{ fontSize: '32px', marginRight: '10px', color: '#fff' }} />
-            </a>
-          </Link>
+      <Toolbar disableGutters>
+        <Link href="/account">
+          <a>
+            <Icon icon="crown-logo" className="header-logo" />
+          </a>
+        </Link>
 
-          <Box sx={{ flexGrow: 1, display: 'flex' }}>
-            {pages.map((page) => (
-              <Link key={page.title} href={page.url}>
-                <Button sx={{ my: 2, color: 'white', display: 'block' }}>
-                  {page.title}
-                </Button>
-              </Link>
-            ))}
-          </Box>
-
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <AccountCircle className="icon-account" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right'
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right'
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
+        <Box className="menu">
+          {pages.map(({ title, url, color }) => (
+            <Button
+              style={{ textDecorationColor: theme.colors[color] }}
+              key={title}
+              href={url}
+              className={` ${router.pathname === url ? 'active' : ''}`}
             >
-              {settings.map(({ url, title, onClick }) => (
-                <MenuItem
-                  key={title}
-                  onClick={(e) => {
-                    handleCloseUserMenu()
+              {title}
+            </Button>
+          ))}
+        </Box>
 
-                    if (onClick !== undefined) onClick(e)
-                    if (url) router.push(url)
-                  }}
-                >
-                  <Typography textAlign="center">{title}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
-        </Toolbar>
-      </Container>
+        <Box sx={{ flexGrow: 0 }}>
+          <Tooltip title="Open settings">
+            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+              <Icon icon="account-circle" className="icon-profile" />
+            </IconButton>
+          </Tooltip>
+          <Menu
+            sx={{ mt: '45px' }}
+            id="menu-appbar"
+            anchorEl={anchorElUser}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right'
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right'
+            }}
+            open={Boolean(anchorElUser)}
+            onClose={handleCloseUserMenu}
+          >
+            {settings.map(({ url, title, onClick }) => (
+              <MenuItem
+                key={title}
+                onClick={(e) => {
+                  handleCloseUserMenu()
+
+                  if (onClick !== undefined) onClick(e)
+                  if (url) router.push(url)
+                }}
+              >
+                <Typography textAlign="center">{title}</Typography>
+              </MenuItem>
+            ))}
+          </Menu>
+        </Box>
+      </Toolbar>
     </AppBar>
   )
 }
