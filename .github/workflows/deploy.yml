@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      IMAGE_TAG: latest
+      IMAGE_TAG: ${{ github.ref_name }}
       DOCKER_REPOSITORY: ghcr.io
       NODE_ENV: development
       CF_SPACE: ${{ github.ref_name }}
@@ -65,7 +65,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      IMAGE_TAG: latest
+      IMAGE_TAG: ${{ github.ref_name }}
       DOCKER_REPOSITORY: ghcr.io
       CF_SPACE: ${{ github.ref_name }}
 
