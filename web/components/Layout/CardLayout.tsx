@@ -92,7 +92,7 @@ const GridContainer = styled(Grid)`
 `
 
 const CardLayout: FC<Props> = ({ children, showPromo, title, footer, progress }) => {
-  const { loading, error } = useUiContext()
+  const { error } = useUiContext()
   return (
     <Template disableGutters>
       <style jsx global>
@@ -136,7 +136,7 @@ const CardLayout: FC<Props> = ({ children, showPromo, title, footer, progress })
           </Grid>
         )}
         <Grid item xs className="main-content">
-          <GovCard loading={loading} title={title} progress={progress}>
+          <GovCard title={title} progress={progress}>
             {!!error && (
               <Alert severity="error" sx={{ mt: 3, mb: 3 }}>
                 <>{error}</>
