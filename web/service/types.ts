@@ -28,7 +28,6 @@ export type RegisterUser = {
 export type RegisterDetailsType = {
   first_name: string
   last_name: string
-  organisation: string
   job_title: string
   line_manager_email: string
   location: string

@@ -2,7 +2,7 @@ import {
   Card as MuiCard,
   styled,
   CardContent,
-  // LinearProgress,
+  LinearProgress as MuiLinearProgress,
   Typography,
   Box
 } from '@mui/material'
@@ -25,6 +25,7 @@ const Card = styled(MuiCard)`
     background: ${(p) => p.theme.colors.black};
     padding: ${({ theme: { spacing } }) => `${spacing(2)} ${spacing(3)} `};
     display: flex;
+    position: relative;
     svg {
       color: ${(p) => p.theme.colors.white};
       font-size: 33px;
@@ -56,7 +57,7 @@ const Card = styled(MuiCard)`
 
   .loading-bar {
     position: absolute;
-    top: 0;
+    bottom: 0;
     left: 0;
     width: 100%;
     z-index: 2;
@@ -68,6 +69,7 @@ const GovCard: FC<Props> = ({ loading = false, children, progress, title, ...pro
     <Card className={`${loading ? 'loading-active' : ''}`} {...props}>
       <Box className="card-logo">
         <Icon icon="crown-logo" />
+        {loading && <MuiLinearProgress className="loading-bar" />}
       </Box>
 
       <CardContent>
@@ -86,8 +88,6 @@ const GovCard: FC<Props> = ({ loading = false, children, progress, title, ...pro
         </header>
         {children}
       </CardContent>
-
-      {loading && <LinearProgress className="loading-bar" />}
     </Card>
   )
 }

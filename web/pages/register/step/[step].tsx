@@ -1,6 +1,7 @@
 import { StandardRegisterProps } from '@/components/Form/Register/types'
 import CardLayout from '@/components/Layout/CardLayout'
 import Link from '@/components/UI/Link'
+import { useUiContext } from '@/context/UiContext'
 import {
   fetchContractTypes,
   fetchFunctions,
@@ -12,15 +13,15 @@ import {
   RegisterUserResponse
 } from '@/service/api'
 import { createUser, updateUser } from '@/service/user'
-import { Alert, Fade, Typography } from '@mui/material'
+import { Typography } from '@mui/material'
 import { GetStaticPropsContext } from 'next'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
-import { ComponentType, useEffect, useState } from 'react'
+import { ComponentType, useEffect } from 'react'
 import { dehydrate, QueryClient, useMutation, useQueryClient } from 'react-query'
 
 type Props = {
-  stepNumber: number
+  stepInt: number
   title: string
   backUrl: null | string
   nextUrl: string
@@ -98,21 +99,26 @@ const steps: Steps[] = [
   }
 ]
 
-const RegisterPage = ({ nextUrl, backUrl }: Props) => {
+const RegisterPage = ({ nextUrl, backUrl, stepInt }: Props) => {
+  const { setLoading, setError } = useUiContext()
   const router = useRouter()
   const queryClient = useQueryClient()
-  const { step } = router.query
-  const stepInt = parseInt(step as string)
   const FormComponent = steps[stepInt].form
-  const [error, setError] = useState(null)
   const data = queryClient.getQueryData<RegisterUserResponse>(Query.RegisterUser)
   const id = data?.id
 
   useEffect(() => {
-    setError(null)
-  }, [step])
+    if (!id && stepInt > 0) {
+      router.replace({
+        pathname: '/register/step/0',
+        query: { ecode: 1 }
+      })
+    } else {
+      setLoading(false)
+    }
+  }, [id, stepInt, router, setLoading])
 
-  const { isError, isLoading, ...mutate } = useMutation<
+  const { isLoading, ...mutate } = useMutation<
     RegisterUserResponse,
     Error,
     Partial<RegisterUserResponse>
@@ -124,23 +130,18 @@ const RegisterPage = ({ nextUrl, backUrl }: Props) => {
     onError: ({ message }) => setError(message)
   })
 
-  return (
-    <>
-      {!!error && (
-        <Fade in={!!isError}>
-          <Alert severity="error" sx={{ mt: 3, mb: 3 }}>
-            <>{error}</>
-          </Alert>
-        </Fade>
-      )}
+  if (!id && stepInt > 0) {
+    setLoading(true)
+    return null
+  }
 
-      <FormComponent
-        backUrl={backUrl}
-        loading={isLoading}
-        defaultValues={data}
-        onFormSubmit={(data) => mutate.mutate(data)}
-      />
-    </>
+  return (
+    <FormComponent
+      backUrl={backUrl}
+      loading={isLoading}
+      defaultValues={data}
+      onFormSubmit={(data) => mutate.mutate(data)}
+    />
   )
 }
 
@@ -187,7 +188,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
   return {
     props: {
       progress: Math.floor((stepInt / (steps.length + 1)) * 100),
-      stepNumber: stepInt,
+      stepInt,
       title,
       backUrl: stepInt === 0 ? `/register` : `/register/step/${stepInt - 1}`,
       nextUrl: nextUrl || `/register/step/${stepInt + 1}`,

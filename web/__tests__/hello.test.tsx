@@ -5,7 +5,10 @@ import userEvent from '@testing-library/user-event'
 import Router from 'next/router'
 import { renderWithProviders } from '@/lib/test-utils'
 
-jest.mock('next/router', () => ({ push: jest.fn() }))
+jest.mock('next/router', () => ({
+  ...jest.requireActual('next/router'),
+  push: jest.fn()
+}))
 
 describe('Home', () => {
   it('renders', () => {

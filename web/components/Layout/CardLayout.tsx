@@ -1,6 +1,6 @@
 import Template from '@/components/Layout/Template'
 import { withGovLogoBackground } from '@/style/global'
-import { Grid, Typography, styled, Box, Divider } from '@mui/material'
+import { Grid, Typography, styled, Box, Divider, Alert } from '@mui/material'
 import { FC, ReactNode } from 'react'
 import List from '@/components/List'
 import { AccountBox, Yard, Search, QuestionAnswer } from '@mui/icons-material'
@@ -92,7 +92,7 @@ const GridContainer = styled(Grid)`
 `
 
 const CardLayout: FC<Props> = ({ children, showPromo, title, footer, progress }) => {
-  const { loading } = useUiContext()
+  const { loading, error } = useUiContext()
   return (
     <Template disableGutters>
       <style jsx global>
@@ -137,6 +137,12 @@ const CardLayout: FC<Props> = ({ children, showPromo, title, footer, progress })
         )}
         <Grid item xs className="main-content">
           <GovCard loading={loading} title={title} progress={progress}>
+            {!!error && (
+              <Alert severity="error" sx={{ mt: 3, mb: 3 }}>
+                <>{error}</>
+              </Alert>
+            )}
+
             {children}
           </GovCard>
           {footer}
