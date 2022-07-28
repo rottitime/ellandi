@@ -83,7 +83,7 @@ jobs:
         run: ./cf login -a api.london.cloud.service.gov.uk -u "${{ secrets.CF_USER }}" -p "${{ secrets.CF_PASSWORD }}" -o co-i-ai -s "$CF_SPACE"
 
       - name: CF push ellandi apps
-        if: ${{ matrix.app }} == 'ellandi-api' || ${{ matrix.app }} == 'ellandi-web'
+        if: ${{ matrix.app == 'ellandi-api' }}
         env:
           DOCKER_FILE: ${{ matrix.dockerfile }}
           DOCKER_IMAGE: ${{ matrix.app }}
