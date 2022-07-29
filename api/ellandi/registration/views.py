@@ -104,6 +104,12 @@ class CountryViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = serializers.CountrySerializer
 
 
+@register("functions")
+class FunctionViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.Function.objects.all().order_by("name")
+    serializer_class = serializers.FunctionSerializer
+
+
 @extend_schema(
     request=serializers.RegisterSerializer,
     responses=serializers.UserSerializer,
