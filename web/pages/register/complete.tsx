@@ -4,8 +4,6 @@ import Button from '@/components/UI/Button/Button'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import FooterButtons from '@/components/UI/FooterButtons/FooterButtons'
 import router from 'next/router'
-import { useEffect } from 'react'
-import useRegisterUser from '@/hooks/useRegisterUser'
 
 const Title = styled(Box)`
   display: flex;
@@ -17,12 +15,6 @@ const Title = styled(Box)`
 `
 
 const RegisterPage = () => {
-  const { deleteUserId } = useRegisterUser()
-
-  useEffect(() => {
-    deleteUserId()
-  }, [deleteUserId])
-
   return (
     <>
       <Typography variant="subtitle1" gutterBottom>

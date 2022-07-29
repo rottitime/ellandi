@@ -1,26 +1,25 @@
 import {
-  Alert,
-  AlertTitle,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
+  // Alert,
+  // AlertTitle,
+  // FormControlLabel,
+  // Radio,
+  // RadioGroup,
   Typography
 } from '@mui/material'
 import { FC } from 'react'
 import FormFooter from '@/components/Form/FormFooter'
 import { StandardRegisterProps } from './types'
-import { Controller, FormProvider, useForm } from 'react-hook-form'
+import { FormProvider, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { object, SchemaOf, string } from 'yup'
 import {
-  fetchPrimaryProfession,
-  GenericDataList,
+  // fetchPrimaryProfession,
+  // GenericDataList,
   PrimaryProfessionType,
-  ProfessionType,
-  Query
+  ProfessionType
 } from '@/service/api'
-import { useQuery } from 'react-query'
-import RadioSkeleton from '@/components/UI/Skeleton/RadioSkeleton'
+// import { useQuery } from 'react-query'
+// import RadioSkeleton from '@/components/UI/Skeleton/RadioSkeleton'
 
 const schema: SchemaOf<PrimaryProfessionType> = object().shape({
   primary_profession: string().required()
@@ -28,25 +27,18 @@ const schema: SchemaOf<PrimaryProfessionType> = object().shape({
 
 const PrimaryProfessionForm: FC<
   StandardRegisterProps<PrimaryProfessionType, ProfessionType>
-> = ({
-  defaultValues = { primary_profession: '', professions: [] },
-  backUrl,
-  skipUrl,
-  onFormSubmit
-}) => {
+> = ({ defaultValues = { primary_profession: '' }, backUrl, skipUrl, onFormSubmit }) => {
   const methods = useForm<PrimaryProfessionType>({
     defaultValues,
     resolver: yupResolver(schema)
   })
   const {
     handleSubmit,
-    control,
+    // control,
     formState: { isDirty, isValid }
   } = methods
 
   // if (!(defaultValues.professions || []).length) skip()
-
-  console.log('dede', { defaultValues })
 
   // const { isLoading, isError, data } = useQuery<GenericDataList[], { message?: string }>(
   //   Query.PrimaryProfessions,
@@ -72,7 +64,7 @@ const PrimaryProfessionForm: FC<
           We'll use this to suggest learning opportunities that are relevant to you
         </Typography>
 
-        <Controller
+        {/* <Controller
           name="primary_profession"
           control={control}
           render={({ field }) => (
@@ -87,7 +79,7 @@ const PrimaryProfessionForm: FC<
               ))}
             </RadioGroup>
           )}
-        />
+        /> */}
 
         <FormFooter
           backUrl={backUrl}

@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect } from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
 import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldControlled'
 import { object, SchemaOf, string } from 'yup'
@@ -38,7 +38,13 @@ const RegisterDetailsForm: FC<StandardRegisterProps<RegisterDetailsType>> = ({
     defaultValues,
     resolver: yupResolver(schema)
   })
-  const { handleSubmit } = methods
+  const { handleSubmit, reset } = methods
+
+  console.log({ defaultValues })
+
+  // useEffect(() => {
+  //   reset(defaultValues)
+  // }, [reset, defaultValues])
 
   return (
     <FormProvider {...methods}>

@@ -32,15 +32,20 @@ const SkillsForm: FC<StandardRegisterProps<SkillsType>> = ({
     skills: []
   }
 }) => {
-  const { handleSubmit, setValue, register, unregister, watch } = useForm<SkillsType>({
-    defaultValues,
-    resolver: yupResolver(schema)
-  })
+  const { handleSubmit, setValue, register, unregister, watch, reset } =
+    useForm<SkillsType>({
+      defaultValues,
+      resolver: yupResolver(schema)
+    })
 
   const { isLoading, isError, data } = useQuery<string[], { message?: string }>(
     Query.Skills,
     fetchSkills
   )
+
+  // useEffect(() => {
+  //   reset(defaultValues)
+  // }, [reset, defaultValues])
 
   useEffect(() => {
     register(fieldName)

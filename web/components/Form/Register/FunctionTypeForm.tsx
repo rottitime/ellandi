@@ -1,11 +1,4 @@
-import {
-  Alert,
-  AlertTitle,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
-  Typography
-} from '@mui/material'
+import { FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material'
 import { useQuery } from 'react-query'
 import RadioSkeleton from '@/components/UI/Skeleton/RadioSkeleton'
 import { fetchFunctions, FunctionType, GenericDataList, Query } from '@/service/api'
@@ -47,7 +40,7 @@ const FunctionTypeForm: FC<StandardRegisterProps<FunctionType>> = ({
 
   const watchFields = watch()
 
-  const { isLoading, isError, data } = useQuery<GenericDataList[], { message?: string }>(
+  const { isLoading, data } = useQuery<GenericDataList[], { message?: string }>(
     Query.Functions,
     fetchFunctions,
     {
@@ -63,14 +56,6 @@ const FunctionTypeForm: FC<StandardRegisterProps<FunctionType>> = ({
   useEffect(() => {
     setLoading(isLoading)
   }, [isLoading, setLoading])
-
-  if (isError)
-    return (
-      <Alert severity="error">
-        <AlertTitle>Service Unavailable</AlertTitle>
-        Please try again later.
-      </Alert>
-    )
 
   return (
     <FormProvider {...methods}>

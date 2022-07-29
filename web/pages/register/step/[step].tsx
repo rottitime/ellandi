@@ -10,7 +10,6 @@ import {
   RegisterUser,
   RegisterUserResponse
 } from '@/service/api'
-import useRegisterUser from '@/hooks/useRegisterUser'
 import { updateUser } from '@/service/auth'
 import { GetStaticPropsContext } from 'next'
 import dynamic from 'next/dynamic'
@@ -28,26 +27,23 @@ import useAuth from '@/hooks/useAuth'
 import { fetchMe } from '@/service/me'
 
 const RegisterPage = ({ stepInt, nextUrl, skip, ...props }: Props) => {
-  const { setUserId } = useRegisterUser()
   const { setLoading, setError } = useUiContext()
-  const { createAndLogin, authFetch, hasToken } = useAuth()
+  const { createAndLogin, authFetch } = useAuth()
   const router = useRouter()
   const queryClient = useQueryClient()
   const FormComponent = steps[stepInt].form
-  // const data = queryClient.getQueryData<RegisterUserResponse>(Query.RegisterUser)
 
-  const { isLoading: isLoadingMe, data } = useQuery<RegisterUserResponse>(
-    Query.Me,
-    () => authFetch(fetchMe),
-    {
-      enabled: !!stepInt
-    }
-  )
+  const {
+    isLoading: isLoadingMe,
+    data,
+    refetch
+  } = useQuery<RegisterUserResponse>(Query.Me, () => authFetch(fetchMe), {
+    enabled: !!stepInt
+  })
 
   const userId = useMemo(() => data?.id || null, [data])
 
-  const isFormHidden = ({ isHidden = null }, data): boolean =>
-    !!isHidden && isHidden(data)
+  const isFormHidden = (step, data): boolean => !!step?.isHidden && step.isHidden(data)
 
   const getNextUrl = (data): string =>
     isFormHidden(steps[stepInt + 1], data) ? `/register/step/${stepInt + 2}` : nextUrl
@@ -59,6 +55,11 @@ const RegisterPage = ({ stepInt, nextUrl, skip, ...props }: Props) => {
         : props.backUrl,
     [stepInt, data, props.backUrl]
   )
+
+  //handle unauthorized user (no id)
+  useEffect(() => {
+    refetch()
+  }, [stepInt])
 
   //handle unauthorized user (no id)
   useEffect(() => {
@@ -81,7 +82,6 @@ const RegisterPage = ({ stepInt, nextUrl, skip, ...props }: Props) => {
       userId ? updateUser(userId, data) : createAndLogin(data as RegisterUser),
     {
       onSuccess: (data) => {
-        // setUserId(data.id)
         queryClient.setQueryData(Query.RegisterUser, data)
         router.push(getNextUrl(data))
       },
@@ -89,12 +89,10 @@ const RegisterPage = ({ stepInt, nextUrl, skip, ...props }: Props) => {
     }
   )
 
-  console.log({ data })
-
   return (
     <FormComponent
       backUrl={backUrl}
-      loading={isLoading}
+      loading={isLoading || isLoadingMe}
       defaultValues={data}
       skipUrl={skip && getNextUrl(data)}
       onFormSubmit={(data) => mutate.mutate(data)}
