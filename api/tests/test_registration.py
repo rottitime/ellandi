@@ -52,8 +52,8 @@ def test_put(client, user_id):
         "first_name": "Jane",
         "last_name": "Brown",
         "professions": [
-            f"{TEST_SERVER_URL}professions/government-operational-research-service/",
-            f"{TEST_SERVER_URL}professions/digital-data-and-technology-professions/",
+            f"{TEST_SERVER_URL}professions/operational-research-service/",
+            f"{TEST_SERVER_URL}professions/policy/",
         ],
         "function": "Analysis",
     }

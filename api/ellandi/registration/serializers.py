@@ -120,7 +120,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
             "skills",
             "languages",
             "created_at",
-            "modified_at"
+            "modified_at",
         ]
 
 
