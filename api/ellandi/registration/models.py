@@ -69,12 +69,16 @@ class Grade(DropDownListModel):
 
 
 class LanguageSkillLevel(DropDownListModel):
-    description = models.CharField(max_length=255, blank=False, null=False, default="")
+    description = models.CharField(max_length=255, blank=True, null=True, default="")
 
 
 class Country(DropDownListModel):
     class Meta:
         verbose_name_plural = "Countries"
+
+
+class Function(DropDownListModel):
+    pass
 
 
 class UserManager(BaseUserManager):
@@ -125,14 +129,23 @@ class RegistrationAbstractUser(models.Model):
     class Meta:
         abstract = True
 
+    department = models.CharField(max_length=127, blank=True, null=True)
     organisation = models.CharField(max_length=128, blank=True, null=True)
     job_title = models.CharField(max_length=128, blank=True, null=True)
-    grade = models.CharField(max_length=127, blank=True, null=False)
-    professions = models.ManyToManyField(Profession, blank=True)
-    contract_type = models.CharField(max_length=127, blank=True, null=False)
+    business_unit = models.CharField(max_length=127, blank=True, null=True)
+    location = models.CharField(max_length=127, blank=True, null=True)
+    location_other = models.CharField(max_length=127, blank=True, null=True)
     line_manager_email = models.CharField(max_length=128, blank=True, null=True)
-    location = models.CharField(max_length=127, blank=True, null=False)
-    department = models.CharField(max_length=127, blank=True, null=True)
+    grade = models.CharField(max_length=127, blank=True, null=True)
+    grade_other = models.CharField(max_length=127, blank=True, null=True)
+    professions = models.ManyToManyField(Profession, blank=True)
+    profession_other = models.CharField(max_length=127, blank=True, null=True)
+    primary_profession = models.CharField(max_length=127, blank=True, null=True)
+    function = models.CharField(max_length=127, blank=True, null=True)
+    function_other = models.CharField(max_length=127, blank=True, null=True)
+    contract_type = models.CharField(max_length=127, blank=True, null=True)
+    contract_type_other = models.CharField(max_length=127, blank=True, null=True)
+    contact_preference = models.BooleanField(default=False, blank=False, null=False)
 
 
 class User(AbstractUser, TimeStampedModel, RegistrationAbstractUser):
@@ -163,7 +176,7 @@ class UserSkill(TimeStampedModel):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, related_name="skills", on_delete=models.CASCADE)
     skill_name = models.CharField(max_length=256)
-    level = models.CharField(max_length=64, choices=SkillLevel.choices, blank=True, null=False)
+    level = models.CharField(max_length=64, choices=SkillLevel.choices, blank=True, null=True)
     validated = models.BooleanField(default=False, blank=False)
 
     def __str__(self):
@@ -178,9 +191,9 @@ class UserLanguage(TimeStampedModel):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, related_name="languages", on_delete=models.CASCADE)
-    language = models.CharField(max_length=127, blank=True, null=False)
-    type = models.CharField(max_length=127, blank=True, null=False)  # eg reading, writing
-    level = models.CharField(max_length=127, blank=True, null=False)
+    language = models.CharField(max_length=127, blank=True, null=True)
+    type = models.CharField(max_length=127, blank=True, null=True)  # eg reading, writing
+    level = models.CharField(max_length=127, blank=True, null=True)
 
     def __str__(self):
         return f"{self.language} ({self.id})"
