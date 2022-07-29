@@ -37,7 +37,7 @@ def with_logged_in_client(func):
             headers = {"Authorization": f"Token {token}"}
             client.headers = headers
             try:
-                return func(client, user.id, *args, **kwargs)
+                return func(client, str(user.id), *args, **kwargs)
             finally:
                 User.objects.filter(id=user.id).delete()
 
