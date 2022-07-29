@@ -1,0 +1,93 @@
+[
+{
+  "model": "registration.function",
+  "pk": "analysis",
+  "fields": {
+    "name": "Analysis"
+  }
+},
+{
+  "model": "registration.function",
+  "pk": "commercial",
+  "fields": {
+    "name": "Commercial"
+  }
+},
+{
+  "model": "registration.function",
+  "pk": "communications",
+  "fields": {
+    "name": "Communications"
+  }
+},
+{
+  "model": "registration.function",
+  "pk": "corporate-finance",
+  "fields": {
+    "name": "Corporate finance"
+  }
+},
+{
+  "model": "registration.function",
+  "pk": "digital",
+  "fields": {
+    "name": "Digital"
+  }
+},
+{
+  "model": "registration.function",
+  "pk": "finance",
+  "fields": {
+    "name": "Finance"
+  }
+},
+{
+  "model": "registration.function",
+  "pk": "fraud-error-debt-and-grants",
+  "fields": {
+    "name": "Fraud, error, debt and grants"
+  }
+},
+{
+  "model": "registration.function",
+  "pk": "human-resources",
+  "fields": {
+    "name": "Human resources"
+  }
+},
+{
+  "model": "registration.function",
+  "pk": "internal-audit",
+  "fields": {
+    "name": "Internal audit"
+  }
+},
+{
+  "model": "registration.function",
+  "pk": "legal",
+  "fields": {
+    "name": "Legal"
+  }
+},
+{
+  "model": "registration.function",
+  "pk": "other",
+  "fields": {
+    "name": "Other"
+  }
+},
+{
+  "model": "registration.function",
+  "pk": "project-delivery",
+  "fields": {
+    "name": "Project delivery"
+  }
+},
+{
+  "model": "registration.function",
+  "pk": "property",
+  "fields": {
+    "name": "Property"
+  }
+}
+]

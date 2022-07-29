@@ -4,7 +4,7 @@ from django.core.management import call_command
 from django.db import migrations
 
 
-def load_all_fixtures(apps, schema_editor):
+def update_professions(apps, schema_editor):
     Profession = apps.get_model("registration", "Profession")
     Profession.objects.all().delete()
     fixture_file = "dropdown/professions.json"
@@ -17,4 +17,4 @@ class Migration(migrations.Migration):
         ("registration", "0037_merge_20220718_1053"),
     ]
 
-    operations = [migrations.RunPython(load_all_fixtures)]
+    operations = [migrations.RunPython(update_professions)]
