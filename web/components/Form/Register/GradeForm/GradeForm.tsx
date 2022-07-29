@@ -21,7 +21,7 @@ import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldCo
 const schema: SchemaOf<GradeType> = object().shape({
   grade: string().required('This field is required'),
   grade_other: string().when('grade', (grade) => {
-    if (grade === 'other') return string().required('This is a required field')
+    if (grade === 'Other') return string().required('This is a required field')
   })
 })
 
@@ -30,7 +30,8 @@ const GradeForm: FC<StandardRegisterProps<GradeType>> = ({
   onFormSubmit,
   loading,
   defaultValues = {
-    grade: ''
+    grade: '',
+    grade_other: ''
   }
 }) => {
   const { setLoading } = useUiContext()
@@ -47,10 +48,16 @@ const GradeForm: FC<StandardRegisterProps<GradeType>> = ({
     control,
     handleSubmit,
     watch,
+    setValue,
     formState: { isDirty, isValid }
   } = methods
 
-  const watchGrade = watch('grade')
+  const watchGrade = watch()
+
+  useEffect(() => {
+    if (!!watchGrade.grade_other) setValue('grade', 'Other')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     setLoading(isLoading)
@@ -84,19 +91,19 @@ const GradeForm: FC<StandardRegisterProps<GradeType>> = ({
                 ? [...Array(5).keys()].map((i) => (
                     <RadioSkeleton key={i} width="80%" sx={{ mb: 1 }} />
                   ))
-                : data.map(({ name, slug }) => (
+                : data.map(({ name }) => (
                     <FormControlLabel
-                      key={slug}
+                      key={name}
                       control={<Radio />}
                       label={name}
-                      value={slug}
+                      value={name}
                     />
                   ))}
             </RadioGroup>
           )}
         />
 
-        {watchGrade === 'other' && (
+        {watchGrade.grade === 'Other' && (
           <TextFieldControlled name="grade_other" label="Enter grade" />
         )}
 
