@@ -5,6 +5,7 @@ from .models import (
     ContractType,
     Country,
     EmailSalt,
+    Function,
     Grade,
     Language,
     LanguageSkillLevel,
@@ -106,6 +107,10 @@ class CountryAdmin(DropDownListAdmin):
     pass
 
 
+class FunctionAdmin(DropDownListAdmin):
+    pass
+
+
 admin.site.register(User, UserAdmin)
 admin.site.register(UserSkill, UserSkillAdmin)
 admin.site.register(UserLanguage, UserLanguageAdmin)
@@ -117,4 +122,5 @@ admin.site.register(Profession, ProfessionAdmin)
 admin.site.register(Grade, GradeAdmin)
 admin.site.register(LanguageSkillLevel, LanguageSkillLevelAdmin)
 admin.site.register(Country, CountryAdmin)
+admin.site.register(Function, FunctionAdmin)
 admin.site.register(EmailSalt)
