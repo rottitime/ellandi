@@ -145,6 +145,7 @@ class RegistrationAbstractUser(models.Model):
     function_other = models.CharField(max_length=127, blank=True, null=True)
     contract_type = models.CharField(max_length=127, blank=True, null=True)
     contract_type_other = models.CharField(max_length=127, blank=True, null=True)
+    contact_preference = models.BooleanField(default=False, blank=False, null=False)
 
 
 class User(AbstractUser, TimeStampedModel, RegistrationAbstractUser):
