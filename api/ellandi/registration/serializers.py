@@ -75,13 +75,13 @@ class FunctionSerializer(serializers.ModelSerializer):
 class UserSkillSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = UserSkill
-        fields = ["id", "user", "skill_name", "level", "validated"]
+        fields = ["id", "user", "skill_name", "level", "validated", "created_at", "modified_at"]
 
 
 class UserLanguageSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = UserLanguage
-        fields = ["id", "user", "type", "language", "level"]
+        fields = ["id", "user", "type", "language", "level", "created_at", "modified_at"]
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -119,6 +119,8 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
             "contact_preference",
             "skills",
             "languages",
+            "created_at",
+            "modified_at"
         ]
 
 
