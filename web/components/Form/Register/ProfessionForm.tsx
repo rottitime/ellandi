@@ -54,7 +54,13 @@ const ProfessionForm: FC<StandardRegisterProps<ProfessionType>> = ({
     setLoading(isLoading)
   }, [isLoading, setLoading])
 
-  const watchProfessions = watch('professions')
+  useEffect(() => {
+    if (!!watchFields.profession_other)
+      setValue('professions', [...watchFields.professions, 'Other'])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const watchFields = watch()
 
   register(fieldName)
 
@@ -81,7 +87,7 @@ const ProfessionForm: FC<StandardRegisterProps<ProfessionType>> = ({
           ? [...Array(22).keys()].map((i) => (
               <Skeleton key={i} width={100} sx={{ m: 1 }} />
             ))
-          : data.map(({ name }) => (
+          : [...data, { name: 'Other' }].map(({ name }) => (
               <Box sx={{ mb: 1 }} key={name}>
                 <ToggleChip
                   avatar={<Avatar>{name.charAt(0).toUpperCase()}</Avatar>}
@@ -100,8 +106,14 @@ const ProfessionForm: FC<StandardRegisterProps<ProfessionType>> = ({
                     await trigger(fieldName)
                   }}
                 />
-                {name === 'Other' && watchProfessions.includes('Other') && (
-                  <TextFieldControlled name="profession_other" label="Enter profession" />
+
+                {name === 'Other' && watchFields.professions.includes('Other') && (
+                  <Box sx={{ my: 2 }}>
+                    <TextFieldControlled
+                      name="profession_other"
+                      label="Enter profession"
+                    />
+                  </Box>
                 )}
               </Box>
             ))}
