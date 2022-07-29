@@ -1,9 +1,6 @@
 ---
 applications:
 - name: organogram-temp
-  env:
-    - name: DJANGO_SECRET_KEY
-      value: ((django-secret-key))
   services:
   - i-dot-ai-organogram-temp
   - organogram-postgres-temp
