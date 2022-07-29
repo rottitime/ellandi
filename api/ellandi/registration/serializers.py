@@ -84,13 +84,64 @@ class UserLanguageSerializer(serializers.ModelSerializer):
         fields = ["id", "user", "type", "language", "level", "created_at", "modified_at"]
 
 
+class UserSkillSerializerNested(serializers.ModelSerializer):
+    class Meta:
+        model = UserSkill
+        fields = ["skill_name", "level", "validated"]
+
+
+class UserLanguageSerializerNested(serializers.ModelSerializer):
+    class Meta:
+        model = UserLanguage
+        fields = ["user", "type", "language", "level"]
+
+
+
+
+
 class UserSerializer(serializers.ModelSerializer):
-    skills = UserSkillSerializer(many=True, read_only=False)
-    languages = UserLanguageSerializer(many=True, read_only=False)
+    skills = UserSkillSerializerNested(many=True, read_only=False, required=False)
+    languages = UserLanguageSerializerNested(many=True, read_only=False, required=False)
     email = serializers.CharField(read_only=True)
     professions = serializers.SlugRelatedField(
-        many=True, queryset=Profession.objects.all(), read_only=False, slug_field="name"
+        many=True, queryset=Profession.objects.all(), read_only=False, slug_field="name", required=False
     )
+
+    def update(self, instance, validated_data):
+        single_fields_to_update = [
+            "first_name",
+            "last_name",
+            "privacy_policy_agreement",
+            "organisation",
+            "job_title",
+            "grade",
+            "contract_type",
+            "line_manager_email",
+            "location",
+        ]  # TODO - and the rest
+
+        for field in single_fields_to_update:
+            value = validated_data.get(field, getattr(instance, field))
+            setattr(instance, field, value)
+        instance.save()
+
+        # TODO - append professions?
+        # professions_to_add = validated_data.get("professions", [])
+        # for profession in professions_to_add:
+        #     profession_obj = Profession.objects.get(name=profession)
+        #     instance.professions.add(profession_obj)
+
+        # TODO - this doesn't delete exisitng - check with Jas/product team?
+        skills_list = validated_data.get("skills", [])
+        for skill_data in skills_list:
+            UserSkill.objects.update_or_create(user=instance, **skill_data)
+
+        languages_list = validated_data.get("languages", [])
+        for language_data in languages_list:
+            UserLanguage.objects.update_or_create(user=instance, **language_data)
+
+        # TODO - add professions
+        return instance
 
     class Meta:
         model = get_user_model()
