@@ -52,10 +52,10 @@ const GradeForm: FC<StandardRegisterProps<GradeType>> = ({
     formState: { isDirty, isValid }
   } = methods
 
-  const watchGrade = watch()
+  const watchFields = watch()
 
   useEffect(() => {
-    if (!!watchGrade.grade_other) setValue('grade', 'Other')
+    if (!!watchFields.grade_other) setValue('grade', 'Other')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -103,7 +103,7 @@ const GradeForm: FC<StandardRegisterProps<GradeType>> = ({
           )}
         />
 
-        {watchGrade.grade === 'Other' && (
+        {watchFields.grade === 'Other' && (
           <TextFieldControlled name="grade_other" label="Enter grade" />
         )}
 
