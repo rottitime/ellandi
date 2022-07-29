@@ -84,7 +84,18 @@ const LanguageForm: FC<StandardRegisterProps<LanguagesType>> = ({
   skipUrl,
   onFormSubmit,
   defaultValues = {
-    languages: []
+    languages: [
+      {
+        language: 'Other',
+        speaking: 'Basic',
+        writing: 'Independent'
+      },
+      {
+        language: 'Russian',
+        speaking: 'Basic',
+        writing: 'Basic'
+      }
+    ]
   }
 }) => {
   const { setLoading } = useUiContext()

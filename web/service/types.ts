@@ -7,7 +7,8 @@ export enum Query {
   Functions = 'functions',
   ContractTypes = 'contract-types',
   Languages = 'languages',
-  Skills = 'skills'
+  Skills = 'skills',
+  Me = 'me'
 }
 
 export type GenericDataList = {

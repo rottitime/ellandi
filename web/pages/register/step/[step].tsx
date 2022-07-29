@@ -11,23 +11,40 @@ import {
   RegisterUserResponse
 } from '@/service/api'
 import useRegisterUser from '@/hooks/useRegisterUser'
-import { createAndLogin, createUser, updateUser } from '@/service/user'
+import { updateUser } from '@/service/auth'
 import { GetStaticPropsContext } from 'next'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import { useEffect, useMemo } from 'react'
-import { dehydrate, QueryClient, useMutation, useQueryClient } from 'react-query'
+import {
+  dehydrate,
+  QueryClient,
+  useMutation,
+  useQuery,
+  useQueryClient
+} from 'react-query'
 import { Props, Steps } from './types'
 import useAuth from '@/hooks/useAuth'
+import { fetchMe } from '@/service/me'
 
 const RegisterPage = ({ stepInt, nextUrl, skip, ...props }: Props) => {
-  const { getUserId, deleteUserId, setUserId } = useRegisterUser()
+  const { setUserId } = useRegisterUser()
   const { setLoading, setError } = useUiContext()
-  const { createAndLogin } = useAuth()
+  const { createAndLogin, authFetch, hasToken } = useAuth()
   const router = useRouter()
   const queryClient = useQueryClient()
   const FormComponent = steps[stepInt].form
-  const data = queryClient.getQueryData<RegisterUserResponse>(Query.RegisterUser)
+  // const data = queryClient.getQueryData<RegisterUserResponse>(Query.RegisterUser)
+
+  const { isLoading: isLoadingMe, data } = useQuery<RegisterUserResponse>(
+    Query.Me,
+    () => authFetch(fetchMe),
+    {
+      enabled: !!stepInt
+    }
+  )
+
+  const userId = useMemo(() => data?.id || null, [data])
 
   const isFormHidden = ({ isHidden = null }, data): boolean =>
     !!isHidden && isHidden(data)
@@ -46,14 +63,14 @@ const RegisterPage = ({ stepInt, nextUrl, skip, ...props }: Props) => {
   //handle unauthorized user (no id)
   useEffect(() => {
     setLoading(false)
-    if (!getUserId() && stepInt > 0) {
+    if (!isLoadingMe && !userId && stepInt > 0) {
       setLoading(true)
       router.replace({
         pathname: '/register/step/0',
         query: { ecode: 1 }
       })
     }
-  }, [stepInt, router, setLoading, deleteUserId, getUserId])
+  }, [stepInt, router, setLoading, userId, isLoadingMe])
 
   const { isLoading, ...mutate } = useMutation<
     RegisterUserResponse,
@@ -61,16 +78,18 @@ const RegisterPage = ({ stepInt, nextUrl, skip, ...props }: Props) => {
     Partial<RegisterUserResponse>
   >(
     async (data) =>
-      getUserId() ? updateUser(getUserId(), data) : createAndLogin(data as RegisterUser),
+      userId ? updateUser(userId, data) : createAndLogin(data as RegisterUser),
     {
       onSuccess: (data) => {
-        setUserId(data.id)
+        // setUserId(data.id)
         queryClient.setQueryData(Query.RegisterUser, data)
         router.push(getNextUrl(data))
       },
       onError: ({ message }) => setError(message)
     }
   )
+
+  console.log({ data })
 
   return (
     <FormComponent

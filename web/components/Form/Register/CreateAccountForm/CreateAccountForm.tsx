@@ -8,7 +8,8 @@ import FormFooter from '@/components/Form/FormFooter'
 import { StandardRegisterProps } from '@/components/Form/Register/types'
 import { Field } from '@/components/Form/Field'
 import { CreateAccountType } from './types'
-import useRegisterUser from '@/hooks/useRegisterUser'
+// import useRegisterUser from '@/hooks/useRegisterUser'
+import useAuth from '@/hooks/useAuth'
 
 const minPassword = 8
 
@@ -35,10 +36,12 @@ const CreateAccountForm: FC<StandardRegisterProps<CreateAccountType>> = ({
   onFormSubmit,
   loading
 }) => {
-  const { deleteUserId } = useRegisterUser()
+  // const { deleteUserId } = useRegisterUser()
+  const { logout, hasToken } = useAuth()
 
   useEffect(() => {
-    deleteUserId()
+    // deleteUserId()
+    hasToken() && logout()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
