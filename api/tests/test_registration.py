@@ -64,7 +64,8 @@ def test_put(client, user_id):
     assert response.status_code == status.HTTP_200_OK
     assert response.json()["last_name"] == "Brown"
     assert response.json()["function"] == "Analysis"
-    assert response.json()["professions"][1] == "Policy"
+    assert len(response.json()["professions"]) == 3
+    assert "Policy" in response.json()["professions"]
     assert response.json()["profession_other"] == "A new and exciting profession"
 
 
