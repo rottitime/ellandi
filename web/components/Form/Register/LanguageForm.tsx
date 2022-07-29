@@ -81,6 +81,7 @@ const schema: SchemaOf<LanguagesType> = object().shape({
 
 const LanguageForm: FC<StandardRegisterProps<LanguagesType>> = ({
   backUrl,
+  skipUrl,
   onFormSubmit,
   defaultValues = {
     languages: []
@@ -232,7 +233,7 @@ const LanguageForm: FC<StandardRegisterProps<LanguagesType>> = ({
         </Button>
       </Field>
 
-      <FormFooter backUrl={backUrl} />
+      <FormFooter skipUrl={skipUrl} backUrl={backUrl} />
     </form>
   )
 }

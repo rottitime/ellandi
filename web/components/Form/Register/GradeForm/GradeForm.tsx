@@ -27,6 +27,7 @@ const schema: SchemaOf<GradeType> = object().shape({
 
 const GradeForm: FC<StandardRegisterProps<GradeType>> = ({
   backUrl,
+  skipUrl,
   onFormSubmit,
   loading,
   defaultValues = {
@@ -108,6 +109,7 @@ const GradeForm: FC<StandardRegisterProps<GradeType>> = ({
         )}
 
         <FormFooter
+          skipUrl={skipUrl}
           backUrl={backUrl}
           buttonProps={{ loading, disabled: !isDirty && !isValid }}
         />

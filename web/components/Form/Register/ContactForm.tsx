@@ -13,6 +13,7 @@ const schema: SchemaOf<ContactType> = object().shape({
 
 const ContactForm: FC<StandardRegisterProps<ContactType>> = ({
   backUrl,
+  skipUrl,
   defaultValues = { contact: '' },
   onFormSubmit
 }) => {
@@ -49,7 +50,7 @@ const ContactForm: FC<StandardRegisterProps<ContactType>> = ({
         )}
       />
 
-      <FormFooter backUrl={backUrl} />
+      <FormFooter skipUrl={skipUrl} backUrl={backUrl} />
     </form>
   )
 }

@@ -8,6 +8,7 @@ type Props = {
   buttonProps?: ComponentProps<typeof Button>
   submitText?: string
   backUrl?: string
+  skipUrl?: string
 }
 
 export const Footer = styled(Box)`
@@ -19,19 +20,29 @@ export const Footer = styled(Box)`
   justify-content: space-between;
 `
 
-const FormFooter: FC<Props> = ({ backUrl, buttonProps, submitText = 'Continue' }) => {
-  return (
-    <FooterButtons>
+const FormFooter: FC<Props> = ({
+  backUrl,
+  buttonProps,
+  submitText = 'Continue',
+  skipUrl
+}) => (
+  <FooterButtons>
+    <Box>
       {backUrl && (
-        <Button href={backUrl} variant="outlined" size="small">
+        <Button href={backUrl} variant="outlined" size="small" sx={{ mr: 2 }}>
           Back
         </Button>
       )}
-      <Button variant="contained" type="submit" {...buttonProps}>
-        {submitText}
-      </Button>
-    </FooterButtons>
-  )
-}
+      {skipUrl && (
+        <Button href={skipUrl} size="small">
+          Skip
+        </Button>
+      )}
+    </Box>
+    <Button variant="contained" type="submit" {...buttonProps}>
+      {submitText}
+    </Button>
+  </FooterButtons>
+)
 
 export default FormFooter

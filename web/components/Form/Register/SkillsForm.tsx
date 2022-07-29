@@ -26,8 +26,8 @@ const fieldName: keyof SkillsType = 'skills'
 
 const SkillsForm: FC<StandardRegisterProps<SkillsType>> = ({
   backUrl,
+  skipUrl,
   onFormSubmit,
-
   defaultValues = {
     skills: []
   }
@@ -112,7 +112,7 @@ const SkillsForm: FC<StandardRegisterProps<SkillsType>> = ({
         </>
       )}
 
-      <FormFooter backUrl={backUrl} />
+      <FormFooter skipUrl={skipUrl} backUrl={backUrl} />
     </form>
   )
 }

@@ -29,6 +29,7 @@ const schema: SchemaOf<ContractType> = object().shape({
 const ContractTypeForm: FC<StandardRegisterProps<ContractType>> = ({
   onFormSubmit,
   backUrl,
+  skipUrl,
   loading,
   defaultValues = {
     contract_type: '',
@@ -109,6 +110,7 @@ const ContractTypeForm: FC<StandardRegisterProps<ContractType>> = ({
         )}
 
         <FormFooter
+          skipUrl={skipUrl}
           backUrl={backUrl}
           buttonProps={{ loading, disabled: !isDirty && !isValid }}
         />

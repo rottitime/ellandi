@@ -22,6 +22,7 @@ const schema: SchemaOf<PrivacyAcceptType> = object().shape({
 
 const PrivacyForm: FC<StandardRegisterProps<PrivacyAcceptType>> = ({
   backUrl,
+  skipUrl,
   onFormSubmit,
   loading,
   defaultValues = { privacy_policy_agreement: true }
@@ -60,6 +61,7 @@ const PrivacyForm: FC<StandardRegisterProps<PrivacyAcceptType>> = ({
       </FormGroup>
 
       <FormFooter
+        skipUrl={skipUrl}
         backUrl={backUrl}
         buttonProps={{
           loading,

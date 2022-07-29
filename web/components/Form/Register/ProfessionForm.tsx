@@ -23,6 +23,7 @@ const schema: SchemaOf<ProfessionType> = object().shape({
 
 const ProfessionForm: FC<StandardRegisterProps<ProfessionType>> = ({
   backUrl,
+  skipUrl,
   onFormSubmit,
   loading,
   defaultValues = {
@@ -119,6 +120,7 @@ const ProfessionForm: FC<StandardRegisterProps<ProfessionType>> = ({
             ))}
 
         <FormFooter
+          skipUrl={skipUrl}
           backUrl={backUrl}
           buttonProps={{
             loading,

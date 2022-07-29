@@ -31,6 +31,7 @@ const schema: SchemaOf<CreateAccountType> = object().shape({
 
 const CreateAccountForm: FC<StandardRegisterProps<CreateAccountType>> = ({
   backUrl,
+  skipUrl,
   onFormSubmit,
   loading
 }) => {
@@ -38,7 +39,7 @@ const CreateAccountForm: FC<StandardRegisterProps<CreateAccountType>> = ({
 
   useEffect(() => {
     deleteUserId()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const methods = useForm<CreateAccountType>({
@@ -83,7 +84,7 @@ const CreateAccountForm: FC<StandardRegisterProps<CreateAccountType>> = ({
           />
         </Field>
 
-        <FormFooter backUrl={backUrl} buttonProps={{ loading }} />
+        <FormFooter skipUrl={skipUrl} backUrl={backUrl} buttonProps={{ loading }} />
       </form>
     </FormProvider>
   )

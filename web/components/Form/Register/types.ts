@@ -1,8 +1,10 @@
 import { SubmitHandler } from 'react-hook-form'
 
-export type StandardRegisterProps<t> = {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type StandardRegisterProps<T, I = any> = {
   backUrl: string
-  onFormSubmit: SubmitHandler<t>
+  onFormSubmit: SubmitHandler<T>
+  skipUrl?: string
   loading?: boolean
-  defaultValues: t
+  defaultValues: T & I
 }

@@ -1,5 +1,4 @@
 import CardLayout from '@/components/Layout/CardLayout'
-import Link from '@/components/UI/Link'
 import { useUiContext } from '@/context/UiContext'
 import {
   fetchContractTypes,
@@ -13,21 +12,34 @@ import {
 } from '@/service/api'
 import useRegisterUser from '@/hooks/useRegisterUser'
 import { createUser, updateUser } from '@/service/user'
-import { Typography } from '@mui/material'
 import { GetStaticPropsContext } from 'next'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { dehydrate, QueryClient, useMutation, useQueryClient } from 'react-query'
 import { Props, Steps } from './types'
 
-const RegisterPage = ({ nextUrl, backUrl, stepInt }: Props) => {
+const RegisterPage = ({ stepInt, nextUrl, skip, ...props }: Props) => {
   const { getUserId, deleteUserId, setUserId } = useRegisterUser()
   const { setLoading, setError } = useUiContext()
   const router = useRouter()
   const queryClient = useQueryClient()
   const FormComponent = steps[stepInt].form
   const data = queryClient.getQueryData<RegisterUserResponse>(Query.RegisterUser)
+
+  const isFormHidden = ({ isHidden = null }, data): boolean =>
+    !!isHidden && isHidden(data)
+
+  const getNextUrl = (data): string =>
+    isFormHidden(steps[stepInt + 1], data) ? `/register/step/${stepInt + 2}` : nextUrl
+
+  const backUrl = useMemo(
+    () =>
+      !!stepInt && isFormHidden(steps[stepInt - 1], data)
+        ? `/register/step/${stepInt - 2}`
+        : props.backUrl,
+    [stepInt, data, props.backUrl]
+  )
 
   //handle unauthorized user (no id)
   useEffect(() => {
@@ -52,21 +64,20 @@ const RegisterPage = ({ nextUrl, backUrl, stepInt }: Props) => {
       onSuccess: (data) => {
         setUserId(data.id)
         queryClient.setQueryData(Query.RegisterUser, data)
-        router.push(nextUrl)
+        router.push(getNextUrl(data))
       },
       onError: ({ message }) => setError(message)
     }
   )
 
   return (
-    <>
-      <FormComponent
-        backUrl={backUrl}
-        loading={isLoading}
-        defaultValues={data}
-        onFormSubmit={(data) => mutate.mutate(data)}
-      />
-    </>
+    <FormComponent
+      backUrl={backUrl}
+      loading={isLoading}
+      defaultValues={data}
+      skipUrl={skip && getNextUrl(data)}
+      onFormSubmit={(data) => mutate.mutate(data)}
+    />
   )
 }
 
@@ -75,17 +86,7 @@ export default RegisterPage
 RegisterPage.getLayout = (page) => {
   const { props } = page
   return (
-    <CardLayout
-      title={props.title}
-      progress={props.progress}
-      footer={
-        props.skip && (
-          <Typography>
-            <Link href={props.nextUrl}>Skip this step</Link>
-          </Typography>
-        )
-      }
-    >
+    <CardLayout title={props.title} progress={props.progress}>
       {page}
     </CardLayout>
   )
@@ -115,7 +116,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
       progress: Math.floor((stepInt / (steps.length + 1)) * 100),
       stepInt,
       title,
-      backUrl: stepInt === 0 ? `/register` : `/register/step/${stepInt - 1}`,
+      backUrl: stepInt === 0 ? '/register' : `/register/step/${stepInt - 1}`,
       nextUrl: nextUrl || `/register/step/${stepInt + 1}`,
       skip: !!skip,
       dehydratedState: dehydrate(queryClient)
@@ -152,7 +153,8 @@ const steps: Steps[] = [
   {
     form: dynamic(() => import('@/components/Form/Register/PrimaryProfessionForm')),
     title: 'Primary profession',
-    skip: true
+    skip: true,
+    isHidden: (data) => (data?.professions || []).length < 2
   },
   {
     form: dynamic(() => import('@/components/Form/Register/FunctionTypeForm')),

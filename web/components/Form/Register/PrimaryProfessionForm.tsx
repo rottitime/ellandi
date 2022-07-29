@@ -16,21 +16,26 @@ import {
   fetchPrimaryProfession,
   GenericDataList,
   PrimaryProfessionType,
+  ProfessionType,
   Query
 } from '@/service/api'
 import { useQuery } from 'react-query'
 import RadioSkeleton from '@/components/UI/Skeleton/RadioSkeleton'
 
 const schema: SchemaOf<PrimaryProfessionType> = object().shape({
-  profession_primary: string().required()
+  primary_profession: string().required()
 })
 
-const PrimaryProfessionForm: FC<StandardRegisterProps<PrimaryProfessionType>> = ({
+const PrimaryProfessionForm: FC<
+  StandardRegisterProps<PrimaryProfessionType, ProfessionType>
+> = ({
+  defaultValues = { primary_profession: '', professions: [] },
   backUrl,
+  skipUrl,
   onFormSubmit
 }) => {
   const methods = useForm<PrimaryProfessionType>({
-    defaultValues: { profession_primary: '' },
+    defaultValues,
     resolver: yupResolver(schema)
   })
   const {
@@ -39,18 +44,22 @@ const PrimaryProfessionForm: FC<StandardRegisterProps<PrimaryProfessionType>> = 
     formState: { isDirty, isValid }
   } = methods
 
-  const { isLoading, isError, data } = useQuery<GenericDataList[], { message?: string }>(
-    Query.PrimaryProfessions,
-    fetchPrimaryProfession
-  )
+  // if (!(defaultValues.professions || []).length) skip()
 
-  if (isError)
-    return (
-      <Alert severity="error">
-        <AlertTitle>Service Unavailable</AlertTitle>
-        Please try again later.
-      </Alert>
-    )
+  console.log('dede', { defaultValues })
+
+  // const { isLoading, isError, data } = useQuery<GenericDataList[], { message?: string }>(
+  //   Query.PrimaryProfessions,
+  //   fetchPrimaryProfession
+  // )
+
+  // if (isError)
+  //   return (
+  //     <Alert severity="error">
+  //       <AlertTitle>Service Unavailable</AlertTitle>
+  //       Please try again later.
+  //     </Alert>
+  //   )
 
   return (
     <FormProvider {...methods}>
@@ -64,29 +73,25 @@ const PrimaryProfessionForm: FC<StandardRegisterProps<PrimaryProfessionType>> = 
         </Typography>
 
         <Controller
-          name="profession_primary"
+          name="primary_profession"
           control={control}
           render={({ field }) => (
-            <RadioGroup aria-live="polite" aria-busy={isLoading} name="function">
-              {isLoading
-                ? [...Array(3).keys()].map((i) => (
-                    <RadioSkeleton key={i} width="80%" sx={{ mb: 1 }} />
-                  ))
-                : data.map(({ name, slug }) => (
-                    <FormControlLabel
-                      key={slug}
-                      {...field}
-                      control={<Radio />}
-                      label={name}
-                      value={slug}
-                    />
-                  ))}
+            <RadioGroup aria-live="polite" name="primary_profession" {...field}>
+              {defaultValues.professions.map((name) => (
+                <FormControlLabel
+                  key={name}
+                  control={<Radio />}
+                  label={name}
+                  value={name}
+                />
+              ))}
             </RadioGroup>
           )}
         />
 
         <FormFooter
           backUrl={backUrl}
+          skipUrl={skipUrl}
           buttonProps={{
             disabled: !isDirty && !isValid
           }}

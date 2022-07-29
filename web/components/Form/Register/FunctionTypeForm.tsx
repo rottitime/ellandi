@@ -27,6 +27,7 @@ const schema: SchemaOf<FunctionType> = object().shape({
 
 const FunctionTypeForm: FC<StandardRegisterProps<FunctionType>> = ({
   backUrl,
+  skipUrl,
   defaultValues = { function: '', function_other: '' },
   onFormSubmit
 }) => {
@@ -113,6 +114,7 @@ const FunctionTypeForm: FC<StandardRegisterProps<FunctionType>> = ({
         )}
 
         <FormFooter
+          skipUrl={skipUrl}
           backUrl={backUrl}
           buttonProps={{
             disabled: !isDirty && !isValid

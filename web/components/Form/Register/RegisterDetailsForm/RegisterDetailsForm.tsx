@@ -22,6 +22,7 @@ const schema: SchemaOf<RegisterDetailsType> = object().shape({
 
 const RegisterDetailsForm: FC<StandardRegisterProps<RegisterDetailsType>> = ({
   backUrl,
+  skipUrl,
   onFormSubmit,
   loading,
   defaultValues = {
@@ -69,7 +70,7 @@ const RegisterDetailsForm: FC<StandardRegisterProps<RegisterDetailsType>> = ({
           <TextFieldControlled name="line_manager_email" label="Line manager email" />
         </Field>
 
-        <FormFooter backUrl={backUrl} buttonProps={{ loading }} />
+        <FormFooter skipUrl={skipUrl} backUrl={backUrl} buttonProps={{ loading }} />
       </form>
     </FormProvider>
   )

@@ -53,7 +53,7 @@ export type SkillsType = {
 }
 
 export type PrimaryProfessionType = {
-  profession_primary: string
+  primary_profession: string
 }
 
 export type ContactType = {
