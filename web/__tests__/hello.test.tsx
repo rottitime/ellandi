@@ -1,5 +1,5 @@
 import { render, screen, waitFor } from '@testing-library/react'
-import Home from '@/pages/hello'
+import HelloPage from '@/pages/hello'
 import '@testing-library/jest-dom'
 import userEvent from '@testing-library/user-event'
 import Router from 'next/router'
@@ -10,9 +10,9 @@ jest.mock('next/router', () => ({
   push: jest.fn()
 }))
 
-describe('Home', () => {
+describe('HelloPage', () => {
   it('renders', () => {
-    render(<Home />)
+    render(<HelloPage />)
 
     const heading = screen.getByRole('heading', {
       level: 1,
@@ -25,7 +25,7 @@ describe('Home', () => {
     expect(screen.getByTestId('output')).toBeInTheDocument()
   })
   it('button press', async () => {
-    render(<Home />)
+    render(<HelloPage />)
     const button = screen.getByTestId('button')
 
     expect(screen.getByTestId('output')).toBeEmptyDOMElement()
@@ -38,7 +38,7 @@ describe('Home', () => {
   })
 
   it('route spy', async () => {
-    renderWithProviders(<Home />)
+    renderWithProviders(<HelloPage />)
     const button = screen.getByTestId('route-button')
 
     await userEvent.click(button)
