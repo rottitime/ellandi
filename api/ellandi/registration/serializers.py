@@ -84,15 +84,15 @@ class UserLanguageSerializer(serializers.HyperlinkedModelSerializer):
         fields = ["id", "user", "type", "language", "level", "created_at", "modified_at"]
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     skills = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name="userskill-detail")
     languages = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name="userlanguage-detail")
     email = serializers.CharField(read_only=True)
+    professions = serializers.SlugRelatedField(
+        many=True, queryset=Profession.objects.all(), read_only=False, slug_field="name"
+    )
 
     class Meta:
-        skills = UserSkillSerializer(many=True, read_only=True)
-        languages = UserLanguageSerializer(many=True, read_only=True)
-
         model = get_user_model()
         fields = [
             "id",
