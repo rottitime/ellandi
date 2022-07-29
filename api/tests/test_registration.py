@@ -52,9 +52,11 @@ def test_put(client, user_id):
         "first_name": "Jane",
         "last_name": "Brown",
         "professions": [
-            f"{TEST_SERVER_URL}professions/operational-research-service/",
-            f"{TEST_SERVER_URL}professions/policy/",
+            "Operational Research Service",
+            "Policy",
+            "Other",
         ],
+        "profession_other": "A new and exciting profession",
         "function": "Analysis",
     }
     response = client.put(f"/users/{user_id}/", data=updated_user_data)
@@ -62,6 +64,8 @@ def test_put(client, user_id):
     assert response.status_code == status.HTTP_200_OK
     assert response.json()["last_name"] == "Brown"
     assert response.json()["function"] == "Analysis"
+    assert response.json()["professions"][1] == "Policy"
+    assert response.json()["profession_other"] == "A new and exciting profession"
 
 
 @utils.with_logged_in_client
