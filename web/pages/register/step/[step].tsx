@@ -1,4 +1,3 @@
-import { StandardRegisterProps } from '@/components/Form/Register/types'
 import CardLayout from '@/components/Layout/CardLayout'
 import Link from '@/components/UI/Link'
 import { useUiContext } from '@/context/UiContext'
@@ -18,87 +17,9 @@ import { Typography } from '@mui/material'
 import { GetStaticPropsContext } from 'next'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
-import { ComponentType, useEffect } from 'react'
+import { useEffect } from 'react'
 import { dehydrate, QueryClient, useMutation, useQueryClient } from 'react-query'
-
-type Props = {
-  stepInt: number
-  title: string
-  backUrl: null | string
-  nextUrl: string
-  progress: number
-  skip: boolean
-}
-
-type Steps = {
-  form: ComponentType<StandardRegisterProps<unknown>>
-  title: string
-  prevUrl?: string
-  nextUrl?: string
-  skip?: boolean
-}
-
-const steps: Steps[] = [
-  {
-    form: dynamic(
-      () => import('@/components/Form/Register/CreateAccountForm/CreateAccountForm')
-    ),
-    title: 'Create an account'
-  },
-  {
-    form: dynamic(() => import('@/components/Form/Register/PrivacyForm')),
-    title: 'Privacy policy'
-  },
-  {
-    form: dynamic(
-      () => import('@/components/Form/Register/RegisterDetailsForm/RegisterDetailsForm')
-    ),
-    title: 'Your details'
-  },
-  {
-    form: dynamic(() => import('@/components/Form/Register/GradeForm/GradeForm')),
-    title: 'Grade'
-  },
-  {
-    form: dynamic(() => import('@/components/Form/Register/ProfessionForm')),
-    title: 'Profession',
-    skip: true
-  },
-  {
-    form: dynamic(() => import('@/components/Form/Register/PrimaryProfessionForm')),
-    title: 'Primary profession',
-    skip: true
-  },
-  {
-    form: dynamic(() => import('@/components/Form/Register/FunctionTypeForm')),
-    title: 'Function'
-  },
-  {
-    form: dynamic(() => import('@/components/Form/Register/ContractTypeForm')),
-    title: 'Contract type'
-  },
-  {
-    form: dynamic(() => import('@/components/Form/Register/ContactForm')),
-    title: 'Contact preference',
-    nextUrl: '/register/thankyou'
-  },
-  {
-    form: dynamic(() => import('@/components/Form/Register/LanguageForm')),
-    title: 'Language skills',
-    skip: true
-  },
-  {
-    form: dynamic(() => import('@/components/Form/Register/LanguageFormTest')),
-    title: 'Language skills (DEMO)',
-    skip: true
-  },
-  {
-    form: dynamic(() => import('@/components/Form/Register/SkillsForm')),
-    title: 'Current skills',
-    nextUrl: '/register/complete',
-    skip: true
-  }
-]
+import { Props, Steps } from './types'
 
 const RegisterPage = ({ nextUrl, backUrl, stepInt }: Props) => {
   const { getUserId, deleteUserId, setUserId } = useRegisterUser()
@@ -201,3 +122,65 @@ export async function getStaticProps(context: GetStaticPropsContext) {
     } as Props
   }
 }
+
+const steps: Steps[] = [
+  {
+    form: dynamic(
+      () => import('@/components/Form/Register/CreateAccountForm/CreateAccountForm')
+    ),
+    title: 'Create an account'
+  },
+  {
+    form: dynamic(() => import('@/components/Form/Register/PrivacyForm')),
+    title: 'Privacy policy'
+  },
+  {
+    form: dynamic(
+      () => import('@/components/Form/Register/RegisterDetailsForm/RegisterDetailsForm')
+    ),
+    title: 'Your details'
+  },
+  {
+    form: dynamic(() => import('@/components/Form/Register/GradeForm/GradeForm')),
+    title: 'Grade'
+  },
+  {
+    form: dynamic(() => import('@/components/Form/Register/ProfessionForm')),
+    title: 'Profession',
+    skip: true
+  },
+  {
+    form: dynamic(() => import('@/components/Form/Register/PrimaryProfessionForm')),
+    title: 'Primary profession',
+    skip: true
+  },
+  {
+    form: dynamic(() => import('@/components/Form/Register/FunctionTypeForm')),
+    title: 'Function'
+  },
+  {
+    form: dynamic(() => import('@/components/Form/Register/ContractTypeForm')),
+    title: 'Contract type'
+  },
+  {
+    form: dynamic(() => import('@/components/Form/Register/ContactForm')),
+    title: 'Contact preference',
+    nextUrl: '/register/thankyou'
+  },
+  {
+    form: dynamic(() => import('@/components/Form/Register/LanguageForm')),
+    title: 'Language skills',
+    skip: true
+  },
+  {
+    form: dynamic(() => import('@/components/Form/Register/LanguageFormTest')),
+    title: 'Language skills (DEMO)',
+    skip: true
+  },
+  {
+    form: dynamic(() => import('@/components/Form/Register/SkillsForm')),
+    title: 'Current skills',
+    nextUrl: '/register/complete',
+    skip: true
+  }
+]
