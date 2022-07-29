@@ -5,6 +5,7 @@ from .models import (
     ContractType,
     Country,
     EmailSalt,
+    Function,
     Grade,
     Language,
     LanguageSkillLevel,
@@ -14,7 +15,6 @@ from .models import (
     User,
     UserLanguage,
     UserSkill,
-    Function,
 )
 
 
