@@ -25,26 +25,26 @@ const RegisterDetailsForm: FC<StandardRegisterProps<RegisterDetailsType>> = ({
   skipUrl,
   onFormSubmit,
   loading,
-  defaultValues = {
-    first_name: '',
-    last_name: '',
-    job_title: '',
-    line_manager_email: '',
-    location: '',
-    business_unit: ''
-  }
+  defaultValues
 }) => {
   const methods = useForm<RegisterDetailsType>({
-    defaultValues,
+    defaultValues: {
+      first_name: '',
+      last_name: '',
+      job_title: '',
+      line_manager_email: '',
+      location: '',
+      business_unit: ''
+    },
     resolver: yupResolver(schema)
   })
   const { handleSubmit, reset } = methods
 
-  console.log({ defaultValues })
+  console.log(1, { defaultValues })
 
-  // useEffect(() => {
-  //   reset(defaultValues)
-  // }, [reset, defaultValues])
+  useEffect(() => {
+    reset(defaultValues)
+  }, [reset, defaultValues])
 
   return (
     <FormProvider {...methods}>

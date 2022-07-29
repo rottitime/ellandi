@@ -28,7 +28,7 @@ import { fetchMe } from '@/service/me'
 
 const RegisterPage = ({ stepInt, nextUrl, skip, ...props }: Props) => {
   const { setLoading, setError } = useUiContext()
-  const { createAndLogin, authFetch } = useAuth()
+  const { createAndLogin, authFetch, hasToken } = useAuth()
   const router = useRouter()
   const queryClient = useQueryClient()
   const FormComponent = steps[stepInt].form
@@ -58,7 +58,7 @@ const RegisterPage = ({ stepInt, nextUrl, skip, ...props }: Props) => {
 
   //handle unauthorized user (no id)
   useEffect(() => {
-    refetch()
+    !!stepInt && hasToken && refetch()
   }, [stepInt])
 
   //handle unauthorized user (no id)
