@@ -1,6 +1,6 @@
 import { SignInType } from '@/components/Form/SignInForm/types'
-import { loginWithEmailAndPassword, logoutUser } from '@/service/user'
-import { AuthUser } from '@/service/types'
+import { createUser, loginWithEmailAndPassword, logoutUser } from '@/service/user'
+import { AuthUser, RegisterUser } from '@/service/types'
 
 const TOKEN_KEY = 'token'
 
@@ -17,6 +17,11 @@ const useAuth = () => {
     }
   }
 
+  const createAndLogin = async (data: RegisterUser): Promise<AuthUser> => {
+    await createUser(data)
+    return await login(data)
+  }
+
   const logout = async (): Promise<boolean> => {
     const token = sessionStorage.getItem(TOKEN_KEY)
     sessionStorage.removeItem(TOKEN_KEY)
@@ -24,7 +29,7 @@ const useAuth = () => {
     return true
   }
 
-  return { login, logout }
+  return { login, logout, createAndLogin }
 }
 
 export default useAuth

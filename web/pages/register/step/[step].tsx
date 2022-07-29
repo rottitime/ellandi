@@ -11,17 +11,19 @@ import {
   RegisterUserResponse
 } from '@/service/api'
 import useRegisterUser from '@/hooks/useRegisterUser'
-import { createUser, updateUser } from '@/service/user'
+import { createAndLogin, createUser, updateUser } from '@/service/user'
 import { GetStaticPropsContext } from 'next'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import { useEffect, useMemo } from 'react'
 import { dehydrate, QueryClient, useMutation, useQueryClient } from 'react-query'
 import { Props, Steps } from './types'
+import useAuth from '@/hooks/useAuth'
 
 const RegisterPage = ({ stepInt, nextUrl, skip, ...props }: Props) => {
   const { getUserId, deleteUserId, setUserId } = useRegisterUser()
   const { setLoading, setError } = useUiContext()
+  const { createAndLogin } = useAuth()
   const router = useRouter()
   const queryClient = useQueryClient()
   const FormComponent = steps[stepInt].form
@@ -59,7 +61,7 @@ const RegisterPage = ({ stepInt, nextUrl, skip, ...props }: Props) => {
     Partial<RegisterUserResponse>
   >(
     async (data) =>
-      getUserId() ? updateUser(getUserId(), data) : createUser(data as RegisterUser),
+      getUserId() ? updateUser(getUserId(), data) : createAndLogin(data as RegisterUser),
     {
       onSuccess: (data) => {
         setUserId(data.id)
