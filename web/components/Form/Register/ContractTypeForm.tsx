@@ -50,14 +50,20 @@ const ContractTypeForm: FC<StandardRegisterProps<ContractType>> = ({
     control,
     handleSubmit,
     watch,
+    setValue,
     formState: { isDirty, isValid }
   } = methods
 
-  const watchContractType = watch('contract_type')
+  const watchFields = watch()
 
   useEffect(() => {
     setLoading(isLoading)
   }, [isLoading, setLoading])
+
+  useEffect(() => {
+    if (!!watchFields.contract_type_other) setValue('contract_type', 'Other')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   if (isError)
     return (
@@ -86,19 +92,19 @@ const ContractTypeForm: FC<StandardRegisterProps<ContractType>> = ({
                 ? [...Array(4).keys()].map((i) => (
                     <RadioSkeleton key={i} width="80%" sx={{ mb: 1 }} />
                   ))
-                : data.map(({ name, slug }) => (
+                : data.map(({ name }) => (
                     <FormControlLabel
-                      key={slug}
+                      key={name}
                       control={<Radio />}
                       label={name}
-                      value={slug}
+                      value={name}
                     />
                   ))}
             </RadioGroup>
           )}
         />
 
-        {watchContractType === 'other' && (
+        {watchFields.contract_type === 'Other' && (
           <TextFieldControlled name="contract_type_other" label="Enter contract type" />
         )}
 

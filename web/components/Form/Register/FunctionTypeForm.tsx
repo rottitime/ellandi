@@ -40,9 +40,11 @@ const FunctionTypeForm: FC<StandardRegisterProps<FunctionType>> = ({
     handleSubmit,
     control,
     watch,
+    setValue,
     formState: { isDirty, isValid }
   } = methods
-  const watchFunctionType = watch('function')
+
+  const watchFields = watch()
 
   const { isLoading, isError, data } = useQuery<GenericDataList[], { message?: string }>(
     Query.Functions,
@@ -51,6 +53,11 @@ const FunctionTypeForm: FC<StandardRegisterProps<FunctionType>> = ({
       staleTime: Infinity
     }
   )
+
+  useEffect(() => {
+    if (!!watchFields.function_other) setValue('function', 'Other')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     setLoading(isLoading)
@@ -86,28 +93,22 @@ const FunctionTypeForm: FC<StandardRegisterProps<FunctionType>> = ({
                 ))
               ) : (
                 <>
-                  {data.map(({ name, slug }) => (
+                  {[...data, { name: 'Other' }].map(({ name }) => (
                     <FormControlLabel
-                      key={slug}
+                      key={name}
                       {...field}
                       control={<Radio />}
                       label={name}
-                      value={slug}
+                      value={name}
                     />
                   ))}
-                  <FormControlLabel
-                    {...field}
-                    control={<Radio />}
-                    label="Other"
-                    value="other"
-                  />
                 </>
               )}
             </RadioGroup>
           )}
         />
 
-        {watchFunctionType === 'other' && (
+        {watchFields.function === 'Other' && (
           <TextFieldControlled name="function_other" label="Enter function" />
         )}
 
