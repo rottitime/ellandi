@@ -72,21 +72,21 @@ class FunctionSerializer(serializers.ModelSerializer):
         fields = ["slug", "name", "order"]
 
 
-class UserSkillSerializer(serializers.HyperlinkedModelSerializer):
+class UserSkillSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserSkill
         fields = ["id", "user", "skill_name", "level", "validated", "created_at", "modified_at"]
 
 
-class UserLanguageSerializer(serializers.HyperlinkedModelSerializer):
+class UserLanguageSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserLanguage
         fields = ["id", "user", "type", "language", "level", "created_at", "modified_at"]
 
 
 class UserSerializer(serializers.ModelSerializer):
-    skills = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name="userskill-detail")
-    languages = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name="userlanguage-detail")
+    skills = UserSkillSerializer(many=True, read_only=False)
+    languages = UserLanguageSerializer(many=True, read_only=False)
     email = serializers.CharField(read_only=True)
     professions = serializers.SlugRelatedField(
         many=True, queryset=Profession.objects.all(), read_only=False, slug_field="name"
