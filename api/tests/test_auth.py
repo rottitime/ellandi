@@ -68,6 +68,6 @@ def test_login(client):
 def test_me_view(client, user_id):
     response = client.get("/me")
     data = response.json()
-    assert data['id'] == user_id
-    for key in ('email', 'first_name', 'last_name'):
+    assert data["id"] == user_id
+    for key in ("email", "first_name", "last_name"):
         assert data[key] == utils.user_data[key]

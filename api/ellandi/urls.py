@@ -11,10 +11,10 @@ from ellandi import auth
 from ellandi.registration.views import (
     create_one_time_login_view,
     first_log_in_view,
+    me_view,
     register_view,
     registration_router,
     skills_list_view,
-    me_view,
 )
 
 api_urlpatterns = [
