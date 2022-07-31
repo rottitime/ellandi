@@ -96,7 +96,7 @@ jobs:
         if: ${{ matrix.app == 'organogram' && github.ref_name != 'prod' }}
         env:
           DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
-        run: CF_DOCKER_PASSWORD="$GITHUB_TOKEN" ./cf push -f manifests/"$CF_SPACE/${{ matrix.app }}"_manifest.yml --var django-secret-key=${{ secrets.DJANGO_SECRET_KEY }} --docker-image $DOCKER_REPOSITORY/${{ github.repository_owner }}/$DOCKER_IMAGE:$IMAGE_TAG --docker-username=$GITHUB_ACTOR
+        run: CF_DOCKER_PASSWORD="$GITHUB_TOKEN" ./cf push -f manifests/"$CF_SPACE/${{ matrix.app }}"_manifest.yml --var django-secret-key=${{ env.DJANGO_SECRET_KEY }} --docker-image $DOCKER_REPOSITORY/${{ github.repository_owner }}/$DOCKER_IMAGE:$IMAGE_TAG --docker-username=$GITHUB_ACTOR
 
       - name: CF push organogram production
         if: ${{ matrix.app == 'organogram' && github.ref_name == 'prod' }}
