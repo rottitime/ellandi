@@ -19,10 +19,12 @@ import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldCo
 import Form from '@/components/Form/Register/FormRegister/FormRegister'
 
 const schema: SchemaOf<GradeType> = object().shape({
-  grade: string().required('This field is required'),
-  grade_other: string().when('grade', (grade) => {
-    if (grade === 'Other') return string().required('This is a required field')
-  })
+  grade: string().nullable().required('This field is required'),
+  grade_other: string()
+    .nullable()
+    .when('grade', (grade) => {
+      if (grade === 'Other') return string().required('This is a required field')
+    })
 })
 
 const GradeForm: FC<StandardRegisterProps<GradeType>> = (props) => {
@@ -39,7 +41,14 @@ const GradeForm: FC<StandardRegisterProps<GradeType>> = (props) => {
     },
     resolver: yupResolver(schema)
   })
-  const { control, watch, setValue } = methods
+  const {
+    control,
+    watch,
+    setValue,
+    formState: { errors }
+  } = methods
+
+  console.log({ errors })
 
   const watchFields = watch()
 
