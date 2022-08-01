@@ -1,5 +1,8 @@
+import pathlib
+
 import testino
 from django.contrib.auth import get_user_model
+from django.conf import settings
 from nose.tools import assert_raises
 
 from organogram import wsgi
@@ -26,6 +29,32 @@ def _fill_in_user_form(agent, data):
 
     return form
 
+
+def test_email_verification():
+    data = {
+    "email": "billy@example.com",
+    "email_confirm": "billy@example.com",
+    "password": "foo",
+    "password_confirm": "foo",
+    }
+
+    agent = testino.WSGIAgent(wsgi.application, "http://testserver/")
+    form = _fill_in_user_form(agent, data)
+    page = form.submit().follow()
+    email_folder = pathlib.Path(settings.EMAIL_FILE_PATH)
+    email_file = next(email_folder.glob("*"))
+    with email_file.open() as f:
+        lines = f.readlines()
+        print(lines)
+    url_lines = tuple(line for line in lines if line.startswith("http://testserver/"))
+    assert len(url_lines) == 1
+    url = url_lines[0]
+    page = agent.get(url).follow()
+
+    assert page.path == "/your-details"
+
+    user = get_user_model().objects.get(email=data['email'])
+    assert user.verified
 
 
 
