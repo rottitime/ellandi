@@ -2,7 +2,7 @@
 applications:
 - name: organogram-sandbox
   env:
-    DJANGO_SECRET_KEY: ((django_secret_key))
+    DJANGO_SECRET_KEY: ((django-secret-key))
   services:
   - i-dot-ai-organogram-sandbox
   - organogram-postgres-sandbox
