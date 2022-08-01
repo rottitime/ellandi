@@ -58,7 +58,7 @@ export type PrimaryProfessionType = {
 }
 
 export type ContactType = {
-  contact: string
+  contact_preference: boolean
 }
 
 export type ContractType = {

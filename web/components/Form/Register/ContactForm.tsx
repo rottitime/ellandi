@@ -1,57 +1,57 @@
 import { FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material'
-import FormFooter from '@/components/Form/FormFooter'
 import { FC } from 'react'
 import { StandardRegisterProps } from './types'
-import { Controller, useForm } from 'react-hook-form'
+import { Controller, FormProvider, useForm } from 'react-hook-form'
 import { ContactType } from '@/service/types'
-import { object, SchemaOf, string } from 'yup'
+import { boolean, object, SchemaOf } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
+import Form from '@/components/Form/Register/FormRegister/FormRegister'
 
 const schema: SchemaOf<ContactType> = object().shape({
-  contact: string()
+  contact_preference: boolean()
 })
 
-const ContactForm: FC<StandardRegisterProps<ContactType>> = ({
-  backUrl,
-  skipUrl,
-  defaultValues = { contact: '' },
-  onFormSubmit
-}) => {
-  const { handleSubmit, control } = useForm<ContactType>({
-    defaultValues,
+const ContactForm: FC<StandardRegisterProps<ContactType>> = (props) => {
+  const methods = useForm<ContactType>({
+    defaultValues: { contact_preference: null },
     resolver: yupResolver(schema)
   })
 
+  const { control } = methods
+
   return (
-    <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
-      <Typography variant="subtitle1" gutterBottom>
-        Are you happy for recruitment and HR to contact you with opportunities from time
-        to time based on your skills? You can change this later
-      </Typography>
-      <Typography gutterBottom>
-        This will only be in cases of emergency or an identified skills shortage in a
-        particular area
-      </Typography>
+    <FormProvider {...methods}>
+      <Form {...props}>
+        <Typography variant="subtitle1" gutterBottom>
+          Are you happy for recruitment and HR to contact you with opportunities from time
+          to time based on your skills? You can change this later
+        </Typography>
+        <Typography gutterBottom>
+          This will only be in cases of emergency or an identified skills shortage in a
+          particular area
+        </Typography>
 
-      <Controller
-        name="contact"
-        control={control}
-        render={({ field }) => (
-          <RadioGroup sx={{ mb: 3 }} {...field}>
-            {['Yes', 'No'].map((value) => (
-              <FormControlLabel
-                key={value}
-                control={<Radio />}
-                label={value}
-                value={value}
-              />
-            ))}
-          </RadioGroup>
-        )}
-      />
-
-      <FormFooter skipUrl={skipUrl} backUrl={backUrl} />
-    </form>
+        <Controller
+          name="contact_preference"
+          control={control}
+          render={({ field }) => (
+            <RadioGroup sx={{ mb: 3 }} {...field}>
+              {[
+                { label: 'Yes', value: true },
+                { label: 'No', value: false }
+              ].map(({ label, value }) => (
+                <FormControlLabel
+                  key={label}
+                  control={<Radio />}
+                  label={label}
+                  value={value}
+                />
+              ))}
+            </RadioGroup>
+          )}
+        />
+      </Form>
+    </FormProvider>
   )
 }
 
