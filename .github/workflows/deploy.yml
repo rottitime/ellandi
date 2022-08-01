@@ -1,4 +1,4 @@
-name: Deploy
+name: Deploy App
 
 env:
   DOCKER_BUILDKIT: 1
