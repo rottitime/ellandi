@@ -19,10 +19,10 @@ def _fill_in_user_form(agent, data):
     assert page.has_one("h1:contains('Create an account')")
 
     form = page.get_form()
-    form["email"] = "bob1@example.com"
-    form["email_confirm"] = "bob1@example.com"
-    form["password"] = "foo"
-    form["password_confirm"] = "foo"
+    form["email"] = data["email"]
+    form["email_confirm"] = data["email_confirm"]
+    form["password"] = data["password"]
+    form["password_confirm"] = data["password_confirm"]
 
     return form
 
