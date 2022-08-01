@@ -1,15 +1,7 @@
-import {
-  Alert,
-  AlertTitle,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
-  Typography
-} from '@mui/material'
+import { FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material'
 import { useQuery } from 'react-query'
 import RadioSkeleton from '@/components/UI/Skeleton/RadioSkeleton'
 import { fetchGrades, GenericDataList, GradeType, Query } from '@/service/api'
-import { useUiContext } from '@/context/UiContext'
 import { FC, useEffect } from 'react'
 import { StandardRegisterProps } from '../types'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
@@ -28,8 +20,7 @@ const schema: SchemaOf<GradeType> = object().shape({
 })
 
 const GradeForm: FC<StandardRegisterProps<GradeType>> = (props) => {
-  const { setLoading } = useUiContext()
-  const { isLoading, isError, data } = useQuery<GenericDataList[], { message?: string }>(
+  const { isLoading, data } = useQuery<GenericDataList[], { message?: string }>(
     Query.Grades,
     fetchGrades
   )
@@ -41,14 +32,7 @@ const GradeForm: FC<StandardRegisterProps<GradeType>> = (props) => {
     },
     resolver: yupResolver(schema)
   })
-  const {
-    control,
-    watch,
-    setValue,
-    formState: { errors }
-  } = methods
-
-  console.log({ errors })
+  const { control, watch, setValue } = methods
 
   const watchFields = watch()
 
@@ -56,18 +40,6 @@ const GradeForm: FC<StandardRegisterProps<GradeType>> = (props) => {
     if (!!watchFields.grade_other) setValue('grade', 'Other')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
-  useEffect(() => {
-    setLoading(isLoading)
-  }, [isLoading, setLoading])
-
-  if (isError)
-    return (
-      <Alert severity="error">
-        <AlertTitle>Service Unavailable</AlertTitle>
-        Please try again later.
-      </Alert>
-    )
 
   return (
     <FormProvider {...methods}>
