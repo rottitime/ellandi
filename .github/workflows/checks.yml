@@ -27,7 +27,7 @@ jobs:
     - name: Install Dependencies
       run: |
         python3 -m pip install --upgrade pip setuptools
-        pip install -r api/requirements-dev.txt
+        pip install -r api/requirements-dev.lock
 
     - name: Run Python Code Checks
       run: |
