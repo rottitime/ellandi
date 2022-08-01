@@ -37,13 +37,25 @@ jobs:
         working-directory: ./proxy
         run: ./cf login -a api.london.cloud.service.gov.uk -u "${{ secrets.CF_USER }}" -p "${{ secrets.CF_PASSWORD }}" -o co-i-ai -s "$CF_SPACE"
 
+      - name: Set IPs
+        id: set_ips
+        working-directory: ./proxy
+        run: echo "::set-output name=ips::$(cat ips.txt)"
+
       - name: CF push proxy apps non-prod
         if: ${{ matrix.app == 'organogram' && github.ref_name != 'prod' }}
+        requires: set_ips
         env:
           APP_NAME: ${{ matrix.app }}
-          PROTECTED_APP_NAME: ${{ matrix.app }}-${{ github.ref_name }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_ACTOR: ${{ github.actor }}
-          ROUTE_SERVICE_APP_NAME:
+          ROUTE_SERVICE_APP_NAME: ${{ matrix.app }}-proxy-${{ github.ref_name }}
+          ROUTE_SERVICE_NAME: ${{ matrix.app }}-route-${{ github.ref_name }}
+          PROTECTED_APP_NAME: ${{ matrix.app }}-${{ github.ref_name }}
+          ALLOWED_IPS: ${{ steps.set_ips.outputs.ips }}
         working-directory: ./proxy
         run: |
+            echo "THIS IS IT XXXXX"
+            echo $ALLOWED_IPS
+            ./proxy-deploy.sh
+
