@@ -96,9 +96,6 @@ class UserLanguageSerializerNested(serializers.ModelSerializer):
         fields = ["user", "type", "language", "level"]
 
 
-
-
-
 class UserSerializer(serializers.ModelSerializer):
     skills = UserSkillSerializerNested(many=True, read_only=False, required=False)
     languages = UserLanguageSerializerNested(many=True, read_only=False, required=False)
@@ -107,40 +104,53 @@ class UserSerializer(serializers.ModelSerializer):
         many=True, queryset=Profession.objects.all(), read_only=False, slug_field="name", required=False
     )
 
+    # TODO - add some validation
+
     def update(self, instance, validated_data):
         single_fields_to_update = [
-            "first_name",
-            "last_name",
-            "privacy_policy_agreement",
-            "organisation",
-            "job_title",
-            "grade",
-            "contract_type",
-            "line_manager_email",
-            "location",
-        ]  # TODO - and the rest
+                    "privacy_policy_agreement",
+                    "first_name",
+                    "last_name",
+                    "department",
+                    "organisation",
+                    "job_title",
+                    "business_unit",
+                    "location",
+                    "line_manager_email",
+                    "grade",
+                    "grade_other",
+                    "profession_other",
+                    "primary_profession",
+                    "function",
+                    "function_other",
+                    "contract_type",
+                    "contract_type_other",
+                    "contact_preference",
+        ]
 
         for field in single_fields_to_update:
             value = validated_data.get(field, getattr(instance, field))
             setattr(instance, field, value)
+
+        # For many-to-many and one-to-one fields (skills, languages, professions)
+        # - delete existing and replace with new values
+        if "professions" in validated_data:
+            instance.professions.all().delete()
+            for profession in validated_data["professions"]:
+                instance.professions.add(profession)
+
+
+        if "skills" in validated_data:
+            UserSkill.objects.filter(user=instance).delete()
+            for skill_data in validated_data["skills"]:
+                UserSkill.objects.update_or_create(user=instance, **skill_data)
+
+        if "languages" in validated_data:
+            UserLanguage.objects.filter(user=instance).delete()
+            for language_data in validated_data["languages"]:
+                UserLanguage.objects.update_or_create(user=instance, **language_data)
+
         instance.save()
-
-        # TODO - append professions?
-        # professions_to_add = validated_data.get("professions", [])
-        # for profession in professions_to_add:
-        #     profession_obj = Profession.objects.get(name=profession)
-        #     instance.professions.add(profession_obj)
-
-        # TODO - this doesn't delete exisitng - check with Jas/product team?
-        skills_list = validated_data.get("skills", [])
-        for skill_data in skills_list:
-            UserSkill.objects.update_or_create(user=instance, **skill_data)
-
-        languages_list = validated_data.get("languages", [])
-        for language_data in languages_list:
-            UserLanguage.objects.update_or_create(user=instance, **language_data)
-
-        # TODO - add professions
         return instance
 
     class Meta:
@@ -148,7 +158,6 @@ class UserSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "email",
-            "url",
             "privacy_policy_agreement",
             "first_name",
             "last_name",
