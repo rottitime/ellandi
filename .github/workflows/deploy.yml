@@ -72,7 +72,7 @@ jobs:
     strategy:
       matrix:
         app: [ellandi-api, ellandi-web, organogram]
-
+        
     steps:
       - uses: actions/checkout@v3
 
