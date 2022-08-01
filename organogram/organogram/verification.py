@@ -18,6 +18,6 @@ Thank you
 def send_verification_email(user):
     token = TOKEN_GENERATOR.make_token(user)
     host_url = settings.HOST_URL.strip("/")
-    url = "/".join(("http:/", host_url, "verify", token))
+    url = "/".join(("http:/", host_url, "user", str(user.id), "verify", token))
     body = EMAIL_TEMPLATE.format(user=user, url=url)
     send_mail(subject=EMAIL_SUBJECT, message=body, from_email=settings.EMAIL_FROM_ADDRESS, recipient_list=[user.email],)
