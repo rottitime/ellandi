@@ -23,7 +23,8 @@ const schema: SchemaOf<GradeType> = object().shape({
 const GradeForm: FC<StandardRegisterProps<GradeType>> = (props) => {
   const { isLoading, data } = useQuery<GenericDataList[], { message?: string }>(
     Query.Grades,
-    fetchGrades
+    fetchGrades,
+    { staleTime: Infinity }
   )
 
   const methods = useForm<GradeType>({

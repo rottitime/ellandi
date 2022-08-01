@@ -12,9 +12,12 @@ import Form from '@/components/Form/Register/FormRegister/FormRegister'
 
 const schema: SchemaOf<FunctionType> = object().shape({
   function: string().required(),
-  function_other: string().when('function', (functionType) => {
-    if (functionType === 'Other') return string().required('This is a required field')
-  })
+  function_other: string()
+    .nullable()
+    .when('function', (functionType) => {
+      if (functionType === 'Other')
+        return string().nullable().required('This is a required field')
+    })
 })
 
 const FunctionTypeForm: FC<StandardRegisterProps<FunctionType>> = (props) => {
@@ -29,9 +32,7 @@ const FunctionTypeForm: FC<StandardRegisterProps<FunctionType>> = (props) => {
   const { isLoading, data } = useQuery<GenericDataList[], { message?: string }>(
     Query.Functions,
     fetchFunctions,
-    {
-      staleTime: Infinity
-    }
+    { staleTime: Infinity }
   )
 
   useEffect(() => {
@@ -60,13 +61,8 @@ const FunctionTypeForm: FC<StandardRegisterProps<FunctionType>> = (props) => {
                     <RadioSkeleton key={i} width="80%" sx={{ mb: 1 }} />
                   ))
                 : data.map(({ name }) => (
-                    <>
-                      <FormControlLabel
-                        key={name}
-                        control={<Radio />}
-                        label={name}
-                        value={name}
-                      />
+                    <Box key={name}>
+                      <FormControlLabel control={<Radio />} label={name} value={name} />
                       {name === 'Other' && watchFields.function === 'Other' && (
                         <Box sx={{ my: 2 }}>
                           <TextFieldControlled
@@ -75,7 +71,7 @@ const FunctionTypeForm: FC<StandardRegisterProps<FunctionType>> = (props) => {
                           />
                         </Box>
                       )}
-                    </>
+                    </Box>
                   ))}
             </RadioGroup>
           )}

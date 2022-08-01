@@ -36,7 +36,8 @@ const ProfessionForm: FC<StandardRegisterProps<ProfessionType>> = (props) => {
 
   const { isLoading, isError, data } = useQuery<GenericDataList[], { message?: string }>(
     Query.Professions,
-    fetchProfessions
+    fetchProfessions,
+    { staleTime: Infinity }
   )
 
   useEffect(() => {
