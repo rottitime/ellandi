@@ -38,12 +38,7 @@ const ContractTypeForm: FC<StandardRegisterProps<ContractType>> = (props) => {
     resolver: yupResolver(schema)
   })
 
-  const {
-    control,
-    watch,
-    setValue,
-    formState: { errors }
-  } = methods
+  const { control, watch, setValue } = methods
 
   const watchFields = watch()
 

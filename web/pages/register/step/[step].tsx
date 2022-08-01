@@ -60,6 +60,7 @@ const RegisterPage = ({ stepInt, nextUrl, skip, ...props }: Props) => {
   //handle unauthorized user (no id)
   useEffect(() => {
     !!stepInt && hasToken && refetch()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stepInt])
 
   //handle unauthorized user (no id)
