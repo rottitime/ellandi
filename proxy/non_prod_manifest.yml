@@ -1,6 +1,6 @@
 ---
 applications:
-- name: ((app-name))-proxy
+- name: ((app-name))-proxy-((cf-space))
   env:
     ALLOWED_IPS: |
       allow 51.149.9.240/29; # CO
@@ -15,12 +15,12 @@ applications:
       allow 147.161.236.0/23;
       allow 147.161.224.0/23;
       allow 165.225.16.0/23;
-    APP_NAME: ((app-name))
+    APP_NAME: ((app-name))-proxy-((cf-space))
   buildpacks:
   - nginx_buildpack
   stack: cflinuxfs3
   routes:
-  - route: ((app-name)).london.cloudapps.digital
+  - route: ((app-name))-proxy-((cf-space)).london.cloudapps.digital
     protocol: http1
   processes:
   - type: web
