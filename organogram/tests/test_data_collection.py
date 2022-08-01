@@ -45,7 +45,6 @@ def test_email_verification():
     email_file = next(email_folder.glob("*"))
     with email_file.open() as f:
         lines = f.readlines()
-        print(lines)
     url_lines = tuple(line for line in lines if line.startswith("http://testserver/"))
     assert len(url_lines) == 1
     url = url_lines[0]
