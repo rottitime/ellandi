@@ -20,8 +20,6 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      IMAGE_TAG: ${{ github.ref_name }}
-      DOCKER_REPOSITORY: ghcr.io
       CF_SPACE: ${{ github.ref_name }}
 
     strategy:
@@ -38,11 +36,11 @@ jobs:
         run: ./cf login -a api.london.cloud.service.gov.uk -u "${{ secrets.CF_USER }}" -p "${{ secrets.CF_PASSWORD }}" -o co-i-ai -s "$CF_SPACE"
 
       - name: CF push ellandi apps
-        if: ${{ matrix.app == 'ellandi-api' || matrix.app == 'ellandi-web' }}
+        if: ${{ matrix.app == 'organogram' }}
         env:
           APP_NAME: ${{ matrix.app }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_ACTOR: ${{ github.actor }}
         run: |
-          ./echo $APP_NAME
-          ./cf app $APP_NAME
+          ./cf target -s $CF_SPACE
+          ./cf app $APP_NAME-$CF_SPACE
