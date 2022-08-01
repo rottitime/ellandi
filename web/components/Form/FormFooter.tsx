@@ -1,12 +1,11 @@
 import { Box } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { ComponentProps, FC } from 'react'
-import LinkButton from '@/components/LinkButton'
-import { LoadingButton } from '@mui/lab'
+import Button from '@/components/UI/Button/Button'
 import FooterButtons from '@/components/UI/FooterButtons/FooterButtons'
 
 type Props = {
-  buttonProps?: ComponentProps<typeof LoadingButton>
+  buttonProps?: ComponentProps<typeof Button>
   submitText?: string
   backUrl?: string
 }
@@ -24,13 +23,13 @@ const FormFooter: FC<Props> = ({ backUrl, buttonProps, submitText = 'Continue' }
   return (
     <FooterButtons>
       {backUrl && (
-        <LinkButton href={backUrl} variant="outlined" size="small">
+        <Button href={backUrl} variant="outlined" size="small">
           Back
-        </LinkButton>
+        </Button>
       )}
-      <LoadingButton variant="contained" type="submit" {...buttonProps}>
+      <Button variant="contained" type="submit" {...buttonProps}>
         {submitText}
-      </LoadingButton>
+      </Button>
     </FooterButtons>
   )
 }

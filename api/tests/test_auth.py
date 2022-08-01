@@ -62,3 +62,12 @@ def test_login(client):
     response = client.post("/login/", json={"email": user_data["email"], "password": user_data["password"]})
     assert response.status_code == 200
     assert response.json()["token"]
+
+
+@utils.with_logged_in_client
+def test_me_view(client, user_id):
+    response = client.get("/me")
+    data = response.json()
+    assert data["id"] == user_id
+    for key in ("email", "first_name", "last_name"):
+        assert data[key] == utils.user_data[key]

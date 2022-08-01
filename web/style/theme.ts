@@ -1,21 +1,25 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
-import { createTheme, PaletteColorOptions } from '@mui/material/styles'
+import { createTheme, PaletteColorOptions, Shadows } from '@mui/material/styles'
 import { CSSProperties } from 'react'
 
+export type Brands = {
+  brandGov: CSSProperties['color']
+  brandSkills: CSSProperties['color']
+  brandLearning: CSSProperties['color']
+}
+
 export type Colors = {
+  black: CSSProperties['color']
   blueDark: CSSProperties['color']
   greyDark: CSSProperties['color']
   greyLight: CSSProperties['color']
   green: CSSProperties['color']
   white: CSSProperties['color']
-  //profiles
-  profileBlue: CSSProperties['color']
-  profilePink: CSSProperties['color']
-  profileGreen: CSSProperties['color']
-  profileYellow: CSSProperties['color']
+
   //ui
   link: CSSProperties['color']
-}
+  success: CSSProperties['color']
+} & Brands
 
 const breakpoints = {
   xs: 0,
@@ -39,9 +43,6 @@ declare module '@mui/material/Typography' {
 declare module '@mui/material/AppBar' {
   interface AppBarPropsColorOverrides {
     blueDark: true
-    // apple: true;
-    // steelBlue: true;
-    // violet: true;
   }
 }
 
@@ -64,10 +65,7 @@ declare module '@mui/material/styles' {
     greyLight: PaletteColorOptions
     green: PaletteColorOptions
     //profiles
-    profileBlue: PaletteColorOptions
-    profilePink: PaletteColorOptions
-    profileGreen: PaletteColorOptions
-    profileYellow: PaletteColorOptions
+
     //ui
     link: PaletteColorOptions
   }
@@ -85,18 +83,19 @@ const createColor = (mainColor) => augmentColor({ color: { main: mainColor } })
 
 const theme = createTheme({
   colors: {
+    black: '#000',
     blueDark: '#161E2F',
-    greyDark: '#ccc',
+    greyDark: '#9F9F9F',
     greyLight: '#f2f2f2',
-    green: '#44D600',
+    green: '#00E676',
     white: '#fff',
-    //profiles
-    profileBlue: '#144E81',
-    profilePink: '#80224D',
-    profileGreen: '#10403C',
-    profileYellow: '#594D00',
-    //ui
-    link: '#1976d2'
+
+    brandGov: '#000',
+    brandSkills: '#00897B',
+    brandLearning: '#FF3D00',
+
+    link: '#1976D2',
+    success: '#00E676'
   },
   breakpoints: {
     values: breakpoints
@@ -107,21 +106,18 @@ const theme = createTheme({
     greyLight: createColor('#f2f2f2'),
     green: createColor('#44D600'),
     //profiles
-    profileBlue: createColor('#144E81'),
-    profilePink: createColor('#80224D'),
-    profileGreen: createColor('#10403C'),
-    profileYellow: createColor('#594D00'),
+
     //ui
     link: createColor('#1976d2'),
 
     background: {
-      default: '#F6F8FB'
+      default: '#E9EAEC'
     }
   },
   typography: {
     leader: {
       fontWeight: 700,
-      fontSize: '35px',
+      fontSize: '34px',
       lineHeight: '130%'
     },
     h1: {
@@ -148,10 +144,9 @@ const theme = createTheme({
       fontWeight: 600
     },
     subtitle1: {
-      fontWeight: 400,
-      fontSize: '18px',
+      fontWeight: 300,
+      fontSize: '24px',
       lineHeight: '130%',
-      color: '#8F99A8',
       '&.MuiTypography-gutterBottom': {
         marginBottom: '15px'
       }
@@ -174,14 +169,17 @@ const theme = createTheme({
     overline: undefined
   },
   spacing: [0, 4, 8, 16, 30, 60, 110],
+  shadows: Array(25).fill('none') as Shadows,
   components: {
     MuiLink: {
       styleOverrides: {
         root: {
+          color: '#1976D2',
+          textDecorationColor: 'inherit',
           fontWeight: 500,
-          textDecoration: 'none',
+          transition: 'opacity 0.3s ease-in-out',
           '&:hover': {
-            textDecoration: 'underline'
+            opacity: 0.7
           }
         }
       }
@@ -202,13 +200,7 @@ const theme = createTheme({
     MuiCssBaseline: {
       styleOverrides: {
         body: {
-          //background: 'url(/images/test/bg1.webp) bottom center  no-repeat',
-          //backgroundSize: 'cover',
           minHeight: '100vh'
-
-          // background: #E9EAEC url(/images/bg_crown.svg) no-repeat;
-          // background-position: right center;
-          // background-size: contain;
         }
       }
     }

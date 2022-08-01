@@ -52,14 +52,21 @@ def test_put(client, user_id):
         "first_name": "Jane",
         "last_name": "Brown",
         "professions": [
-            f"{TEST_SERVER_URL}professions/government-operational-research-service/",
-            f"{TEST_SERVER_URL}professions/digital-data-and-technology-professions/",
+            "Operational Research Service",
+            "Policy",
+            "Other",
         ],
+        "profession_other": "A new and exciting profession",
+        "function": "Analysis",
     }
     response = client.put(f"/users/{user_id}/", data=updated_user_data)
     assert response.json()["email"] == "jane@example.com", "Email field should be read-only"
     assert response.status_code == status.HTTP_200_OK
     assert response.json()["last_name"] == "Brown"
+    assert response.json()["function"] == "Analysis"
+    assert len(response.json()["professions"]) == 3
+    assert "Policy" in response.json()["professions"]
+    assert response.json()["profession_other"] == "A new and exciting profession"
 
 
 @utils.with_logged_in_client
@@ -222,6 +229,7 @@ def test_dropdown_list(client, user_id):
         {"name": "Grade 7", "slug": "grade-7", "endpoint": "/grades/"},
         {"name": "Independent", "slug": "independent", "endpoint": "/language-skill-levels/"},
         {"name": "United Kingdom", "slug": "united-kingdom", "endpoint": "/countries/"},
+        {"name": "Analysis", "slug": "analysis", "endpoint": "/functions/"},
     ]
 
     def test_get(endpoint):

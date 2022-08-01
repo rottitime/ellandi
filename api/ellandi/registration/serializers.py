@@ -5,6 +5,7 @@ from .models import (
     ContractType,
     Country,
     EmailSalt,
+    Function,
     Grade,
     Language,
     LanguageSkillLevel,
@@ -65,44 +66,61 @@ class CountrySerializer(serializers.ModelSerializer):
         fields = ["slug", "name"]
 
 
+class FunctionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Function
+        fields = ["slug", "name"]
+
+
 class UserSkillSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = UserSkill
-        fields = ["id", "user", "skill_name", "level", "validated"]
+        fields = ["id", "user", "skill_name", "level", "validated", "created_at", "modified_at"]
 
 
 class UserLanguageSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = UserLanguage
-        fields = ["id", "user", "type", "language", "level"]
+        fields = ["id", "user", "type", "language", "level", "created_at", "modified_at"]
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     skills = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name="userskill-detail")
     languages = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name="userlanguage-detail")
     email = serializers.CharField(read_only=True)
+    professions = serializers.SlugRelatedField(
+        many=True, queryset=Profession.objects.all(), read_only=False, slug_field="name"
+    )
 
     class Meta:
-        skills = UserSkillSerializer(many=True, read_only=True)
-        languages = UserLanguageSerializer(many=True, read_only=True)
-
         model = get_user_model()
         fields = [
             "id",
             "email",
             "url",
+            "privacy_policy_agreement",
             "first_name",
             "last_name",
-            "privacy_policy_agreement",
+            "department",
             "organisation",
             "job_title",
-            "grade",
-            "professions",
-            "contract_type",
-            "line_manager_email",
+            "business_unit",
             "location",
+            "line_manager_email",
+            "grade",
+            "grade_other",
+            "professions",
+            "profession_other",
+            "primary_profession",
+            "function",
+            "function_other",
+            "contract_type",
+            "contract_type_other",
+            "contact_preference",
             "skills",
             "languages",
+            "created_at",
+            "modified_at",
         ]
 
 

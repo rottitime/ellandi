@@ -86,6 +86,11 @@ const steps: Steps[] = [
     skip: true
   },
   {
+    form: dynamic(() => import('@/components/Form/Register/LanguageFormTest')),
+    title: 'Language skills (DEMO)',
+    skip: true
+  },
+  {
     form: dynamic(() => import('@/components/Form/Register/SkillsForm')),
     title: 'Current skills',
     nextUrl: '/register/complete',

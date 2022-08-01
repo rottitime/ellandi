@@ -59,10 +59,10 @@ const SkillsForm: FC<StandardRegisterProps<SkillsType>> = ({
 
   return (
     <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
-      <Typography variant="h3" gutterBottom>
+      <Typography variant="subtitle1" gutterBottom>
         Add any skills that you already have. You can change or add to these later
       </Typography>
-      <Typography variant="subtitle1" sx={{ mb: 4 }}>
+      <Typography sx={{ mb: 4 }}>
         We'll use this to suggest learning opportunities that are relevant to you
       </Typography>
 

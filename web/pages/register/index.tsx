@@ -1,14 +1,12 @@
 import CardLayout from '@/components/Layout/CardLayout'
 import { Box } from '@mui/material'
-import LinkButton from '@/components/LinkButton'
-
-//TODO: Convert all steps to single dynamic page
+import Button from '@/components/UI/Button/Button'
 
 const RegisterPage = () => (
   <Box sx={{ textAlign: 'center' }}>
-    <LinkButton href="/register/step/0" variant="contained" fullWidth sx={{ mt: 4 }}>
+    <Button href="/register/step/0" variant="contained" fullWidth sx={{ mt: 4 }}>
       Start now
-    </LinkButton>
+    </Button>
   </Box>
 )
 
