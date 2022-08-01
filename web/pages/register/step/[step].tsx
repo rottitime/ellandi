@@ -6,6 +6,7 @@ import {
   fetchGrades,
   fetchLanguages,
   fetchProfessions,
+  fetchSkills,
   Query,
   RegisterUser,
   RegisterUserResponse
@@ -129,6 +130,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
   await queryClient.prefetchQuery(Query.Functions, fetchFunctions)
   await queryClient.prefetchQuery(Query.ContractTypes, fetchContractTypes)
   await queryClient.prefetchQuery(Query.Languages, fetchLanguages)
+  await queryClient.prefetchQuery(Query.Skills, fetchSkills)
 
   return {
     props: {
