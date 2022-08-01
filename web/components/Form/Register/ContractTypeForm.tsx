@@ -1,12 +1,4 @@
-import {
-  Alert,
-  AlertTitle,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
-  Typography
-} from '@mui/material'
-import { useUiContext } from '@/context/UiContext'
+import { FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material'
 import { ContractType, GenericDataList, Query } from '@/service/types'
 import { useQuery } from 'react-query'
 import { fetchContractTypes } from '@/service/api'
@@ -14,10 +6,10 @@ import { FC, useEffect } from 'react'
 import RadioSkeleton from '@/components/UI/Skeleton/RadioSkeleton'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
 import { StandardRegisterProps } from './types'
-import FormFooter from '@/components/Form/FormFooter'
 import { object, SchemaOf, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldControlled'
+import Form from '@/components/Form/Register/FormRegister/FormRegister'
 
 const schema: SchemaOf<ContractType> = object().shape({
   contract_type: string().required('This field is required'),
@@ -26,57 +18,35 @@ const schema: SchemaOf<ContractType> = object().shape({
   })
 })
 
-const ContractTypeForm: FC<StandardRegisterProps<ContractType>> = ({
-  onFormSubmit,
-  backUrl,
-  skipUrl,
-  loading,
-  defaultValues = {
-    contract_type: '',
-    contract_type_other: ''
-  }
-}) => {
-  const { setLoading } = useUiContext()
-  const { isLoading, isError, data } = useQuery<GenericDataList[], { message?: string }>(
+const ContractTypeForm: FC<StandardRegisterProps<ContractType>> = (props) => {
+  const { isLoading, data } = useQuery<GenericDataList[], { message?: string }>(
     Query.ContractTypes,
-    fetchContractTypes
+    fetchContractTypes,
+    {
+      staleTime: Infinity
+    }
   )
 
   const methods = useForm<ContractType>({
-    defaultValues,
+    defaultValues: {
+      contract_type: '',
+      contract_type_other: ''
+    },
     resolver: yupResolver(schema)
   })
 
-  const {
-    control,
-    handleSubmit,
-    watch,
-    setValue,
-    formState: { isDirty, isValid }
-  } = methods
+  const { control, watch, setValue } = methods
 
   const watchFields = watch()
-
-  useEffect(() => {
-    setLoading(isLoading)
-  }, [isLoading, setLoading])
 
   useEffect(() => {
     if (!!watchFields.contract_type_other) setValue('contract_type', 'Other')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  if (isError)
-    return (
-      <Alert severity="error">
-        <AlertTitle>Service Unavailable</AlertTitle>
-        Please try again later.
-      </Alert>
-    )
-
   return (
     <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
+      <Form {...props} submitDisabled>
         <Typography variant="subtitle1" gutterBottom>
           Select your current contract type. You can only choose one
         </Typography>
@@ -108,13 +78,7 @@ const ContractTypeForm: FC<StandardRegisterProps<ContractType>> = ({
         {watchFields.contract_type === 'Other' && (
           <TextFieldControlled name="contract_type_other" label="Enter contract type" />
         )}
-
-        <FormFooter
-          skipUrl={skipUrl}
-          backUrl={backUrl}
-          buttonProps={{ loading, disabled: !isDirty && !isValid }}
-        />
-      </form>
+      </Form>
     </FormProvider>
   )
 }
