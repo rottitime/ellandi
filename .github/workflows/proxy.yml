@@ -5,6 +5,9 @@ on:
   push:
     branches:
       - sandbox
+      - temp
+      - develop
+      - prod
 
 
 permissions:
@@ -54,7 +57,5 @@ jobs:
           ALLOWED_IPS: ${{ steps.get_ips.outputs.ips }}
         working-directory: ./proxy
         run: |
-            echo "THIS IS IT XXXXX"
-            echo $ALLOWED_IPS
             ./proxy-deploy.sh
 
