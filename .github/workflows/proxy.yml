@@ -30,17 +30,22 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Download CF CLI
+        working-directory: ./proxy
         run: curl -L "https://packages.cloudfoundry.org/stable?release=linux64-binary&version=v7&source=github" | tar -zx
 
       - name: CF login
+        working-directory: ./proxy
         run: ./cf login -a api.london.cloud.service.gov.uk -u "${{ secrets.CF_USER }}" -p "${{ secrets.CF_PASSWORD }}" -o co-i-ai -s "$CF_SPACE"
 
-      - name: CF push ellandi apps
+      - name: CF push proxy apps
         if: ${{ matrix.app == 'organogram' }}
         env:
           APP_NAME: ${{ matrix.app }}
+          PROXY_APP_NAME: ${{ matrix.app }}-proxy
+          PROTECTED_APP_NAME: ${{ matrix.app }}-${{ github.ref_name }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_ACTOR: ${{ github.actor }}
+        working-directory: ./proxy
         run: |
-          ./cf target -s $CF_SPACE
-          ./cf app $APP_NAME-$CF_SPACE
+          ./cf push
+          PROTECTED_APP_HOSTNAME="$(./cf curl "/v3/apps/$(./cf app "${PROTECTED_APP_NAME}" --guid)/routes" | jq -r --arg APPS_DOMAIN "${APPS_DOMAIN}" '[.resources[] | select(.url | endswith($APPS_DOMAIN))][0].host')"
