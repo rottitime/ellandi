@@ -43,10 +43,10 @@ jobs:
       - name: Get IPs
         id: get_ips
         working-directory: ./proxy
-        run: echo "::set-output name=ips::$(cat ips.txt)"
+        run: echo "::set-output name=ips::$(tr '\n' ' ' <ips.txt)"
 
       - name: CF push proxy apps non-prod
-        if: ${{ github.ref_name != 'prod' }}
+        if: ${{ github.ref_name != 'prod' && matrix.app == 'organogram' }}
         env:
           APP_NAME: ${{ matrix.app }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
