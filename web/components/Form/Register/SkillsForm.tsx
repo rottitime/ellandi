@@ -18,7 +18,7 @@ const fieldName: keyof SkillsType = 'skills'
 
 const SkillsForm: FC<StandardRegisterProps<SkillsType>> = (props) => {
   const methods = useForm<SkillsType>({
-    defaultValues: { skills: ['dede', 'dede'] },
+    defaultValues: { skills: [] },
     resolver: yupResolver(schema)
   })
   const { setValue, register, unregister, watch } = methods
