@@ -1,8 +1,6 @@
 ---
 applications:
 - name: organogram
-  env:
-    DJANGO_SECRET_KEY: ((prod-django-secret-key))
   services:
   - i-dot-ai-organogram-prod
   - digital-organogram

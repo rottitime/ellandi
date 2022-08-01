@@ -107,9 +107,8 @@ jobs:
       - name: CF push organogram production
         if: ${{ matrix.app == 'organogram' && github.ref_name == 'prod' }}
         env:
-          PROD_DJANGO_SECRET_KEY: ${{ secrets.PROD_DJANGO_SECRET_KEY }}
           DOCKER_FILE: ${{ matrix.dockerfile }}
           DOCKER_IMAGE: ${{ matrix.app }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_ACTOR: ${{ github.actor }}
-        run: CF_DOCKER_PASSWORD="$GITHUB_TOKEN" ./cf push -f manifests/"$CF_SPACE/${{ matrix.app }}"_manifest.yml --var prod-django-secret-key=${{ env.PROD_DJANGO_SECRET_KEY }} --docker-image $DOCKER_REPOSITORY/${{ github.repository_owner }}/$DOCKER_IMAGE:$IMAGE_TAG --docker-username=$GITHUB_ACTOR
+        run: CF_DOCKER_PASSWORD="$GITHUB_TOKEN" ./cf push -f manifests/"$CF_SPACE/${{ matrix.app }}"_manifest.yml --docker-image $DOCKER_REPOSITORY/${{ github.repository_owner }}/$DOCKER_IMAGE:$IMAGE_TAG --docker-username=$GITHUB_ACTOR
