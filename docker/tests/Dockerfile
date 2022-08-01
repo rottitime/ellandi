@@ -1,6 +1,7 @@
 FROM python:3.8-buster
 
 ARG APP
+ARG MODULE
 
 ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -21,7 +22,7 @@ COPY . /app
 WORKDIR /app/$APP
 
 RUN \
-    DJANGO_SETTINGS_MODULE=organogram.settings_base \
+    DJANGO_SETTINGS_MODULE=$MODULE.settings_base \
     DJANGO_SECRET_KEY="temp" \
     python manage.py collectstatic --no-input
 
