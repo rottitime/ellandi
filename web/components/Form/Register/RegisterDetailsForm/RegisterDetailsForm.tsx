@@ -1,13 +1,13 @@
-import React, { FC, useEffect } from 'react'
+import React, { FC } from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
 import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldControlled'
 import { object, SchemaOf, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Grid } from '@mui/material'
-import FormFooter from '@/components/Form/FormFooter'
 import { StandardRegisterProps } from '../types'
 import { RegisterDetailsType } from '@/service/api'
 import { Field } from '@/components/Form/Field'
+import Form from '@/components/Form/Register/FormRegister/FormRegister'
 
 const schema: SchemaOf<RegisterDetailsType> = object().shape({
   first_name: string().required('This field is required'),
@@ -20,13 +20,7 @@ const schema: SchemaOf<RegisterDetailsType> = object().shape({
   business_unit: string().required('This field is required')
 })
 
-const RegisterDetailsForm: FC<StandardRegisterProps<RegisterDetailsType>> = ({
-  backUrl,
-  skipUrl,
-  onFormSubmit,
-  loading,
-  defaultValues
-}) => {
+const RegisterDetailsForm: FC<StandardRegisterProps<RegisterDetailsType>> = (props) => {
   const methods = useForm<RegisterDetailsType>({
     defaultValues: {
       first_name: '',
@@ -38,17 +32,10 @@ const RegisterDetailsForm: FC<StandardRegisterProps<RegisterDetailsType>> = ({
     },
     resolver: yupResolver(schema)
   })
-  const { handleSubmit, reset } = methods
-
-  console.log(1, { defaultValues })
-
-  useEffect(() => {
-    reset(defaultValues)
-  }, [reset, defaultValues])
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
+      <Form {...props}>
         <Grid container spacing={3}>
           <Grid item xs={6}>
             <TextFieldControlled name="first_name" label="First name" />
@@ -75,9 +62,7 @@ const RegisterDetailsForm: FC<StandardRegisterProps<RegisterDetailsType>> = ({
         <Field>
           <TextFieldControlled name="line_manager_email" label="Line manager email" />
         </Field>
-
-        <FormFooter skipUrl={skipUrl} backUrl={backUrl} buttonProps={{ loading }} />
-      </form>
+      </Form>
     </FormProvider>
   )
 }

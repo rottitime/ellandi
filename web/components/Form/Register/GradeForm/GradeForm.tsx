@@ -11,12 +11,12 @@ import RadioSkeleton from '@/components/UI/Skeleton/RadioSkeleton'
 import { fetchGrades, GenericDataList, GradeType, Query } from '@/service/api'
 import { useUiContext } from '@/context/UiContext'
 import { FC, useEffect } from 'react'
-import FormFooter from '@/components/Form/FormFooter'
 import { StandardRegisterProps } from '../types'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
 import { object, SchemaOf, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldControlled'
+import Form from '@/components/Form/Register/FormRegister/FormRegister'
 
 const schema: SchemaOf<GradeType> = object().shape({
   grade: string().required('This field is required'),
@@ -25,16 +25,7 @@ const schema: SchemaOf<GradeType> = object().shape({
   })
 })
 
-const GradeForm: FC<StandardRegisterProps<GradeType>> = ({
-  backUrl,
-  skipUrl,
-  onFormSubmit,
-  loading,
-  defaultValues = {
-    grade: '',
-    grade_other: ''
-  }
-}) => {
+const GradeForm: FC<StandardRegisterProps<GradeType>> = (props) => {
   const { setLoading } = useUiContext()
   const { isLoading, isError, data } = useQuery<GenericDataList[], { message?: string }>(
     Query.Grades,
@@ -42,16 +33,13 @@ const GradeForm: FC<StandardRegisterProps<GradeType>> = ({
   )
 
   const methods = useForm<GradeType>({
-    defaultValues,
+    defaultValues: {
+      grade: '',
+      grade_other: ''
+    },
     resolver: yupResolver(schema)
   })
-  const {
-    control,
-    handleSubmit,
-    watch,
-    setValue,
-    formState: { isDirty, isValid }
-  } = methods
+  const { control, watch, setValue } = methods
 
   const watchFields = watch()
 
@@ -74,7 +62,7 @@ const GradeForm: FC<StandardRegisterProps<GradeType>> = ({
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
+      <Form {...props} submitDisabled>
         <Typography variant="subtitle1" gutterBottom>
           Select your grade. You may only choose one
         </Typography>
@@ -107,13 +95,7 @@ const GradeForm: FC<StandardRegisterProps<GradeType>> = ({
         {watchFields.grade === 'Other' && (
           <TextFieldControlled name="grade_other" label="Enter grade" />
         )}
-
-        <FormFooter
-          skipUrl={skipUrl}
-          backUrl={backUrl}
-          buttonProps={{ loading, disabled: !isDirty && !isValid }}
-        />
-      </form>
+      </Form>
     </FormProvider>
   )
 }
