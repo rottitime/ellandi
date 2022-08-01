@@ -12,7 +12,7 @@ def test_favicon():
         agent.get("/favicon.ico")
 
 
-def _fill_in_user_form(agent):
+def _fill_in_user_form(agent, data):
     page = agent.get("/create-account")
     assert page.status_code == 200, page.status_code
 
@@ -27,15 +27,25 @@ def _fill_in_user_form(agent):
     return form
 
 
+
+
+
 def test_duplicate_user():
+    data = {
+    "email": "bob1@example.com",
+    "email_confirm": "bob1@example.com",
+    "password": "foo",
+    "password_confirm": "foo",
+    }
+
     agent = testino.WSGIAgent(wsgi.application, "http://testserver/")
 
-    form = _fill_in_user_form(agent)
+    form = _fill_in_user_form(agent, data)
     page = form.submit().follow()
     assert page.status_code == 200, page.status_code
     assert page.has_one("h1:contains('Your details')")
 
-    form = _fill_in_user_form(agent)
+    form = _fill_in_user_form(agent, data)
 
     page = form.submit()
     assert page.has_one("span[data-error='There is already a user with that email']")
