@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('registration', '0009_add_initial_teams'),
+        ("registration", "0009_add_initial_teams"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='user',
-            name='verified',
+            model_name="user",
+            name="verified",
             field=models.BooleanField(blank=True, default=False, null=True),
         ),
     ]

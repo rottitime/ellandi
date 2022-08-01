@@ -5,9 +5,8 @@ from django.http import Http404
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
-from organogram.verification import send_verification_email
 from organogram.registration import initial_data, models
-
+from organogram.verification import send_verification_email
 
 page_names = (
     "intro",

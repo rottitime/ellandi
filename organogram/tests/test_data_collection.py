@@ -1,8 +1,8 @@
 import pathlib
 
 import testino
-from django.contrib.auth import get_user_model
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from nose.tools import assert_raises
 
 from organogram import wsgi
@@ -32,10 +32,10 @@ def _fill_in_user_form(agent, data):
 
 def test_email_verification():
     data = {
-    "email": "billy@example.com",
-    "email_confirm": "billy@example.com",
-    "password": "foo",
-    "password_confirm": "foo",
+        "email": "billy@example.com",
+        "email_confirm": "billy@example.com",
+        "password": "foo",
+        "password_confirm": "foo",
     }
 
     agent = testino.WSGIAgent(wsgi.application, "http://testserver/")
@@ -53,18 +53,16 @@ def test_email_verification():
 
     assert page.path == "/your-details"
 
-    user = get_user_model().objects.get(email=data['email'])
+    user = get_user_model().objects.get(email=data["email"])
     assert user.verified
-
-
 
 
 def test_duplicate_user():
     data = {
-    "email": "bob1@example.com",
-    "email_confirm": "bob1@example.com",
-    "password": "foo",
-    "password_confirm": "foo",
+        "email": "bob1@example.com",
+        "email_confirm": "bob1@example.com",
+        "password": "foo",
+        "password_confirm": "foo",
     }
 
     agent = testino.WSGIAgent(wsgi.application, "http://testserver/")

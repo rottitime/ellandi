@@ -42,7 +42,7 @@ else:
         "testserver",
     ]
 
-HOST_URL = VCAP_APPLICATION['application_uris'][0]
+HOST_URL = VCAP_APPLICATION["application_uris"][0]
 
 # Application definition
 
@@ -155,7 +155,7 @@ if EMAIL_BACKEND_TYPE == "FILE":
 elif EMAIL_BACKEND_TYPE == "CONSOLE":
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 elif EMAIL_BACKEND_TYPE == "GOVUKNOTIFY":
-    EMAIL_BACKEND =  "django_gov_notify.backends.NotifyEmailBackend"
+    EMAIL_BACKEND = "django_gov_notify.backends.NotifyEmailBackend"
     GOVUK_NOTIFY_API_KEY = env.str("GOVUK_NOTIFY_API_KEY")
     GOVUK_NOTIFY_PLAIN_EMAIL_TEMPLATE_ID = env.str("GOVUK_NOTIFY_PLAIN_EMAIL_TEMPLATE_ID")
 else:
@@ -170,10 +170,10 @@ def verified_callback(user):
 
 
 EMAIL_VERIFIED_CALLBACK = verified_callback
-EMAIL_FROM_ADDRESS = 'orgdata@no10.gov.uk'
-EMAIL_MAIL_SUBJECT = 'Confirm your email address'
-EMAIL_MAIL_HTML = 'mail_body.html'
-EMAIL_MAIL_PLAIN = 'mail_body.txt'
+EMAIL_FROM_ADDRESS = "orgdata@no10.gov.uk"
+EMAIL_MAIL_SUBJECT = "Confirm your email address"
+EMAIL_MAIL_HTML = "mail_body.html"
+EMAIL_MAIL_PLAIN = "mail_body.txt"
 EMAIL_TOKEN_LIFE = 60 * 60 * 24
-EMAIL_PAGE_TEMPLATE = 'confirm_email_verification.html'
+EMAIL_PAGE_TEMPLATE = "confirm_email_verification.html"
 EMAIL_PAGE_DOMAIN = f"http://{HOST_URL}"

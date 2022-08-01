@@ -1,12 +1,11 @@
-from django.core.mail import send_mail
-from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.conf import settings
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.core.exceptions import BadRequest
+from django.core.mail import send_mail
 from django.shortcuts import redirect
 from django.urls import reverse
-from django.core.exceptions import BadRequest
 
 from organogram.registration import models
-
 
 TOKEN_GENERATOR = PasswordResetTokenGenerator()
 EMAIL_SUBJECT = "Verify your email"
@@ -26,7 +25,12 @@ def send_verification_email(user):
     host_url = settings.HOST_URL.strip("/")
     url = "/".join(("http:/", host_url, "user", str(user.id), "verify", token))
     body = EMAIL_TEMPLATE.format(user=user, url=url)
-    send_mail(subject=EMAIL_SUBJECT, message=body, from_email=settings.EMAIL_FROM_ADDRESS, recipient_list=[user.email],)
+    send_mail(
+        subject=EMAIL_SUBJECT,
+        message=body,
+        from_email=settings.EMAIL_FROM_ADDRESS,
+        recipient_list=[user.email],
+    )
 
 
 def verification_view(request, user_id, token):
