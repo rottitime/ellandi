@@ -93,7 +93,7 @@ class UserSkillSerializerNested(serializers.ModelSerializer):
 class UserLanguageSerializerNested(serializers.ModelSerializer):
     class Meta:
         model = UserLanguage
-        fields = ["user", "type", "language", "level"]
+        fields = ["type", "language", "level"]
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -140,12 +140,12 @@ class UserSerializer(serializers.ModelSerializer):
                 instance.professions.add(profession)
 
         if "skills" in validated_data:
-            UserSkill.objects.filter(user=instance).delete()
+            instance.skills.all().delete()
             for skill_data in validated_data["skills"]:
                 UserSkill.objects.update_or_create(user=instance, **skill_data)
 
         if "languages" in validated_data:
-            UserLanguage.objects.filter(user=instance).delete()
+            instance.languages.all().delete()
             for language_data in validated_data["languages"]:
                 UserLanguage.objects.update_or_create(user=instance, **language_data)
 

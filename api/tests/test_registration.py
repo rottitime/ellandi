@@ -77,7 +77,7 @@ def test_user_patch(client, user_id):
         "level": "proficient",
     }
     user_languages_data = {
-        "user": f"{TEST_SERVER_URL}users/{user_id}/",
+        "user": user_id,
         "language": "spanish",
         "level": "proficient",
         "type": "reading",
@@ -97,10 +97,10 @@ def test_user_patch(client, user_id):
     assert response.status_code == status.HTTP_200_OK
     assert response.json()["email"] == "jane@example.com", "Email field should be read-only"
     assert response.json()["last_name"] == "Green"
-    assert response.json()["first_name"] == "Alice"
     assert response.json()["skills"][0]["skill_name"] == "maths"
 
     more_nested_user_data = {
+        "first_name": "Alice",
         "professions": ["Policy"],
         "profession_other": "",
         "skills": [
@@ -111,16 +111,19 @@ def test_user_patch(client, user_id):
     }
     response = client.patch(f"/users/{user_id}/", data=more_nested_user_data)
     assert response.status_code == status.HTTP_200_OK
+    assert response.json()["first_name"] == "Alice"
     assert len(response.json()["professions"]) == 1
+    assert response.json()["professions"][0] == "Policy"
     assert response.json()["profession_other"] == ""
+    assert len(response.json()["languages"]) == 0
+    print(response.json()["skills"])
     assert len(response.json()["skills"]) == 2
-    assert len(response.json()["languages"]) == 1
 
 
 @utils.with_logged_in_client
 def test_get_user_userskills(client, user_id):
     user_skill_data = {
-        "user": f"{TEST_SERVER_URL}users/{user_id}/",
+        "user": user_id,
         "skill_name": "typing",
         "level": "proficient",
     }
@@ -143,7 +146,7 @@ def test_get_user_userskills(client, user_id):
 @utils.with_logged_in_client
 def test_get_user_userlanguages(client, user_id):
     user_languages_data = {
-        "user": f"{TEST_SERVER_URL}users/{user_id}/",
+        "user": user_id,
         "language": "spanish",
         "level": "proficient",
         "type": "writing",
@@ -170,7 +173,7 @@ def test_post_get_put_delete_user_skill(client, user_id):
     assert len(response.json()) == 0
 
     user_skill_data = {
-        "user": f"{TEST_SERVER_URL}users/{user_id}/",
+        "user": user_id,
         "skill_name": "maths",
         "level": "proficient",
     }
@@ -189,7 +192,7 @@ def test_post_get_put_delete_user_skill(client, user_id):
     assert response.json()["level"] == "proficient"
 
     user_skill_data_updated = {
-        "user": f"{TEST_SERVER_URL}users/{user_id}/",
+        "user": user_id,
         "skill_name": "maths",
         "level": "beginner",
     }
@@ -211,7 +214,7 @@ def test_post_get_put_delete_user_language(client, user_id):
     assert len(response.json()) == 0
 
     user_language_data = {
-        "user": f"{TEST_SERVER_URL}users/{user_id}/",
+        "user": user_id,
         "language": "latin",
         "level": "proficient",
         "type": "speaking",
@@ -233,7 +236,7 @@ def test_post_get_put_delete_user_language(client, user_id):
     assert response.json()["type"] == "speaking"
 
     user_language_data_updated = {
-        "user": f"{TEST_SERVER_URL}users/{user_id}/",
+        "user": user_id,
         "language": "latin",
         "level": "basic",
         "type": "writing",
@@ -296,7 +299,7 @@ def test_dropdown_list(client, user_id):
 @utils.with_logged_in_client
 def test_skills_list(client, user_id):
     user_skill_data = {
-        "user": f"{TEST_SERVER_URL}users/{user_id}/",
+        "user": user_id,
         "skill_name": "new user skill",
         "level": "proficient",
     }
