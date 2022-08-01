@@ -52,11 +52,11 @@ describe('RegisterDetailsForm', () => {
   })
 
   it('fields are prepopulated', async () => {
-    renderWithProviders(
+    const {} = await renderWithProviders(
       <RegisterDetailsForm
         backUrl="/back"
         onFormSubmit={jest.fn()}
-        defaultValues={mockData}
+        defaultValues={Promise.resolve(mockData)}
       />
     )
 

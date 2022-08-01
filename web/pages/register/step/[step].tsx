@@ -15,7 +15,7 @@ import { updateUser } from '@/service/auth'
 import { GetStaticPropsContext } from 'next'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, ComponentType } from 'react'
 import {
   dehydrate,
   QueryClient,
@@ -23,9 +23,27 @@ import {
   useQuery,
   useQueryClient
 } from 'react-query'
-import { Props, Steps } from './types'
 import useAuth from '@/hooks/useAuth'
 import { fetchMe } from '@/service/me'
+import { StandardRegisterProps } from '@/components/Form/Register/types'
+
+type Props = {
+  stepInt: number
+  title: string
+  backUrl: string
+  nextUrl: string
+  progress: number
+  skip: boolean
+}
+
+type Steps = {
+  form: ComponentType<StandardRegisterProps<unknown>>
+  title: string
+  prevUrl?: string
+  nextUrl?: string
+  skip?: boolean
+  isHidden?: (data: RegisterUserResponse) => boolean
+}
 
 const RegisterPage = ({ stepInt, nextUrl, skip, ...props }: Props) => {
   const { setLoading, setError } = useUiContext()
