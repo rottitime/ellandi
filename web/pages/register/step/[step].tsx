@@ -106,7 +106,7 @@ const RegisterPage = ({ stepInt, nextUrl, skip, ...props }: Props) => {
     }
 
     if ((!hasToken() || (!isLoadingMe && !userId)) && stepInt > 0) redirect()
-  }, [stepInt, router, userId, isLoadingMe, setLoading, hasToken])
+  }, [stepInt, router, userId, isLoadingMe, setLoading, hasToken, queryClient])
 
   useEffect(() => {
     setLoading(isLoadingMe)
