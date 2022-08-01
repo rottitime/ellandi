@@ -99,20 +99,7 @@ const LanguageForm: FC<StandardRegisterProps<LanguagesType>> = (props) => {
   )
 
   const methods = useForm<LanguagesType>({
-    defaultValues: {
-      languages: [
-        {
-          language: 'Other',
-          speaking: 'Basic',
-          writing: 'Independent'
-        },
-        {
-          language: 'Russian',
-          speaking: 'Basic',
-          writing: 'Basic'
-        }
-      ]
-    },
+    defaultValues: { languages: [] },
     resolver: yupResolver(schema)
   })
 
