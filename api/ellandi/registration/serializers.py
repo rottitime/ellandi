@@ -108,24 +108,24 @@ class UserSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         single_fields_to_update = [
-                    "privacy_policy_agreement",
-                    "first_name",
-                    "last_name",
-                    "department",
-                    "organisation",
-                    "job_title",
-                    "business_unit",
-                    "location",
-                    "line_manager_email",
-                    "grade",
-                    "grade_other",
-                    "profession_other",
-                    "primary_profession",
-                    "function",
-                    "function_other",
-                    "contract_type",
-                    "contract_type_other",
-                    "contact_preference",
+            "privacy_policy_agreement",
+            "first_name",
+            "last_name",
+            "department",
+            "organisation",
+            "job_title",
+            "business_unit",
+            "location",
+            "line_manager_email",
+            "grade",
+            "grade_other",
+            "profession_other",
+            "primary_profession",
+            "function",
+            "function_other",
+            "contract_type",
+            "contract_type_other",
+            "contact_preference",
         ]
 
         for field in single_fields_to_update:
@@ -138,7 +138,6 @@ class UserSerializer(serializers.ModelSerializer):
             instance.professions.all().delete()
             for profession in validated_data["professions"]:
                 instance.professions.add(profession)
-
 
         if "skills" in validated_data:
             UserSkill.objects.filter(user=instance).delete()

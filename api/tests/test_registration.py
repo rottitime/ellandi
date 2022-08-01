@@ -46,7 +46,7 @@ def test_delete(client, user_id):
 
 
 @utils.with_logged_in_client
-def test_put(client, user_id):
+def test_user_put(client, user_id):
     updated_user_data = {
         "email": "jane_modified@example.com",
         "first_name": "Jane",
@@ -70,13 +70,51 @@ def test_put(client, user_id):
 
 
 @utils.with_logged_in_client
-def test_patch(client, user_id):
-    updated_user_data = {"email": "jane_modified@example.com", "first_name": "Alice"}
-    response = client.patch(f"/users/{user_id}/", data=updated_user_data)
+def test_user_patch(client, user_id):
+    user_skill_data = {
+        "user": user_id,
+        "skill_name": "maths",
+        "level": "proficient",
+    }
+    user_languages_data = {
+        "user": f"{TEST_SERVER_URL}users/{user_id}/",
+        "language": "spanish",
+        "level": "proficient",
+        "type": "reading",
+    }
+    more_user_data = {
+        "location": "Manchester",
+        "profession": ["Operational Research Service", "Other"],
+        "profession_other": "Data science",
+        "primary_profession": "Data science",
+        "function": "Analysis",
+    }
+    response = client.post("/user-skills/", json=user_skill_data)
+    assert response.status_code == status.HTTP_201_CREATED
+    response = client.post("/user-languages/", json=user_languages_data)
+    assert response.status_code == status.HTTP_201_CREATED
+    response = client.patch(f"/users/{user_id}/", data=more_user_data)
     assert response.status_code == status.HTTP_200_OK
     assert response.json()["email"] == "jane@example.com", "Email field should be read-only"
     assert response.json()["last_name"] == "Green"
     assert response.json()["first_name"] == "Alice"
+    assert response.json()["skills"][0]["skill_name"] == "maths"
+
+    more_nested_user_data = {
+        "professions": ["Policy"],
+        "profession_other": "",
+        "skills": [
+            {"skill_name": "business cases", "level": "beginner"},
+            {"skill_name": "statistics", "level": "advanced"},
+        ],
+        "languages": [],
+    }
+    response = client.patch(f"/users/{user_id}/", data=more_nested_user_data)
+    assert response.status_code == status.HTTP_200_OK
+    assert len(response.json()["professions"]) == 1
+    assert response.json()["profession_other"] == ""
+    assert len(response.json()["skills"]) == 2
+    assert len(response.json()["languages"]) == 1
 
 
 @utils.with_logged_in_client
