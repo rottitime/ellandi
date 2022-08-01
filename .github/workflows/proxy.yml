@@ -46,7 +46,7 @@ jobs:
         run: echo "::set-output name=ips::$(tr '\n' ' ' <ips.txt)"
 
       - name: CF push proxy apps non-prod
-        if: ${{ github.ref_name != 'prod' && matrix.app == 'organogram' }}
+        if: ${{ github.ref_name != 'prod' }}
         env:
           APP_NAME: ${{ matrix.app }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
