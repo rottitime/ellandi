@@ -88,9 +88,11 @@ test-organogram:
 
 .PHONY: check-migrations
 check-migrations:
-	docker-compose build api
+	docker-compose build api organogram
 	docker-compose run api python manage.py migrate
 	docker-compose run api python manage.py makemigrations --check
+	docker-compose run organogram python manage.py migrate
+	docker-compose run organogram python manage.py makemigrations --check
 
 .PHONY: format-python-code
 format-python-code:
