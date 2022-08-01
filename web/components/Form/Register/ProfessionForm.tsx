@@ -88,7 +88,7 @@ const ProfessionForm: FC<StandardRegisterProps<ProfessionType>> = ({
           ? [...Array(22).keys()].map((i) => (
               <Skeleton key={i} width={100} sx={{ m: 1 }} />
             ))
-          : [...data, { name: 'Other' }].map(({ name }) => (
+          : [...data].map(({ name }) => (
               <Box sx={{ mb: 1 }} key={name}>
                 <ToggleChip
                   avatar={<Avatar>{name.charAt(0).toUpperCase()}</Avatar>}
