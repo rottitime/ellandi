@@ -2,8 +2,7 @@
 applications:
 - name: organogram-develop
   env:
-    - name: DJANGO_SECRET_KEY
-      value: ((django-secret-key))
+    DJANGO_SECRET_KEY: ((django-secret-key))
   services:
   - i-dot-ai-organogram-develop
   - organogram-postgres-develop
