@@ -22,11 +22,7 @@ const FormRegister: FC<Props> = ({
   } = useFormContext()
 
   useEffect(() => {
-    reset({
-      grade: '',
-      grade_other: '',
-      ...defaultValues
-    })
+    reset(defaultValues)
   }, [reset, defaultValues])
 
   useEffect(() => {

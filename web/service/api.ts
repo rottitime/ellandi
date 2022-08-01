@@ -58,25 +58,9 @@ export const fetchPrimaryProfession = async (): Promise<GenericDataList[]> => {
 }
 
 export const fetchFunctions = async (): Promise<GenericDataList[]> => {
-  //const res = await fetch(`${publicRuntimeConfig.apiUrl}/functions/`)
-  // if (res.ok) return res.json()
-  //TODO: replace with above fetch call once API is ready
-
-  return [
-    { name: 'Analysis', slug: 'Analysis' },
-    { name: 'Commercial', slug: 'Commercial' },
-    { name: 'Communications', slug: 'Communications' },
-    { name: 'Corporate finance', slug: 'Corporate finance' },
-    { name: 'Digital', slug: 'Digital' },
-    { name: 'Finance', slug: 'Finance' },
-    { name: 'Fraud, error, debt and grants', slug: 'Fraud, error, debt and grants' },
-    { name: 'Human resources', slug: 'Human resources' },
-    { name: 'Internal audit', slug: 'Internal audit' },
-    { name: 'Legal', slug: 'Legal' },
-    { name: 'Project delivery', slug: 'Project delivery' },
-    { name: 'Property', slug: 'Property' }
-  ]
-  // throw new Error('Service unavailable')
+  const res = await fetch(`${publicRuntimeConfig.apiUrl}/functions/`)
+  if (res.ok) return res.json()
+  throw new Error('Service unavailable')
 }
 
 export * from './types'

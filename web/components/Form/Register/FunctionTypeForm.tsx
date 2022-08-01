@@ -1,15 +1,14 @@
-import { FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material'
+import { Box, FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material'
 import { useQuery } from 'react-query'
 import RadioSkeleton from '@/components/UI/Skeleton/RadioSkeleton'
 import { fetchFunctions, FunctionType, GenericDataList, Query } from '@/service/api'
-import { useUiContext } from '@/context/UiContext'
 import { FC, useEffect } from 'react'
-import FormFooter from '@/components/Form/FormFooter'
 import { StandardRegisterProps } from './types'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { object, SchemaOf, string } from 'yup'
 import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldControlled'
+import Form from '@/components/Form/Register/FormRegister/FormRegister'
 
 const schema: SchemaOf<FunctionType> = object().shape({
   function: string().required(),
@@ -18,25 +17,12 @@ const schema: SchemaOf<FunctionType> = object().shape({
   })
 })
 
-const FunctionTypeForm: FC<StandardRegisterProps<FunctionType>> = ({
-  backUrl,
-  skipUrl,
-  defaultValues = { function: '', function_other: '' },
-  onFormSubmit
-}) => {
-  const { setLoading } = useUiContext()
-
+const FunctionTypeForm: FC<StandardRegisterProps<FunctionType>> = (props) => {
   const methods = useForm<FunctionType>({
-    defaultValues,
+    defaultValues: { function: '', function_other: '' },
     resolver: yupResolver(schema)
   })
-  const {
-    handleSubmit,
-    control,
-    watch,
-    setValue,
-    formState: { isDirty, isValid }
-  } = methods
+  const { control, watch, setValue } = methods
 
   const watchFields = watch()
 
@@ -53,13 +39,9 @@ const FunctionTypeForm: FC<StandardRegisterProps<FunctionType>> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  useEffect(() => {
-    setLoading(isLoading)
-  }, [isLoading, setLoading])
-
   return (
     <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
+      <Form {...props} submitDisabled>
         <Typography variant="subtitle1" gutterBottom>
           Select one Function which describes your area of specialism
         </Typography>
@@ -72,40 +54,33 @@ const FunctionTypeForm: FC<StandardRegisterProps<FunctionType>> = ({
           name="function"
           control={control}
           render={({ field }) => (
-            <RadioGroup aria-live="polite" aria-busy={isLoading} name="function">
-              {isLoading ? (
-                [...Array(5).keys()].map((i) => (
-                  <RadioSkeleton key={i} width="80%" sx={{ mb: 1 }} />
-                ))
-              ) : (
-                <>
-                  {[...data, { name: 'Other' }].map(({ name }) => (
-                    <FormControlLabel
-                      key={name}
-                      {...field}
-                      control={<Radio />}
-                      label={name}
-                      value={name}
-                    />
+            <RadioGroup aria-live="polite" aria-busy={isLoading} {...field}>
+              {isLoading
+                ? [...Array(5).keys()].map((i) => (
+                    <RadioSkeleton key={i} width="80%" sx={{ mb: 1 }} />
+                  ))
+                : data.map(({ name }) => (
+                    <>
+                      <FormControlLabel
+                        key={name}
+                        control={<Radio />}
+                        label={name}
+                        value={name}
+                      />
+                      {name === 'Other' && watchFields.function === 'Other' && (
+                        <Box sx={{ my: 2 }}>
+                          <TextFieldControlled
+                            name="function_other"
+                            label="Enter function"
+                          />
+                        </Box>
+                      )}
+                    </>
                   ))}
-                </>
-              )}
             </RadioGroup>
           )}
         />
-
-        {watchFields.function === 'Other' && (
-          <TextFieldControlled name="function_other" label="Enter function" />
-        )}
-
-        <FormFooter
-          skipUrl={skipUrl}
-          backUrl={backUrl}
-          buttonProps={{
-            disabled: !isDirty && !isValid
-          }}
-        />
-      </form>
+      </Form>
     </FormProvider>
   )
 }
