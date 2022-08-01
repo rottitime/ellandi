@@ -44,7 +44,8 @@ jobs:
 
       - name: CF push proxy apps non-prod
         if: ${{ matrix.app == 'organogram' && github.ref_name != 'prod' }}
-        requires: set_ips
+        needs:
+          - set_ips
         env:
           APP_NAME: ${{ matrix.app }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
