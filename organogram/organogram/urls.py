@@ -16,10 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from organogram import page_views
+from organogram import page_views, verification
 
 urlpatterns = [
     path("", page_views.page_view, name="pages-index"),
+    path("user/<uuid:user_id>/verify/<str:token>", verification.verification_view, name="verify"),
     path("admin/", admin.site.urls),
     path("<str:page_name>", page_views.page_view, name="pages"),
 ]
