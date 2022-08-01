@@ -1,5 +1,4 @@
 export enum Query {
-  RegisterUser = 'RegisterUser',
   Countries = 'countries',
   Grades = 'grades',
   Professions = 'professions',

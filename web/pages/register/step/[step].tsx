@@ -52,13 +52,13 @@ const RegisterPage = ({ stepInt, nextUrl, skip, ...props }: Props) => {
   const queryClient = useQueryClient()
   const FormComponent = steps[stepInt].form
 
-  const {
-    isLoading: isLoadingMe,
-    data,
-    refetch
-  } = useQuery<RegisterUserResponse>(Query.Me, () => authFetch(fetchMe), {
-    enabled: !!stepInt
-  })
+  const { isLoading: isLoadingMe, data } = useQuery<RegisterUserResponse>(
+    Query.Me,
+    () => authFetch(fetchMe),
+    {
+      enabled: !!stepInt
+    }
+  )
 
   const userId = useMemo(() => data?.id || null, [data])
 
@@ -75,44 +75,47 @@ const RegisterPage = ({ stepInt, nextUrl, skip, ...props }: Props) => {
     [stepInt, data, props.backUrl]
   )
 
-  //handle unauthorized user (no id)
-  useEffect(() => {
-    !!stepInt && hasToken && refetch()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [stepInt])
-
-  //handle unauthorized user (no id)
-  useEffect(() => {
-    setLoading(false)
-    if (!isLoadingMe && !userId && stepInt > 0) {
-      setLoading(true)
-      router.replace({
-        pathname: '/register/step/0',
-        query: { ecode: 1 }
-      })
-    }
-  }, [stepInt, router, setLoading, userId, isLoadingMe])
-
-  const { isLoading, ...mutate } = useMutation<
+  const { isLoading: isMutateLoading, ...mutate } = useMutation<
     RegisterUserResponse,
     Error,
     Partial<RegisterUserResponse>
   >(
     async (data) =>
-      userId ? updateUser(userId, data) : createAndLogin(data as RegisterUser),
+      !!stepInt && userId
+        ? updateUser(userId, data)
+        : createAndLogin(data as RegisterUser),
     {
-      onSuccess: (data) => {
-        queryClient.setQueryData(Query.RegisterUser, data)
+      onSuccess: async (data) => {
+        if (!!stepInt) queryClient.setQueryData(Query.Me, data)
         router.push(getNextUrl(data))
       },
       onError: ({ message }) => setError(message)
     }
   )
 
+  //handle unauthorized user (no id)
+  useEffect(() => {
+    const redirect = async () => {
+      setLoading(true)
+      queryClient.removeQueries(Query.Me)
+      await router.replace({
+        pathname: '/register/step/0',
+        query: { ecode: 1 }
+      })
+      setLoading(false)
+    }
+
+    if ((!hasToken() || (!isLoadingMe && !userId)) && stepInt > 0) redirect()
+  }, [stepInt, router, userId, isLoadingMe, setLoading, hasToken])
+
+  useEffect(() => {
+    setLoading(isLoadingMe)
+  }, [isLoadingMe, setLoading])
+
   return (
     <FormComponent
       backUrl={backUrl}
-      loading={isLoading || isLoadingMe}
+      buttonLoading={isMutateLoading}
       defaultValues={data}
       skipUrl={skip && getNextUrl(data)}
       onFormSubmit={(data) => mutate.mutate(data)}

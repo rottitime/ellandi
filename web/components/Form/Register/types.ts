@@ -5,6 +5,6 @@ export type StandardRegisterProps<T, I = any> = {
   backUrl: string
   onFormSubmit: SubmitHandler<T>
   skipUrl?: string
-  loading?: boolean
+  buttonLoading?: boolean
   defaultValues: T & I
 }
