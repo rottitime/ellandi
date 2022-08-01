@@ -2,8 +2,7 @@
 applications:
 - name: organogram-sandbox
   env:
-    - name: DJANGO_SECRET_KEY
-      value: 'faketestkey123'
+    DJANGO_SECRET_KEY: ((django_secret_key))
   services:
   - i-dot-ai-organogram-sandbox
   - organogram-postgres-sandbox
