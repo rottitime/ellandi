@@ -97,8 +97,8 @@ def create_account_view(request, url_data):
         if form.is_valid():
             data = form.cleaned_data
             user = models.User.objects.create_user(email=data["email"], password=data["password"])
+            login(request, user)
             send_verification_email(user)
-            user = login(request, user)
             return redirect(url_data["next_url"])
     else:
         form = CreateAccountForm()
