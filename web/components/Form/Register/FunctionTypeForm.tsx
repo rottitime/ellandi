@@ -13,7 +13,7 @@ import Form from '@/components/Form/Register/FormRegister/FormRegister'
 const schema: SchemaOf<FunctionType> = object().shape({
   function: string().required(),
   function_other: string().when('function', (functionType) => {
-    if (functionType === 'other') return string().required('This is a required field')
+    if (functionType === 'Other') return string().required('This is a required field')
   })
 })
 

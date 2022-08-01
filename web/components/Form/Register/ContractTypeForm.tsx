@@ -13,9 +13,12 @@ import Form from '@/components/Form/Register/FormRegister/FormRegister'
 
 const schema: SchemaOf<ContractType> = object().shape({
   contract_type: string().required('This field is required'),
-  contract_type_other: string().when('contract_type', (functionType) => {
-    if (functionType === 'other') return string().required('This is a required field')
-  })
+  contract_type_other: string()
+    .nullable()
+    .when('contract_type', (functionType) => {
+      if (functionType === 'Other')
+        return string().nullable().required('This is a required field')
+    })
 })
 
 const ContractTypeForm: FC<StandardRegisterProps<ContractType>> = (props) => {
@@ -35,7 +38,12 @@ const ContractTypeForm: FC<StandardRegisterProps<ContractType>> = (props) => {
     resolver: yupResolver(schema)
   })
 
-  const { control, watch, setValue } = methods
+  const {
+    control,
+    watch,
+    setValue,
+    formState: { errors }
+  } = methods
 
   const watchFields = watch()
 

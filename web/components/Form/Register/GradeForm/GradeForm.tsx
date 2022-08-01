@@ -15,7 +15,8 @@ const schema: SchemaOf<GradeType> = object().shape({
   grade_other: string()
     .nullable()
     .when('grade', (grade) => {
-      if (grade === 'Other') return string().required('This is a required field')
+      if (grade === 'Other')
+        return string().nullable().required('This is a required field')
     })
 })
 
