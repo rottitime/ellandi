@@ -81,7 +81,10 @@ class Country(DropDownListModel):
 
 
 class Function(DropDownListModel):
-    pass
+    order = models.PositiveSmallIntegerField(null=True)
+
+    class Meta:
+        ordering = ["order"]
 
 
 class UserManager(BaseUserManager):
