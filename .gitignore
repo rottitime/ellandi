@@ -21,3 +21,4 @@ coverage
 # General
 .DS_Store
 .env
+.secrets
