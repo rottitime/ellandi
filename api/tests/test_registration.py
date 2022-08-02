@@ -112,11 +112,12 @@ def test_user_patch(client, user_id):
         "first_name": "Alice",
         "professions": ["Policy"],
         "profession_other": "",
-        "skills": [
-            {"skill_name": "business cases", "level": "beginner"},
-            {"skill_name": "statistics", "level": "advanced"},
-        ],
-        "languages": [],
+        "skills": "my first skill"
+        # "skills": [
+        #     {"skill_name": "business cases", "level": "beginner", "validated": False},
+        #     {"skill_name": "statistics", "level": "advanced", "validated": True},
+        # ],
+        # "languages": [],
     }
     response = client.patch(f"/users/{user_id}/", data=more_nested_user_data)
     assert response.status_code == status.HTTP_200_OK

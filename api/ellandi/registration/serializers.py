@@ -97,13 +97,12 @@ class UserLanguageSerializerNested(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    skills = UserSkillSerializerNested(many=True, read_only=False, required=False)
+    skills = UserSkillSerializerNested(many=True, read_only=False, required=True)
     languages = UserLanguageSerializerNested(many=True, read_only=False, required=False)
     email = serializers.CharField(read_only=True)
     professions = serializers.SlugRelatedField(
         many=True, queryset=Profession.objects.all(), read_only=False, slug_field="name", required=False
     )
-
 
     # TODO - add some validation
 
