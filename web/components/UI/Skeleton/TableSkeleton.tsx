@@ -1,4 +1,4 @@
-import { styled, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
+import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
 import React, { ComponentProps, FC } from 'react'
 import Skeleton from '@/components/UI/Skeleton/Skeleton'
 
