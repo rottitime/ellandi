@@ -81,7 +81,7 @@ class LanguageViewSet(viewsets.ReadOnlyModelViewSet):
 
 @register("professions")
 class ProfessionViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = models.Profession.objects.all().order_by("name")
+    queryset = models.Profession.objects.all().order_by("order")
     serializer_class = serializers.ProfessionSerializer
 
 
@@ -105,7 +105,7 @@ class CountryViewSet(viewsets.ReadOnlyModelViewSet):
 
 @register("functions")
 class FunctionViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = models.Function.objects.all().order_by("name")
+    queryset = models.Function.objects.all().order_by("order")
     serializer_class = serializers.FunctionSerializer
 
 
