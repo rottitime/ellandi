@@ -9,10 +9,19 @@ TEST_SERVER_URL = "http://testserver:8000/"
 
 @utils.with_logged_in_client
 def test_users_get(client, user_id):
+    # Populate with some skills first
+    user_skill_data = {
+        "user": user_id,
+        "skill_name": "maths",
+        "level": "proficient",
+    }
+    response = client.post("/user-skills/", json=user_skill_data)
+    assert response.status_code == status.HTTP_201_CREATED
     response = client.get("/users/")
     assert response.status_code == status.HTTP_200_OK
     data = response.json()
     assert data[0]["email"] == "jane@example.com"
+    assert data[0]["skills"][0]["skill_name"] == "maths"
 
 
 @utils.with_logged_in_client
@@ -112,7 +121,6 @@ def test_user_patch(client, user_id):
     response = client.patch(f"/users/{user_id}/", data=more_nested_user_data)
     assert response.status_code == status.HTTP_200_OK
     data = response.json()
-    print(data)
     assert data["first_name"] == "Alice"
     assert len(data["professions"]) == 1
     assert data["professions"][0] == "Policy"

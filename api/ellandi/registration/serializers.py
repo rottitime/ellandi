@@ -104,9 +104,11 @@ class UserSerializer(serializers.ModelSerializer):
         many=True, queryset=Profession.objects.all(), read_only=False, slug_field="name", required=False
     )
 
+
     # TODO - add some validation
 
     def update(self, instance, validated_data):
+        print(f"validated_data: {validated_data}")
         single_fields_to_update = [
             "privacy_policy_agreement",
             "first_name",
@@ -133,7 +135,7 @@ class UserSerializer(serializers.ModelSerializer):
                 value = validated_data[field]
                 setattr(instance, field, value)
 
-        print(f"{validated_data=}")
+        print(f"validated_data: {validated_data}")
 
         # For many-to-many and one-to-one fields (skills, languages, professions)
         # - delete existing and replace with new values
@@ -184,6 +186,17 @@ class UserSerializer(serializers.ModelSerializer):
             "created_at",
             "modified_at",
         ]
+        extra_kwargs = {
+            "skills": {
+                "read_only": False,
+                "required": False,
+            },
+            "languages": {
+                "read_only": False,
+                "required": False,
+            },
+        }
+        depth=2
 
 
 class RegisterSerializer(serializers.Serializer):
