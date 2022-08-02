@@ -91,4 +91,6 @@ export type RegisterUserResponse = {
   ContactType &
   PrimaryProfessionType &
   LanguagesType &
-  SkillsType
+  SkillsType &
+  ContractType &
+  FunctionType
