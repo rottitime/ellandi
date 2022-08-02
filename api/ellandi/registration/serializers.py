@@ -129,8 +129,9 @@ class UserSerializer(serializers.ModelSerializer):
         ]
 
         for field in single_fields_to_update:
-            value = validated_data.get(field, getattr(instance, field))
-            setattr(instance, field, value)
+            if field in validated_data:
+                value = validated_data[field]
+                setattr(instance, field, value)
 
         # For many-to-many and one-to-one fields (skills, languages, professions)
         # - delete existing and replace with new values
