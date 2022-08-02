@@ -18,7 +18,9 @@ describe('GradeForm', () => {
   })
 
   it('renders', async () => {
-    renderWithProviders(<GradeForm backUrl="/back" onFormSubmit={jest.fn()} />)
+    renderWithProviders(
+      <GradeForm defaultValues={null} backUrl="/back" onFormSubmit={jest.fn()} />
+    )
 
     await waitFor(async () => {
       expect(screen.getByText(mockResponse[0].name)).toBeInTheDocument()
@@ -34,12 +36,12 @@ describe('GradeForm', () => {
       <GradeForm
         backUrl="/back"
         onFormSubmit={jest.fn()}
-        defaultValues={{ grade: mockData.slug, grade_other: '' }}
+        defaultValues={{ grade: mockData.name, grade_other: '' }}
       />
     )
 
     await waitFor(async () => {
-      expect(screen.getByDisplayValue(mockData.slug)).toBeChecked()
+      expect(screen.getByDisplayValue(mockData.name)).toBeChecked()
     })
   })
 
@@ -48,11 +50,15 @@ describe('GradeForm', () => {
     const mockSubmit = jest.fn()
 
     renderWithProviders(
-      <GradeForm backUrl="/back" onFormSubmit={(data) => mockSubmit(data)} />
+      <GradeForm
+        defaultValues={null}
+        backUrl="/back"
+        onFormSubmit={(data) => mockSubmit(data)}
+      />
     )
 
     await waitFor(async () => {
-      expect(screen.getByDisplayValue(mockData.slug)).toBeInTheDocument()
+      expect(screen.getByDisplayValue(mockData.name)).toBeInTheDocument()
     })
 
     const button = screen.getByRole('button', { name: /Continue/i })
@@ -60,8 +66,6 @@ describe('GradeForm', () => {
     await userEvent.click(screen.getByLabelText(mockData.name))
     await userEvent.click(button)
 
-    await waitFor(async () =>
-      expect(mockSubmit).toHaveBeenCalledWith({ grade: mockData.slug })
-    )
+    expect(mockSubmit).toHaveBeenCalledWith({ grade: mockData.name })
   })
 })

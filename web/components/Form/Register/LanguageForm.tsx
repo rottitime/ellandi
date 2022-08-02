@@ -1,6 +1,4 @@
 import {
-  Alert,
-  AlertTitle,
   Box,
   Button,
   Collapse,
@@ -17,18 +15,17 @@ import {
   Skeleton,
   Typography
 } from '@mui/material'
-import { useUiContext } from '@/context/UiContext'
 import { GenericDataList, LanguagesType, LanguageType, Query } from '@/service/types'
 import { fetchLanguages } from '@/service/api'
-import { FC, useEffect, useId } from 'react'
+import { FC, useId } from 'react'
 import { useQuery } from 'react-query'
 import { StandardRegisterProps } from './types'
-import { Controller, useFieldArray, useForm } from 'react-hook-form'
-import FormFooter from '@/components/Form/FormFooter'
+import { Controller, FormProvider, useFieldArray, useForm } from 'react-hook-form'
 import { Field } from '../Field'
 import { array, object, SchemaOf, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Cancel } from '@mui/icons-material'
+import Form from '@/components/Form/Register/FormRegister/FormRegister'
 
 const fieldName: keyof LanguagesType = 'languages'
 
@@ -79,24 +76,21 @@ const schema: SchemaOf<LanguagesType> = object().shape({
   languages: array().of(languageSchema).optional()
 })
 
-const LanguageForm: FC<StandardRegisterProps<LanguagesType>> = ({
-  backUrl,
-  onFormSubmit,
-  defaultValues = {
-    languages: []
-  }
-}) => {
-  const { setLoading } = useUiContext()
+const LanguageForm: FC<StandardRegisterProps<LanguagesType>> = (props) => {
   const formId = useId()
-  const { isLoading, isError, data } = useQuery<GenericDataList[], { message?: string }>(
+  const { isLoading, data } = useQuery<GenericDataList[], { message?: string }>(
     Query.Languages,
-    fetchLanguages
+    fetchLanguages,
+    { staleTime: Infinity }
   )
 
-  const { handleSubmit, control, getValues } = useForm<LanguagesType>({
-    defaultValues,
+  const methods = useForm<LanguagesType>({
+    defaultValues: {
+      languages: []
+    },
     resolver: yupResolver(schema)
   })
+  const { control, getValues } = methods
 
   const { fields, append, remove } = useFieldArray<
     LanguagesType,
@@ -108,132 +102,122 @@ const LanguageForm: FC<StandardRegisterProps<LanguagesType>> = ({
     keyName: 'language'
   })
 
-  useEffect(() => {
-    setLoading(isLoading)
-  }, [isLoading, setLoading])
-
-  if (isError)
-    return (
-      <Alert severity="error">
-        <AlertTitle>Service Unavailable</AlertTitle>
-        Please try again later.
-      </Alert>
-    )
-
   return (
-    <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
-      <Typography variant="subtitle1" gutterBottom>
-        Add any languages that you use. You can change or add to these later.
-      </Typography>
-      <Typography gutterBottom>
-        We'll use this to suggest learning opportunities that are relevant to you
-      </Typography>
+    <FormProvider {...methods}>
+      <Form {...props}>
+        <Typography variant="subtitle1" gutterBottom>
+          Add any languages that you use. You can change or add to these later.
+        </Typography>
+        <Typography gutterBottom>
+          We'll use this to suggest learning opportunities that are relevant to you
+        </Typography>
 
-      {fields.map((item, index) => (
-        <Box key={index}>
-          <Typography variant="h4" gutterBottom>
-            Language {index + 1}
-          </Typography>
+        {fields.map((item, index) => (
+          <Box key={index}>
+            <Typography variant="h4" gutterBottom>
+              Language {index + 1}
+            </Typography>
 
-          <Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
-            <Field sx={{ width: '100%' }}>
-              <Controller
-                name={`languages.${index}.language`}
-                control={control}
-                defaultValue={item.language}
-                render={({ field, fieldState: { error } }) => (
-                  <FormControl fullWidth error={!!error} size="small">
-                    <InputLabel>Select a language</InputLabel>
-                    {isLoading ? (
-                      <Skeleton width={100} sx={{ m: 1 }} />
-                    ) : (
-                      <Select label="Select a language" variant="outlined" {...field}>
-                        {data.map(({ name }) => (
-                          <MenuItem
-                            key={name}
-                            value={name}
-                            disabled={
-                              !!getValues(fieldName).find(
-                                ({ language }) => language === name
-                              )
-                            }
-                          >
-                            {name}
-                          </MenuItem>
+            <Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
+              <Field sx={{ width: '100%' }}>
+                <Controller
+                  name={`languages.${index}.language`}
+                  control={control}
+                  defaultValue={item.language}
+                  render={({ field, fieldState: { error } }) => (
+                    <FormControl fullWidth error={!!error} size="small">
+                      <InputLabel>Select a language</InputLabel>
+                      {isLoading ? (
+                        <Skeleton width={100} sx={{ m: 1 }} />
+                      ) : (
+                        <Select label="Select a language" variant="outlined" {...field}>
+                          {data.map(({ name }) => (
+                            <MenuItem
+                              key={name}
+                              value={name}
+                              disabled={
+                                !!getValues(fieldName).find(
+                                  ({ language }) => language === name
+                                )
+                              }
+                            >
+                              {name}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      )}
+                      {!!error && <FormHelperText error>{error.message}</FormHelperText>}
+                    </FormControl>
+                  )}
+                />
+              </Field>
+              <IconButton aria-label="Remove" onClick={() => remove(index)}>
+                <Cancel />
+              </IconButton>
+            </Box>
+
+            <Typography gutterBottom>
+              Set a proficiency level for speaking and writing
+            </Typography>
+
+            {['Speaking', 'Writing'].map((name) => (
+              <Field key={name}>
+                <Controller
+                  name={
+                    `languages.${index}.${name.toLowerCase()}` as `languages.${number}`
+                  }
+                  control={control}
+                  render={({ field, fieldState: { error } }) => (
+                    <FormControl fullWidth error={!!error} size="small">
+                      <FormLabel
+                        id={`${formId}${index}:${name.toLowerCase()}`}
+                        sx={{ mb: 3 }}
+                      >
+                        {name}
+                      </FormLabel>
+
+                      <RadioGroup
+                        aria-labelledby={`${formId}${index}:${name.toLowerCase()}`}
+                        {...field}
+                      >
+                        {options[name.toLowerCase()].map(({ title, content }) => (
+                          <Field key={title}>
+                            <FormControlLabel
+                              control={<Radio sx={{ pt: 0 }} />}
+                              sx={{ alignItems: 'flex-start' }}
+                              label={
+                                <>
+                                  <Typography variant="h4">{title} </Typography>
+                                  <Collapse in={field.value === title}>
+                                    <Typography variant="body2">{content}</Typography>
+                                  </Collapse>
+                                </>
+                              }
+                              value={title}
+                            />
+                          </Field>
                         ))}
-                      </Select>
-                    )}
-                    {!!error && <FormHelperText error>{error.message}</FormHelperText>}
-                  </FormControl>
-                )}
-              />
-            </Field>
-            <IconButton aria-label="Remove" onClick={() => remove(index)}>
-              <Cancel />
-            </IconButton>
+                      </RadioGroup>
+                      {!!error && <FormHelperText>{error.message}</FormHelperText>}
+                    </FormControl>
+                  )}
+                />
+              </Field>
+            ))}
           </Box>
+        ))}
 
-          <Typography gutterBottom>
-            Set a proficiency level for speaking and writing
-          </Typography>
-
-          {['Speaking', 'Writing'].map((name) => (
-            <Field key={name}>
-              <Controller
-                name={`languages.${index}.${name.toLowerCase()}` as `languages.${number}`}
-                control={control}
-                render={({ field, fieldState: { error } }) => (
-                  <FormControl fullWidth error={!!error} size="small">
-                    <FormLabel
-                      id={`${formId}${index}:${name.toLowerCase()}`}
-                      sx={{ mb: 3 }}
-                    >
-                      {name}
-                    </FormLabel>
-
-                    <RadioGroup
-                      aria-labelledby={`${formId}${index}:${name.toLowerCase()}`}
-                    >
-                      {options[name.toLowerCase()].map(({ title, content }) => (
-                        <Field key={title}>
-                          <FormControlLabel
-                            {...field}
-                            control={<Radio sx={{ pt: 0 }} />}
-                            sx={{ alignItems: 'flex-start' }}
-                            label={
-                              <>
-                                <Typography variant="h4">{title} </Typography>
-                                <Collapse in={field.value === title}>
-                                  <Typography variant="body2">{content}</Typography>
-                                </Collapse>
-                              </>
-                            }
-                            value={title}
-                          />
-                        </Field>
-                      ))}
-                    </RadioGroup>
-                    {!!error && <FormHelperText>{error.message}</FormHelperText>}
-                  </FormControl>
-                )}
-              />
-            </Field>
-          ))}
-        </Box>
-      ))}
-
-      <Field>
-        <Button
-          onClick={() => {
-            append({ language: '', speaking: '', writing: '' })
-          }}
-        >
-          Add language
-        </Button>
-      </Field>
-
-      <FormFooter backUrl={backUrl} />
-    </form>
+        <Field>
+          <Button
+            onClick={() => {
+              append({ language: '', speaking: '', writing: '' })
+            }}
+          >
+            Add language
+          </Button>
+        </Field>
+      </Form>
+    </FormProvider>
   )
 }
 

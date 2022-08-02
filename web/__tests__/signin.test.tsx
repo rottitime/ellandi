@@ -6,7 +6,10 @@ import Router from 'next/router'
 import { Props } from '@/components/Form/SignInForm/types'
 import { renderWithProviders } from '@/lib/test-utils'
 
-jest.mock('next/router', () => ({ push: jest.fn() }))
+jest.mock('next/router', () => ({
+  ...jest.requireActual('next/router'),
+  push: jest.fn()
+}))
 
 jest.mock('@/components/Form/SignInForm/SignInForm', () => (props: Props) => (
   <button

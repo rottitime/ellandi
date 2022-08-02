@@ -4,15 +4,14 @@ import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldCo
 import { object, SchemaOf, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Grid } from '@mui/material'
-import FormFooter from '@/components/Form/FormFooter'
 import { StandardRegisterProps } from '../types'
 import { RegisterDetailsType } from '@/service/api'
 import { Field } from '@/components/Form/Field'
+import Form from '@/components/Form/Register/FormRegister/FormRegister'
 
 const schema: SchemaOf<RegisterDetailsType> = object().shape({
   first_name: string().required('This field is required'),
   last_name: string().required('This field is required'),
-  organisation: string().required('This field is required'),
   job_title: string().required('This field is required'),
   line_manager_email: string()
     .email('Email address must be valid')
@@ -21,29 +20,22 @@ const schema: SchemaOf<RegisterDetailsType> = object().shape({
   business_unit: string().required('This field is required')
 })
 
-const RegisterDetailsForm: FC<StandardRegisterProps<RegisterDetailsType>> = ({
-  backUrl,
-  onFormSubmit,
-  loading,
-  defaultValues = {
-    first_name: '',
-    last_name: '',
-    organisation: '',
-    job_title: '',
-    line_manager_email: '',
-    location: '',
-    business_unit: ''
-  }
-}) => {
+const RegisterDetailsForm: FC<StandardRegisterProps<RegisterDetailsType>> = (props) => {
   const methods = useForm<RegisterDetailsType>({
-    defaultValues,
+    defaultValues: {
+      first_name: '',
+      last_name: '',
+      job_title: '',
+      line_manager_email: '',
+      location: '',
+      business_unit: ''
+    },
     resolver: yupResolver(schema)
   })
-  const { handleSubmit } = methods
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
+      <Form {...props}>
         <Grid container spacing={3}>
           <Grid item xs={6}>
             <TextFieldControlled name="first_name" label="First name" />
@@ -55,9 +47,6 @@ const RegisterDetailsForm: FC<StandardRegisterProps<RegisterDetailsType>> = ({
           </Grid>
         </Grid>
 
-        <Field>
-          <TextFieldControlled name="organisation" label="Department" />
-        </Field>
         <Field>
           <TextFieldControlled name="job_title" label="Job title" />
         </Field>
@@ -73,9 +62,7 @@ const RegisterDetailsForm: FC<StandardRegisterProps<RegisterDetailsType>> = ({
         <Field>
           <TextFieldControlled name="line_manager_email" label="Line manager email" />
         </Field>
-
-        <FormFooter backUrl={backUrl} buttonProps={{ loading }} />
-      </form>
+      </Form>
     </FormProvider>
   )
 }

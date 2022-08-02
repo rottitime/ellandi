@@ -4,16 +4,6 @@ import { SignInType } from '@/components/Form/SignInForm/types'
 import { AuthUser } from './types'
 const { publicRuntimeConfig } = getConfig()
 
-// const handleResponse = async (res: Response): Promise<Response | Error> => {
-//   if (res.ok) return res.json()
-//   try {
-//     const { detail } = await res.json()
-//     if (detail) return Promise.reject(new Error(detail))
-//   } catch (e) {}
-
-//   throw new Error('Service unavailable')
-// }
-
 export const updateUser = async (id: string, data: Partial<RegisterUserResponse>) => {
   const res: Response = await fetch(`${publicRuntimeConfig.apiUrl}/users/${id}/`, {
     method: 'PATCH',

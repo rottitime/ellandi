@@ -14,25 +14,27 @@ const Title = styled(Box)`
   }
 `
 
-const RegisterPage = () => (
-  <>
-    <Typography variant="subtitle1" gutterBottom>
-      You have successfully signed up for the Civil Service Skills and Learning Service
-    </Typography>
-    <Typography gutterBottom>
-      You will now be taken to your dashboard where you can navigate around the service
-    </Typography>
+const RegisterPage = () => {
+  return (
+    <>
+      <Typography variant="subtitle1" gutterBottom>
+        You have successfully signed up for the Civil Service Skills and Learning Service
+      </Typography>
+      <Typography gutterBottom>
+        You will now be taken to your dashboard where you can navigate around the service
+      </Typography>
 
-    <FooterButtons>
-      <Button variant="outlined" size="small" onClick={() => router.back()}>
-        Back
-      </Button>
-      <Button href="/account" variant="contained">
-        Finish
-      </Button>
-    </FooterButtons>
-  </>
-)
+      <FooterButtons>
+        <Button variant="outlined" size="small" onClick={() => router.back()}>
+          Back
+        </Button>
+        <Button href="/account" variant="contained">
+          Finish
+        </Button>
+      </FooterButtons>
+    </>
+  )
+}
 
 export default RegisterPage
 RegisterPage.getLayout = (page) => (

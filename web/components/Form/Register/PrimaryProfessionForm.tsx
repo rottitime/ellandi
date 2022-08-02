@@ -1,56 +1,57 @@
 import {
-  Alert,
-  AlertTitle,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
+  // Alert,
+  // AlertTitle,
+  // FormControlLabel,
+  // Radio,
+  // RadioGroup,
   Typography
 } from '@mui/material'
 import { FC } from 'react'
 import FormFooter from '@/components/Form/FormFooter'
 import { StandardRegisterProps } from './types'
-import { Controller, FormProvider, useForm } from 'react-hook-form'
+import { FormProvider, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { object, SchemaOf, string } from 'yup'
 import {
-  fetchPrimaryProfession,
-  GenericDataList,
+  // fetchPrimaryProfession,
+  // GenericDataList,
   PrimaryProfessionType,
-  Query
+  ProfessionType
 } from '@/service/api'
-import { useQuery } from 'react-query'
-import RadioSkeleton from '@/components/UI/Skeleton/RadioSkeleton'
+// import { useQuery } from 'react-query'
+// import RadioSkeleton from '@/components/UI/Skeleton/RadioSkeleton'
 
 const schema: SchemaOf<PrimaryProfessionType> = object().shape({
-  profession_primary: string().required()
+  primary_profession: string().required()
 })
 
-const PrimaryProfessionForm: FC<StandardRegisterProps<PrimaryProfessionType>> = ({
-  backUrl,
-  onFormSubmit
-}) => {
+const PrimaryProfessionForm: FC<
+  StandardRegisterProps<PrimaryProfessionType, ProfessionType>
+> = ({ defaultValues = { primary_profession: '' }, backUrl, skipUrl, onFormSubmit }) => {
   const methods = useForm<PrimaryProfessionType>({
-    defaultValues: { profession_primary: '' },
+    defaultValues,
     resolver: yupResolver(schema)
   })
   const {
     handleSubmit,
-    control,
+    // control,
     formState: { isDirty, isValid }
   } = methods
 
-  const { isLoading, isError, data } = useQuery<GenericDataList[], { message?: string }>(
-    Query.PrimaryProfessions,
-    fetchPrimaryProfession
-  )
+  // if (!(defaultValues.professions || []).length) skip()
 
-  if (isError)
-    return (
-      <Alert severity="error">
-        <AlertTitle>Service Unavailable</AlertTitle>
-        Please try again later.
-      </Alert>
-    )
+  // const { isLoading, isError, data } = useQuery<GenericDataList[], { message?: string }>(
+  //   Query.PrimaryProfessions,
+  //   fetchPrimaryProfession
+  // )
+
+  // if (isError)
+  //   return (
+  //     <Alert severity="error">
+  //       <AlertTitle>Service Unavailable</AlertTitle>
+  //       Please try again later.
+  //     </Alert>
+  //   )
 
   return (
     <FormProvider {...methods}>
@@ -63,30 +64,26 @@ const PrimaryProfessionForm: FC<StandardRegisterProps<PrimaryProfessionType>> = 
           We'll use this to suggest learning opportunities that are relevant to you
         </Typography>
 
-        <Controller
-          name="profession_primary"
+        {/* <Controller
+          name="primary_profession"
           control={control}
           render={({ field }) => (
-            <RadioGroup aria-live="polite" aria-busy={isLoading} name="function">
-              {isLoading
-                ? [...Array(3).keys()].map((i) => (
-                    <RadioSkeleton key={i} width="80%" sx={{ mb: 1 }} />
-                  ))
-                : data.map(({ name, slug }) => (
-                    <FormControlLabel
-                      key={slug}
-                      {...field}
-                      control={<Radio />}
-                      label={name}
-                      value={slug}
-                    />
-                  ))}
+            <RadioGroup aria-live="polite" name="primary_profession" {...field}>
+              {defaultValues.professions.map((name) => (
+                <FormControlLabel
+                  key={name}
+                  control={<Radio />}
+                  label={name}
+                  value={name}
+                />
+              ))}
             </RadioGroup>
           )}
-        />
+        /> */}
 
         <FormFooter
           backUrl={backUrl}
+          skipUrl={skipUrl}
           buttonProps={{
             disabled: !isDirty && !isValid
           }}

@@ -2,59 +2,51 @@ import { Alert, AlertTitle, Avatar, Box, Skeleton, Typography } from '@mui/mater
 import ToggleChip from '@/components/ToggleChip'
 import { fetchProfessions } from '@/service/api'
 import { GenericDataList, ProfessionType, Query } from '@/service/types'
-import { useUiContext } from '@/context/UiContext'
 import { useQuery } from 'react-query'
 import { FC, useEffect } from 'react'
-import FormFooter from '@/components/Form/FormFooter'
 import { StandardRegisterProps } from './types'
 import { FormProvider, useForm } from 'react-hook-form'
 import { array, object, SchemaOf, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldControlled'
+import Form from '@/components/Form/Register/FormRegister/FormRegister'
 
 const fieldName: keyof ProfessionType = 'professions'
 
 const schema: SchemaOf<ProfessionType> = object().shape({
   professions: array().of(string()).min(1, 'This is a required field'),
-  profession_other: string().when('professions', (value) => {
-    if (value.includes('Other')) return string().required('This is a required field')
-  })
+  profession_other: string()
+    .nullable()
+    .when('professions', (value) => {
+      if (value.includes('Other'))
+        return string().nullable().required('This is a required field')
+    })
 })
 
-const ProfessionForm: FC<StandardRegisterProps<ProfessionType>> = ({
-  backUrl,
-  onFormSubmit,
-  loading,
-  defaultValues = {
-    professions: [],
-    profession_other: ''
-  }
-}) => {
+const ProfessionForm: FC<StandardRegisterProps<ProfessionType>> = (props) => {
   const methods = useForm<ProfessionType>({
-    defaultValues,
+    defaultValues: {
+      professions: [],
+      profession_other: ''
+    },
     resolver: yupResolver(schema)
   })
 
-  const {
-    handleSubmit,
-    getValues,
-    setValue,
-    register,
-    trigger,
-    watch,
-    formState: { isDirty, isValid }
-  } = methods
+  const { getValues, setValue, register, trigger, watch } = methods
 
-  const { setLoading } = useUiContext()
   const { isLoading, isError, data } = useQuery<GenericDataList[], { message?: string }>(
     Query.Professions,
-    fetchProfessions
+    fetchProfessions,
+    { staleTime: Infinity }
   )
-  useEffect(() => {
-    setLoading(isLoading)
-  }, [isLoading, setLoading])
 
-  const watchProfessions = watch('professions')
+  useEffect(() => {
+    if (!!watchFields.profession_other)
+      setValue('professions', [...watchFields.professions, 'Other'])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const watchFields = watch()
 
   register(fieldName)
 
@@ -68,7 +60,7 @@ const ProfessionForm: FC<StandardRegisterProps<ProfessionType>> = ({
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
+      <Form {...props} submitDisabled>
         <Typography variant="subtitle1" gutterBottom>
           Select the Profession(s) that you belong to. You may choose more than one
         </Typography>
@@ -81,7 +73,7 @@ const ProfessionForm: FC<StandardRegisterProps<ProfessionType>> = ({
           ? [...Array(22).keys()].map((i) => (
               <Skeleton key={i} width={100} sx={{ m: 1 }} />
             ))
-          : data.map(({ name }) => (
+          : [...data].map(({ name }) => (
               <Box sx={{ mb: 1 }} key={name}>
                 <ToggleChip
                   avatar={<Avatar>{name.charAt(0).toUpperCase()}</Avatar>}
@@ -100,20 +92,18 @@ const ProfessionForm: FC<StandardRegisterProps<ProfessionType>> = ({
                     await trigger(fieldName)
                   }}
                 />
-                {name === 'Other' && watchProfessions.includes('Other') && (
-                  <TextFieldControlled name="profession_other" label="Enter profession" />
+
+                {name === 'Other' && watchFields.professions.includes('Other') && (
+                  <Box sx={{ my: 2 }}>
+                    <TextFieldControlled
+                      name="profession_other"
+                      label="Enter profession"
+                    />
+                  </Box>
                 )}
               </Box>
             ))}
-
-        <FormFooter
-          backUrl={backUrl}
-          buttonProps={{
-            loading,
-            disabled: !isDirty && !isValid
-          }}
-        />
-      </form>
+      </Form>
     </FormProvider>
   )
 }

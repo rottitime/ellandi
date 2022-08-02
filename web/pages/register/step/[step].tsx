@@ -1,28 +1,36 @@
-import { StandardRegisterProps } from '@/components/Form/Register/types'
 import CardLayout from '@/components/Layout/CardLayout'
-import Link from '@/components/UI/Link'
+import { useUiContext } from '@/context/UiContext'
 import {
   fetchContractTypes,
   fetchFunctions,
   fetchGrades,
   fetchLanguages,
   fetchProfessions,
+  fetchSkills,
   Query,
   RegisterUser,
   RegisterUserResponse
 } from '@/service/api'
-import { createUser, updateUser } from '@/service/user'
-import { Alert, Fade, Typography } from '@mui/material'
+import { updateUser } from '@/service/auth'
 import { GetStaticPropsContext } from 'next'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
-import { ComponentType, useEffect, useState } from 'react'
-import { dehydrate, QueryClient, useMutation, useQueryClient } from 'react-query'
+import { useEffect, useMemo, ComponentType } from 'react'
+import {
+  dehydrate,
+  QueryClient,
+  useMutation,
+  useQuery,
+  useQueryClient
+} from 'react-query'
+import useAuth from '@/hooks/useAuth'
+import { fetchMe } from '@/service/me'
+import { StandardRegisterProps } from '@/components/Form/Register/types'
 
 type Props = {
-  stepNumber: number
+  stepInt: number
   title: string
-  backUrl: null | string
+  backUrl: string
   nextUrl: string
   progress: number
   skip: boolean
@@ -34,6 +42,129 @@ type Steps = {
   prevUrl?: string
   nextUrl?: string
   skip?: boolean
+  isHidden?: (data: RegisterUserResponse) => boolean
+}
+
+const RegisterPage = ({ stepInt, nextUrl, skip, ...props }: Props) => {
+  const { setLoading, setError } = useUiContext()
+  const { createAndLogin, authFetch, hasToken } = useAuth()
+  const router = useRouter()
+  const queryClient = useQueryClient()
+  const FormComponent = steps[stepInt].form
+
+  const { isLoading: isLoadingMe, data } = useQuery<RegisterUserResponse>(
+    Query.Me,
+    () => authFetch(fetchMe),
+    {
+      enabled: !!stepInt
+    }
+  )
+
+  const userId = useMemo(() => data?.id || null, [data])
+
+  const isFormHidden = (step, data): boolean => !!step?.isHidden && step.isHidden(data)
+
+  const getNextUrl = (data): string =>
+    isFormHidden(steps[stepInt + 1], data) ? `/register/step/${stepInt + 2}` : nextUrl
+
+  const backUrl = useMemo(
+    () =>
+      !!stepInt && isFormHidden(steps[stepInt - 1], data)
+        ? `/register/step/${stepInt - 2}`
+        : props.backUrl,
+    [stepInt, data, props.backUrl]
+  )
+
+  const { isLoading: isMutateLoading, ...mutate } = useMutation<
+    RegisterUserResponse,
+    Error,
+    Partial<RegisterUserResponse>
+  >(
+    async (data) =>
+      !!stepInt && userId
+        ? updateUser(userId, data)
+        : createAndLogin(data as RegisterUser),
+    {
+      onSuccess: async (data) => {
+        if (!!stepInt) queryClient.setQueryData(Query.Me, data)
+        router.push(getNextUrl(data))
+      },
+      onError: ({ message }) => setError(message)
+    }
+  )
+
+  //handle unauthorized user (no id)
+  useEffect(() => {
+    const redirect = async () => {
+      setLoading(true)
+      queryClient.removeQueries(Query.Me)
+      await router.replace({
+        pathname: '/register/step/0',
+        query: { ecode: 1 }
+      })
+      setLoading(false)
+    }
+
+    if ((!hasToken() || (!isLoadingMe && !userId)) && stepInt > 0) redirect()
+  }, [stepInt, router, userId, isLoadingMe, setLoading, hasToken, queryClient])
+
+  useEffect(() => {
+    setLoading(isLoadingMe)
+  }, [isLoadingMe, setLoading])
+
+  return (
+    <FormComponent
+      backUrl={backUrl}
+      buttonLoading={isMutateLoading}
+      defaultValues={data}
+      skipUrl={skip && getNextUrl(data)}
+      onFormSubmit={(data) => mutate.mutate(data)}
+    />
+  )
+}
+
+export default RegisterPage
+
+RegisterPage.getLayout = (page) => {
+  const { props } = page
+  return (
+    <CardLayout title={props.title} progress={props.progress}>
+      {page}
+    </CardLayout>
+  )
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [...Array(steps.length).keys()].map((i) => ({ params: { step: `${i}` } })),
+    fallback: false
+  }
+}
+
+export async function getStaticProps(context: GetStaticPropsContext) {
+  const { step } = context.params
+  const stepInt = parseInt(step as string)
+  const { title, nextUrl, skip } = steps[stepInt]
+
+  const queryClient = new QueryClient()
+  await queryClient.prefetchQuery(Query.Grades, fetchGrades)
+  await queryClient.prefetchQuery(Query.Professions, fetchProfessions)
+  await queryClient.prefetchQuery(Query.Functions, fetchFunctions)
+  await queryClient.prefetchQuery(Query.ContractTypes, fetchContractTypes)
+  await queryClient.prefetchQuery(Query.Languages, fetchLanguages)
+  await queryClient.prefetchQuery(Query.Skills, fetchSkills)
+
+  return {
+    props: {
+      progress: Math.floor((stepInt / (steps.length + 1)) * 100),
+      stepInt,
+      title,
+      backUrl: stepInt === 0 ? '/register' : `/register/step/${stepInt - 1}`,
+      nextUrl: nextUrl || `/register/step/${stepInt + 1}`,
+      skip: !!skip,
+      dehydratedState: dehydrate(queryClient)
+    } as Props
+  }
 }
 
 const steps: Steps[] = [
@@ -65,7 +196,8 @@ const steps: Steps[] = [
   {
     form: dynamic(() => import('@/components/Form/Register/PrimaryProfessionForm')),
     title: 'Primary profession',
-    skip: true
+    skip: true,
+    isHidden: (data) => (data?.professions || []).length < 2
   },
   {
     form: dynamic(() => import('@/components/Form/Register/FunctionTypeForm')),
@@ -97,102 +229,3 @@ const steps: Steps[] = [
     skip: true
   }
 ]
-
-const RegisterPage = ({ nextUrl, backUrl }: Props) => {
-  const router = useRouter()
-  const queryClient = useQueryClient()
-  const { step } = router.query
-  const stepInt = parseInt(step as string)
-  const FormComponent = steps[stepInt].form
-  const [error, setError] = useState(null)
-  const data = queryClient.getQueryData<RegisterUserResponse>(Query.RegisterUser)
-  const id = data?.id
-
-  useEffect(() => {
-    setError(null)
-  }, [step])
-
-  const { isError, isLoading, ...mutate } = useMutation<
-    RegisterUserResponse,
-    Error,
-    Partial<RegisterUserResponse>
-  >(async (data) => (id ? updateUser(id, data) : createUser(data as RegisterUser)), {
-    onSuccess: (data) => {
-      queryClient.setQueryData(Query.RegisterUser, data)
-      router.push(nextUrl)
-    },
-    onError: ({ message }) => setError(message)
-  })
-
-  return (
-    <>
-      {!!error && (
-        <Fade in={!!isError}>
-          <Alert severity="error" sx={{ mt: 3, mb: 3 }}>
-            <>{error}</>
-          </Alert>
-        </Fade>
-      )}
-
-      <FormComponent
-        backUrl={backUrl}
-        loading={isLoading}
-        defaultValues={data}
-        onFormSubmit={(data) => mutate.mutate(data)}
-      />
-    </>
-  )
-}
-
-export default RegisterPage
-
-RegisterPage.getLayout = (page) => {
-  const { props } = page
-  return (
-    <CardLayout
-      title={props.title}
-      progress={props.progress}
-      footer={
-        props.skip && (
-          <Typography>
-            <Link href={props.nextUrl}>Skip this step</Link>
-          </Typography>
-        )
-      }
-    >
-      {page}
-    </CardLayout>
-  )
-}
-
-export async function getStaticPaths() {
-  return {
-    paths: [...Array(steps.length).keys()].map((i) => ({ params: { step: `${i}` } })),
-    fallback: false
-  }
-}
-
-export async function getStaticProps(context: GetStaticPropsContext) {
-  const { step } = context.params
-  const stepInt = parseInt(step as string)
-  const { title, nextUrl, skip } = steps[stepInt]
-
-  const queryClient = new QueryClient()
-  await queryClient.prefetchQuery(Query.Grades, fetchGrades)
-  await queryClient.prefetchQuery(Query.Professions, fetchProfessions)
-  await queryClient.prefetchQuery(Query.Functions, fetchFunctions)
-  await queryClient.prefetchQuery(Query.ContractTypes, fetchContractTypes)
-  await queryClient.prefetchQuery(Query.Languages, fetchLanguages)
-
-  return {
-    props: {
-      progress: Math.floor((stepInt / (steps.length + 1)) * 100),
-      stepNumber: stepInt,
-      title,
-      backUrl: stepInt === 0 ? `/register` : `/register/step/${stepInt - 1}`,
-      nextUrl: nextUrl || `/register/step/${stepInt + 1}`,
-      skip: !!skip,
-      dehydratedState: dehydrate(queryClient)
-    } as Props
-  }
-}
