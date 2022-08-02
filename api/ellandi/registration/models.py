@@ -58,7 +58,10 @@ class Language(DropDownListModel):
 
 
 class Profession(DropDownListModel):
-    pass
+    order = models.PositiveSmallIntegerField(null=True)
+
+    class Meta:
+        ordering = ["order"]
 
 
 class Grade(DropDownListModel):
