@@ -11,7 +11,6 @@ MODELS_FIXTURES = [
     "languageskilllevels",
     "locations",
     "organisations",
-    "professions",
 ]
 
 
