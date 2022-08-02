@@ -1,4 +1,4 @@
-import { loginWithEmailAndPassword } from '@/service/user'
+import { loginWithEmailAndPassword } from '@/service/auth'
 import fetchMock from 'jest-fetch-mock'
 
 const mockData = { email: 'test@test.com', password: 'test' },

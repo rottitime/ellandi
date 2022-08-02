@@ -8,6 +8,7 @@ jest.mock('@/locales/en/common', () => ({
 }))
 
 jest.mock('next/router', () => ({
+  ...jest.requireActual('next/router'),
   useRouter: jest.fn(() => ({ locale: 'en' }))
 }))
 

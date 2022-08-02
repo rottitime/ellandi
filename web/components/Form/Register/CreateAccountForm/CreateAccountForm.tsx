@@ -1,15 +1,17 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { Typography } from '@mui/material'
 import { object, SchemaOf, string, ref } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, FormProvider } from 'react-hook-form'
 import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldControlled'
-import FormFooter from '@/components/Form/FormFooter'
 import { StandardRegisterProps } from '@/components/Form/Register/types'
 import { Field } from '@/components/Form/Field'
 import { CreateAccountType } from './types'
+import useAuth from '@/hooks/useAuth'
+import Form from '@/components/Form/Register/FormRegister/FormRegister'
 
 const minPassword = 8
+const defaultValues = { email: '', password: '', emailConfirm: '', passwordConfirm: '' }
 
 const schema: SchemaOf<CreateAccountType> = object().shape({
   email: string()
@@ -28,19 +30,22 @@ const schema: SchemaOf<CreateAccountType> = object().shape({
     .required('This is a required field')
 })
 
-const CreateAccountForm: FC<StandardRegisterProps<CreateAccountType>> = ({
-  backUrl,
-  onFormSubmit,
-  loading
-}) => {
+const CreateAccountForm: FC<StandardRegisterProps<CreateAccountType>> = (props) => {
+  const { logout, hasToken } = useAuth()
+
+  useEffect(() => {
+    hasToken() && logout()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   const methods = useForm<CreateAccountType>({
-    defaultValues: { email: '', password: '' },
+    defaultValues,
     resolver: yupResolver(schema)
   })
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(onFormSubmit)} noValidate>
+      <Form {...props} defaultValues={defaultValues}>
         <Typography variant="subtitle1" gutterBottom>
           You need to create an account before using this service
         </Typography>
@@ -74,9 +79,7 @@ const CreateAccountForm: FC<StandardRegisterProps<CreateAccountType>> = ({
             type="password"
           />
         </Field>
-
-        <FormFooter backUrl={backUrl} buttonProps={{ loading }} />
-      </form>
+      </Form>
     </FormProvider>
   )
 }

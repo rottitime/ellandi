@@ -8,7 +8,9 @@ describe('CreateAccountForm', () => {
   const password = 'abc123456'
 
   it('renders', () => {
-    renderWithProviders(<CreateAccountForm backUrl="/back" onFormSubmit={jest.fn()} />)
+    renderWithProviders(
+      <CreateAccountForm defaultValues={null} backUrl="/back" onFormSubmit={jest.fn()} />
+    )
 
     expect(screen.getByRole('button', { name: /Continue/i })).toBeInTheDocument()
     expect(screen.getByRole('textbox', { name: 'Email address' })).toBeInTheDocument()
@@ -20,7 +22,9 @@ describe('CreateAccountForm', () => {
   })
 
   it('errors for required fields', async () => {
-    renderWithProviders(<CreateAccountForm backUrl="/back" onFormSubmit={jest.fn()} />)
+    renderWithProviders(
+      <CreateAccountForm defaultValues={null} backUrl="/back" onFormSubmit={jest.fn()} />
+    )
 
     const button = screen.getByRole('button', { name: /Continue/i })
     expect(button).toBeInTheDocument()
@@ -40,7 +44,9 @@ describe('CreateAccountForm', () => {
   })
 
   it('error if field do not match', async () => {
-    renderWithProviders(<CreateAccountForm backUrl="/back" onFormSubmit={jest.fn()} />)
+    renderWithProviders(
+      <CreateAccountForm defaultValues={null} backUrl="/back" onFormSubmit={jest.fn()} />
+    )
 
     const button = screen.getByRole('button', { name: /Continue/i })
     const emailField1 = screen.getByTestId('textfield_email')
@@ -70,7 +76,11 @@ describe('CreateAccountForm', () => {
     const mockSubmit = jest.fn()
 
     renderWithProviders(
-      <CreateAccountForm backUrl="/back" onFormSubmit={(data) => mockSubmit(data)} />
+      <CreateAccountForm
+        defaultValues={null}
+        backUrl="/back"
+        onFormSubmit={(data) => mockSubmit(data)}
+      />
     )
 
     const button = screen.getByRole('button', { name: /Continue/i })

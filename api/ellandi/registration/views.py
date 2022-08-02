@@ -1,7 +1,6 @@
 import os
 
 from django.contrib.auth import get_user_model
-from django.forms.models import model_to_dict
 from drf_spectacular.utils import extend_schema
 from rest_framework import decorators, permissions, routers, status, viewsets
 from rest_framework.response import Response
@@ -177,7 +176,7 @@ def first_log_in_view(request):
 @decorators.permission_classes((permissions.AllowAny,))
 def me_view(request):
     user = request.user
-    data = model_to_dict(user)
+    data = serializers.UserSerializer(user, context={"request": request}).data
     data["id"] = str(user.id)
     response = Response(data=data, status=status.HTTP_200_OK)
     return response

@@ -1,72 +1,51 @@
-import {
-  Alert,
-  AlertTitle,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
-  Typography
-} from '@mui/material'
+import { FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material'
 import { useQuery } from 'react-query'
 import RadioSkeleton from '@/components/UI/Skeleton/RadioSkeleton'
 import { fetchGrades, GenericDataList, GradeType, Query } from '@/service/api'
-import { useUiContext } from '@/context/UiContext'
 import { FC, useEffect } from 'react'
-import FormFooter from '@/components/Form/FormFooter'
 import { StandardRegisterProps } from '../types'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
 import { object, SchemaOf, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldControlled'
+import Form from '@/components/Form/Register/FormRegister/FormRegister'
 
 const schema: SchemaOf<GradeType> = object().shape({
-  grade: string().required('This field is required'),
-  grade_other: string().when('grade', (grade) => {
-    if (grade === 'other') return string().required('This is a required field')
-  })
+  grade: string().nullable().required('This field is required'),
+  grade_other: string()
+    .nullable()
+    .when('grade', (grade) => {
+      if (grade === 'Other')
+        return string().nullable().required('This is a required field')
+    })
 })
 
-const GradeForm: FC<StandardRegisterProps<GradeType>> = ({
-  backUrl,
-  onFormSubmit,
-  loading,
-  defaultValues = {
-    grade: ''
-  }
-}) => {
-  const { setLoading } = useUiContext()
-  const { isLoading, isError, data } = useQuery<GenericDataList[], { message?: string }>(
+const GradeForm: FC<StandardRegisterProps<GradeType>> = (props) => {
+  const { isLoading, data } = useQuery<GenericDataList[], { message?: string }>(
     Query.Grades,
-    fetchGrades
+    fetchGrades,
+    { staleTime: Infinity }
   )
 
   const methods = useForm<GradeType>({
-    defaultValues,
+    defaultValues: {
+      grade: '',
+      grade_other: ''
+    },
     resolver: yupResolver(schema)
   })
-  const {
-    control,
-    handleSubmit,
-    watch,
-    formState: { isDirty, isValid }
-  } = methods
+  const { control, watch, setValue } = methods
 
-  const watchGrade = watch('grade')
+  const watchFields = watch()
 
   useEffect(() => {
-    setLoading(isLoading)
-  }, [isLoading, setLoading])
-
-  if (isError)
-    return (
-      <Alert severity="error">
-        <AlertTitle>Service Unavailable</AlertTitle>
-        Please try again later.
-      </Alert>
-    )
+    if (!!watchFields.grade_other) setValue('grade', 'Other')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
+      <Form {...props} submitDisabled>
         <Typography variant="subtitle1" gutterBottom>
           Select your grade. You may only choose one
         </Typography>
@@ -84,27 +63,22 @@ const GradeForm: FC<StandardRegisterProps<GradeType>> = ({
                 ? [...Array(5).keys()].map((i) => (
                     <RadioSkeleton key={i} width="80%" sx={{ mb: 1 }} />
                   ))
-                : data.map(({ name, slug }) => (
+                : data.map(({ name }) => (
                     <FormControlLabel
-                      key={slug}
+                      key={name}
                       control={<Radio />}
                       label={name}
-                      value={slug}
+                      value={name}
                     />
                   ))}
             </RadioGroup>
           )}
         />
 
-        {watchGrade === 'other' && (
+        {watchFields.grade === 'Other' && (
           <TextFieldControlled name="grade_other" label="Enter grade" />
         )}
-
-        <FormFooter
-          backUrl={backUrl}
-          buttonProps={{ loading, disabled: !isDirty && !isValid }}
-        />
-      </form>
+      </Form>
     </FormProvider>
   )
 }

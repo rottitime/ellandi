@@ -1,5 +1,5 @@
 ---
-name: Test
+name: Deploy Proxy
 
 on:
   push:
@@ -42,7 +42,7 @@ jobs:
       - name: Get IPs
         id: get_ips
         working-directory: ./proxy
-        run: echo "::set-output name=ips::$(cat ips.txt)"
+        run: echo "::set-output name=ips::$(tr '\n' ' ' <whitelisted_ips.txt)"
 
       - name: CF push proxy apps non-prod
         if: ${{ github.ref_name != 'prod' }}

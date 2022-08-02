@@ -2,7 +2,7 @@ import {
   Card as MuiCard,
   styled,
   CardContent,
-  // LinearProgress,
+  LinearProgress as MuiLinearProgress,
   Typography,
   Box
 } from '@mui/material'
@@ -10,6 +10,7 @@ import { FC } from 'react'
 import { Props } from './types'
 import Icon from '@/components/Icons/Icon'
 import LinearProgress from '@/components/UI/LinearProgress/LinearProgress'
+import { useUiContext } from '@/context/UiContext'
 
 const Card = styled(MuiCard)`
   position: relative;
@@ -25,6 +26,7 @@ const Card = styled(MuiCard)`
     background: ${(p) => p.theme.colors.black};
     padding: ${({ theme: { spacing } }) => `${spacing(2)} ${spacing(3)} `};
     display: flex;
+    position: relative;
     svg {
       color: ${(p) => p.theme.colors.white};
       font-size: 33px;
@@ -33,6 +35,7 @@ const Card = styled(MuiCard)`
 
   .MuiCardContent-root {
     padding: ${({ theme: { spacing } }) => `${spacing(3)}`};
+    position: relative;
   }
 
   .card-title {
@@ -40,15 +43,14 @@ const Card = styled(MuiCard)`
   }
 
   &.loading-active {
-    :after {
-      pointer-events: none;
+    .MuiCardContent-root:after {
       content: '';
       position: absolute;
       top: 0;
       left: 0;
       height: 100%;
       width: 100%;
-      opacity: 0.3;
+      opacity: 0.6;
       background-color: ${(p) => p.theme.colors.white};
       z-index: 1;
     }
@@ -56,18 +58,21 @@ const Card = styled(MuiCard)`
 
   .loading-bar {
     position: absolute;
-    top: 0;
+    bottom: 0;
     left: 0;
     width: 100%;
     z-index: 2;
   }
 `
 
-const GovCard: FC<Props> = ({ loading = false, children, progress, title, ...props }) => {
+const GovCard: FC<Props> = ({ children, progress, title, ...props }) => {
+  const { loading } = useUiContext()
+
   return (
     <Card className={`${loading ? 'loading-active' : ''}`} {...props}>
       <Box className="card-logo">
         <Icon icon="crown-logo" />
+        {loading && <MuiLinearProgress className="loading-bar" />}
       </Box>
 
       <CardContent>
@@ -86,8 +91,6 @@ const GovCard: FC<Props> = ({ loading = false, children, progress, title, ...pro
         </header>
         {children}
       </CardContent>
-
-      {loading && <LinearProgress className="loading-bar" />}
     </Card>
   )
 }

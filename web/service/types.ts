@@ -1,5 +1,4 @@
 export enum Query {
-  RegisterUser = 'RegisterUser',
   Countries = 'countries',
   Grades = 'grades',
   Professions = 'professions',
@@ -7,7 +6,8 @@ export enum Query {
   Functions = 'functions',
   ContractTypes = 'contract-types',
   Languages = 'languages',
-  Skills = 'skills'
+  Skills = 'skills',
+  Me = 'me'
 }
 
 export type GenericDataList = {
@@ -28,7 +28,6 @@ export type RegisterUser = {
 export type RegisterDetailsType = {
   first_name: string
   last_name: string
-  organisation: string
   job_title: string
   line_manager_email: string
   location: string
@@ -54,11 +53,11 @@ export type SkillsType = {
 }
 
 export type PrimaryProfessionType = {
-  profession_primary: string
+  primary_profession: string
 }
 
 export type ContactType = {
-  contact: string
+  contact_preference: boolean
 }
 
 export type ContractType = {

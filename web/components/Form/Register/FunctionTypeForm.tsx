@@ -1,72 +1,48 @@
-import {
-  Alert,
-  AlertTitle,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
-  Typography
-} from '@mui/material'
+import { Box, FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material'
 import { useQuery } from 'react-query'
 import RadioSkeleton from '@/components/UI/Skeleton/RadioSkeleton'
 import { fetchFunctions, FunctionType, GenericDataList, Query } from '@/service/api'
-import { useUiContext } from '@/context/UiContext'
 import { FC, useEffect } from 'react'
-import FormFooter from '@/components/Form/FormFooter'
 import { StandardRegisterProps } from './types'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { object, SchemaOf, string } from 'yup'
 import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldControlled'
+import Form from '@/components/Form/Register/FormRegister/FormRegister'
 
 const schema: SchemaOf<FunctionType> = object().shape({
   function: string().required(),
-  function_other: string().when('function', (functionType) => {
-    if (functionType === 'other') return string().required('This is a required field')
-  })
+  function_other: string()
+    .nullable()
+    .when('function', (functionType) => {
+      if (functionType === 'Other')
+        return string().nullable().required('This is a required field')
+    })
 })
 
-const FunctionTypeForm: FC<StandardRegisterProps<FunctionType>> = ({
-  backUrl,
-  defaultValues = { function: '', function_other: '' },
-  onFormSubmit
-}) => {
-  const { setLoading } = useUiContext()
-
+const FunctionTypeForm: FC<StandardRegisterProps<FunctionType>> = (props) => {
   const methods = useForm<FunctionType>({
-    defaultValues,
+    defaultValues: { function: '', function_other: '' },
     resolver: yupResolver(schema)
   })
-  const {
-    handleSubmit,
-    control,
-    watch,
-    formState: { isDirty, isValid }
-  } = methods
-  const watchFunctionType = watch('function')
+  const { control, watch, setValue } = methods
 
-  const { isLoading, isError, data } = useQuery<GenericDataList[], { message?: string }>(
+  const watchFields = watch()
+
+  const { isLoading, data } = useQuery<GenericDataList[], { message?: string }>(
     Query.Functions,
     fetchFunctions,
-    {
-      staleTime: Infinity
-    }
+    { staleTime: Infinity }
   )
 
   useEffect(() => {
-    setLoading(isLoading)
-  }, [isLoading, setLoading])
-
-  if (isError)
-    return (
-      <Alert severity="error">
-        <AlertTitle>Service Unavailable</AlertTitle>
-        Please try again later.
-      </Alert>
-    )
+    if (!!watchFields.function_other) setValue('function', 'Other')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
+      <Form {...props} submitDisabled>
         <Typography variant="subtitle1" gutterBottom>
           Select one Function which describes your area of specialism
         </Typography>
@@ -79,45 +55,28 @@ const FunctionTypeForm: FC<StandardRegisterProps<FunctionType>> = ({
           name="function"
           control={control}
           render={({ field }) => (
-            <RadioGroup aria-live="polite" aria-busy={isLoading} name="function">
-              {isLoading ? (
-                [...Array(5).keys()].map((i) => (
-                  <RadioSkeleton key={i} width="80%" sx={{ mb: 1 }} />
-                ))
-              ) : (
-                <>
-                  {data.map(({ name, slug }) => (
-                    <FormControlLabel
-                      key={slug}
-                      {...field}
-                      control={<Radio />}
-                      label={name}
-                      value={slug}
-                    />
+            <RadioGroup aria-live="polite" aria-busy={isLoading} {...field}>
+              {isLoading
+                ? [...Array(5).keys()].map((i) => (
+                    <RadioSkeleton key={i} width="80%" sx={{ mb: 1 }} />
+                  ))
+                : data.map(({ name }) => (
+                    <Box key={name}>
+                      <FormControlLabel control={<Radio />} label={name} value={name} />
+                      {name === 'Other' && watchFields.function === 'Other' && (
+                        <Box sx={{ my: 2 }}>
+                          <TextFieldControlled
+                            name="function_other"
+                            label="Enter function"
+                          />
+                        </Box>
+                      )}
+                    </Box>
                   ))}
-                  <FormControlLabel
-                    {...field}
-                    control={<Radio />}
-                    label="Other"
-                    value="other"
-                  />
-                </>
-              )}
             </RadioGroup>
           )}
         />
-
-        {watchFunctionType === 'other' && (
-          <TextFieldControlled name="function_other" label="Enter function" />
-        )}
-
-        <FormFooter
-          backUrl={backUrl}
-          buttonProps={{
-            disabled: !isDirty && !isValid
-          }}
-        />
-      </form>
+      </Form>
     </FormProvider>
   )
 }

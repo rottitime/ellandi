@@ -1,6 +1,4 @@
 import {
-  Alert,
-  AlertTitle,
   Button,
   FormControl,
   FormHelperText,
@@ -18,18 +16,17 @@ import {
   styled,
   Tooltip
 } from '@mui/material'
-import { useUiContext } from '@/context/UiContext'
 import { GenericDataList, LanguagesType, LanguageType, Query } from '@/service/types'
 import { fetchLanguages } from '@/service/api'
-import { FC, useEffect } from 'react'
+import { FC } from 'react'
 import { useQuery } from 'react-query'
 import { StandardRegisterProps } from './types'
-import { Controller, useFieldArray, useForm } from 'react-hook-form'
-import FormFooter from '@/components/Form/FormFooter'
+import { Controller, FormProvider, useFieldArray, useForm } from 'react-hook-form'
 import { Field } from '../Field'
 import { array, object, SchemaOf, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { AddCircleOutline, Cancel, Help } from '@mui/icons-material'
+import Form from '@/components/Form/Register/FormRegister/FormRegister'
 
 const Table = styled(MuiTable)`
   th {
@@ -94,24 +91,19 @@ const schema: SchemaOf<LanguagesType> = object().shape({
   languages: array().of(languageSchema).optional()
 })
 
-const LanguageForm: FC<StandardRegisterProps<LanguagesType>> = ({
-  backUrl,
-  onFormSubmit,
-  defaultValues = {
-    languages: []
-  }
-}) => {
-  const { setLoading } = useUiContext()
-  const { isLoading, isError, data } = useQuery<GenericDataList[], { message?: string }>(
+const LanguageForm: FC<StandardRegisterProps<LanguagesType>> = (props) => {
+  const { isLoading, data } = useQuery<GenericDataList[], { message?: string }>(
     Query.Languages,
     fetchLanguages,
     { staleTime: Infinity }
   )
 
-  const { handleSubmit, control, getValues } = useForm<LanguagesType>({
-    defaultValues,
+  const methods = useForm<LanguagesType>({
+    defaultValues: { languages: [] },
     resolver: yupResolver(schema)
   })
+
+  const { control, getValues } = methods
 
   const { fields, append, remove } = useFieldArray<
     LanguagesType,
@@ -123,10 +115,6 @@ const LanguageForm: FC<StandardRegisterProps<LanguagesType>> = ({
     keyName: 'language'
   })
 
-  useEffect(() => {
-    setLoading(isLoading)
-  }, [isLoading, setLoading])
-
   const renderTooltip = (list = []) =>
     list.map(({ title, content }) => (
       <p key={title}>
@@ -136,107 +124,74 @@ const LanguageForm: FC<StandardRegisterProps<LanguagesType>> = ({
       </p>
     ))
 
-  if (isError)
-    return (
-      <Alert severity="error">
-        <AlertTitle>Service Unavailable</AlertTitle>
-        Please try again later.
-      </Alert>
-    )
-
   return (
-    <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
-      <Typography variant="subtitle1" gutterBottom>
-        Add any languages that you use. You can change or add to these later.
-      </Typography>
-      <Typography gutterBottom>
-        We'll use this to suggest learning opportunities that are relevant to you
-      </Typography>
+    <FormProvider {...methods}>
+      <Form {...props}>
+        <Typography variant="subtitle1" gutterBottom>
+          Add any languages that you use. You can change or add to these later.
+        </Typography>
+        <Typography gutterBottom>
+          We'll use this to suggest learning opportunities that are relevant to you
+        </Typography>
 
-      {isLoading ? (
-        <Skeleton width={100} sx={{ m: 1 }} />
-      ) : (
-        !!fields.length && (
-          <Table aria-label="simple table" size="small" sx={{ mb: 4 }}>
-            <caption>Your list of skills</caption>
+        {isLoading ? (
+          <Skeleton width={100} sx={{ m: 1 }} />
+        ) : (
+          !!fields.length && (
+            <Table aria-label="simple table" size="small" sx={{ mb: 4 }}>
+              <caption>Your list of skills</caption>
 
-            <TableHead>
-              <TableRow>
-                <TableCell>Language</TableCell>
-                <TableCell sx={{ width: 145 }}>
-                  Speaking
-                  <Tooltip title={renderTooltip(optionsSpeaking)}>
-                    <Help />
-                  </Tooltip>
-                </TableCell>
-                <TableCell sx={{ width: 145 }}>
-                  Writng
-                  <Tooltip title={renderTooltip(optionsWriting)}>
-                    <Help />
-                  </Tooltip>
-                </TableCell>
-                <TableCell sx={{ width: 20, p: 1 }}>&nbsp;</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {fields.map((item, index) => (
-                <TableRow
-                  key={index}
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                >
-                  <TableCell scope="row">
-                    <Controller
-                      name={`languages.${index}.language`}
-                      control={control}
-                      defaultValue={item.language}
-                      render={({ field, fieldState: { error } }) => (
-                        <FormControl fullWidth error={!!error} size="small">
-                          <InputLabel>Language</InputLabel>
-                          {isLoading ? (
-                            <Skeleton width={100} sx={{ m: 1 }} />
-                          ) : (
-                            <Select label="Language" variant="outlined" {...field}>
-                              {data.map(({ name }) => (
-                                <MenuItem
-                                  key={name}
-                                  value={name}
-                                  disabled={
-                                    !!getValues(fornName).find(
-                                      ({ language }) => language === name
-                                    )
-                                  }
-                                >
-                                  {name}
-                                </MenuItem>
-                              ))}
-                            </Select>
-                          )}
-                          {!!error && (
-                            <FormHelperText error>{error.message}</FormHelperText>
-                          )}
-                        </FormControl>
-                      )}
-                    />
+              <TableHead>
+                <TableRow>
+                  <TableCell>Language</TableCell>
+                  <TableCell sx={{ width: 145 }}>
+                    Speaking
+                    <Tooltip title={renderTooltip(optionsSpeaking)}>
+                      <Help />
+                    </Tooltip>
                   </TableCell>
-
-                  {['Speaking', 'Writing'].map((name) => (
-                    <TableCell key={name}>
+                  <TableCell sx={{ width: 145 }}>
+                    Writng
+                    <Tooltip title={renderTooltip(optionsWriting)}>
+                      <Help />
+                    </Tooltip>
+                  </TableCell>
+                  <TableCell sx={{ width: 20, p: 1 }}>&nbsp;</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {fields.map((item, index) => (
+                  <TableRow
+                    key={index}
+                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                  >
+                    <TableCell scope="row">
                       <Controller
-                        name={
-                          `languages.${index}.${name.toLowerCase()}` as `languages.${number}`
-                        }
+                        name={`languages.${index}.language`}
                         control={control}
-                        defaultValue={item[name] as LanguageType}
+                        defaultValue={item.language}
                         render={({ field, fieldState: { error } }) => (
                           <FormControl fullWidth error={!!error} size="small">
-                            <InputLabel>Level</InputLabel>
-                            <Select label="Select a level" variant="outlined" {...field}>
-                              {levels.map((level) => (
-                                <MenuItem key={level} value={level}>
-                                  {level}
-                                </MenuItem>
-                              ))}
-                            </Select>
+                            <InputLabel>Language</InputLabel>
+                            {isLoading ? (
+                              <Skeleton width={100} sx={{ m: 1 }} />
+                            ) : (
+                              <Select label="Language" variant="outlined" {...field}>
+                                {data.map(({ name }) => (
+                                  <MenuItem
+                                    key={name}
+                                    value={name}
+                                    disabled={
+                                      !!getValues(fornName).find(
+                                        ({ language }) => language === name
+                                      )
+                                    }
+                                  >
+                                    {name}
+                                  </MenuItem>
+                                ))}
+                              </Select>
+                            )}
                             {!!error && (
                               <FormHelperText error>{error.message}</FormHelperText>
                             )}
@@ -244,38 +199,67 @@ const LanguageForm: FC<StandardRegisterProps<LanguagesType>> = ({
                         )}
                       />
                     </TableCell>
-                  ))}
 
-                  <TableCell align="right" sx={{ padding: 1 }}>
-                    <IconButton
-                      aria-label="Remove"
-                      title="Remove"
-                      onClick={() => remove(index)}
-                    >
-                      <Cancel />
-                    </IconButton>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        )
-      )}
+                    {['Speaking', 'Writing'].map((name) => (
+                      <TableCell key={name}>
+                        <Controller
+                          name={
+                            `languages.${index}.${name.toLowerCase()}` as `languages.${number}`
+                          }
+                          control={control}
+                          defaultValue={item[name] as LanguageType}
+                          render={({ field, fieldState: { error } }) => (
+                            <FormControl fullWidth error={!!error} size="small">
+                              <InputLabel>Level</InputLabel>
+                              <Select
+                                label="Select a level"
+                                variant="outlined"
+                                {...field}
+                              >
+                                {levels.map((level) => (
+                                  <MenuItem key={level} value={level}>
+                                    {level}
+                                  </MenuItem>
+                                ))}
+                              </Select>
+                              {!!error && (
+                                <FormHelperText error>{error.message}</FormHelperText>
+                              )}
+                            </FormControl>
+                          )}
+                        />
+                      </TableCell>
+                    ))}
 
-      <Field textAlign="right">
-        <Button
-          variant="outlined"
-          startIcon={<AddCircleOutline />}
-          onClick={() => {
-            append({ language: '', speaking: '', writing: '' })
-          }}
-        >
-          Add language
-        </Button>
-      </Field>
+                    <TableCell align="right" sx={{ padding: 1 }}>
+                      <IconButton
+                        aria-label="Remove"
+                        title="Remove"
+                        onClick={() => remove(index)}
+                      >
+                        <Cancel />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )
+        )}
 
-      <FormFooter backUrl={backUrl} />
-    </form>
+        <Field textAlign="right">
+          <Button
+            variant="outlined"
+            startIcon={<AddCircleOutline />}
+            onClick={() => {
+              append({ language: '', speaking: '', writing: '' })
+            }}
+          >
+            Add language
+          </Button>
+        </Field>
+      </Form>
+    </FormProvider>
   )
 }
 
