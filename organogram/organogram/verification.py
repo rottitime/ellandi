@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.contrib.auth import login
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.core.exceptions import BadRequest
 from django.core.mail import send_mail
@@ -39,6 +40,7 @@ def verification_view(request, user_id, token):
     if result:
         user.verified = True
         user.save()
+        login(request, user)
         return redirect(reverse("pages", args=("your-details",)))
     else:
         raise BadRequest("Invalid token")
