@@ -111,13 +111,14 @@ def test_user_patch(client, user_id):
     }
     response = client.patch(f"/users/{user_id}/", data=more_nested_user_data)
     assert response.status_code == status.HTTP_200_OK
-    assert response.json()["first_name"] == "Alice"
-    assert len(response.json()["professions"]) == 1
-    assert response.json()["professions"][0] == "Policy"
-    assert response.json()["profession_other"] == ""
-    assert len(response.json()["languages"]) == 0
-    print(response.json()["skills"])
-    assert len(response.json()["skills"]) == 2
+    data = response.json()
+    print(data)
+    assert data["first_name"] == "Alice"
+    assert len(data["professions"]) == 1
+    assert data["professions"][0] == "Policy"
+    assert data["profession_other"] == ""
+    assert len(data["languages"]) == 0
+    assert len(data["skills"]) == 2
 
 
 @utils.with_logged_in_client
