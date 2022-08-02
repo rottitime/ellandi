@@ -132,7 +132,7 @@ class LanguageAdmin(DropDownListAdmin):
 
 
 class ProfessionAdmin(DropDownListAdmin):
-    pass
+    readonly_fields = ("name", "slug", "order")
 
 
 class GradeAdmin(DropDownListAdmin):
@@ -148,7 +148,7 @@ class CountryAdmin(DropDownListAdmin):
 
 
 class FunctionAdmin(DropDownListAdmin):
-    pass
+    readonly_fields = ("name", "slug", "order")
 
 
 admin.site.register(User, UserAdmin)
