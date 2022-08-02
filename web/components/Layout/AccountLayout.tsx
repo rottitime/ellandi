@@ -6,6 +6,7 @@ import Template from '@/components/Layout/Template'
 import useAuth from '@/hooks/useAuth'
 import Footer from '@/components/Footer/Footer'
 import Icon, { IconsType } from '@/components/Icons/Icon'
+import Headline from '@/components/Accounts/Headline/Headline'
 
 const Layout = styled(Box)`
   --footer-height: 60px;
@@ -34,23 +35,11 @@ const Layout = styled(Box)`
       font-weight: 700;
     }
   }
-
-  .headline {
-    margin-bottom: ${(p) => p.theme.spacing(5)};
-    .MuiTypography-h1 {
-      display: flex;
-      align-items: center;
-      svg {
-        font-size: 50px;
-        margin-right: ${(p) => p.theme.spacing(3)};
-      }
-    }
-  }
 `
 type Props = {
   children: ReactNode
   titleIcon?: IconsType
-  title: string | ReactNode
+  title?: string | ReactNode
   breadcrumbs?: { title: string; url?: string }[]
   teaserHeadline?: string
   teaserContent?: string
@@ -96,23 +85,25 @@ const AccountLayout: FC<Props> = ({
           )}
         </Breadcrumbs>
 
-        <Box className="headline">
-          <Typography variant="h1" gutterBottom>
-            {titleIcon && <Icon icon={titleIcon} />}
-            {title}
-          </Typography>
+        {title && (
+          <Headline>
+            <Typography variant="h1" gutterBottom>
+              {titleIcon && <Icon icon={titleIcon} />}
+              {title}
+            </Typography>
 
-          {teaserHeadline && (
-            <Typography variant="h1" component="p" gutterBottom>
-              {teaserHeadline}
-            </Typography>
-          )}
-          {teaserContent && (
-            <Typography variant="subtitle1" component="p" gutterBottom>
-              {teaserContent}
-            </Typography>
-          )}
-        </Box>
+            {teaserHeadline && (
+              <Typography variant="h1" component="p" gutterBottom>
+                {teaserHeadline}
+              </Typography>
+            )}
+            {teaserContent && (
+              <Typography variant="subtitle1" component="p" gutterBottom>
+                {teaserContent}
+              </Typography>
+            )}
+          </Headline>
+        )}
         {children}
       </Template>
 

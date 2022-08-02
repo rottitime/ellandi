@@ -4,6 +4,11 @@ import { Brands } from '@/style/theme'
 import { IconsType } from '@/components/Icons/Icon'
 import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
 import Link from '@/components/UI/Link'
+import useAuth from '@/hooks/useAuth'
+import { fetchMe } from '@/service/me'
+import { useQuery } from 'react-query'
+import { Query, RegisterUserResponse } from '@/service/api'
+import Headline from '@/components/Accounts/Headline/Headline'
 
 type MenuDataType = {
   title: string
@@ -66,8 +71,18 @@ const Content = styled(Box)`
 `
 
 const IndexPage = () => {
+  const { authFetch } = useAuth()
+
+  const { data } = useQuery<RegisterUserResponse>(Query.Me, () => authFetch(fetchMe))
+
   return (
     <>
+      <Headline>
+        <Typography variant="h1" gutterBottom>
+          Hello {data?.first_name}, welcome to the <br />
+          Skills and Learning Service
+        </Typography>
+      </Headline>
       <Content>
         <AccountCard
           color="brandGov"
@@ -136,13 +151,4 @@ const IndexPage = () => {
 
 export default IndexPage
 
-IndexPage.getLayout = (page) => (
-  <AccountLayout
-    title="Hello Joe"
-    teaserHeadline="Welcome to the
-  Skills and Learning Service"
-    teaserContent="Use this service to add and review your skills and find learning opportunities."
-  >
-    {page}
-  </AccountLayout>
-)
+IndexPage.getLayout = (page) => <AccountLayout>{page}</AccountLayout>
