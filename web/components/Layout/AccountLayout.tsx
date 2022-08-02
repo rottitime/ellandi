@@ -1,5 +1,12 @@
-import { FC, ReactNode } from 'react'
-import { Breadcrumbs, Typography, styled, alpha, Box } from '@mui/material'
+import { FC, ReactNode, useEffect } from 'react'
+import {
+  Breadcrumbs,
+  Typography,
+  styled,
+  alpha,
+  Box,
+  CircularProgress
+} from '@mui/material'
 import AppBar from '@/components/UI/AppBar/AppBar'
 import Link from '@/components/UI/Link'
 import Template from '@/components/Layout/Template'
@@ -7,6 +14,10 @@ import useAuth from '@/hooks/useAuth'
 import Footer from '@/components/Footer/Footer'
 import Icon, { IconsType } from '@/components/Icons/Icon'
 import Headline from '@/components/Accounts/Headline/Headline'
+import { useQuery } from 'react-query'
+import { fetchMe } from '@/service/me'
+import { Query, RegisterUserResponse } from '@/service/api'
+import router from 'next/router'
 
 const Layout = styled(Box)`
   --footer-height: 60px;
@@ -35,6 +46,12 @@ const Layout = styled(Box)`
       font-weight: 700;
     }
   }
+
+  .page-loading {
+    display: flex;
+    justify-content: center;
+    padding: 50px;
+  }
 `
 type Props = {
   children: ReactNode
@@ -53,7 +70,24 @@ const AccountLayout: FC<Props> = ({
   teaserHeadline,
   teaserContent
 }) => {
-  const { logout } = useAuth()
+  const { logout, authFetch, invalidate } = useAuth()
+  const { isLoading, data, isError } = useQuery<RegisterUserResponse>(
+    Query.Me,
+    () => authFetch(fetchMe),
+    { retry: 1 }
+  )
+
+  useEffect(() => {
+    if (!isLoading && !data) {
+      invalidate()
+      router.replace({
+        pathname: '/signin',
+        query: { ecode: 2 }
+      })
+    }
+  }, [isLoading, data, invalidate])
+
+  if (isError) return null
 
   return (
     <Layout>
@@ -104,7 +138,14 @@ const AccountLayout: FC<Props> = ({
             )}
           </Headline>
         )}
-        {children}
+
+        {isLoading ? (
+          <Box className="page-loading">
+            <CircularProgress />
+          </Box>
+        ) : (
+          children
+        )}
       </Template>
 
       <Footer

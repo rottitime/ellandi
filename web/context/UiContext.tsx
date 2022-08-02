@@ -3,7 +3,7 @@ import { createContext, FC, ReactNode, useContext, useEffect, useState } from 'r
 
 const ecodes = {
   1: 'Please register to proceed',
-  12: 'I am found'
+  2: 'Please login to continue'
 }
 
 type Props = {
