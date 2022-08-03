@@ -72,7 +72,7 @@ def test_user_put(client, user_id):
     response_data = response.json()
     assert (
         response_data["email"] == "jane@example.com"
-    ), f"Email field should be read-only - value {response_data['email']}"
+    ), f"Email field should be read-only - {response_data['email']}"
     assert response.status_code == status.HTTP_200_OK
     assert response_data["last_name"] == "Brown"
     assert response_data["function"] == "Analysis"
