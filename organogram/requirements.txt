@@ -6,3 +6,5 @@ watchdog[watchmedo]
 jinja2
 whitenoise
 django-storages[boto3]
+django-gov-notify
+django-email-verification

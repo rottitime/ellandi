@@ -34,6 +34,7 @@ class UserAdmin(django.contrib.auth.admin.UserAdmin):
             {
                 "fields": (
                     "email",
+                    "verified",
                     "first_name",
                     "last_name",
                     "job_title",
@@ -61,6 +62,7 @@ class UserAdmin(django.contrib.auth.admin.UserAdmin):
             {
                 "fields": (
                     "email",
+                    "verified",
                     "first_name",
                     "last_name",
                     "job_title",
@@ -81,7 +83,7 @@ class UserAdmin(django.contrib.auth.admin.UserAdmin):
         ),
     )
     inlines = [UserSkillInline, UserLanguageInline]
-    readonly_fields = ("created_at", "modified_at", "professions")
+    readonly_fields = ("created_at", "modified_at", "professions", "verified")
     list_display = ("email", "first_name", "last_name")
 
 

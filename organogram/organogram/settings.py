@@ -1,21 +1,22 @@
-from pathlib import Path
+from .settings_base import (
+    BASE_DIR,
+    SECRET_KEY,
+    STATIC_ROOT,
+    STATIC_URL,
+    STATICFILES_DIRS,
+    env,
+)
 
-import environ
-
-env = environ.Env()
-
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env.str("DJANGO_SECRET_KEY")
+SECRET_KEY = SECRET_KEY
+STATIC_URL = STATIC_URL
+STATICFILES_DIRS = STATICFILES_DIRS
+STATIC_ROOT = STATIC_ROOT
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DEBUG", default=False)
 
-# VCAP_SERVICES
 VCAP_SERVICES = env.json("VCAP_SERVICES")
+VCAP_APPLICATION = env.json("VCAP_APPLICATION")
 
 if VCAP_SERVICES:
     # AWS
@@ -41,6 +42,7 @@ else:
         "testserver",
     ]
 
+HOST_URL = VCAP_APPLICATION["application_uris"][0]
 
 # Application definition
 
@@ -136,16 +138,42 @@ USE_L10N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.2/howto/static-files/
-
-STATIC_URL = "/static/"
-STATICFILES_DIRS = [BASE_DIR / "static"]
-STATIC_ROOT = BASE_DIR / "staticfiles"
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "registration.User"
+
+# Email
+
+EMAIL_BACKEND_TYPE = env.str("EMAIL_BACKEND_TYPE")
+
+if EMAIL_BACKEND_TYPE == "FILE":
+    EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+    EMAIL_FILE_PATH = env.str("EMAIL_FILE_PATH")
+elif EMAIL_BACKEND_TYPE == "CONSOLE":
+    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+elif EMAIL_BACKEND_TYPE == "GOVUKNOTIFY":
+    EMAIL_BACKEND = "django_gov_notify.backends.NotifyEmailBackend"
+    GOVUK_NOTIFY_API_KEY = env.str("GOVUK_NOTIFY_API_KEY")
+    GOVUK_NOTIFY_PLAIN_EMAIL_TEMPLATE_ID = env.str("GOVUK_NOTIFY_PLAIN_EMAIL_TEMPLATE_ID")
+else:
+    assert EMAIL_BACKEND_TYPE in ("FILE", "CONSOLE", "GOVUKNOTIFY")
+
+# Email Verification
+
+
+def verified_callback(user):
+    user.verified = True
+    user.save()
+
+
+EMAIL_VERIFIED_CALLBACK = verified_callback
+EMAIL_FROM_ADDRESS = "orgdata@no10.gov.uk"
+EMAIL_MAIL_SUBJECT = "Confirm your email address"
+EMAIL_MAIL_HTML = "mail_body.html"
+EMAIL_MAIL_PLAIN = "mail_body.txt"
+EMAIL_TOKEN_LIFE = 60 * 60 * 24
+EMAIL_PAGE_TEMPLATE = "confirm_email_verification.html"
+EMAIL_PAGE_DOMAIN = f"http://{HOST_URL}"

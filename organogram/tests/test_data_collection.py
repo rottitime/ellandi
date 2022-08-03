@@ -1,4 +1,7 @@
+import pathlib
+
 import testino
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from nose.tools import assert_raises
 
@@ -12,30 +15,63 @@ def test_favicon():
         agent.get("/favicon.ico")
 
 
-def _fill_in_user_form(agent):
+def _fill_in_user_form(agent, data):
     page = agent.get("/create-account")
     assert page.status_code == 200, page.status_code
 
     assert page.has_one("h1:contains('Create an account')")
 
     form = page.get_form()
-    form["email"] = "bob1@example.com"
-    form["email_confirm"] = "bob1@example.com"
-    form["password"] = "foo"
-    form["password_confirm"] = "foo"
+    form["email"] = data["email"]
+    form["email_confirm"] = data["email_confirm"]
+    form["password"] = data["password"]
+    form["password_confirm"] = data["password_confirm"]
 
     return form
 
 
+def test_email_verification():
+    data = {
+        "email": "billy@example.com",
+        "email_confirm": "billy@example.com",
+        "password": "foo",
+        "password_confirm": "foo",
+    }
+
+    agent = testino.WSGIAgent(wsgi.application, "http://testserver/")
+    form = _fill_in_user_form(agent, data)
+    page = form.submit().follow()
+    email_folder = pathlib.Path(settings.EMAIL_FILE_PATH)
+    email_file = next(email_folder.glob("*"))
+    with email_file.open() as f:
+        lines = f.readlines()
+    url_lines = tuple(line for line in lines if line.startswith("http://testserver/"))
+    assert len(url_lines) == 1
+    url = url_lines[0]
+    page = agent.get(url).follow()
+
+    assert page.path == "/your-details"
+
+    user = get_user_model().objects.get(email=data["email"])
+    assert user.verified
+
+
 def test_duplicate_user():
+    data = {
+        "email": "bob1@example.com",
+        "email_confirm": "bob1@example.com",
+        "password": "foo",
+        "password_confirm": "foo",
+    }
+
     agent = testino.WSGIAgent(wsgi.application, "http://testserver/")
 
-    form = _fill_in_user_form(agent)
+    form = _fill_in_user_form(agent, data)
     page = form.submit().follow()
     assert page.status_code == 200, page.status_code
     assert page.has_one("h1:contains('Your details')")
 
-    form = _fill_in_user_form(agent)
+    form = _fill_in_user_form(agent, data)
 
     page = form.submit()
     assert page.has_one("span[data-error='There is already a user with that email']")

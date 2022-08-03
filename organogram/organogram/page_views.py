@@ -6,6 +6,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 
 from organogram.registration import initial_data, models
+from organogram.verification import send_verification_email
 
 page_names = (
     "intro",
@@ -95,7 +96,8 @@ def create_account_view(request, url_data):
         if form.is_valid():
             data = form.cleaned_data
             user = models.User.objects.create_user(email=data["email"], password=data["password"])
-            user = login(request, user)
+            login(request, user)
+            send_verification_email(user)
             return redirect(url_data["next_url"])
     else:
         form = CreateAccountForm()

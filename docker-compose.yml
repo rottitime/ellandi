@@ -97,6 +97,7 @@ services:
       dockerfile: ./docker/tests/Dockerfile
       args:
         APP: api
+        MODULE: ellandi
     image: tests_api
     env_file:
       - ./.envs/tests
@@ -109,6 +110,7 @@ services:
       dockerfile: ./docker/tests/Dockerfile
       args:
         APP: organogram
+        MODULE: organogram
     image: tests_organogram
     env_file:
       - ./.envs/tests

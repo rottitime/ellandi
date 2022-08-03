@@ -1,6 +1,7 @@
 FROM python:3.8-buster
 
 ARG APP
+ARG MODULE
 
 ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -20,6 +21,9 @@ COPY . /app
 
 WORKDIR /app/$APP
 
-RUN VCAP_SERVICES="{}" DJANGO_SECRET_KEY="temp" DATABASE_URL="temp" python manage.py collectstatic --no-input
+RUN \
+    DJANGO_SETTINGS_MODULE=$MODULE.settings_base \
+    DJANGO_SECRET_KEY="temp" \
+    python manage.py collectstatic --no-input
 
 CMD ["sh","/start.sh"]
