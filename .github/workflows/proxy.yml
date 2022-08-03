@@ -7,7 +7,7 @@ on:
       - sandbox
       - develop
       - prod
-    path:
+    paths:
       # - .github/workflows/proxy.yml
       - 'proxy/**'
 
