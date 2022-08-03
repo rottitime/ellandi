@@ -69,13 +69,14 @@ def test_user_put(client, user_id):
         "function": "Analysis",
     }
     response = client.put(f"/users/{user_id}/", data=updated_user_data)
-    assert response.json()["email"] == "jane@example.com", "Email field should be read-only"
+    response_data = response.json()
+    assert response_data["email"] == "jane@example.com", f"Email field should be read-only - value {response_data['email']}"
     assert response.status_code == status.HTTP_200_OK
-    assert response.json()["last_name"] == "Brown"
-    assert response.json()["function"] == "Analysis"
-    assert len(response.json()["professions"]) == 3
-    assert "Policy" in response.json()["professions"]
-    assert response.json()["profession_other"] == "A new and exciting profession"
+    assert response_data["last_name"] == "Brown"
+    assert response_data["function"] == "Analysis"
+    assert len(response_data["professions"]) == 3
+    assert "Policy" in response_data["professions"]
+    assert response_data["profession_other"] == "A new and exciting profession"
 
 
 @utils.with_logged_in_client
@@ -112,12 +113,7 @@ def test_user_patch(client, user_id):
         "first_name": "Alice",
         "professions": ["Policy"],
         "profession_other": "",
-        "skills": "my first skill"
-        # "skills": [
-        #     {"skill_name": "business cases", "level": "beginner", "validated": False},
-        #     {"skill_name": "statistics", "level": "advanced", "validated": True},
-        # ],
-        # "languages": [],
+        "skills": [{"skill_name": "running", "level": "", "validated": False}],
     }
     response = client.patch(f"/users/{user_id}/", data=more_nested_user_data)
     assert response.status_code == status.HTTP_200_OK

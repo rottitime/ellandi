@@ -97,7 +97,7 @@ class UserLanguageSerializerNested(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    skills = UserSkillSerializerNested(many=True, read_only=False, required=True)
+    skills = UserSkillSerializerNested(many=True, read_only=False, required=False)
     languages = UserLanguageSerializerNested(many=True, read_only=False, required=False)
     email = serializers.CharField(read_only=True)
     professions = serializers.SlugRelatedField(
@@ -195,7 +195,7 @@ class UserSerializer(serializers.ModelSerializer):
                 "required": False,
             },
         }
-        depth=2
+        depth = 2
 
 
 class RegisterSerializer(serializers.Serializer):
