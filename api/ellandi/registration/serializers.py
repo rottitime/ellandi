@@ -104,10 +104,9 @@ class UserSerializer(serializers.ModelSerializer):
         many=True, queryset=Profession.objects.all(), read_only=False, slug_field="name", required=False
     )
 
-    # TODO - add some validation
+    # TODO - add some validation?
 
     def update(self, instance, validated_data):
-        print(f"validated_data: {validated_data}")
         single_fields_to_update = [
             "privacy_policy_agreement",
             "first_name",
@@ -139,9 +138,7 @@ class UserSerializer(serializers.ModelSerializer):
         # For many-to-many and one-to-one fields (skills, languages, professions)
         # - delete existing and replace with new values
         if "professions" in validated_data:
-            instance.professions.all().delete()
-            for profession in validated_data["professions"]:
-                instance.professions.add(profession)
+            instance.professions.set(validated_data["professions"])
 
         if "skills" in validated_data:
             instance.skills.all().delete()

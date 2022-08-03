@@ -111,19 +111,19 @@ def test_user_patch(client, user_id):
 
     more_nested_user_data = {
         "first_name": "Alice",
-        "professions": ["Policy"],
+        "professions": ["Policy", "Operational Research Service"],
         "profession_other": "",
-        "skills": [{"skill_name": "running", "level": "", "validated": False}],
+        "skills": [{"skill_name": "running", "level": "competent", "validated": False}],
     }
     response = client.patch(f"/users/{user_id}/", data=more_nested_user_data)
     assert response.status_code == status.HTTP_200_OK
     data = response.json()
     assert data["first_name"] == "Alice"
-    assert len(data["professions"]) == 1
-    assert data["professions"][0] == "Policy"
+    assert len(data["professions"]) == 2
+    assert "Policy" in data["professions"]
     assert data["profession_other"] == ""
-    assert len(data["languages"]) == 0
-    assert len(data["skills"]) == 2
+    assert len(data["languages"]) == 0, data["languages"]
+    assert len(data["skills"]) == 2, data["skills"]
 
 
 @utils.with_logged_in_client
