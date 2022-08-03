@@ -9,7 +9,7 @@ on:
       - prod
     path:
       # - .github/workflows/proxy.yml
-      - proxy/
+      - 'proxy/**'
 
 
 permissions:
