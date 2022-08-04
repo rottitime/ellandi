@@ -6,7 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Grid } from '@mui/material'
 import { StandardRegisterProps } from '../types'
 import { RegisterDetailsType } from '@/service/api'
-import { Field } from '@/components/Form/Field'
+import { Field } from '@/components/Form/Field/Field'
 import Form from '@/components/Form/Register/FormRegister/FormRegister'
 
 const schema: SchemaOf<RegisterDetailsType> = object().shape({

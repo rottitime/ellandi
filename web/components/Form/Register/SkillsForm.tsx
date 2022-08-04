@@ -3,13 +3,13 @@ import { FC, useEffect } from 'react'
 import { StandardRegisterProps } from './types'
 import { FormProvider, useForm } from 'react-hook-form'
 import CreatableAutocomplete from '../CreatableAutocomplete/CreatableAutocomplete'
-import { Field } from '../Field'
 import { Query, SkillsType } from '@/service/types'
 import { fetchSkills } from '@/service/api'
 import { useQuery } from 'react-query'
 import { array, object, SchemaOf, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import Form from '@/components/Form/Register/FormRegister/FormRegister'
+import { Field } from '../Field/Field'
 
 const schema: SchemaOf<SkillsType> = object().shape({
   skills: array().of(string())

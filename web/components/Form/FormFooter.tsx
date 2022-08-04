@@ -11,15 +11,6 @@ type Props = {
   skipUrl?: string
 }
 
-export const Footer = styled(Box)`
-  display: flex;
-  justify-content: end;
-  gap: 15px;
-  padding-top: 20px;
-  align-items: center;
-  justify-content: space-between;
-`
-
 const FormFooter: FC<Props> = ({
   backUrl,
   buttonProps,

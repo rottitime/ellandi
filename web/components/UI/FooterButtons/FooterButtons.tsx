@@ -4,7 +4,7 @@ const FooterButtons = styled(Box)`
   display: flex;
   justify-content: end;
   gap: 15px;
-  padding-top: 20px;
+  margin-top: ${(p) => p.theme.spacing(4)};
   align-items: center;
   justify-content: space-between;
 `
