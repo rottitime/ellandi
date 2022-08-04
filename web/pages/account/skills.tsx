@@ -49,7 +49,7 @@ const SkillsPage = () => {
                 </Tabs>
               </Box>
               <TabPanel hidden={value !== 0}>
-                <Typography variant="h2" gutterBottom>
+                <Typography variant="h1" gutterBottom>
                   <Skills /> Skill
                 </Typography>
 
@@ -82,7 +82,7 @@ const SkillsPage = () => {
                 </Table>
               </TabPanel>
               <TabPanel hidden={value !== 1}>
-                <Typography variant="h2" gutterBottom>
+                <Typography variant="h1" gutterBottom>
                   {' '}
                   <Skills /> Language skills
                 </Typography>
@@ -125,7 +125,7 @@ const SkillsPage = () => {
                 </Table>
               </TabPanel>
               <TabPanel hidden={value !== 2}>
-                <Typography variant="h2" gutterBottom>
+                <Typography variant="h1" gutterBottom>
                   <Skills /> Skills you'd like to develop
                 </Typography>
 

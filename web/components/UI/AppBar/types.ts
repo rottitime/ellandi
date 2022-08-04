@@ -1,7 +1,7 @@
-import { Brands } from '@/style/theme'
+import { ColorBrands } from '@/style/types'
 import { MouseEvent } from 'react'
 
-export type BrandColor = keyof Brands
+export type BrandColor = keyof ColorBrands
 
 export type MenuItem = {
   title: string

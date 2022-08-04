@@ -12,17 +12,17 @@ type Props = {
   list: {
     icon: ReactElement
     title: string
-    content?: string
+    //content?: string
   }[]
 } & ListProps
 
 const List: FC<Props> = ({ list, ...props }) => (
   <MuiList {...props} sx={{ width: '100%' }}>
-    {list.map(({ icon, title, content }) => (
+    {list.map(({ icon, title }) => (
       <ListItem alignItems="center" key={title} disablePadding sx={{ mb: 2 }}>
         <ListItemAvatar>{icon}</ListItemAvatar>
         <ListItemText
-          primary={<Typography variant="body2">{title}</Typography>}
+          primary={<Typography>{title}</Typography>}
           // secondary={
           //   content ? (
           //     <Typography variant="body2" sx={{ color: 'rgb(159, 169, 183)' }}>

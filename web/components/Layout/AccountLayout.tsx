@@ -32,7 +32,7 @@ const Layout = styled(Box)`
     height: var(--footer-height);
   }
   .MuiBreadcrumbs-root {
-    margin-top: 36px;
+    margin-top: ${(p) => p.theme.spacing(4)};
     border-bottom: 3px solid #000;
     color: ${(p) => alpha(p.theme.colors.black, 0.6)};
     margin-bottom: ${(p) => p.theme.spacing(4)};

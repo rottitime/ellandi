@@ -7,9 +7,7 @@ const IndexPage = () => (
   <Grid container gap={5}>
     <Grid item xs>
       <Card>
-        <Typography variant="h2" gutterBottom>
-          Register
-        </Typography>
+        <Typography gutterBottom>Register</Typography>
         <Button variant="contained" href="/register">
           Register
         </Button>
@@ -18,9 +16,7 @@ const IndexPage = () => (
     <Divider orientation="vertical" flexItem></Divider>
     <Grid item xs>
       <Card>
-        <Typography variant="h2" gutterBottom>
-          Sign in
-        </Typography>
+        <Typography gutterBottom>Sign in</Typography>
         <Button variant="contained" href="/signin">
           Sign in
         </Button>

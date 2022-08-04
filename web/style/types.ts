@@ -7,7 +7,7 @@ type ColorUI = {
   success: CSSProperties['color']
 }
 
-type ColorBrands = {
+export type ColorBrands = {
   brandGov: CSSProperties['color']
   brandSkills: CSSProperties['color']
   brandLearning: CSSProperties['color']

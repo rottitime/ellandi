@@ -1,11 +1,11 @@
-import { Brands } from '@/style/theme'
 import { ComponentProps, ReactNode } from 'react'
 import { Card } from '@mui/material'
 import { IconsType } from '@/components/Icons/Icon'
+import { ColorBrands } from '@/style/types'
 
 export type Props = {
   children: ReactNode
-  color?: keyof Brands
+  color?: keyof ColorBrands
   headerLogoSize?: 'medium' | 'large'
   headerLogo?: IconsType
   header?: ReactNode

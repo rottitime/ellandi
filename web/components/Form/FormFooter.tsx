@@ -1,5 +1,4 @@
 import { Box } from '@mui/material'
-import { styled } from '@mui/material/styles'
 import { ComponentProps, FC } from 'react'
 import Button from '@/components/UI/Button/Button'
 import FooterButtons from '@/components/UI/FooterButtons/FooterButtons'

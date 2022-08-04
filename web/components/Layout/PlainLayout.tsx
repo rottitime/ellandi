@@ -29,7 +29,7 @@ const PlainLayout: FC<Props> = ({ title, children }) => {
         <Box className="logo">
           <Crown />
         </Box>
-        <Typography variant="leader" sx={{ textAlign: 'center', mb: 3 }}>
+        <Typography variant="display" sx={{ textAlign: 'center', mb: 3 }}>
           {title}
         </Typography>
       </header>

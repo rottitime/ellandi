@@ -1,6 +1,5 @@
 import AccountLayout from '@/components/Layout/AccountLayout'
 import { Button, Typography, styled, Box } from '@mui/material'
-import { Brands } from '@/style/theme'
 import { IconsType } from '@/components/Icons/Icon'
 import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
 import Link from '@/components/UI/Link'
@@ -9,13 +8,14 @@ import { fetchMe } from '@/service/me'
 import { useQuery } from 'react-query'
 import { Query, RegisterUserResponse } from '@/service/api'
 import Headline from '@/components/Accounts/Headline/Headline'
+import { ColorBrands } from '@/style/types'
 
 type MenuDataType = {
   title: string
   content: string
   linkText: string
   url: string
-  color: keyof Brands
+  color: keyof ColorBrands
   logo: IconsType
 }[]
 
@@ -86,7 +86,11 @@ const IndexPage = () => {
       <Content>
         <AccountCard
           color="brandGov"
-          header={<Typography variant="h2">Latest updates</Typography>}
+          header={
+            <Typography variant="h1" component="h3">
+              Latest updates
+            </Typography>
+          }
         >
           <ul className="news-feed">
             {[...Array(3).keys()].map((i) => (
@@ -104,9 +108,13 @@ const IndexPage = () => {
         <AccountCard
           color="brandSkills"
           className="single"
-          header={<Typography variant="h2">Skills added</Typography>}
+          header={
+            <Typography variant="h1" component="h3">
+              Skills added
+            </Typography>
+          }
         >
-          <Typography variant="h1" sx={{ mb: 4 }}>
+          <Typography variant="display" sx={{ mb: 4 }}>
             16
           </Typography>
           <Link href="#">
@@ -117,9 +125,13 @@ const IndexPage = () => {
         <AccountCard
           color="brandLearning"
           className="single"
-          header={<Typography variant="h2">Learning this week</Typography>}
+          header={
+            <Typography variant="h1" component="h3">
+              Learning this week
+            </Typography>
+          }
         >
-          <Typography variant="h1" sx={{ mb: 4 }}>
+          <Typography variant="display" sx={{ mb: 4 }}>
             2hrs
           </Typography>
           <Link href="#">
@@ -133,7 +145,11 @@ const IndexPage = () => {
             key={profile.title}
             headerLogoSize="large"
             headerLogo={profile.logo}
-            header={<Typography variant="h2">{profile.title}</Typography>}
+            header={
+              <Typography variant="h1" component="h3">
+                {profile.title}
+              </Typography>
+            }
             headerColorInherit
           >
             <Typography variant="subtitle1" gutterBottom>
