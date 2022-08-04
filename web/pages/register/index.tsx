@@ -12,14 +12,7 @@ const RegisterPage = () => (
 
 export default RegisterPage
 RegisterPage.getLayout = (page) => (
-  <CardLayout
-    showPromo={true}
-    title={
-      <>
-        Registering takes around <br />5 - 10 minutes
-      </>
-    }
-  >
+  <CardLayout showPromo={true} title="Registering takes around 5 - 10 minutes">
     {page}
   </CardLayout>
 )

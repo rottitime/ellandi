@@ -22,14 +22,14 @@ const List: FC<Props> = ({ list, ...props }) => (
       <ListItem alignItems="center" key={title} disablePadding sx={{ mb: 2 }}>
         <ListItemAvatar>{icon}</ListItemAvatar>
         <ListItemText
-          primary={<Typography>{title}</Typography>}
-          secondary={
-            content ? (
-              <Typography variant="caption" sx={{ color: 'rgb(159, 169, 183)' }}>
-                {content}
-              </Typography>
-            ) : null
-          }
+          primary={<Typography variant="body2">{title}</Typography>}
+          // secondary={
+          //   content ? (
+          //     <Typography variant="body2" sx={{ color: 'rgb(159, 169, 183)' }}>
+          //       {content}
+          //     </Typography>
+          //   ) : null
+          // }
         />
       </ListItem>
     ))}

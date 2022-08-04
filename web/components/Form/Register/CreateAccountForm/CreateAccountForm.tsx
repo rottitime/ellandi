@@ -51,7 +51,7 @@ const CreateAccountForm: FC<StandardRegisterProps<CreateAccountType>> = (props) 
         </Typography>
 
         <Typography variant="subtitle1" gutterBottom>
-          Enter your email address
+          Email address
         </Typography>
         <Field>
           <TextFieldControlled name="email" label="Email address" />

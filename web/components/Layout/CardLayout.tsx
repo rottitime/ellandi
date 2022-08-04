@@ -62,7 +62,7 @@ const GridContainer = styled(Grid)`
       position: absolute;
       inset: 0px 0px 0px -100vw;
       z-index: -1;
-      background-color: ${({ theme }) => theme.colors.blueDark};
+      background-color: #161e2f;
     }
 
     .MuiDivider-root {
@@ -72,8 +72,10 @@ const GridContainer = styled(Grid)`
 
   .main-content {
     flex-grow: 0;
+    order: 0;
     padding: ${(p) => p.theme.spacing(2)};
     ${({ theme }) => theme.breakpoints.up('md')} {
+      order: 1;
       flex-grow: 1;
       justify-content: center;
       align-items: center;
@@ -99,17 +101,27 @@ const CardLayout: FC<Props> = ({ children, showPromo, title, footer, progress })
         {withGovLogoBackground}
       </style>
       <GridContainer spacing={0} container>
+        <Grid item xs className="main-content">
+          <GovCard title={title} progress={progress}>
+            {!!error && (
+              <Alert severity="error" sx={{ mt: 3, mb: 3 }}>
+                <>{error}</>
+              </Alert>
+            )}
+
+            {children}
+          </GovCard>
+          {footer}
+        </Grid>
         {!!showPromo && (
           <Grid item xs={12} md={4} className="promo-box">
             <Box>
-              <Typography variant="leader" gutterBottom textAlign="center">
+              <Typography variant="h1" component="h2" gutterBottom textAlign="center">
                 Civil Service Skills and Learning
               </Typography>
 
               <Divider variant="middle" sx={{ my: 4 }} />
-              <Typography variant="h3" component="p">
-                You can use this service to:
-              </Typography>
+              <Typography>You can use this service to:</Typography>
               <List
                 className="list"
                 list={[
@@ -135,18 +147,6 @@ const CardLayout: FC<Props> = ({ children, showPromo, title, footer, progress })
             </Box>
           </Grid>
         )}
-        <Grid item xs className="main-content">
-          <GovCard title={title} progress={progress}>
-            {!!error && (
-              <Alert severity="error" sx={{ mt: 3, mb: 3 }}>
-                <>{error}</>
-              </Alert>
-            )}
-
-            {children}
-          </GovCard>
-          {footer}
-        </Grid>
       </GridContainer>
     </Template>
   )

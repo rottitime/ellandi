@@ -17,23 +17,23 @@ const Wrapper = styled(Box)<Props>`
 
   .MuiLinearProgress-root {
     height: 10px;
-    background-color: #e9eaec;
+    background-color: ${(p) => p.theme.colors.grey1};
   }
 
   .progress-label {
-    color: ${(p) => p.theme.colors.greyDark};
+    color: ${(p) => p.theme.colors.grey3};
   }
 `
 
-const LinearProgress: FC<Props> = ({ label, ...props }) => {
+const LinearProgress: FC<Props> = ({ label, sx, ...props }) => {
   return (
-    <Wrapper>
+    <Wrapper sx={sx}>
       <Box sx={{ width: '100%', mr: 2 }}>
         <MuiLinearProgress variant="determinate" {...props} />
       </Box>
       {label && (
         <Box>
-          <Typography variant="body2" className="progress-label">
+          <Typography variant="caption" className="progress-label">
             {label}
           </Typography>
         </Box>

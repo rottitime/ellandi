@@ -18,10 +18,6 @@ const Card = styled(MuiCard)`
   word-wrap: break-word;
   border-radius: 12px 12px 0 0;
 
-  header {
-    margin-bottom: ${(p) => p.theme.spacing(4)};
-  }
-
   .card-logo {
     background: ${(p) => p.theme.colors.black};
     padding: ${({ theme: { spacing } }) => `${spacing(2)} ${spacing(3)} `};
@@ -77,12 +73,13 @@ const GovCard: FC<Props> = ({ children, progress, title, ...props }) => {
 
       <CardContent>
         <header>
-          <Typography variant="leader" component="h2" className="card-title">
+          <Typography variant="h1" className="card-title">
             {title}
           </Typography>
 
           {!!progress && (
             <LinearProgress
+              sx={{ mb: 3 }}
               variant="determinate"
               value={progress}
               label={`${progress}%`}
