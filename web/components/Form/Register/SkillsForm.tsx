@@ -39,7 +39,7 @@ const SkillsForm: FC<StandardRegisterProps<SkillsType>> = (props) => {
   return (
     <FormProvider {...methods}>
       <Form {...props}>
-        <Typography variant="subtitle1" gutterBottom>
+        <Typography variant="subtitle1" sx={{ mb: 3 }}>
           Add any skills that you already have. You can change or add to these later
         </Typography>
         <Typography sx={{ mb: 4 }}>
@@ -71,9 +71,7 @@ const SkillsForm: FC<StandardRegisterProps<SkillsType>> = (props) => {
           <>
             <Divider variant="middle" sx={{ my: 4 }} />
 
-            <Typography variant="h3" sx={{ mb: 3 }}>
-              Your selected skills
-            </Typography>
+            <Typography sx={{ mb: 3 }}>Your selected skills</Typography>
 
             <Stack flexWrap="wrap" direction="row" gap={3}>
               {skills.map((skill) => (

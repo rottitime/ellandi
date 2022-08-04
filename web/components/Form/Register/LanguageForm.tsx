@@ -105,7 +105,7 @@ const LanguageForm: FC<StandardRegisterProps<LanguagesType>> = (props) => {
   return (
     <FormProvider {...methods}>
       <Form {...props}>
-        <Typography variant="subtitle1" gutterBottom>
+        <Typography variant="subtitle1" sx={{ mb: 3 }}>
           Add any languages that you use. You can change or add to these later.
         </Typography>
         <Typography gutterBottom>
@@ -114,9 +114,7 @@ const LanguageForm: FC<StandardRegisterProps<LanguagesType>> = (props) => {
 
         {fields.map((item, index) => (
           <Box key={index}>
-            <Typography variant="h4" gutterBottom>
-              Language {index + 1}
-            </Typography>
+            <Typography gutterBottom>Language {index + 1}</Typography>
 
             <Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
               <Field sx={{ width: '100%' }}>
@@ -187,9 +185,11 @@ const LanguageForm: FC<StandardRegisterProps<LanguagesType>> = (props) => {
                               sx={{ alignItems: 'flex-start' }}
                               label={
                                 <>
-                                  <Typography variant="h4">{title} </Typography>
+                                  <Typography>
+                                    <b>{title}</b>
+                                  </Typography>
                                   <Collapse in={field.value === title}>
-                                    <Typography variant="body2">{content}</Typography>
+                                    <Typography>{content}</Typography>
                                   </Collapse>
                                 </>
                               }
