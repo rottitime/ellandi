@@ -9,6 +9,12 @@ import {
 import AccountLayout from '@/components/Layout/AccountLayout'
 import Link from '@/components/UI/Link'
 import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
+import { useQuery } from 'react-query'
+import { fetchMe } from '@/service/me'
+import { Query, RegisterUserResponse } from '@/service/api'
+import useAuth from '@/hooks/useAuth'
+import TableSkeleton from '@/components/UI/Skeleton/TableSkeleton'
+import Skeleton from '@/components/UI/Skeleton/Skeleton'
 
 const Table = styled(MuiTable)`
   th {
@@ -22,28 +28,12 @@ const Table = styled(MuiTable)`
   }
 `
 
-const listProfile = [
-  { name: 'Full name', value: 'John Smith' },
-  { name: 'Primary email address', value: 'john.smith@cabinetoffice.gov.uk' },
-  { name: 'Secondary email' },
-  { name: 'Password', value: '********' },
-  { name: 'CV' }
-]
-
-const listJob = [
-  { name: 'Contract type', value: 'Permanent' },
-  { name: 'Job title', value: 'Service Designer' },
-  { name: 'Business unit', value: 'XXXXXX' },
-  { name: 'Line manager email', value: 'alan@gov.uk' },
-  { name: 'Grade', value: 'Senior Executive Officer (SEO)' },
-  { name: 'Profession', value: 'Digital, Data and Technology' },
-  { name: 'Primary profession', value: 'Human Resources' },
-  { name: 'Function', value: 'Digital' }
-]
-
-const listContact = [{ name: 'Contact preference', value: 'Yes' }]
-
 const Page = () => {
+  const { authFetch } = useAuth()
+  const { isLoading, data } = useQuery<RegisterUserResponse>(Query.Me, () =>
+    authFetch(fetchMe)
+  )
+
   const renderTable = (list = []) => (
     <Table size="small">
       <TableBody>
@@ -62,6 +52,13 @@ const Page = () => {
     </Table>
   )
 
+  if (isLoading)
+    return [...Array(2).keys()].map((i) => (
+      <AccountCard header={<Skeleton width={200} />} sx={{ mb: 4 }} key={i}>
+        <TableSkeleton />
+      </AccountCard>
+    ))
+
   return (
     <>
       <AccountCard
@@ -69,7 +66,11 @@ const Page = () => {
         header={<Typography variant="h2">Personal Details</Typography>}
         sx={{ mb: 4 }}
       >
-        {renderTable(listProfile)}
+        {renderTable([
+          { name: 'Full name', value: `${data.first_name} ${data.last_name}` },
+          { name: 'Primary email address', value: data.email },
+          { name: 'Password', value: '********' }
+        ])}
       </AccountCard>
 
       <AccountCard
@@ -77,14 +78,28 @@ const Page = () => {
         header={<Typography variant="h2">Job Details</Typography>}
         sx={{ mb: 4 }}
       >
-        {renderTable(listJob)}
+        {renderTable([
+          {
+            name: 'Contract type',
+            value: data.contract_type_other || data.contract_type
+          },
+          { name: 'Job title', value: data.job_title },
+          { name: 'Business unit', value: data.business_unit },
+          { name: 'Line manager email', value: data.line_manager_email },
+          { name: 'Grade', value: data.grade_other || data.grade },
+          { name: 'Profession', value: data.professions.join(', ') },
+          { name: 'Primary profession', value: data.primary_profession },
+          { name: 'Function', value: data.function_other || data.function }
+        ])}
       </AccountCard>
 
       <AccountCard
         headerLogo="mail"
         header={<Typography variant="h2">Contact preferences</Typography>}
       >
-        {renderTable(listContact)}
+        {renderTable([
+          { name: 'Contact preference', value: !!data.contact_preference ? 'Yes' : 'No' }
+        ])}
       </AccountCard>
     </>
   )

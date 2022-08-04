@@ -27,14 +27,18 @@ const useAuth = () => {
     return await login(data)
   }
 
+  const invalidate = () => {
+    sessionStorage.removeItem(TOKEN_KEY)
+  }
+
   const logout = async (): Promise<boolean> => {
     const token = sessionStorage.getItem(TOKEN_KEY)
-    sessionStorage.removeItem(TOKEN_KEY)
+    invalidate()
     if (token) logoutUser(token)
     return true
   }
 
-  return { login, logout, createAndLogin, authFetch, hasToken }
+  return { login, logout, createAndLogin, authFetch, hasToken, invalidate }
 }
 
 export default useAuth

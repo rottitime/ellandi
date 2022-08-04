@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import CardLayout from '@/components/Layout/CardLayout'
 import { useUiContext } from '@/context/UiContext'
 import {
@@ -55,9 +56,7 @@ const RegisterPage = ({ stepInt, nextUrl, skip, ...props }: Props) => {
   const { isLoading: isLoadingMe, data } = useQuery<RegisterUserResponse>(
     Query.Me,
     () => authFetch(fetchMe),
-    {
-      enabled: !!stepInt
-    }
+    { enabled: !!stepInt }
   )
 
   const userId = useMemo(() => data?.id || null, [data])
@@ -93,6 +92,15 @@ const RegisterPage = ({ stepInt, nextUrl, skip, ...props }: Props) => {
     }
   )
 
+  useEffect(() => {
+    //disable loading once a new step has initialised
+    setLoading(false)
+  }, [stepInt])
+
+  useEffect(() => {
+    setLoading(isLoadingMe)
+  }, [isLoadingMe])
+
   //handle unauthorized user (no id)
   useEffect(() => {
     const redirect = async () => {
@@ -102,15 +110,10 @@ const RegisterPage = ({ stepInt, nextUrl, skip, ...props }: Props) => {
         pathname: '/register/step/0',
         query: { ecode: 1 }
       })
-      setLoading(false)
     }
 
     if ((!hasToken() || (!isLoadingMe && !userId)) && stepInt > 0) redirect()
-  }, [stepInt, router, userId, isLoadingMe, setLoading, hasToken, queryClient])
-
-  useEffect(() => {
-    setLoading(isLoadingMe)
-  }, [isLoadingMe, setLoading])
+  }, [stepInt, router, userId, isLoadingMe, hasToken, queryClient, data])
 
   return (
     <FormComponent
@@ -196,7 +199,6 @@ const steps: Steps[] = [
   {
     form: dynamic(() => import('@/components/Form/Register/PrimaryProfessionForm')),
     title: 'Primary profession',
-    skip: true,
     isHidden: (data) => (data?.professions || []).length < 2
   },
   {

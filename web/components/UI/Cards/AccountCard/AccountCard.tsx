@@ -3,7 +3,9 @@ import { Card as MuiCard, styled, CardContent, Box } from '@mui/material'
 import { FC } from 'react'
 import { Props } from './types'
 
-const Card = styled(MuiCard)<Props>`
+const Card = styled(MuiCard, {
+  shouldForwardProp: (p) => p !== 'headerLogoSize' && p !== 'headerColorInherit'
+})<Props>`
   position: relative;
   word-wrap: break-word;
   border-radius: 12px;
@@ -35,24 +37,22 @@ const Card = styled(MuiCard)<Props>`
   }
 `
 
-const AccountCard: FC<Props> = ({ children, header, headerLogo, ...props }) => {
-  return (
-    <Card {...props}>
-      <CardContent>
-        {header && (
-          <header className="card-header">
-            {headerLogo && (
-              <Box className="icon">
-                <Icon icon={headerLogo} />
-              </Box>
-            )}{' '}
-            {header}
-          </header>
-        )}
-        {children}
-      </CardContent>
-    </Card>
-  )
-}
+const AccountCard: FC<Props> = ({ children, header, headerLogo, ...props }) => (
+  <Card {...props}>
+    <CardContent>
+      {header && (
+        <header className="card-header">
+          {headerLogo && (
+            <Box className="icon">
+              <Icon icon={headerLogo} />
+            </Box>
+          )}{' '}
+          {header}
+        </header>
+      )}
+      {children}
+    </CardContent>
+  </Card>
+)
 
 export default AccountCard
