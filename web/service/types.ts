@@ -58,6 +58,10 @@ export type SkillsType = {
   skills: string[]
 }
 
+export type SkillsDevelopType = {
+  skills_develop: string[]
+}
+
 export type PrimaryProfessionType = {
   primary_profession: string
 }
@@ -99,4 +103,5 @@ export type RegisterUserResponse = {
   LanguagesType &
   SkillsType &
   ContractType &
-  FunctionType
+  FunctionType &
+  SkillsDevelopType
