@@ -31,7 +31,5 @@ const RegisterPage = () => (
 
 export default RegisterPage
 RegisterPage.getLayout = (page) => (
-  <CardLayout title="Thank you for completing your details" progress={70}>
-    {page}
-  </CardLayout>
+  <CardLayout title="Thank you for completing your details">{page}</CardLayout>
 )
