@@ -32,7 +32,9 @@ describe('Service: user', () => {
     it('Error returned with default message', async () => {
       fetchMock.mockResponseOnce(JSON.stringify('broken and unknown'), { status: 400 })
 
-      expect(loginWithEmailAndPassword(mockData)).rejects.toThrow('Service unavailable')
+      expect(loginWithEmailAndPassword(mockData)).rejects.toThrow(
+        'Sorry, there is a problem with the service. Try again later.'
+      )
     })
   })
 })
