@@ -17,7 +17,8 @@ const icons = {
   learning: dynamic(() => import('@/components/Icons/Learning')),
   profile: dynamic(() => import('@/components/Icons/Profile')),
   case: dynamic(() => import('@/components/Icons/Case')),
-  mail: dynamic(() => import('@/components/Icons/Mail'))
+  mail: dynamic(() => import('@/components/Icons/Mail')),
+  'circle-plus': dynamic(() => import('@/components/Icons/CirclePlus'))
 }
 
 const Icon: FC<Props> = ({ icon, ...props }) => {
