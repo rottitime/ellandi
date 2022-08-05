@@ -1,5 +1,5 @@
 import getConfig from 'next/config'
-import { GenericDataList } from './types'
+import { FeedabckType, GenericDataList } from './types'
 
 const { publicRuntimeConfig } = getConfig()
 
@@ -48,6 +48,21 @@ export const fetchSkills = async (): Promise<string[]> => {
 export const fetchFunctions = async (): Promise<GenericDataList[]> => {
   const res = await fetch(`${publicRuntimeConfig.apiUrl}/functions/`)
   if (res.ok) return res.json()
+  throw new Error(defaultError)
+}
+
+export const fetchFeedback = async (
+  data: FeedabckType
+): Promise<{ success: boolean }> => {
+  const res = await fetch(`${publicRuntimeConfig.apiUrl}/feedback/`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+  if (res.ok) return res.json()
+
   throw new Error(defaultError)
 }
 

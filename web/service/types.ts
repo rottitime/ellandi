@@ -20,6 +20,12 @@ export interface AuthUser {
   token: string
 }
 
+export type FeedabckType = {
+  name: string
+  email: string
+  issue: string
+}
+
 export type RegisterUser = {
   email: string
   password: string
