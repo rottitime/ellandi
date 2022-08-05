@@ -97,7 +97,7 @@ const IndexPage = () => {
               <li key={i}>
                 <Typography>27.06.23 @ 14:00</Typography>
                 <Typography variant="subtitle1">
-                  <Box className="circle" />
+                  <Box className="circle" component="span" />
                   <Link href="#">Agile Bitesized</Link> learning course added
                 </Typography>
               </li>
