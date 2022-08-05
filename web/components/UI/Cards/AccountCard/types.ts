@@ -1,6 +1,6 @@
 import { ComponentProps, ReactNode } from 'react'
 import { Card } from '@mui/material'
-import { IconsType } from '@/components/Icons/Icon'
+import { IconsType } from '@/components/Icon/Icon'
 import { ColorBrands } from '@/style/types'
 
 export type Props = {

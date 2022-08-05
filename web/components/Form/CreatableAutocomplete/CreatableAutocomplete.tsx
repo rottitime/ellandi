@@ -1,7 +1,7 @@
 import { FC, useState } from 'react'
 import { Box, styled, TextField, Autocomplete, FormHelperText } from '@mui/material'
 import { createFilterOptions } from '@mui/material/Autocomplete'
-import Icon from '@/components/Icons/Icon'
+import Icon from '@/components/Icon/Icon'
 import { FilmOptionType, ListType, Props } from './types'
 
 const filter = createFilterOptions<FilmOptionType>()

@@ -8,7 +8,7 @@ import {
 } from '@mui/material'
 import { FC } from 'react'
 import { Props } from './types'
-import Icon from '@/components/Icons/Icon'
+import Icon from '@/components/Icon/Icon'
 import LinearProgress from '@/components/UI/LinearProgress/LinearProgress'
 import { useUiContext } from '@/context/UiContext'
 

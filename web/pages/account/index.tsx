@@ -1,6 +1,6 @@
 import AccountLayout from '@/components/Layout/AccountLayout'
 import { Button, Typography, styled, Box } from '@mui/material'
-import { IconsType } from '@/components/Icons/Icon'
+import { IconsType } from '@/components/Icon/Icon'
 import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
 import Link from '@/components/UI/Link'
 import useAuth from '@/hooks/useAuth'

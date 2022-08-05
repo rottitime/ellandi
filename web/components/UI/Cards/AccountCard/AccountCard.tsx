@@ -1,4 +1,4 @@
-import Icon from '@/components/Icons/Icon'
+import Icon from '@/components/Icon/Icon'
 import { Card as MuiCard, styled, CardContent, Box } from '@mui/material'
 import { FC } from 'react'
 import { Props } from './types'
