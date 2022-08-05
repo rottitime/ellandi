@@ -1,10 +1,21 @@
 import { FC, useState } from 'react'
-import { Box, styled, TextField, Autocomplete, FormHelperText } from '@mui/material'
+import {
+  Box,
+  styled,
+  TextField,
+  Autocomplete,
+  FormHelperText,
+  Paper
+} from '@mui/material'
 import { createFilterOptions } from '@mui/material/Autocomplete'
 import Icon from '@/components/Icon/Icon'
 import { FilmOptionType, ListType, Props } from './types'
 
 const filter = createFilterOptions<FilmOptionType>()
+
+const DropDown = styled(Paper)`
+  border: 1px solid ${(p) => p.theme.colors.grey1};
+`
 
 const ButtonAdd = styled(Box)`
   display: flex;
@@ -60,7 +71,7 @@ const CreatableAutocomplete: FC<Props> = ({
               helper: (
                 <ButtonAdd>
                   <Icon icon="circle-plus" />
-                  `Add jjo ij "${params.inputValue}"`
+                  Add "{params.inputValue}"
                 </ButtonAdd>
               )
             })
@@ -71,6 +82,7 @@ const CreatableAutocomplete: FC<Props> = ({
         selectOnFocus
         clearOnBlur
         handleHomeEndKeys
+        PaperComponent={DropDown}
         options={data}
         getOptionLabel={(option) => {
           // Value selected with enter, right from the input
