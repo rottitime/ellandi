@@ -12,7 +12,7 @@ import {
   Typography
 } from '@mui/material'
 import AccountLayout from '@/components/Layout/AccountLayout'
-import Learning from '@/components/Icons/Learning'
+import Icon from '@/components/Icon/Icon'
 import Card from '@/components/UI/Card'
 import Link from '@/components/UI/Link'
 import { StarBorder } from '@mui/icons-material'
@@ -209,7 +209,7 @@ Page.getLayout = (page) => (
     breadcrumbs={[{ title: 'Learning' }]}
     title={
       <>
-        <Learning /> Learning
+        <Icon icon="learning" /> Learning
       </>
     }
   >
