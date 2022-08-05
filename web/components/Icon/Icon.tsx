@@ -21,3 +21,4 @@ const Icon: FC<Props> = ({ icon, ...props }) => {
 }
 
 export default Icon
+export * from './types'

@@ -1,7 +1,7 @@
 import { SVGProps } from 'react'
 import { icons } from './Icon'
 
-type IconsType = keyof typeof icons
+export type IconsType = keyof typeof icons
 
 export type Props = {
   icon: IconsType
