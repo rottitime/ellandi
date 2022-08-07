@@ -6,18 +6,25 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('registration', '0042_add_functions_data'),
+        ("registration", "0042_add_functions_data"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='userlanguage',
-            name='level',
-            field=models.CharField(blank=True, choices=[('basic', 'Basic'), ('independent', 'Independent'), ('proficient', 'Proficient')], max_length=127, null=True),
+            model_name="userlanguage",
+            name="level",
+            field=models.CharField(
+                blank=True,
+                choices=[("basic", "Basic"), ("independent", "Independent"), ("proficient", "Proficient")],
+                max_length=127,
+                null=True,
+            ),
         ),
         migrations.AlterField(
-            model_name='userlanguage',
-            name='type',
-            field=models.CharField(blank=True, choices=[('writing', 'Writing'), ('speaking', 'Speaking')], max_length=127, null=True),
+            model_name="userlanguage",
+            name="type",
+            field=models.CharField(
+                blank=True, choices=[("writing", "Writing"), ("speaking", "Speaking")], max_length=127, null=True
+            ),
         ),
     ]

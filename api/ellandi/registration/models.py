@@ -168,7 +168,7 @@ class UserSkill(TimeStampedModel):
 
     class SkillLevel(models.TextChoices):
         BEGINNER = ("beginner", "Beginner")
-        ADVANCED_BEGINNER = ("advanced_beginner", "Advanced Beginner")
+        ADVANCED_BEGINNER = ("advanced-beginner", "Advanced beginner")
         COMPETENT = ("competent", "Competent")
         PROFICIENT = ("proficient", "Proficient")
         EXPERT = ("expert", "Expert")
