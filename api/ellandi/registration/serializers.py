@@ -45,7 +45,7 @@ class LanguageSerializer(serializers.ModelSerializer):
 class ProfessionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profession
-        fields = ["slug", "name"]
+        fields = ["slug", "name", "order"]
 
 
 class GradeSerializer(serializers.ModelSerializer):
@@ -69,7 +69,7 @@ class CountrySerializer(serializers.ModelSerializer):
 class FunctionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Function
-        fields = ["slug", "name"]
+        fields = ["slug", "name", "order"]
 
 
 class UserSkillSerializer(serializers.HyperlinkedModelSerializer):

@@ -17,4 +17,4 @@ class Migration(migrations.Migration):
         ("registration", "0041_user_contact_preference"),
     ]
 
-    operations = [migrations.RunPython(update_functions)]
+    operations = []

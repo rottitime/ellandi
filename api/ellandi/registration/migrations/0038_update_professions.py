@@ -17,4 +17,4 @@ class Migration(migrations.Migration):
         ("registration", "0037_merge_20220718_1053"),
     ]
 
-    operations = [migrations.RunPython(update_professions)]
+    operations = []

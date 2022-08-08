@@ -7,7 +7,6 @@ import pytz
 from django.conf import settings
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
-from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.text import slugify
 
@@ -22,13 +21,8 @@ class DropDownListModel(models.Model):
     name = models.CharField(max_length=127, blank=False, null=False)
     slug = models.CharField(max_length=127, blank=False, null=False, primary_key=True)
 
-    def clean(self):
-        if self.slug:
-            raise ValidationError("Do not set slug field, this is automatically calculated.")
-
     def save(self, *args, **kwargs):
-        self.clean()
-        self.slug = slugify(self.name)
+        self.slug = slugify(self.name.replace("|", "_"))
         return super().save(*args, **kwargs)
 
     def __str__(self):
@@ -58,7 +52,10 @@ class Language(DropDownListModel):
 
 
 class Profession(DropDownListModel):
-    pass
+    order = models.PositiveSmallIntegerField(null=True)
+
+    class Meta:
+        ordering = ["order"]
 
 
 class Grade(DropDownListModel):
@@ -78,7 +75,10 @@ class Country(DropDownListModel):
 
 
 class Function(DropDownListModel):
-    pass
+    order = models.PositiveSmallIntegerField(null=True)
+
+    class Meta:
+        ordering = ["order"]
 
 
 class UserManager(BaseUserManager):
@@ -145,7 +145,7 @@ class RegistrationAbstractUser(models.Model):
     function_other = models.CharField(max_length=127, blank=True, null=True)
     contract_type = models.CharField(max_length=127, blank=True, null=True)
     contract_type_other = models.CharField(max_length=127, blank=True, null=True)
-    contact_preference = models.BooleanField(default=False, blank=False, null=False)
+    contact_preference = models.BooleanField(default=None, blank=True, null=True)
 
 
 class User(AbstractUser, TimeStampedModel, RegistrationAbstractUser):
