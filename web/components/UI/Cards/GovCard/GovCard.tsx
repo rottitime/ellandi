@@ -8,7 +8,7 @@ import {
 } from '@mui/material'
 import { FC } from 'react'
 import { Props } from './types'
-import Icon from '@/components/Icons/Icon'
+import Icon from '@/components/Icon/Icon'
 import LinearProgress from '@/components/UI/LinearProgress/LinearProgress'
 import { useUiContext } from '@/context/UiContext'
 
@@ -17,10 +17,6 @@ const Card = styled(MuiCard)`
   transition: opacity ease-in-out 0.3;
   word-wrap: break-word;
   border-radius: 12px 12px 0 0;
-
-  header {
-    margin-bottom: ${(p) => p.theme.spacing(4)};
-  }
 
   .card-logo {
     background: ${(p) => p.theme.colors.black};
@@ -77,12 +73,13 @@ const GovCard: FC<Props> = ({ children, progress, title, ...props }) => {
 
       <CardContent>
         <header>
-          <Typography variant="leader" component="h2" className="card-title">
+          <Typography variant="h1" className="card-title">
             {title}
           </Typography>
 
           {!!progress && (
             <LinearProgress
+              sx={{ mb: 3 }}
               variant="determinate"
               value={progress}
               label={`${progress}%`}

@@ -227,6 +227,11 @@ const steps: Steps[] = [
   {
     form: dynamic(() => import('@/components/Form/Register/SkillsForm')),
     title: 'Current skills',
+    skip: true
+  },
+  {
+    form: dynamic(() => import('@/components/Form/Register/SkillsDevelopForm')),
+    title: 'Skills you would like to develop',
     nextUrl: '/register/complete',
     skip: true
   }

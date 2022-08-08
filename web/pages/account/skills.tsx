@@ -15,7 +15,7 @@ import {
 } from '@mui/material'
 import { SyntheticEvent, useState } from 'react'
 import Link from '@/components/UI/Link'
-import Skills from '@/components/Icons/Skills'
+import Icon from '@/components/Icon/Icon'
 import Card from '@/components/UI/Card'
 
 const TabPanel = styled(Box)`
@@ -49,8 +49,8 @@ const SkillsPage = () => {
                 </Tabs>
               </Box>
               <TabPanel hidden={value !== 0}>
-                <Typography variant="h2" gutterBottom>
-                  <Skills /> Skill
+                <Typography variant="h1" gutterBottom>
+                  <Icon icon="skills" /> Skill
                 </Typography>
 
                 <Table sx={{ minWidth: 650 }} aria-label="simple table" size="small">
@@ -82,9 +82,9 @@ const SkillsPage = () => {
                 </Table>
               </TabPanel>
               <TabPanel hidden={value !== 1}>
-                <Typography variant="h2" gutterBottom>
+                <Typography variant="h1" gutterBottom>
                   {' '}
-                  <Skills /> Language skills
+                  <Icon icon="skills" /> Language skills
                 </Typography>
 
                 <Table size="small">
@@ -125,8 +125,8 @@ const SkillsPage = () => {
                 </Table>
               </TabPanel>
               <TabPanel hidden={value !== 2}>
-                <Typography variant="h2" gutterBottom>
-                  <Skills /> Skills you'd like to develop
+                <Typography variant="h1" gutterBottom>
+                  <Icon icon="skills" /> Skills you'd like to develop
                 </Typography>
 
                 <Table sx={{ minWidth: 650 }} aria-label="simple table" size="small">

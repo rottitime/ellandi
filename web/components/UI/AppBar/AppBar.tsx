@@ -13,7 +13,7 @@ import {
 import Link from 'next/link'
 import { FC, useState } from 'react'
 import { Props } from './types'
-import Icon from '@/components/Icons/Icon'
+import Icon from '@/components/Icon/Icon'
 import { useRouter } from 'next/router'
 import Button from '../Button/Button'
 

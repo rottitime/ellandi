@@ -9,27 +9,26 @@ type Props = {
 } & ComponentProps<typeof MuiChip>
 
 const StyledChip = styled(MuiChip)<Props>`
+  .MuiChip-avatar {
+    background-color: ${(p) => p.theme.colors.grey2};
+    color: ${(p) => p.theme.colors.white};
+  }
   &.can-toggle {
-    background-color: #efefef;
+    background-color: ${(p) => p.theme.colors.grey1};
 
-    color: #1976d2;
+    color: ${(p) => p.theme.colors.black};
     transition: all 0.5s;
     &.active {
-      color: #efefef;
-      background-color: #1976d2;
-
-      .MuiChip-label {
-        color: #efefef;
-      }
+      color: ${(p) => p.theme.colors.white};
+      background-color: ${(p) => p.theme.colors.blue1};
 
       .MuiAvatar-root {
-        background-color: #004e97;
-        color: #fff;
+        background-color: ${(p) => p.theme.colors.blue2};
       }
     }
     &:hover {
-      color: #efefef;
-      background-color: #1976d2;
+      color: ${(p) => p.theme.colors.white};
+      background-color: ${(p) => p.theme.colors.blue1};
       .MuiChip-deleteIcon {
         fill: #efefef;
       }

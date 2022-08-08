@@ -1,9 +1,31 @@
 import { FC, useState } from 'react'
-import { TextField, Autocomplete, FormHelperText, CircularProgress } from '@mui/material'
+import {
+  Box,
+  styled,
+  TextField,
+  Autocomplete,
+  FormHelperText,
+  Paper
+} from '@mui/material'
 import { createFilterOptions } from '@mui/material/Autocomplete'
-import { Props, ListType } from './types'
+import Icon from '@/components/Icon/Icon'
+import { FilmOptionType, ListType, Props } from './types'
 
-const filter = createFilterOptions<ListType>()
+const filter = createFilterOptions<FilmOptionType>()
+
+const DropDown = styled(Paper)`
+  border: 1px solid ${(p) => p.theme.colors.grey1};
+`
+
+const ButtonAdd = styled(Box)`
+  display: flex;
+  align-items: center;
+  svg {
+    color: ${(p) => p.theme.colors.grey3};
+    font-size: 25px;
+    margin-right: ${(p) => p.theme.spacing(2)};
+  }
+`
 
 const CreatableAutocomplete: FC<Props> = ({
   onSelected,
@@ -21,32 +43,37 @@ const CreatableAutocomplete: FC<Props> = ({
         loading={loading}
         value={value}
         fullWidth
-        getOptionDisabled={({ name }) => disableOptions.includes(name)}
-        onChange={(event, name) => {
-          if (name === null) return
-
-          if (typeof name === 'string') {
-            setValue({ name })
-            onSelected(event, { name })
-          } else if (name && name.inputValue) {
+        getOptionDisabled={({ title }) => disableOptions.includes(title)}
+        onChange={(event, newValue) => {
+          if (typeof newValue === 'string') {
+            setValue({ title: newValue })
+            onSelected(event, { title: newValue })
+          } else if (newValue && newValue.inputValue) {
             // Create a new value from the user input
-            setValue({ name: name.inputValue })
-            onSelected(event, { name: name.inputValue })
+            setValue({ title: newValue.inputValue })
+            onSelected(event, { title: newValue.inputValue })
           } else {
-            setValue({ name: name.name })
-            onSelected(event, { name: name.name })
+            setValue(newValue)
+            onSelected(event, newValue)
           }
+          setValue({ title: '' })
         }}
         filterOptions={(options, params) => {
           const filtered = filter(options, params)
 
           const { inputValue } = params
           // Suggest the creation of a new value
-          const isExisting = options.some((option) => inputValue === option.name)
+          const isExisting = options.some((option) => inputValue === option.title)
           if (inputValue !== '' && !isExisting) {
             filtered.push({
               inputValue,
-              name: `Add "${params.inputValue}"`
+              title: `Add "${params.inputValue}"`,
+              helper: (
+                <ButtonAdd>
+                  <Icon icon="circle-plus" />
+                  Add "{params.inputValue}"
+                </ButtonAdd>
+              )
             })
           }
 
@@ -55,6 +82,7 @@ const CreatableAutocomplete: FC<Props> = ({
         selectOnFocus
         clearOnBlur
         handleHomeEndKeys
+        PaperComponent={DropDown}
         options={data}
         getOptionLabel={(option) => {
           // Value selected with enter, right from the input
@@ -66,25 +94,11 @@ const CreatableAutocomplete: FC<Props> = ({
             return option.inputValue
           }
           // Regular option
-          return option.name
+          return option.title
         }}
-        renderOption={(props, option) => <li {...props}>{option.name}</li>}
+        renderOption={(props, { helper, title }) => <li {...props}>{helper || title}</li>}
         freeSolo
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            label={label}
-            InputProps={{
-              ...params.InputProps,
-              endAdornment: (
-                <>
-                  {loading ? <CircularProgress color="inherit" size={20} /> : null}
-                  {params.InputProps.endAdornment}
-                </>
-              )
-            }}
-          />
-        )}
+        renderInput={(params) => <TextField {...params} label={label} />}
       />
       {helperText && <FormHelperText>{helperText}</FormHelperText>}
     </>

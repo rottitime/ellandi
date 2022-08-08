@@ -50,7 +50,7 @@ const ContractTypeForm: FC<StandardRegisterProps<ContractType>> = (props) => {
   return (
     <FormProvider {...methods}>
       <Form {...props} submitDisabled>
-        <Typography variant="subtitle1" gutterBottom>
+        <Typography variant="subtitle1" sx={{ mb: 3 }}>
           Select your current contract type. You can only choose one
         </Typography>
         <Typography gutterBottom>

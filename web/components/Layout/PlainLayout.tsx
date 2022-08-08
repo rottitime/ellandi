@@ -1,6 +1,6 @@
 import { FC, ReactNode } from 'react'
 import { Box, styled, Typography } from '@mui/material'
-import Crown from '@/components/Icons/CrownLogo'
+import Icon from '@/components/Icon/Icon'
 import Template from '@/components/Layout/Template'
 
 type Props = {
@@ -27,9 +27,9 @@ const PlainLayout: FC<Props> = ({ title, children }) => {
     <Page>
       <header className="main-header">
         <Box className="logo">
-          <Crown />
+          <Icon icon="crown-logo" />
         </Box>
-        <Typography variant="leader" sx={{ textAlign: 'center', mb: 3 }}>
+        <Typography variant="display" sx={{ textAlign: 'center', mb: 3 }}>
           {title}
         </Typography>
       </header>

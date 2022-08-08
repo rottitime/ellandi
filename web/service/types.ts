@@ -20,6 +20,12 @@ export interface AuthUser {
   token: string
 }
 
+export type FeedabckType = {
+  name: string
+  email: string
+  issue: string
+}
+
 export type RegisterUser = {
   email: string
   password: string
@@ -50,6 +56,10 @@ export type ProfessionType = {
 
 export type SkillsType = {
   skills: string[]
+}
+
+export type SkillsDevelopType = {
+  skills_develop: string[]
 }
 
 export type PrimaryProfessionType = {
@@ -93,4 +103,5 @@ export type RegisterUserResponse = {
   LanguagesType &
   SkillsType &
   ContractType &
-  FunctionType
+  FunctionType &
+  SkillsDevelopType

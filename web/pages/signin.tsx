@@ -13,7 +13,7 @@ const SigninPage = () => {
 
   return (
     <>
-      <Typography variant="subtitle1" gutterBottom>
+      <Typography gutterBottom>
         If this is the first time you have used this website, you will need to{' '}
         <Link href="/register">create an account</Link>.
       </Typography>

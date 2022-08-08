@@ -3,7 +3,7 @@ import { FC, useEffect } from 'react'
 import { StandardRegisterProps } from './types'
 import { FormProvider, useForm } from 'react-hook-form'
 import CreatableAutocomplete from '../CreatableAutocomplete/CreatableAutocomplete'
-import { Query, SkillsType } from '@/service/types'
+import { Query, SkillsDevelopType } from '@/service/types'
 import { fetchSkills } from '@/service/api'
 import { useQuery } from 'react-query'
 import { array, object, SchemaOf, string } from 'yup'
@@ -11,14 +11,14 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import Form from '@/components/Form/Register/FormRegister/FormRegister'
 import { Field } from '../Field/Field'
 
-const schema: SchemaOf<SkillsType> = object().shape({
-  skills: array().of(string())
+const schema: SchemaOf<SkillsDevelopType> = object().shape({
+  skills_develop: array().of(string())
 })
-const fieldName: keyof SkillsType = 'skills'
+const fieldName: keyof SkillsDevelopType = 'skills_develop'
 
-const SkillsForm: FC<StandardRegisterProps<SkillsType>> = (props) => {
-  const methods = useForm<SkillsType>({
-    defaultValues: { skills: [] },
+const SkillsForm: FC<StandardRegisterProps<SkillsDevelopType>> = (props) => {
+  const methods = useForm<SkillsDevelopType>({
+    defaultValues: { skills_develop: [] },
     resolver: yupResolver(schema)
   })
   const { setValue, register, unregister, watch } = methods
@@ -34,13 +34,14 @@ const SkillsForm: FC<StandardRegisterProps<SkillsType>> = (props) => {
     return () => unregister(fieldName)
   }, [register, unregister])
 
-  const skills = watch(fieldName)
+  const watchFields = watch(fieldName) || []
 
   return (
     <FormProvider {...methods}>
       <Form {...props}>
         <Typography variant="subtitle1" sx={{ mb: 3 }}>
-          Add any skills that you already have. You can change or add to these later
+          Add any skills that you would like to develop. You can change or add to these
+          later
         </Typography>
         <Typography sx={{ mb: 4 }}>
           We'll use this to suggest learning opportunities that are relevant to you
@@ -52,36 +53,36 @@ const SkillsForm: FC<StandardRegisterProps<SkillsType>> = (props) => {
           <Field>
             <CreatableAutocomplete
               loading={isLoading}
-              disableOptions={skills}
+              disableOptions={watchFields}
               label="Select a skill or enter your own skill"
               data={isLoading ? [] : data.map((title) => ({ title }))}
               onSelected={async (_event, { title }) => {
                 setValue(
                   fieldName,
-                  Array.isArray(skills) && skills?.includes(title)
-                    ? skills.filter((item) => item !== title)
-                    : [...skills, title]
+                  Array.isArray(watchFields) && watchFields?.includes(title)
+                    ? watchFields.filter((item) => item !== title)
+                    : [...watchFields, title]
                 )
               }}
             />
           </Field>
         )}
 
-        {Array.isArray(skills) && !!skills.length && (
+        {Array.isArray(watchFields) && !!watchFields.length && (
           <>
             <Divider variant="middle" sx={{ my: 4 }} />
 
             <Typography sx={{ mb: 3 }}>Your selected skills</Typography>
 
             <Stack flexWrap="wrap" direction="row" gap={3}>
-              {skills.map((skill) => (
+              {watchFields.map((skill) => (
                 <Chip
                   key={skill}
                   label={skill}
                   onDelete={() =>
                     setValue(
                       fieldName,
-                      skills.filter((item) => item !== skill)
+                      watchFields.filter((item) => item !== skill)
                     )
                   }
                 />

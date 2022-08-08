@@ -7,9 +7,7 @@ const PrivacyPage = () => (
       Lorem ipsum dolor sit amet.
     </Typography>
 
-    <Typography variant="h3" gutterBottom>
-      Consectetur adipisicing elit. Eius, quod.
-    </Typography>
+    <Typography gutterBottom>Consectetur adipisicing elit. Eius, quod.</Typography>
 
     <Typography gutterBottom>
       Cabinet Office is the data controller for pages starting with www.gov.uk - for

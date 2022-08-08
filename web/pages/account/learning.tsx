@@ -12,12 +12,9 @@ import {
   Typography
 } from '@mui/material'
 import AccountLayout from '@/components/Layout/AccountLayout'
-import Learning from '@/components/Icons/Learning'
+import Icon from '@/components/Icon/Icon'
 import Card from '@/components/UI/Card'
 import Link from '@/components/UI/Link'
-import LearningStrands from '@/components/LearningStrands'
-import ContentBox from '@/components/ContentBox'
-import Forecasting from '@/components/Icons/Forecasting'
 import { StarBorder } from '@mui/icons-material'
 
 const results = [
@@ -105,6 +102,11 @@ const Header = styled('header')`
   }
 `
 
+const ContentBox = styled('div')`
+  padding: 20px;
+  border: 1px solid ${(p) => p.theme.colors.grey3};
+`
+
 // const filters = [
 //   'Commercial awareness (1)',
 //   'Communication (2)',
@@ -157,8 +159,6 @@ const Page = () => {
             </Box>
 
             <Divider variant="middle" />
-
-            <LearningStrands />
           </Card>
         </Grid>
         <Grid item xs={8}>
@@ -170,11 +170,8 @@ const Page = () => {
             {results.map((result) => (
               <ContentBox key={result.title} sx={{ mb: 3 }}>
                 <Header>
-                  <Typography variant="h3">
-                    <Link href="#">
-                      <Forecasting style={{ marginRight: '10px' }} />
-                      {result.title}
-                    </Link>
+                  <Typography>
+                    <Link href="#">{result.title}</Link>
                   </Typography>
 
                   <Link href="#">
@@ -212,7 +209,7 @@ Page.getLayout = (page) => (
     breadcrumbs={[{ title: 'Learning' }]}
     title={
       <>
-        <Learning /> Learning
+        <Icon icon="learning" /> Learning
       </>
     }
   >

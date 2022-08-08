@@ -22,7 +22,7 @@ import { FC } from 'react'
 import { useQuery } from 'react-query'
 import { StandardRegisterProps } from './types'
 import { Controller, FormProvider, useFieldArray, useForm } from 'react-hook-form'
-import { Field } from '../Field'
+import { Field } from '../Field/Field'
 import { array, object, SchemaOf, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { AddCircleOutline, Cancel, Help } from '@mui/icons-material'
@@ -127,7 +127,7 @@ const LanguageForm: FC<StandardRegisterProps<LanguagesType>> = (props) => {
   return (
     <FormProvider {...methods}>
       <Form {...props}>
-        <Typography variant="subtitle1" gutterBottom>
+        <Typography variant="subtitle1" sx={{ mb: 3 }}>
           Add any languages that you use. You can change or add to these later.
         </Typography>
         <Typography gutterBottom>

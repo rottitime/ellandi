@@ -1,6 +1,6 @@
 import { Box, Container, styled } from '@mui/material'
 import { FC } from 'react'
-import Icon from '../Icons/Icon'
+import Icon from '../Icon/Icon'
 import Link from '../UI/Link'
 import { Props } from './types'
 

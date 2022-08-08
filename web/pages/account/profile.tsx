@@ -63,7 +63,11 @@ const Page = () => {
     <>
       <AccountCard
         headerLogo="profile"
-        header={<Typography variant="h2">Personal Details</Typography>}
+        header={
+          <Typography variant="h1" component="h2">
+            Personal Details
+          </Typography>
+        }
         sx={{ mb: 4 }}
       >
         {renderTable([
@@ -75,7 +79,11 @@ const Page = () => {
 
       <AccountCard
         headerLogo="case"
-        header={<Typography variant="h2">Job Details</Typography>}
+        header={
+          <Typography variant="h1" component="h2">
+            Job Details
+          </Typography>
+        }
         sx={{ mb: 4 }}
       >
         {renderTable([
@@ -95,7 +103,11 @@ const Page = () => {
 
       <AccountCard
         headerLogo="mail"
-        header={<Typography variant="h2">Contact preferences</Typography>}
+        header={
+          <Typography variant="h1" component="h2">
+            Contact preferences
+          </Typography>
+        }
       >
         {renderTable([
           { name: 'Contact preference', value: !!data.contact_preference ? 'Yes' : 'No' }

@@ -1,25 +1,9 @@
-/* eslint-disable @typescript-eslint/no-empty-interface */
-import { createTheme, PaletteColorOptions, Shadows } from '@mui/material/styles'
-import { CSSProperties } from 'react'
+import { createTheme, Shadows } from '@mui/material/styles'
+import { Colors } from './types'
 
-export type Brands = {
-  brandGov: CSSProperties['color']
-  brandSkills: CSSProperties['color']
-  brandLearning: CSSProperties['color']
-}
-
-export type Colors = {
-  black: CSSProperties['color']
-  blueDark: CSSProperties['color']
-  greyDark: CSSProperties['color']
-  greyLight: CSSProperties['color']
-  green: CSSProperties['color']
-  white: CSSProperties['color']
-
-  //ui
-  link: CSSProperties['color']
-  success: CSSProperties['color']
-} & Brands
+const { palette } = createTheme()
+const { augmentColor } = palette
+const createColor = (mainColor) => augmentColor({ color: { main: mainColor } })
 
 const breakpoints = {
   xs: 0,
@@ -28,79 +12,41 @@ const breakpoints = {
   xl: 1399
 }
 
-declare module '@mui/material/Typography' {
-  interface TypographyPropsVariantOverrides {
-    leader: true
-    small: true
-    h5: false
-    h6: false
-    subtitle2: false
-    // body2: false
-    overline: false
-  }
+const fonts = {
+  default: ['Poppins', 'sans-serif']
 }
 
-declare module '@mui/material/AppBar' {
-  interface AppBarPropsColorOverrides {
-    blueDark: true
-  }
+const colors: Colors = {
+  black: '#000',
+  teal: '#00897B',
+  orange: '#FF3D00',
+
+  grey1: '#E9EAEC',
+  grey2: '#AEAEAE',
+  grey3: '#666',
+  grey4: '#F5F6F7',
+  blue1: '#1976D2',
+  blue2: '#064B9A',
+
+  green: '#00C853',
+  red: '#D32F2F',
+  white: '#fff'
 }
-
-declare module '@mui/material/styles' {
-  interface TypographyVariantsOptions {
-    leader?: CSSProperties
-  }
-
-  interface Theme {
-    colors: Colors
-  }
-
-  interface ThemeOptions {
-    colors: Colors
-  }
-
-  interface CustomPalette {
-    blueDark: PaletteColorOptions
-    greyDark: PaletteColorOptions
-    greyLight: PaletteColorOptions
-    green: PaletteColorOptions
-    //profiles
-
-    //ui
-    link: PaletteColorOptions
-  }
-
-  interface Palette extends CustomPalette {}
-  interface PaletteOptions extends CustomPalette {}
-  interface BreakpointOverrides {
-    sm: false
-  }
-}
-
-const { palette } = createTheme()
-const { augmentColor } = palette
-const createColor = (mainColor) => augmentColor({ color: { main: mainColor } })
 
 const theme = createTheme({
   colors: {
-    black: '#000',
-    blueDark: '#161E2F',
-    greyDark: '#9F9F9F',
-    greyLight: '#f2f2f2',
-    green: '#00E676',
-    white: '#fff',
-
-    brandGov: '#000',
-    brandSkills: '#00897B',
-    brandLearning: '#FF3D00',
-
-    link: '#1976D2',
-    success: '#00E676'
+    ...colors,
+    brandGov: colors.black,
+    brandSkills: colors.teal,
+    brandLearning: colors.orange,
+    link: colors.blue1,
+    success: colors.green
   },
   breakpoints: {
     values: breakpoints
   },
   palette: {
+    primary: createColor(colors.blue1),
     blueDark: createColor('#091f3e'),
     greyDark: createColor('#ccc'),
     greyLight: createColor('#f2f2f2'),
@@ -108,73 +54,59 @@ const theme = createTheme({
     //profiles
 
     //ui
-    link: createColor('#1976d2'),
+    link: createColor(colors.blue1),
 
-    background: {
-      default: '#E9EAEC'
-    }
+    background: { default: colors.grey1 }
   },
   typography: {
-    leader: {
+    fontFamily: fonts.default.join(','),
+    display: {
       fontWeight: 700,
-      fontSize: '34px',
-      lineHeight: '130%'
+      fontSize: '60px',
+      lineHeight: '110%',
+      letterSpacing: '-3px'
     },
     h1: {
       fontWeight: 700,
       fontSize: '30px',
-      lineHeight: '35px',
-      '&.MuiTypography-gutterBottom': {
-        marginBottom: '15px'
-      }
-    },
-    h2: {
-      fontSize: '24px',
-      lineHeight: '32px',
-      fontWeight: 600
-    },
-    h3: {
-      fontSize: '18px',
-      lineHeight: '24px',
-      fontWeight: 600
-    },
-    h4: {
-      fontSize: '16px',
-      lineHeight: '24px',
-      fontWeight: 600
-    },
-    subtitle1: {
-      fontWeight: 300,
-      fontSize: '24px',
-      lineHeight: '130%',
-      '&.MuiTypography-gutterBottom': {
-        marginBottom: '15px'
-      }
-    },
-    body1: {
-      fontSize: '16px',
-      lineHeight: '24px',
+      lineHeight: '123.5%',
+      letterSpacing: '-1px',
       '&.MuiTypography-gutterBottom': {
         marginBottom: 16
       }
     },
-    caption: {
-      fontSize: '14px',
-      lineHeight: '24px'
+    subtitle1: {
+      fontSize: '22px',
+      lineHeight: '133.4%;',
+      letterSpacing: 0,
+      '&.MuiTypography-gutterBottom': {
+        marginBottom: 10
+      }
     },
+    body1: {
+      fontSize: '16px',
+      lineHeight: '150%;',
+      letterSpacing: '0.15px',
+      '&.MuiTypography-gutterBottom': {
+        marginBottom: 10
+      }
+    },
+    h2: undefined,
+    h3: undefined,
+    h4: undefined,
     h5: undefined,
     h6: undefined,
     subtitle2: undefined,
-    // body2: undefined,
+    body2: undefined,
     overline: undefined
   },
-  spacing: [0, 4, 8, 16, 30, 60, 110],
+  spacing: [0, 5, 10, 16, 30, 60, 110],
   shadows: Array(25).fill('none') as Shadows,
   components: {
     MuiLink: {
       styleOverrides: {
         root: {
-          color: '#1976D2',
+          color: colors.blue1,
           textDecorationColor: 'inherit',
           fontWeight: 500,
           transition: 'opacity 0.3s ease-in-out',
@@ -187,20 +119,16 @@ const theme = createTheme({
     MuiTypography: {
       defaultProps: {
         variantMapping: {
-          leader: 'h1',
+          display: 'h1',
           h1: 'h1',
-          h2: 'h2',
-          h3: 'h3',
-          subtitle1: 'h3',
-          body1: 'p',
-          body2: 'p'
-        }
-      }
-    },
-    MuiCssBaseline: {
-      styleOverrides: {
-        body: {
-          minHeight: '100vh'
+          // h2: 'h2',
+          // h3: 'h3',
+          // h4: 'h4',
+          // h5: 'h5',
+          // h6: 'h6',
+          // subtitle1: 'h3',
+          subtitle1: 'p',
+          body1: 'p'
         }
       }
     }

@@ -8,7 +8,7 @@ const nextPage = 9
 
 const RegisterPage = () => (
   <>
-    <Typography variant="subtitle1" gutterBottom>
+    <Typography variant="subtitle1" sx={{ mb: 3 }}>
       We're now going to ask you about your skills, including:
     </Typography>
 
@@ -31,7 +31,5 @@ const RegisterPage = () => (
 
 export default RegisterPage
 RegisterPage.getLayout = (page) => (
-  <CardLayout title="Thank you for completing your details" progress={70}>
-    {page}
-  </CardLayout>
+  <CardLayout title="Thank you for completing your details">{page}</CardLayout>
 )

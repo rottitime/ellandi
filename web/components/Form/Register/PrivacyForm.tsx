@@ -35,7 +35,7 @@ const PrivacyForm: FC<StandardRegisterProps<PrivacyAcceptType>> = (props) => {
           </Link>
         </Typography>
 
-        <FormGroup sx={{ mb: 5 }}>
+        <FormGroup>
           <Controller
             name="privacy_policy_agreement"
             control={methods.control}

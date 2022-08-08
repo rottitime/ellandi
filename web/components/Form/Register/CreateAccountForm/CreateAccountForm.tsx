@@ -5,7 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, FormProvider } from 'react-hook-form'
 import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldControlled'
 import { StandardRegisterProps } from '@/components/Form/Register/types'
-import { Field } from '@/components/Form/Field'
+import { Field } from '@/components/Form/Field/Field'
 import { CreateAccountType } from './types'
 import useAuth from '@/hooks/useAuth'
 import Form from '@/components/Form/Register/FormRegister/FormRegister'
@@ -51,7 +51,7 @@ const CreateAccountForm: FC<StandardRegisterProps<CreateAccountType>> = (props) 
         </Typography>
 
         <Typography variant="subtitle1" gutterBottom>
-          Enter your email address
+          Email address
         </Typography>
         <Field>
           <TextFieldControlled name="email" label="Email address" />
@@ -72,7 +72,7 @@ const CreateAccountForm: FC<StandardRegisterProps<CreateAccountType>> = (props) 
         <Field>
           <TextFieldControlled name="password" label="Password" type="password" />
         </Field>
-        <Field>
+        <Field noMargin>
           <TextFieldControlled
             name="passwordConfirm"
             label="Confirm your password"
