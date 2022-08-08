@@ -105,7 +105,7 @@ def test_user_patch(client, user_id):
     assert response.status_code == status.HTTP_201_CREATED
     response = client.post("/user-languages/", json=user_languages_data)
     assert response.status_code == status.HTTP_201_CREATED
-    response = client.patch(f"/users/{user_id}/", data=more_user_data)
+    response = client.patch(f"/users/{user_id}/", json=more_user_data)
     assert response.status_code == status.HTTP_200_OK
     assert response.json()["email"] == "jane@example.com", "Email field should be read-only"
     assert response.json()["last_name"] == "Green"
@@ -117,7 +117,7 @@ def test_user_patch(client, user_id):
         "profession_other": "",
         "skills": [{"skill_name": "running", "level": "competent", "validated": False}],
     }
-    response = client.patch(f"/users/{user_id}/", data=more_nested_user_data)
+    response = client.patch(f"/users/{user_id}/", json=more_nested_user_data)
     assert response.status_code == status.HTTP_200_OK
     data = response.json()
     assert data["first_name"] == "Alice"
