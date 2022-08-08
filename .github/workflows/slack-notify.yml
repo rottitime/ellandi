@@ -9,12 +9,12 @@ on:
 jobs:
   slackNotification:
     name: Slack Notification
-    continue-on-error: true
-    if: ${{ failure() }}
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - name: Slack Notification
+      continue-on-error: true
+      if: ${{ failure() }}
       uses: rtCamp/action-slack-notify@v2
       env:
         SLACK_COLOR: '#FF0000' # or a specific color like 'good' or '#ff00ff'
