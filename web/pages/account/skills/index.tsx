@@ -166,7 +166,14 @@ const SkillsPage = () => {
 
 export default SkillsPage
 SkillsPage.getLayout = (page) => (
-  <AccountLayout title="Skills" breadcrumbs={[{ title: 'Skills' }]}>
+  <AccountLayout
+    title="Skills"
+    titleIcon="skills"
+    teaserHeadline="Hello Samuel, welcome to the Skills and Learning Service"
+    teaserContent="You can manage your skills, language skills and skills you would like to develop"
+    breadcrumbs={[{ title: 'Skills' }]}
+    brandColor="brandSkills"
+  >
     {page}
   </AccountLayout>
 )

@@ -66,6 +66,7 @@ const AccountLayout: FC<Props> = ({
   titleIcon,
   children,
   teaserHeadline,
+  brandColor,
   teaserContent
 }) => {
   const { logout, authFetch, invalidate } = useAuth()
@@ -118,12 +119,11 @@ const AccountLayout: FC<Props> = ({
         </Breadcrumbs>
 
         {title && (
-          <Headline>
+          <Headline textColor={brandColor}>
             <Typography variant="h1" gutterBottom>
               {titleIcon && <Icon icon={titleIcon} />}
               {title}
             </Typography>
-
             {teaserHeadline && (
               <Typography variant="h1" component="p" gutterBottom>
                 {teaserHeadline}
