@@ -116,6 +116,7 @@ def test_user_patch(client, user_id):
         "professions": ["Policy", "Operational Research Service"],
         "profession_other": "",
         "skills": [{"skill_name": "running", "level": "competent", "validated": False}],
+        "languages": [],
     }
     response = client.patch(f"/users/{user_id}/", json=more_nested_user_data)
     assert response.status_code == status.HTTP_200_OK
