@@ -9,7 +9,8 @@ on:
 jobs:
   slackNotification:
     name: Slack Notification
-    if: ${{ job.status == 'success'}}
+    continue-on-error: true
+    if: ${{ success() }}
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
