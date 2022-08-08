@@ -20,9 +20,9 @@ jobs:
       if: ${{ failure() }}
       uses: rtCamp/action-slack-notify@v2
       env:
-        SLACK_COLOR: '#FF0000' # or a specific color like 'good' or '#ff00ff'
-        SLACK_ICON: https://github.com/rtCamp.png?size=48
-        SLACK_TITLE: GitHub Actions Failure
+        SLACK_COLOR: '#FF0000'
+        SLACK_ICON: ':robot_face:'
+        SLACK_TITLE: '${{ github.ref_name }} deployment ${{ job.status }} :warning:'
         SLACK_USERNAME: ${{ github.actor }}
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-        SLACK_MESSAGE: 'Job failed :rocket: ${{ github.repository_name }} ${{ github.ref_name }} ${{ job.status }}'
+        SLACK_MESSAGE: 'Job failed :alert: ${{ github.repository_name }} ${{ github.ref_name }} ${{ job.status }}'
