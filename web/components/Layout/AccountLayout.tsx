@@ -19,6 +19,12 @@ import { fetchMe } from '@/service/me'
 import { Query, RegisterUserResponse } from '@/service/api'
 import router from 'next/router'
 
+import getConfig from 'next/config'
+
+const {
+  publicRuntimeConfig: { urls }
+} = getConfig()
+
 const Layout = styled(Box)`
   --footer-height: 60px;
 
@@ -94,17 +100,17 @@ const AccountLayout: FC<Props> = ({
       <Template>
         <AppBar
           pages={[
-            { title: 'Home', url: '/account' },
-            { title: 'Skills', url: '/account/skills', color: 'brandSkills' },
-            { title: 'Learning', url: '/account/learning', color: 'brandLearning' }
+            { title: 'Home', url: urls.landingSignin }
+            // { title: 'Skills', url: '/account/skills', color: 'brandSkills' },
+            // { title: 'Learning', url: '/account/learning', color: 'brandLearning' }
           ]}
           settings={[
             { title: 'Profile', url: '/account/profile' },
-            { title: 'Logout', url: '/', onClick: logout }
+            { title: 'Logout', url: urls.signin, onClick: logout }
           ]}
         />
         <Breadcrumbs aria-label="breadcrumb">
-          <Link underline="hover" color="inherit" href="/account">
+          <Link underline="hover" color="inherit" href={urls.landingSignin}>
             Home
           </Link>
 

@@ -5,6 +5,9 @@ import SignInForm from '@/components/Form/SignInForm/SignInForm'
 import router from 'next/router'
 import { useState } from 'react'
 import useAuth from '@/hooks/useAuth'
+import getConfig from 'next/config'
+
+const { publicRuntimeConfig } = getConfig()
 
 const SigninPage = () => {
   const [fetching, setFetching] = useState(false)
@@ -34,7 +37,7 @@ const SigninPage = () => {
 
           try {
             await login(data)
-            router.push('/account')
+            router.push(publicRuntimeConfig.urls.landingSignin)
           } catch (err) {
             setError(err.message)
           }
