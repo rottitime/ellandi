@@ -89,7 +89,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Slack Notification
         continue-on-error: true
-        if: ${{ failure() && github.ref_name == 'prod' || github.ref_name == 'sandbox' }}
+        if: ${{ failure() && github.ref_name == 'prod' || failure() && github.ref_name == 'sandbox' }}
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_COLOR: '#FF0000'
