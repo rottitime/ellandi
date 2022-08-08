@@ -168,7 +168,7 @@ class UserSkill(TimeStampedModel):
 
     class SkillLevel(models.TextChoices):
         BEGINNER = ("beginner", "Beginner")
-        ADVANCED_BEGINNER = ("advanced_beginner", "Advanced Beginner")
+        ADVANCED_BEGINNER = ("advanced-beginner", "Advanced beginner")
         COMPETENT = ("competent", "Competent")
         PROFICIENT = ("proficient", "Proficient")
         EXPERT = ("expert", "Expert")
@@ -189,11 +189,20 @@ class UserSkill(TimeStampedModel):
 class UserLanguage(TimeStampedModel):
     """Info on a particular language for a given user."""
 
+    class LanguageLevel(models.TextChoices):
+        BASIC = ("basic", "Basic")
+        INDEPENDENT = ("independent", "Independent")
+        PROFICIENT = ("proficient", "Proficient")
+
+    class LanguageType(models.TextChoices):
+        WRITING = ("writing", "Writing")
+        SPEAKING = ("speaking", "Speaking")
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, related_name="languages", on_delete=models.CASCADE)
     language = models.CharField(max_length=127, blank=True, null=True)
-    type = models.CharField(max_length=127, blank=True, null=True)  # eg reading, writing
-    level = models.CharField(max_length=127, blank=True, null=True)
+    type = models.CharField(max_length=127, choices=LanguageType.choices, blank=True, null=True)  # eg reading, writing
+    level = models.CharField(max_length=127, choices=LanguageLevel.choices, blank=True, null=True)
 
     def __str__(self):
         return f"{self.language} ({self.id})"

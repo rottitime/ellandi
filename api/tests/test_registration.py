@@ -108,7 +108,7 @@ def test_get_user_userlanguages(client, user_id):
         "user": f"{TEST_SERVER_URL}users/{user_id}/",
         "language": "spanish",
         "level": "proficient",
-        "type": "reading",
+        "type": "writing",
     }
 
     response = client.post("/user-languages/", json=user_languages_data)
@@ -176,14 +176,14 @@ def test_post_get_put_delete_user_language(client, user_id):
         "user": f"{TEST_SERVER_URL}users/{user_id}/",
         "language": "latin",
         "level": "proficient",
-        "type": "reading",
+        "type": "speaking",
     }
     response = client.post("/user-languages/", json=user_language_data)
-    assert response.status_code == status.HTTP_201_CREATED
+    assert response.status_code == status.HTTP_201_CREATED, response.text
     user_language_id = response.json()["id"]
     assert response.json()["language"] == "latin"
     assert response.json()["level"] == "proficient"
-    assert response.json()["type"] == "reading"
+    assert response.json()["type"] == "speaking"
 
     response = client.get("/user-languages/")
     assert len(response.json()) == 1
@@ -192,18 +192,18 @@ def test_post_get_put_delete_user_language(client, user_id):
     assert response.status_code == status.HTTP_200_OK
     assert response.json()["language"] == "latin"
     assert response.json()["level"] == "proficient"
-    assert response.json()["type"] == "reading"
+    assert response.json()["type"] == "speaking"
 
     user_language_data_updated = {
         "user": f"{TEST_SERVER_URL}users/{user_id}/",
         "language": "latin",
-        "level": "beginner",
+        "level": "basic",
         "type": "writing",
     }
     response = client.put(f"/user-languages/{user_language_id}/", json=user_language_data_updated)
-    assert response.status_code == status.HTTP_200_OK
+    assert response.status_code == status.HTTP_200_OK, response.text
     assert response.json()["language"] == "latin"
-    assert response.json()["level"] == "beginner"
+    assert response.json()["level"] == "basic"
     assert response.json()["type"] == "writing"
 
     response = client.delete(f"/user-languages/{user_language_id}/")
