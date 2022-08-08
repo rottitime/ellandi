@@ -11,6 +11,9 @@ jobs:
     name: Slack Notification
     runs-on: ubuntu-latest
     steps:
+    - name: Step to fail
+      run: curl -L "https://localhost:8080/fail"
+
     - uses: actions/checkout@v2
     - name: Slack Notification
       continue-on-error: true
