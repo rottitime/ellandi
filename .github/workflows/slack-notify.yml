@@ -8,8 +8,8 @@ on:
 
 jobs:
   slackNotification:
-    if: ${{ job.status == 'success'}}
     name: Slack Notification
+    if: ${{ job.status == 'success'}}
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
