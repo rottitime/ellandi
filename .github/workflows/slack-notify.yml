@@ -12,12 +12,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Step to fail
-      run: curl -L "https://google.co.uk"
+      run: curl -L "https://localhost:8080/fail"
 
     - uses: actions/checkout@v2
     - name: Slack Notification
       continue-on-error: true
-      if: ${{ failure() && github.ref_name == 'sandbox' }}
+      if: ${{ failure() && github.ref_name == 'prod' || github.ref_name == 'sandbox' }}
       uses: rtCamp/action-slack-notify@v2
       env:
         SLACK_COLOR: '#FF0000'
