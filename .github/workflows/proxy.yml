@@ -4,10 +4,8 @@ name: Deploy Proxy
 on:
   push:
     branches:
-      - sandbox
       - develop
       - prod
-      - sandbox
     paths:
       - .github/workflows/proxy.yml
       - 'proxy/**'
@@ -89,7 +87,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Slack Notification
         continue-on-error: true
-        if: ${{ failure() && github.ref_name == 'prod' || failure() && github.ref_name == 'sandbox' }}
+        if: ${{ failure() && github.ref_name == 'prod' || failure() && github.ref_name == 'develop' }}
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_COLOR: '#FF0000'
