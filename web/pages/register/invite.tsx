@@ -1,4 +1,4 @@
-import CardLayout from '@/components/Layout/CardLayout'
+import CardLayout from '@/components/Layout/CardLayout/CardLayout'
 import Link from '@/components/UI/Link'
 import { Typography } from '@mui/material'
 

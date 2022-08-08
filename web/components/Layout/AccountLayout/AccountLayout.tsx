@@ -1,4 +1,4 @@
-import { FC, ReactNode, useEffect } from 'react'
+import { FC, useEffect } from 'react'
 import {
   Breadcrumbs,
   Typography,
@@ -12,14 +12,14 @@ import Link from '@/components/UI/Link'
 import Template from '@/components/Layout/Template'
 import useAuth from '@/hooks/useAuth'
 import Footer from '@/components/Footer/Footer'
-import Icon, { IconsType } from '@/components/Icon/Icon'
+import Icon from '@/components/Icon/Icon'
 import Headline from '@/components/Accounts/Headline/Headline'
 import { useQuery } from 'react-query'
 import { fetchMe } from '@/service/me'
 import { Query, RegisterUserResponse } from '@/service/api'
 import router from 'next/router'
-
 import getConfig from 'next/config'
+import { Props } from './types'
 
 const {
   publicRuntimeConfig: { urls }
@@ -59,14 +59,6 @@ const Layout = styled(Box)`
     padding: 50px;
   }
 `
-type Props = {
-  children: ReactNode
-  titleIcon?: IconsType
-  title?: string | ReactNode
-  breadcrumbs?: { title: string; url?: string }[]
-  teaserHeadline?: string
-  teaserContent?: string
-}
 
 const AccountLayout: FC<Props> = ({
   breadcrumbs = [],

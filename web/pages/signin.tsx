@@ -1,4 +1,4 @@
-import CardLayout from '@/components/Layout/CardLayout'
+import CardLayout from '@/components/Layout/CardLayout/CardLayout'
 import Link from '@/components/UI/Link'
 import { Alert, Fade, Typography } from '@mui/material'
 import SignInForm from '@/components/Form/SignInForm/SignInForm'

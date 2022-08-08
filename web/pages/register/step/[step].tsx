@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import CardLayout from '@/components/Layout/CardLayout'
+import CardLayout from '@/components/Layout/CardLayout/CardLayout'
 import { useUiContext } from '@/context/UiContext'
 import {
   fetchContractTypes,

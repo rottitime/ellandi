@@ -1,4 +1,4 @@
-import CardLayout from '@/components/Layout/CardLayout'
+import CardLayout from '@/components/Layout/CardLayout/CardLayout'
 import { Box } from '@mui/material'
 import Button from '@/components/UI/Button/Button'
 

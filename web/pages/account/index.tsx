@@ -1,4 +1,4 @@
-import AccountLayout from '@/components/Layout/AccountLayout'
+import AccountLayout from '@/components/Layout/AccountLayout/AccountLayout'
 import { Button, Typography, styled, Box } from '@mui/material'
 import { IconsType } from '@/components/Icon/Icon'
 import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'

@@ -6,7 +6,7 @@ import {
   Typography,
   styled
 } from '@mui/material'
-import AccountLayout from '@/components/Layout/AccountLayout'
+import AccountLayout from '@/components/Layout/AccountLayout/AccountLayout'
 import Link from '@/components/UI/Link'
 import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
 import { useQuery } from 'react-query'

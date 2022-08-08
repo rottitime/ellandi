@@ -38,7 +38,7 @@ describe('Page: Sign in', () => {
     userEvent.click(submitButton)
 
     await waitFor(async () => {
-      expect(Router.push).toHaveBeenCalledWith('/account')
+      expect(Router.push).toHaveBeenCalledWith('landingSignin')
     })
   })
 

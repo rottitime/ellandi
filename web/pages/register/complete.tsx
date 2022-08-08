@@ -1,4 +1,4 @@
-import CardLayout from '@/components/Layout/CardLayout'
+import CardLayout from '@/components/Layout/CardLayout/CardLayout'
 import { Typography, styled, Box } from '@mui/material'
 import Button from '@/components/UI/Button/Button'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'

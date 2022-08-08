@@ -1,19 +1,12 @@
 import Template from '@/components/Layout/Template'
 import { withGovLogoBackground } from '@/style/global'
 import { Grid, Typography, styled, Box, Divider, Alert } from '@mui/material'
-import { FC, ReactNode } from 'react'
+import { FC } from 'react'
 import List from '@/components/List'
 import { AccountBox, Yard, Search, QuestionAnswer } from '@mui/icons-material'
 import { useUiContext } from '@/context/UiContext'
 import GovCard from '@/components/UI/Cards/GovCard/GovCard'
-
-type Props = {
-  children: ReactNode
-  footer?: ReactNode
-  title?: string | ReactNode
-  progress?: number
-  showPromo?: boolean
-}
+import { Props } from './types'
 
 const GridContainer = styled(Grid)`
   flex-direction: column;

@@ -1,4 +1,4 @@
-import AccountLayout from '@/components/Layout/AccountLayout'
+import AccountLayout from '@/components/Layout/AccountLayout/AccountLayout'
 import {
   Box,
   Chip,

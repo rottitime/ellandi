@@ -11,7 +11,7 @@ import {
   styled,
   Typography
 } from '@mui/material'
-import AccountLayout from '@/components/Layout/AccountLayout'
+import AccountLayout from '@/components/Layout/AccountLayout/AccountLayout'
 import Icon from '@/components/Icon/Icon'
 import Card from '@/components/UI/Card'
 import Link from '@/components/UI/Link'
