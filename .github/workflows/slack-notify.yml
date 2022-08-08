@@ -25,4 +25,4 @@ jobs:
         SLACK_TITLE: '${{ github.ref_name }} deployment ${{ job.status }} :warning:'
         SLACK_USERNAME: ${{ github.actor }}
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-        SLACK_MESSAGE: 'Job failed :alert: ${{ github.repository_name }} ${{ github.ref_name }} ${{ job.status }}'
+        SLACK_MESSAGE: ' ${{ github.ref_name }} Action ${{ job.status }}'
