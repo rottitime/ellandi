@@ -126,7 +126,7 @@ def test_user_patch(client, user_id):
     assert "Policy" in data["professions"]
     assert data["profession_other"] == ""
     assert len(data["languages"]) == 0, data["languages"]
-    assert len(data["skills"]) == 2, data["skills"]
+    assert len(data["skills"]) == 1, data["skills"]
 
 
 @utils.with_logged_in_client
