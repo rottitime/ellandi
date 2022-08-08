@@ -96,7 +96,7 @@ def test_user_patch(client, user_id):
     }
     more_user_data = {
         "location": "Manchester",
-        "profession": ["Operational Research Service", "Other"],
+        "professions": ["Operational Research Service", "Other"],
         "profession_other": "Data science",
         "primary_profession": "Data science",
         "function": "Analysis",
