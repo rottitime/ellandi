@@ -90,7 +90,7 @@ def test_user_patch(client, user_id):
         "user": user_id,
         "language": "spanish",
         "level": "proficient",
-        "type": "reading",
+        "type": "writing",
     }
     more_user_data = {
         "location": "Manchester",
