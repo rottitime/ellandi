@@ -104,8 +104,6 @@ class UserSerializer(serializers.ModelSerializer):
         many=True, queryset=Profession.objects.all(), read_only=False, slug_field="name", required=False
     )
 
-    # TODO - add some validation?
-
     def update(self, instance, validated_data):
         single_fields_to_update = [
             "privacy_policy_agreement",
@@ -182,17 +180,6 @@ class UserSerializer(serializers.ModelSerializer):
             "created_at",
             "modified_at",
         ]
-        extra_kwargs = {
-            "skills": {
-                "read_only": False,
-                "required": False,
-            },
-            "languages": {
-                "read_only": False,
-                "required": False,
-            },
-        }
-        depth = 2
 
 
 class RegisterSerializer(serializers.Serializer):
