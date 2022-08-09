@@ -26,7 +26,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
     queryset = get_user_model().objects.all().order_by("-created_at")
     serializer_class = serializers.UserSerializer
-    http_method_names = ["get", "put", "patch"]
+    http_method_names = ["get", "patch"]
 
     @decorators.action(detail=True, methods=["get"])
     def skills(self, request, pk):
@@ -45,14 +45,14 @@ class UserViewSet(viewsets.ModelViewSet):
 class UserSkillViewSet(viewsets.ModelViewSet):
     queryset = models.UserSkill.objects.all().order_by("user")
     serializer_class = serializers.UserSkillSerializer
-    http_method_names = ["get", "post", "put", "patch", "delete"]
+    http_method_names = ["get", "post", "patch", "delete"]
 
 
 @register("user-languages")
 class UserLanguageViewSet(viewsets.ModelViewSet):
     queryset = models.UserLanguage.objects.all().order_by("user")
     serializer_class = serializers.UserLanguageSerializer
-    http_method_names = ["get", "post", "put", "patch", "delete"]
+    http_method_names = ["get", "post", "patch", "delete"]
 
 
 @register("organisations")
