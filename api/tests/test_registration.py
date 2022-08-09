@@ -68,7 +68,7 @@ def test_user_put(client, user_id):
         "profession_other": "A new and exciting profession",
         "function": "Analysis",
     }
-    response = client.put(f"/users/{user_id}/", data=updated_user_data)
+    response = client.put(f"/users/{user_id}/", json=updated_user_data)
     response_data = response.json()
     assert response_data["email"] == "jane@example.com", f"Email field should be read-only - {response_data['email']}"
     assert response.status_code == status.HTTP_200_OK
