@@ -201,6 +201,8 @@ class UserLanguage(TimeStampedModel):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, related_name="languages", on_delete=models.CASCADE)
     language = models.CharField(max_length=127, blank=True, null=True)
+    speaking_level = models.CharField(max_length=127, choices=LanguageLevel.choices, blank=True, null=True)
+    writing_level = models.CharField(max_length=127, choices=LanguageLevel.choices, blank=True, null=True)
     type = models.CharField(max_length=127, choices=LanguageType.choices, blank=True, null=True)  # eg reading, writing
     level = models.CharField(max_length=127, choices=LanguageLevel.choices, blank=True, null=True)
 
