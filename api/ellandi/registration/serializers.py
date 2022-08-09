@@ -131,13 +131,11 @@ class UserSerializer(serializers.ModelSerializer):
                 value = validated_data[field]
                 setattr(instance, field, value)
 
-        print(f"{validated_data=}")  # noqa
-
-        # For many-to-many and one-to-one fields (skills, languages, professions)
-        # - append to existing lists, Professions?
+        # Replace exisiting professions with new list
         if "professions" in validated_data:
             instance.professions.set(validated_data["professions"])
 
+        # For skills and languages - append to exisiting lists of skills/langs
         if "skills" in validated_data:
             for skill_data in validated_data["skills"]:
                 UserSkill.objects.update_or_create(user=instance, **skill_data)
