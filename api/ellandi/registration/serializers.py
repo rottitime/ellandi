@@ -72,32 +72,90 @@ class FunctionSerializer(serializers.ModelSerializer):
         fields = ["slug", "name", "order"]
 
 
-class UserSkillSerializer(serializers.HyperlinkedModelSerializer):
+class UserSkillSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserSkill
         fields = ["id", "user", "skill_name", "level", "validated", "created_at", "modified_at"]
 
 
-class UserLanguageSerializer(serializers.HyperlinkedModelSerializer):
+class UserLanguageSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserLanguage
         fields = ["id", "user", "type", "language", "level", "created_at", "modified_at"]
 
 
+class UserSkillSerializerNested(serializers.ModelSerializer):
+    class Meta:
+        model = UserSkill
+        fields = ["skill_name", "level", "validated"]
+
+
+class UserLanguageSerializerNested(serializers.ModelSerializer):
+    class Meta:
+        model = UserLanguage
+        fields = ["type", "language", "level"]
+
+
 class UserSerializer(serializers.ModelSerializer):
-    skills = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name="userskill-detail")
-    languages = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name="userlanguage-detail")
+    skills = UserSkillSerializerNested(many=True, read_only=False, required=False)
+    languages = UserLanguageSerializerNested(many=True, read_only=False, required=False)
     email = serializers.CharField(read_only=True)
     professions = serializers.SlugRelatedField(
-        many=True, queryset=Profession.objects.all(), read_only=False, slug_field="name"
+        many=True, queryset=Profession.objects.all(), read_only=False, slug_field="name", required=False
     )
+
+    def update(self, instance, validated_data):
+        single_fields_to_update = [
+            "privacy_policy_agreement",
+            "first_name",
+            "last_name",
+            "department",
+            "organisation",
+            "job_title",
+            "business_unit",
+            "location",
+            "line_manager_email",
+            "grade",
+            "grade_other",
+            "profession_other",
+            "primary_profession",
+            "function",
+            "function_other",
+            "contract_type",
+            "contract_type_other",
+            "contact_preference",
+        ]
+
+        for field in single_fields_to_update:
+            if field in validated_data:
+                value = validated_data[field]
+                setattr(instance, field, value)
+
+        print(f"{validated_data=}")  # noqa
+
+        # For many-to-many and one-to-one fields (skills, languages, professions)
+        # - delete existing and replace with new values
+        if "professions" in validated_data:
+            instance.professions.set(validated_data["professions"])
+
+        if "skills" in validated_data:
+            instance.skills.all().delete()
+            for skill_data in validated_data["skills"]:
+                UserSkill.objects.update_or_create(user=instance, **skill_data)
+
+        if "languages" in validated_data:
+            instance.languages.all().delete()
+            for language_data in validated_data["languages"]:
+                UserLanguage.objects.update_or_create(user=instance, **language_data)
+
+        instance.save()
+        return instance
 
     class Meta:
         model = get_user_model()
         fields = [
             "id",
             "email",
-            "url",
             "privacy_policy_agreement",
             "first_name",
             "last_name",

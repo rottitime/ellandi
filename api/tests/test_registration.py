@@ -9,10 +9,19 @@ TEST_SERVER_URL = "http://testserver:8000/"
 
 @utils.with_logged_in_client
 def test_users_get(client, user_id):
+    # Populate with some skills first
+    user_skill_data = {
+        "user": user_id,
+        "skill_name": "maths",
+        "level": "proficient",
+    }
+    response = client.post("/user-skills/", json=user_skill_data)
+    assert response.status_code == status.HTTP_201_CREATED
     response = client.get("/users/")
     assert response.status_code == status.HTTP_200_OK
     data = response.json()
     assert data[0]["email"] == "jane@example.com"
+    assert data[0]["skills"][0]["skill_name"] == "maths"
 
 
 @utils.with_logged_in_client
@@ -46,7 +55,7 @@ def test_delete(client, user_id):
 
 
 @utils.with_logged_in_client
-def test_put(client, user_id):
+def test_user_put(client, user_id):
     updated_user_data = {
         "email": "jane_modified@example.com",
         "first_name": "Jane",
@@ -60,29 +69,68 @@ def test_put(client, user_id):
         "function": "Analysis",
     }
     response = client.put(f"/users/{user_id}/", data=updated_user_data)
-    assert response.json()["email"] == "jane@example.com", "Email field should be read-only"
+    response_data = response.json()
+    assert response_data["email"] == "jane@example.com", f"Email field should be read-only - {response_data['email']}"
     assert response.status_code == status.HTTP_200_OK
-    assert response.json()["last_name"] == "Brown"
-    assert response.json()["function"] == "Analysis"
-    assert len(response.json()["professions"]) == 3
-    assert "Policy" in response.json()["professions"]
-    assert response.json()["profession_other"] == "A new and exciting profession"
+    assert response_data["last_name"] == "Brown"
+    assert response_data["function"] == "Analysis"
+    assert len(response_data["professions"]) == 3
+    assert "Policy" in response_data["professions"]
+    assert response_data["profession_other"] == "A new and exciting profession"
 
 
 @utils.with_logged_in_client
-def test_patch(client, user_id):
-    updated_user_data = {"email": "jane_modified@example.com", "first_name": "Alice"}
-    response = client.patch(f"/users/{user_id}/", data=updated_user_data)
+def test_user_patch(client, user_id):
+    user_skill_data = {
+        "user": user_id,
+        "skill_name": "maths",
+        "level": "proficient",
+    }
+    user_languages_data = {
+        "user": user_id,
+        "language": "spanish",
+        "level": "proficient",
+        "type": "writing",
+    }
+    more_user_data = {
+        "location": "Manchester",
+        "professions": ["Operational Research Service", "Other"],
+        "profession_other": "Data science",
+        "primary_profession": "Data science",
+        "function": "Analysis",
+    }
+    response = client.post("/user-skills/", json=user_skill_data)
+    assert response.status_code == status.HTTP_201_CREATED
+    response = client.post("/user-languages/", json=user_languages_data)
+    assert response.status_code == status.HTTP_201_CREATED
+    response = client.patch(f"/users/{user_id}/", json=more_user_data)
     assert response.status_code == status.HTTP_200_OK
     assert response.json()["email"] == "jane@example.com", "Email field should be read-only"
     assert response.json()["last_name"] == "Green"
-    assert response.json()["first_name"] == "Alice"
+    assert response.json()["skills"][0]["skill_name"] == "maths"
+
+    more_nested_user_data = {
+        "first_name": "Alice",
+        "professions": ["Policy", "Operational Research Service"],
+        "profession_other": "",
+        "skills": [{"skill_name": "running", "level": "competent", "validated": False}],
+        "languages": [],
+    }
+    response = client.patch(f"/users/{user_id}/", json=more_nested_user_data)
+    assert response.status_code == status.HTTP_200_OK
+    data = response.json()
+    assert data["first_name"] == "Alice"
+    assert len(data["professions"]) == 2
+    assert "Policy" in data["professions"]
+    assert data["profession_other"] == ""
+    assert len(data["languages"]) == 0, data["languages"]
+    assert len(data["skills"]) == 1, data["skills"]
 
 
 @utils.with_logged_in_client
 def test_get_user_userskills(client, user_id):
     user_skill_data = {
-        "user": f"{TEST_SERVER_URL}users/{user_id}/",
+        "user": user_id,
         "skill_name": "typing",
         "level": "proficient",
     }
@@ -105,7 +153,7 @@ def test_get_user_userskills(client, user_id):
 @utils.with_logged_in_client
 def test_get_user_userlanguages(client, user_id):
     user_languages_data = {
-        "user": f"{TEST_SERVER_URL}users/{user_id}/",
+        "user": user_id,
         "language": "spanish",
         "level": "proficient",
         "type": "writing",
@@ -132,7 +180,7 @@ def test_post_get_put_delete_user_skill(client, user_id):
     assert len(response.json()) == 0
 
     user_skill_data = {
-        "user": f"{TEST_SERVER_URL}users/{user_id}/",
+        "user": user_id,
         "skill_name": "maths",
         "level": "proficient",
     }
@@ -151,7 +199,7 @@ def test_post_get_put_delete_user_skill(client, user_id):
     assert response.json()["level"] == "proficient"
 
     user_skill_data_updated = {
-        "user": f"{TEST_SERVER_URL}users/{user_id}/",
+        "user": user_id,
         "skill_name": "maths",
         "level": "beginner",
     }
@@ -173,7 +221,7 @@ def test_post_get_put_delete_user_language(client, user_id):
     assert len(response.json()) == 0
 
     user_language_data = {
-        "user": f"{TEST_SERVER_URL}users/{user_id}/",
+        "user": user_id,
         "language": "latin",
         "level": "proficient",
         "type": "speaking",
@@ -195,7 +243,7 @@ def test_post_get_put_delete_user_language(client, user_id):
     assert response.json()["type"] == "speaking"
 
     user_language_data_updated = {
-        "user": f"{TEST_SERVER_URL}users/{user_id}/",
+        "user": user_id,
         "language": "latin",
         "level": "basic",
         "type": "writing",
@@ -258,7 +306,7 @@ def test_dropdown_list(client, user_id):
 @utils.with_logged_in_client
 def test_skills_list(client, user_id):
     user_skill_data = {
-        "user": f"{TEST_SERVER_URL}users/{user_id}/",
+        "user": user_id,
         "skill_name": "new user skill",
         "level": "proficient",
     }
