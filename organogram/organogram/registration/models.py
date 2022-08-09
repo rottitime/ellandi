@@ -74,7 +74,7 @@ class Grade(DropDownListModel):
 
 
 class LanguageSkillLevel(DropDownListModel):
-    description = models.CharField(max_length=255, blank=False, null=False, default="")
+    description = models.CharField(max_length=255, blank=True, null=True, default="")
 
 
 class Country(DropDownListModel):
@@ -83,9 +83,9 @@ class Country(DropDownListModel):
 
 
 class Team(DropDownListModel):
-    team_name = models.CharField(max_length=255, blank=False, null=False)
-    sub_unit = models.CharField(max_length=255, blank=False, null=False)
-    business_unit = models.CharField(max_length=255, blank=False, null=False)
+    team_name = models.CharField(max_length=255, blank=True, null=True)
+    sub_unit = models.CharField(max_length=255, blank=True, null=True)
+    business_unit = models.CharField(max_length=255, blank=True, null=True)
 
     def save(self, *args, **kwargs):
         self.name = f"{self.business_unit} | {self.sub_unit} | {self.team_name}"
@@ -147,14 +147,14 @@ class RegistrationAbstractUser(models.Model):
     organisation = models.CharField(max_length=128, blank=True, null=True)
     team = models.ForeignKey(Team, blank=True, null=True, on_delete=models.CASCADE)
     job_title = models.CharField(max_length=128, blank=True, null=True)
-    grade = models.CharField(max_length=127, blank=True, null=False)
+    grade = models.CharField(max_length=127, blank=True, null=True)
     professions = models.ManyToManyField(Profession, blank=True)
     primary_profession = models.ForeignKey(
         Profession, related_name="+", blank=True, null=True, on_delete=models.CASCADE
     )
-    contract_type = models.CharField(max_length=127, blank=True, null=False)
+    contract_type = models.CharField(max_length=127, blank=True, null=True)
     line_manager_email = models.CharField(max_length=128, blank=True, null=True)
-    location = models.CharField(max_length=127, blank=True, null=False)
+    location = models.CharField(max_length=127, blank=True, null=True)
     department = models.CharField(max_length=127, blank=True, null=True)
     photo = models.FileField(upload_to=photo_upload_to, storage=PhotoStorage(), blank=True, null=True)
     biography = models.CharField(max_length=4095, blank=True, null=True)
@@ -190,7 +190,7 @@ class UserSkill(TimeStampedModel):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, related_name="skills", on_delete=models.CASCADE)
     skill_name = models.CharField(max_length=256)
-    level = models.CharField(max_length=64, choices=SkillLevel.choices, blank=True, null=False)
+    level = models.CharField(max_length=64, choices=SkillLevel.choices, blank=True, null=True)
     validated = models.BooleanField(default=False, blank=False)
 
     def __str__(self):
@@ -205,9 +205,9 @@ class UserLanguage(TimeStampedModel):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, related_name="languages", on_delete=models.CASCADE)
-    language = models.CharField(max_length=127, blank=True, null=False)
-    type = models.CharField(max_length=127, blank=True, null=False)  # eg reading, writing
-    level = models.CharField(max_length=127, blank=True, null=False)
+    language = models.CharField(max_length=127, blank=True, null=True)
+    type = models.CharField(max_length=127, blank=True, null=True)  # eg writing, speaking
+    level = models.CharField(max_length=127, blank=True, null=True)
 
     def __str__(self):
         return f"{self.language} ({self.id})"
