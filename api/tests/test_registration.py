@@ -68,15 +68,8 @@ def test_user_put(client, user_id):
         "profession_other": "A new and exciting profession",
         "function": "Analysis",
     }
-    response = client.put(f"/users/{user_id}/", json=updated_user_data)
-    response_data = response.json()
-    assert response_data["email"] == "jane@example.com", f"Email field should be read-only - {response_data['email']}"
-    assert response.status_code == status.HTTP_200_OK
-    assert response_data["last_name"] == "Brown"
-    assert response_data["function"] == "Analysis"
-    assert len(response_data["professions"]) == 3
-    assert "Policy" in response_data["professions"]
-    assert response_data["profession_other"] == "A new and exciting profession"
+    response = client.put(f"/users/{user_id}/", data=updated_user_data)
+    assert response.status_code == status.HTTP_405_METHOD_NOT_ALLOWED
 
 
 @utils.with_logged_in_client
@@ -204,9 +197,7 @@ def test_post_get_put_delete_user_skill(client, user_id):
         "level": "beginner",
     }
     response = client.put(f"/user-skills/{user_skill_id}/", json=user_skill_data_updated)
-    assert response.status_code == status.HTTP_200_OK
-    assert response.json()["skill_name"] == "maths"
-    assert response.json()["level"] == "beginner"
+    assert response.status_code == status.HTTP_405_METHOD_NOT_ALLOWED
 
     response = client.delete(f"/user-skills/{user_skill_id}/")
     assert response.status_code == status.HTTP_204_NO_CONTENT
@@ -249,10 +240,7 @@ def test_post_get_put_delete_user_language(client, user_id):
         "type": "writing",
     }
     response = client.put(f"/user-languages/{user_language_id}/", json=user_language_data_updated)
-    assert response.status_code == status.HTTP_200_OK, response.text
-    assert response.json()["language"] == "latin"
-    assert response.json()["level"] == "basic"
-    assert response.json()["type"] == "writing"
+    assert response.status_code == status.HTTP_405_METHOD_NOT_ALLOWED
 
     response = client.delete(f"/user-languages/{user_language_id}/")
     assert response.status_code == status.HTTP_204_NO_CONTENT
