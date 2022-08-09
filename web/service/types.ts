@@ -54,12 +54,21 @@ export type ProfessionType = {
   profession_other: string
 }
 
+export type SkillType = {
+  name: string
+  level: string
+}
+
+export type SkillDevelopType = {
+  name: string
+}
+
 export type SkillsType = {
-  skills: string[]
+  skills: SkillType[]
 }
 
 export type SkillsDevelopType = {
-  skills_develop: string[]
+  skills_develop: SkillDevelopType[]
 }
 
 export type PrimaryProfessionType = {
