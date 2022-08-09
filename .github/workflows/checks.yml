@@ -72,3 +72,16 @@ jobs:
       - run: cd web && npm install
 
       - run: make validate-frontend
+
+      - uses: actions/checkout@v2
+      - name: Slack Notification
+        continue-on-error: true
+        if: ${{ failure() }}
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_COLOR: '#FF0000'
+          SLACK_ICON: https://avatars0.githubusercontent.com/u/818058?s=200&v=4
+          SLACK_TITLE: '${{ github.ref_name }} CodeCheck ${{ job.status }} :warning:'
+          SLACK_USERNAME: ${{ github.actor }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_MESSAGE: '${{ github.ref_name }} Action ${{ job.status }}'

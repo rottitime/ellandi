@@ -17,6 +17,8 @@ from ellandi.registration.views import (
     skills_list_view,
 )
 
+
+
 api_urlpatterns = [
     path("", include(registration_router.urls)),
     path("me", me_view, name="me"),
