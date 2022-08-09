@@ -1,9 +1,35 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { FC, useState, SyntheticEvent, useEffect, useId } from 'react'
-import { Box, Tab, Tabs as MuiTabs } from '@mui/material'
+import { Box, styled, Tab, Tabs as MuiTabs } from '@mui/material'
 import { Props } from './types'
 import ConditionalWrapper from '@/components/ConditionalWrapper/ConditionalWrapper'
 import NextLink from 'next/link'
+
+const Wrapper = styled(Box)`
+  .MuiTabs-flexContainer {
+    gap: ${(p) => p.theme.spacing(1)};
+  }
+  .MuiTab-root {
+    background-color: ${(p) => p.theme.colors.grey4};
+    text-transform: initial;
+    border-radius: 12px 12px 0 0;
+    font-weight: bold;
+    &.active {
+      background-color: ${(p) => p.theme.colors.teal};
+      color: ${(p) => p.theme.colors.white};
+    }
+  }
+
+  [role='tabpanel'] {
+    background-color: ${(p) => p.theme.colors.white};
+    padding: ${(p) => p.theme.spacing(4)};
+    border-radius: 0 0 12px 12px;
+  }
+
+  .MuiTabs-indicator {
+    display: none;
+  }
+`
 
 const Tabs: FC<Props> = ({
   activeOnUrl = false,
@@ -27,7 +53,7 @@ const Tabs: FC<Props> = ({
     setCurrentActiveTab(index)
 
   return (
-    <Box sx={{ width: '100%' }}>
+    <Wrapper>
       <MuiTabs {...props} value={currentActiveTab} onChange={handleChange}>
         {tabItems.map((item, index) => {
           return (
@@ -41,6 +67,7 @@ const Tabs: FC<Props> = ({
               key={index}
             >
               <Tab
+                className={currentActiveTab === index ? 'active' : ''}
                 label={item.title}
                 disabled={item.disabled}
                 id={`${id}-tab-${index}`}
@@ -65,7 +92,7 @@ const Tabs: FC<Props> = ({
           </Box>
         )
       })}
-    </Box>
+    </Wrapper>
   )
 }
 
