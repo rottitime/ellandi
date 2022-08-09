@@ -73,6 +73,9 @@ jobs:
 
       - run: make validate-frontend
 
+  check_alerts:
+    runs-on: ubuntu-latest
+    steps:
       - uses: actions/checkout@v2
       - name: Slack Notification
         continue-on-error: true
