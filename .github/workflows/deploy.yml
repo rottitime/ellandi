@@ -8,7 +8,7 @@ on:
     branches:
       - temp
       - develop
-      - prod
+      - main
 
 permissions:
   packages: write
