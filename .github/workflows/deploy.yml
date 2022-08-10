@@ -2,7 +2,7 @@ name: Deploy App
 
 env:
   DOCKER_BUILDKIT: 1
-  BRANCH_SPACE_MAP: {"temp": "temp", "develop": "develop", "main": "prod"}
+  BRANCH_SPACE_MAP: '{"temp": "temp", "develop": "develop", "main": "prod"}'
 
 on:
   push:
