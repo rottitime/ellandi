@@ -381,3 +381,23 @@ def test_post_first_time_login(client):
     user = User.objects.get(email="test_login@example.com")
     assert response.status_code == status.HTTP_201_CREATED
     assert user
+
+
+@utils.with_logged_in_client
+def test_get_skills(client, user_id):
+    user_skill_data = {
+        "user": user_id,
+        "name": "An existing skill",
+        "level": "Proficient",
+    }
+
+    user_skill_to_develop = {"user": user_id, "name": "A new and exciting skill"}
+    response = client.post("/user-skills/", json=user_skill_data)
+    assert response.status_code == status.HTTP_201_CREATED
+    response = client.post("/user-skills/", json=user_skill_to_develop)
+    assert response.status_code == status.HTTP_201_CREATED
+    response = client.get("/skills/")
+    data = response.json()
+    assert "An existing skill" in data
+    assert "A new and exciting skill" in data
+    assert "Econometrics" in data
