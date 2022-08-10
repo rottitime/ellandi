@@ -196,7 +196,7 @@ class UserLanguage(TimeStampedModel):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, related_name="languages", on_delete=models.CASCADE)
-    language = models.CharField(max_length=127, blank=True, null=True)
+    name = models.CharField(max_length=127, blank=True, null=True)
     speaking_level = models.CharField(max_length=127, choices=LanguageLevel.choices, blank=True, null=True)
     writing_level = models.CharField(max_length=127, choices=LanguageLevel.choices, blank=True, null=True)
 
@@ -204,7 +204,7 @@ class UserLanguage(TimeStampedModel):
         return f"{self.language} ({self.id})"
 
     class Meta:
-        unique_together = ["user", "language"]
+        unique_together = ["user", "name"]
 
 
 class EmailSalt(models.Model):

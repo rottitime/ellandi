@@ -122,17 +122,17 @@ def test_user_patch(client, user_id):
     even_more_nested_data = {
         "languages": [
             {"language": "French", "speaking_level": "proficient", "writing_level": "basic"},
-            {"language": "Spanish", "speaking_level": "advanced", "writing_level": "advanced"},
+            {"language": "Spanish", "speaking_level": "proficient", "writing_level": "proficient"},
         ]
     }
     response = client.patch(f"/users/{user_id}/", json=even_more_nested_data)
-    assert response.status_code == status.HTTP_200_OK
+    assert response.status_code == status.HTTP_200_OK, response.text
     data = response.json()
     languages_list = data["languages"]
     assert len(languages_list) == 2, languages_list
     assert "French" in [lang["language"] for lang in languages_list]
     spanish_lang = [lang for lang in languages_list if lang["language"] == "Spanish"][0]
-    assert spanish_lang["speaking_level"] == "advanced"
+    assert spanish_lang["speaking_level"] == "proficient"
 
 
 @utils.with_logged_in_client
@@ -246,11 +246,7 @@ def test_post_get_put_delete_user_language(client, user_id):
     assert response_data["language"] == "Latin"
     assert response_data["writing_level"] == "proficient"
 
-    user_language_data_updated = {
-        "user": user_id,
-        "language": "Latin",
-        "speaking_level": "basic"
-    }
+    user_language_data_updated = {"user": user_id, "language": "Latin", "speaking_level": "basic"}
     response = client.put(f"/user-languages/{user_language_id}/", json=user_language_data_updated)
     assert response.status_code == status.HTTP_405_METHOD_NOT_ALLOWED
 
