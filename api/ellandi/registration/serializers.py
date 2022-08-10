@@ -99,7 +99,7 @@ class UserSkillSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserSkill
-        fields = ["id", "user", "skill_name", "level", "validated", "created_at", "modified_at"]
+        fields = ["id", "user", "name", "level", "validated", "created_at", "modified_at"]
 
 
 class UserLanguageSerializer(serializers.ModelSerializer):
@@ -114,7 +114,7 @@ class UserLanguageSerializer(serializers.ModelSerializer):
 class UserSkillDevelopSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserSkillDevelop
-        fields = ["id", "user", "skill_name", "created_at", "modified_at"]
+        fields = ["id", "user", "name", "created_at", "modified_at"]
 
 
 class UserSkillSerializerNested(serializers.ModelSerializer):
@@ -122,7 +122,7 @@ class UserSkillSerializerNested(serializers.ModelSerializer):
 
     class Meta:
         model = UserSkill
-        fields = ["id", "skill_name", "level", "validated"]
+        fields = ["id", "name", "level", "validated"]
 
 
 class UserLanguageSerializerNested(serializers.ModelSerializer):
@@ -137,7 +137,7 @@ class UserLanguageSerializerNested(serializers.ModelSerializer):
 class UserSkillDevelopSerializerNested(serializers.ModelSerializer):
     class Meta:
         model = UserSkillDevelop
-        fields = ["id", "skill_name"]
+        fields = ["id", "name"]
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -183,8 +183,8 @@ class UserSerializer(serializers.ModelSerializer):
         # For skills and languages - append to exisiting lists of skills/langs
         if "skills" in validated_data:
             for skill_data in validated_data["skills"]:
-                skill_name = skill_data["skill_name"]
-                UserSkill.objects.update_or_create(user=instance, skill_name=skill_name, defaults=skill_data)
+                name = skill_data["name"]
+                UserSkill.objects.update_or_create(user=instance, name=name, defaults=skill_data)
 
         if "languages" in validated_data:
             for language_data in validated_data["languages"]:
@@ -193,8 +193,8 @@ class UserSerializer(serializers.ModelSerializer):
 
         if "skills_develop" in validated_data:
             for skill_data in validated_data["skills_develop"]:
-                skill_name = skill_data["skill_name"]
-                UserSkillDevelop.objects.update_or_create(user=instance, skill_name=skill_name)
+                name = skill_data["name"]
+                UserSkillDevelop.objects.update_or_create(user=instance, name=name)
 
         instance.save()
         return instance
