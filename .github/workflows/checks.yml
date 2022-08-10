@@ -37,7 +37,8 @@ jobs:
         python-version: 3.8
 
     - name: test BRANCH_SPACE_MAP
-      run: [ $CF_SPACE=="flibble" ]
+      run: |
+        [ $CF_SPACE=="flibble" ]
 
     - name: Install Dependencies
       run: |
