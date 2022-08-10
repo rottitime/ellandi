@@ -15,6 +15,7 @@ from .models import (
     User,
     UserLanguage,
     UserSkill,
+    UserSkillDevelop
 )
 
 
@@ -82,6 +83,12 @@ class UserLanguageSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserLanguage
         fields = ["id", "user", "name", "speaking_level", "writing_level", "created_at", "modified_at"]
+
+
+class UserSkillDevelopSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserSkillDevelop
+        fields = ["id", "user", "skill_name"]
 
 
 class UserSkillSerializerNested(serializers.ModelSerializer):

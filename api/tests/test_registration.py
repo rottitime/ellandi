@@ -257,6 +257,41 @@ def test_post_get_put_delete_user_language(client, user_id):
 
 
 @utils.with_logged_in_client
+def test_post_get_put_delete_user_skill_develop(client, user_id):
+    response = client.get("/user-skills-develop/")
+    assert len(response.json()) == 0
+
+    user_skill_data = {
+        "user": user_id,
+        "skill_name": "statistics"
+    }
+    response = client.post("/user-skills-develop/", json=user_skill_data)
+    assert response.status_code == status.HTTP_201_CREATED
+    user_skill_develop_id = response.json()["id"]
+    assert response.json()["skill_name"] == "statistics"
+
+    response = client.get("/user-skills-develop/")
+    assert len(response.json()) == 1
+
+    response = client.get(f"/user-skills-develop/{user_skill_develop_id}/")
+    assert response.status_code == status.HTTP_200_OK
+    assert response.json()["skill_name"] == "statistics"
+
+    user_skill_data_updated = {
+        "user": user_id,
+        "skill_name": "advanced statistics",
+    }
+    response = client.put(f"/user-skills-develop/{user_skill_develop_id}/", json=user_skill_data_updated)
+    assert response.status_code == status.HTTP_405_METHOD_NOT_ALLOWED
+
+    response = client.delete(f"/user-skills-develop/{user_skill_develop_id}/")
+    assert response.status_code == status.HTTP_204_NO_CONTENT
+
+    response = client.get("/user-skills-develop/")
+    assert len(response.json()) == 0
+
+
+@utils.with_logged_in_client
 def test_dropdown_list(client, user_id):
 
     data = [
