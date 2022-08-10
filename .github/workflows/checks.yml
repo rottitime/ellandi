@@ -2,6 +2,7 @@ name: Check backend code
 
 env:
   DOCKER_BUILDKIT: 1
+  BRANCH_SPACE_MAP: {"temp": "temp", "develop": "develop", "main": "prod", "feature/deploy-from-main": "flibble"}
 
 on:
   push:
@@ -16,6 +17,9 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    env:
+      CF_SPACE: ${{ fromJson($BRANCH_SPACE_MAP)[github.ref_name] }}
+
     steps:
     - uses: actions/checkout@v3
 
@@ -23,6 +27,9 @@ jobs:
       uses: actions/setup-python@v3
       with:
         python-version: 3.8
+
+    - name: test BRANCH_SPACE_MAP
+      run: [ $CF_SPACE=="flibble" ]
 
     - name: Install Dependencies
       run: |
