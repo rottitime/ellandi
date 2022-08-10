@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      CF_SPACE: ${{ fromJson($BRANCH_SPACE_MAP)[github.ref_name] }}
+      CF_SPACE: ${{ fromJson(env.BRANCH_SPACE_MAP)[github.ref_name] }}
 
     steps:
     - uses: actions/checkout@v3

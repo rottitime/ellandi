@@ -67,7 +67,7 @@ jobs:
     env:
       IMAGE_TAG: ${{ github.ref_name }}
       DOCKER_REPOSITORY: ghcr.io
-      CF_SPACE: ${{ fromJson($BRANCH_SPACE_MAP)[github.ref_name] }}
+      CF_SPACE: ${{ fromJson(env.BRANCH_SPACE_MAP)[github.ref_name] }}
 
     strategy:
       matrix:
