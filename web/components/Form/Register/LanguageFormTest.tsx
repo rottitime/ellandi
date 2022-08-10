@@ -82,9 +82,9 @@ const optionsWriting = [
 ]
 
 const languageSchema: SchemaOf<LanguageType> = object({
-  language: string().required('This is required'),
-  writing: string().required('This is required'),
-  speaking: string().required('This is required')
+  name: string().required('This is required'),
+  writing_level: string().required('This is required'),
+  speaking_level: string().required('This is required')
 })
 
 const schema: SchemaOf<LanguagesType> = object().shape({
@@ -167,7 +167,7 @@ const LanguageForm: FC<StandardRegisterProps<LanguagesType>> = (props) => {
                   >
                     <TableCell scope="row">
                       <Controller
-                        name={`languages.${index}.language`}
+                        name={`languages.${index}.name`}
                         control={control}
                         defaultValue={item.language}
                         render={({ field, fieldState: { error } }) => (
@@ -183,7 +183,7 @@ const LanguageForm: FC<StandardRegisterProps<LanguagesType>> = (props) => {
                                     value={name}
                                     disabled={
                                       !!getValues(fornName).find(
-                                        ({ language }) => language === name
+                                        (language) => language.name === name
                                       )
                                     }
                                   >
@@ -204,7 +204,7 @@ const LanguageForm: FC<StandardRegisterProps<LanguagesType>> = (props) => {
                       <TableCell key={name}>
                         <Controller
                           name={
-                            `languages.${index}.${name.toLowerCase()}` as `languages.${number}`
+                            `languages.${index}.${name.toLowerCase()}_level` as `languages.${number}`
                           }
                           control={control}
                           defaultValue={item[name] as LanguageType}
@@ -252,7 +252,7 @@ const LanguageForm: FC<StandardRegisterProps<LanguagesType>> = (props) => {
             variant="outlined"
             startIcon={<AddCircleOutline />}
             onClick={() => {
-              append({ language: '', speaking: '', writing: '' })
+              append({ name: '', speaking_level: '', writing_level: '' })
             }}
           >
             Add language

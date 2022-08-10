@@ -90,7 +90,7 @@ export type FunctionType = {
 }
 
 export type LanguageType = {
-  language: string
+  name: string
   speaking_level: string
   writing_level: string
 }
