@@ -17,28 +17,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Get space name
-      uses: kanga333/variable-mapper@master
-      with:
-        key: "${{github.ref_name}}"
-        map: |
-          {
-            "temp": {"CF_SPACE": "temp"},
-            "develop": {"CF_SPACE": "develop"},
-            "main": {"CF_SPACE": "prod"},
-            "feature/deploy-from-main": {"CF_SPACE": "flibble"}
-          }
-
     - uses: actions/checkout@v3
 
     - name: Set up Python 3.8
       uses: actions/setup-python@v3
       with:
         python-version: 3.8
-
-    - name: test BRANCH_SPACE_MAP
-      run: |
-        [ $CF_SPACE=="flibble" ]
 
     - name: Install Dependencies
       run: |
