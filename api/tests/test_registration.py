@@ -162,7 +162,7 @@ def test_get_user_userskills(client, user_id):
 def test_get_user_userlanguages(client, user_id):
     user_languages_data = {
         "user": user_id,
-        "language": "Spanish",
+        "name": "Spanish",
         "speaking_level": "proficient",
         "writing_level": "independent",
     }
@@ -170,13 +170,13 @@ def test_get_user_userlanguages(client, user_id):
     response = client.post("/user-languages/", json=user_languages_data)
     assert response.status_code == status.HTTP_201_CREATED
     user_language_id = response.json()["id"]
-    assert response.json()["language"] == "Spanish"
+    assert response.json()["name"] == "Spanish"
     assert response.json()["speaking_level"] == "proficient"
     assert response.json()["writing_level"] == "independent"
 
     response = client.get(f"/users/{user_id}/languages/")
     assert response.status_code == status.HTTP_200_OK
-    assert response.json()[0]["language"] == "Spanish"
+    assert response.json()[0]["name"] == "Spanish"
     assert response.json()[0]["speaking_level"] == "proficient"
 
     response = client.delete(f"/user-languages/{user_language_id}/")
@@ -227,12 +227,12 @@ def test_post_get_put_delete_user_language(client, user_id):
     response = client.get("/user-languages/")
     assert len(response.json()) == 0
 
-    user_language_data = {"user": user_id, "language": "Latin", "writing_level": "proficient"}
+    user_language_data = {"user": user_id, "name": "Latin", "writing_level": "proficient"}
     response = client.post("/user-languages/", json=user_language_data)
     assert response.status_code == status.HTTP_201_CREATED, response.text
     response_data = response.json()
     user_language_id = response_data["id"]
-    assert response_data["language"] == "Latin"
+    assert response_data["name"] == "Latin"
     assert response_data["level"] == "proficient"
     assert response_data["writing_level"] == "proficient"
     assert not response_data["reading_level"]
@@ -243,10 +243,10 @@ def test_post_get_put_delete_user_language(client, user_id):
     response = client.get(f"/user-languages/{user_language_id}/")
     response_data = response.json()
     assert response.status_code == status.HTTP_200_OK
-    assert response_data["language"] == "Latin"
+    assert response_data["name"] == "Latin"
     assert response_data["writing_level"] == "proficient"
 
-    user_language_data_updated = {"user": user_id, "language": "Latin", "speaking_level": "basic"}
+    user_language_data_updated = {"user": user_id, "name": "Latin", "speaking_level": "basic"}
     response = client.put(f"/user-languages/{user_language_id}/", json=user_language_data_updated)
     assert response.status_code == status.HTTP_405_METHOD_NOT_ALLOWED
 
