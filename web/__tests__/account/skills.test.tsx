@@ -26,7 +26,7 @@ const mockSuccess = {
 const bugfixForTimeout = async () =>
   await waitFor(() => new Promise((resolve) => setTimeout(resolve, 0)))
 
-describe('Page: Sign in', () => {
+describe('Page: Account / Skills', () => {
   afterEach(() => {
     fetchMock.resetMocks()
   })
@@ -50,5 +50,20 @@ describe('Page: Sign in', () => {
     expect(screen.getByText(mockSuccess.skills[0].level)).toBeInTheDocument()
     expect(screen.getByText(mockSuccess.skills[1].level)).toBeInTheDocument()
     expect(screen.getByText(mockSuccess.skills[2].level)).toBeInTheDocument()
+  })
+
+  it.skip('message for no skills', async () => {
+    fetchMock.mockResponse(JSON.stringify({ ...mockSuccess, skills: [] }), {
+      status: 200
+    })
+    renderWithProviders(<SkillsPage tabIndex={0} />)
+
+    await waitForElementToBeRemoved(() => screen.queryByTestId('skelton-table'))
+
+    await bugfixForTimeout()
+
+    await waitFor(async () => {
+      expect(screen.getByText('Enter a skill')).toBeInTheDocument()
+    })
   })
 })
