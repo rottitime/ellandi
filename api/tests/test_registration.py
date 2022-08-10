@@ -232,7 +232,7 @@ def test_post_get_put_delete_user_language(client, user_id):
     assert response.status_code == status.HTTP_201_CREATED, response.text
     response_data = response.json()
     user_language_id = response_data["id"]
-    assert response_data["language"] == "latin"
+    assert response_data["language"] == "Latin"
     assert response_data["level"] == "proficient"
     assert response_data["writing_level"] == "proficient"
     assert not response_data["reading_level"]
@@ -243,12 +243,12 @@ def test_post_get_put_delete_user_language(client, user_id):
     response = client.get(f"/user-languages/{user_language_id}/")
     response_data = response.json()
     assert response.status_code == status.HTTP_200_OK
-    assert response_data["language"] == "latin"
+    assert response_data["language"] == "Latin"
     assert response_data["writing_level"] == "proficient"
 
     user_language_data_updated = {
         "user": user_id,
-        "language": "latin",
+        "language": "Latin",
         "speaking_level": "basic"
     }
     response = client.put(f"/user-languages/{user_language_id}/", json=user_language_data_updated)
