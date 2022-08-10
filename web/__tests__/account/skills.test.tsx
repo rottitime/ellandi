@@ -33,7 +33,7 @@ describe('Page: Account / Skills', () => {
 
   it('renders with data after loading', async () => {
     fetchMock.mockResponse(JSON.stringify(mockSuccess), { status: 200 })
-    renderWithProviders(<SkillsPage tabIndex={0} />)
+    renderWithProviders(<SkillsPage tabIndex={0} emptyMessage="no rows" />)
 
     expect(screen.getByTestId('skelton-table')).toBeInTheDocument()
 
@@ -52,18 +52,18 @@ describe('Page: Account / Skills', () => {
     expect(screen.getByText(mockSuccess.skills[2].level)).toBeInTheDocument()
   })
 
-  it.skip('message for no skills', async () => {
+  it('message for no skills', async () => {
     fetchMock.mockResponse(JSON.stringify({ ...mockSuccess, skills: [] }), {
       status: 200
     })
-    renderWithProviders(<SkillsPage tabIndex={0} />)
+    renderWithProviders(<SkillsPage tabIndex={0} emptyMessage="no rows" />)
 
     await waitForElementToBeRemoved(() => screen.queryByTestId('skelton-table'))
 
     await bugfixForTimeout()
 
     await waitFor(async () => {
-      expect(screen.getByText('Enter a skill')).toBeInTheDocument()
+      expect(screen.getByText('no rows')).toBeInTheDocument()
     })
   })
 })

@@ -12,8 +12,14 @@ import DataGrid, { GridColDef } from '@/components/UI/DataGrid/DataGrid'
 import Icon from '@/components/Icon/Icon'
 import TableSkeleton from '@/components/UI/Skeleton/TableSkeleton'
 import { createIdFromHref } from '@/lib/url-utils'
+import { FC } from 'react'
 
-const SkillsPage = ({ tabIndex }) => {
+type Props = {
+  tabIndex: number
+  emptyMessage: string
+}
+
+const SkillsPage: FC<Props> = ({ tabIndex, emptyMessage }) => {
   const { authFetch } = useAuth()
   const { isLoading, data } = useQuery<RegisterUserResponse>(Query.Me, () =>
     authFetch(fetchMe)
@@ -24,6 +30,12 @@ const SkillsPage = ({ tabIndex }) => {
       case 0:
         return {
           rows: data.skills,
+          columns: columnsSkills,
+          getRowId: ({ name }) => name
+        }
+      case 1:
+        return {
+          rows: data.languages,
           columns: columnsSkills,
           getRowId: ({ name }) => name
         }
@@ -53,6 +65,9 @@ const SkillsPage = ({ tabIndex }) => {
               <DataGrid
                 getRowId={({ name }) => name}
                 hideFooterPagination
+                components={{
+                  NoRowsOverlay: () => <Alert severity="info">{emptyMessage}</Alert>
+                }}
                 autoHeight
                 {...getDataGridProps()}
               />
@@ -94,24 +109,38 @@ export async function getStaticProps(context: GetStaticPropsContext) {
     .indexOf(tab[0])
 
   return {
-    props: { tabIndex }
+    props: {
+      tabIndex,
+      emptyMessage: emptyListMessage(tabIndex)
+    }
+  }
+}
+
+const emptyListMessage = (tabIndex: number): string => {
+  switch (tabIndex) {
+    case 1:
+      return 'Enter a language'
+    case 2:
+      return 'Enter a skill to develop'
+    default:
+      return 'Enter a skill'
   }
 }
 
 const tabs: TabItem[] = [
   {
     title: 'Your skills',
-    content: <Alert severity="info">Enter a skill</Alert>,
+    content: null,
     href: '/account/skills'
   },
   {
     title: 'Language skills',
-    content: <Alert severity="info">Enter a language</Alert>,
+    content: null,
     href: '/account/skills/language-skills'
   },
   {
     title: "Skills you'd like to develop",
-    content: <Alert severity="info">Enter a skill to develop</Alert>,
+    content: null,
     href: '/account/skills/skills-develop'
   }
 ]
