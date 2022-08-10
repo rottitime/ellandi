@@ -81,9 +81,9 @@ def test_user_patch(client, user_id):
     }
     user_languages_data = {
         "user": user_id,
-        "language": "spanish",
-        "level": "proficient",
-        "type": "writing",
+        "language": "Spanish",
+        "speaking_level": "proficient",
+        "writing_level": "basic",
     }
     more_user_data = {
         "location": "Manchester",
@@ -119,6 +119,25 @@ def test_user_patch(client, user_id):
     assert len(data["languages"]) == 1, data["languages"]
     assert len(data["skills"]) == 2, data["skills"]
 
+    even_more_nested_data = {
+        "languages": [{
+            "language": "French",
+            "speaking_level": "proficient",
+            "writing_level": "basic"
+        },
+        {"language": "Spanish",
+        "speaking_level": "advanced",
+        "writing_level": "advanced"}
+
+        ]
+    }
+    response = client.patch(f"/users/{user_id}/", json=even_more_nested_data)
+    assert response.status_code == status.HTTP_200_OK
+    data = response.json()
+    assert len(data["languages"]) == 2, data["languages"]
+    assert "French" in [lang["language"] for lang in data["languages"]]
+    languages_list = data["languages"]
+
 
 @utils.with_logged_in_client
 def test_get_user_userskills(client, user_id):
@@ -147,21 +166,22 @@ def test_get_user_userskills(client, user_id):
 def test_get_user_userlanguages(client, user_id):
     user_languages_data = {
         "user": user_id,
-        "language": "spanish",
-        "level": "proficient",
-        "type": "writing",
+        "language": "Spanish",
+        "speaking_level": "proficient",
+        "writing_level": "independent",
     }
 
     response = client.post("/user-languages/", json=user_languages_data)
     assert response.status_code == status.HTTP_201_CREATED
     user_language_id = response.json()["id"]
-    assert response.json()["language"] == "spanish"
-    assert response.json()["level"] == "proficient"
+    assert response.json()["language"] == "Spanish"
+    assert response.json()["speaking_level"] == "proficient"
+    assert response.json()["writing_level"] == "independent"
 
     response = client.get(f"/users/{user_id}/languages/")
     assert response.status_code == status.HTTP_200_OK
-    assert response.json()[0]["language"] == "spanish"
-    assert response.json()[0]["level"] == "proficient"
+    assert response.json()[0]["language"] == "Spanish"
+    assert response.json()[0]["speaking_level"] == "proficient"
 
     response = client.delete(f"/user-languages/{user_language_id}/")
     assert response.status_code == status.HTTP_204_NO_CONTENT
@@ -213,25 +233,26 @@ def test_post_get_put_delete_user_language(client, user_id):
 
     user_language_data = {
         "user": user_id,
-        "language": "latin",
-        "level": "proficient",
-        "type": "speaking",
+        "language": "Latin",
+        "writing_level": "proficient"
     }
     response = client.post("/user-languages/", json=user_language_data)
     assert response.status_code == status.HTTP_201_CREATED, response.text
-    user_language_id = response.json()["id"]
-    assert response.json()["language"] == "latin"
-    assert response.json()["level"] == "proficient"
-    assert response.json()["type"] == "speaking"
+    response_data = response.json()
+    user_language_id = response_data["id"]
+    assert response_data["language"] == "latin"
+    assert response_data["level"] == "proficient"
+    assert response_data["writing_level"] == "proficient"
+    assert not response_data["reading_level"]
 
     response = client.get("/user-languages/")
     assert len(response.json()) == 1
 
     response = client.get(f"/user-languages/{user_language_id}/")
+    response_data = response.json()
     assert response.status_code == status.HTTP_200_OK
-    assert response.json()["language"] == "latin"
-    assert response.json()["level"] == "proficient"
-    assert response.json()["type"] == "speaking"
+    assert response_data["language"] == "latin"
+    assert response_data["writing_level"] == "proficient"
 
     user_language_data_updated = {
         "user": user_id,
