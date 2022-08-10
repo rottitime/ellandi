@@ -11,6 +11,7 @@ export type TabItem = {
 
 export type Props = {
   tabItems: TabItem[]
+  tabPanel?: ReactNode
   activeIndex?: number
   activeOnUrl?: boolean
 } & TabsProps

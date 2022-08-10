@@ -4,22 +4,38 @@ import Tabs, { TabItem } from '@/components/UI/Tabs/Tabs'
 import Button from '@/components/UI/Button/Button'
 import useAuth from '@/hooks/useAuth'
 import { useQuery } from 'react-query'
-import { Query, RegisterUserResponse } from '@/service/api'
+import { Query, RegisterUserResponse, SkillType } from '@/service/api'
 import { fetchMe } from '@/service/me'
 import Headline from '@/components/Accounts/Headline/Headline'
 import { GetStaticPropsContext } from 'next'
 import DataGrid, { GridColDef } from '@/components/UI/DataGrid/DataGrid'
 import Icon from '@/components/Icon/Icon'
+import TableSkeleton from '@/components/UI/Skeleton/TableSkeleton'
 
 const SkillsPage = ({ tabIndex }) => {
   const { authFetch } = useAuth()
-  const { data } = useQuery<RegisterUserResponse>(Query.Me, () => authFetch(fetchMe))
+  const { isLoading, data } = useQuery<RegisterUserResponse>(Query.Me, () =>
+    authFetch(fetchMe)
+  )
+
+  const getDataGridProps = () => {
+    switch (tabIndex) {
+      case 0:
+        return {
+          rows: data.skills,
+          columns: columnsSkills,
+          getRowId: ({ name }) => name
+        }
+      default:
+        return { rows: mockData, columns: columnsSkills }
+    }
+  }
 
   return (
     <>
       <Headline>
         <Typography variant="h1" gutterBottom>
-          Hello {data?.first_name}, welcome to the Skills and Learning Service
+          to the Skills and Learning Service
         </Typography>
       </Headline>
 
@@ -28,18 +44,31 @@ const SkillsPage = ({ tabIndex }) => {
       </Button>
 
       <Tabs
-        tabItems={tabs.map((tab, i) => {
-          return i === tabIndex
-            ? {
-                ...tab,
-                content: (
-                  <Box sx={{ height: 'auto', width: '100%' }}>
-                    <DataGrid rows={rows} columns={[]} hideFooterPagination autoHeight />
-                  </Box>
-                )
-              }
-            : tab
-        })}
+        tabPanel={
+          isLoading ? (
+            <TableSkeleton data-testid="skelton-table" />
+          ) : (
+            <Box sx={{ height: 'auto', width: '100%' }}>
+              <DataGrid
+                getRowId={({ name }) => name}
+                hideFooterPagination
+                autoHeight
+                {...getDataGridProps()}
+              />
+            </Box>
+          )
+        }
+        // tabPanel={
+        //   <Box sx={{ height: 'auto', width: '100%' }}>
+        //     <DataGrid
+        //       getRowId={({ name }) => name}
+        //       hideFooterPagination
+        //       autoHeight
+        //       {...getDataGridProps()}
+        //     />
+        //   </Box>
+        // }
+        tabItems={tabs}
         activeOnUrl
       />
     </>
@@ -97,7 +126,7 @@ const tabs: TabItem[] = [
   }
 ]
 
-const columns: GridColDef[] = [
+const columnsSkills: GridColDef[] = [
   {
     field: 'name',
     headerName: 'Skill name',
@@ -106,7 +135,7 @@ const columns: GridColDef[] = [
     flex: 1
   },
   {
-    field: 'firstName',
+    field: 'level',
     headerName: 'Skill level',
     disableColumnMenu: true,
     resizable: false,
@@ -139,14 +168,14 @@ const columns: GridColDef[] = [
   }
 ]
 
-const rows = [
-  { id: 1, lastName: 'Snow', name: 'Snow', firstName: 'Jon', age: 35 },
-  { id: 2, lastName: 'Lannister', name: 'Lannister', firstName: 'Cersei', age: 42 },
-  { id: 3, lastName: 'Lannister', name: 'Lannister', firstName: 'Jaime', age: 45 },
-  { id: 4, lastName: 'Stark', name: 'Stark', firstName: 'Arya', age: 16 },
-  { id: 5, lastName: 'Targaryen', name: 'Targaryen', firstName: 'Daenerys', age: null },
-  { id: 6, lastName: 'Melisandre', name: 'Melisandre', firstName: null, age: 150 },
-  { id: 7, lastName: 'Clifford', name: 'Clifford', firstName: 'Ferrara', age: 44 },
-  { id: 8, lastName: 'Frances', name: 'Frances', firstName: 'Rossini', age: 36 },
-  { id: 9, lastName: 'Roxie', name: 'Roxie', firstName: 'Harvey', age: 65 }
+const mockData: SkillType[] = [
+  { name: 'Snow', level: 'Jon' },
+  { name: 'Lannister', level: 'Cersei' },
+  { name: 'Lannister1', level: 'Jaime' },
+  { name: 'Stark', level: 'Arya' },
+  { name: 'Targaryen', level: 'Daenerys' },
+  { name: 'Melisandre', level: null },
+  { name: 'Clifford', level: 'Ferrara' },
+  { name: 'Frances', level: 'Rossini' },
+  { name: 'Roxie', level: 'Harvey' }
 ]

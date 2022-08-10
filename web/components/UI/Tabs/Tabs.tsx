@@ -35,6 +35,7 @@ const Tabs: FC<Props> = ({
   activeOnUrl = false,
   activeIndex = 0,
   tabItems,
+  tabPanel,
   ...props
 }) => {
   const [currentActiveTab, setCurrentActiveTab] = useState<number>(activeIndex)
@@ -55,11 +56,11 @@ const Tabs: FC<Props> = ({
   const handleChange = (_event: SyntheticEvent, index: number) =>
     setCurrentActiveTab(index)
 
-  const renderPanel = (index: number, content: ReactNode, hidden = false) => (
+  const renderPanel = (index: number, content: ReactNode) => (
     <Box
       role="tabpanel"
       key={index}
-      hidden={hidden}
+      hidden={currentActiveTab !== index}
       id={`${id}-tabpanel-${index}`}
       aria-controls={`${id}-tab-${index}`}
     >
@@ -93,20 +94,9 @@ const Tabs: FC<Props> = ({
         })}
       </MuiTabs>
 
-      {tabItems.map(({ content }, index) => {
-        const hidden = currentActiveTab !== index
-        return (
-          <Box
-            role="tabpanel"
-            key={index}
-            hidden={!!hidden}
-            id={`${id}-tabpanel-${index}`}
-            aria-controls={`${id}-tab-${index}`}
-          >
-            {content}
-          </Box>
-        )
-      })}
+      {tabPanel
+        ? renderPanel(currentActiveTab, tabPanel)
+        : tabItems.map(({ content }, index) => renderPanel(index, content))}
     </Wrapper>
   )
 }
