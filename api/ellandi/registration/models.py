@@ -194,21 +194,17 @@ class UserLanguage(TimeStampedModel):
         INDEPENDENT = ("independent", "Independent")
         PROFICIENT = ("proficient", "Proficient")
 
-    class LanguageType(models.TextChoices):
-        WRITING = ("writing", "Writing")
-        SPEAKING = ("speaking", "Speaking")
-
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, related_name="languages", on_delete=models.CASCADE)
-    language = models.CharField(max_length=127, blank=True, null=True)
-    type = models.CharField(max_length=127, choices=LanguageType.choices, blank=True, null=True)  # eg reading, writing
-    level = models.CharField(max_length=127, choices=LanguageLevel.choices, blank=True, null=True)
+    name = models.CharField(max_length=127, blank=True, null=True)
+    speaking_level = models.CharField(max_length=127, choices=LanguageLevel.choices, blank=True, null=True)
+    writing_level = models.CharField(max_length=127, choices=LanguageLevel.choices, blank=True, null=True)
 
     def __str__(self):
         return f"{self.language} ({self.id})"
 
     class Meta:
-        unique_together = ["user", "language", "type"]
+        unique_together = ["user", "name"]
 
 
 class EmailSalt(models.Model):
