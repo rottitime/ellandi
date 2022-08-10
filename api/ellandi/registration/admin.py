@@ -15,7 +15,7 @@ from .models import (
     User,
     UserLanguage,
     UserSkill,
-    UserSkillDevelop
+    UserSkillDevelop,
 )
 
 
