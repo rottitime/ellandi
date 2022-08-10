@@ -81,7 +81,7 @@ class UserSkillSerializer(serializers.ModelSerializer):
 class UserLanguageSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserLanguage
-        fields = ["id", "user", "type", "language", "level", "created_at", "modified_at"]
+        fields = ["id", "user", "language", "speaking_level", "writing_level", "created_at", "modified_at"]
 
 
 class UserSkillSerializerNested(serializers.ModelSerializer):
