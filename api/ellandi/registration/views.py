@@ -56,8 +56,8 @@ class UserLanguageViewSet(viewsets.ModelViewSet):
 
 
 @register("user-skills-develop")
-class UserSkillViewSet(viewsets.ModelViewSet):
-    queryset = models.UserSkill.objects.all().order_by("user")
+class UserSkillDevelopViewSet(viewsets.ModelViewSet):
+    queryset = models.UserSkillDevelop.objects.all().order_by("user")
     serializer_class = serializers.UserSkillDevelopSerializer
     http_method_names = ["get", "post", "patch", "delete"]
 

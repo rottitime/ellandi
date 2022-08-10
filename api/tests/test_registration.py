@@ -261,17 +261,13 @@ def test_post_get_put_delete_user_skill_develop(client, user_id):
     response = client.get("/user-skills-develop/")
     assert len(response.json()) == 0
 
-    user_skill_data = {
-        "user": user_id,
-        "skill_name": "statistics"
-    }
-    response = client.post("/user-skills-develop/", json=user_skill_data)
+    response = client.post("/user-skills-develop/", json={"user": user_id, "skill_name": "statistics"})
     assert response.status_code == status.HTTP_201_CREATED
     user_skill_develop_id = response.json()["id"]
     assert response.json()["skill_name"] == "statistics"
 
     response = client.get("/user-skills-develop/")
-    assert len(response.json()) == 1
+    assert len(response.json()) == 1, response.json()
 
     response = client.get(f"/user-skills-develop/{user_skill_develop_id}/")
     assert response.status_code == status.HTTP_200_OK
