@@ -81,7 +81,7 @@ def test_user_patch(client, user_id):
     }
     user_languages_data = {
         "user": user_id,
-        "language": "Spanish",
+        "name": "Spanish",
         "speaking_level": "proficient",
         "writing_level": "basic",
     }
@@ -121,8 +121,8 @@ def test_user_patch(client, user_id):
 
     even_more_nested_data = {
         "languages": [
-            {"language": "French", "speaking_level": "proficient", "writing_level": "basic"},
-            {"language": "Spanish", "speaking_level": "proficient", "writing_level": "proficient"},
+            {"name": "French", "speaking_level": "proficient", "writing_level": "basic"},
+            {"name": "Spanish", "speaking_level": "proficient", "writing_level": "proficient"},
         ]
     }
     response = client.patch(f"/users/{user_id}/", json=even_more_nested_data)
@@ -130,8 +130,8 @@ def test_user_patch(client, user_id):
     data = response.json()
     languages_list = data["languages"]
     assert len(languages_list) == 2, languages_list
-    assert "French" in [lang["language"] for lang in languages_list]
-    spanish_lang = [lang for lang in languages_list if lang["language"] == "Spanish"][0]
+    assert "French" in [lang["name"] for lang in languages_list]
+    spanish_lang = [lang for lang in languages_list if lang["name"] == "Spanish"][0]
     assert spanish_lang["speaking_level"] == "proficient"
 
 
@@ -233,9 +233,8 @@ def test_post_get_put_delete_user_language(client, user_id):
     response_data = response.json()
     user_language_id = response_data["id"]
     assert response_data["name"] == "Latin"
-    assert response_data["level"] == "proficient"
     assert response_data["writing_level"] == "proficient"
-    assert not response_data["reading_level"]
+    assert not response_data["speaking_level"]
 
     response = client.get("/user-languages/")
     assert len(response.json()) == 1
