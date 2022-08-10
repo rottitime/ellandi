@@ -16,10 +16,19 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    env:
-      CF_SPACE: ${{ fromJson('{"temp": "temp", "develop": "develop", "main": "prod", "feature/deploy-from-main": "flibble"}')[github.ref_name] }}
-
     steps:
+    - name: Get space name
+      uses: kanga333/variable-mapper@master
+      with:
+        key: "${{github.ref_name}}"
+        map: |
+          {
+            "temp": {"CF_SPACE": "temp"},
+            "develop": {"CF_SPACE": "develop"},
+            "main": {"CF_SPACE": "prod"},
+            "feature/deploy-from-main": {"CF_SPACE": "flibble"}
+          }
+
     - uses: actions/checkout@v3
 
     - name: Set up Python 3.8
