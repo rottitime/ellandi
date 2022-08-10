@@ -108,6 +108,7 @@ def test_user_patch(client, user_id):
         "profession_other": "",
         "skills": [{"skill_name": "running", "level": "competent", "validated": False}],
         "languages": [],
+        "skills_develop": [{"skill_name": "Statistics"}, {"skill_name": "R"}],
     }
     response = client.patch(f"/users/{user_id}/", json=more_nested_user_data)
     assert response.status_code == status.HTTP_200_OK
@@ -118,6 +119,7 @@ def test_user_patch(client, user_id):
     assert data["profession_other"] == ""
     assert len(data["languages"]) == 1, data["languages"]
     assert len(data["skills"]) == 2, data["skills"]
+    assert len(data["skills_develop"]) == 2, data["skills_develop"]
 
     even_more_nested_data = {
         "languages": [
@@ -253,6 +255,37 @@ def test_post_get_put_delete_user_language(client, user_id):
     assert response.status_code == status.HTTP_204_NO_CONTENT
 
     response = client.get("/user-languages/")
+    assert len(response.json()) == 0
+
+
+@utils.with_logged_in_client
+def test_post_get_put_delete_user_skill_develop(client, user_id):
+    response = client.get("/user-skills-develop/")
+    assert len(response.json()) == 0
+
+    response = client.post("/user-skills-develop/", json={"user": user_id, "skill_name": "statistics"})
+    assert response.status_code == status.HTTP_201_CREATED
+    user_skill_develop_id = response.json()["id"]
+    assert response.json()["skill_name"] == "statistics"
+
+    response = client.get("/user-skills-develop/")
+    assert len(response.json()) == 1, response.json()
+
+    response = client.get(f"/user-skills-develop/{user_skill_develop_id}/")
+    assert response.status_code == status.HTTP_200_OK
+    assert response.json()["skill_name"] == "statistics"
+
+    user_skill_data_updated = {
+        "user": user_id,
+        "skill_name": "advanced statistics",
+    }
+    response = client.put(f"/user-skills-develop/{user_skill_develop_id}/", json=user_skill_data_updated)
+    assert response.status_code == status.HTTP_405_METHOD_NOT_ALLOWED
+
+    response = client.delete(f"/user-skills-develop/{user_skill_develop_id}/")
+    assert response.status_code == status.HTTP_204_NO_CONTENT
+
+    response = client.get("/user-skills-develop/")
     assert len(response.json()) == 0
 
 

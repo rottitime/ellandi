@@ -207,6 +207,14 @@ class UserLanguage(TimeStampedModel):
         unique_together = ["user", "name"]
 
 
+class UserSkillDevelop(TimeStampedModel):
+    """Store info on skills a particular user would like to develop."""
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.ForeignKey(User, related_name="skills_develop", on_delete=models.CASCADE)
+    skill_name = models.CharField(max_length=127, blank=True, null=True)
+
+
 class EmailSalt(models.Model):
     email = models.EmailField("email", unique=True, primary_key=True)
     salt = models.BinaryField(max_length=16, blank=False, null=False)

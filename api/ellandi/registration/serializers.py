@@ -15,6 +15,7 @@ from .models import (
     User,
     UserLanguage,
     UserSkill,
+    UserSkillDevelop,
 )
 
 
@@ -84,6 +85,12 @@ class UserLanguageSerializer(serializers.ModelSerializer):
         fields = ["id", "user", "name", "speaking_level", "writing_level", "created_at", "modified_at"]
 
 
+class UserSkillDevelopSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserSkillDevelop
+        fields = ["id", "user", "skill_name"]
+
+
 class UserSkillSerializerNested(serializers.ModelSerializer):
     class Meta:
         model = UserSkill
@@ -96,9 +103,16 @@ class UserLanguageSerializerNested(serializers.ModelSerializer):
         fields = ["name", "speaking_level", "writing_level"]
 
 
+class UserSkillDevelopSerializerNested(serializers.ModelSerializer):
+    class Meta:
+        model = UserSkillDevelop
+        fields = ["skill_name"]
+
+
 class UserSerializer(serializers.ModelSerializer):
     skills = UserSkillSerializerNested(many=True, read_only=False, required=False)
     languages = UserLanguageSerializerNested(many=True, read_only=False, required=False)
+    skills_develop = UserSkillDevelopSerializerNested(many=True, read_only=False, required=False)
     email = serializers.CharField(read_only=True)
     professions = serializers.SlugRelatedField(
         many=True, queryset=Profession.objects.all(), read_only=False, slug_field="name", required=False
@@ -146,6 +160,11 @@ class UserSerializer(serializers.ModelSerializer):
                 name = language_data["name"]
                 UserLanguage.objects.update_or_create(user=instance, name=name, defaults=language_data)
 
+        if "skills_develop" in validated_data:
+            for skill_data in validated_data["skills_develop"]:
+                skill_name = skill_data["skill_name"]
+                UserSkillDevelop.objects.update_or_create(user=instance, skill_name=skill_name)
+
         instance.save()
         return instance
 
@@ -175,6 +194,7 @@ class UserSerializer(serializers.ModelSerializer):
             "contact_preference",
             "skills",
             "languages",
+            "skills_develop",
             "created_at",
             "modified_at",
         ]
