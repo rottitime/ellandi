@@ -36,7 +36,7 @@ const SkillsPage = ({ tabIndex }) => {
     <>
       <Headline>
         <Typography variant="h1" gutterBottom>
-          to the Skills and Learning Service
+          Hello {data?.first_name}, welcome to the Skills and Learning Service
         </Typography>
       </Headline>
 
