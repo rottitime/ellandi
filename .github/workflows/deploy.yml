@@ -2,6 +2,7 @@ name: Deploy App
 
 env:
   DOCKER_BUILDKIT: 1
+  BRANCH_SPACE_MAP: {"temp": "temp", "develop": "develop", "main": "prod"}
 
 on:
   push:
@@ -25,7 +26,7 @@ jobs:
       IMAGE_TAG: ${{ github.ref_name }}
       DOCKER_REPOSITORY: ghcr.io
       NODE_ENV: development
-      CF_SPACE: ${{ github.ref_name }}
+      CF_SPACE: ${{ fromJson($BRANCH_SPACE_MAP)[github.ref_name] }}
       NEXT_PUBLIC_API_URL: https://ellandi-api-${{ github.ref_name }}.london.cloudapps.digital
 
     strategy:
@@ -66,7 +67,7 @@ jobs:
     env:
       IMAGE_TAG: ${{ github.ref_name }}
       DOCKER_REPOSITORY: ghcr.io
-      CF_SPACE: ${{ github.ref_name }}
+      CF_SPACE: ${{ fromJson($BRANCH_SPACE_MAP)[github.ref_name] }}
 
     strategy:
       matrix:
