@@ -7,22 +7,13 @@ import { useQuery } from 'react-query'
 import { Query, RegisterUserResponse } from '@/service/api'
 import { fetchMe } from '@/service/me'
 import Headline from '@/components/Accounts/Headline/Headline'
-import { useUiContext } from '@/context/UiContext'
-import { useEffect } from 'react'
 import { GetStaticPropsContext } from 'next'
 import DataGrid, { GridColDef } from '@/components/UI/DataGrid/DataGrid'
 import Icon from '@/components/Icon/Icon'
 
 const SkillsPage = ({ tabIndex }) => {
-  const { setLoading } = useUiContext()
   const { authFetch } = useAuth()
-  const { isLoading, data } = useQuery<RegisterUserResponse>(Query.Me, () =>
-    authFetch(fetchMe)
-  )
-
-  useEffect(() => {
-    setLoading(isLoading)
-  }, [isLoading, setLoading])
+  const { data } = useQuery<RegisterUserResponse>(Query.Me, () => authFetch(fetchMe))
 
   return (
     <>
@@ -43,12 +34,7 @@ const SkillsPage = ({ tabIndex }) => {
                 ...tab,
                 content: (
                   <Box sx={{ height: 'auto', width: '100%' }}>
-                    <DataGrid
-                      rows={rows}
-                      columns={columns}
-                      hideFooterPagination
-                      autoHeight
-                    />
+                    <DataGrid rows={rows} columns={[]} hideFooterPagination autoHeight />
                   </Box>
                 )
               }
@@ -118,7 +104,6 @@ const columns: GridColDef[] = [
     disableColumnMenu: true,
     resizable: false,
     flex: 1
-    // width: 200
   },
   {
     field: 'firstName',

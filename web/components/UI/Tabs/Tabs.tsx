@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { FC, useState, SyntheticEvent, useEffect, useId } from 'react'
+import { FC, useState, SyntheticEvent, useEffect, useId, ReactNode } from 'react'
 import { Box, styled, Tab, Tabs as MuiTabs } from '@mui/material'
 import { Props } from './types'
 import ConditionalWrapper from '@/components/ConditionalWrapper/ConditionalWrapper'
@@ -41,6 +41,9 @@ const Tabs: FC<Props> = ({
   const id = useId()
 
   useEffect(() => {
+    // console.log({
+    //   pathname: window.location.pathname
+    // })
     const active: number = tabItems.findIndex((item) =>
       activeOnUrl
         ? item.href?.toLowerCase() === window.location.pathname.toLowerCase()
@@ -51,6 +54,18 @@ const Tabs: FC<Props> = ({
 
   const handleChange = (_event: SyntheticEvent, index: number) =>
     setCurrentActiveTab(index)
+
+  const renderPanel = (index: number, content: ReactNode, hidden = false) => (
+    <Box
+      role="tabpanel"
+      key={index}
+      hidden={hidden}
+      id={`${id}-tabpanel-${index}`}
+      aria-controls={`${id}-tab-${index}`}
+    >
+      {content}
+    </Box>
+  )
 
   return (
     <Wrapper>
@@ -84,7 +99,7 @@ const Tabs: FC<Props> = ({
           <Box
             role="tabpanel"
             key={index}
-            hidden={hidden}
+            hidden={!!hidden}
             id={`${id}-tabpanel-${index}`}
             aria-controls={`${id}-tab-${index}`}
           >
