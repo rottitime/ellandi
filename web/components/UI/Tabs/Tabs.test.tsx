@@ -112,8 +112,10 @@ describe('Tabs', () => {
         expect(screen.getByText('Tab two')).toBeVisible()
       })
     })
-    it('external component update the tab', async () => {
+
+    it.skip('external component update the tab', async () => {
       window.location.pathname = '/'
+
       const TabComponent = (
         <div>
           <button

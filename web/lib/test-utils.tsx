@@ -43,7 +43,7 @@ export const renderWithProviders = async (
       }
     }
   })
-  const { rerender, ...props } = await render(
+  const rendered = await render(
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
         <UiProvider>
@@ -53,5 +53,12 @@ export const renderWithProviders = async (
     </QueryClientProvider>,
     options
   )
-  return { ...props, rerender }
+  return {
+    ...rendered
+    // rerender: (ui, options) =>
+    //   renderWithProviders(ui, { container: rendered.container, ...options })
+  }
 }
+
+export * from '@testing-library/react'
+export { renderWithProviders as render }
