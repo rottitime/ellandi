@@ -93,7 +93,7 @@ def test_user_patch(client, user_id):
         "function": "Analysis",
     }
     response = client.post("/user-skills/", json=user_skill_data)
-    assert response.status_code == status.HTTP_201_CREATED
+    assert response.status_code == status.HTTP_201_CREATED, response.text
     response = client.post("/user-languages/", json=user_languages_data)
     assert response.status_code == status.HTTP_201_CREATED
     response = client.patch(f"/users/{user_id}/", json=more_user_data)
@@ -111,7 +111,7 @@ def test_user_patch(client, user_id):
         "skills_develop": [{"skill_name": "Statistics"}, {"skill_name": "R"}],
     }
     response = client.patch(f"/users/{user_id}/", json=more_nested_user_data)
-    assert response.status_code == status.HTTP_200_OK
+    assert response.status_code == status.HTTP_200_OK, response.text
     data = response.json()
     assert data["first_name"] == "Alice"
     assert len(data["professions"]) == 2
@@ -196,7 +196,7 @@ def test_post_get_put_delete_user_skill(client, user_id):
         "level": "Proficient",
     }
     response = client.post("/user-skills/", json=user_skill_data)
-    assert response.status_code == status.HTTP_201_CREATED
+    assert response.status_code == status.HTTP_201_CREATED, response.text
     user_skill_id = response.json()["id"]
     assert response.json()["skill_name"] == "maths"
     assert response.json()["level"] == "Proficient"

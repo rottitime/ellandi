@@ -23,6 +23,7 @@ class ChoiceDisplayField(serializers.ChoiceField):
     """
     Convert from display value to internal valuefor choice fields.
     """
+
     def to_representation(self, obj):
         if obj:
             return self._choices[obj]
@@ -36,8 +37,7 @@ class ChoiceDisplayField(serializers.ChoiceField):
         for key, val in self._choices.items():
             if val == data:
                 return key
-        self.fail('invalid_choice', input=data)
-
+        self.fail("invalid_choice", input=data)
 
 
 class OrganisationSerializer(serializers.ModelSerializer):
@@ -114,7 +114,7 @@ class UserLanguageSerializer(serializers.ModelSerializer):
 class UserSkillDevelopSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserSkillDevelop
-        fields = ["id", "user", "skill_name"]
+        fields = ["id", "user", "skill_name", "created_at", "modified_at"]
 
 
 class UserSkillSerializerNested(serializers.ModelSerializer):
@@ -122,7 +122,7 @@ class UserSkillSerializerNested(serializers.ModelSerializer):
 
     class Meta:
         model = UserSkill
-        fields = ["skill_name", "level", "validated"]
+        fields = ["id", "skill_name", "level", "validated"]
 
 
 class UserLanguageSerializerNested(serializers.ModelSerializer):
@@ -131,13 +131,13 @@ class UserLanguageSerializerNested(serializers.ModelSerializer):
 
     class Meta:
         model = UserLanguage
-        fields = ["name", "speaking_level", "writing_level"]
+        fields = ["id", "name", "speaking_level", "writing_level"]
 
 
 class UserSkillDevelopSerializerNested(serializers.ModelSerializer):
     class Meta:
         model = UserSkillDevelop
-        fields = ["skill_name"]
+        fields = ["id", "skill_name"]
 
 
 class UserSerializer(serializers.ModelSerializer):
