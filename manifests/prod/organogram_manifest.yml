@@ -1,9 +1,9 @@
 ---
 applications:
-- name: organogram
+- name: digital-organogram
   services:
   - i-dot-ai-organogram-prod
-  - digital-organogram
+  - organogram-postgres
   routes:
   - route: digital-organogram.london.cloudapps.digital
     protocol: http1
