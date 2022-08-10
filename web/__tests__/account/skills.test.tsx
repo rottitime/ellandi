@@ -1,26 +1,13 @@
-import {
-  getByTestId,
-  screen,
-  waitFor,
-  waitForElementToBeRemoved
-} from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
+import { screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react'
 import SkillsPage from '@/pages/account/skills/[[...tab]]'
 import fetchMock from 'jest-fetch-mock'
-import Router from 'next/router'
 import { renderWithProviders } from '@/lib/test-utils'
 
 const mockSuccess = {
   skills: [
-    { name: 'Snow', level: 'Jon' },
-    { name: 'Lannister', level: 'Cersei' },
-    { name: 'Lannister1', level: 'Jaime' },
-    { name: 'Stark', level: 'Arya' },
-    { name: 'Targaryen', level: 'Daenerys' },
-    { name: 'Melisandre', level: null },
-    { name: 'Clifford', level: 'Ferrara' },
-    { name: 'Frances', level: 'Rossini' },
-    { name: 'Roxie', level: 'Harvey' }
+    { name: 'Skill Something A', level: 'Jon' },
+    { name: 'Skill Something B', level: 'Cersei' },
+    { name: 'Skill Something C', level: 'Jaime' }
   ],
   languages: [
     {
@@ -36,20 +23,32 @@ const mockSuccess = {
   ]
 }
 
+const bugfixForTimeout = async () =>
+  await waitFor(() => new Promise((resolve) => setTimeout(resolve, 0)))
+
 describe('Page: Sign in', () => {
   afterEach(() => {
     fetchMock.resetMocks()
   })
 
-  it('renders', async () => {
+  it('renders with data after loading', async () => {
     fetchMock.mockResponse(JSON.stringify(mockSuccess), { status: 200 })
-    const view = await renderWithProviders(<SkillsPage tabIndex={0} />)
+    renderWithProviders(<SkillsPage tabIndex={0} />)
+
+    expect(screen.getByTestId('skelton-table')).toBeInTheDocument()
 
     await waitForElementToBeRemoved(() => screen.queryByTestId('skelton-table'))
-    await waitFor(() => new Promise((resolve) => setTimeout(resolve, 0)))
+
+    await bugfixForTimeout()
 
     await waitFor(async () => {
-      expect(screen.getByText('Lannister')).toBeInTheDocument()
+      expect(screen.getByText(mockSuccess.skills[0].name)).toBeInTheDocument()
     })
+    expect(screen.getByText(mockSuccess.skills[1].name)).toBeInTheDocument()
+    expect(screen.getByText(mockSuccess.skills[2].name)).toBeInTheDocument()
+
+    expect(screen.getByText(mockSuccess.skills[0].level)).toBeInTheDocument()
+    expect(screen.getByText(mockSuccess.skills[1].level)).toBeInTheDocument()
+    expect(screen.getByText(mockSuccess.skills[2].level)).toBeInTheDocument()
   })
 })

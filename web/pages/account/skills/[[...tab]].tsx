@@ -1,5 +1,5 @@
 import AccountLayout from '@/components/Layout/AccountLayout/AccountLayout'
-import { Box, Chip, IconButton, Typography } from '@mui/material'
+import { Alert, Box, Chip, IconButton, Typography } from '@mui/material'
 import Tabs, { TabItem } from '@/components/UI/Tabs/Tabs'
 import Button from '@/components/UI/Button/Button'
 import useAuth from '@/hooks/useAuth'
@@ -11,6 +11,7 @@ import { GetStaticPropsContext } from 'next'
 import DataGrid, { GridColDef } from '@/components/UI/DataGrid/DataGrid'
 import Icon from '@/components/Icon/Icon'
 import TableSkeleton from '@/components/UI/Skeleton/TableSkeleton'
+import { createIdFromHref } from '@/lib/url-utils'
 
 const SkillsPage = ({ tabIndex }) => {
   const { authFetch } = useAuth()
@@ -58,16 +59,6 @@ const SkillsPage = ({ tabIndex }) => {
             </Box>
           )
         }
-        // tabPanel={
-        //   <Box sx={{ height: 'auto', width: '100%' }}>
-        //     <DataGrid
-        //       getRowId={({ name }) => name}
-        //       hideFooterPagination
-        //       autoHeight
-        //       {...getDataGridProps()}
-        //     />
-        //   </Box>
-        // }
         tabItems={tabs}
         activeOnUrl
       />
@@ -90,7 +81,7 @@ SkillsPage.getLayout = (page) => (
 export async function getStaticPaths() {
   return {
     paths: tabs.map(({ href }) => ({
-      params: { tab: [createIdFromHref(href)] }
+      params: { tab: [createIdFromHref(href, '', '/account/skills')] }
     })),
     fallback: false
   }
@@ -98,30 +89,29 @@ export async function getStaticPaths() {
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const tab = context.params.tab || ['']
-  const tabIndex = tabs.map(({ href }) => createIdFromHref(href)).indexOf(tab[0])
+  const tabIndex = tabs
+    .map(({ href }) => createIdFromHref(href, '', '/account/skills'))
+    .indexOf(tab[0])
 
   return {
     props: { tabIndex }
   }
 }
 
-const createIdFromHref = (href: string) =>
-  href.replace('/account/skills', '').split('/').at(-1)
-
 const tabs: TabItem[] = [
   {
     title: 'Your skills',
-    content: null,
+    content: <Alert severity="info">Enter a skill</Alert>,
     href: '/account/skills'
   },
   {
     title: 'Language skills',
-    content: null,
+    content: <Alert severity="info">Enter a language</Alert>,
     href: '/account/skills/language-skills'
   },
   {
     title: "Skills you'd like to develop",
-    content: null,
+    content: <Alert severity="info">Enter a skill to develop</Alert>,
     href: '/account/skills/skills-develop'
   }
 ]
@@ -158,6 +148,7 @@ const columnsSkills: GridColDef[] = [
           component="label"
           sx={{ color: 'text.primary' }}
           onClick={() => {
+            // eslint-disable-next-line no-console
             console.log('formattedValue', cell.formattedValue)
           }}
         >
