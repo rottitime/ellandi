@@ -175,15 +175,15 @@ class UserSkill(TimeStampedModel):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, related_name="skills", on_delete=models.CASCADE)
-    skill_name = models.CharField(max_length=256)
+    name = models.CharField(max_length=256)
     level = models.CharField(max_length=64, choices=SkillLevel.choices, blank=True, null=True)
     validated = models.BooleanField(default=False, blank=False)
 
     def __str__(self):
-        return f"{self.skill_name} ({self.id})"
+        return f"{self.name} ({self.id})"
 
     class Meta:
-        unique_together = ["user", "skill_name"]
+        unique_together = ["user", "name"]
 
 
 class UserLanguage(TimeStampedModel):
@@ -212,7 +212,13 @@ class UserSkillDevelop(TimeStampedModel):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, related_name="skills_develop", on_delete=models.CASCADE)
-    skill_name = models.CharField(max_length=127, blank=True, null=True)
+    name = models.CharField(max_length=127, blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.name} ({self.id})"
+
+    class Meta:
+        unique_together = ["user", "name"]
 
 
 class EmailSalt(models.Model):
