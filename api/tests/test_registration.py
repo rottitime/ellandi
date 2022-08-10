@@ -108,6 +108,7 @@ def test_user_patch(client, user_id):
         "profession_other": "",
         "skills": [{"skill_name": "running", "level": "competent", "validated": False}],
         "languages": [],
+        "skills_develop": [{"skill_name": "Statistics"}, {"skill_name": "R"}],
     }
     response = client.patch(f"/users/{user_id}/", json=more_nested_user_data)
     assert response.status_code == status.HTTP_200_OK
@@ -118,6 +119,7 @@ def test_user_patch(client, user_id):
     assert data["profession_other"] == ""
     assert len(data["languages"]) == 1, data["languages"]
     assert len(data["skills"]) == 2, data["skills"]
+    assert len(data["skills_develop"]) == 2, data["skills_develop"]
 
     even_more_nested_data = {
         "languages": [
