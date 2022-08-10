@@ -68,8 +68,8 @@ const options = {
 
 const languageSchema: SchemaOf<LanguageType> = object({
   language: string().required('This is a required field'),
-  writing: string().required('This is a required field'),
-  speaking: string().required('This is a required field')
+  writing_level: string().required('This is a required field'),
+  speaking_level: string().required('This is a required field')
 })
 
 const schema: SchemaOf<LanguagesType> = object().shape({
@@ -132,7 +132,7 @@ const LanguageForm: FC<StandardRegisterProps<LanguagesType>> = (props) => {
                           {data.map(({ name }) => (
                             <MenuItem
                               key={name}
-                              value={name}
+                              value={name.toLowerCase()}
                               disabled={
                                 !!getValues(fieldName).find(
                                   ({ language }) => language === name
@@ -162,7 +162,7 @@ const LanguageForm: FC<StandardRegisterProps<LanguagesType>> = (props) => {
               <Field key={name}>
                 <Controller
                   name={
-                    `languages.${index}.${name.toLowerCase()}` as `languages.${number}`
+                    `languages.${index}.${name.toLowerCase()}_level` as `languages.${number}`
                   }
                   control={control}
                   render={({ field, fieldState: { error } }) => (
@@ -210,7 +210,7 @@ const LanguageForm: FC<StandardRegisterProps<LanguagesType>> = (props) => {
         <Field>
           <Button
             onClick={() => {
-              append({ language: '', speaking: '', writing: '' })
+              append({ language: '', speaking_level: '', writing_level: '' })
             }}
           >
             Add language
