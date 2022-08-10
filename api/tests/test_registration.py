@@ -12,7 +12,7 @@ def test_users_get(client, user_id):
     # Populate with some skills first
     user_skill_data = {
         "user": user_id,
-        "skill_name": "maths",
+        "name": "maths",
         "level": "Proficient",
     }
     response = client.post("/user-skills/", json=user_skill_data)
@@ -21,7 +21,7 @@ def test_users_get(client, user_id):
     assert response.status_code == status.HTTP_200_OK
     data = response.json()
     assert data[0]["email"] == "jane@example.com"
-    assert data[0]["skills"][0]["skill_name"] == "maths"
+    assert data[0]["skills"][0]["name"] == "maths"
 
 
 @utils.with_logged_in_client
@@ -76,7 +76,7 @@ def test_user_put(client, user_id):
 def test_user_patch(client, user_id):
     user_skill_data = {
         "user": user_id,
-        "skill_name": "maths",
+        "name": "maths",
         "level": "Proficient",
     }
     user_languages_data = {
@@ -100,15 +100,15 @@ def test_user_patch(client, user_id):
     assert response.status_code == status.HTTP_200_OK
     assert response.json()["email"] == "jane@example.com", "Email field should be read-only"
     assert response.json()["last_name"] == "Green"
-    assert response.json()["skills"][0]["skill_name"] == "maths"
+    assert response.json()["skills"][0]["name"] == "maths"
 
     more_nested_user_data = {
         "first_name": "Alice",
         "professions": ["Policy", "Operational Research Service"],
         "profession_other": "",
-        "skills": [{"skill_name": "running", "level": "Competent", "validated": False}],
+        "skills": [{"name": "running", "level": "Competent", "validated": False}],
         "languages": [],
-        "skills_develop": [{"skill_name": "Statistics"}, {"skill_name": "R"}],
+        "skills_develop": [{"name": "Statistics"}, {"name": "R"}],
     }
     response = client.patch(f"/users/{user_id}/", json=more_nested_user_data)
     assert response.status_code == status.HTTP_200_OK, response.text
@@ -141,19 +141,19 @@ def test_user_patch(client, user_id):
 def test_get_user_userskills(client, user_id):
     user_skill_data = {
         "user": user_id,
-        "skill_name": "typing",
+        "name": "typing",
         "level": "Proficient",
     }
 
     response = client.post("/user-skills/", json=user_skill_data)
     assert response.status_code == status.HTTP_201_CREATED
     user_skill_id = response.json()["id"]
-    assert response.json()["skill_name"] == "typing"
+    assert response.json()["name"] == "typing"
     assert response.json()["level"] == "Proficient"
 
     response = client.get(f"/users/{user_id}/skills/")
     assert response.status_code == status.HTTP_200_OK
-    assert response.json()[0]["skill_name"] == "typing"
+    assert response.json()[0]["name"] == "typing"
     assert response.json()[0]["level"] == "Proficient"
 
     response = client.delete(f"/user-skills/{user_skill_id}/")
@@ -192,15 +192,15 @@ def test_post_get_put_delete_user_skill(client, user_id):
 
     user_skill_data = {
         "user": user_id,
-        "skill_name": "maths",
+        "name": "maths",
         "level": "Proficient",
     }
     response = client.post("/user-skills/", json=user_skill_data)
     assert response.status_code == status.HTTP_201_CREATED, response.text
     user_skill_id = response.json()["id"]
-    assert response.json()["skill_name"] == "maths"
+    assert response.json()["name"] == "maths"
     assert response.json()["level"] == "Proficient"
-    user_skill_obj = UserSkill.objects.get(user__id=user_id, skill_name="maths")
+    user_skill_obj = UserSkill.objects.get(user__id=user_id, name="maths")
     assert user_skill_obj.level == "proficient"
 
     response = client.get("/user-skills/")
@@ -208,12 +208,12 @@ def test_post_get_put_delete_user_skill(client, user_id):
 
     response = client.get(f"/user-skills/{user_skill_id}/")
     assert response.status_code == status.HTTP_200_OK
-    assert response.json()["skill_name"] == "maths"
+    assert response.json()["name"] == "maths"
     assert response.json()["level"] == "Proficient"
 
     user_skill_data_updated = {
         "user": user_id,
-        "skill_name": "maths",
+        "name": "maths",
         "level": "Beginner",
     }
     response = client.put(f"/user-skills/{user_skill_id}/", json=user_skill_data_updated)
@@ -265,21 +265,21 @@ def test_post_get_put_delete_user_skill_develop(client, user_id):
     response = client.get("/user-skills-develop/")
     assert len(response.json()) == 0
 
-    response = client.post("/user-skills-develop/", json={"user": user_id, "skill_name": "statistics"})
+    response = client.post("/user-skills-develop/", json={"user": user_id, "name": "statistics"})
     assert response.status_code == status.HTTP_201_CREATED
     user_skill_develop_id = response.json()["id"]
-    assert response.json()["skill_name"] == "statistics"
+    assert response.json()["name"] == "statistics"
 
     response = client.get("/user-skills-develop/")
     assert len(response.json()) == 1, response.json()
 
     response = client.get(f"/user-skills-develop/{user_skill_develop_id}/")
     assert response.status_code == status.HTTP_200_OK
-    assert response.json()["skill_name"] == "statistics"
+    assert response.json()["name"] == "statistics"
 
     user_skill_data_updated = {
         "user": user_id,
-        "skill_name": "advanced statistics",
+        "name": "advanced statistics",
     }
     response = client.put(f"/user-skills-develop/{user_skill_develop_id}/", json=user_skill_data_updated)
     assert response.status_code == status.HTTP_405_METHOD_NOT_ALLOWED
@@ -337,7 +337,7 @@ def test_dropdown_list(client, user_id):
 def test_skills_list(client, user_id):
     user_skill_data = {
         "user": user_id,
-        "skill_name": "new user skill",
+        "name": "new user skill",
         "level": "Proficient",
     }
     response = client.post("/user-skills/", json=user_skill_data)
