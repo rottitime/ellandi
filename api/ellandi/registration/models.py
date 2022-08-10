@@ -201,7 +201,7 @@ class UserLanguage(TimeStampedModel):
     writing_level = models.CharField(max_length=127, choices=LanguageLevel.choices, blank=True, null=True)
 
     def __str__(self):
-        return f"{self.language} ({self.id})"
+        return f"{self.name} ({self.id})"
 
     class Meta:
         unique_together = ["user", "name"]
