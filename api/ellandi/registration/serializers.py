@@ -19,6 +19,27 @@ from .models import (
 )
 
 
+class ChoiceDisplayField(serializers.ChoiceField):
+    """
+    Convert from display value to internal valuefor choice fields.
+    """
+    def to_representation(self, obj):
+        if obj:
+            return self._choices[obj]
+        else:
+            return obj
+
+    def to_internal_value(self, data):
+        if not data:
+            return data
+
+        for key, val in self._choices.items():
+            if val == data:
+                return key
+        self.fail('invalid_choice', input=data)
+
+
+
 class OrganisationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Organisation
@@ -74,12 +95,17 @@ class FunctionSerializer(serializers.ModelSerializer):
 
 
 class UserSkillSerializer(serializers.ModelSerializer):
+    level = ChoiceDisplayField(choices=UserSkill.SkillLevel.choices, required=False)
+
     class Meta:
         model = UserSkill
         fields = ["id", "user", "skill_name", "level", "validated", "created_at", "modified_at"]
 
 
 class UserLanguageSerializer(serializers.ModelSerializer):
+    speaking_level = ChoiceDisplayField(choices=UserLanguage.LanguageLevel.choices, required=False)
+    writing_level = ChoiceDisplayField(choices=UserLanguage.LanguageLevel.choices, required=False)
+
     class Meta:
         model = UserLanguage
         fields = ["id", "user", "name", "speaking_level", "writing_level", "created_at", "modified_at"]
@@ -92,12 +118,17 @@ class UserSkillDevelopSerializer(serializers.ModelSerializer):
 
 
 class UserSkillSerializerNested(serializers.ModelSerializer):
+    level = ChoiceDisplayField(choices=UserSkill.SkillLevel.choices, required=False)
+
     class Meta:
         model = UserSkill
         fields = ["skill_name", "level", "validated"]
 
 
 class UserLanguageSerializerNested(serializers.ModelSerializer):
+    speaking_level = ChoiceDisplayField(choices=UserLanguage.LanguageLevel.choices, required=False)
+    writing_level = ChoiceDisplayField(choices=UserLanguage.LanguageLevel.choices, required=False)
+
     class Meta:
         model = UserLanguage
         fields = ["name", "speaking_level", "writing_level"]
