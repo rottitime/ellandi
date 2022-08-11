@@ -218,11 +218,25 @@ def me_skills_view(request):
     return response
 
 
-@decorators.api_view(["DELETE"])
-def me_skill_delete_view(request, pk):
+def skill_delete_view(user, id):
     try:
-        user_skill = models.UserSkill.objects.get(id=pk)
+        user_skill = models.UserSkill.objects.get(user=user, id=id)
         user_skill.delete()
         return Response(status=status.HTTP_200_OK)
     except models.UserSkill.DoesNotExist:
         return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+@decorators.api_view(["DELETE"])
+def me_skill_delete_view(request, skill_id):
+    user = request.user
+    return skill_delete_view(user=user, id=skill_id)
+
+
+@decorators.api_view(["DELETE"])
+def users_skill_delete_view(request, user_id, skill_id):
+    try:
+        user = models.User.objects.get(id=user_id)
+    except models.User.DoesNotExist:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+    return skill_delete_view(user=user, id=skill_id)
