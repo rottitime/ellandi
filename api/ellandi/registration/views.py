@@ -195,3 +195,22 @@ def me_view(request):
     data["id"] = str(user.id)
     response = Response(data=data, status=status.HTTP_200_OK)
     return response
+
+
+@decorators.api_view(["GET", "PATCH"])
+def me_skills_view(request):
+    user = request.user
+    if request.method == "GET":
+        skills_qs = models.UserSkill.objects.filter(user=user)
+        serializer = serializers.UserSkillSerializer(skills_qs, many=True)
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+    elif request.method == "PATCH":
+        data = request.data
+        data = {"languages": data}
+        serializer = serializers.UserSerializer(user, data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
