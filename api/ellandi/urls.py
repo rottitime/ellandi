@@ -15,7 +15,7 @@ from ellandi.registration.views import (
     register_view,
     registration_router,
     skills_list_view,
-    me_skills_view
+    me_skills_view,
 )
 
 api_urlpatterns = [

@@ -1,9 +1,11 @@
 import os
 
+
 from django.contrib.auth import get_user_model
 from drf_spectacular.utils import extend_schema
 from rest_framework import decorators, permissions, routers, status, viewsets
 from rest_framework.response import Response
+from rest_framework.schemas import AutoSchema
 
 from . import exceptions, initial_data, models, serializers
 
@@ -197,6 +199,7 @@ def me_view(request):
     return response
 
 
+@extend_schema(methods=["PATCH"], request=serializers.UserSkillSerializerNested(many=True))
 @decorators.api_view(["GET", "PATCH"])
 def me_skills_view(request):
     user = request.user
@@ -206,11 +209,9 @@ def me_skills_view(request):
         return Response(data=serializer.data, status=status.HTTP_200_OK)
     elif request.method == "PATCH":
         data = request.data
-        data = {"languages": data}
+        data = {"skills": data}
         serializer = serializers.UserSerializer(user, data=data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
