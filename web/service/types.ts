@@ -6,6 +6,7 @@ export enum Query {
   Functions = 'functions',
   ContractTypes = 'contract-types',
   Languages = 'languages',
+  LanguageSkillLevels = 'languageSkillLevels',
   Skills = 'skills',
   Me = 'me'
 }

@@ -17,7 +17,7 @@ import {
   Tooltip
 } from '@mui/material'
 import { GenericDataList, LanguagesType, LanguageType, Query } from '@/service/types'
-import { fetchLanguages } from '@/service/api'
+import { fetchLanguages, fetchLanguageSkillLevels } from '@/service/api'
 import { FC } from 'react'
 import { useQuery } from 'react-query'
 import { StandardRegisterProps } from './types'
@@ -42,8 +42,6 @@ const Table = styled(MuiTable)`
 `
 
 const fornName: keyof LanguagesType = 'languages'
-
-const levels = ['Basic', 'Independant', 'Proficient']
 
 const optionsSpeaking = [
   {
@@ -97,6 +95,11 @@ const LanguageForm: FC<StandardRegisterProps<LanguagesType>> = (props) => {
     fetchLanguages,
     { staleTime: Infinity }
   )
+
+  const { isLoading: isLoadingLevels, data: dataLevels } = useQuery<
+    GenericDataList[],
+    { message?: string }
+  >(Query.LanguageSkillLevels, fetchLanguageSkillLevels, { staleTime: Infinity })
 
   const methods = useForm<LanguagesType>({
     defaultValues: { languages: [] },
@@ -202,32 +205,36 @@ const LanguageForm: FC<StandardRegisterProps<LanguagesType>> = (props) => {
 
                     {['Speaking', 'Writing'].map((name) => (
                       <TableCell key={name}>
-                        <Controller
-                          name={
-                            `languages.${index}.${name.toLowerCase()}_level` as `languages.${number}`
-                          }
-                          control={control}
-                          defaultValue={item[name] as LanguageType}
-                          render={({ field, fieldState: { error } }) => (
-                            <FormControl fullWidth error={!!error} size="small">
-                              <InputLabel>Level</InputLabel>
-                              <Select
-                                label="Select a level"
-                                variant="outlined"
-                                {...field}
-                              >
-                                {levels.map((level) => (
-                                  <MenuItem key={level} value={level}>
-                                    {level}
-                                  </MenuItem>
-                                ))}
-                              </Select>
-                              {!!error && (
-                                <FormHelperText error>{error.message}</FormHelperText>
-                              )}
-                            </FormControl>
-                          )}
-                        />
+                        {isLoadingLevels ? (
+                          <Skeleton sx={{ height: 60 }} />
+                        ) : (
+                          <Controller
+                            name={
+                              `languages.${index}.${name.toLowerCase()}_level` as `languages.${number}`
+                            }
+                            control={control}
+                            defaultValue={item[name] as LanguageType}
+                            render={({ field, fieldState: { error } }) => (
+                              <FormControl fullWidth error={!!error} size="small">
+                                <InputLabel>Level</InputLabel>
+                                <Select
+                                  label="Select a level"
+                                  variant="outlined"
+                                  {...field}
+                                >
+                                  {dataLevels.map(({ name }) => (
+                                    <MenuItem key={name} value={name}>
+                                      {name}
+                                    </MenuItem>
+                                  ))}
+                                </Select>
+                                {!!error && (
+                                  <FormHelperText error>{error.message}</FormHelperText>
+                                )}
+                              </FormControl>
+                            )}
+                          />
+                        )}
                       </TableCell>
                     ))}
 

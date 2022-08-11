@@ -33,6 +33,13 @@ export const fetchLanguages = async (): Promise<GenericDataList[]> => {
   throw new Error(defaultError)
 }
 
+export const fetchLanguageSkillLevels = async (): Promise<GenericDataList[]> => {
+  //const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/grades/`)
+  const res = await fetch(`${publicRuntimeConfig.apiUrl}/language-skill-levels/`)
+  if (res.ok) return res.json()
+  throw new Error(defaultError)
+}
+
 export const fetchCountries = async (): Promise<GenericDataList[]> => {
   const res = await fetch(`${publicRuntimeConfig.apiUrl}/countries/`)
   if (res.ok) return res.json()

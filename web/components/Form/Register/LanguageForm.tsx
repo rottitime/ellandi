@@ -16,7 +16,7 @@ import {
   Typography
 } from '@mui/material'
 import { GenericDataList, LanguagesType, LanguageType, Query } from '@/service/types'
-import { fetchLanguages } from '@/service/api'
+import { fetchLanguages, fetchLanguageSkillLevels } from '@/service/api'
 import { FC, useId } from 'react'
 import { useQuery } from 'react-query'
 import { StandardRegisterProps } from './types'
@@ -26,44 +26,27 @@ import { array, object, SchemaOf, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Cancel } from '@mui/icons-material'
 import Form from '@/components/Form/Register/FormRegister/FormRegister'
+import RadioSkeleton from '@/components/UI/Skeleton/RadioSkeleton'
 
 const fieldName: keyof LanguagesType = 'languages'
 
-const options = {
-  speaking: [
-    {
-      title: 'Basic',
-      content:
-        'You can understand and use basic phrases, introduce yourself and describe in simple terms aspects of your background and environment'
-    },
-    {
-      title: 'Independent',
-      content:
-        'You can deal with most situations likely to arise while travelling in an area where the language is spoken and interact with a degree of fluency'
-    },
-    {
-      title: 'Proficient',
-      content:
-        'You can express ideas fluently and spontaneously and can use the language flexibly for social, academic and professional purposes'
-    }
-  ],
-  writing: [
-    {
-      title: 'Basic',
-      content:
-        'You can understand and use basic phrases, introduce yourself and describe in simple terms aspects of your background and environment'
-    },
-    {
-      title: 'Independent',
-      content:
-        'You can produce clear, detailed text on a wide range of subjects and explain the advantages and disadvantages of a topical issue'
-    },
-    {
-      title: 'Proficient',
-      content:
-        'You can produce clear, well-structured, detailed text on complex subjects and can express yourself fluently and precisely'
-    }
-  ]
+const content = {
+  speaking: {
+    Basic:
+      'You can understand and use basic phrases, introduce yourself and describe in simple terms aspects of your background and environment',
+    Independent:
+      'You can deal with most situations likely to arise while travelling in an area where the language is spoken and interact with a degree of fluency',
+    Proficient:
+      'You can express ideas fluently and spontaneously and can use the language flexibly for social, academic and professional purposes'
+  },
+  writing: {
+    Basic:
+      'You can understand and use basic phrases, introduce yourself and describe in simple terms aspects of your background and environment',
+    Independent:
+      'You can produce clear, detailed text on a wide range of subjects and explain the advantages and disadvantages of a topical issue',
+    Proficient:
+      'You can produce clear, well-structured, detailed text on complex subjects and can express yourself fluently and precisely'
+  }
 }
 
 const languageSchema: SchemaOf<LanguageType> = object({
@@ -83,6 +66,11 @@ const LanguageForm: FC<StandardRegisterProps<LanguagesType>> = (props) => {
     fetchLanguages,
     { staleTime: Infinity }
   )
+
+  const { isLoading: isLoadingLevels, data: dataLevels } = useQuery<
+    GenericDataList[],
+    { message?: string }
+  >(Query.LanguageSkillLevels, fetchLanguageSkillLevels, { staleTime: Infinity })
 
   const methods = useForm<LanguagesType>({
     defaultValues: {
@@ -174,31 +162,39 @@ const LanguageForm: FC<StandardRegisterProps<LanguagesType>> = (props) => {
                         {name}
                       </FormLabel>
 
-                      <RadioGroup
-                        aria-labelledby={`${formId}${index}:${name.toLowerCase()}`}
-                        {...field}
-                      >
-                        {options[name.toLowerCase()].map(({ title, content }) => (
-                          <Field key={title}>
-                            <FormControlLabel
-                              control={<Radio sx={{ pt: 0 }} />}
-                              sx={{ alignItems: 'flex-start' }}
-                              label={
-                                <>
-                                  <Typography>
-                                    <b>{title}</b>
-                                  </Typography>
-                                  <Collapse in={field.value === title}>
-                                    <Typography>{content}</Typography>
-                                  </Collapse>
-                                </>
-                              }
-                              value={title}
-                            />
-                          </Field>
-                        ))}
-                      </RadioGroup>
-                      {!!error && <FormHelperText>{error.message}</FormHelperText>}
+                      {isLoadingLevels ? (
+                        [...Array(3).keys()].map((i) => <RadioSkeleton key={i} />)
+                      ) : (
+                        <>
+                          <RadioGroup
+                            aria-labelledby={`${formId}${index}:${name.toLowerCase()}`}
+                            {...field}
+                          >
+                            {dataLevels.map(({ name: title }) => (
+                              <Field key={title}>
+                                <FormControlLabel
+                                  control={<Radio sx={{ pt: 0 }} />}
+                                  sx={{ alignItems: 'flex-start' }}
+                                  label={
+                                    <>
+                                      <Typography>
+                                        <b>{title}</b>
+                                      </Typography>
+                                      <Collapse in={field.value === (title as unknown)}>
+                                        <Typography>
+                                          {content[name.toLowerCase()][title]}
+                                        </Typography>
+                                      </Collapse>
+                                    </>
+                                  }
+                                  value={title}
+                                />
+                              </Field>
+                            ))}
+                          </RadioGroup>
+                          {!!error && <FormHelperText>{error.message}</FormHelperText>}
+                        </>
+                      )}
                     </FormControl>
                   )}
                 />
