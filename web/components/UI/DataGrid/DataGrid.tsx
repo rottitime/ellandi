@@ -1,7 +1,8 @@
 import { FC } from 'react'
 import { Props } from './types'
-import { DataGrid as MuiDataGrid } from '@mui/x-data-grid'
-import { styled } from '@mui/material'
+import { DataGrid as MuiDataGrid, GridColDef } from '@mui/x-data-grid'
+import { IconButton, styled } from '@mui/material'
+import Icon from '@/components/Icon/Icon'
 
 const StyledGrid = styled(MuiDataGrid)`
   border: none;
@@ -32,7 +33,39 @@ const StyledGrid = styled(MuiDataGrid)`
   }
 `
 
-const DataGrid: FC<Props> = (props) => <StyledGrid {...props} />
+const DataGrid: FC<Props> = ({ enableDelete, onDelete, ...props }) => {
+  const columns: GridColDef[] = enableDelete
+    ? [
+        ...props.columns,
+        {
+          field: 'id',
+          headerName: '',
+          resizable: false,
+          disableColumnMenu: true,
+          sortable: false,
+          align: 'right',
+          width: 50,
+          renderCell: (cell) => (
+            <IconButton
+              color="primary"
+              aria-label="delete"
+              component="label"
+              data-testid={`delete-button-${cell.formattedValue}`}
+              sx={{ color: 'text.primary' }}
+              onClick={() => onDelete && typeof onDelete === 'function' && onDelete(cell)}
+            >
+              <Icon icon="circle-delete" />
+            </IconButton>
+          )
+        }
+      ]
+    : props.columns
+  const gridProps = {
+    ...props,
+    columns
+  }
+  return <StyledGrid {...gridProps} />
+}
 
 export default DataGrid
 export * from '@mui/x-data-grid'

@@ -56,11 +56,13 @@ export type ProfessionType = {
 }
 
 export type SkillType = {
+  id?: string
   name: string
   level: string
 }
 
 export type SkillDevelopType = {
+  id?: string
   name: string
 }
 
@@ -91,6 +93,7 @@ export type FunctionType = {
 }
 
 export type LanguageType = {
+  id?: string
   name: string
   speaking_level: string
   writing_level: string

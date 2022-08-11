@@ -10,6 +10,8 @@ const Wrapper = styled(Box)`
     gap: ${(p) => p.theme.spacing(1)};
   }
   .MuiTab-root {
+    transition: background-color 0.3s ease-in-out, color 0.3s 0.2s ease-out;
+
     background-color: ${(p) => p.theme.colors.grey4};
     text-transform: initial;
     border-radius: 12px 12px 0 0;
