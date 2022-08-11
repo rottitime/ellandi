@@ -201,7 +201,7 @@ def test_post_get_put_delete_user_skill(client, user_id):
     assert response.json()["name"] == "maths"
     assert response.json()["level"] == "Proficient"
     user_skill_obj = UserSkill.objects.get(user__id=user_id, name="maths")
-    assert user_skill_obj.level == "proficient"
+    assert user_skill_obj.level == "Proficient"
 
     response = client.get("/user-skills/")
     assert len(response.json()) == 1
