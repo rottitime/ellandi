@@ -95,7 +95,9 @@ class FunctionSerializer(serializers.ModelSerializer):
 
 
 class UserSkillSerializer(serializers.ModelSerializer):
-    level = ChoiceDisplayField(choices=UserSkill.SkillLevel.choices, required=False)
+    level = serializers.ChoiceField(
+        choices=UserSkill.SkillLevel.choices, allow_blank=True, allow_null=True, required=False
+    )
 
     class Meta:
         model = UserSkill
@@ -103,8 +105,12 @@ class UserSkillSerializer(serializers.ModelSerializer):
 
 
 class UserLanguageSerializer(serializers.ModelSerializer):
-    speaking_level = ChoiceDisplayField(choices=UserLanguage.LanguageLevel.choices, required=False)
-    writing_level = ChoiceDisplayField(choices=UserLanguage.LanguageLevel.choices, required=False)
+    speaking_level = serializers.ChoiceField(
+        choices=UserLanguage.LanguageLevel.choices, allow_blank=True, allow_null=True, required=False
+    )
+    writing_level = serializers.ChoiceField(
+        choices=UserLanguage.LanguageLevel.choices, allow_blank=True, allow_null=True, required=False
+    )
 
     class Meta:
         model = UserLanguage
@@ -118,7 +124,9 @@ class UserSkillDevelopSerializer(serializers.ModelSerializer):
 
 
 class UserSkillSerializerNested(serializers.ModelSerializer):
-    level = ChoiceDisplayField(choices=UserSkill.SkillLevel.choices, required=False)
+    level = serializers.ChoiceField(
+        choices=UserSkill.SkillLevel.choices, allow_blank=True, allow_null=True, required=False
+    )
 
     class Meta:
         model = UserSkill
@@ -126,8 +134,12 @@ class UserSkillSerializerNested(serializers.ModelSerializer):
 
 
 class UserLanguageSerializerNested(serializers.ModelSerializer):
-    speaking_level = ChoiceDisplayField(choices=UserLanguage.LanguageLevel.choices, required=False)
-    writing_level = ChoiceDisplayField(choices=UserLanguage.LanguageLevel.choices, required=False)
+    speaking_level = serializers.ChoiceField(
+        choices=UserLanguage.LanguageLevel.choices, allow_blank=True, allow_null=True, required=False
+    )
+    writing_level = serializers.ChoiceField(
+        choices=UserLanguage.LanguageLevel.choices, allow_blank=True, allow_null=True, required=False
+    )
 
     class Meta:
         model = UserLanguage

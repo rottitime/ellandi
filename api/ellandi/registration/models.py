@@ -167,11 +167,11 @@ class UserSkill(TimeStampedModel):
     """Info on a particular skill for a given user."""
 
     class SkillLevel(models.TextChoices):
-        BEGINNER = ("beginner", "Beginner")
-        ADVANCED_BEGINNER = ("advanced-beginner", "Advanced beginner")
-        COMPETENT = ("competent", "Competent")
-        PROFICIENT = ("proficient", "Proficient")
-        EXPERT = ("expert", "Expert")
+        BEGINNER = ("Beginner", "Beginner")
+        ADVANCED_BEGINNER = ("Advanced beginner", "Advanced beginner")
+        COMPETENT = ("Competent", "Competent")
+        PROFICIENT = ("Proficient", "Proficient")
+        EXPERT = ("Expert", "Expert")
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, related_name="skills", on_delete=models.CASCADE)
@@ -190,9 +190,9 @@ class UserLanguage(TimeStampedModel):
     """Info on a particular language for a given user."""
 
     class LanguageLevel(models.TextChoices):
-        BASIC = ("basic", "Basic")
-        INDEPENDENT = ("independent", "Independent")
-        PROFICIENT = ("proficient", "Proficient")
+        BASIC = ("Basic", "Basic")
+        INDEPENDENT = ("Independent", "Independent")
+        PROFICIENT = ("Proficient", "Proficient")
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, related_name="languages", on_delete=models.CASCADE)
