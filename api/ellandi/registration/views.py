@@ -218,19 +218,20 @@ def me_skills_view(request):
     return response
 
 
-def skill_delete_view(user, id):
+def skill_lang_delete(user, id, model_name):
+    model_to_delete = getattr(models, model_name)
     try:
-        user_skill = models.UserSkill.objects.get(user=user, id=id)
-        user_skill.delete()
+        item_to_delete = model_to_delete.objects.get(user=user, id=id)
+        item_to_delete.delete()
         return Response(status=status.HTTP_200_OK)
-    except models.UserSkill.DoesNotExist:
+    except model_to_delete.DoesNotExist:
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 @decorators.api_view(["DELETE"])
 def me_skill_delete_view(request, skill_id):
     user = request.user
-    return skill_delete_view(user=user, id=skill_id)
+    return skill_lang_delete(user=user, id=skill_id, model_name="UserSkill")
 
 
 @decorators.api_view(["DELETE"])
@@ -239,4 +240,34 @@ def users_skill_delete_view(request, user_id, skill_id):
         user = models.User.objects.get(id=user_id)
     except models.User.DoesNotExist:
         return Response(status=status.HTTP_400_BAD_REQUEST)
-    return skill_delete_view(user=user, id=skill_id)
+    return skill_lang_delete(user=user, id=skill_id, model_name="UserSkill")
+
+
+@decorators.api_view(["DELETE"])
+def me_language_delete_view(request, language_id):
+    user = request.user
+    return skill_lang_delete(user=user, id=language_id, model_name="UserLanguage")
+
+
+@decorators.api_view(["DELETE"])
+def users_language_delete_view(request, user_id, skill_id):
+    try:
+        user = models.User.objects.get(id=user_id)
+    except models.User.DoesNotExist:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+    return skill_lang_delete(user=user, id=skill_id, model_name="UserLanguage")
+
+
+@decorators.api_view(["DELETE"])
+def me_skill_develop_delete_view(request, language_id):
+    user = request.user
+    return skill_lang_delete(user=user, id=language_id, model_name="UserSkillDevelop")
+
+
+@decorators.api_view(["DELETE"])
+def users_skill_develop_delete_view(request, user_id, skill_develop_id):
+    try:
+        user = models.User.objects.get(id=user_id)
+    except models.User.DoesNotExist:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+    return skill_lang_delete(user=user, id=skill_develop_id, model_name="UserSkillDevelop")

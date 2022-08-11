@@ -11,13 +11,17 @@ from ellandi import auth
 from ellandi.registration.views import (
     create_one_time_login_view,
     first_log_in_view,
+    me_language_delete_view,
     me_skill_delete_view,
+    me_skill_develop_delete_view,
     me_skills_view,
     me_view,
     register_view,
     registration_router,
     skills_list_view,
+    users_language_delete_view,
     users_skill_delete_view,
+    users_skill_develop_delete_view,
 )
 
 api_urlpatterns = [
@@ -25,7 +29,11 @@ api_urlpatterns = [
     path("me", me_view, name="me"),
     path("me/skills/", me_skills_view),
     path("me/skills/<str:skill_id>/", me_skill_delete_view),
+    path("me/languages/<str:language_id>/", me_language_delete_view),
+    path("me/skills-develop/<str:skill_develop_id>/", me_skill_develop_delete_view),
     path("users/<str:user_id>/skills/<str:skill_id>/", users_skill_delete_view),
+    path("users/<str:user_id>/languages/<str:language_id>/", users_language_delete_view),
+    path("users/<str:user_id>/skills-develop/<str:skill_develop_id>/", users_skill_develop_delete_view),
     path("register/", register_view, name="register"),
     path("skills/", skills_list_view, name="skills"),
     path("one-time-login-token/", create_one_time_login_view),
