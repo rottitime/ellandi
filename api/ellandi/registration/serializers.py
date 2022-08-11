@@ -19,27 +19,6 @@ from .models import (
 )
 
 
-class ChoiceDisplayField(serializers.ChoiceField):
-    """
-    Convert from display value to internal valuefor choice fields.
-    """
-
-    def to_representation(self, obj):
-        if obj:
-            return self._choices[obj]
-        else:
-            return obj
-
-    def to_internal_value(self, data):
-        if not data:
-            return data
-
-        for key, val in self._choices.items():
-            if val == data:
-                return key
-        self.fail("invalid_choice", input=data)
-
-
 class OrganisationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Organisation
