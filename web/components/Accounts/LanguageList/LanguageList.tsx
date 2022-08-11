@@ -2,36 +2,49 @@ import { FC } from 'react'
 import DataGrid, { GridColDef } from '@/components/UI/DataGrid/DataGrid'
 import useAuth from '@/hooks/useAuth'
 import { Query, RegisterUserResponse } from '@/service/api'
-import { useQuery } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { fetchMe } from '@/service/me'
 import TableSkeleton from '@/components/UI/Skeleton/TableSkeleton'
-import { Alert, Chip } from '@mui/material'
+import { Alert, Box, Chip } from '@mui/material'
+import { deleteLanguage } from '@/service/account'
 
 const LanguageList: FC = () => {
-  // const { setError } = useUiContext()
+  const queryClient = useQueryClient()
   const { authFetch } = useAuth()
   const { isLoading, data } = useQuery<RegisterUserResponse>(Query.Me, () =>
     authFetch(fetchMe)
   )
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { mutate, error, isError } = useMutation<RegisterUserResponse, Error, any>(
+    async (id: string) => await deleteLanguage(id),
+    {
+      onSuccess: async ({ id }) => {
+        queryClient.setQueryData(Query.Me, {
+          ...data,
+          languages: data.languages.filter((language) => language.id !== id)
+        })
+      }
+    }
+  )
+
   return isLoading ? (
-    <TableSkeleton />
+    <TableSkeleton data-testid="skelton-table" />
   ) : (
-    <DataGrid
-      getRowId={({ name }) => name}
-      hideFooterPagination
-      onDelete={(cell) => {
-        // eslint-disable-next-line no-console
-        console.log({ cell })
-      }}
-      components={{
-        NoRowsOverlay: () => <Alert severity="info">Enter a language</Alert>
-      }}
-      autoHeight
-      columns={columns}
-      rows={data.languages}
-      enableDelete
-    />
+    <Box sx={{ height: 'auto', width: '100%' }}>
+      {isError && <Alert severity="error">{error.message}</Alert>}
+      <DataGrid
+        hideFooterPagination
+        onDelete={async (cell) => await mutate(cell.id)}
+        components={{
+          NoRowsOverlay: () => <Alert severity="info">Enter a language</Alert>
+        }}
+        autoHeight
+        columns={columns}
+        rows={data.languages}
+        enableDelete={true}
+      />
+    </Box>
   )
 }
 
@@ -46,7 +59,7 @@ const columns: GridColDef[] = [
     flex: 1
   },
   {
-    field: 'speaking',
+    field: 'speaking_level',
     headerName: 'Speaking',
     disableColumnMenu: true,
     resizable: false,
@@ -54,7 +67,7 @@ const columns: GridColDef[] = [
     flex: 1
   },
   {
-    field: 'writing',
+    field: 'writing_level',
     headerName: 'Writing',
     disableColumnMenu: true,
     resizable: false,
