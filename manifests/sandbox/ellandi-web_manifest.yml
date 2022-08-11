@@ -12,3 +12,4 @@ applications:
         memory: 128M
         disk_quota: 2048M
         health-check-type: http
+        health-check-http-endpoint: /hello
