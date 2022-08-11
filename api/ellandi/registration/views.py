@@ -206,12 +206,25 @@ def me_skills_view(request):
     if request.method == "GET":
         skills_qs = models.UserSkill.objects.filter(user=user)
         serializer = serializers.UserSkillSerializer(skills_qs, many=True)
-        return Response(data=serializer.data, status=status.HTTP_200_OK)
+        response = Response(data=serializer.data, status=status.HTTP_200_OK)
     elif request.method == "PATCH":
         data = request.data
         data = {"skills": data}
         serializer = serializers.UserSerializer(user, data=data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            response = Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            response = Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    return response
+
+
+@decorators.api_view(["DELETE"])
+def me_skill_delete_view(request, pk):
+    try:
+        user_skill = models.UserSkill.objects.get(id=pk)
+        user_skill.delete()
+        return Response(status=status.HTTP_200_OK)
+    except models.UserSkill.DoesNotExist:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+

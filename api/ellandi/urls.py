@@ -16,12 +16,14 @@ from ellandi.registration.views import (
     registration_router,
     skills_list_view,
     me_skills_view,
+    me_skill_delete_view
 )
 
 api_urlpatterns = [
     path("", include(registration_router.urls)),
     path("me", me_view, name="me"),
     path("me/skills/", me_skills_view),
+    path("me/skills/delete/<str:pk>/", me_skill_delete_view),
     path("register/", register_view, name="register"),
     path("skills/", skills_list_view, name="skills"),
     path("one-time-login-token/", create_one_time_login_view),
