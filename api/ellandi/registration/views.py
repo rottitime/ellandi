@@ -1,6 +1,5 @@
 import os
 
-
 from django.contrib.auth import get_user_model
 from drf_spectacular.utils import extend_schema
 from rest_framework import decorators, permissions, routers, status, viewsets
@@ -227,4 +226,3 @@ def me_skill_delete_view(request, pk):
         return Response(status=status.HTTP_200_OK)
     except models.UserSkill.DoesNotExist:
         return Response(status=status.HTTP_400_BAD_REQUEST)
-
