@@ -2,36 +2,49 @@ import { FC } from 'react'
 import DataGrid, { GridColDef } from '@/components/UI/DataGrid/DataGrid'
 import useAuth from '@/hooks/useAuth'
 import { Query, RegisterUserResponse } from '@/service/api'
-import { useQuery } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { fetchMe } from '@/service/me'
 import TableSkeleton from '@/components/UI/Skeleton/TableSkeleton'
-import { Alert } from '@mui/material'
+import { Alert, Box } from '@mui/material'
+import { deleteSkillDevelop } from '@/service/account'
 
 const SkillsDevelop: FC = () => {
-  // const { setError } = useUiContext()
   const { authFetch } = useAuth()
+  const queryClient = useQueryClient()
   const { isLoading, data } = useQuery<RegisterUserResponse>(Query.Me, () =>
     authFetch(fetchMe)
   )
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { mutate, error, isError } = useMutation<RegisterUserResponse, Error, any>(
+    async (id: string) => await deleteSkillDevelop(id),
+    {
+      onSuccess: async ({ id }) => {
+        queryClient.setQueryData(Query.Me, {
+          ...data,
+          skills_develop: data.skills_develop.filter((skill) => skill.id !== id)
+        })
+      }
+    }
+  )
+
   return isLoading ? (
-    <TableSkeleton />
+    <TableSkeleton data-testid="skelton-table" />
   ) : (
-    <DataGrid
-      getRowId={({ name }) => name}
-      hideFooterPagination
-      onDelete={(cell) => {
-        // eslint-disable-next-line no-console
-        console.log({ cell })
-      }}
-      components={{
-        NoRowsOverlay: () => <Alert severity="info">Enter a skill to develop</Alert>
-      }}
-      autoHeight
-      columns={columns}
-      rows={data.skills_develop}
-      enableDelete
-    />
+    <Box sx={{ height: 'auto', width: '100%' }}>
+      {isError && <Alert severity="error">{error.message}</Alert>}
+      <DataGrid
+        hideFooterPagination
+        onDelete={async (cell) => await mutate(cell.id)}
+        components={{
+          NoRowsOverlay: () => <Alert severity="info">Enter a skill to develop</Alert>
+        }}
+        autoHeight
+        columns={columns}
+        rows={data.skills_develop}
+        enableDelete
+      />
+    </Box>
   )
 }
 

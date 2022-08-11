@@ -17,7 +17,7 @@ export const deleteLanguage = async (id: string) => {
   const res: Response = await fetch(`${publicRuntimeConfig.apiUrl}/me/languages/${id}/`, {
     method: 'DELETE'
   })
-  if (res.ok) return res.json()
+  if (res.ok) return { ...res.json(), id }
 
   throw new Error(defaultError)
 }
@@ -29,7 +29,7 @@ export const deleteSkillDevelop = async (id: string) => {
       method: 'DELETE'
     }
   )
-  if (res.ok) return res.json()
+  if (res.ok) return { ...res.json(), id }
 
   throw new Error(defaultError)
 }
