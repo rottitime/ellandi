@@ -213,7 +213,7 @@ def me_skills_view(request):
 @decorators.api_view(["GET", "PATCH"])
 def me_languages_view(request):
     user = request.user
-    return list_skills_langs(request, user, model_name="UserLanguages", field_name="languages")
+    return list_skills_langs(request, user, model_name="UserLanguage", field_name="languages")
 
 
 @extend_schema(methods=["PATCH"], request=serializers.UserSkillDevelopSerializerNested(many=True))
