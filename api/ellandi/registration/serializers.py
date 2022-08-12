@@ -12,11 +12,11 @@ from .models import (
     Location,
     Organisation,
     Profession,
+    SkillLevel,
     User,
     UserLanguage,
     UserSkill,
     UserSkillDevelop,
-    SkillLevel,
 )
 
 

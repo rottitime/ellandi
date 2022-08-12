@@ -12,6 +12,7 @@ from .models import (
     Location,
     Organisation,
     Profession,
+    SkillLevel,
     User,
     UserLanguage,
     UserSkill,
@@ -160,6 +161,10 @@ class FunctionAdmin(DropDownListAdmin):
     readonly_fields = ("name", "slug", "order")
 
 
+class SkillLevelAdmin(DropDownListAdmin):
+    readonly_fields = ("name", "slug", "order")
+
+
 admin.site.register(User, UserAdmin)
 admin.site.register(UserSkill, UserSkillAdmin)
 admin.site.register(UserLanguage, UserLanguageAdmin)
@@ -173,4 +178,5 @@ admin.site.register(Grade, GradeAdmin)
 admin.site.register(LanguageSkillLevel, LanguageSkillLevelAdmin)
 admin.site.register(Country, CountryAdmin)
 admin.site.register(Function, FunctionAdmin)
+admin.site.register(SkillLevel, SkillLevelAdmin)
 admin.site.register(EmailSalt)

@@ -116,6 +116,12 @@ class FunctionViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = serializers.FunctionSerializer
 
 
+@register("skill-levels")
+class SkillViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.SkillLevel.objects.all().order_by("order")
+    serializer_class = serializers.SkillLevelSerializer
+
+
 @extend_schema(
     request=serializers.RegisterSerializer,
     responses=serializers.UserSerializer,
