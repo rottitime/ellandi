@@ -1,8 +1,9 @@
-import { FC } from 'react'
-import { Props } from './types'
+import { FC, useState } from 'react'
+import { Props, CellType } from './types'
 import { DataGrid as MuiDataGrid, GridColDef } from '@mui/x-data-grid'
-import { IconButton, styled } from '@mui/material'
+import { IconButton, styled, Typography } from '@mui/material'
 import Icon from '@/components/Icon/Icon'
+import ConfirmModal from '@/components/UI/Modals/ConfirmModal/ConfirmModal'
 
 const StyledGrid = styled(MuiDataGrid)`
   border: none;
@@ -33,7 +34,15 @@ const StyledGrid = styled(MuiDataGrid)`
   }
 `
 
-const DataGrid: FC<Props> = ({ enableDelete, onDelete, ...props }) => {
+const DataGrid: FC<Props> = ({
+  enableDelete,
+  onDelete,
+  deleteModalTitle,
+  deleteModalContent,
+  ...props
+}) => {
+  const [deleteCell, setDeleteCell] = useState<CellType>(null)
+
   const columns: GridColDef[] = enableDelete
     ? [
         ...props.columns,
@@ -52,7 +61,10 @@ const DataGrid: FC<Props> = ({ enableDelete, onDelete, ...props }) => {
               component="label"
               data-testid={`delete-button-${cell.formattedValue}`}
               sx={{ color: 'text.primary' }}
-              onClick={() => onDelete && typeof onDelete === 'function' && onDelete(cell)}
+              onClick={() => {
+                setDeleteCell(cell)
+                //onDelete && typeof onDelete === 'function' && onDelete(cell)
+              }}
             >
               <Icon icon="circle-delete" />
             </IconButton>
@@ -64,7 +76,23 @@ const DataGrid: FC<Props> = ({ enableDelete, onDelete, ...props }) => {
     ...props,
     columns
   }
-  return <StyledGrid {...gridProps} />
+  return (
+    <>
+      <StyledGrid {...gridProps} />
+      {enableDelete && (
+        <ConfirmModal
+          data-testid="datagrid-delete-modal"
+          confirmButton="Delete"
+          open={!!deleteCell}
+          onClose={() => setDeleteCell(null)}
+          onConfirm={async () => await onDelete(deleteCell)}
+          title={deleteModalTitle}
+        >
+          <>{deleteModalContent}</>
+        </ConfirmModal>
+      )}
+    </>
+  )
 }
 
 export default DataGrid

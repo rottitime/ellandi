@@ -5,7 +5,7 @@ import { Query, RegisterUserResponse } from '@/service/api'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { fetchMe } from '@/service/me'
 import TableSkeleton from '@/components/UI/Skeleton/TableSkeleton'
-import { Alert, Box, Chip } from '@mui/material'
+import { Alert, Box, Chip, Typography } from '@mui/material'
 import { deleteLanguage } from '@/service/account'
 
 const LanguageList: FC = () => {
@@ -35,14 +35,20 @@ const LanguageList: FC = () => {
       {isError && <Alert severity="error">{error.message}</Alert>}
       <DataGrid
         hideFooterPagination
-        onDelete={async (cell) => await mutate(cell.id)}
         components={{
           NoRowsOverlay: () => <Alert severity="info">Enter a language</Alert>
         }}
         autoHeight
         columns={columns}
         rows={data.languages}
-        enableDelete={true}
+        enableDelete
+        onDelete={async (cell) => await mutate(cell.id)}
+        deleteModalTitle="Delete laguage"
+        deleteModalContent={
+          <Typography>
+            Are you sure you want to delete this language from your profile?
+          </Typography>
+        }
       />
     </Box>
   )

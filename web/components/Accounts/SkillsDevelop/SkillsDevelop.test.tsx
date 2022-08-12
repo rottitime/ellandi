@@ -54,6 +54,21 @@ describe('SkillsDevelop', () => {
   })
 
   describe('on deleting', () => {
+    it('renders confirm modal', async () => {
+      fetchMock.mockResponse(JSON.stringify(mockSuccess), { status: 200 })
+      renderWithProviders(<SkillsDevelop />)
+      await waitForElementToBeRemoved(() => screen.queryByTestId('skelton-table'))
+
+      await waitFor(async () => {
+        expect(screen.getByText(mockSuccess.skills_develop[0].name)).toBeInTheDocument()
+      })
+
+      await userEvent.click(screen.getByTestId('delete-button-test1'))
+      await waitFor(async () => {
+        expect(screen.getByTestId('datagrid-delete-modal')).toBeVisible()
+      })
+    })
+
     it('successfully removes', async () => {
       fetchMock.mockResponse(JSON.stringify(mockSuccess), { status: 200 })
       renderWithProviders(<SkillsDevelop />)
@@ -64,6 +79,7 @@ describe('SkillsDevelop', () => {
       })
 
       const deleteButton = screen.getByTestId('delete-button-test1')
+
       await waitFor(async () => {
         expect(deleteButton).toBeInTheDocument()
       })
@@ -73,29 +89,19 @@ describe('SkillsDevelop', () => {
       fetchMock.mockResponse(JSON.stringify({}), { status: 200 })
 
       await userEvent.click(deleteButton)
+
+      await waitFor(async () => {
+        expect(screen.getByTestId('datagrid-delete-modal')).toBeVisible()
+      })
+
+      const modalButton = screen.getByRole('button', { name: /Delete/i })
+
+      await userEvent.click(modalButton)
+
       await waitFor(async () => {
         expect(
           screen.queryByText(mockSuccess.skills_develop[0].name)
         ).not.toBeInTheDocument()
-      })
-    })
-
-    it('successfully remove all', async () => {
-      fetchMock.mockResponse(JSON.stringify(mockSuccess), { status: 200 })
-      renderWithProviders(<SkillsDevelop />)
-      await waitForElementToBeRemoved(() => screen.queryByTestId('skelton-table'))
-
-      await waitFor(async () => {
-        expect(screen.getByText(mockSuccess.skills_develop[0].name)).toBeInTheDocument()
-      })
-
-      expect(screen.queryByText('Enter a skill to develop')).not.toBeInTheDocument()
-
-      await userEvent.click(screen.getByTestId('delete-button-test1'))
-      await userEvent.click(screen.getByTestId('delete-button-test2'))
-      await userEvent.click(screen.getByTestId('delete-button-test3'))
-      await waitFor(async () => {
-        expect(screen.getByText('Enter a skill to develop')).toBeInTheDocument()
       })
     })
   })

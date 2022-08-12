@@ -5,7 +5,7 @@ import { Query, RegisterUserResponse } from '@/service/api'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { fetchMe } from '@/service/me'
 import TableSkeleton from '@/components/UI/Skeleton/TableSkeleton'
-import { Alert, Box } from '@mui/material'
+import { Alert, Box, Typography } from '@mui/material'
 import { deleteSkillDevelop } from '@/service/account'
 
 const SkillsDevelop: FC = () => {
@@ -35,7 +35,6 @@ const SkillsDevelop: FC = () => {
       {isError && <Alert severity="error">{error.message}</Alert>}
       <DataGrid
         hideFooterPagination
-        onDelete={async (cell) => await mutate(cell.id)}
         components={{
           NoRowsOverlay: () => <Alert severity="info">Enter a skill to develop</Alert>
         }}
@@ -43,6 +42,13 @@ const SkillsDevelop: FC = () => {
         columns={columns}
         rows={data.skills_develop}
         enableDelete
+        onDelete={async (cell) => await mutate(cell.id)}
+        deleteModalTitle="Delete skill to develop"
+        deleteModalContent={
+          <Typography>
+            Are you sure you want to delete this skill to develop from your profile?
+          </Typography>
+        }
       />
     </Box>
   )

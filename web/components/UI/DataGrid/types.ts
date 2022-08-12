@@ -1,8 +1,21 @@
-import { ComponentProps } from 'react'
+import { ComponentProps, ReactNode } from 'react'
 import { DataGrid, GridRenderCellParams } from '@mui/x-data-grid'
 
-export type Props = {
-  enableDelete?: boolean
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onDelete?: (cell: GridRenderCellParams<any, any, any>) => void
-} & ComponentProps<typeof DataGrid>
+export type Props = DeleteProps & ComponentProps<typeof DataGrid>
+
+type DeleteProps =
+  | {
+      enableDelete?: boolean
+      onDelete?: never
+      deleteModalTitle?: never
+      deleteModalContent?: never
+    }
+  | {
+      enableDelete?: true
+      onDelete: (cell: CellType) => void
+      deleteModalTitle: string
+      deleteModalContent: ReactNode
+    }
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type CellType = GridRenderCellParams<any, any, any>
