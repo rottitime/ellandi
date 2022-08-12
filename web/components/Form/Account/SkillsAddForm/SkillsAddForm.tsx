@@ -1,5 +1,4 @@
 import {
-  Button,
   FormHelperText,
   IconButton,
   Skeleton,
@@ -20,6 +19,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Props } from './types'
 import CreatableAutocomplete from '../../CreatableAutocomplete/CreatableAutocomplete'
 import Icon from '@/components/Icon/Icon'
+import Button from '@/components/UI/Button/Button'
 
 const Row = styled(Field)`
   display: flex;
@@ -48,7 +48,7 @@ const schema: SchemaOf<SkillsType> = object().shape({
   skills: array().of(skillSchema).optional()
 })
 
-const SkillsAddForm: FC<Props> = ({ onFormSubmit }) => {
+const SkillsAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
   const { isLoading, data: levels } = useQuery<GenericDataList[], { message?: string }>(
     Query.SkillLevels,
     fetchSkillLevels,
@@ -155,7 +155,7 @@ const SkillsAddForm: FC<Props> = ({ onFormSubmit }) => {
           </Button>
         </Field>
         <Field textAlign="right">
-          <Button type="submit" variant="contained">
+          <Button type="submit" variant="contained" loading={loading}>
             Submit skills
           </Button>
         </Field>
