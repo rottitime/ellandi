@@ -1,9 +1,9 @@
 import { FC, useState } from 'react'
 import { Props, CellType } from './types'
 import { DataGrid as MuiDataGrid, GridColDef } from '@mui/x-data-grid'
-import { IconButton, styled, Typography } from '@mui/material'
+import { IconButton, styled } from '@mui/material'
 import Icon from '@/components/Icon/Icon'
-import ConfirmModal from '@/components/UI/Modals/ConfirmModal/ConfirmModal'
+import WarningModal from '@/components/UI/Modals/WarningModal/WarningModal'
 
 const StyledGrid = styled(MuiDataGrid)`
   border: none;
@@ -80,7 +80,7 @@ const DataGrid: FC<Props> = ({
     <>
       <StyledGrid {...gridProps} />
       {enableDelete && (
-        <ConfirmModal
+        <WarningModal
           data-testid="datagrid-delete-modal"
           confirmButton="Delete"
           open={!!deleteCell}
@@ -89,7 +89,7 @@ const DataGrid: FC<Props> = ({
           title={deleteModalTitle}
         >
           <>{deleteModalContent}</>
-        </ConfirmModal>
+        </WarningModal>
       )}
     </>
   )
