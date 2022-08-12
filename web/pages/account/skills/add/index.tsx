@@ -15,11 +15,11 @@ type SectionOneProps = {
   active: string
 }
 
-const IndexPage = () => <SectionOne active="" />
+const SkillsAddPage = () => <SectionOne active="" />
 
-export default IndexPage
+export default SkillsAddPage
 
-IndexPage.getLayout = (page) => (
+SkillsAddPage.getLayout = (page) => (
   <AccountLayout
     title="Skills"
     titleIcon="skills"

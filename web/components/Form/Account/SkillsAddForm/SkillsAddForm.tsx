@@ -151,7 +151,7 @@ const SkillsAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
               append({ name: '', level: '' })
             }}
           >
-            Add another skilluage
+            Add another skill
           </Button>
         </Field>
         <Field textAlign="right">
