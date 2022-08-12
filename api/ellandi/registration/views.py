@@ -198,24 +198,56 @@ def me_view(request):
     return response
 
 
+# @extend_schema(methods=["PATCH"], request=serializers.UserSkillSerializerNested(many=True))
+# @decorators.api_view(["GET", "PATCH"])
+# def me_skills_view(request):
+#     user = request.user
+#     if request.method == "GET":
+#         skills_qs = models.UserSkill.objects.filter(user=user)
+#         serializer = serializers.UserSkillSerializer(skills_qs, many=True)
+#         response = Response(data=serializer.data, status=status.HTTP_200_OK)
+#     elif request.method == "PATCH":
+#         data = request.data
+#         data = {"skills": data}
+#         serializer = serializers.UserSerializer(user, data=data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             response = Response(serializer.data, status=status.HTTP_200_OK)
+#         else:
+#             response = Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#     return response
+
+
+
+def list_skills_langs(request, user, model_name, field_name):
+    model = getattr(models, model_name)
+    serializer = getattr(serializers, f"{model_name}Serializer")
+    if request.method == "GET":
+        qs = model.objects.filter(user=user)
+        serializer = serializer(qs, many=True)
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+    elif request.method == "PATCH":
+        data = request.data
+        data = {field_name: data}
+        serializer = serializers.UserSerializer(user, data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 @extend_schema(methods=["PATCH"], request=serializers.UserSkillSerializerNested(many=True))
 @decorators.api_view(["GET", "PATCH"])
 def me_skills_view(request):
     user = request.user
-    if request.method == "GET":
-        skills_qs = models.UserSkill.objects.filter(user=user)
-        serializer = serializers.UserSkillSerializer(skills_qs, many=True)
-        response = Response(data=serializer.data, status=status.HTTP_200_OK)
-    elif request.method == "PATCH":
-        data = request.data
-        data = {"skills": data}
-        serializer = serializers.UserSerializer(user, data=data)
-        if serializer.is_valid():
-            serializer.save()
-            response = Response(serializer.data, status=status.HTTP_200_OK)
-        else:
-            response = Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    return response
+    return list_skills_langs(request, user, model_name="UserSkill", field_name="skills")
+
+
+@extend_schema(methods=["PATCH"], request=serializers.UserSkillSerializerNested(many=True))
+@decorators.api_view(["GET", "PATCH"])
+def me_skills_view(request):
+    user = request.user
+    return list_skills_langs(request, user, model_name="UserSkill", field_name="skills")
 
 
 def skill_lang_delete(user, id, model_name):
