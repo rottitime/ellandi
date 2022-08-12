@@ -27,7 +27,7 @@ const SkillsPage = () => {
         </Typography>
       </Headline>
 
-      <Button variant="contained" sx={{ mb: 4 }}>
+      <Button variant="contained" sx={{ mb: 4 }} href="/account/skills/add">
         Add a skill
       </Button>
 
