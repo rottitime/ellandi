@@ -16,6 +16,7 @@ from .models import (
     UserLanguage,
     UserSkill,
     UserSkillDevelop,
+    SkillLevel,
 )
 
 
@@ -70,6 +71,12 @@ class CountrySerializer(serializers.ModelSerializer):
 class FunctionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Function
+        fields = ["slug", "name", "order"]
+
+
+class SkillLevelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SkillLevel
         fields = ["slug", "name", "order"]
 
 

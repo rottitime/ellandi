@@ -81,6 +81,13 @@ class Function(DropDownListModel):
         ordering = ["order"]
 
 
+class SkillLevel(DropDownListModel):
+    order = models.PositiveSmallIntegerField(null=True)
+
+    class Meta:
+        ordering = ["order"]
+
+
 class UserManager(BaseUserManager):
     use_in_migrations = True
 
