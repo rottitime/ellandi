@@ -308,6 +308,7 @@ def test_dropdown_list(client, user_id):
         {"name": "Independent", "slug": "independent", "endpoint": "/language-skill-levels/"},
         {"name": "United Kingdom", "slug": "united-kingdom", "endpoint": "/countries/"},
         {"name": "Analysis", "slug": "analysis", "endpoint": "/functions/"},
+        {"name": "Advanced beginner", "slug": "advanced-beginner", "endpoint": "/skill-levels/"},
     ]
 
     def test_get(endpoint):
