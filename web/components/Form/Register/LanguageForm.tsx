@@ -50,6 +50,7 @@ const content = {
 }
 
 const languageSchema: SchemaOf<LanguageType> = object({
+  id: string().nullable(),
   name: string().required('This is a required field'),
   writing_level: string().required('This is a required field'),
   speaking_level: string().required('This is a required field')

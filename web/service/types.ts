@@ -8,6 +8,7 @@ export enum Query {
   Languages = 'languages',
   LanguageSkillLevels = 'languageSkillLevels',
   Skills = 'skills',
+  SkillLevels = 'skillLevels',
   Me = 'me'
 }
 

@@ -17,13 +17,15 @@ const DropDown = styled(Paper)`
   border: 1px solid ${(p) => p.theme.colors.grey1};
 `
 
-const ButtonAdd = styled(Box)`
-  display: flex;
-  align-items: center;
-  svg {
-    color: ${(p) => p.theme.colors.grey3};
-    font-size: 25px;
-    margin-right: ${(p) => p.theme.spacing(2)};
+const Wrapper = styled(Box)`
+  .button-add {
+    display: flex;
+    align-items: center;
+    svg {
+      color: ${(p) => p.theme.colors.grey3};
+      font-size: 25px;
+      margin-right: ${(p) => p.theme.spacing(2)};
+    }
   }
 `
 
@@ -34,12 +36,15 @@ const CreatableAutocomplete: FC<Props> = ({
   helperText,
   loading = false,
   onSelectedClear,
-  disableOptions = []
+  disableOptions = [],
+  size = 'medium',
+  error,
+  ...props
 }) => {
   const [value, setValue] = useState<ListType | null>(null)
 
   return (
-    <>
+    <Wrapper className="creatable-autocomplete" {...props}>
       <Autocomplete
         loading={loading}
         value={value}
@@ -70,10 +75,10 @@ const CreatableAutocomplete: FC<Props> = ({
               inputValue,
               title: `Add "${params.inputValue}"`,
               helper: (
-                <ButtonAdd>
+                <Box className="button-add">
                   <Icon icon="circle-plus" />
                   Add "{params.inputValue}"
-                </ButtonAdd>
+                </Box>
               )
             })
           }
@@ -99,10 +104,12 @@ const CreatableAutocomplete: FC<Props> = ({
         }}
         renderOption={(props, { helper, title }) => <li {...props}>{helper || title}</li>}
         freeSolo
-        renderInput={(params) => <TextField {...params} label={label} />}
+        renderInput={(params) => (
+          <TextField {...params} label={label} size={size} error={error} />
+        )}
       />
-      {helperText && <FormHelperText>{helperText}</FormHelperText>}
-    </>
+      {helperText && <FormHelperText error={error}>{helperText}</FormHelperText>}
+    </Wrapper>
   )
 }
 

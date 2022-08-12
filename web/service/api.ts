@@ -52,6 +52,35 @@ export const fetchSkills = async (): Promise<string[]> => {
   throw new Error(defaultError)
 }
 
+export const fetchSkillLevels = async (): Promise<GenericDataList[]> => {
+  // const res = await fetch(`${publicRuntimeConfig.apiUrl}/skill-levels/`)
+  // if (res.ok) return res.json()
+  // throw new Error(defaultError)
+
+  return [
+    {
+      slug: 'beginner',
+      name: 'Beginner'
+    },
+    {
+      slug: 'advanced-beginner',
+      name: 'Advanced beginner'
+    },
+    {
+      slug: 'competent',
+      name: 'Competent'
+    },
+    {
+      slug: 'proficient',
+      name: 'Proficient'
+    },
+    {
+      slug: 'expert',
+      name: 'Expert'
+    }
+  ]
+}
+
 export const fetchFunctions = async (): Promise<GenericDataList[]> => {
   const res = await fetch(`${publicRuntimeConfig.apiUrl}/functions/`)
   if (res.ok) return res.json()

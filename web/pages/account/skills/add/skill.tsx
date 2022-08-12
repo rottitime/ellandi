@@ -3,6 +3,9 @@ import { Typography } from '@mui/material'
 import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
 import { menu, SectionOne } from './index'
 import BadgeNumber from '@/components/UI/BadgeNumber/BadgeNumber'
+import { dehydrate, QueryClient } from 'react-query'
+import { fetchSkillLevels, fetchSkills, Query } from '@/service/api'
+import SkillsAddForm from '@/components/Form/Account/SkillsAddForm/SkillsAddForm'
 
 const IndexPage = () => {
   return (
@@ -16,7 +19,11 @@ const IndexPage = () => {
           </Typography>
         }
       >
-        de
+        <SkillsAddForm
+          onFormSubmit={(data) => {
+            console.log({ data })
+          }}
+        />
       </AccountCard>
     </>
   )
@@ -26,6 +33,9 @@ export default IndexPage
 
 IndexPage.getLayout = (page) => (
   <AccountLayout
+    title="Skills"
+    titleIcon="skills"
+    brandColor="brandSkills"
     breadcrumbs={[
       { title: 'Skills', url: '/account/skills' },
       { title: 'Add a skill or language to your profile' }
@@ -34,3 +44,13 @@ IndexPage.getLayout = (page) => (
     {page}
   </AccountLayout>
 )
+export async function getStaticProps() {
+  const queryClient = new QueryClient()
+  await queryClient.prefetchQuery(Query.SkillLevels, fetchSkillLevels)
+  await queryClient.prefetchQuery(Query.Skills, fetchSkills)
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient)
+    }
+  }
+}

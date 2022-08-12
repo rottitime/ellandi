@@ -80,6 +80,7 @@ const optionsWriting = [
 ]
 
 const languageSchema: SchemaOf<LanguageType> = object({
+  id: string().nullable(),
   name: string().required('This is required'),
   writing_level: string().required('This is required'),
   speaking_level: string().required('This is required')

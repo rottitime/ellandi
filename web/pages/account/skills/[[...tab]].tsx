@@ -6,11 +6,11 @@ import useAuth from '@/hooks/useAuth'
 import { useQuery } from 'react-query'
 import { Query, RegisterUserResponse } from '@/service/api'
 import { fetchMe } from '@/service/me'
-import Headline from '@/components/Accounts/Headline/Headline'
+import Headline from '@/components/Account/Headline/Headline'
 import { createIdFromHref } from '@/lib/url-utils'
-import SkillsList from '@/components/Accounts/SkillsList/SkillsList'
-import LanguageList from '@/components/Accounts/LanguageList/LanguageList'
-import SkillsDevelop from '@/components/Accounts/SkillsDevelop/SkillsDevelop'
+import SkillsList from '@/components/Account/SkillsList/SkillsList'
+import LanguageList from '@/components/Account/LanguageList/LanguageList'
+import SkillsDevelop from '@/components/Account/SkillsDevelop/SkillsDevelop'
 
 const SkillsPage = () => {
   const { authFetch } = useAuth()

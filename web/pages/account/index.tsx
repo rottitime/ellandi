@@ -7,7 +7,7 @@ import useAuth from '@/hooks/useAuth'
 import { fetchMe } from '@/service/me'
 import { useQuery } from 'react-query'
 import { Query, RegisterUserResponse } from '@/service/api'
-import Headline from '@/components/Accounts/Headline/Headline'
+import Headline from '@/components/Account/Headline/Headline'
 import { ColorBrands } from '@/style/types'
 
 type MenuDataType = {

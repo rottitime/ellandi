@@ -1,7 +1,7 @@
 import AccountLayout from '@/components/Layout/AccountLayout/AccountLayout'
 import { Typography, RadioGroup, FormControlLabel, Radio } from '@mui/material'
 import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
-import Headline from '@/components/Accounts/Headline/Headline'
+import Headline from '@/components/Account/Headline/Headline'
 import BadgeNumber from '@/components/UI/BadgeNumber/BadgeNumber'
 import Router from 'next/router'
 import { FC } from 'react'
@@ -21,6 +21,9 @@ export default IndexPage
 
 IndexPage.getLayout = (page) => (
   <AccountLayout
+    title="Skills"
+    titleIcon="skills"
+    brandColor="brandSkills"
     breadcrumbs={[
       { title: 'Skills', url: '/account/skills' },
       { title: 'Add a skill or language to your profile' }
