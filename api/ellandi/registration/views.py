@@ -4,7 +4,6 @@ from django.contrib.auth import get_user_model
 from drf_spectacular.utils import extend_schema
 from rest_framework import decorators, permissions, routers, status, viewsets
 from rest_framework.response import Response
-from rest_framework.schemas import AutoSchema
 
 from . import exceptions, initial_data, models, serializers
 
@@ -224,7 +223,6 @@ def me_skills_develop_view(request):
     return list_skills_langs(request, user, model_name="UserSkillDevelop", field_name="skills_develop")
 
 
-
 @extend_schema(methods=["PATCH"], request=serializers.UserSkillSerializerNested(many=True))
 @decorators.api_view(["GET", "PATCH"])
 def user_skills_view(request, user_id):
@@ -253,7 +251,6 @@ def user_skills_develop_view(request, user_id):
     except models.User.DoesNotExist:
         return Response(status=status.HTTP_400_BAD_REQUEST)
     return list_skills_langs(request, user, model_name="UserSkillDevelop", field_name="skills_develop")
-
 
 
 def skill_lang_delete(user, id, model_name):
