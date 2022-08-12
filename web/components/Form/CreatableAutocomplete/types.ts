@@ -14,6 +14,7 @@ export type Props = {
   label: string
   loading?: ComponentProps<typeof Autocomplete>['loading']
   disableOptions?: string[]
+  onSelectedClear?: boolean
 }
 
 export type FilmOptionType = {

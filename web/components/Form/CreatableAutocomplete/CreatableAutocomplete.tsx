@@ -33,6 +33,7 @@ const CreatableAutocomplete: FC<Props> = ({
   label,
   helperText,
   loading = false,
+  onSelectedClear,
   disableOptions = []
 }) => {
   const [value, setValue] = useState<ListType | null>(null)
@@ -56,7 +57,7 @@ const CreatableAutocomplete: FC<Props> = ({
             setValue(newValue)
             onSelected(event, newValue)
           }
-          setValue({ title: '' })
+          onSelectedClear && setValue({ title: '' })
         }}
         filterOptions={(options, params) => {
           const filtered = filter(options, params)
