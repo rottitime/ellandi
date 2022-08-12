@@ -402,3 +402,37 @@ def test_get_skills(client, user_id):
     assert "An existing skill" in data
     assert "A new and exciting skill" in data
     assert "Econometrics" in data
+
+
+def test_user_patch_get_delete_skills(client, user_id):
+    skills_data = [
+        {"name": "Maths", "level": "Competent", "validated": False},
+        {"name": "Project management", "level": "Beginner", "validated": False},
+        {"name": "Written communication", "level": "Advanced beginner"},
+    ]
+    endpoint_to_test = f"/users/{user_id}/skills/"
+    response = client.get(endpoint_to_test)
+    assert response.status_code == status.HTTP_200_OK
+    assert len(response.json()) == 0
+    response = client.patch(endpoint_to_test, json=skills_data)
+    assert response.status_code == status.HTTP_200_OK
+
+    response = client.get(endpoint_to_test)
+    assert response.status_code == status.HTTP_200_OK
+    data = response.json()
+    assert len(data) == 3, data
+    skill_names = [skill["name"] for skill in data]
+    assert "Maths" in skill_names, skill_names
+    proj_management = list(filter(lambda skill: skill["name"] == "Project management", data))
+    proj_management = proj_management[0]
+    assert proj_management["level"] == "Beginner", proj_management
+    assert not proj_management["validated"], proj_management
+
+    id_to_delete = proj_management["id"]
+    response = client.delete(f"{endpoint_to_test}{id_to_delete}/")
+    assert response.status_code == status.HTTP_200_OK, response
+    incorrect_id = "9adee5d9-b28f-48d2-92bc-1d5ce47eee65"
+    response = client.delete(f"{endpoint_to_test}{incorrect_id}/")
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
+    response = client.get(endpoint_to_test)
+    assert len(response.json()) == 2
