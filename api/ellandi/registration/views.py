@@ -276,9 +276,9 @@ def me_language_delete_view(request, language_id):
 
 
 @decorators.api_view(["DELETE"])
-def me_skill_develop_delete_view(request, language_id):
+def me_skill_develop_delete_view(request, skill_develop_id):
     user = request.user
-    return skill_lang_delete(user=user, id=language_id, model_name="UserSkillDevelop")
+    return skill_lang_delete(user=user, id=skill_develop_id, model_name="UserSkillDevelop")
 
 
 @decorators.api_view(["DELETE"])
@@ -291,12 +291,12 @@ def users_skill_delete_view(request, user_id, skill_id):
 
 
 @decorators.api_view(["DELETE"])
-def users_language_delete_view(request, user_id, skill_id):
+def users_language_delete_view(request, user_id, language_id):
     try:
         user = models.User.objects.get(id=user_id)
     except models.User.DoesNotExist:
         return Response(status=status.HTTP_400_BAD_REQUEST)
-    return skill_lang_delete(user=user, id=skill_id, model_name="UserLanguage")
+    return skill_lang_delete(user=user, id=language_id, model_name="UserLanguage")
 
 
 @decorators.api_view(["DELETE"])
