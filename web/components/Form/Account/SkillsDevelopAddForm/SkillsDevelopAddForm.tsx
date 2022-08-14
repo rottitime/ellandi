@@ -38,7 +38,7 @@ const schema: SchemaOf<SkillsDevelopType> = object().shape({
   skills_develop: array().of(skillSchema).optional()
 })
 
-const SkillsAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
+const SkillsDevelopAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
   const { isLoading: isLoadingSkills, data: skillsList } = useQuery<
     string[],
     { message?: string }
@@ -123,4 +123,4 @@ const SkillsAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
   )
 }
 
-export default SkillsAddForm
+export default SkillsDevelopAddForm
