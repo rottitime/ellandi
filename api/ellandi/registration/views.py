@@ -186,6 +186,10 @@ def me_view(request):
 
 
 def list_skills_langs(request, user, model_name, field_name):
+    """
+    For a given user, return the associated skills or languages or skills to develop.
+    Specify skills/languages/skills to develop with model_name and field_name.
+    """
     model = getattr(models, model_name)
     serializer = getattr(serializers, f"{model_name}Serializer")
     if request.method == "GET":
@@ -257,6 +261,10 @@ def user_skills_develop_view(request, user_id):
 
 
 def skill_lang_delete(user, id, model_name):
+    """
+    For a given user, delete the skill/language/skill to develop specified by ID.
+    model_name - is UserSkill/UserLanguage/UserSkillDevelop
+    """
     model_to_delete = getattr(models, model_name)
     try:
         item_to_delete = model_to_delete.objects.get(user=user, id=id)
