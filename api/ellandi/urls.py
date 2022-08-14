@@ -43,7 +43,11 @@ api_urlpatterns = [
     path("users/<str:user_id>/skills-develop/", user_skills_develop_view, name="user-skill-develop"),
     path("users/<str:user_id>/skills/<str:skill_id>/", users_skill_delete_view, name="user-skill-delete"),
     path("users/<str:user_id>/languages/<str:language_id>/", users_language_delete_view, name="user-language-delete"),
-    path("users/<str:user_id>/skills-develop/<str:skill_develop_id>/", users_skill_develop_delete_view, name="user-skill-develop"),
+    path(
+        "users/<str:user_id>/skills-develop/<str:skill_develop_id>/",
+        users_skill_develop_delete_view,
+        name="user-skill-develop",
+    ),
     path("register/", register_view, name="register"),
     path("skills/", skills_list_view, name="skills"),
     path("one-time-login-token/", create_one_time_login_view),
