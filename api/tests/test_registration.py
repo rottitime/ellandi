@@ -449,7 +449,7 @@ def test_user_patch_get_delete_skills(client, user_id):
 
 @utils.with_logged_in_client
 def test_me_patch_get_delete_skills(client, user_id):
-    endpoint_to_test = f"/me/skills/"
+    endpoint_to_test = "/me/skills/"
     patch_get_delete_skills(client, endpoint_to_test)
 
 
@@ -494,9 +494,8 @@ def test_user_patch_get_delete_languages(client, user_id):
 
 @utils.with_logged_in_client
 def test_me_patch_get_delete_languages(client, user_id):
-    endpoint_to_test = f"/me/languages/"
+    endpoint_to_test = "/me/languages/"
     patch_get_delete_languages(client, endpoint_to_test)
-
 
 
 def patch_get_delete_skills_develop(client, endpoint_to_test):
@@ -535,6 +534,6 @@ def test_user_patch_get_delete_skills_develop(client, user_id):
 
 
 @utils.with_logged_in_client
-def test_user_patch_get_delete_skills_develop(client, user_id):
-    endpoint_to_test = f"/me/skills-develop/"
+def test_me_patch_get_delete_skills_develop(client, user_id):
+    endpoint_to_test = "/me/skills-develop/"
     patch_get_delete_skills_develop(client, endpoint_to_test)

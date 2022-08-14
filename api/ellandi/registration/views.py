@@ -204,6 +204,7 @@ def list_skills_langs(request, user, model_name, field_name):
 
 @extend_schema(methods=["PATCH"], request=serializers.UserSkillSerializerNested(many=True))
 @decorators.api_view(["GET", "PATCH"])
+@decorators.permission_classes((permissions.AllowAny,))
 def me_skills_view(request):
     user = request.user
     return list_skills_langs(request, user, model_name="UserSkill", field_name="skills")
@@ -211,6 +212,7 @@ def me_skills_view(request):
 
 @extend_schema(methods=["PATCH"], request=serializers.UserLanguageSerializerNested(many=True))
 @decorators.api_view(["GET", "PATCH"])
+@decorators.permission_classes((permissions.AllowAny,))
 def me_languages_view(request):
     user = request.user
     return list_skills_langs(request, user, model_name="UserLanguage", field_name="languages")
@@ -218,6 +220,7 @@ def me_languages_view(request):
 
 @extend_schema(methods=["PATCH"], request=serializers.UserSkillDevelopSerializerNested(many=True))
 @decorators.api_view(["GET", "PATCH"])
+@decorators.permission_classes((permissions.AllowAny,))
 def me_skills_develop_view(request):
     user = request.user
     return list_skills_langs(request, user, model_name="UserSkillDevelop", field_name="skills_develop")
@@ -264,18 +267,21 @@ def skill_lang_delete(user, id, model_name):
 
 
 @decorators.api_view(["DELETE"])
+@decorators.permission_classes((permissions.AllowAny,))
 def me_skill_delete_view(request, skill_id):
     user = request.user
     return skill_lang_delete(user=user, id=skill_id, model_name="UserSkill")
 
 
 @decorators.api_view(["DELETE"])
+@decorators.permission_classes((permissions.AllowAny,))
 def me_language_delete_view(request, language_id):
     user = request.user
     return skill_lang_delete(user=user, id=language_id, model_name="UserLanguage")
 
 
 @decorators.api_view(["DELETE"])
+@decorators.permission_classes((permissions.AllowAny,))
 def me_skill_develop_delete_view(request, skill_develop_id):
     user = request.user
     return skill_lang_delete(user=user, id=skill_develop_id, model_name="UserSkillDevelop")
