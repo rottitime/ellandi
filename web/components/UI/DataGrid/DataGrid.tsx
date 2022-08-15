@@ -85,7 +85,10 @@ const DataGrid: FC<Props> = ({
           confirmButton="Delete"
           open={!!deleteCell}
           onClose={() => setDeleteCell(null)}
-          onConfirm={async () => await onDelete(deleteCell)}
+          onConfirm={async () => {
+            await onDelete(deleteCell)
+            setDeleteCell(null)
+          }}
           title={deleteModalTitle}
         >
           <>{deleteModalContent}</>
