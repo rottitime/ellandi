@@ -211,11 +211,12 @@ const steps: Steps[] = [
     form: dynamic(() => import('@/components/Form/Register/ContractTypeForm')),
     title: 'Contract type'
   },
-  {
-    form: dynamic(() => import('@/components/Form/Register/ContactForm')),
-    title: 'Contact preference',
-    nextUrl: '/register/thankyou'
-  },
+  // Hidden temporarily
+  // {
+  //   form: dynamic(() => import('@/components/Form/Register/ContactForm')),
+  //   title: 'Contact preference',
+  //   nextUrl: '/register/thankyou'
+  // },
   {
     form: dynamic(() => import('@/components/Form/Register/LanguageForm')),
     title: 'Language skills',
