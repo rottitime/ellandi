@@ -87,7 +87,7 @@ def test_user_patch(client, user_id):
     }
     more_user_data = {
         "location": "Manchester",
-        "professions": ["Operational Research Service", "Other"],
+        "professions": ["Operational research", "Other"],
         "profession_other": "Data science",
         "primary_profession": "Data science",
         "function": "Analysis",
@@ -104,7 +104,7 @@ def test_user_patch(client, user_id):
 
     more_nested_user_data = {
         "first_name": "Alice",
-        "professions": ["Policy", "Operational Research Service"],
+        "professions": ["Policy", "Operational research"],
         "profession_other": "",
         "skills": [{"name": "running", "level": "Competent", "validated": False}],
         "languages": [],
