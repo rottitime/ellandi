@@ -167,32 +167,32 @@ class UserSkill(TimeStampedModel):
     """Info on a particular skill for a given user."""
 
     class SkillLevel(models.TextChoices):
-        BEGINNER = ("beginner", "Beginner")
-        ADVANCED_BEGINNER = ("advanced-beginner", "Advanced beginner")
-        COMPETENT = ("competent", "Competent")
-        PROFICIENT = ("proficient", "Proficient")
-        EXPERT = ("expert", "Expert")
+        BEGINNER = ("Beginner", "Beginner")
+        ADVANCED_BEGINNER = ("Advanced beginner", "Advanced beginner")
+        COMPETENT = ("Competent", "Competent")
+        PROFICIENT = ("Proficient", "Proficient")
+        EXPERT = ("Expert", "Expert")
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, related_name="skills", on_delete=models.CASCADE)
-    skill_name = models.CharField(max_length=256)
+    name = models.CharField(max_length=256)
     level = models.CharField(max_length=64, choices=SkillLevel.choices, blank=True, null=True)
     validated = models.BooleanField(default=False, blank=False)
 
     def __str__(self):
-        return f"{self.skill_name} ({self.id})"
+        return f"{self.name} ({self.id})"
 
     class Meta:
-        unique_together = ["user", "skill_name"]
+        unique_together = ["user", "name"]
 
 
 class UserLanguage(TimeStampedModel):
     """Info on a particular language for a given user."""
 
     class LanguageLevel(models.TextChoices):
-        BASIC = ("basic", "Basic")
-        INDEPENDENT = ("independent", "Independent")
-        PROFICIENT = ("proficient", "Proficient")
+        BASIC = ("Basic", "Basic")
+        INDEPENDENT = ("Independent", "Independent")
+        PROFICIENT = ("Proficient", "Proficient")
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, related_name="languages", on_delete=models.CASCADE)
@@ -201,7 +201,7 @@ class UserLanguage(TimeStampedModel):
     writing_level = models.CharField(max_length=127, choices=LanguageLevel.choices, blank=True, null=True)
 
     def __str__(self):
-        return f"{self.language} ({self.id})"
+        return f"{self.name} ({self.id})"
 
     class Meta:
         unique_together = ["user", "name"]
@@ -212,7 +212,13 @@ class UserSkillDevelop(TimeStampedModel):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, related_name="skills_develop", on_delete=models.CASCADE)
-    skill_name = models.CharField(max_length=127, blank=True, null=True)
+    name = models.CharField(max_length=127, blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.name} ({self.id})"
+
+    class Meta:
+        unique_together = ["user", "name"]
 
 
 class EmailSalt(models.Model):

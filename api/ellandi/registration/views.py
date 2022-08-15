@@ -134,7 +134,7 @@ def register_view(request):
 
 @decorators.api_view(["GET"])
 def skills_list_view(request):
-    skills = set(models.UserSkill.objects.all().values_list("skill_name", flat=True))
+    skills = set(models.UserSkill.objects.all().values_list("name", flat=True))
     skills = initial_data.INITIAL_SKILLS.union(skills)
     return Response(skills)
 

@@ -15,6 +15,7 @@ from .models import (
     User,
     UserLanguage,
     UserSkill,
+    UserSkillDevelop,
 )
 
 
@@ -24,6 +25,10 @@ class UserSkillInline(admin.TabularInline):
 
 class UserLanguageInline(admin.TabularInline):
     model = UserLanguage
+
+
+class UserSkillDevelopInline(admin.TabularInline):
+    model = UserSkillDevelop
 
 
 class UserAdmin(django.contrib.auth.admin.UserAdmin):
@@ -105,6 +110,10 @@ class UserLanguageAdmin(admin.ModelAdmin):
     readonly_fields = ("created_at", "modified_at")
 
 
+class UserSkillDevelopAdmin(admin.ModelAdmin):
+    readonly_fields = ("created_at", "modified_at")
+
+
 class DropDownListAdmin(admin.ModelAdmin):
     readonly_fields = ("name", "slug")
 
@@ -154,6 +163,7 @@ class FunctionAdmin(DropDownListAdmin):
 admin.site.register(User, UserAdmin)
 admin.site.register(UserSkill, UserSkillAdmin)
 admin.site.register(UserLanguage, UserLanguageAdmin)
+admin.site.register(UserSkillDevelop, UserSkillDevelopAdmin)
 admin.site.register(Organisation, OrganisationAdmin)
 admin.site.register(ContractType, ContractTypeAdmin)
 admin.site.register(Location, LocationAdmin)

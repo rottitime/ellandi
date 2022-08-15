@@ -2,7 +2,7 @@ from nose.tools import with_setup
 from rest_framework import status
 from tests import utils
 
-from ellandi.registration.models import EmailSalt, User
+from ellandi.registration.models import EmailSalt, User, UserSkill
 
 TEST_SERVER_URL = "http://testserver:8000/"
 
@@ -12,8 +12,8 @@ def test_users_get(client, user_id):
     # Populate with some skills first
     user_skill_data = {
         "user": user_id,
-        "skill_name": "maths",
-        "level": "proficient",
+        "name": "maths",
+        "level": "Proficient",
     }
     response = client.post("/user-skills/", json=user_skill_data)
     assert response.status_code == status.HTTP_201_CREATED
@@ -21,7 +21,7 @@ def test_users_get(client, user_id):
     assert response.status_code == status.HTTP_200_OK
     data = response.json()
     assert data[0]["email"] == "jane@example.com"
-    assert data[0]["skills"][0]["skill_name"] == "maths"
+    assert data[0]["skills"][0]["name"] == "maths"
 
 
 @utils.with_logged_in_client
@@ -76,14 +76,14 @@ def test_user_put(client, user_id):
 def test_user_patch(client, user_id):
     user_skill_data = {
         "user": user_id,
-        "skill_name": "maths",
-        "level": "proficient",
+        "name": "maths",
+        "level": "Proficient",
     }
     user_languages_data = {
         "user": user_id,
         "name": "Spanish",
-        "speaking_level": "proficient",
-        "writing_level": "basic",
+        "speaking_level": "Proficient",
+        "writing_level": "Basic",
     }
     more_user_data = {
         "location": "Manchester",
@@ -93,25 +93,25 @@ def test_user_patch(client, user_id):
         "function": "Analysis",
     }
     response = client.post("/user-skills/", json=user_skill_data)
-    assert response.status_code == status.HTTP_201_CREATED
+    assert response.status_code == status.HTTP_201_CREATED, response.text
     response = client.post("/user-languages/", json=user_languages_data)
     assert response.status_code == status.HTTP_201_CREATED
     response = client.patch(f"/users/{user_id}/", json=more_user_data)
     assert response.status_code == status.HTTP_200_OK
     assert response.json()["email"] == "jane@example.com", "Email field should be read-only"
     assert response.json()["last_name"] == "Green"
-    assert response.json()["skills"][0]["skill_name"] == "maths"
+    assert response.json()["skills"][0]["name"] == "maths"
 
     more_nested_user_data = {
         "first_name": "Alice",
         "professions": ["Policy", "Operational Research Service"],
         "profession_other": "",
-        "skills": [{"skill_name": "running", "level": "competent", "validated": False}],
+        "skills": [{"name": "running", "level": "Competent", "validated": False}],
         "languages": [],
-        "skills_develop": [{"skill_name": "Statistics"}, {"skill_name": "R"}],
+        "skills_develop": [{"name": "Statistics"}, {"name": "R"}],
     }
     response = client.patch(f"/users/{user_id}/", json=more_nested_user_data)
-    assert response.status_code == status.HTTP_200_OK
+    assert response.status_code == status.HTTP_200_OK, response.text
     data = response.json()
     assert data["first_name"] == "Alice"
     assert len(data["professions"]) == 2
@@ -123,8 +123,8 @@ def test_user_patch(client, user_id):
 
     even_more_nested_data = {
         "languages": [
-            {"name": "French", "speaking_level": "proficient", "writing_level": "basic"},
-            {"name": "Spanish", "speaking_level": "proficient", "writing_level": "proficient"},
+            {"name": "French", "speaking_level": "Proficient", "writing_level": "Basic"},
+            {"name": "Spanish", "speaking_level": "Proficient", "writing_level": "Proficient"},
         ]
     }
     response = client.patch(f"/users/{user_id}/", json=even_more_nested_data)
@@ -134,27 +134,27 @@ def test_user_patch(client, user_id):
     assert len(languages_list) == 2, languages_list
     assert "French" in [lang["name"] for lang in languages_list]
     spanish_lang = [lang for lang in languages_list if lang["name"] == "Spanish"][0]
-    assert spanish_lang["speaking_level"] == "proficient"
+    assert spanish_lang["speaking_level"] == "Proficient"
 
 
 @utils.with_logged_in_client
 def test_get_user_userskills(client, user_id):
     user_skill_data = {
         "user": user_id,
-        "skill_name": "typing",
-        "level": "proficient",
+        "name": "typing",
+        "level": "Proficient",
     }
 
     response = client.post("/user-skills/", json=user_skill_data)
     assert response.status_code == status.HTTP_201_CREATED
     user_skill_id = response.json()["id"]
-    assert response.json()["skill_name"] == "typing"
-    assert response.json()["level"] == "proficient"
+    assert response.json()["name"] == "typing"
+    assert response.json()["level"] == "Proficient"
 
     response = client.get(f"/users/{user_id}/skills/")
     assert response.status_code == status.HTTP_200_OK
-    assert response.json()[0]["skill_name"] == "typing"
-    assert response.json()[0]["level"] == "proficient"
+    assert response.json()[0]["name"] == "typing"
+    assert response.json()[0]["level"] == "Proficient"
 
     response = client.delete(f"/user-skills/{user_skill_id}/")
     assert response.status_code == status.HTTP_204_NO_CONTENT
@@ -165,21 +165,21 @@ def test_get_user_userlanguages(client, user_id):
     user_languages_data = {
         "user": user_id,
         "name": "Spanish",
-        "speaking_level": "proficient",
-        "writing_level": "independent",
+        "speaking_level": "Proficient",
+        "writing_level": "Independent",
     }
 
     response = client.post("/user-languages/", json=user_languages_data)
     assert response.status_code == status.HTTP_201_CREATED
     user_language_id = response.json()["id"]
     assert response.json()["name"] == "Spanish"
-    assert response.json()["speaking_level"] == "proficient"
-    assert response.json()["writing_level"] == "independent"
+    assert response.json()["speaking_level"] == "Proficient"
+    assert response.json()["writing_level"] == "Independent"
 
     response = client.get(f"/users/{user_id}/languages/")
     assert response.status_code == status.HTTP_200_OK
     assert response.json()[0]["name"] == "Spanish"
-    assert response.json()[0]["speaking_level"] == "proficient"
+    assert response.json()[0]["speaking_level"] == "Proficient"
 
     response = client.delete(f"/user-languages/{user_language_id}/")
     assert response.status_code == status.HTTP_204_NO_CONTENT
@@ -192,27 +192,29 @@ def test_post_get_put_delete_user_skill(client, user_id):
 
     user_skill_data = {
         "user": user_id,
-        "skill_name": "maths",
-        "level": "proficient",
+        "name": "maths",
+        "level": "Proficient",
     }
     response = client.post("/user-skills/", json=user_skill_data)
-    assert response.status_code == status.HTTP_201_CREATED
+    assert response.status_code == status.HTTP_201_CREATED, response.text
     user_skill_id = response.json()["id"]
-    assert response.json()["skill_name"] == "maths"
-    assert response.json()["level"] == "proficient"
+    assert response.json()["name"] == "maths"
+    assert response.json()["level"] == "Proficient"
+    user_skill_obj = UserSkill.objects.get(user__id=user_id, name="maths")
+    assert user_skill_obj.level == "Proficient"
 
     response = client.get("/user-skills/")
     assert len(response.json()) == 1
 
     response = client.get(f"/user-skills/{user_skill_id}/")
     assert response.status_code == status.HTTP_200_OK
-    assert response.json()["skill_name"] == "maths"
-    assert response.json()["level"] == "proficient"
+    assert response.json()["name"] == "maths"
+    assert response.json()["level"] == "Proficient"
 
     user_skill_data_updated = {
         "user": user_id,
-        "skill_name": "maths",
-        "level": "beginner",
+        "name": "maths",
+        "level": "Beginner",
     }
     response = client.put(f"/user-skills/{user_skill_id}/", json=user_skill_data_updated)
     assert response.status_code == status.HTTP_405_METHOD_NOT_ALLOWED
@@ -229,13 +231,13 @@ def test_post_get_put_delete_user_language(client, user_id):
     response = client.get("/user-languages/")
     assert len(response.json()) == 0
 
-    user_language_data = {"user": user_id, "name": "Latin", "writing_level": "proficient"}
+    user_language_data = {"user": user_id, "name": "Latin", "writing_level": "Proficient"}
     response = client.post("/user-languages/", json=user_language_data)
     assert response.status_code == status.HTTP_201_CREATED, response.text
     response_data = response.json()
     user_language_id = response_data["id"]
     assert response_data["name"] == "Latin"
-    assert response_data["writing_level"] == "proficient"
+    assert response_data["writing_level"] == "Proficient"
     assert not response_data["speaking_level"]
 
     response = client.get("/user-languages/")
@@ -245,9 +247,9 @@ def test_post_get_put_delete_user_language(client, user_id):
     response_data = response.json()
     assert response.status_code == status.HTTP_200_OK
     assert response_data["name"] == "Latin"
-    assert response_data["writing_level"] == "proficient"
+    assert response_data["writing_level"] == "Proficient"
 
-    user_language_data_updated = {"user": user_id, "name": "Latin", "speaking_level": "basic"}
+    user_language_data_updated = {"user": user_id, "name": "Latin", "speaking_level": "Basic"}
     response = client.put(f"/user-languages/{user_language_id}/", json=user_language_data_updated)
     assert response.status_code == status.HTTP_405_METHOD_NOT_ALLOWED
 
@@ -263,21 +265,21 @@ def test_post_get_put_delete_user_skill_develop(client, user_id):
     response = client.get("/user-skills-develop/")
     assert len(response.json()) == 0
 
-    response = client.post("/user-skills-develop/", json={"user": user_id, "skill_name": "statistics"})
+    response = client.post("/user-skills-develop/", json={"user": user_id, "name": "statistics"})
     assert response.status_code == status.HTTP_201_CREATED
     user_skill_develop_id = response.json()["id"]
-    assert response.json()["skill_name"] == "statistics"
+    assert response.json()["name"] == "statistics"
 
     response = client.get("/user-skills-develop/")
     assert len(response.json()) == 1, response.json()
 
     response = client.get(f"/user-skills-develop/{user_skill_develop_id}/")
     assert response.status_code == status.HTTP_200_OK
-    assert response.json()["skill_name"] == "statistics"
+    assert response.json()["name"] == "statistics"
 
     user_skill_data_updated = {
         "user": user_id,
-        "skill_name": "advanced statistics",
+        "name": "advanced statistics",
     }
     response = client.put(f"/user-skills-develop/{user_skill_develop_id}/", json=user_skill_data_updated)
     assert response.status_code == status.HTTP_405_METHOD_NOT_ALLOWED
@@ -335,8 +337,8 @@ def test_dropdown_list(client, user_id):
 def test_skills_list(client, user_id):
     user_skill_data = {
         "user": user_id,
-        "skill_name": "new user skill",
-        "level": "proficient",
+        "name": "new user skill",
+        "level": "Proficient",
     }
     response = client.post("/user-skills/", json=user_skill_data)
     response = client.get("/skills/")
