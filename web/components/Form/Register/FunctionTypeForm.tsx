@@ -61,12 +61,11 @@ const FunctionTypeForm: FC<StandardRegisterProps<FunctionType>> = (props) => {
                     <Box key={name}>
                       <FormControlLabel control={<Radio />} label={name} value={name} />
                       {name === 'Other' && watchFields.function === 'Other' && (
-                        <Box sx={{ my: 2 }}>
-                          <TextFieldControlled
-                            name="function_other"
-                            label="Enter function"
-                          />
-                        </Box>
+                        <TextFieldControlled
+                          name="function_other"
+                          label="Enter function"
+                          subfield
+                        />
                       )}
                     </Box>
                   ))}

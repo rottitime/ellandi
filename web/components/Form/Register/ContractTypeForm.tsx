@@ -1,4 +1,4 @@
-import { FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material'
+import { Box, FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material'
 import { ContractType, GenericDataList, Query } from '@/service/types'
 import { useQuery } from 'react-query'
 import { fetchContractTypes } from '@/service/api'
@@ -64,20 +64,20 @@ const ContractTypeForm: FC<StandardRegisterProps<ContractType>> = (props) => {
                     <RadioSkeleton key={i} width="80%" sx={{ mb: 1 }} />
                   ))
                 : data.map(({ name }) => (
-                    <FormControlLabel
-                      key={name}
-                      control={<Radio />}
-                      label={name}
-                      value={name}
-                    />
+                    <Box key={name}>
+                      <FormControlLabel control={<Radio />} label={name} value={name} />
+                      {name === 'Other' && watchFields.contract_type === 'Other' && (
+                        <TextFieldControlled
+                          name="contract_type_other"
+                          label="Enter contract type"
+                          subfield
+                        />
+                      )}
+                    </Box>
                   ))}
             </RadioGroup>
           )}
         />
-
-        {watchFields.contract_type === 'Other' && (
-          <TextFieldControlled name="contract_type_other" label="Enter contract type" />
-        )}
       </Form>
     </FormProvider>
   )
