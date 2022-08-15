@@ -3,25 +3,27 @@ import { Typography } from '@mui/material'
 import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
 import { menu, SectionOne } from './index'
 import BadgeNumber from '@/components/UI/BadgeNumber/BadgeNumber'
-import { dehydrate, QueryClient, useMutation, useQuery } from 'react-query'
-import { fetchSkillLevels, fetchSkills, Query, RegisterUserResponse } from '@/service/api'
+import { dehydrate, QueryClient, useMutation } from 'react-query'
+import {
+  fetchSkillLevels,
+  fetchSkills,
+  Query,
+  RegisterUserResponse,
+  SkillDevelopType
+} from '@/service/api'
 import SkillsDevelopAddForm from '@/components/Form/Account/SkillsDevelopAddForm/SkillsDevelopAddForm'
 import useAuth from '@/hooks/useAuth'
-import { fetchMe } from '@/service/me'
-import { updateUser } from '@/service/auth'
 import Router from 'next/router'
+import { addSkillsToDevelop } from '@/service/account'
 
 const SkillsAddDevelopPage = () => {
   const { authFetch } = useAuth()
-  const {
-    data: { id }
-  } = useQuery<RegisterUserResponse>(Query.Me, () => authFetch(fetchMe))
 
   const { isLoading, ...mutate } = useMutation<
     RegisterUserResponse,
     Error,
-    Partial<RegisterUserResponse>
-  >(async (data) => updateUser(id, data), {
+    SkillDevelopType[]
+  >(async (data) => authFetch(addSkillsToDevelop, data), {
     onSuccess: async () => Router.push('/account/skills/skills-develop')
   })
 
@@ -38,7 +40,7 @@ const SkillsAddDevelopPage = () => {
       >
         <SkillsDevelopAddForm
           loading={isLoading}
-          onFormSubmit={(data) => mutate.mutate(data)}
+          onFormSubmit={({ skills_develop }) => mutate.mutate(skills_develop)}
         />
       </AccountCard>
     </>
