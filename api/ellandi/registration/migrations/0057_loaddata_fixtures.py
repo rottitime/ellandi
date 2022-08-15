@@ -3,7 +3,6 @@
 from django.core.management import call_command
 from django.db import migrations
 
-
 DROPDOWN_MODELS = {
     "ContractType": "contracttypes",
     "Country": "countries",
