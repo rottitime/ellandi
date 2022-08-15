@@ -27,7 +27,7 @@ const SkillsAddSkillsPage = () => {
     Error,
     Partial<RegisterUserResponse>
   >(async (data) => updateUser(id, data), {
-    onSuccess: async () => Router.push('/account/skills')
+    onSuccess: async () => Router.push('/account/skills/language-skills')
   })
 
   return (
