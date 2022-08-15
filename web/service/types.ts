@@ -6,7 +6,9 @@ export enum Query {
   Functions = 'functions',
   ContractTypes = 'contract-types',
   Languages = 'languages',
+  LanguageSkillLevels = 'languageSkillLevels',
   Skills = 'skills',
+  SkillLevels = 'skillLevels',
   Me = 'me'
 }
 
@@ -54,12 +56,23 @@ export type ProfessionType = {
   profession_other: string
 }
 
+export type SkillType = {
+  id?: string
+  name: string
+  level: string
+}
+
+export type SkillDevelopType = {
+  id?: string
+  name: string
+}
+
 export type SkillsType = {
-  skills: string[]
+  skills: SkillType[]
 }
 
 export type SkillsDevelopType = {
-  skills_develop: string[]
+  skills_develop: SkillDevelopType[]
 }
 
 export type PrimaryProfessionType = {
@@ -81,9 +94,10 @@ export type FunctionType = {
 }
 
 export type LanguageType = {
-  language: string
-  speaking: string
-  writing: string
+  id?: string
+  name: string
+  speaking_level: string
+  writing_level: string
 }
 
 export type LanguagesType = {

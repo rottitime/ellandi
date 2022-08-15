@@ -11,7 +11,8 @@ export const icons = {
   profile: dynamic(() => import('@/components/Icon/Icons/Profile')),
   case: dynamic(() => import('@/components/Icon/Icons/Case')),
   mail: dynamic(() => import('@/components/Icon/Icons/Mail')),
-  'circle-plus': dynamic(() => import('@/components/Icon/Icons/CirclePlus'))
+  'circle-plus': dynamic(() => import('@/components/Icon/Icons/CirclePlus')),
+  'circle-delete': dynamic(() => import('@/components/Icon/Icons/CircleDelete'))
 }
 
 const Icon: FC<Props> = ({ icon, ...props }) => {

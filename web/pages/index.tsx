@@ -1,4 +1,4 @@
-import CardLayout from '@/components/Layout/CardLayout'
+import CardLayout from '@/components/Layout/CardLayout/CardLayout'
 import Button from '@/components/UI/Button/Button'
 import Card from '@/components/UI/Card'
 import { Divider, Grid, Typography } from '@mui/material'

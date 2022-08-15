@@ -1,11 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import CardLayout from '@/components/Layout/CardLayout'
+import CardLayout from '@/components/Layout/CardLayout/CardLayout'
 import { useUiContext } from '@/context/UiContext'
 import {
   fetchContractTypes,
   fetchFunctions,
   fetchGrades,
   fetchLanguages,
+  fetchLanguageSkillLevels,
   fetchProfessions,
   fetchSkills,
   Query,
@@ -155,6 +156,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
   await queryClient.prefetchQuery(Query.Functions, fetchFunctions)
   await queryClient.prefetchQuery(Query.ContractTypes, fetchContractTypes)
   await queryClient.prefetchQuery(Query.Languages, fetchLanguages)
+  await queryClient.prefetchQuery(Query.LanguageSkillLevels, fetchLanguageSkillLevels)
   await queryClient.prefetchQuery(Query.Skills, fetchSkills)
 
   return {

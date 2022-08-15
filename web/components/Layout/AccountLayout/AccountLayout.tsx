@@ -1,4 +1,4 @@
-import { FC, ReactNode, useEffect } from 'react'
+import { FC, useEffect } from 'react'
 import {
   Breadcrumbs,
   Typography,
@@ -12,12 +12,18 @@ import Link from '@/components/UI/Link'
 import Template from '@/components/Layout/Template'
 import useAuth from '@/hooks/useAuth'
 import Footer from '@/components/Footer/Footer'
-import Icon, { IconsType } from '@/components/Icon/Icon'
-import Headline from '@/components/Accounts/Headline/Headline'
+import Icon from '@/components/Icon/Icon'
+import Headline from '@/components/Account/Headline/Headline'
 import { useQuery } from 'react-query'
 import { fetchMe } from '@/service/me'
 import { Query, RegisterUserResponse } from '@/service/api'
 import router from 'next/router'
+import getConfig from 'next/config'
+import { Props } from './types'
+
+const {
+  publicRuntimeConfig: { urls }
+} = getConfig()
 
 const Layout = styled(Box)`
   --footer-height: 60px;
@@ -53,14 +59,6 @@ const Layout = styled(Box)`
     padding: 50px;
   }
 `
-type Props = {
-  children: ReactNode
-  titleIcon?: IconsType
-  title?: string | ReactNode
-  breadcrumbs?: { title: string; url?: string }[]
-  teaserHeadline?: string
-  teaserContent?: string
-}
 
 const AccountLayout: FC<Props> = ({
   breadcrumbs = [],
@@ -68,6 +66,7 @@ const AccountLayout: FC<Props> = ({
   titleIcon,
   children,
   teaserHeadline,
+  brandColor,
   teaserContent
 }) => {
   const { logout, authFetch, invalidate } = useAuth()
@@ -94,17 +93,17 @@ const AccountLayout: FC<Props> = ({
       <Template>
         <AppBar
           pages={[
-            { title: 'Home', url: '/account' },
-            { title: 'Skills', url: '/account/skills', color: 'brandSkills' },
-            { title: 'Learning', url: '/account/learning', color: 'brandLearning' }
+            { title: 'Home', url: urls.landingSignin }
+            // { title: 'Skills', url: '/account/skills', color: 'brandSkills' },
+            // { title: 'Learning', url: '/account/learning', color: 'brandLearning' }
           ]}
           settings={[
             { title: 'Profile', url: '/account/profile' },
-            { title: 'Logout', url: '/', onClick: logout }
+            { title: 'Logout', url: urls.signin, onClick: logout }
           ]}
         />
         <Breadcrumbs aria-label="breadcrumb">
-          <Link underline="hover" color="inherit" href="/account">
+          <Link underline="hover" color="inherit" href={urls.landingSignin}>
             Home
           </Link>
 
@@ -120,12 +119,11 @@ const AccountLayout: FC<Props> = ({
         </Breadcrumbs>
 
         {title && (
-          <Headline>
+          <Headline textColor={brandColor}>
             <Typography variant="h1" gutterBottom>
               {titleIcon && <Icon icon={titleIcon} />}
               {title}
             </Typography>
-
             {teaserHeadline && (
               <Typography variant="h1" component="p" gutterBottom>
                 {teaserHeadline}

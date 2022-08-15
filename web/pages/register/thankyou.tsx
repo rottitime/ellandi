@@ -1,4 +1,4 @@
-import CardLayout from '@/components/Layout/CardLayout'
+import CardLayout from '@/components/Layout/CardLayout/CardLayout'
 import { Typography } from '@mui/material'
 import FooterButtons from '@/components/UI/FooterButtons/FooterButtons'
 import Button from '@/components/UI/Button/Button'

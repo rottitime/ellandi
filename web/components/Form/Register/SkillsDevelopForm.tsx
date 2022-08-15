@@ -3,7 +3,7 @@ import { FC, useEffect } from 'react'
 import { StandardRegisterProps } from './types'
 import { FormProvider, useForm } from 'react-hook-form'
 import CreatableAutocomplete from '../CreatableAutocomplete/CreatableAutocomplete'
-import { Query, SkillsDevelopType } from '@/service/types'
+import { Query, SkillDevelopType, SkillsDevelopType } from '@/service/types'
 import { fetchSkills } from '@/service/api'
 import { useQuery } from 'react-query'
 import { array, object, SchemaOf, string } from 'yup'
@@ -11,8 +11,13 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import Form from '@/components/Form/Register/FormRegister/FormRegister'
 import { Field } from '../Field/Field'
 
+const skillSchema: SchemaOf<SkillDevelopType> = object({
+  id: string().nullable(),
+  name: string().required('This is a required field')
+})
+
 const schema: SchemaOf<SkillsDevelopType> = object().shape({
-  skills_develop: array().of(string())
+  skills_develop: array().of(skillSchema).optional()
 })
 const fieldName: keyof SkillsDevelopType = 'skills_develop'
 
@@ -53,15 +58,19 @@ const SkillsForm: FC<StandardRegisterProps<SkillsDevelopType>> = (props) => {
           <Field>
             <CreatableAutocomplete
               loading={isLoading}
-              disableOptions={watchFields}
+              disableOptions={watchFields.map(({ name }) => name)}
               label="Select a skill or enter your own skill"
               data={isLoading ? [] : data.map((title) => ({ title }))}
               onSelected={async (_event, { title }) => {
+                const includes =
+                  Array.isArray(watchFields) &&
+                  !!watchFields.find(({ name }) => name === title)
+
                 setValue(
                   fieldName,
-                  Array.isArray(watchFields) && watchFields?.includes(title)
-                    ? watchFields.filter((item) => item !== title)
-                    : [...watchFields, title]
+                  includes
+                    ? watchFields.filter(({ name }) => name !== title)
+                    : [...watchFields, { name: title }]
                 )
               }}
             />
@@ -75,14 +84,14 @@ const SkillsForm: FC<StandardRegisterProps<SkillsDevelopType>> = (props) => {
             <Typography sx={{ mb: 3 }}>Your selected skills</Typography>
 
             <Stack flexWrap="wrap" direction="row" gap={3}>
-              {watchFields.map((skill) => (
+              {watchFields.map(({ name }) => (
                 <Chip
-                  key={skill}
-                  label={skill}
+                  key={name}
+                  label={name}
                   onDelete={() =>
                     setValue(
                       fieldName,
-                      watchFields.filter((item) => item !== skill)
+                      watchFields.filter((skill) => name !== skill.name)
                     )
                   }
                 />

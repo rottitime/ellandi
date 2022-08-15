@@ -17,7 +17,7 @@ import {
   Tooltip
 } from '@mui/material'
 import { GenericDataList, LanguagesType, LanguageType, Query } from '@/service/types'
-import { fetchLanguages } from '@/service/api'
+import { fetchLanguages, fetchLanguageSkillLevels } from '@/service/api'
 import { FC } from 'react'
 import { useQuery } from 'react-query'
 import { StandardRegisterProps } from './types'
@@ -42,8 +42,6 @@ const Table = styled(MuiTable)`
 `
 
 const fornName: keyof LanguagesType = 'languages'
-
-const levels = ['Basic', 'Independant', 'Proficient']
 
 const optionsSpeaking = [
   {
@@ -82,9 +80,10 @@ const optionsWriting = [
 ]
 
 const languageSchema: SchemaOf<LanguageType> = object({
-  language: string().required('This is required'),
-  writing: string().required('This is required'),
-  speaking: string().required('This is required')
+  id: string().nullable(),
+  name: string().required('This is required'),
+  writing_level: string().required('This is required'),
+  speaking_level: string().required('This is required')
 })
 
 const schema: SchemaOf<LanguagesType> = object().shape({
@@ -97,6 +96,11 @@ const LanguageForm: FC<StandardRegisterProps<LanguagesType>> = (props) => {
     fetchLanguages,
     { staleTime: Infinity }
   )
+
+  const { isLoading: isLoadingLevels, data: dataLevels } = useQuery<
+    GenericDataList[],
+    { message?: string }
+  >(Query.LanguageSkillLevels, fetchLanguageSkillLevels, { staleTime: Infinity })
 
   const methods = useForm<LanguagesType>({
     defaultValues: { languages: [] },
@@ -167,7 +171,7 @@ const LanguageForm: FC<StandardRegisterProps<LanguagesType>> = (props) => {
                   >
                     <TableCell scope="row">
                       <Controller
-                        name={`languages.${index}.language`}
+                        name={`languages.${index}.name`}
                         control={control}
                         defaultValue={item.language}
                         render={({ field, fieldState: { error } }) => (
@@ -183,7 +187,7 @@ const LanguageForm: FC<StandardRegisterProps<LanguagesType>> = (props) => {
                                     value={name}
                                     disabled={
                                       !!getValues(fornName).find(
-                                        ({ language }) => language === name
+                                        (language) => language.name === name
                                       )
                                     }
                                   >
@@ -202,32 +206,36 @@ const LanguageForm: FC<StandardRegisterProps<LanguagesType>> = (props) => {
 
                     {['Speaking', 'Writing'].map((name) => (
                       <TableCell key={name}>
-                        <Controller
-                          name={
-                            `languages.${index}.${name.toLowerCase()}` as `languages.${number}`
-                          }
-                          control={control}
-                          defaultValue={item[name] as LanguageType}
-                          render={({ field, fieldState: { error } }) => (
-                            <FormControl fullWidth error={!!error} size="small">
-                              <InputLabel>Level</InputLabel>
-                              <Select
-                                label="Select a level"
-                                variant="outlined"
-                                {...field}
-                              >
-                                {levels.map((level) => (
-                                  <MenuItem key={level} value={level}>
-                                    {level}
-                                  </MenuItem>
-                                ))}
-                              </Select>
-                              {!!error && (
-                                <FormHelperText error>{error.message}</FormHelperText>
-                              )}
-                            </FormControl>
-                          )}
-                        />
+                        {isLoadingLevels ? (
+                          <Skeleton sx={{ height: 60 }} />
+                        ) : (
+                          <Controller
+                            name={
+                              `languages.${index}.${name.toLowerCase()}_level` as `languages.${number}`
+                            }
+                            control={control}
+                            defaultValue={item[name] as LanguageType}
+                            render={({ field, fieldState: { error } }) => (
+                              <FormControl fullWidth error={!!error} size="small">
+                                <InputLabel>Level</InputLabel>
+                                <Select
+                                  label="Select a level"
+                                  variant="outlined"
+                                  {...field}
+                                >
+                                  {dataLevels.map(({ name }) => (
+                                    <MenuItem key={name} value={name}>
+                                      {name}
+                                    </MenuItem>
+                                  ))}
+                                </Select>
+                                {!!error && (
+                                  <FormHelperText error>{error.message}</FormHelperText>
+                                )}
+                              </FormControl>
+                            )}
+                          />
+                        )}
                       </TableCell>
                     ))}
 
@@ -252,7 +260,7 @@ const LanguageForm: FC<StandardRegisterProps<LanguagesType>> = (props) => {
             variant="outlined"
             startIcon={<AddCircleOutline />}
             onClick={() => {
-              append({ language: '', speaking: '', writing: '' })
+              append({ name: '', speaking_level: '', writing_level: '' })
             }}
           >
             Add language

@@ -1,5 +1,4 @@
-import { AuthUser } from '@/service/types'
-import { renderHook, waitFor } from '@testing-library/react'
+import { renderHook } from '@testing-library/react'
 import useTranslation from './useTranslation'
 import { useRouter } from 'next/router'
 
