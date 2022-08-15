@@ -24,10 +24,6 @@ const SignInForm: FC<Props> = ({ onFormSubmit, loading }) => {
   return (
     <FormProvider {...methods}>
       <form onSubmit={methods.handleSubmit(onFormSubmit)} noValidate>
-        <Divider variant="middle" sx={{ my: 3 }}>
-          OR
-        </Divider>
-
         <Field>
           <TextFieldControlled
             name="email"
@@ -40,7 +36,7 @@ const SignInForm: FC<Props> = ({ onFormSubmit, loading }) => {
           <TextFieldControlled name="password" type="password" label="Password" />
         </Field>
 
-        <FormFooter buttonProps={{ loading, fullWidth: true }} submitText="Sign in" />
+        <FormFooter buttonProps={{ loading, fullWidth: true }} submitText="Continue" />
       </form>
     </FormProvider>
   )
