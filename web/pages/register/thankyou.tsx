@@ -15,7 +15,7 @@ const RegisterPage = () => (
     <ul>
       <li>your language skills</li>
       <li>other skills that you already have</li>
-      <li>skills that you'd like to develop</li>
+      <li>skills that you would like to develop</li>
     </ul>
 
     <FooterButtons>

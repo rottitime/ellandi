@@ -208,7 +208,8 @@ const steps: Steps[] = [
   },
   {
     form: dynamic(() => import('@/components/Form/Register/ContractTypeForm')),
-    title: 'Contract type'
+    title: 'Contract type',
+    nextUrl: '/register/thankyou'
   },
   // Hidden temporarily
   // {
@@ -218,8 +219,7 @@ const steps: Steps[] = [
   // },
   {
     form: dynamic(() => import('@/components/Form/Register/LanguageForm')),
-    title: 'Language skills',
-    skip: true
+    title: 'Language skills'
   },
   {
     form: dynamic(() => import('@/components/Form/Register/SkillsForm')),
