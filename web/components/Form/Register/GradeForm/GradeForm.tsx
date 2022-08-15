@@ -1,4 +1,4 @@
-import { FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material'
+import { Box, FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material'
 import { useQuery } from 'react-query'
 import RadioSkeleton from '@/components/UI/Skeleton/RadioSkeleton'
 import { fetchGrades, GenericDataList, GradeType, Query } from '@/service/api'
@@ -60,13 +60,8 @@ const GradeForm: FC<StandardRegisterProps<GradeType>> = (props) => {
                     <RadioSkeleton key={i} width="80%" sx={{ mb: 1 }} />
                   ))
                 : data.map(({ name }) => (
-                    <>
-                      <FormControlLabel
-                        key={name}
-                        control={<Radio />}
-                        label={name}
-                        value={name}
-                      />
+                    <Box key={name}>
+                      <FormControlLabel control={<Radio />} label={name} value={name} />
                       {name === 'Other' && watchFields.grade === 'Other' && (
                         <TextFieldControlled
                           name="grade_other"
@@ -74,7 +69,7 @@ const GradeForm: FC<StandardRegisterProps<GradeType>> = (props) => {
                           subfield
                         />
                       )}
-                    </>
+                    </Box>
                   ))}
             </RadioGroup>
           )}

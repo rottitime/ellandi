@@ -4,7 +4,6 @@ import { useForm, FormProvider } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { SchemaOf, object, string } from 'yup'
 import FormFooter from '../FormFooter'
-import { Divider } from '@mui/material'
 import { Field } from '../Field/Field'
 import { SignInType, Props } from './types'
 

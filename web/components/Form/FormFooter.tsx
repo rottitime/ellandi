@@ -29,7 +29,12 @@ const FormFooter: FC<Props> = ({
         </Button>
       )}
     </Box>
-    <Button variant="contained" type="submit" {...buttonProps}>
+    <Button
+      variant="contained"
+      type="submit"
+      {...buttonProps}
+      data-testid={`submit-button`}
+    >
       {submitText}
     </Button>
   </FooterButtons>
