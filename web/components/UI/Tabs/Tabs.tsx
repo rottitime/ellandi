@@ -58,17 +58,20 @@ const Tabs: FC<Props> = ({
   const handleChange = (_event: SyntheticEvent, index: number) =>
     setCurrentActiveTab(index)
 
-  const renderPanel = (index: number, content: ReactNode) => (
-    <Box
-      role="tabpanel"
-      key={index}
-      hidden={currentActiveTab !== index}
-      id={`${id}-tabpanel-${index}`}
-      aria-controls={`${id}-tab-${index}`}
-    >
-      {content}
-    </Box>
-  )
+  const renderPanel = (index: number, content: ReactNode) => {
+    const isActive = currentActiveTab === index
+    return (
+      <Box
+        role="tabpanel"
+        key={index}
+        hidden={!isActive}
+        id={`${id}-tabpanel-${index}`}
+        aria-controls={`${id}-tab-${index}`}
+      >
+        {isActive && content}
+      </Box>
+    )
+  }
 
   return (
     <Wrapper>

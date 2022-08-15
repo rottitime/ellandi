@@ -33,23 +33,25 @@ const SkillsDevelop: FC = () => {
   ) : (
     <Box sx={{ height: 'auto', width: '100%' }}>
       {isError && <Alert severity="error">{error.message}</Alert>}
-      <DataGrid
-        hideFooterPagination
-        components={{
-          NoRowsOverlay: () => <Alert severity="info">Enter a skill to develop</Alert>
-        }}
-        autoHeight
-        columns={columns}
-        rows={data.skills_develop}
-        enableDelete
-        onDelete={async (cell) => await mutate(cell.id)}
-        deleteModalTitle="Delete skill to develop"
-        deleteModalContent={
-          <Typography>
-            Are you sure you want to delete this skill to develop from your profile?
-          </Typography>
-        }
-      />
+      <Box sx={{ height: 'auto', width: '100%' }}>
+        <DataGrid
+          hideFooterPagination
+          components={{
+            NoRowsOverlay: () => <Alert severity="info">Enter a skill to develop</Alert>
+          }}
+          autoHeight
+          columns={columns}
+          rows={data.skills_develop}
+          enableDelete
+          onDelete={async (cell) => await mutate(cell.id)}
+          deleteModalTitle="Delete skill to develop"
+          deleteModalContent={
+            <Typography>
+              Are you sure you want to delete this skill to develop from your profile?
+            </Typography>
+          }
+        />
+      </Box>
     </Box>
   )
 }
