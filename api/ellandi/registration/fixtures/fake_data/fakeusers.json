@@ -1,0 +1,257 @@
+[
+{
+  "model": "registration.user",
+  "pk": "33425117-3a02-4bd2-94fb-367f062a736d",
+  "fields": {
+    "password": "pbkdf2_sha256$260000$1ZoCi5omsaTahs3RUQD2vP$tDlXcU7+ZVugWvHaFMWGyc9EkmG7Vt76bc0C0THPTc8=",
+    "last_login": "2022-08-15T11:35:50.225Z",
+    "is_superuser": false,
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2022-08-15T11:35:49.840Z",
+    "created_at": "2022-08-15T11:35:49.840Z",
+    "modified_at": "2022-08-15T11:35:49.840Z",
+    "department": "Cabinet Office",
+    "organisation": null,
+    "job_title": "Project Manager",
+    "business_unit": "CDIO",
+    "location": "Leeds",
+    "location_other": null,
+    "line_manager_email": "mrs.tiggywinkle@example.com",
+    "grade": "Grade 7 Equivalent",
+    "grade_other": null,
+    "profession_other": "Farming",
+    "primary_profession": "Project Delivery",
+    "function": "Project delivery",
+    "function_other": null,
+    "contract_type": "Permanent",
+    "contract_type_other": null,
+    "contact_preference": true,
+    "email": "peter.rabbit@example.com",
+    "privacy_policy_agreement": true,
+    "first_name": "Peter",
+    "last_name": "Rabbit",
+    "groups": [],
+    "user_permissions": [],
+    "professions": [
+      "digital-data-and-technology",
+      "project-delivery",
+      "other"
+    ]
+  }
+},
+{
+  "model": "registration.user",
+  "pk": "7fdb4b48-a010-4ee1-a814-6c961e15060d",
+  "fields": {
+    "password": "pbkdf2_sha256$260000$YLvUYD4KkRLFOLWOy2Doeu$kwJ1O2GJzHtRDQGA+U5+zjhQWWcFQYeurEtAh8mf86c=",
+    "last_login": "2022-08-15T13:21:16.723Z",
+    "is_superuser": false,
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2022-08-15T13:21:16.435Z",
+    "created_at": "2022-08-15T13:21:16.435Z",
+    "modified_at": "2022-08-15T13:21:16.435Z",
+    "department": null,
+    "organisation": null,
+    "job_title": "Analyst",
+    "business_unit": "CDIO",
+    "location": "Glasgow",
+    "location_other": null,
+    "line_manager_email": "peter.rabbit@example.com",
+    "grade": "Other",
+    "grade_other": "Grade 7.5",
+    "profession_other": null,
+    "primary_profession": null,
+    "function": "I don't know",
+    "function_other": null,
+    "contract_type": "Fixed-term",
+    "contract_type_other": null,
+    "contact_preference": true,
+    "email": "another@example.com",
+    "privacy_policy_agreement": true,
+    "first_name": "AN",
+    "last_name": "Other",
+    "groups": [],
+    "user_permissions": [],
+    "professions": []
+  }
+},
+{
+  "model": "registration.user",
+  "pk": "908d194c-d77c-4527-94d4-1eab50c0459c",
+  "fields": {
+    "password": "pbkdf2_sha256$260000$HroPAM5p7mcUOeMf6Gb6U4$/upYSqIW+SC4G04JHefGIo+atz+ceCPLm97EfswF2Mg=",
+    "last_login": "2022-08-15T13:05:23.254Z",
+    "is_superuser": false,
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2022-08-15T13:05:22.961Z",
+    "created_at": "2022-08-15T13:05:22.961Z",
+    "modified_at": "2022-08-15T13:05:22.961Z",
+    "department": null,
+    "organisation": null,
+    "job_title": "Policy Official",
+    "business_unit": "EDS",
+    "location": "London",
+    "location_other": null,
+    "line_manager_email": "manager@example.com",
+    "grade": "Senior Executive Officer (SEO) Equivalent",
+    "grade_other": null,
+    "profession_other": null,
+    "primary_profession": null,
+    "function": "I don't know",
+    "function_other": null,
+    "contract_type": "Fixed-term",
+    "contract_type_other": null,
+    "contact_preference": false,
+    "email": "jemima.puddleduck@example.com",
+    "privacy_policy_agreement": true,
+    "first_name": "Jemima",
+    "last_name": "Puddleduck",
+    "groups": [],
+    "user_permissions": [],
+    "professions": [
+      "policy"
+    ]
+  }
+},
+{
+  "model": "registration.userskill",
+  "pk": "1bcb4cb2-f500-48e9-bef1-d3da4d3ba5d7",
+  "fields": {
+    "created_at": "2022-08-15T11:48:09.346Z",
+    "modified_at": "2022-08-15T11:48:09.346Z",
+    "user": "33425117-3a02-4bd2-94fb-367f062a736d",
+    "name": "Project management",
+    "level": "Competent",
+    "validated": false
+  }
+},
+{
+  "model": "registration.userskill",
+  "pk": "40f6f070-3aa7-44ec-9853-96a9c088144a",
+  "fields": {
+    "created_at": "2022-08-15T13:24:52.202Z",
+    "modified_at": "2022-08-15T13:24:52.202Z",
+    "user": "908d194c-d77c-4527-94d4-1eab50c0459c",
+    "name": "Quacking",
+    "level": "Proficient",
+    "validated": true
+  }
+},
+{
+  "model": "registration.userskill",
+  "pk": "5455771a-6291-4931-8e8c-f4d05c0c22da",
+  "fields": {
+    "created_at": "2022-08-15T13:24:52.203Z",
+    "modified_at": "2022-08-15T13:24:52.203Z",
+    "user": "908d194c-d77c-4527-94d4-1eab50c0459c",
+    "name": "Economics",
+    "level": "Beginner",
+    "validated": false
+  }
+},
+{
+  "model": "registration.userskill",
+  "pk": "a0f6fec0-2f7f-41fa-bf72-d500c85f5f63",
+  "fields": {
+    "created_at": "2022-08-15T11:48:09.342Z",
+    "modified_at": "2022-08-15T11:48:09.342Z",
+    "user": "33425117-3a02-4bd2-94fb-367f062a736d",
+    "name": "Issues trees",
+    "level": "Beginner",
+    "validated": false
+  }
+},
+{
+  "model": "registration.userskill",
+  "pk": "f386dc1b-5b37-486c-bdce-8fe24844d886",
+  "fields": {
+    "created_at": "2022-08-15T11:48:09.350Z",
+    "modified_at": "2022-08-15T11:48:09.350Z",
+    "user": "33425117-3a02-4bd2-94fb-367f062a736d",
+    "name": "Agile delivery",
+    "level": "Proficient",
+    "validated": false
+  }
+},
+{
+  "model": "registration.userlanguage",
+  "pk": "4abb1c2e-802a-4463-be0b-6dc1abb6c084",
+  "fields": {
+    "created_at": "2022-08-15T13:24:52.208Z",
+    "modified_at": "2022-08-15T13:24:52.208Z",
+    "user": "908d194c-d77c-4527-94d4-1eab50c0459c",
+    "name": "Arabic",
+    "speaking_level": "Basic",
+    "writing_level": null
+  }
+},
+{
+  "model": "registration.userlanguage",
+  "pk": "5ed7eeaa-f1f6-466a-a76d-a04f2bf171d3",
+  "fields": {
+    "created_at": "2022-08-15T13:24:52.209Z",
+    "modified_at": "2022-08-15T13:24:52.209Z",
+    "user": "908d194c-d77c-4527-94d4-1eab50c0459c",
+    "name": "German",
+    "speaking_level": "Basic",
+    "writing_level": "Basic"
+  }
+},
+{
+  "model": "registration.userlanguage",
+  "pk": "72810d1d-5ee8-4932-8ea1-4a0a0439a47a",
+  "fields": {
+    "created_at": "2022-08-15T11:47:54.646Z",
+    "modified_at": "2022-08-15T11:47:54.646Z",
+    "user": "33425117-3a02-4bd2-94fb-367f062a736d",
+    "name": "Russian",
+    "speaking_level": "Basic",
+    "writing_level": "Basic"
+  }
+},
+{
+  "model": "registration.userlanguage",
+  "pk": "e1110f37-6225-4eb1-8d78-ee9ae2a304c7",
+  "fields": {
+    "created_at": "2022-08-15T11:47:37.836Z",
+    "modified_at": "2022-08-15T11:47:37.836Z",
+    "user": "33425117-3a02-4bd2-94fb-367f062a736d",
+    "name": "French",
+    "speaking_level": "Independent",
+    "writing_level": "Basic"
+  }
+},
+{
+  "model": "registration.userskilldevelop",
+  "pk": "0fa8fb60-c389-46a9-ab93-66efdfa885bd",
+  "fields": {
+    "created_at": "2022-08-15T13:25:57.971Z",
+    "modified_at": "2022-08-15T13:25:57.971Z",
+    "user": "33425117-3a02-4bd2-94fb-367f062a736d",
+    "name": "Farming"
+  }
+},
+{
+  "model": "registration.userskilldevelop",
+  "pk": "186e91ac-2904-4032-aa08-d28ba0ee51f8",
+  "fields": {
+    "created_at": "2022-08-15T13:25:36.391Z",
+    "modified_at": "2022-08-15T13:25:36.391Z",
+    "user": "908d194c-d77c-4527-94d4-1eab50c0459c",
+    "name": "Written communication"
+  }
+},
+{
+  "model": "registration.userskilldevelop",
+  "pk": "244c51bb-e2c5-4143-8d04-776ce231d524",
+  "fields": {
+    "created_at": "2022-08-15T11:48:16.695Z",
+    "modified_at": "2022-08-15T11:48:16.695Z",
+    "user": "33425117-3a02-4bd2-94fb-367f062a736d",
+    "name": "Digital"
+  }
+}
+]

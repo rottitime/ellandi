@@ -14,6 +14,9 @@ If you want to access the api's admin interface you need to run:
 
 Then you can access `http://localhost:8000/admin` to login to the admin interface
 
+To load some dummy data for testing locally (data on users, related skills/languages/skills to develop):
+`docker-compose run api python manage.py loaddata fake_data/fakeusers.json`
+
 ## Local installation
 
 To run the backend locally, or to run tests or linting:
