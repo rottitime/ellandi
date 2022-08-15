@@ -28,18 +28,6 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.UserSerializer
     http_method_names = ["get", "patch"]
 
-    @decorators.action(detail=True, methods=["get"])
-    def skills(self, request, pk):
-        skills_qs = models.UserSkill.objects.filter(user__id=pk)
-        serializer = serializers.UserSkillSerializer(skills_qs, many=True, context={"request": request})
-        return Response(serializer.data)
-
-    @decorators.action(detail=True, methods=["get"])
-    def languages(self, request, pk):
-        languages_qs = models.UserLanguage.objects.filter(user__id=pk)
-        serializer = serializers.UserLanguageSerializer(languages_qs, many=True, context={"request": request})
-        return Response(serializer.data)
-
 
 @register("user-skills")
 class UserSkillViewSet(viewsets.ModelViewSet):
@@ -195,3 +183,152 @@ def me_view(request):
     data["id"] = str(user.id)
     response = Response(data=data, status=status.HTTP_200_OK)
     return response
+
+
+def list_skills_langs(request, user, model_name, field_name):
+    """
+    For a given user, return the associated skills or languages or skills to develop.
+    Specify skills/languages/skills to develop with model_name and field_name.
+    """
+    model = getattr(models, model_name)
+    serializer = getattr(serializers, f"{model_name}Serializer")
+    if request.method == "GET":
+        qs = model.objects.filter(user=user)
+        serializer = serializer(qs, many=True)
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+    elif request.method == "PATCH":
+        data = request.data
+        data = {field_name: data}
+        serializer = serializers.UserSerializer(user, data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@extend_schema(methods=["PATCH"], request=serializers.UserSkillSerializerNested(many=True))
+@decorators.api_view(["GET", "PATCH"])
+@decorators.permission_classes((permissions.AllowAny,))
+def me_skills_view(request):
+    model_name = "UserSkill"
+    field_name = "skills"
+    return list_skills_langs(request, request.user, model_name=model_name, field_name=field_name)
+
+
+@extend_schema(methods=["PATCH"], request=serializers.UserLanguageSerializerNested(many=True))
+@decorators.api_view(["GET", "PATCH"])
+@decorators.permission_classes((permissions.AllowAny,))
+def me_languages_view(request):
+    model_name = "UserLanguage"
+    field_name = "languages"
+    return list_skills_langs(request, request.user, model_name=model_name, field_name=field_name)
+
+
+@extend_schema(methods=["PATCH"], request=serializers.UserSkillDevelopSerializerNested(many=True))
+@decorators.api_view(["GET", "PATCH"])
+@decorators.permission_classes((permissions.AllowAny,))
+def me_skills_develop_view(request):
+    model_name = "UserSkillDevelop"
+    field_name = "skills_develop"
+    return list_skills_langs(request, request.user, model_name=model_name, field_name=field_name)
+
+
+@extend_schema(methods=["PATCH"], request=serializers.UserSkillSerializerNested(many=True))
+@decorators.api_view(["GET", "PATCH"])
+def user_skills_view(request, user_id):
+    try:
+        user = models.User.objects.get(id=user_id)
+    except models.User.DoesNotExist:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+    model_name = "UserSkill"
+    field_name = "skills"
+    return list_skills_langs(request, user, model_name=model_name, field_name=field_name)
+
+
+@extend_schema(methods=["PATCH"], request=serializers.UserLanguageSerializerNested(many=True))
+@decorators.api_view(["GET", "PATCH"])
+def user_languages_view(request, user_id):
+    try:
+        user = models.User.objects.get(id=user_id)
+    except models.User.DoesNotExist:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+    model_name = "UserLanguage"
+    field_name = "languages"
+    return list_skills_langs(request, user, model_name=model_name, field_name=field_name)
+
+
+@extend_schema(methods=["PATCH"], request=serializers.UserSkillDevelopSerializerNested(many=True))
+@decorators.api_view(["GET", "PATCH"])
+def user_skills_develop_view(request, user_id):
+    try:
+        user = models.User.objects.get(id=user_id)
+    except models.User.DoesNotExist:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+    model_name = "UserSkillDevelop"
+    field_name = "skills_develop"
+    return list_skills_langs(request, user, model_name=model_name, field_name=field_name)
+
+
+def skill_lang_delete(user, id, model_name):
+    """
+    For a given user, delete the skill/language/skill to develop specified by ID.
+    model_name - is UserSkill/UserLanguage/UserSkillDevelop
+    """
+    model_to_delete = getattr(models, model_name)
+    try:
+        item_to_delete = model_to_delete.objects.get(user=user, id=id)
+        item_to_delete.delete()
+        return Response(status=status.HTTP_200_OK)
+    except model_to_delete.DoesNotExist:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+@decorators.api_view(["DELETE"])
+@decorators.permission_classes((permissions.AllowAny,))
+def me_skill_delete_view(request, skill_id):
+    model_name = "UserSkill"
+    return skill_lang_delete(user=request.user, id=skill_id, model_name=model_name)
+
+
+@decorators.api_view(["DELETE"])
+@decorators.permission_classes((permissions.AllowAny,))
+def me_language_delete_view(request, language_id):
+    model_name = "UserLanguage"
+    return skill_lang_delete(user=request.user, id=language_id, model_name=model_name)
+
+
+@decorators.api_view(["DELETE"])
+@decorators.permission_classes((permissions.AllowAny,))
+def me_skill_develop_delete_view(request, skill_develop_id):
+    model_name = "UserSkillDevelop"
+    return skill_lang_delete(user=request.user, id=skill_develop_id, model_name=model_name)
+
+
+@decorators.api_view(["DELETE"])
+def users_skill_delete_view(request, user_id, skill_id):
+    try:
+        user = models.User.objects.get(id=user_id)
+    except models.User.DoesNotExist:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+    model_name = "UserSkill"
+    return skill_lang_delete(user=user, id=skill_id, model_name=model_name)
+
+
+@decorators.api_view(["DELETE"])
+def users_language_delete_view(request, user_id, language_id):
+    try:
+        user = models.User.objects.get(id=user_id)
+    except models.User.DoesNotExist:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+    model_name = "UserLanguage"
+    return skill_lang_delete(user=user, id=language_id, model_name=model_name)
+
+
+@decorators.api_view(["DELETE"])
+def users_skill_develop_delete_view(request, user_id, skill_develop_id):
+    try:
+        user = models.User.objects.get(id=user_id)
+    except models.User.DoesNotExist:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+    model_name = "UserSkillDevelop"
+    return skill_lang_delete(user=user, id=skill_develop_id, model_name=model_name)

@@ -402,3 +402,137 @@ def test_get_skills(client, user_id):
     assert "An existing skill" in data
     assert "A new and exciting skill" in data
     assert "Econometrics" in data
+
+
+def patch_get_delete_skills(client, endpoint_to_test):
+    skills_data = [
+        {"name": "Maths", "level": "Competent", "validated": False},
+        {"name": "Project management", "level": "Beginner", "validated": False},
+        {"name": "Written communication", "level": "Advanced beginner"},
+    ]
+    response = client.get(endpoint_to_test)
+    assert response.status_code == status.HTTP_200_OK
+    assert len(response.json()) == 0
+    response = client.patch(endpoint_to_test, json=skills_data)
+    assert response.status_code == status.HTTP_200_OK
+
+    response = client.get(endpoint_to_test)
+    assert response.status_code == status.HTTP_200_OK
+    data = response.json()
+    assert len(data) == 3, data
+    skill_names = [skill["name"] for skill in data]
+    assert "Maths" in skill_names, skill_names
+    proj_management = list(filter(lambda skill: skill["name"] == "Project management", data))
+    proj_management = proj_management[0]
+    assert proj_management["level"] == "Beginner", proj_management
+    assert not proj_management["validated"], proj_management
+
+    id_to_delete = proj_management["id"]
+    response = client.delete(f"{endpoint_to_test}{id_to_delete}/")
+    assert response.status_code == status.HTTP_200_OK, response
+    incorrect_id = "9adee5d9-b28f-48d2-92bc-1d5ce47eee65"
+    response = client.delete(f"{endpoint_to_test}{incorrect_id}/")
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
+    response = client.get(endpoint_to_test)
+    assert len(response.json()) == 2
+
+
+def patch_get_delete_languages(client, endpoint_to_test):
+    lang_data = [
+        {"name": "French", "speaking_level": "Basic", "writing_level": "Proficient"},
+        {"name": "Arabic", "speaking_level": "Basic", "writing_level": "Basic"},
+        {"name": "Italian", "speaking_level": "Basic", "writing_level": "Basic"},
+    ]
+    response = client.get(endpoint_to_test)
+    assert response.status_code == status.HTTP_200_OK
+    assert len(response.json()) == 0
+    response = client.patch(endpoint_to_test, json=lang_data)
+    assert response.status_code == status.HTTP_200_OK
+
+    response = client.get(endpoint_to_test)
+    assert response.status_code == status.HTTP_200_OK
+    data = response.json()
+    assert len(data) == 3, data
+    lang_names = [lang["name"] for lang in data]
+    assert "French" in lang_names, lang_names
+    arabic = list(filter(lambda skill: skill["name"] == "Arabic", data))
+    arabic = arabic[0]
+    assert arabic["speaking_level"] == "Basic", arabic
+    assert arabic["writing_level"] == "Basic", arabic
+
+    id_to_delete = arabic["id"]
+    response = client.delete(f"{endpoint_to_test}{id_to_delete}/")
+    assert response.status_code == status.HTTP_200_OK, response
+    incorrect_id = "9adee5d9-b28f-48d2-92bc-1d5ce47eee65"
+    response = client.delete(f"{endpoint_to_test}{incorrect_id}/")
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
+    response = client.get(endpoint_to_test)
+    assert len(response.json()) == 2
+
+
+def patch_get_delete_skills_develop(client, endpoint_to_test):
+    skills_data = [
+        {"name": "Maths"},
+        {"name": "Project management"},
+        {"name": "Written communication"},
+    ]
+    response = client.get(endpoint_to_test)
+    assert response.status_code == status.HTTP_200_OK
+    assert len(response.json()) == 0
+    response = client.patch(endpoint_to_test, json=skills_data)
+    assert response.status_code == status.HTTP_200_OK
+
+    response = client.get(endpoint_to_test)
+    assert response.status_code == status.HTTP_200_OK
+    data = response.json()
+    assert len(data) == 3, data
+    skill_names = [skill["name"] for skill in data]
+    assert "Maths" in skill_names, skill_names
+
+    id_to_delete = data[0]["id"]
+    response = client.delete(f"{endpoint_to_test}{id_to_delete}/")
+    assert response.status_code == status.HTTP_200_OK, response
+    incorrect_id = "9adee5d9-b28f-48d2-92bc-1d5ce47eee65"
+    response = client.delete(f"{endpoint_to_test}{incorrect_id}/")
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
+    response = client.get(endpoint_to_test)
+    assert len(response.json()) == 2
+
+
+@utils.with_logged_in_client
+def test_user_patch_get_delete_skills(client, user_id):
+    endpoint_to_test = f"/users/{user_id}/skills/"
+    patch_get_delete_skills(client, endpoint_to_test)
+    incorrect_id = "9adee5d9-b28f-48d2-92bc-1d5ce47eee65"
+    response = client.get(f"/users/{incorrect_id}/skills/")
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
+
+
+@utils.with_logged_in_client
+def test_me_patch_get_delete_skills(client, user_id):
+    endpoint_to_test = "/me/skills/"
+    patch_get_delete_skills(client, endpoint_to_test)
+
+
+@utils.with_logged_in_client
+def test_user_patch_get_delete_languages(client, user_id):
+    endpoint_to_test = f"/users/{user_id}/languages/"
+    patch_get_delete_languages(client, endpoint_to_test)
+
+
+@utils.with_logged_in_client
+def test_me_patch_get_delete_languages(client, user_id):
+    endpoint_to_test = "/me/languages/"
+    patch_get_delete_languages(client, endpoint_to_test)
+
+
+@utils.with_logged_in_client
+def test_user_patch_get_delete_skills_develop(client, user_id):
+    endpoint_to_test = f"/users/{user_id}/skills-develop/"
+    patch_get_delete_skills_develop(client, endpoint_to_test)
+
+
+@utils.with_logged_in_client
+def test_me_patch_get_delete_skills_develop(client, user_id):
+    endpoint_to_test = "/me/skills-develop/"
+    patch_get_delete_skills_develop(client, endpoint_to_test)
