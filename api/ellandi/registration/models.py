@@ -66,7 +66,11 @@ class Grade(DropDownListModel):
 
 
 class LanguageSkillLevel(DropDownListModel):
+    order = models.PositiveSmallIntegerField(null=True)
     description = models.CharField(max_length=255, blank=True, null=True, default="")
+
+    class Meta:
+        ordering = ["order"]
 
 
 class Country(DropDownListModel):
@@ -200,6 +204,7 @@ class UserLanguage(TimeStampedModel):
         BASIC = ("Basic", "Basic")
         INDEPENDENT = ("Independent", "Independent")
         PROFICIENT = ("Proficient", "Proficient")
+        NONE = ("None", "None")
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, related_name="languages", on_delete=models.CASCADE)
