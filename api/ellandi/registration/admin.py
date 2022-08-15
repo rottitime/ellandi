@@ -98,7 +98,7 @@ class UserAdmin(django.contrib.auth.admin.UserAdmin):
             },
         ),
     )
-    inlines = [UserSkillInline, UserLanguageInline]
+    inlines = [UserSkillInline, UserLanguageInline, UserSkillDevelopInline]
     readonly_fields = ("id", "created_at", "modified_at", "professions")
     list_display = ("email", "first_name", "last_name")
 
