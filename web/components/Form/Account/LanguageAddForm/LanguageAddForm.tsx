@@ -2,8 +2,6 @@ import {
   FormHelperText,
   IconButton,
   Skeleton,
-  styled,
-  Box,
   Table,
   TableHead,
   TableRow,
@@ -15,12 +13,7 @@ import {
   MenuItem
 } from '@mui/material'
 import { GenericDataList, Query, LanguageType, LanguagesType } from '@/service/types'
-import {
-  fetchLanguages,
-  fetchLanguageSkillLevels,
-  fetchSkillLevels,
-  fetchSkills
-} from '@/service/api'
+import { fetchLanguages, fetchLanguageSkillLevels } from '@/service/api'
 import { FC } from 'react'
 import { useQuery } from 'react-query'
 import { Controller, FormProvider, useFieldArray, useForm } from 'react-hook-form'
@@ -30,24 +23,6 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Props } from './types'
 import Icon from '@/components/Icon/Icon'
 import Button from '@/components/UI/Button/Button'
-import { Cancel } from '@mui/icons-material'
-
-const Row = styled(Field)`
-  display: flex;
-  gap: ${(p) => p.theme.spacing(3)};
-  .creatable-autocomplete {
-    width: 350px;
-  }
-  .button-remove {
-    color: ${(p) => p.theme.palette.text.primary};
-    margin-left: auto;
-  }
-  .MuiFormGroup-root {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-  }
-`
 
 const fornName: keyof LanguagesType = 'languages'
 
