@@ -9,9 +9,7 @@ const defaultError = 'Sorry, there is a problem with the service. Try again late
 export const updateUser = async (id: string, data: Partial<RegisterUserResponse>) => {
   const res: Response = await fetch(`${publicRuntimeConfig.apiUrl}/users/${id}/`, {
     method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json'
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)
   })
   if (res.ok) return res.json()
