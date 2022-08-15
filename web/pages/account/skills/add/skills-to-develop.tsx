@@ -32,7 +32,7 @@ const SkillsAddDevelopPage = () => {
       <AccountCard
         header={
           <Typography variant="subtitle1" component="h2">
-            <BadgeNumber label="2" sx={{ mr: 2 }} /> Skill name and levels
+            <BadgeNumber label="2" sx={{ mr: 2 }} /> Skill you'd like to develop
           </Typography>
         }
       >
