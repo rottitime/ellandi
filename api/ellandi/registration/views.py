@@ -116,6 +116,12 @@ class FunctionViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = serializers.FunctionSerializer
 
 
+@register("skill-levels")
+class SkillViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.SkillLevel.objects.all().order_by("order")
+    serializer_class = serializers.SkillLevelSerializer
+
+
 @extend_schema(
     request=serializers.RegisterSerializer,
     responses=serializers.UserSerializer,
@@ -134,8 +140,10 @@ def register_view(request):
 
 @decorators.api_view(["GET"])
 def skills_list_view(request):
-    skills = set(models.UserSkill.objects.all().values_list("name", flat=True))
-    skills = initial_data.INITIAL_SKILLS.union(skills)
+    existing_skills = set(models.UserSkill.objects.all().values_list("name", flat=True))
+    skills_to_develop = set(models.UserSkillDevelop.objects.all().values_list("name", flat=True))
+    skills = initial_data.INITIAL_SKILLS.union(existing_skills)
+    skills = skills.union(skills_to_develop)
     return Response(skills)
 
 
