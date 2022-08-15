@@ -44,9 +44,6 @@ const Tabs: FC<Props> = ({
   const id = useId()
 
   useEffect(() => {
-    // console.log({
-    //   pathname: window.location.pathname
-    // })
     const active: number = tabItems.findIndex((item) =>
       activeOnUrl
         ? item.href?.toLowerCase() === window.location.pathname.toLowerCase()
