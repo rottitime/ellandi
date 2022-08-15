@@ -12,6 +12,7 @@ import Form from '@/components/Form/Register/FormRegister/FormRegister'
 import { Field } from '../Field/Field'
 
 const skillSchema: SchemaOf<SkillDevelopType> = object({
+  id: string().nullable(),
   name: string().required('This is a required field')
 })
 
