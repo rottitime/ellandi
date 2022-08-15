@@ -62,21 +62,21 @@ const ProfessionForm: FC<StandardRegisterProps<ProfessionType>> = (props) => {
     <FormProvider {...methods}>
       <Form {...props} submitDisabled>
         <Typography variant="subtitle1" gutterBottom>
-          Select the Profession(s) that you belong to. You may choose more than one
-        </Typography>
-
-        <Typography gutterBottom>
-          We'll use this to suggest learning opportunities that are relevant to you
+          Select the profession(s) that you belong to. You may choose more than one
         </Typography>
 
         {isLoading
           ? [...Array(22).keys()].map((i) => (
               <Skeleton key={i} width={100} sx={{ m: 1 }} />
             ))
-          : [...data].map(({ name }) => (
+          : [...data].map(({ name, slug }) => (
               <Box sx={{ mb: 1 }} key={name}>
                 <ToggleChip
-                  avatar={<Avatar>{name.charAt(0).toUpperCase()}</Avatar>}
+                  avatar={
+                    <Avatar>
+                      {slug === 'i-dont-know' ? '?' : name.charAt(0).toUpperCase()}
+                    </Avatar>
+                  }
                   active={getValues(fieldName).includes(name)}
                   label={name}
                   onToggle={async () => {
