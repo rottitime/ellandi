@@ -54,60 +54,70 @@ class UserSkillDevelopViewSet(viewsets.ModelViewSet):
 class OrganisationViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Organisation.objects.all().order_by("name")
     serializer_class = serializers.OrganisationSerializer
+    permission_classes = (permissions.AllowAny,)
 
 
 @register("contract-types")
 class ContractTypeViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.ContractType.objects.all().order_by("order")
     serializer_class = serializers.ContractTypeSerializer
+    permission_classes = (permissions.AllowAny,)
 
 
 @register("locations")
 class LocationViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Location.objects.all().order_by("name")
     serializer_class = serializers.LocationSerializer
+    permission_classes = (permissions.AllowAny,)
 
 
 @register("languages")
 class LanguageViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Language.objects.all().order_by("name")
     serializer_class = serializers.LanguageSerializer
+    permission_classes = (permissions.AllowAny,)
 
 
 @register("professions")
 class ProfessionViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Profession.objects.all().order_by("order")
     serializer_class = serializers.ProfessionSerializer
+    permission_classes = (permissions.AllowAny,)
 
 
 @register("grades")
 class GradeViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Grade.objects.all().order_by("order")
     serializer_class = serializers.GradeSerializer
+    permission_classes = (permissions.AllowAny,)
 
 
 @register("language-skill-levels")
 class LanguageSkillLevelViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.LanguageSkillLevel.objects.all().order_by("name")
     serializer_class = serializers.LanguageSkillLevelSerializer
+    permission_classes = (permissions.AllowAny,)
 
 
 @register("countries")
 class CountryViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Country.objects.all().order_by("name")
     serializer_class = serializers.CountrySerializer
+    permission_classes = (permissions.AllowAny,)
 
 
 @register("functions")
 class FunctionViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Function.objects.all().order_by("order")
     serializer_class = serializers.FunctionSerializer
+    permission_classes = (permissions.AllowAny,)
 
 
 @register("skill-levels")
 class SkillViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.SkillLevel.objects.all().order_by("order")
     serializer_class = serializers.SkillLevelSerializer
+    permission_classes = (permissions.AllowAny,)
 
 
 @extend_schema(
