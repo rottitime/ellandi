@@ -1,1 +1,1562 @@
-[{"model": "registration.country", "pk": "afghanistan", "fields": {"name": "Afghanistan"}}, {"model": "registration.country", "pk": "albania", "fields": {"name": "Albania"}}, {"model": "registration.country", "pk": "algeria", "fields": {"name": "Algeria"}}, {"model": "registration.country", "pk": "andorra", "fields": {"name": "Andorra"}}, {"model": "registration.country", "pk": "angola", "fields": {"name": "Angola"}}, {"model": "registration.country", "pk": "antigua-and-barbuda", "fields": {"name": "Antigua and Barbuda"}}, {"model": "registration.country", "pk": "argentina", "fields": {"name": "Argentina"}}, {"model": "registration.country", "pk": "armenia", "fields": {"name": "Armenia"}}, {"model": "registration.country", "pk": "australia", "fields": {"name": "Australia"}}, {"model": "registration.country", "pk": "austria", "fields": {"name": "Austria"}}, {"model": "registration.country", "pk": "azerbaijan", "fields": {"name": "Azerbaijan"}}, {"model": "registration.country", "pk": "bahrain", "fields": {"name": "Bahrain"}}, {"model": "registration.country", "pk": "bangladesh", "fields": {"name": "Bangladesh"}}, {"model": "registration.country", "pk": "barbados", "fields": {"name": "Barbados"}}, {"model": "registration.country", "pk": "belarus", "fields": {"name": "Belarus"}}, {"model": "registration.country", "pk": "belgium", "fields": {"name": "Belgium"}}, {"model": "registration.country", "pk": "belize", "fields": {"name": "Belize"}}, {"model": "registration.country", "pk": "benin", "fields": {"name": "Benin"}}, {"model": "registration.country", "pk": "bhutan", "fields": {"name": "Bhutan"}}, {"model": "registration.country", "pk": "bolivia", "fields": {"name": "Bolivia"}}, {"model": "registration.country", "pk": "bosnia-and-herzegovina", "fields": {"name": "Bosnia and Herzegovina"}}, {"model": "registration.country", "pk": "botswana", "fields": {"name": "Botswana"}}, {"model": "registration.country", "pk": "brazil", "fields": {"name": "Brazil"}}, {"model": "registration.country", "pk": "brunei", "fields": {"name": "Brunei"}}, {"model": "registration.country", "pk": "bulgaria", "fields": {"name": "Bulgaria"}}, {"model": "registration.country", "pk": "burkina-faso", "fields": {"name": "Burkina Faso"}}, {"model": "registration.country", "pk": "burundi", "fields": {"name": "Burundi"}}, {"model": "registration.country", "pk": "cambodia", "fields": {"name": "Cambodia"}}, {"model": "registration.country", "pk": "cameroon", "fields": {"name": "Cameroon"}}, {"model": "registration.country", "pk": "canada", "fields": {"name": "Canada"}}, {"model": "registration.country", "pk": "cape-verde", "fields": {"name": "Cape Verde"}}, {"model": "registration.country", "pk": "central-african-republic", "fields": {"name": "Central African Republic"}}, {"model": "registration.country", "pk": "chad", "fields": {"name": "Chad"}}, {"model": "registration.country", "pk": "chile", "fields": {"name": "Chile"}}, {"model": "registration.country", "pk": "china", "fields": {"name": "China"}}, {"model": "registration.country", "pk": "colombia", "fields": {"name": "Colombia"}}, {"model": "registration.country", "pk": "comoros", "fields": {"name": "Comoros"}}, {"model": "registration.country", "pk": "congo", "fields": {"name": "Congo"}}, {"model": "registration.country", "pk": "congo-democratic-republic", "fields": {"name": "Congo (Democratic Republic)"}}, {"model": "registration.country", "pk": "costa-rica", "fields": {"name": "Costa Rica"}}, {"model": "registration.country", "pk": "croatia", "fields": {"name": "Croatia"}}, {"model": "registration.country", "pk": "cuba", "fields": {"name": "Cuba"}}, {"model": "registration.country", "pk": "cyprus", "fields": {"name": "Cyprus"}}, {"model": "registration.country", "pk": "czechia", "fields": {"name": "Czechia"}}, {"model": "registration.country", "pk": "denmark", "fields": {"name": "Denmark"}}, {"model": "registration.country", "pk": "djibouti", "fields": {"name": "Djibouti"}}, {"model": "registration.country", "pk": "dominica", "fields": {"name": "Dominica"}}, {"model": "registration.country", "pk": "dominican-republic", "fields": {"name": "Dominican Republic"}}, {"model": "registration.country", "pk": "east-timor", "fields": {"name": "East Timor"}}, {"model": "registration.country", "pk": "ecuador", "fields": {"name": "Ecuador"}}, {"model": "registration.country", "pk": "egypt", "fields": {"name": "Egypt"}}, {"model": "registration.country", "pk": "el-salvador", "fields": {"name": "El Salvador"}}, {"model": "registration.country", "pk": "equatorial-guinea", "fields": {"name": "Equatorial Guinea"}}, {"model": "registration.country", "pk": "eritrea", "fields": {"name": "Eritrea"}}, {"model": "registration.country", "pk": "estonia", "fields": {"name": "Estonia"}}, {"model": "registration.country", "pk": "eswatini", "fields": {"name": "Eswatini"}}, {"model": "registration.country", "pk": "ethiopia", "fields": {"name": "Ethiopia"}}, {"model": "registration.country", "pk": "fiji", "fields": {"name": "Fiji"}}, {"model": "registration.country", "pk": "finland", "fields": {"name": "Finland"}}, {"model": "registration.country", "pk": "france", "fields": {"name": "France"}}, {"model": "registration.country", "pk": "gabon", "fields": {"name": "Gabon"}}, {"model": "registration.country", "pk": "georgia", "fields": {"name": "Georgia"}}, {"model": "registration.country", "pk": "germany", "fields": {"name": "Germany"}}, {"model": "registration.country", "pk": "ghana", "fields": {"name": "Ghana"}}, {"model": "registration.country", "pk": "greece", "fields": {"name": "Greece"}}, {"model": "registration.country", "pk": "grenada", "fields": {"name": "Grenada"}}, {"model": "registration.country", "pk": "guatemala", "fields": {"name": "Guatemala"}}, {"model": "registration.country", "pk": "guinea", "fields": {"name": "Guinea"}}, {"model": "registration.country", "pk": "guinea-bissau", "fields": {"name": "Guinea-Bissau"}}, {"model": "registration.country", "pk": "guyana", "fields": {"name": "Guyana"}}, {"model": "registration.country", "pk": "haiti", "fields": {"name": "Haiti"}}, {"model": "registration.country", "pk": "honduras", "fields": {"name": "Honduras"}}, {"model": "registration.country", "pk": "hungary", "fields": {"name": "Hungary"}}, {"model": "registration.country", "pk": "iceland", "fields": {"name": "Iceland"}}, {"model": "registration.country", "pk": "india", "fields": {"name": "India"}}, {"model": "registration.country", "pk": "indonesia", "fields": {"name": "Indonesia"}}, {"model": "registration.country", "pk": "iran", "fields": {"name": "Iran"}}, {"model": "registration.country", "pk": "iraq", "fields": {"name": "Iraq"}}, {"model": "registration.country", "pk": "ireland", "fields": {"name": "Ireland"}}, {"model": "registration.country", "pk": "israel", "fields": {"name": "Israel"}}, {"model": "registration.country", "pk": "italy", "fields": {"name": "Italy"}}, {"model": "registration.country", "pk": "ivory-coast", "fields": {"name": "Ivory Coast"}}, {"model": "registration.country", "pk": "jamaica", "fields": {"name": "Jamaica"}}, {"model": "registration.country", "pk": "japan", "fields": {"name": "Japan"}}, {"model": "registration.country", "pk": "jordan", "fields": {"name": "Jordan"}}, {"model": "registration.country", "pk": "kazakhstan", "fields": {"name": "Kazakhstan"}}, {"model": "registration.country", "pk": "kenya", "fields": {"name": "Kenya"}}, {"model": "registration.country", "pk": "kiribati", "fields": {"name": "Kiribati"}}, {"model": "registration.country", "pk": "kosovo", "fields": {"name": "Kosovo"}}, {"model": "registration.country", "pk": "kuwait", "fields": {"name": "Kuwait"}}, {"model": "registration.country", "pk": "kyrgyzstan", "fields": {"name": "Kyrgyzstan"}}, {"model": "registration.country", "pk": "laos", "fields": {"name": "Laos"}}, {"model": "registration.country", "pk": "latvia", "fields": {"name": "Latvia"}}, {"model": "registration.country", "pk": "lebanon", "fields": {"name": "Lebanon"}}, {"model": "registration.country", "pk": "lesotho", "fields": {"name": "Lesotho"}}, {"model": "registration.country", "pk": "liberia", "fields": {"name": "Liberia"}}, {"model": "registration.country", "pk": "libya", "fields": {"name": "Libya"}}, {"model": "registration.country", "pk": "liechtenstein", "fields": {"name": "Liechtenstein"}}, {"model": "registration.country", "pk": "lithuania", "fields": {"name": "Lithuania"}}, {"model": "registration.country", "pk": "luxembourg", "fields": {"name": "Luxembourg"}}, {"model": "registration.country", "pk": "madagascar", "fields": {"name": "Madagascar"}}, {"model": "registration.country", "pk": "malawi", "fields": {"name": "Malawi"}}, {"model": "registration.country", "pk": "malaysia", "fields": {"name": "Malaysia"}}, {"model": "registration.country", "pk": "maldives", "fields": {"name": "Maldives"}}, {"model": "registration.country", "pk": "mali", "fields": {"name": "Mali"}}, {"model": "registration.country", "pk": "malta", "fields": {"name": "Malta"}}, {"model": "registration.country", "pk": "marshall-islands", "fields": {"name": "Marshall Islands"}}, {"model": "registration.country", "pk": "mauritania", "fields": {"name": "Mauritania"}}, {"model": "registration.country", "pk": "mauritius", "fields": {"name": "Mauritius"}}, {"model": "registration.country", "pk": "mexico", "fields": {"name": "Mexico"}}, {"model": "registration.country", "pk": "micronesia", "fields": {"name": "Micronesia"}}, {"model": "registration.country", "pk": "moldova", "fields": {"name": "Moldova"}}, {"model": "registration.country", "pk": "monaco", "fields": {"name": "Monaco"}}, {"model": "registration.country", "pk": "mongolia", "fields": {"name": "Mongolia"}}, {"model": "registration.country", "pk": "montenegro", "fields": {"name": "Montenegro"}}, {"model": "registration.country", "pk": "morocco", "fields": {"name": "Morocco"}}, {"model": "registration.country", "pk": "mozambique", "fields": {"name": "Mozambique"}}, {"model": "registration.country", "pk": "myanmar-burma", "fields": {"name": "Myanmar (Burma)"}}, {"model": "registration.country", "pk": "namibia", "fields": {"name": "Namibia"}}, {"model": "registration.country", "pk": "nauru", "fields": {"name": "Nauru"}}, {"model": "registration.country", "pk": "nepal", "fields": {"name": "Nepal"}}, {"model": "registration.country", "pk": "netherlands", "fields": {"name": "Netherlands"}}, {"model": "registration.country", "pk": "new-zealand", "fields": {"name": "New Zealand"}}, {"model": "registration.country", "pk": "nicaragua", "fields": {"name": "Nicaragua"}}, {"model": "registration.country", "pk": "niger", "fields": {"name": "Niger"}}, {"model": "registration.country", "pk": "nigeria", "fields": {"name": "Nigeria"}}, {"model": "registration.country", "pk": "north-korea", "fields": {"name": "North Korea"}}, {"model": "registration.country", "pk": "north-macedonia", "fields": {"name": "North Macedonia"}}, {"model": "registration.country", "pk": "norway", "fields": {"name": "Norway"}}, {"model": "registration.country", "pk": "oman", "fields": {"name": "Oman"}}, {"model": "registration.country", "pk": "pakistan", "fields": {"name": "Pakistan"}}, {"model": "registration.country", "pk": "palau", "fields": {"name": "Palau"}}, {"model": "registration.country", "pk": "panama", "fields": {"name": "Panama"}}, {"model": "registration.country", "pk": "papua-new-guinea", "fields": {"name": "Papua New Guinea"}}, {"model": "registration.country", "pk": "paraguay", "fields": {"name": "Paraguay"}}, {"model": "registration.country", "pk": "peru", "fields": {"name": "Peru"}}, {"model": "registration.country", "pk": "philippines", "fields": {"name": "Philippines"}}, {"model": "registration.country", "pk": "poland", "fields": {"name": "Poland"}}, {"model": "registration.country", "pk": "portugal", "fields": {"name": "Portugal"}}, {"model": "registration.country", "pk": "qatar", "fields": {"name": "Qatar"}}, {"model": "registration.country", "pk": "romania", "fields": {"name": "Romania"}}, {"model": "registration.country", "pk": "russia", "fields": {"name": "Russia"}}, {"model": "registration.country", "pk": "rwanda", "fields": {"name": "Rwanda"}}, {"model": "registration.country", "pk": "samoa", "fields": {"name": "Samoa"}}, {"model": "registration.country", "pk": "san-marino", "fields": {"name": "San Marino"}}, {"model": "registration.country", "pk": "sao-tome-and-principe", "fields": {"name": "Sao Tome and Principe"}}, {"model": "registration.country", "pk": "saudi-arabia", "fields": {"name": "Saudi Arabia"}}, {"model": "registration.country", "pk": "senegal", "fields": {"name": "Senegal"}}, {"model": "registration.country", "pk": "serbia", "fields": {"name": "Serbia"}}, {"model": "registration.country", "pk": "seychelles", "fields": {"name": "Seychelles"}}, {"model": "registration.country", "pk": "sierra-leone", "fields": {"name": "Sierra Leone"}}, {"model": "registration.country", "pk": "singapore", "fields": {"name": "Singapore"}}, {"model": "registration.country", "pk": "slovakia", "fields": {"name": "Slovakia"}}, {"model": "registration.country", "pk": "slovenia", "fields": {"name": "Slovenia"}}, {"model": "registration.country", "pk": "solomon-islands", "fields": {"name": "Solomon Islands"}}, {"model": "registration.country", "pk": "somalia", "fields": {"name": "Somalia"}}, {"model": "registration.country", "pk": "south-africa", "fields": {"name": "South Africa"}}, {"model": "registration.country", "pk": "south-korea", "fields": {"name": "South Korea"}}, {"model": "registration.country", "pk": "south-sudan", "fields": {"name": "South Sudan"}}, {"model": "registration.country", "pk": "spain", "fields": {"name": "Spain"}}, {"model": "registration.country", "pk": "sri-lanka", "fields": {"name": "Sri Lanka"}}, {"model": "registration.country", "pk": "st-kitts-and-nevis", "fields": {"name": "St Kitts and Nevis"}}, {"model": "registration.country", "pk": "st-lucia", "fields": {"name": "St Lucia"}}, {"model": "registration.country", "pk": "st-vincent", "fields": {"name": "St Vincent"}}, {"model": "registration.country", "pk": "sudan", "fields": {"name": "Sudan"}}, {"model": "registration.country", "pk": "suriname", "fields": {"name": "Suriname"}}, {"model": "registration.country", "pk": "sweden", "fields": {"name": "Sweden"}}, {"model": "registration.country", "pk": "switzerland", "fields": {"name": "Switzerland"}}, {"model": "registration.country", "pk": "syria", "fields": {"name": "Syria"}}, {"model": "registration.country", "pk": "tajikistan", "fields": {"name": "Tajikistan"}}, {"model": "registration.country", "pk": "tanzania", "fields": {"name": "Tanzania"}}, {"model": "registration.country", "pk": "thailand", "fields": {"name": "Thailand"}}, {"model": "registration.country", "pk": "the-bahamas", "fields": {"name": "The Bahamas"}}, {"model": "registration.country", "pk": "the-gambia", "fields": {"name": "The Gambia"}}, {"model": "registration.country", "pk": "togo", "fields": {"name": "Togo"}}, {"model": "registration.country", "pk": "tonga", "fields": {"name": "Tonga"}}, {"model": "registration.country", "pk": "trinidad-and-tobago", "fields": {"name": "Trinidad and Tobago"}}, {"model": "registration.country", "pk": "tunisia", "fields": {"name": "Tunisia"}}, {"model": "registration.country", "pk": "turkey", "fields": {"name": "Turkey"}}, {"model": "registration.country", "pk": "turkmenistan", "fields": {"name": "Turkmenistan"}}, {"model": "registration.country", "pk": "tuvalu", "fields": {"name": "Tuvalu"}}, {"model": "registration.country", "pk": "uganda", "fields": {"name": "Uganda"}}, {"model": "registration.country", "pk": "ukraine", "fields": {"name": "Ukraine"}}, {"model": "registration.country", "pk": "united-arab-emirates", "fields": {"name": "United Arab Emirates"}}, {"model": "registration.country", "pk": "united-kingdom", "fields": {"name": "United Kingdom"}}, {"model": "registration.country", "pk": "united-states", "fields": {"name": "United States"}}, {"model": "registration.country", "pk": "uruguay", "fields": {"name": "Uruguay"}}, {"model": "registration.country", "pk": "uzbekistan", "fields": {"name": "Uzbekistan"}}, {"model": "registration.country", "pk": "vanuatu", "fields": {"name": "Vanuatu"}}, {"model": "registration.country", "pk": "vatican-city", "fields": {"name": "Vatican City"}}, {"model": "registration.country", "pk": "venezuela", "fields": {"name": "Venezuela"}}, {"model": "registration.country", "pk": "vietnam", "fields": {"name": "Vietnam"}}, {"model": "registration.country", "pk": "yemen", "fields": {"name": "Yemen"}}, {"model": "registration.country", "pk": "zambia", "fields": {"name": "Zambia"}}, {"model": "registration.country", "pk": "zimbabwe", "fields": {"name": "Zimbabwe"}}]
+[
+{
+  "model": "registration.country",
+  "pk": "afghanistan",
+  "fields": {
+    "name": "Afghanistan",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "albania",
+  "fields": {
+    "name": "Albania",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "algeria",
+  "fields": {
+    "name": "Algeria",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "andorra",
+  "fields": {
+    "name": "Andorra",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "angola",
+  "fields": {
+    "name": "Angola",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "antigua-and-barbuda",
+  "fields": {
+    "name": "Antigua and Barbuda",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "argentina",
+  "fields": {
+    "name": "Argentina",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "armenia",
+  "fields": {
+    "name": "Armenia",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "australia",
+  "fields": {
+    "name": "Australia",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "austria",
+  "fields": {
+    "name": "Austria",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "azerbaijan",
+  "fields": {
+    "name": "Azerbaijan",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "bahrain",
+  "fields": {
+    "name": "Bahrain",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "bangladesh",
+  "fields": {
+    "name": "Bangladesh",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "barbados",
+  "fields": {
+    "name": "Barbados",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "belarus",
+  "fields": {
+    "name": "Belarus",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "belgium",
+  "fields": {
+    "name": "Belgium",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "belize",
+  "fields": {
+    "name": "Belize",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "benin",
+  "fields": {
+    "name": "Benin",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "bhutan",
+  "fields": {
+    "name": "Bhutan",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "bolivia",
+  "fields": {
+    "name": "Bolivia",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "bosnia-and-herzegovina",
+  "fields": {
+    "name": "Bosnia and Herzegovina",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "botswana",
+  "fields": {
+    "name": "Botswana",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "brazil",
+  "fields": {
+    "name": "Brazil",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "brunei",
+  "fields": {
+    "name": "Brunei",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "bulgaria",
+  "fields": {
+    "name": "Bulgaria",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "burkina-faso",
+  "fields": {
+    "name": "Burkina Faso",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "burundi",
+  "fields": {
+    "name": "Burundi",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "cambodia",
+  "fields": {
+    "name": "Cambodia",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "cameroon",
+  "fields": {
+    "name": "Cameroon",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "canada",
+  "fields": {
+    "name": "Canada",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "cape-verde",
+  "fields": {
+    "name": "Cape Verde",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "central-african-republic",
+  "fields": {
+    "name": "Central African Republic",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "chad",
+  "fields": {
+    "name": "Chad",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "chile",
+  "fields": {
+    "name": "Chile",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "china",
+  "fields": {
+    "name": "China",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "colombia",
+  "fields": {
+    "name": "Colombia",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "comoros",
+  "fields": {
+    "name": "Comoros",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "congo",
+  "fields": {
+    "name": "Congo",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "congo-democratic-republic",
+  "fields": {
+    "name": "Congo (Democratic Republic)",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "costa-rica",
+  "fields": {
+    "name": "Costa Rica",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "croatia",
+  "fields": {
+    "name": "Croatia",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "cuba",
+  "fields": {
+    "name": "Cuba",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "cyprus",
+  "fields": {
+    "name": "Cyprus",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "czechia",
+  "fields": {
+    "name": "Czechia",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "denmark",
+  "fields": {
+    "name": "Denmark",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "djibouti",
+  "fields": {
+    "name": "Djibouti",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "dominica",
+  "fields": {
+    "name": "Dominica",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "dominican-republic",
+  "fields": {
+    "name": "Dominican Republic",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "east-timor",
+  "fields": {
+    "name": "East Timor",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "ecuador",
+  "fields": {
+    "name": "Ecuador",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "egypt",
+  "fields": {
+    "name": "Egypt",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "el-salvador",
+  "fields": {
+    "name": "El Salvador",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "equatorial-guinea",
+  "fields": {
+    "name": "Equatorial Guinea",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "eritrea",
+  "fields": {
+    "name": "Eritrea",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "estonia",
+  "fields": {
+    "name": "Estonia",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "eswatini",
+  "fields": {
+    "name": "Eswatini",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "ethiopia",
+  "fields": {
+    "name": "Ethiopia",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "fiji",
+  "fields": {
+    "name": "Fiji",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "finland",
+  "fields": {
+    "name": "Finland",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "france",
+  "fields": {
+    "name": "France",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "gabon",
+  "fields": {
+    "name": "Gabon",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "georgia",
+  "fields": {
+    "name": "Georgia",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "germany",
+  "fields": {
+    "name": "Germany",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "ghana",
+  "fields": {
+    "name": "Ghana",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "greece",
+  "fields": {
+    "name": "Greece",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "grenada",
+  "fields": {
+    "name": "Grenada",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "guatemala",
+  "fields": {
+    "name": "Guatemala",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "guinea",
+  "fields": {
+    "name": "Guinea",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "guinea-bissau",
+  "fields": {
+    "name": "Guinea-Bissau",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "guyana",
+  "fields": {
+    "name": "Guyana",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "haiti",
+  "fields": {
+    "name": "Haiti",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "honduras",
+  "fields": {
+    "name": "Honduras",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "hungary",
+  "fields": {
+    "name": "Hungary",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "iceland",
+  "fields": {
+    "name": "Iceland",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "india",
+  "fields": {
+    "name": "India",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "indonesia",
+  "fields": {
+    "name": "Indonesia",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "iran",
+  "fields": {
+    "name": "Iran",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "iraq",
+  "fields": {
+    "name": "Iraq",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "ireland",
+  "fields": {
+    "name": "Ireland",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "israel",
+  "fields": {
+    "name": "Israel",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "italy",
+  "fields": {
+    "name": "Italy",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "ivory-coast",
+  "fields": {
+    "name": "Ivory Coast",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "jamaica",
+  "fields": {
+    "name": "Jamaica",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "japan",
+  "fields": {
+    "name": "Japan",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "jordan",
+  "fields": {
+    "name": "Jordan",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "kazakhstan",
+  "fields": {
+    "name": "Kazakhstan",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "kenya",
+  "fields": {
+    "name": "Kenya",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "kiribati",
+  "fields": {
+    "name": "Kiribati",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "kosovo",
+  "fields": {
+    "name": "Kosovo",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "kuwait",
+  "fields": {
+    "name": "Kuwait",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "kyrgyzstan",
+  "fields": {
+    "name": "Kyrgyzstan",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "laos",
+  "fields": {
+    "name": "Laos",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "latvia",
+  "fields": {
+    "name": "Latvia",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "lebanon",
+  "fields": {
+    "name": "Lebanon",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "lesotho",
+  "fields": {
+    "name": "Lesotho",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "liberia",
+  "fields": {
+    "name": "Liberia",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "libya",
+  "fields": {
+    "name": "Libya",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "liechtenstein",
+  "fields": {
+    "name": "Liechtenstein",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "lithuania",
+  "fields": {
+    "name": "Lithuania",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "luxembourg",
+  "fields": {
+    "name": "Luxembourg",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "madagascar",
+  "fields": {
+    "name": "Madagascar",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "malawi",
+  "fields": {
+    "name": "Malawi",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "malaysia",
+  "fields": {
+    "name": "Malaysia",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "maldives",
+  "fields": {
+    "name": "Maldives",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "mali",
+  "fields": {
+    "name": "Mali",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "malta",
+  "fields": {
+    "name": "Malta",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "marshall-islands",
+  "fields": {
+    "name": "Marshall Islands",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "mauritania",
+  "fields": {
+    "name": "Mauritania",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "mauritius",
+  "fields": {
+    "name": "Mauritius",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "mexico",
+  "fields": {
+    "name": "Mexico",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "micronesia",
+  "fields": {
+    "name": "Micronesia",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "moldova",
+  "fields": {
+    "name": "Moldova",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "monaco",
+  "fields": {
+    "name": "Monaco",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "mongolia",
+  "fields": {
+    "name": "Mongolia",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "montenegro",
+  "fields": {
+    "name": "Montenegro",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "morocco",
+  "fields": {
+    "name": "Morocco",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "mozambique",
+  "fields": {
+    "name": "Mozambique",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "myanmar-burma",
+  "fields": {
+    "name": "Myanmar (Burma)",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "namibia",
+  "fields": {
+    "name": "Namibia",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "nauru",
+  "fields": {
+    "name": "Nauru",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "nepal",
+  "fields": {
+    "name": "Nepal",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "netherlands",
+  "fields": {
+    "name": "Netherlands",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "new-zealand",
+  "fields": {
+    "name": "New Zealand",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "nicaragua",
+  "fields": {
+    "name": "Nicaragua",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "niger",
+  "fields": {
+    "name": "Niger",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "nigeria",
+  "fields": {
+    "name": "Nigeria",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "north-korea",
+  "fields": {
+    "name": "North Korea",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "north-macedonia",
+  "fields": {
+    "name": "North Macedonia",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "norway",
+  "fields": {
+    "name": "Norway",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "oman",
+  "fields": {
+    "name": "Oman",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "pakistan",
+  "fields": {
+    "name": "Pakistan",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "palau",
+  "fields": {
+    "name": "Palau",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "panama",
+  "fields": {
+    "name": "Panama",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "papua-new-guinea",
+  "fields": {
+    "name": "Papua New Guinea",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "paraguay",
+  "fields": {
+    "name": "Paraguay",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "peru",
+  "fields": {
+    "name": "Peru",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "philippines",
+  "fields": {
+    "name": "Philippines",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "poland",
+  "fields": {
+    "name": "Poland",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "portugal",
+  "fields": {
+    "name": "Portugal",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "qatar",
+  "fields": {
+    "name": "Qatar",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "romania",
+  "fields": {
+    "name": "Romania",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "russia",
+  "fields": {
+    "name": "Russia",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "rwanda",
+  "fields": {
+    "name": "Rwanda",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "samoa",
+  "fields": {
+    "name": "Samoa",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "san-marino",
+  "fields": {
+    "name": "San Marino",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "sao-tome-and-principe",
+  "fields": {
+    "name": "Sao Tome and Principe",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "saudi-arabia",
+  "fields": {
+    "name": "Saudi Arabia",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "senegal",
+  "fields": {
+    "name": "Senegal",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "serbia",
+  "fields": {
+    "name": "Serbia",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "seychelles",
+  "fields": {
+    "name": "Seychelles",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "sierra-leone",
+  "fields": {
+    "name": "Sierra Leone",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "singapore",
+  "fields": {
+    "name": "Singapore",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "slovakia",
+  "fields": {
+    "name": "Slovakia",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "slovenia",
+  "fields": {
+    "name": "Slovenia",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "solomon-islands",
+  "fields": {
+    "name": "Solomon Islands",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "somalia",
+  "fields": {
+    "name": "Somalia",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "south-africa",
+  "fields": {
+    "name": "South Africa",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "south-korea",
+  "fields": {
+    "name": "South Korea",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "south-sudan",
+  "fields": {
+    "name": "South Sudan",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "spain",
+  "fields": {
+    "name": "Spain",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "sri-lanka",
+  "fields": {
+    "name": "Sri Lanka",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "st-kitts-and-nevis",
+  "fields": {
+    "name": "St Kitts and Nevis",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "st-lucia",
+  "fields": {
+    "name": "St Lucia",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "st-vincent",
+  "fields": {
+    "name": "St Vincent",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "sudan",
+  "fields": {
+    "name": "Sudan",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "suriname",
+  "fields": {
+    "name": "Suriname",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "sweden",
+  "fields": {
+    "name": "Sweden",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "switzerland",
+  "fields": {
+    "name": "Switzerland",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "syria",
+  "fields": {
+    "name": "Syria",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "tajikistan",
+  "fields": {
+    "name": "Tajikistan",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "tanzania",
+  "fields": {
+    "name": "Tanzania",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "thailand",
+  "fields": {
+    "name": "Thailand",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "the-bahamas",
+  "fields": {
+    "name": "The Bahamas",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "the-gambia",
+  "fields": {
+    "name": "The Gambia",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "togo",
+  "fields": {
+    "name": "Togo",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "tonga",
+  "fields": {
+    "name": "Tonga",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "trinidad-and-tobago",
+  "fields": {
+    "name": "Trinidad and Tobago",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "tunisia",
+  "fields": {
+    "name": "Tunisia",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "turkey",
+  "fields": {
+    "name": "Turkey",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "turkmenistan",
+  "fields": {
+    "name": "Turkmenistan",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "tuvalu",
+  "fields": {
+    "name": "Tuvalu",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "uganda",
+  "fields": {
+    "name": "Uganda",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "ukraine",
+  "fields": {
+    "name": "Ukraine",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "united-arab-emirates",
+  "fields": {
+    "name": "United Arab Emirates",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "united-kingdom",
+  "fields": {
+    "name": "United Kingdom",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "united-states",
+  "fields": {
+    "name": "United States",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "uruguay",
+  "fields": {
+    "name": "Uruguay",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "uzbekistan",
+  "fields": {
+    "name": "Uzbekistan",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "vanuatu",
+  "fields": {
+    "name": "Vanuatu",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "vatican-city",
+  "fields": {
+    "name": "Vatican City",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "venezuela",
+  "fields": {
+    "name": "Venezuela",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "vietnam",
+  "fields": {
+    "name": "Vietnam",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "yemen",
+  "fields": {
+    "name": "Yemen",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "zambia",
+  "fields": {
+    "name": "Zambia",
+    "order": null
+  }
+},
+{
+  "model": "registration.country",
+  "pk": "zimbabwe",
+  "fields": {
+    "name": "Zimbabwe",
+    "order": null
+  }
+}
+]
