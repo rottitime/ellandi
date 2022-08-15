@@ -17,7 +17,7 @@ const LanguageList: FC = () => {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { mutate, error, isError } = useMutation<RegisterUserResponse, Error, any>(
-    async (id: string) => await deleteLanguage(id),
+    async (id: string) => await authFetch(deleteLanguage, id),
     {
       onSuccess: async ({ id }) => {
         queryClient.setQueryData(Query.Me, {
