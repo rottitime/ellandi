@@ -105,15 +105,8 @@ class UserManager(BaseUserManager):
 
 
 class TimeStampedModel(models.Model):
-    created_at = models.DateTimeField(editable=False, default=now)
-    modified_at = models.DateTimeField(editable=False, default=now)
-
-    def save(self, *args, **kwargs):
-        update_fields = kwargs.get("update_fields", None)
-        if update_fields:
-            kwargs["update_fields"] = set(update_fields).union({"modified_at"})
-
-        super().save(*args, **kwargs)
+    created_at = models.DateTimeField(editable=False, auto_now_add=True)
+    modified_at = models.DateTimeField(editable=False, auto_now=True)
 
     class Meta:
         abstract = True
