@@ -536,3 +536,36 @@ def test_user_patch_get_delete_skills_develop(client, user_id):
 def test_me_patch_get_delete_skills_develop(client, user_id):
     endpoint_to_test = "/me/skills-develop/"
     patch_get_delete_skills_develop(client, endpoint_to_test)
+
+
+@utils.with_logged_in_client
+def test_created_modified_at(client, user_id):
+    response = client.get(f"/users/{user_id}/")
+    data = response.json()
+    created_at = data["created_at"]
+    modified_at = data["modified_at"]
+    more_user_data = {
+        "grade": "Grade 7",
+        "skills": [{"name": "Python", "level": "Beginner"}],
+        "languages": [{"name": "Spanish", "speaking_level": "Proficient", "writing_level": "Basic"}],
+        "skills_to_develop": [{"name": "Maths"}],
+    }
+    response = client.patch(f"/users/{user_id}/", json=more_user_data)
+    data = response.json()
+    assert created_at == data["created_at"], "date object created shouldn't change"
+    assert data["modified_at"] >= modified_at, f'{data["modified_at"]} {modified_at}'
+
+    skill = data["skills"][0]
+    skill_id = skill["id"]
+    response = client.get(f"/user-skills/{skill_id}/")
+    skill_created_at = response.json()["created_at"]
+    skill_modified_at = response.json()["modified_at"]
+    future_date = "2052-08-16T10:43:56.897248Z"
+    response = client.patch(
+        f"/user-skills/{skill_id}/",
+        json={"level": "Advanced beginner", "created_at": future_date, "modified_at": future_date},
+    )
+    data = response.json()
+    assert skill_created_at == data["created_at"], "created_at date should not change"
+    assert skill_modified_at != data["modified_at"], "modified_date should have been updated"
+    assert skill_modified_at != future_date, "should not be possible to set modified date manually"
