@@ -536,3 +536,36 @@ def test_user_patch_get_delete_skills_develop(client, user_id):
 def test_me_patch_get_delete_skills_develop(client, user_id):
     endpoint_to_test = "/me/skills-develop/"
     patch_get_delete_skills_develop(client, endpoint_to_test)
+
+
+@utils.with_logged_in_client
+def test_modified_at(client, user_id):
+    # user_skill = {
+    #     "name": "Python"
+    # }
+
+    # user_skill
+    # user_language
+    response = client.get(f"/users/{user_id}/")
+    data = response.json()
+    created_at = data["created_at"]
+    modified_at = data["modified_at"]
+    more_user_data = {
+        "grade": "Grade 7",
+        "skills": [{"name": "Python", "level": "Beginner"}],
+        "languages": [{"name": "Spanish", "speaking_level": "Proficient", "writing_level": "Basic"}],
+        "skills_to_develop": [{"name": "Maths"}],
+    }
+    response = client.patch(f"/users/{user_id}/", json=more_user_data)
+    data = response.json()
+    assert created_at == data["created_at"], "date object created shouldn't change"
+    assert modified_at >= data["modified_at"]
+    skill_id = data["skills"][0].id
+
+    # Check you can't change created_at and modified_at using API
+
+    # check that when you save, created_at doesn't change modified_at doesn't change
+
+    # add user skill
+    # add user language
+    # check that trying to modify created_at and modified_at doesn't work
