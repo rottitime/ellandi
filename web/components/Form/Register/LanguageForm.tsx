@@ -17,7 +17,7 @@ import {
 } from '@mui/material'
 import { GenericDataList, LanguagesType, LanguageType, Query } from '@/service/types'
 import { fetchLanguages, fetchLanguageSkillLevels } from '@/service/api'
-import { FC, useId } from 'react'
+import { FC, useEffect, useId } from 'react'
 import { useQuery } from 'react-query'
 import { StandardRegisterProps } from './types'
 import { Controller, FormProvider, useFieldArray, useForm } from 'react-hook-form'
@@ -90,6 +90,11 @@ const LanguageForm: FC<StandardRegisterProps<LanguagesType>> = (props) => {
     name: 'languages',
     keyName: 'language'
   })
+
+  useEffect(() => {
+    if (!getValues(fieldName).length)
+      append({ name: '', speaking_level: '', writing_level: '' })
+  }, [])
 
   return (
     <FormProvider {...methods}>
