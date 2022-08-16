@@ -79,7 +79,7 @@ const LanguageForm: FC<StandardRegisterProps<LanguagesType>> = (props) => {
     },
     resolver: yupResolver(schema)
   })
-  const { control, getValues } = methods
+  const { control, getValues, reset } = methods
 
   const { fields, append, remove } = useFieldArray<
     LanguagesType,
@@ -92,8 +92,14 @@ const LanguageForm: FC<StandardRegisterProps<LanguagesType>> = (props) => {
   })
 
   useEffect(() => {
-    if (!getValues(fieldName).length)
+    const languages = getValues(fieldName)
+
+    if (!languages.length) {
       append({ name: '', speaking_level: '', writing_level: '' })
+    } else {
+      reset({ languages })
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
