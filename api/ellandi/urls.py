@@ -10,7 +10,6 @@ from drf_spectacular.views import (
 from ellandi import auth
 from ellandi.registration import views
 
-
 api_urlpatterns = [
     path("", include(views.registration_router.urls)),
     path("me", views.me_view, name="me"),
@@ -19,12 +18,18 @@ api_urlpatterns = [
     path("me/skills-develop/", views.me_skills_develop_view, name="me-skills-develop"),
     path("me/skills/<str:skill_id>/", views.me_skill_delete_view, name="me-skill-delete"),
     path("me/languages/<str:language_id>/", views.me_language_delete_view, name="me-language-delete"),
-    path("me/skills-develop/<str:skill_develop_id>/", views.me_skill_develop_delete_view, name="me-skill-develop-delete"),
+    path(
+        "me/skills-develop/<str:skill_develop_id>/", views.me_skill_develop_delete_view, name="me-skill-develop-delete"
+    ),
     path("users/<str:user_id>/skills/", views.user_skills_view, name="user-skills"),
     path("users/<str:user_id>/languages/", views.user_languages_view, name="user-languages"),
     path("users/<str:user_id>/skills-develop/", views.user_skills_develop_view, name="user-skill-develop"),
     path("users/<str:user_id>/skills/<str:skill_id>/", views.users_skill_delete_view, name="user-skill-delete"),
-    path("users/<str:user_id>/languages/<str:language_id>/", views.users_language_delete_view, name="user-language-delete"),
+    path(
+        "users/<str:user_id>/languages/<str:language_id>/",
+        views.users_language_delete_view,
+        name="user-language-delete",
+    ),
     path(
         "users/<str:user_id>/skills-develop/<str:skill_develop_id>/",
         views.users_skill_develop_delete_view,
