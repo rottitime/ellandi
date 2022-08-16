@@ -54,60 +54,70 @@ class UserSkillDevelopViewSet(viewsets.ModelViewSet):
 class OrganisationViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Organisation.objects.all().order_by("name")
     serializer_class = serializers.OrganisationSerializer
+    permission_classes = (permissions.AllowAny,)
 
 
 @register("contract-types")
 class ContractTypeViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.ContractType.objects.all().order_by("order")
     serializer_class = serializers.ContractTypeSerializer
+    permission_classes = (permissions.AllowAny,)
 
 
 @register("locations")
 class LocationViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Location.objects.all().order_by("name")
     serializer_class = serializers.LocationSerializer
+    permission_classes = (permissions.AllowAny,)
 
 
 @register("languages")
 class LanguageViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Language.objects.all().order_by("name")
     serializer_class = serializers.LanguageSerializer
+    permission_classes = (permissions.AllowAny,)
 
 
 @register("professions")
 class ProfessionViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Profession.objects.all().order_by("order")
     serializer_class = serializers.ProfessionSerializer
+    permission_classes = (permissions.AllowAny,)
 
 
 @register("grades")
 class GradeViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Grade.objects.all().order_by("order")
     serializer_class = serializers.GradeSerializer
+    permission_classes = (permissions.AllowAny,)
 
 
 @register("language-skill-levels")
 class LanguageSkillLevelViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.LanguageSkillLevel.objects.all().order_by("name")
     serializer_class = serializers.LanguageSkillLevelSerializer
+    permission_classes = (permissions.AllowAny,)
 
 
 @register("countries")
 class CountryViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Country.objects.all().order_by("name")
     serializer_class = serializers.CountrySerializer
+    permission_classes = (permissions.AllowAny,)
 
 
 @register("functions")
 class FunctionViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.Function.objects.all().order_by("order")
     serializer_class = serializers.FunctionSerializer
+    permission_classes = (permissions.AllowAny,)
 
 
 @register("skill-levels")
 class SkillViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.SkillLevel.objects.all().order_by("order")
     serializer_class = serializers.SkillLevelSerializer
+    permission_classes = (permissions.AllowAny,)
 
 
 @extend_schema(
@@ -127,6 +137,7 @@ def register_view(request):
 
 
 @decorators.api_view(["GET"])
+@decorators.permission_classes((permissions.AllowAny,))
 def skills_list_view(request):
     existing_skills = set(models.UserSkill.objects.all().values_list("name", flat=True))
     skills_to_develop = set(models.UserSkillDevelop.objects.all().values_list("name", flat=True))
@@ -176,7 +187,7 @@ def first_log_in_view(request):
 
 
 @decorators.api_view(["GET"])
-@decorators.permission_classes((permissions.AllowAny,))
+@decorators.permission_classes((permissions.IsAuthenticated,))
 def me_view(request):
     user = request.user
     data = serializers.UserSerializer(user, context={"request": request}).data
@@ -208,7 +219,7 @@ def list_skills_langs(request, user, model_name, field_name):
 
 @extend_schema(methods=["PATCH"], request=serializers.UserSkillSerializerNested(many=True))
 @decorators.api_view(["GET", "PATCH"])
-@decorators.permission_classes((permissions.AllowAny,))
+@decorators.permission_classes((permissions.IsAuthenticated,))
 def me_skills_view(request):
     model_name = "UserSkill"
     field_name = "skills"
@@ -217,7 +228,7 @@ def me_skills_view(request):
 
 @extend_schema(methods=["PATCH"], request=serializers.UserLanguageSerializerNested(many=True))
 @decorators.api_view(["GET", "PATCH"])
-@decorators.permission_classes((permissions.AllowAny,))
+@decorators.permission_classes((permissions.IsAuthenticated,))
 def me_languages_view(request):
     model_name = "UserLanguage"
     field_name = "languages"
@@ -226,7 +237,7 @@ def me_languages_view(request):
 
 @extend_schema(methods=["PATCH"], request=serializers.UserSkillDevelopSerializerNested(many=True))
 @decorators.api_view(["GET", "PATCH"])
-@decorators.permission_classes((permissions.AllowAny,))
+@decorators.permission_classes((permissions.IsAuthenticated,))
 def me_skills_develop_view(request):
     model_name = "UserSkillDevelop"
     field_name = "skills_develop"
@@ -235,6 +246,7 @@ def me_skills_develop_view(request):
 
 @extend_schema(methods=["PATCH"], request=serializers.UserSkillSerializerNested(many=True))
 @decorators.api_view(["GET", "PATCH"])
+@decorators.permission_classes((permissions.IsAuthenticated,))
 def user_skills_view(request, user_id):
     try:
         user = models.User.objects.get(id=user_id)
@@ -247,6 +259,7 @@ def user_skills_view(request, user_id):
 
 @extend_schema(methods=["PATCH"], request=serializers.UserLanguageSerializerNested(many=True))
 @decorators.api_view(["GET", "PATCH"])
+@decorators.permission_classes((permissions.IsAuthenticated,))
 def user_languages_view(request, user_id):
     try:
         user = models.User.objects.get(id=user_id)
@@ -259,6 +272,7 @@ def user_languages_view(request, user_id):
 
 @extend_schema(methods=["PATCH"], request=serializers.UserSkillDevelopSerializerNested(many=True))
 @decorators.api_view(["GET", "PATCH"])
+@decorators.permission_classes((permissions.IsAuthenticated,))
 def user_skills_develop_view(request, user_id):
     try:
         user = models.User.objects.get(id=user_id)
@@ -284,27 +298,28 @@ def skill_lang_delete(user, id, model_name):
 
 
 @decorators.api_view(["DELETE"])
-@decorators.permission_classes((permissions.AllowAny,))
+@decorators.permission_classes((permissions.IsAuthenticated,))
 def me_skill_delete_view(request, skill_id):
     model_name = "UserSkill"
     return skill_lang_delete(user=request.user, id=skill_id, model_name=model_name)
 
 
 @decorators.api_view(["DELETE"])
-@decorators.permission_classes((permissions.AllowAny,))
+@decorators.permission_classes((permissions.IsAuthenticated,))
 def me_language_delete_view(request, language_id):
     model_name = "UserLanguage"
     return skill_lang_delete(user=request.user, id=language_id, model_name=model_name)
 
 
 @decorators.api_view(["DELETE"])
-@decorators.permission_classes((permissions.AllowAny,))
+@decorators.permission_classes((permissions.IsAuthenticated,))
 def me_skill_develop_delete_view(request, skill_develop_id):
     model_name = "UserSkillDevelop"
     return skill_lang_delete(user=request.user, id=skill_develop_id, model_name=model_name)
 
 
 @decorators.api_view(["DELETE"])
+@decorators.permission_classes((permissions.IsAuthenticated,))
 def users_skill_delete_view(request, user_id, skill_id):
     try:
         user = models.User.objects.get(id=user_id)
@@ -315,6 +330,7 @@ def users_skill_delete_view(request, user_id, skill_id):
 
 
 @decorators.api_view(["DELETE"])
+@decorators.permission_classes((permissions.IsAuthenticated,))
 def users_language_delete_view(request, user_id, language_id):
     try:
         user = models.User.objects.get(id=user_id)
@@ -325,6 +341,7 @@ def users_language_delete_view(request, user_id, language_id):
 
 
 @decorators.api_view(["DELETE"])
+@decorators.permission_classes((permissions.IsAuthenticated,))
 def users_skill_develop_delete_view(request, user_id, skill_develop_id):
     try:
         user = models.User.objects.get(id=user_id)
