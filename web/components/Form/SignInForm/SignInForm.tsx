@@ -3,7 +3,7 @@ import { FC } from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { SchemaOf, object, string } from 'yup'
-import FormFooter from '../FormFooter'
+import Button from '@/components/UI/Button/Button'
 import { Field } from '../Field/Field'
 import { SignInType, Props } from './types'
 
@@ -35,7 +35,14 @@ const SignInForm: FC<Props> = ({ onFormSubmit, loading }) => {
           <TextFieldControlled name="password" type="password" label="Password" />
         </Field>
 
-        <FormFooter buttonProps={{ loading, fullWidth: true }} submitText="Continue" />
+        <Button
+          variant="contained"
+          type="submit"
+          loading={loading}
+          data-testid="submit-button"
+        >
+          Continue
+        </Button>
       </form>
     </FormProvider>
   )
