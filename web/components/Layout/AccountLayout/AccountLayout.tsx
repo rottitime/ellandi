@@ -31,8 +31,10 @@ const Layout = styled(Box)`
   > .MuiContainer-root {
     padding-top: ${(p) => p.theme.spacing(3)};
     padding-bottom: ${(p) => p.theme.spacing(5)};
-    min-height: calc(100vh - var(--footer-height));
-    height: auto;
+    ${({ theme }) => theme.breakpoints.up('md')} {
+      min-height: calc(100vh - (var(--footer-height) + var(--banner-height)));
+      height: auto;
+    }
   }
   .main-footer {
     height: var(--footer-height);
