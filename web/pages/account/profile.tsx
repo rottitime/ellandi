@@ -100,19 +100,6 @@ const Page = () => {
           { name: 'Function', value: data.function_other || data.function }
         ])}
       </AccountCard>
-
-      <AccountCard
-        headerLogo="mail"
-        header={
-          <Typography variant="h1" component="h2">
-            Contact preferences
-          </Typography>
-        }
-      >
-        {renderTable([
-          { name: 'Contact preference', value: !!data.contact_preference ? 'Yes' : 'No' }
-        ])}
-      </AccountCard>
     </>
   )
 }
