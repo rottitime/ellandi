@@ -218,7 +218,7 @@ const steps: Steps[] = [
   //   nextUrl: '/register/thankyou'
   // },
   {
-    form: dynamic(() => import('@/components/Form/Register/LanguageForm')),
+    form: dynamic(() => import('@/components/Form/Register/LanguageForm/LanguageForm')),
     title: 'Language skills'
   },
   {

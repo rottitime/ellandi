@@ -1,5 +1,5 @@
 import { ThemeProvider } from '@mui/material'
-import { render, RenderOptions } from '@testing-library/react'
+import { render, RenderOptions, waitFor } from '@testing-library/react'
 import { ReactNode } from 'react'
 import theme from '@/style/theme'
 import { QueryClient, QueryClientProvider } from 'react-query'
@@ -59,6 +59,9 @@ export const renderWithProviders = async (
     //   renderWithProviders(ui, { container: rendered.container, ...options })
   }
 }
+
+export const bugfixForTimeout = async () =>
+  await waitFor(() => new Promise((resolve) => setTimeout(resolve, 0)))
 
 export * from '@testing-library/react'
 export { renderWithProviders as render }
