@@ -48,10 +48,6 @@ const PrimaryProfessionForm: FC<
           Select your main profession. You may only choose one
         </Typography>
 
-        <Typography gutterBottom>
-          We'll use this to suggest learning opportunities that are relevant to you
-        </Typography>
-
         {!isLoading && !!professions.length && (
           <Controller
             name="primary_profession"

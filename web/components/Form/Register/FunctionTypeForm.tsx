@@ -44,11 +44,8 @@ const FunctionTypeForm: FC<StandardRegisterProps<FunctionType>> = (props) => {
     <FormProvider {...methods}>
       <Form {...props} submitDisabled>
         <Typography variant="subtitle1" sx={{ mb: 3 }}>
-          Select one Function which describes your area of specialism
-        </Typography>
-
-        <Typography gutterBottom>
-          We'll use this to suggest learning opportunities that are relevant to you
+          Select a function which describes your area of specialism. You may only choose
+          one
         </Typography>
 
         <Controller
@@ -64,12 +61,11 @@ const FunctionTypeForm: FC<StandardRegisterProps<FunctionType>> = (props) => {
                     <Box key={name}>
                       <FormControlLabel control={<Radio />} label={name} value={name} />
                       {name === 'Other' && watchFields.function === 'Other' && (
-                        <Box sx={{ my: 2 }}>
-                          <TextFieldControlled
-                            name="function_other"
-                            label="Enter function"
-                          />
-                        </Box>
+                        <TextFieldControlled
+                          name="function_other"
+                          label="Enter function"
+                          subfield
+                        />
                       )}
                     </Box>
                   ))}

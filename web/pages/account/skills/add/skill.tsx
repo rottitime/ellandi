@@ -3,27 +3,28 @@ import { Typography } from '@mui/material'
 import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
 import { menu, SectionOne } from './index'
 import BadgeNumber from '@/components/UI/BadgeNumber/BadgeNumber'
-import { dehydrate, QueryClient, useMutation, useQuery } from 'react-query'
-import { fetchSkillLevels, fetchSkills, Query, RegisterUserResponse } from '@/service/api'
+import { dehydrate, QueryClient, useMutation } from 'react-query'
+import {
+  fetchSkillLevels,
+  fetchSkills,
+  Query,
+  RegisterUserResponse,
+  SkillType
+} from '@/service/api'
 import SkillsAddForm from '@/components/Form/Account/SkillsAddForm/SkillsAddForm'
 import useAuth from '@/hooks/useAuth'
-import { fetchMe } from '@/service/me'
-import { updateUser } from '@/service/auth'
 import Router from 'next/router'
+import { addSkills } from '@/service/account'
 
 const SkillsAddSkillsPage = () => {
   const { authFetch } = useAuth()
-  const {
-    data: { id }
-  } = useQuery<RegisterUserResponse>(Query.Me, () => authFetch(fetchMe))
 
-  const { isLoading, ...mutate } = useMutation<
-    RegisterUserResponse,
-    Error,
-    Partial<RegisterUserResponse>
-  >(async (data) => updateUser(id, data), {
-    onSuccess: async () => Router.push('/account/skills')
-  })
+  const { isLoading, ...mutate } = useMutation<RegisterUserResponse, Error, SkillType[]>(
+    async (data) => authFetch(addSkills, data),
+    {
+      onSuccess: async () => Router.push('/account/skills')
+    }
+  )
 
   return (
     <>
@@ -36,7 +37,10 @@ const SkillsAddSkillsPage = () => {
           </Typography>
         }
       >
-        <SkillsAddForm loading={isLoading} onFormSubmit={(data) => mutate.mutate(data)} />
+        <SkillsAddForm
+          loading={isLoading}
+          onFormSubmit={({ skills }) => mutate.mutate(skills)}
+        />
       </AccountCard>
     </>
   )

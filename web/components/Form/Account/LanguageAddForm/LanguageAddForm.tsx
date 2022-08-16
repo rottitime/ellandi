@@ -2,7 +2,7 @@ import {
   FormHelperText,
   IconButton,
   Skeleton,
-  Table,
+  Table as MuiTable,
   TableHead,
   TableRow,
   TableCell,
@@ -10,7 +10,8 @@ import {
   FormControl,
   InputLabel,
   Select,
-  MenuItem
+  MenuItem,
+  styled
 } from '@mui/material'
 import { GenericDataList, Query, LanguageType, LanguagesType } from '@/service/types'
 import { fetchLanguages, fetchLanguageSkillLevels } from '@/service/api'
@@ -23,6 +24,16 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Props } from './types'
 import Icon from '@/components/Icon/Icon'
 import Button from '@/components/UI/Button/Button'
+
+const Table = styled(MuiTable)`
+  th.MuiTableCell-root {
+    border-bottom: none;
+    font-weight: bold;
+  }
+  .button-remove {
+    color: ${(p) => p.theme.colors.black};
+  }
+`
 
 const fornName: keyof LanguagesType = 'languages'
 

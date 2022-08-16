@@ -61,7 +61,7 @@ const CreateAccountForm: FC<StandardRegisterProps<CreateAccountType>> = (props) 
         </Field>
 
         <Typography variant="subtitle1" gutterBottom>
-          Create a password
+          Create password
         </Typography>
 
         <Typography gutterBottom>

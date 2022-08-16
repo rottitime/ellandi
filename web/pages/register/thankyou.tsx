@@ -4,7 +4,7 @@ import FooterButtons from '@/components/UI/FooterButtons/FooterButtons'
 import Button from '@/components/UI/Button/Button'
 import router from 'next/router'
 
-const nextPage = 9
+const nextPage = 8
 
 const RegisterPage = () => (
   <>
@@ -15,7 +15,7 @@ const RegisterPage = () => (
     <ul>
       <li>your language skills</li>
       <li>other skills that you already have</li>
-      <li>skills that you'd like to develop</li>
+      <li>skills that you would like to develop</li>
     </ul>
 
     <FooterButtons>

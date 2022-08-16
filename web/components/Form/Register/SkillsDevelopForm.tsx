@@ -1,7 +1,7 @@
 import { Chip, Typography, Stack, Divider, Skeleton } from '@mui/material'
 import { FC, useEffect } from 'react'
 import { StandardRegisterProps } from './types'
-import { FormProvider, useForm } from 'react-hook-form'
+import { Controller, FormProvider, useForm } from 'react-hook-form'
 import CreatableAutocomplete from '../CreatableAutocomplete/CreatableAutocomplete'
 import { Query, SkillDevelopType, SkillsDevelopType } from '@/service/types'
 import { fetchSkills } from '@/service/api'
@@ -17,7 +17,7 @@ const skillSchema: SchemaOf<SkillDevelopType> = object({
 })
 
 const schema: SchemaOf<SkillsDevelopType> = object().shape({
-  skills_develop: array().of(skillSchema).optional()
+  skills_develop: array().of(skillSchema).min(1, 'This is a required field')
 })
 const fieldName: keyof SkillsDevelopType = 'skills_develop'
 
@@ -26,7 +26,7 @@ const SkillsForm: FC<StandardRegisterProps<SkillsDevelopType>> = (props) => {
     defaultValues: { skills_develop: [] },
     resolver: yupResolver(schema)
   })
-  const { setValue, register, unregister, watch } = methods
+  const { setValue, register, unregister, watch, control } = methods
 
   const { isLoading, data } = useQuery<string[], { message?: string }>(
     Query.Skills,
@@ -56,23 +56,32 @@ const SkillsForm: FC<StandardRegisterProps<SkillsDevelopType>> = (props) => {
           <Skeleton width={100} sx={{ m: 1 }} />
         ) : (
           <Field>
-            <CreatableAutocomplete
-              loading={isLoading}
-              disableOptions={watchFields.map(({ name }) => name)}
-              label="Select a skill or enter your own skill"
-              data={isLoading ? [] : data.map((title) => ({ title }))}
-              onSelected={async (_event, { title }) => {
-                const includes =
-                  Array.isArray(watchFields) &&
-                  !!watchFields.find(({ name }) => name === title)
+            <Controller
+              name={fieldName}
+              control={control}
+              render={({ fieldState: { error } }) => (
+                <CreatableAutocomplete
+                  loading={isLoading}
+                  disableOptions={watchFields.map(({ name }) => name)}
+                  label="Select a skill or enter your own skill"
+                  data={isLoading ? [] : data.map((title) => ({ title }))}
+                  onSelected={async (_event, { title }) => {
+                    const includes =
+                      Array.isArray(watchFields) &&
+                      !!watchFields.find(({ name }) => name === title)
 
-                setValue(
-                  fieldName,
-                  includes
-                    ? watchFields.filter(({ name }) => name !== title)
-                    : [...watchFields, { name: title }]
-                )
-              }}
+                    setValue(
+                      fieldName,
+                      includes
+                        ? watchFields.filter(({ name }) => name !== title)
+                        : [...watchFields, { name: title }]
+                    )
+                  }}
+                  error={!!error}
+                  helperText={!!error && error.message}
+                  onSelectedClear
+                />
+              )}
             />
           </Field>
         )}

@@ -82,7 +82,7 @@ const RegisterPage = ({ stepInt, nextUrl, skip, ...props }: Props) => {
   >(
     async (data) =>
       !!stepInt && userId
-        ? updateUser(userId, data)
+        ? authFetch(updateUser, data)
         : createAndLogin(data as RegisterUser),
     {
       onSuccess: async (data) => {
@@ -195,8 +195,7 @@ const steps: Steps[] = [
   },
   {
     form: dynamic(() => import('@/components/Form/Register/ProfessionForm')),
-    title: 'Profession',
-    skip: true
+    title: 'Profession'
   },
   {
     form: dynamic(() => import('@/components/Form/Register/PrimaryProfessionForm')),
@@ -209,32 +208,26 @@ const steps: Steps[] = [
   },
   {
     form: dynamic(() => import('@/components/Form/Register/ContractTypeForm')),
-    title: 'Contract type'
-  },
-  {
-    form: dynamic(() => import('@/components/Form/Register/ContactForm')),
-    title: 'Contact preference',
+    title: 'Contract type',
     nextUrl: '/register/thankyou'
   },
+  // Hidden temporarily
+  // {
+  //   form: dynamic(() => import('@/components/Form/Register/ContactForm')),
+  //   title: 'Contact preference',
+  //   nextUrl: '/register/thankyou'
+  // },
   {
     form: dynamic(() => import('@/components/Form/Register/LanguageForm')),
-    title: 'Language skills',
-    skip: true
-  },
-  {
-    form: dynamic(() => import('@/components/Form/Register/LanguageFormTest')),
-    title: 'Language skills (DEMO)',
-    skip: true
+    title: 'Language skills'
   },
   {
     form: dynamic(() => import('@/components/Form/Register/SkillsForm')),
-    title: 'Current skills',
-    skip: true
+    title: 'Current skills'
   },
   {
     form: dynamic(() => import('@/components/Form/Register/SkillsDevelopForm')),
     title: 'Skills you would like to develop',
-    nextUrl: '/register/complete',
-    skip: true
+    nextUrl: '/register/complete'
   }
 ]

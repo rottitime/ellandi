@@ -57,7 +57,7 @@ const languageSchema: SchemaOf<LanguageType> = object({
 })
 
 const schema: SchemaOf<LanguagesType> = object().shape({
-  languages: array().of(languageSchema).optional()
+  languages: array().of(languageSchema).min(1, 'This is a required field')
 })
 
 const LanguageForm: FC<StandardRegisterProps<LanguagesType>> = (props) => {
@@ -93,12 +93,9 @@ const LanguageForm: FC<StandardRegisterProps<LanguagesType>> = (props) => {
 
   return (
     <FormProvider {...methods}>
-      <Form {...props}>
+      <Form {...props} submitDisabled>
         <Typography variant="subtitle1" sx={{ mb: 3 }}>
           Add any languages that you use. You can change or add to these later.
-        </Typography>
-        <Typography gutterBottom>
-          We'll use this to suggest learning opportunities that are relevant to you
         </Typography>
 
         {fields.map((item, index) => (

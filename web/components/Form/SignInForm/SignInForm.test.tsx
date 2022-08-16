@@ -14,7 +14,7 @@ describe('Page: Sign in', () => {
 
   it('renders', () => {
     renderWithProviders(<SignInForm onFormSubmit={jest.fn()} loading={false} />)
-    expect(screen.getByRole('button', { name: /Sign in/i })).toBeInTheDocument()
+    expect(screen.getByTestId('submit-button')).toBeInTheDocument()
     expect(screen.getByTestId('textfield_email')).toBeInTheDocument()
     expect(screen.getByTestId('textfield_password')).toBeInTheDocument()
   })
@@ -41,7 +41,8 @@ describe('Page: Sign in', () => {
     )
 
     const inputEmail = screen.getByTestId('textfield_email')
-    const button = screen.getByRole('button', { name: /Sign in/i })
+    const button = screen.getByTestId('submit-button')
+
     const fieldEmail = screen.getByTestId('field_email')
     const fieldPassword = screen.getByTestId('field_password')
 
@@ -64,7 +65,7 @@ describe('Page: Sign in', () => {
 
     const inputEmail = screen.getByTestId('textfield_email')
     const inputPassword = screen.getByTestId('textfield_password')
-    const button = screen.getByRole('button', { name: /Sign in/i })
+    const button = screen.getByTestId('submit-button')
 
     await userEvent.type(inputEmail, email)
     await userEvent.type(inputPassword, password)
