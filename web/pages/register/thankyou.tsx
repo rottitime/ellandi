@@ -4,7 +4,7 @@ import FooterButtons from '@/components/UI/FooterButtons/FooterButtons'
 import Button from '@/components/UI/Button/Button'
 import router from 'next/router'
 
-const nextPage = 9
+const nextPage = 8
 
 const RegisterPage = () => (
   <>
