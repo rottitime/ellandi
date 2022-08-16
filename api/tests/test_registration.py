@@ -539,13 +539,7 @@ def test_me_patch_get_delete_skills_develop(client, user_id):
 
 
 @utils.with_logged_in_client
-def test_modified_at(client, user_id):
-    # user_skill = {
-    #     "name": "Python"
-    # }
-
-    # user_skill
-    # user_language
+def test_created_modified_at(client, user_id):
     response = client.get(f"/users/{user_id}/")
     data = response.json()
     created_at = data["created_at"]
@@ -559,19 +553,19 @@ def test_modified_at(client, user_id):
     response = client.patch(f"/users/{user_id}/", json=more_user_data)
     data = response.json()
     assert created_at == data["created_at"], "date object created shouldn't change"
-    assert modified_at >= data["modified_at"], "modified_at should have been updated"
+    assert data["modified_at"] >= modified_at, f'{data["modified_at"]} {modified_at}'
+
     skill = data["skills"][0]
-    skill_created_at = skill["created_at"]
-    skill_modified_at = skill["modified_at"]
     skill_id = skill["id"]
-    response = client.patch(f"/user-skill/{skill_id}/", json={"level": "Advanced beginner", "created_at": "2052-08-16T10:43:56.897248Z"})
+    response = client.get(f"/user-skills/{skill_id}/")
+    skill_created_at = response.json()["created_at"]
+    skill_modified_at = response.json()["modified_at"]
+    future_date = "2052-08-16T10:43:56.897248Z"
+    response = client.patch(
+        f"/user-skills/{skill_id}/",
+        json={"level": "Advanced beginner", "created_at": future_date, "modified_at": future_date},
+    )
     data = response.json()
-
-
-    # Check you can't change created_at and modified_at using API
-
-    # check that when you save, created_at doesn't change modified_at doesn't change
-
-    # add user skill
-    # add user language
-    # check that trying to modify created_at and modified_at doesn't work
+    assert skill_created_at == data["created_at"], "created_at date should not change"
+    assert skill_modified_at != data["modified_at"], "modified_date should have been updated"
+    assert skill_modified_at != future_date, "should not be possible to set modified date manually"
