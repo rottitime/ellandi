@@ -20,6 +20,7 @@ class DropDownListModel(models.Model):
 
     name = models.CharField(max_length=127, blank=False, null=False)
     slug = models.CharField(max_length=127, blank=False, null=False, primary_key=True)
+    order = models.PositiveSmallIntegerField(null=True)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name.replace("|", "_"))
@@ -30,6 +31,7 @@ class DropDownListModel(models.Model):
 
     class Meta:
         abstract = True
+        ordering = ["order"]
 
 
 class Organisation(DropDownListModel):
@@ -37,10 +39,7 @@ class Organisation(DropDownListModel):
 
 
 class ContractType(DropDownListModel):
-    order = models.PositiveSmallIntegerField(null=True)
-
-    class Meta:
-        ordering = ["order"]
+    pass
 
 
 class Location(DropDownListModel):
@@ -52,17 +51,11 @@ class Language(DropDownListModel):
 
 
 class Profession(DropDownListModel):
-    order = models.PositiveSmallIntegerField(null=True)
-
-    class Meta:
-        ordering = ["order"]
+    pass
 
 
 class Grade(DropDownListModel):
-    order = models.PositiveSmallIntegerField(null=True)
-
-    class Meta:
-        ordering = ["order"]
+    pass
 
 
 class LanguageSkillLevel(DropDownListModel):
@@ -75,17 +68,11 @@ class Country(DropDownListModel):
 
 
 class Function(DropDownListModel):
-    order = models.PositiveSmallIntegerField(null=True)
-
-    class Meta:
-        ordering = ["order"]
+    pass
 
 
 class SkillLevel(DropDownListModel):
-    order = models.PositiveSmallIntegerField(null=True)
-
-    class Meta:
-        ordering = ["order"]
+    pass
 
 
 class UserManager(BaseUserManager):
@@ -200,6 +187,7 @@ class UserLanguage(TimeStampedModel):
         BASIC = ("Basic", "Basic")
         INDEPENDENT = ("Independent", "Independent")
         PROFICIENT = ("Proficient", "Proficient")
+        NONE = ("None", "None")
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, related_name="languages", on_delete=models.CASCADE)

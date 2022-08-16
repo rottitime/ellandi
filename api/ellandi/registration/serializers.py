@@ -23,7 +23,7 @@ from .models import (
 class OrganisationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Organisation
-        fields = ["slug", "name"]
+        fields = ["slug", "name", "order"]
 
 
 class ContractTypeSerializer(serializers.ModelSerializer):
@@ -35,13 +35,13 @@ class ContractTypeSerializer(serializers.ModelSerializer):
 class LocationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Location
-        fields = ["slug", "name"]
+        fields = ["slug", "name", "order"]
 
 
 class LanguageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Language
-        fields = ["slug", "name"]
+        fields = ["slug", "name", "order"]
 
 
 class ProfessionSerializer(serializers.ModelSerializer):
@@ -59,13 +59,13 @@ class GradeSerializer(serializers.ModelSerializer):
 class LanguageSkillLevelSerializer(serializers.ModelSerializer):
     class Meta:
         model = LanguageSkillLevel
-        fields = ["slug", "name", "description"]
+        fields = ["slug", "name", "order", "description"]
 
 
 class CountrySerializer(serializers.ModelSerializer):
     class Meta:
         model = Country
-        fields = ["slug", "name"]
+        fields = ["slug", "name", "order"]
 
 
 class FunctionSerializer(serializers.ModelSerializer):

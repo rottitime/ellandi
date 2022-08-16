@@ -26,4 +26,4 @@ class Migration(migrations.Migration):
         ("registration", "0035_auto_20220713_1620"),
     ]
 
-    operations = [migrations.RunPython(load_all_fixtures)]
+    operations = []

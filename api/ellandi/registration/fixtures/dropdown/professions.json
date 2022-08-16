@@ -1,42 +1,58 @@
 [
 {
   "model": "registration.profession",
-  "pk": "communication-service",
+  "pk": "analysis",
   "fields": {
-    "name": "Communication Service",
+    "name": "Analysis",
+    "order": 0
+  }
+},
+{
+  "model": "registration.profession",
+  "pk": "commercial",
+  "fields": {
+    "name": "Commercial",
     "order": 1
+  }
+},
+{
+  "model": "registration.profession",
+  "pk": "communications",
+  "fields": {
+    "name": "Communications",
+    "order": 2
   }
 },
 {
   "model": "registration.profession",
   "pk": "corporate-finance",
   "fields": {
-    "name": "Corporate Finance",
-    "order": 2
+    "name": "Corporate finance",
+    "order": 3
   }
 },
 {
   "model": "registration.profession",
   "pk": "counter-fraud",
   "fields": {
-    "name": "Counter-fraud",
-    "order": 3
+    "name": "Counter fraud",
+    "order": 4
   }
 },
 {
   "model": "registration.profession",
   "pk": "digital-data-and-technology",
   "fields": {
-    "name": "Digital, Data and Technology",
-    "order": 4
+    "name": "Digital, data and technology",
+    "order": 5
   }
 },
 {
   "model": "registration.profession",
-  "pk": "economic-service",
+  "pk": "economics",
   "fields": {
-    "name": "Economic Service",
-    "order": 5
+    "name": "Economics",
+    "order": 6
   }
 },
 {
@@ -44,47 +60,47 @@
   "pk": "finance",
   "fields": {
     "name": "Finance",
-    "order": 6
+    "order": 7
   }
 },
 {
   "model": "registration.profession",
   "pk": "human-resources",
   "fields": {
-    "name": "Human Resources",
-    "order": 7
+    "name": "Human resources",
+    "order": 8
   }
 },
 {
   "model": "registration.profession",
   "pk": "intelligence-analysis",
   "fields": {
-    "name": "Intelligence Analysis",
-    "order": 8
+    "name": "Intelligence analysis",
+    "order": 9
   }
 },
 {
   "model": "registration.profession",
   "pk": "internal-audit",
   "fields": {
-    "name": "Internal Audit",
-    "order": 9
+    "name": "Internal audit",
+    "order": 10
   }
 },
 {
   "model": "registration.profession",
-  "pk": "it",
+  "pk": "international-trade",
   "fields": {
-    "name": "IT",
-    "order": 10
+    "name": "International trade",
+    "order": 11
   }
 },
 {
   "model": "registration.profession",
   "pk": "knowledge-and-information-management",
   "fields": {
-    "name": "Knowledge and Information Management",
-    "order": 11
+    "name": "Knowledge and information management",
+    "order": 12
   }
 },
 {
@@ -92,7 +108,7 @@
   "pk": "legal",
   "fields": {
     "name": "Legal",
-    "order": 12
+    "order": 13
   }
 },
 {
@@ -100,31 +116,31 @@
   "pk": "medical",
   "fields": {
     "name": "Medical",
-    "order": 13
+    "order": 14
   }
 },
 {
   "model": "registration.profession",
   "pk": "occupational-psychology",
   "fields": {
-    "name": "Occupational Psychology",
-    "order": 14
+    "name": "Occupational psychology",
+    "order": 15
   }
 },
 {
   "model": "registration.profession",
   "pk": "operational-delivery",
   "fields": {
-    "name": "Operational Delivery",
-    "order": 15
+    "name": "Operational delivery",
+    "order": 16
   }
 },
 {
   "model": "registration.profession",
-  "pk": "operational-research-service",
+  "pk": "operational-research",
   "fields": {
-    "name": "Operational Research Service",
-    "order": 16
+    "name": "Operational research",
+    "order": 17
   }
 },
 {
@@ -132,15 +148,15 @@
   "pk": "planning",
   "fields": {
     "name": "Planning",
-    "order": 17
+    "order": 18
   }
 },
 {
   "model": "registration.profession",
-  "pk": "planning-inspectors",
+  "pk": "planning-inspection",
   "fields": {
-    "name": "Planning Inspectors",
-    "order": 18
+    "name": "Planning inspection",
+    "order": 19
   }
 },
 {
@@ -148,14 +164,6 @@
   "pk": "policy",
   "fields": {
     "name": "Policy",
-    "order": 19
-  }
-},
-{
-  "model": "registration.profession",
-  "pk": "procurement",
-  "fields": {
-    "name": "Procurement",
     "order": 20
   }
 },
@@ -163,7 +171,7 @@
   "model": "registration.profession",
   "pk": "project-delivery",
   "fields": {
-    "name": "Project Delivery",
+    "name": "Project delivery",
     "order": 21
   }
 },
@@ -179,7 +187,7 @@
   "model": "registration.profession",
   "pk": "science-and-engineering",
   "fields": {
-    "name": "Science and Engineering",
+    "name": "Science and engineering",
     "order": 23
   }
 },
@@ -195,7 +203,7 @@
   "model": "registration.profession",
   "pk": "social-research",
   "fields": {
-    "name": "Social Research",
+    "name": "Social research",
     "order": 25
   }
 },
@@ -203,7 +211,7 @@
   "model": "registration.profession",
   "pk": "statistical-service",
   "fields": {
-    "name": "Statistical Service",
+    "name": "Statistics",
     "order": 26
   }
 },

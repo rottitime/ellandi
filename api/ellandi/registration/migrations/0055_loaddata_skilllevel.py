@@ -19,4 +19,4 @@ class Migration(migrations.Migration):
         ("registration", "0054_skilllevel"),
     ]
 
-    operations = [migrations.RunPython(load_fixture)]
+    operations = []
