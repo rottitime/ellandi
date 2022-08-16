@@ -559,8 +559,14 @@ def test_modified_at(client, user_id):
     response = client.patch(f"/users/{user_id}/", json=more_user_data)
     data = response.json()
     assert created_at == data["created_at"], "date object created shouldn't change"
-    assert modified_at >= data["modified_at"]
-    skill_id = data["skills"][0].id
+    assert modified_at >= data["modified_at"], "modified_at should have been updated"
+    skill = data["skills"][0]
+    skill_created_at = skill["created_at"]
+    skill_modified_at = skill["modified_at"]
+    skill_id = skill["id"]
+    response = client.patch(f"/user-skill/{skill_id}/", json={"level": "Advanced beginner", "created_at": "2052-08-16T10:43:56.897248Z"})
+    data = response.json()
+
 
     # Check you can't change created_at and modified_at using API
 
