@@ -48,9 +48,6 @@ const SkillsForm: FC<StandardRegisterProps<SkillsDevelopType>> = (props) => {
           Add any skills that you would like to develop. You can change or add to these
           later
         </Typography>
-        <Typography sx={{ mb: 4 }}>
-          We'll use this to suggest learning opportunities that are relevant to you
-        </Typography>
 
         {isLoading ? (
           <Skeleton width={100} sx={{ m: 1 }} />
