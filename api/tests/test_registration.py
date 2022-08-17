@@ -140,13 +140,13 @@ def patch_user(client, user_id, endpoint):
 
 @utils.with_logged_in_client
 def test_user_patch(client, user_id):
-    endpoint=f"/users/{user_id}/"
+    endpoint = f"/users/{user_id}/"
     patch_user(client, user_id, endpoint)
 
 
 @utils.with_logged_in_client
 def test_me_patch(client, user_id):
-    endpoint="/me"
+    endpoint = "/me"
     patch_user(client, user_id, endpoint)
 
 
