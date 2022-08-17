@@ -1,3 +1,7 @@
+import TableSkeleton from '@/components/UI/Skeleton/TableSkeleton'
+import Skeleton from '@/components/UI/Skeleton/Skeleton'
+import AccountLayout from '@/components/Layout/AccountLayout/AccountLayout'
+import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
 import {
   Table as MuiTable,
   TableBody,
@@ -6,15 +10,10 @@ import {
   Typography,
   styled
 } from '@mui/material'
-import AccountLayout from '@/components/Layout/AccountLayout/AccountLayout'
-import Link from '@/components/UI/Link'
-import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
 import { useQuery } from 'react-query'
 import { fetchMe } from '@/service/me'
 import { Query, RegisterUserResponse } from '@/service/api'
 import useAuth from '@/hooks/useAuth'
-import TableSkeleton from '@/components/UI/Skeleton/TableSkeleton'
-import Skeleton from '@/components/UI/Skeleton/Skeleton'
 
 const Table = styled(MuiTable)`
   th {

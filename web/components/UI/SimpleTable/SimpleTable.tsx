@@ -1,3 +1,4 @@
+import TableSkeleton from '@/components/UI/Skeleton/TableSkeleton'
 import {
   TableBody,
   TableCell,
@@ -21,28 +22,32 @@ const Table = styled(MuiTable)`
   }
 `
 
-const SimpleTable: FC<Props> = ({ list, headers }) => (
-  <Table size="small">
-    {headers && (
-      <TableHead>
-        <TableRow>
-          {headers.map((cell, i) => (
-            <TableCell {...cell} key={i} />
-          ))}
-        </TableRow>
-      </TableHead>
-    )}
+const SimpleTable: FC<Props> = ({ list = [], headers, loading }) =>
+  loading ? (
+    <TableSkeleton />
+  ) : (
+    <Table size="small">
+      {headers && (
+        <TableHead>
+          <TableRow>
+            {headers.map((cell, i) => (
+              <TableCell {...cell} key={i} />
+            ))}
+          </TableRow>
+        </TableHead>
+      )}
 
-    <TableBody>
-      {list.map((item, i) => (
-        <TableRow key={i}>
-          {item.map((cell, i) => (
-            <TableCell {...cell} key={i} />
+      <TableBody>
+        {Array.isArray(list) &&
+          list.map((item, i) => (
+            <TableRow key={i}>
+              {item.map((cell, i) => (
+                <TableCell {...cell} key={i} />
+              ))}
+            </TableRow>
           ))}
-        </TableRow>
-      ))}
-    </TableBody>
-  </Table>
-)
+      </TableBody>
+    </Table>
+  )
 
 export default SimpleTable
