@@ -95,9 +95,8 @@ const AccountLayout: FC<Props> = ({
       <Template>
         <AppBar
           pages={[
-            { title: 'Home', url: urls.landingSignin }
-            // { title: 'Skills', url: '/account/skills', color: 'brandSkills' },
-            // { title: 'Learning', url: '/account/learning', color: 'brandLearning' }
+            { title: 'Home', url: urls.landingSignin },
+            { title: 'Your team', url: '/account/your-team' }
           ]}
           settings={[
             { title: 'Profile', url: '/account/profile' },
