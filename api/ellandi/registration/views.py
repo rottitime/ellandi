@@ -191,10 +191,17 @@ def first_log_in_view(request):
 @decorators.permission_classes((permissions.IsAuthenticated,))
 def me_view(request):
     user = request.user
-    data = serializers.UserSerializer(user, context={"request": request}).data
-    data["id"] = str(user.id)
-    response = Response(data=data, status=status.HTTP_200_OK)
-    return response
+    if request.method == "GET":
+        data = serializers.UserSerializer(user, context={"request": request}).data
+        data["id"] = str(user.id)
+        return Response(data=data, status=status.HTTP_200_OK)
+    elif request.method == "PATCH":
+        data = request.data
+        serializer = serializers.UserSerializer(user, data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 def list_skills_langs(request, user, model_name, field_name):
