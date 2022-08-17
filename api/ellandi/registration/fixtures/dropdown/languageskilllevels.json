@@ -4,7 +4,7 @@
   "pk": "basic",
   "fields": {
     "name": "Basic",
-    "order": null,
+    "order": 0,
     "description": "You can understand and use basic phrases, introduce yourself and describe in simple terms aspects of your background and environment"
   }
 },
@@ -13,8 +13,17 @@
   "pk": "independent",
   "fields": {
     "name": "Independent",
-    "order": null,
+    "order": 1,
     "description": "You can deal with most situations likely to arise while travelling in an area where the language is spoken and interact with a degree of fluency"
+  }
+},
+{
+  "model": "registration.languageskilllevel",
+  "pk": "proficient",
+  "fields": {
+    "name": "Proficient",
+    "order": 2,
+    "description": "You can express ideas fluently and spontaneously and can use the language flexibly for social, academic and professional purposes"
   }
 },
 {
@@ -24,15 +33,6 @@
     "name": "None",
     "order": 3,
     "description": ""
-  }
-},
-{
-  "model": "registration.languageskilllevel",
-  "pk": "proficient",
-  "fields": {
-    "name": "Proficient",
-    "order": null,
-    "description": "You can express ideas fluently and spontaneously and can use the language flexibly for social, academic and professional purposes"
   }
 }
 ]
