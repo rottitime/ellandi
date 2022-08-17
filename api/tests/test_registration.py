@@ -574,7 +574,7 @@ def test_created_modified_at(client, user_id):
 @utils.with_logged_in_client
 def test_email_field(client, user_id):
     user_data = client.get(f"/users/{user_id}/").json()
-    email = user_data['email']
+    email = user_data["email"]
 
     direct_reports_before = client.get(f"/users/{user_id}/direct-reports/").json()
     assert len(direct_reports_before) == 0
