@@ -10,7 +10,8 @@ const FormRegister: FC<Props> = ({
   children,
   skipUrl,
   backUrl,
-  buttonLoading
+  buttonLoading,
+  ...props
 }) => {
   const {
     handleSubmit,
@@ -23,7 +24,7 @@ const FormRegister: FC<Props> = ({
   }, [reset, defaultValues])
 
   return (
-    <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
+    <form onSubmit={handleSubmit(onFormSubmit)} noValidate {...props}>
       {children}
       <FormFooter
         skipUrl={skipUrl}

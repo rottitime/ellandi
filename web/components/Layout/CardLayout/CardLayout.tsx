@@ -11,7 +11,7 @@ import { Props } from './types'
 const GridContainer = styled(Grid)`
   flex-direction: column;
   flex-wrap: nowrap;
-  min-height: 100vh;
+  min-height: calc(100vh - var(--banner-height));
   ${({ theme }) => theme.breakpoints.up('md')} {
     flex-direction: row;
     flex-wrap: nowrap;

@@ -82,7 +82,7 @@ const RegisterPage = ({ stepInt, nextUrl, skip, ...props }: Props) => {
   >(
     async (data) =>
       !!stepInt && userId
-        ? authFetch(updateUser, data)
+        ? authFetch(updateUser, { ...data, id: userId })
         : createAndLogin(data as RegisterUser),
     {
       onSuccess: async (data) => {
@@ -218,7 +218,7 @@ const steps: Steps[] = [
   //   nextUrl: '/register/thankyou'
   // },
   {
-    form: dynamic(() => import('@/components/Form/Register/LanguageForm')),
+    form: dynamic(() => import('@/components/Form/Register/LanguageForm/LanguageForm')),
     title: 'Language skills'
   },
   {

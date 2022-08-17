@@ -17,11 +17,11 @@ import {
 } from '@mui/material'
 import { GenericDataList, LanguagesType, LanguageType, Query } from '@/service/types'
 import { fetchLanguages, fetchLanguageSkillLevels } from '@/service/api'
-import { FC, useId } from 'react'
+import { FC, useEffect, useId } from 'react'
 import { useQuery } from 'react-query'
-import { StandardRegisterProps } from './types'
+import { StandardRegisterProps } from '../types'
 import { Controller, FormProvider, useFieldArray, useForm } from 'react-hook-form'
-import { Field } from '../Field/Field'
+import { Field } from '../../Field/Field'
 import { array, object, SchemaOf, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Cancel } from '@mui/icons-material'
@@ -79,7 +79,7 @@ const LanguageForm: FC<StandardRegisterProps<LanguagesType>> = (props) => {
     },
     resolver: yupResolver(schema)
   })
-  const { control, getValues } = methods
+  const { control, getValues, reset } = methods
 
   const { fields, append, remove } = useFieldArray<
     LanguagesType,
@@ -91,15 +91,26 @@ const LanguageForm: FC<StandardRegisterProps<LanguagesType>> = (props) => {
     keyName: 'language'
   })
 
+  useEffect(() => {
+    const languages = getValues(fieldName)
+
+    if (!languages.length) {
+      append({ name: '', speaking_level: '', writing_level: '' })
+    } else {
+      reset({ languages })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <FormProvider {...methods}>
-      <Form {...props} submitDisabled>
+      <Form {...props} submitDisabled data-testid="language-form">
         <Typography variant="subtitle1" sx={{ mb: 3 }}>
           Add any languages that you use. You can change or add to these later.
         </Typography>
 
         {fields.map((item, index) => (
-          <Box key={index}>
+          <Box key={index} data-testid={`languagerow-${index}`}>
             <Typography gutterBottom>Language {index + 1}</Typography>
 
             <Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
@@ -114,7 +125,12 @@ const LanguageForm: FC<StandardRegisterProps<LanguagesType>> = (props) => {
                       {isLoading ? (
                         <Skeleton width={100} sx={{ m: 1 }} />
                       ) : (
-                        <Select label="Select a language" variant="outlined" {...field}>
+                        <Select
+                          label="Select a language"
+                          variant="outlined"
+                          {...field}
+                          inputProps={{ 'data-testid': `languages.${index}.name` }}
+                        >
                           {data.map(({ name }) => (
                             <MenuItem
                               key={name}
@@ -203,6 +219,7 @@ const LanguageForm: FC<StandardRegisterProps<LanguagesType>> = (props) => {
 
         <Field>
           <Button
+            data-testid="button-addlanguagerow"
             onClick={() => {
               append({ name: '', speaking_level: '', writing_level: '' })
             }}
