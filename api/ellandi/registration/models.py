@@ -16,8 +16,12 @@ def now():
 
 
 class LowercaseEmailField(models.EmailField):
-    def get_prep_value(self, value):
-        return str(value or "").lower()
+    def pre_save(self, model_instance, add):
+        """Return field's value just before saving."""
+        value = getattr(model_instance, self.attname)
+        value = value and value.lower() or ""
+        setattr(model_instance, self.attname, value)
+        return value
 
 
 class DropDownListModel(models.Model):
