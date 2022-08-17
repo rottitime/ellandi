@@ -55,6 +55,7 @@ jobs:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
         SLACK_MESSAGE: '${{ github.ref_name }} Action ${{ job.status }}'
 
+
   check_migrations:
     name: Check Migrations
 
@@ -78,6 +79,7 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_MESSAGE: '${{ github.ref_name }} Action ${{ job.status }}'
 
+
   check_integration:
     name: Check Integration
 
@@ -100,6 +102,7 @@ jobs:
           SLACK_USERNAME: ${{ github.actor }}
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_MESSAGE: '${{ github.ref_name }} Action ${{ job.status }}'
+
 
   check_frontend:
     name: Check Frontend
