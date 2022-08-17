@@ -569,3 +569,18 @@ def test_created_modified_at(client, user_id):
     assert skill_created_at == data["created_at"], "created_at date should not change"
     assert skill_modified_at != data["modified_at"], "modified_date should have been updated"
     assert skill_modified_at != future_date, "should not be possible to set modified date manually"
+
+
+@utils.with_logged_in_client
+def test_email_field(client, user_id):
+    user_data = client.get(f"/users/{user_id}/").json()
+    email = user_data['email']
+
+    direct_reports_before = client.get(f"/users/{user_id}/direct-reports/").json()
+    assert len(direct_reports_before) == 0
+
+    for i in range(3):
+        User.objects.create_user(f"user{i}@example.com", "P455w0rd", line_manager_email=email)
+
+    direct_reports_after = client.get(f"/users/{user_id}/direct-reports/").json()
+    assert len(direct_reports_after) == 3
