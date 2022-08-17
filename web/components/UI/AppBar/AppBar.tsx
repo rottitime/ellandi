@@ -16,11 +16,6 @@ import { Props } from './types'
 import Icon from '@/components/Icon/Icon'
 import { useRouter } from 'next/router'
 import Button from '../Button/Button'
-import getConfig from 'next/config'
-
-const {
-  publicRuntimeConfig: { urls }
-} = getConfig()
 
 const AppBar = styled(MuiAppBar)`
   background: transparent;

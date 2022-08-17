@@ -1,31 +1,11 @@
-import TableSkeleton from '@/components/UI/Skeleton/TableSkeleton'
-import Skeleton from '@/components/UI/Skeleton/Skeleton'
 import AccountLayout from '@/components/Layout/AccountLayout/AccountLayout'
 import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
-import {
-  Table as MuiTable,
-  TableBody,
-  TableCell,
-  TableRow,
-  Typography,
-  styled
-} from '@mui/material'
+import SimpleTable from '@/components/UI/SimpleTable/SimpleTable'
+import { Typography, TableCellProps } from '@mui/material'
 import { useQuery } from 'react-query'
 import { fetchMe } from '@/service/me'
 import { Query, RegisterUserResponse } from '@/service/api'
 import useAuth from '@/hooks/useAuth'
-
-const Table = styled(MuiTable)`
-  th {
-    font-weight: 700;
-    font-size: 16px;
-    width: 29%;
-  }
-  th,
-  td {
-    padding: ${(p) => p.theme.spacing(3, 0)};
-  }
-`
 
 const Page = () => {
   const { authFetch } = useAuth()
@@ -34,25 +14,19 @@ const Page = () => {
   )
 
   const renderTable = (list = []) => (
-    <Table size="small">
-      <TableBody>
-        {list.map((item) => (
-          <TableRow key={item.name}>
-            <TableCell component="th">{item.name}</TableCell>
-            <TableCell>
-              <Typography variant="subtitle1">{item.value || ' '}</Typography>
-            </TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+    <SimpleTable
+      list={[
+        ...list.map<TableCellProps[]>(({ name, value }) => [
+          { children: name, component: 'th' },
+          { children: <Typography variant="subtitle1">{value}</Typography> }
+        ])
+      ]}
+    />
   )
 
   if (isLoading)
     return [...Array(2).keys()].map((i) => (
-      <AccountCard header={<Skeleton width={200} />} sx={{ mb: 4 }} key={i}>
-        <TableSkeleton />
-      </AccountCard>
+      <AccountCard loading={true} sx={{ mb: 4 }} key={i} />
     ))
 
   return (
