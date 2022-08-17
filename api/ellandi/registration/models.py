@@ -219,7 +219,7 @@ class UserSkillDevelop(TimeStampedModel):
 
 
 class EmailSalt(models.Model):
-    email = models.EmailField("email", unique=True, primary_key=True)
+    email = LowercaseEmailField("email", unique=True, primary_key=True)
     salt = models.BinaryField(max_length=16, blank=False, null=False)
 
     def get_one_time_login(self):
