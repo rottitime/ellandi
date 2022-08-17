@@ -61,14 +61,14 @@ const Page = () => {
         headerLogo="profile"
         header={
           <Typography variant="h1" component="h2">
-            Personal Details
+            Personal details
           </Typography>
         }
         sx={{ mb: 4 }}
       >
         {renderTable([
           { name: 'Full name', value: `${data.first_name} ${data.last_name}` },
-          { name: 'Primary email address', value: data.email },
+          { name: 'Email address', value: data.email },
           { name: 'Password', value: '********' }
         ])}
       </AccountCard>
@@ -83,17 +83,18 @@ const Page = () => {
         sx={{ mb: 4 }}
       >
         {renderTable([
+          { name: 'Job title', value: data.job_title },
+          { name: 'Business unit', value: data.business_unit },
+          { name: 'Work location', value: data.location },
+          { name: 'Line manager email', value: data.line_manager_email },
+          { name: 'Grade', value: data.grade_other || data.grade },
+          { name: 'Profession(s)', value: data.professions.join(', ') },
+          { name: 'Primary profession', value: data.primary_profession },
+          { name: 'Function', value: data.function_other || data.function },
           {
             name: 'Contract type',
             value: data.contract_type_other || data.contract_type
-          },
-          { name: 'Job title', value: data.job_title },
-          { name: 'Business unit', value: data.business_unit },
-          { name: 'Line manager email', value: data.line_manager_email },
-          { name: 'Grade', value: data.grade_other || data.grade },
-          { name: 'Profession', value: data.professions.join(', ') },
-          { name: 'Primary profession', value: data.primary_profession },
-          { name: 'Function', value: data.function_other || data.function }
+          }
         ])}
       </AccountCard>
     </>
@@ -107,7 +108,7 @@ Page.getLayout = (page) => (
     title="Profile"
     titleIcon="profile"
     teaserHeadline="Welcome to your profile"
-    teaserContent="Here you can manage profile details including email, password, contact preferences and profession."
+    teaserContent="You can manage your details including email, password, job title, profession and more"
   >
     {page}
   </AccountLayout>
