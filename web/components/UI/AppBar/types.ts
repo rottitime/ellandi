@@ -12,6 +12,7 @@ export type MenuItem = {
 }
 
 export type Props = {
+  logoUrl: string
   pages: MenuItem[]
   settings: MenuItem[]
 }

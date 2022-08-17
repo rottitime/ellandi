@@ -16,6 +16,11 @@ import { Props } from './types'
 import Icon from '@/components/Icon/Icon'
 import { useRouter } from 'next/router'
 import Button from '../Button/Button'
+import getConfig from 'next/config'
+
+const {
+  publicRuntimeConfig: { urls }
+} = getConfig()
 
 const AppBar = styled(MuiAppBar)`
   background: transparent;
@@ -47,7 +52,7 @@ const AppBar = styled(MuiAppBar)`
   }
 `
 
-const ResponsiveAppBar: FC<Props> = ({ pages, settings }) => {
+const ResponsiveAppBar: FC<Props> = ({ pages, logoUrl, settings }) => {
   const theme = useTheme()
   const router = useRouter()
 
@@ -64,7 +69,7 @@ const ResponsiveAppBar: FC<Props> = ({ pages, settings }) => {
   return (
     <AppBar position="static" elevation={0}>
       <Toolbar disableGutters>
-        <Link href="/account">
+        <Link href={logoUrl}>
           <a>
             <Icon icon="crown-logo" className="header-logo" />
           </a>
