@@ -43,9 +43,6 @@ const Page = () => {
             <TableCell>
               <Typography variant="subtitle1">{item.value || ' '}</Typography>
             </TableCell>
-            <TableCell className="cta" align="right">
-              <Link href="#">Change</Link>
-            </TableCell>
           </TableRow>
         ))}
       </TableBody>

@@ -1,6 +1,14 @@
 import AccountLayout from '@/components/Layout/AccountLayout/AccountLayout'
-import { Typography, Grid, Table, TableBody, TableRow, TableCell } from '@mui/material'
+import SimpleTable from '@/components/UI/SimpleTable/SimpleTable'
 import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
+import {
+  Typography,
+  Table,
+  TableBody,
+  TableRow,
+  TableCell,
+  TableCellProps
+} from '@mui/material'
 import useAuth from '@/hooks/useAuth'
 import { useQuery } from 'react-query'
 import { Query, TeamMember } from '@/service/api'
@@ -26,29 +34,12 @@ const YourTeamPage = () => {
     [data, isFetched, id]
   )
 
-  const renderTable = (list = []) => (
-    <Table size="small">
-      <TableBody>
-        {list.map((item) => (
-          <TableRow key={item.name}>
-            <TableCell component="th">{item.name}</TableCell>
-            <TableCell>
-              <Typography variant="subtitle1">{item.value || ' '}</Typography>
-            </TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
-  )
-
   if (isLoading)
     return [...Array(2).keys()].map((i) => (
       <AccountCard header={<Skeleton width={200} />} sx={{ mb: 4 }} key={i}>
         <TableSkeleton />
       </AccountCard>
     ))
-
-  console.log({ member })
 
   return (
     <>
@@ -66,15 +57,22 @@ const YourTeamPage = () => {
         sx={{ mb: 4 }}
       >
         <>
-          {renderTable([
-            { name: 'Job title', value: member.job_title },
-            { name: 'Work location', value: member.location },
-            { name: 'Grade', value: member.grade },
-            { name: 'Professions', value: member.professions.join(', ') },
-            { name: 'Primary Profession', value: member.primary_profession },
-            { name: 'Function', value: member.function },
-            { name: 'Contract type', value: member.contract_type }
-          ])}
+          <SimpleTable
+            list={[
+              ...[
+                { name: 'Job title', value: member.job_title },
+                { name: 'Work location', value: member.location },
+                { name: 'Grade', value: member.grade },
+                { name: 'Professions', value: member.professions.join(', ') },
+                { name: 'Primary Profession', value: member.primary_profession },
+                { name: 'Function', value: member.function },
+                { name: 'Contract type', value: member.contract_type }
+              ].map<TableCellProps[]>(({ name, value }) => [
+                { children: name, component: 'th' },
+                { children: <Typography variant="subtitle1">{value}</Typography> }
+              ])
+            ]}
+          />
         </>
       </AccountCard>
 
@@ -87,17 +85,7 @@ const YourTeamPage = () => {
         }
         sx={{ mb: 4 }}
       >
-        <>
-          {renderTable([
-            { name: 'Job title', value: member.job_title },
-            { name: 'Work location', value: member.location },
-            { name: 'Grade', value: member.grade },
-            { name: 'Professions', value: member.professions.join(', ') },
-            { name: 'Primary Profession', value: member.primary_profession },
-            { name: 'Function', value: member.function },
-            { name: 'Contract type', value: member.contract_type }
-          ])}
-        </>
+        <></>
       </AccountCard>
     </>
   )
