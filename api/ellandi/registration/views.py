@@ -349,3 +349,25 @@ def users_skill_develop_delete_view(request, user_id, skill_develop_id):
         return Response(status=status.HTTP_400_BAD_REQUEST)
     model_name = "UserSkillDevelop"
     return skill_lang_delete(user=user, id=skill_develop_id, model_name=model_name)
+
+
+def list_direct_reports(request, user):
+    email = user.email
+    direct_reports = models.User.objects.filter(line_manager_email=email)
+    data = serializers.UserSerializer(direct_reports, many=True).data
+    response = Response(data=data, status=status.HTTP_200_OK)
+    return response
+
+
+@decorators.api_view(["GET"])
+@decorators.permission_classes((permissions.IsAuthenticated,))
+def me_direct_reports_view(request):
+    user = request.user
+    return list_direct_reports(request, user)
+
+
+@decorators.api_view(["GET"])
+@decorators.permission_classes((permissions.IsAuthenticated,))
+def user_direct_reports_view(request, user_id):
+    user = models.User.objects.get(id=user_id)
+    return list_direct_reports(request, user)

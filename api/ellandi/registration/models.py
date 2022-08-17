@@ -15,6 +15,15 @@ def now():
     return datetime.datetime.now(tz=pytz.UTC)
 
 
+class LowercaseEmailField(models.EmailField):
+    def pre_save(self, model_instance, add):
+        """Return field's value just before saving."""
+        value = getattr(model_instance, self.attname)
+        value = value and value.lower() or ""
+        setattr(model_instance, self.attname, value)
+        return value
+
+
 class DropDownListModel(models.Model):
     """Base class for lists for drop-downs etc."""
 
@@ -78,6 +87,10 @@ class SkillLevel(DropDownListModel):
 class UserManager(BaseUserManager):
     use_in_migrations = True
 
+    def normalize_email(self, email):
+        email = email or ""
+        return email.lower()
+
     def _create_user(self, email, password, **extra_fields):
         if not email:
             raise ValueError("Users require an email field")
@@ -122,7 +135,7 @@ class RegistrationAbstractUser(models.Model):
     business_unit = models.CharField(max_length=127, blank=True, null=True)
     location = models.CharField(max_length=127, blank=True, null=True)
     location_other = models.CharField(max_length=127, blank=True, null=True)
-    line_manager_email = models.CharField(max_length=128, blank=True, null=True)
+    line_manager_email = LowercaseEmailField(max_length=128, blank=True, null=True)
     grade = models.CharField(max_length=127, blank=True, null=True)
     grade_other = models.CharField(max_length=127, blank=True, null=True)
     professions = models.ManyToManyField(Profession, blank=True)
@@ -138,7 +151,7 @@ class RegistrationAbstractUser(models.Model):
 class User(AbstractUser, TimeStampedModel, RegistrationAbstractUser):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     username = None
-    email = models.EmailField("email", unique=True)
+    email = LowercaseEmailField("email", unique=True)
     privacy_policy_agreement = models.BooleanField(default=False, blank=False, null=False)
 
     first_name = models.CharField("first name", max_length=128, blank=True, null=True)
@@ -210,7 +223,7 @@ class UserSkillDevelop(TimeStampedModel):
 
 
 class EmailSalt(models.Model):
-    email = models.EmailField("email", unique=True, primary_key=True)
+    email = LowercaseEmailField("email", unique=True, primary_key=True)
     salt = models.BinaryField(max_length=16, blank=False, null=False)
 
     def get_one_time_login(self):
