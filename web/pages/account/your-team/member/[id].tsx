@@ -2,7 +2,7 @@ import TableSkeleton from '@/components/UI/Skeleton/TableSkeleton'
 import AccountLayout from '@/components/Layout/AccountLayout/AccountLayout'
 import SimpleTable from '@/components/UI/SimpleTable/SimpleTable'
 import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
-import { Typography, TableCellProps, Chip } from '@mui/material'
+import { Typography, TableCellProps, Chip, Skeleton } from '@mui/material'
 import useAuth from '@/hooks/useAuth'
 import { useQuery } from 'react-query'
 import { Query, TeamMember } from '@/service/api'
@@ -24,6 +24,11 @@ const YourTeamPage = () => {
     () => (isFetched ? data.find((team) => team.id === id) : null),
     [data, isFetched, id]
   )
+
+  if (isLoading)
+    return [...Array(2).keys()].map((i) => (
+      <AccountCard loading={true} sx={{ mb: 4 }} key={i} />
+    ))
 
   if (member)
     return (

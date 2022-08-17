@@ -1,6 +1,8 @@
 import Icon from '@/components/Icon/Icon'
 import { Card as MuiCard, styled, CardContent, Box } from '@mui/material'
 import { FC } from 'react'
+import TableSkeleton from '@/components/UI/Skeleton/TableSkeleton'
+import Skeleton from '@/components/UI/Skeleton/Skeleton'
 import { Props } from './types'
 
 const Card = styled(MuiCard, {
@@ -37,20 +39,31 @@ const Card = styled(MuiCard, {
   }
 `
 
-const AccountCard: FC<Props> = ({ children, header, headerLogo, ...props }) => (
+const AccountCard: FC<Props> = ({ children, header, headerLogo, loading, ...props }) => (
   <Card {...props}>
     <CardContent>
-      {header && (
-        <header className="card-header">
-          {headerLogo && (
-            <Box className="icon">
-              <Icon icon={headerLogo} />
-            </Box>
-          )}{' '}
-          {header}
-        </header>
+      {loading ? (
+        <>
+          <header className="card-header">
+            <Skeleton width={200} />
+          </header>
+          <TableSkeleton />
+        </>
+      ) : (
+        <>
+          {header && (
+            <header className="card-header">
+              {headerLogo && (
+                <Box className="icon">
+                  <Icon icon={headerLogo} />
+                </Box>
+              )}{' '}
+              {header}
+            </header>
+          )}
+          {children}
+        </>
       )}
-      {children}
     </CardContent>
   </Card>
 )

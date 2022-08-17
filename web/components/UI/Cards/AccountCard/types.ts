@@ -4,10 +4,11 @@ import { IconsType } from '@/components/Icon/Icon'
 import { ColorBrands } from '@/style/types'
 
 export type Props = {
-  children: ReactNode
+  children?: ReactNode
   color?: keyof ColorBrands
   headerLogoSize?: 'medium' | 'large'
   headerLogo?: IconsType
   header?: ReactNode
   headerColorInherit?: boolean
+  loading?: boolean
 } & ComponentProps<typeof Card>
