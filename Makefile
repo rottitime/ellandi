@@ -110,7 +110,7 @@ reset-db:
 
 .PHONY: integration ## Run playwright tests
 integration:
-	docker-compose up --build --force-recreate
+	docker-compose up --build --force-recreate integration
 
 .PHONY: setup
 setup:
