@@ -13,7 +13,9 @@ export const icons = {
   mail: dynamic(() => import('@/components/Icon/Icons/Mail')),
   'circle-plus': dynamic(() => import('@/components/Icon/Icons/CirclePlus')),
   'circle-delete': dynamic(() => import('@/components/Icon/Icons/CircleDelete')),
-  'circle-info': dynamic(() => import('@/components/Icon/Icons/InfoCircle'))
+  'circle-info': dynamic(() => import('@/components/Icon/Icons/InfoCircle')),
+  team: dynamic(() => import('@/components/Icon/Icons/Team')),
+  world: dynamic(() => import('@/components/Icon/Icons/World'))
 }
 
 const Icon: FC<Props> = ({ icon, size, ...props }) => {

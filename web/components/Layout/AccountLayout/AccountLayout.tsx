@@ -94,10 +94,14 @@ const AccountLayout: FC<Props> = ({
     <Layout>
       <Template>
         <AppBar
+          logoUrl={urls.landingSignin}
           pages={[
-            { title: 'Home', url: urls.landingSignin }
-            // { title: 'Skills', url: '/account/skills', color: 'brandSkills' },
-            // { title: 'Learning', url: '/account/learning', color: 'brandLearning' }
+            { title: 'Home', url: urls.landingSignin },
+            {
+              title: 'Your team',
+              url: '/account/your-team',
+              hidden: !data?.is_line_manager
+            }
           ]}
           settings={[
             { title: 'Profile', url: '/account/profile' },

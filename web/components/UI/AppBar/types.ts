@@ -7,10 +7,12 @@ export type MenuItem = {
   title: string
   url: string
   color?: BrandColor
+  hidden?: boolean
   onClick?: (e: MouseEvent<HTMLLIElement>) => void
 }
 
 export type Props = {
+  logoUrl: string
   pages: MenuItem[]
   settings: MenuItem[]
 }
