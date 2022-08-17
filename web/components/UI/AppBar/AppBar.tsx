@@ -71,16 +71,18 @@ const ResponsiveAppBar: FC<Props> = ({ pages, settings }) => {
         </Link>
 
         <Box className="menu">
-          {pages.map(({ title, url, color }) => (
-            <Button
-              style={{ textDecorationColor: theme.colors[color] }}
-              key={title}
-              href={url}
-              className={` ${router.pathname === url ? 'active' : ''}`}
-            >
-              {title}
-            </Button>
-          ))}
+          {pages
+            .filter(({ hidden }) => !hidden)
+            .map(({ title, url, color }) => (
+              <Button
+                style={{ textDecorationColor: theme.colors[color] }}
+                key={title}
+                href={url}
+                className={` ${router.pathname === url ? 'active' : ''}`}
+              >
+                {title}
+              </Button>
+            ))}
         </Box>
 
         <Box sx={{ flexGrow: 0 }}>

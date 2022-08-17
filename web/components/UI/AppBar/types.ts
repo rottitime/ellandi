@@ -7,6 +7,7 @@ export type MenuItem = {
   title: string
   url: string
   color?: BrandColor
+  hidden?: boolean
   onClick?: (e: MouseEvent<HTMLLIElement>) => void
 }
 
