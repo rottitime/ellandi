@@ -109,6 +109,7 @@ export type RegisterUserResponse = {
   id: string
   email: string
   url: string
+  is_line_manager: boolean
 } & PrivacyAcceptType &
   RegisterDetailsType &
   GradeType &

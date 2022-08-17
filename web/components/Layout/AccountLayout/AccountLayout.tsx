@@ -96,7 +96,11 @@ const AccountLayout: FC<Props> = ({
         <AppBar
           pages={[
             { title: 'Home', url: urls.landingSignin },
-            { title: 'Your team', url: '/account/your-team' }
+            {
+              title: 'Your team',
+              url: '/account/your-team',
+              hidden: !data?.is_line_manager
+            }
           ]}
           settings={[
             { title: 'Profile', url: '/account/profile' },
