@@ -9,7 +9,8 @@ export enum Query {
   LanguageSkillLevels = 'languageSkillLevels',
   Skills = 'skills',
   SkillLevels = 'skillLevels',
-  Me = 'me'
+  Me = 'me',
+  TeamMembers = 'teamMembers'
 }
 
 export type GenericDataList = {
@@ -119,3 +120,32 @@ export type RegisterUserResponse = {
   ContractType &
   FunctionType &
   SkillsDevelopType
+
+export type TeamMember = {
+  id: string
+  email: string
+  privacy_policy_agreement: boolean
+  first_name: string
+  last_name: string
+  department: null
+  organisation: null
+  job_title: string
+  business_unit: string
+  location: string
+  line_manager_email: string
+  grade: string
+  grade_other: null
+  professions: ProfessionType[]
+  profession_other: null
+  primary_profession: string
+  function: string
+  function_other: null
+  contract_type: string
+  contract_type_other: null
+  contact_preference: true
+  skills: SkillType[]
+  languages: LanguageType[]
+  skills_develop: SkillDevelopType[]
+  created_at: string
+  modified_at: string
+}

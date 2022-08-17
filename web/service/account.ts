@@ -76,3 +76,14 @@ export const addSkillsToDevelop = async (token: string, data: SkillDevelopType[]
   if (res.ok) return await res.json()
   throw new Error(defaultError)
 }
+
+export const fetchTeam = async (token: string) => {
+  const res: Response = await fetch(`${publicRuntimeConfig.apiUrl}/me/direct-reports/`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Token ${token}`
+    }
+  })
+  if (res.ok) return await res.json()
+  throw new Error(defaultError)
+}
