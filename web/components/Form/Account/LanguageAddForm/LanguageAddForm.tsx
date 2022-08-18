@@ -15,7 +15,7 @@ import {
 } from '@mui/material'
 import { GenericDataList, Query, LanguageType, LanguagesType } from '@/service/types'
 import { fetchLanguages, fetchLanguageSkillLevels } from '@/service/api'
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { useQuery } from 'react-query'
 import { Controller, FormProvider, useFieldArray, useForm } from 'react-hook-form'
 import { Field } from '@/components/Form/Field/Field'
@@ -32,6 +32,9 @@ const Table = styled(MuiTable)`
   }
   .button-remove {
     color: ${(p) => p.theme.colors.black};
+  }
+  td {
+    vertical-align: top;
   }
 `
 
@@ -71,6 +74,11 @@ const LanguageAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
     name: 'languages',
     keyName: 'name'
   })
+
+  useEffect(() => {
+    append({ name: '', speaking_level: '', writing_level: '' })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <FormProvider {...methods}>

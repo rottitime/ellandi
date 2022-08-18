@@ -10,7 +10,7 @@ import {
 } from '@mui/material'
 import { GenericDataList, Query, SkillsType, SkillType } from '@/service/types'
 import { fetchSkillLevels, fetchSkills } from '@/service/api'
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { useQuery } from 'react-query'
 import { Controller, FormProvider, useFieldArray, useForm } from 'react-hook-form'
 import { Field } from '@/components/Form/Field/Field'
@@ -72,6 +72,11 @@ const SkillsAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
     name: 'skills',
     keyName: 'name'
   })
+
+  useEffect(() => {
+    append({ name: '', level: '' })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <FormProvider {...methods}>
