@@ -13,9 +13,15 @@ import {
   MenuItem,
   styled
 } from '@mui/material'
-import { GenericDataList, Query, LanguageType, LanguagesType } from '@/service/types'
+import {
+  GenericDataList,
+  Query,
+  LanguageType,
+  LanguagesType,
+  RegisterUserResponse
+} from '@/service/types'
 import { fetchLanguages, fetchLanguageSkillLevels } from '@/service/api'
-import { FC, useEffect } from 'react'
+import { FC, useEffect, useMemo } from 'react'
 import { useQuery } from 'react-query'
 import { Controller, FormProvider, useFieldArray, useForm } from 'react-hook-form'
 import { Field } from '@/components/Form/Field/Field'
@@ -24,6 +30,8 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Props } from './types'
 import Icon from '@/components/Icon/Icon'
 import Button from '@/components/UI/Button/Button'
+import useAuth from '@/hooks/useAuth'
+import { fetchMe } from '@/service/me'
 
 const Table = styled(MuiTable)`
   th.MuiTableCell-root {
@@ -38,8 +46,6 @@ const Table = styled(MuiTable)`
   }
 `
 
-const fornName: keyof LanguagesType = 'languages'
-
 const skillSchema: SchemaOf<LanguageType> = object({
   id: string().nullable(),
   name: string().required('This is required'),
@@ -52,6 +58,8 @@ const schema: SchemaOf<LanguagesType> = object().shape({
 })
 
 const LanguageAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
+  const { authFetch } = useAuth()
+
   const { isLoading, data: dataLanguages } = useQuery<
     GenericDataList[],
     { message?: string }
@@ -62,23 +70,35 @@ const LanguageAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
     { message?: string }
   >(Query.LanguageSkillLevels, fetchLanguageSkillLevels, { staleTime: Infinity })
 
+  const { isFetched: isFetchedMe, data: dataMe } = useQuery<RegisterUserResponse>(
+    Query.Me,
+    () => authFetch(fetchMe)
+  )
+
   const methods = useForm<LanguagesType>({
     defaultValues: { languages: [] },
     resolver: yupResolver(schema)
   })
 
-  const { control, handleSubmit, getValues } = methods
+  const { control, handleSubmit } = methods
 
   const { fields, append, remove } = useFieldArray<LanguagesType, 'languages', 'name'>({
     control,
-    name: 'languages',
-    keyName: 'name'
+    name: 'languages'
   })
 
   useEffect(() => {
     append({ name: '', speaking_level: '', writing_level: '' })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  const disableOptions = useMemo(
+    () => [
+      ...fields.map(({ name }) => name),
+      ...(isFetchedMe ? dataMe.languages.map(({ name }) => name) : [])
+    ],
+    [fields, isFetchedMe, dataMe]
+  )
 
   return (
     <FormProvider {...methods}>
@@ -119,8 +139,8 @@ const LanguageAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
                                     key={name}
                                     value={name}
                                     disabled={
-                                      !!getValues(fornName).find(
-                                        (language) => language.name === name
+                                      !!disableOptions.find(
+                                        (language) => language === name
                                       )
                                     }
                                   >
