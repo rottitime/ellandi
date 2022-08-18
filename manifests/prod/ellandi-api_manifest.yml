@@ -2,13 +2,13 @@
 applications:
 - name: ellandi-api
   services:
-    - ellandi-postgres
+  - ellandi-postgres
   routes:
-    - route: ellandi-api.london.cloudapps.digital
-      protocol: http1
+  - route: ellandi-api.london.cloudapps.digital
+    protocol: http1
   processes:
-    - type: web
-      instances: 1
-      memory: 512M
-      disk_quota: 1024M
-      health-check-type: port
+  - type: web
+    instances: 1
+    memory: 512M
+    disk_quota: 1024M
+    health-check-type: port
