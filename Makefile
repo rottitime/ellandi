@@ -45,6 +45,8 @@ BROWSER := $(PYTHON) -c "$$BROWSER_PYSCRIPT"
 help:
 	@$(PYTHON) -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
 
+include .envs/api
+
 # -------------------------------- Builds and Installations -----------------------------
 
 .PHONY: npm-prepare
@@ -106,8 +108,8 @@ validate-frontend: ## Check style and syntax with
 
 .PHONY: reset-db
 reset-db:
-	docker-compose run ellandi-db dropdb -U ellandi -h ellandi-db ellandi
-	docker-compose run ellandi-db createdb -U ellandi -h ellandi-db ellandi
+	docker-compose run ${POSTGRES_HOST} dropdb -U ${POSTGRES_USER} -h ${POSTGRES_HOST} ${POSTGRES_DB}
+	docker-compose run ${POSTGRES_HOST} createdb -U ${POSTGRES_USER} -h ${POSTGRES_HOST} ${POSTGRES_DB}
 
 .PHONY: psql
 psql:
