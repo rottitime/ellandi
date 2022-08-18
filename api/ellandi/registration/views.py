@@ -143,6 +143,7 @@ def skills_list_view(request):
     skills_to_develop = set(models.UserSkillDevelop.objects.all().values_list("name", flat=True))
     skills = initial_data.INITIAL_SKILLS.union(existing_skills)
     skills = skills.union(skills_to_develop)
+    skills = sorted(skills)
     return Response(skills)
 
 
