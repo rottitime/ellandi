@@ -51,7 +51,7 @@ const Page = () => {
         headerLogo="case"
         header={
           <Typography variant="h1" component="h2">
-            Job Details
+            Job details
           </Typography>
         }
         sx={{ mb: 4 }}
