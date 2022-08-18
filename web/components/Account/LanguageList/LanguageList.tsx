@@ -43,7 +43,7 @@ const LanguageList: FC = () => {
         rows={data.languages}
         enableDelete
         onDelete={async (cell) => await mutate(cell.id)}
-        deleteModalTitle="Delete laguage"
+        deleteModalTitle="Delete language"
         deleteModalContent={
           <Typography>
             Are you sure you want to delete this language from your profile?
