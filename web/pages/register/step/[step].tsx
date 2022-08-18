@@ -164,7 +164,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
       progress: Math.floor((stepInt / (steps.length + 1)) * 100),
       stepInt,
       title,
-      backUrl: stepInt === 0 ? '/register' : `/register/step/${stepInt - 1}`,
+      backUrl: stepInt === 0 ? '/' : `/register/step/${stepInt - 1}`,
       nextUrl: nextUrl || `/register/step/${stepInt + 1}`,
       skip: !!skip,
       dehydratedState: dehydrate(queryClient)
