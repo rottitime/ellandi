@@ -5,14 +5,14 @@ import { Box } from '@mui/system'
 
 const List = styled(Box)`
   li {
-    margin-bottom: 16px;
+    margin-bottom: ${(p) => p.theme.spacing(3)};
   }
 `
 const SignInButton = styled(Button)`
-  background-color: #666666;
+  background-color: ${(p) => p.theme.colors.grey3};
 
   :hover {
-    background-color: #aeaeae;
+    background-color: ${(p) => p.theme.colors.grey2};
   }
 `
 
