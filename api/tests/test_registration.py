@@ -597,3 +597,14 @@ def test_email_field(client, user_id):
 
     direct_reports_after = client.get(f"/users/{user_id}/direct-reports/").json()
     assert len(direct_reports_after) == 3
+
+
+@utils.with_logged_in_client
+def test_is_line_manager(client, user_id):
+    user_data = client.get("/me").json()
+    email = user_data["email"]
+    User.objects.create_user("peter.rabbit@example.com", "P455w0rd", line_manager_email=email)
+    assert user_data["is_line_manager"] is True, user_data
+    User.objects.filter(line_manager_email=email).delete()
+    user_data = client.get("/me").json()
+    assert user_data["is_line_manager"] is False, user_data
