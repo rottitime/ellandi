@@ -113,7 +113,7 @@ reset-db:
 
 .PHONY: psql
 psql:
-	docker-compose run postgres psql -U ellandi -h postgres ellandi
+	docker-compose run ${POSTGRES_HOST} psql -U ${POSTGRES_USER} -h ${POSTGRES_HOST} ${POSTGRES_DB}
 
 .PHONY: integration ## Run playwright tests
 integration:
