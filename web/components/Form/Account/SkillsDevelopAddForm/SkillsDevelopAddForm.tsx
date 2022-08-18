@@ -1,7 +1,7 @@
 import { IconButton, styled } from '@mui/material'
 import { Query, SkillDevelopType, SkillsDevelopType } from '@/service/types'
 import { fetchSkills } from '@/service/api'
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { useQuery } from 'react-query'
 import { Controller, FormProvider, useFieldArray, useForm } from 'react-hook-form'
 import { Field } from '@/components/Form/Field/Field'
@@ -60,6 +60,11 @@ const SkillsDevelopAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
     name: 'skills_develop',
     keyName: 'name'
   })
+
+  useEffect(() => {
+    append({ name: '' })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <FormProvider {...methods}>
