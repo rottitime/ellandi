@@ -45,6 +45,8 @@ BROWSER := $(PYTHON) -c "$$BROWSER_PYSCRIPT"
 help:
 	@$(PYTHON) -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
 
+include .envs/api
+
 # -------------------------------- Builds and Installations -----------------------------
 
 .PHONY: npm-prepare
@@ -106,11 +108,18 @@ validate-frontend: ## Check style and syntax with
 
 .PHONY: reset-db
 reset-db:
-	docker-compose down --volumes
+	docker-compose up --detach ${POSTGRES_HOST}
+	docker-compose run ${POSTGRES_HOST} dropdb -U ${POSTGRES_USER} -h ${POSTGRES_HOST} ${POSTGRES_DB}
+	docker-compose run ${POSTGRES_HOST} createdb -U ${POSTGRES_USER} -h ${POSTGRES_HOST} ${POSTGRES_DB}
+	docker-compose kill
+
+.PHONY: psql
+psql:
+	docker-compose run ${POSTGRES_HOST} psql -U ${POSTGRES_USER} -h ${POSTGRES_HOST} ${POSTGRES_DB}
 
 .PHONY: integration ## Run playwright tests
 integration:
-	docker-compose up --build --force-recreate
+	docker-compose up --build --force-recreate integration
 
 .PHONY: setup
 setup:

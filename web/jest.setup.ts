@@ -15,5 +15,10 @@ global.TextDecoder = TextDecoder
 require('jest-fetch-mock').enableMocks()
 
 jest.mock('next/config', () => () => ({
-  publicRuntimeConfig: {}
+  publicRuntimeConfig: {
+    urls: {
+      landingSignin: 'landingSignin',
+      signin: 'signin'
+    }
+  }
 }))

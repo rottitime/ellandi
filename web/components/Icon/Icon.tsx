@@ -11,13 +11,17 @@ export const icons = {
   profile: dynamic(() => import('@/components/Icon/Icons/Profile')),
   case: dynamic(() => import('@/components/Icon/Icons/Case')),
   mail: dynamic(() => import('@/components/Icon/Icons/Mail')),
-  'circle-plus': dynamic(() => import('@/components/Icon/Icons/CirclePlus'))
+  'circle-plus': dynamic(() => import('@/components/Icon/Icons/CirclePlus')),
+  'circle-delete': dynamic(() => import('@/components/Icon/Icons/CircleDelete')),
+  'circle-info': dynamic(() => import('@/components/Icon/Icons/InfoCircle')),
+  team: dynamic(() => import('@/components/Icon/Icons/Team')),
+  world: dynamic(() => import('@/components/Icon/Icons/World'))
 }
 
-const Icon: FC<Props> = ({ icon, ...props }) => {
+const Icon: FC<Props> = ({ icon, size, ...props }) => {
   const Component = icons[icon]
 
-  return <Component {...props} />
+  return <Component {...props} style={{ fontSize: !!size ? `${size}px` : null }} />
 }
 
 export default Icon

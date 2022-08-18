@@ -33,6 +33,13 @@ export const fetchLanguages = async (): Promise<GenericDataList[]> => {
   throw new Error(defaultError)
 }
 
+export const fetchLanguageSkillLevels = async (): Promise<GenericDataList[]> => {
+  //const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/grades/`)
+  const res = await fetch(`${publicRuntimeConfig.apiUrl}/language-skill-levels/`)
+  if (res.ok) return res.json()
+  throw new Error(defaultError)
+}
+
 export const fetchCountries = async (): Promise<GenericDataList[]> => {
   const res = await fetch(`${publicRuntimeConfig.apiUrl}/countries/`)
   if (res.ok) return res.json()
@@ -43,6 +50,35 @@ export const fetchSkills = async (): Promise<string[]> => {
   const res = await fetch(`${publicRuntimeConfig.apiUrl}/skills/`)
   if (res.ok) return res.json()
   throw new Error(defaultError)
+}
+
+export const fetchSkillLevels = async (): Promise<GenericDataList[]> => {
+  // const res = await fetch(`${publicRuntimeConfig.apiUrl}/skill-levels/`)
+  // if (res.ok) return res.json()
+  // throw new Error(defaultError)
+
+  return [
+    {
+      slug: 'beginner',
+      name: 'Beginner'
+    },
+    {
+      slug: 'advanced-beginner',
+      name: 'Advanced beginner'
+    },
+    {
+      slug: 'competent',
+      name: 'Competent'
+    },
+    {
+      slug: 'proficient',
+      name: 'Proficient'
+    },
+    {
+      slug: 'expert',
+      name: 'Expert'
+    }
+  ]
 }
 
 export const fetchFunctions = async (): Promise<GenericDataList[]> => {

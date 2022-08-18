@@ -7,4 +7,5 @@ export type Props = {
   icon: IconsType
   title?: string
   titleId?: string
+  size?: number
 } & SVGProps<SVGSVGElement>

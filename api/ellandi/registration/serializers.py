@@ -12,6 +12,7 @@ from .models import (
     Location,
     Organisation,
     Profession,
+    SkillLevel,
     User,
     UserLanguage,
     UserSkill,
@@ -22,7 +23,7 @@ from .models import (
 class OrganisationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Organisation
-        fields = ["slug", "name"]
+        fields = ["slug", "name", "order"]
 
 
 class ContractTypeSerializer(serializers.ModelSerializer):
@@ -34,13 +35,13 @@ class ContractTypeSerializer(serializers.ModelSerializer):
 class LocationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Location
-        fields = ["slug", "name"]
+        fields = ["slug", "name", "order"]
 
 
 class LanguageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Language
-        fields = ["slug", "name"]
+        fields = ["slug", "name", "order"]
 
 
 class ProfessionSerializer(serializers.ModelSerializer):
@@ -58,13 +59,13 @@ class GradeSerializer(serializers.ModelSerializer):
 class LanguageSkillLevelSerializer(serializers.ModelSerializer):
     class Meta:
         model = LanguageSkillLevel
-        fields = ["slug", "name", "description"]
+        fields = ["slug", "name", "order", "description"]
 
 
 class CountrySerializer(serializers.ModelSerializer):
     class Meta:
         model = Country
-        fields = ["slug", "name"]
+        fields = ["slug", "name", "order"]
 
 
 class FunctionSerializer(serializers.ModelSerializer):
@@ -73,13 +74,30 @@ class FunctionSerializer(serializers.ModelSerializer):
         fields = ["slug", "name", "order"]
 
 
+class SkillLevelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SkillLevel
+        fields = ["slug", "name", "order"]
+
+
 class UserSkillSerializer(serializers.ModelSerializer):
+    level = serializers.ChoiceField(
+        choices=UserSkill.SkillLevel.choices, allow_blank=True, allow_null=True, required=False
+    )
+
     class Meta:
         model = UserSkill
-        fields = ["id", "user", "skill_name", "level", "validated", "created_at", "modified_at"]
+        fields = ["id", "user", "name", "level", "validated", "created_at", "modified_at"]
 
 
 class UserLanguageSerializer(serializers.ModelSerializer):
+    speaking_level = serializers.ChoiceField(
+        choices=UserLanguage.LanguageLevel.choices, allow_blank=True, allow_null=True, required=False
+    )
+    writing_level = serializers.ChoiceField(
+        choices=UserLanguage.LanguageLevel.choices, allow_blank=True, allow_null=True, required=False
+    )
+
     class Meta:
         model = UserLanguage
         fields = ["id", "user", "name", "speaking_level", "writing_level", "created_at", "modified_at"]
@@ -88,25 +106,36 @@ class UserLanguageSerializer(serializers.ModelSerializer):
 class UserSkillDevelopSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserSkillDevelop
-        fields = ["id", "user", "skill_name"]
+        fields = ["id", "user", "name", "created_at", "modified_at"]
 
 
 class UserSkillSerializerNested(serializers.ModelSerializer):
+    level = serializers.ChoiceField(
+        choices=UserSkill.SkillLevel.choices, allow_blank=True, allow_null=True, required=False
+    )
+
     class Meta:
         model = UserSkill
-        fields = ["skill_name", "level", "validated"]
+        fields = ["id", "name", "level", "validated"]
 
 
 class UserLanguageSerializerNested(serializers.ModelSerializer):
+    speaking_level = serializers.ChoiceField(
+        choices=UserLanguage.LanguageLevel.choices, allow_blank=True, allow_null=True, required=False
+    )
+    writing_level = serializers.ChoiceField(
+        choices=UserLanguage.LanguageLevel.choices, allow_blank=True, allow_null=True, required=False
+    )
+
     class Meta:
         model = UserLanguage
-        fields = ["name", "speaking_level", "writing_level"]
+        fields = ["id", "name", "speaking_level", "writing_level"]
 
 
 class UserSkillDevelopSerializerNested(serializers.ModelSerializer):
     class Meta:
         model = UserSkillDevelop
-        fields = ["skill_name"]
+        fields = ["id", "name"]
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -117,6 +146,12 @@ class UserSerializer(serializers.ModelSerializer):
     professions = serializers.SlugRelatedField(
         many=True, queryset=Profession.objects.all(), read_only=False, slug_field="name", required=False
     )
+    is_line_manager = serializers.SerializerMethodField(read_only=True)
+
+    def get_is_line_manager(self, user):
+        email = user.email
+        num_direct_reports = User.objects.filter(line_manager_email=email).count()
+        return bool(num_direct_reports)
 
     def update(self, instance, validated_data):
         single_fields_to_update = [
@@ -152,8 +187,8 @@ class UserSerializer(serializers.ModelSerializer):
         # For skills and languages - append to exisiting lists of skills/langs
         if "skills" in validated_data:
             for skill_data in validated_data["skills"]:
-                skill_name = skill_data["skill_name"]
-                UserSkill.objects.update_or_create(user=instance, skill_name=skill_name, defaults=skill_data)
+                name = skill_data["name"]
+                UserSkill.objects.update_or_create(user=instance, name=name, defaults=skill_data)
 
         if "languages" in validated_data:
             for language_data in validated_data["languages"]:
@@ -162,8 +197,8 @@ class UserSerializer(serializers.ModelSerializer):
 
         if "skills_develop" in validated_data:
             for skill_data in validated_data["skills_develop"]:
-                skill_name = skill_data["skill_name"]
-                UserSkillDevelop.objects.update_or_create(user=instance, skill_name=skill_name)
+                name = skill_data["name"]
+                UserSkillDevelop.objects.update_or_create(user=instance, name=name)
 
         instance.save()
         return instance
@@ -182,6 +217,7 @@ class UserSerializer(serializers.ModelSerializer):
             "business_unit",
             "location",
             "line_manager_email",
+            "is_line_manager",
             "grade",
             "grade_other",
             "professions",

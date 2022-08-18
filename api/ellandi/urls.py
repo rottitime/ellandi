@@ -8,22 +8,39 @@ from drf_spectacular.views import (
 )
 
 from ellandi import auth
-from ellandi.registration.views import (
-    create_one_time_login_view,
-    first_log_in_view,
-    me_view,
-    register_view,
-    registration_router,
-    skills_list_view,
-)
+from ellandi.registration import views
 
 api_urlpatterns = [
-    path("", include(registration_router.urls)),
-    path("me", me_view, name="me"),
-    path("register/", register_view, name="register"),
-    path("skills/", skills_list_view, name="skills"),
-    path("one-time-login-token/", create_one_time_login_view),
-    path("first-time-login/", first_log_in_view),
+    path("", include(views.registration_router.urls)),
+    path("me", views.me_view, name="me"),
+    path("me/skills/", views.me_skills_view, name="me-skills"),
+    path("me/languages/", views.me_languages_view, name="me-languages"),
+    path("me/skills-develop/", views.me_skills_develop_view, name="me-skills-develop"),
+    path("me/skills/<str:skill_id>/", views.me_skill_delete_view, name="me-skill-delete"),
+    path("me/languages/<str:language_id>/", views.me_language_delete_view, name="me-language-delete"),
+    path(
+        "me/skills-develop/<str:skill_develop_id>/", views.me_skill_develop_delete_view, name="me-skill-develop-delete"
+    ),
+    path("me/direct-reports/", views.me_direct_reports_view, name="me-direct-reports"),
+    path("users/<str:user_id>/skills/", views.user_skills_view, name="user-skills"),
+    path("users/<str:user_id>/languages/", views.user_languages_view, name="user-languages"),
+    path("users/<str:user_id>/skills-develop/", views.user_skills_develop_view, name="user-skill-develop"),
+    path("users/<str:user_id>/skills/<str:skill_id>/", views.users_skill_delete_view, name="user-skill-delete"),
+    path(
+        "users/<str:user_id>/languages/<str:language_id>/",
+        views.users_language_delete_view,
+        name="user-language-delete",
+    ),
+    path(
+        "users/<str:user_id>/skills-develop/<str:skill_develop_id>/",
+        views.users_skill_develop_delete_view,
+        name="user-skill-develop",
+    ),
+    path("users/<str:user_id>/direct-reports/", views.user_direct_reports_view, name="user-direct-reports"),
+    path("register/", views.register_view, name="register"),
+    path("skills/", views.skills_list_view, name="skills"),
+    path("one-time-login-token/", views.create_one_time_login_view),
+    path("first-time-login/", views.first_log_in_view),
 ]
 
 schema_urlpatterns = [

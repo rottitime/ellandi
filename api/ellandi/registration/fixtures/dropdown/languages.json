@@ -1,1 +1,90 @@
-[{"model": "registration.language", "pk": "arabic", "fields": {"name": "Arabic"}}, {"model": "registration.language", "pk": "bengali", "fields": {"name": "Bengali"}}, {"model": "registration.language", "pk": "english", "fields": {"name": "English"}}, {"model": "registration.language", "pk": "french", "fields": {"name": "French"}}, {"model": "registration.language", "pk": "hindi", "fields": {"name": "Hindi"}}, {"model": "registration.language", "pk": "indonesian", "fields": {"name": "Indonesian"}}, {"model": "registration.language", "pk": "mandarin-chinese", "fields": {"name": "Mandarin Chinese"}}, {"model": "registration.language", "pk": "other", "fields": {"name": "Other"}}, {"model": "registration.language", "pk": "portuguese", "fields": {"name": "Portuguese"}}, {"model": "registration.language", "pk": "russian", "fields": {"name": "Russian"}}, {"model": "registration.language", "pk": "spanish", "fields": {"name": "Spanish"}}]
+[
+{
+  "model": "registration.language",
+  "pk": "arabic",
+  "fields": {
+    "name": "Arabic",
+    "order": null
+  }
+},
+{
+  "model": "registration.language",
+  "pk": "bengali",
+  "fields": {
+    "name": "Bengali",
+    "order": null
+  }
+},
+{
+  "model": "registration.language",
+  "pk": "english",
+  "fields": {
+    "name": "English",
+    "order": null
+  }
+},
+{
+  "model": "registration.language",
+  "pk": "french",
+  "fields": {
+    "name": "French",
+    "order": null
+  }
+},
+{
+  "model": "registration.language",
+  "pk": "hindi",
+  "fields": {
+    "name": "Hindi",
+    "order": null
+  }
+},
+{
+  "model": "registration.language",
+  "pk": "indonesian",
+  "fields": {
+    "name": "Indonesian",
+    "order": null
+  }
+},
+{
+  "model": "registration.language",
+  "pk": "mandarin-chinese",
+  "fields": {
+    "name": "Mandarin Chinese",
+    "order": null
+  }
+},
+{
+  "model": "registration.language",
+  "pk": "other",
+  "fields": {
+    "name": "Other",
+    "order": null
+  }
+},
+{
+  "model": "registration.language",
+  "pk": "portuguese",
+  "fields": {
+    "name": "Portuguese",
+    "order": null
+  }
+},
+{
+  "model": "registration.language",
+  "pk": "russian",
+  "fields": {
+    "name": "Russian",
+    "order": null
+  }
+},
+{
+  "model": "registration.language",
+  "pk": "spanish",
+  "fields": {
+    "name": "Spanish",
+    "order": null
+  }
+}
+]

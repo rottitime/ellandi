@@ -1,5 +1,5 @@
 import { Typography, Box } from '@mui/material'
-import CardLayout from '@/components/Layout/CardLayout'
+import CardLayout from '@/components/Layout/CardLayout/CardLayout'
 import router from 'next/router'
 import { useState } from 'react'
 import Button from '@/components/UI/Button/Button'

@@ -1,0 +1,43 @@
+[
+
+{
+  "model": "registration.skilllevel",
+  "pk": "beginner",
+  "fields": {
+    "name": "Beginner",
+    "order": 0
+  }
+},
+{
+  "model": "registration.skilllevel",
+  "pk": "advanced-beginner",
+  "fields": {
+    "name": "Advanced beginner",
+    "order": 1
+  }
+},
+{
+  "model": "registration.skilllevel",
+  "pk": "competent",
+  "fields": {
+    "name": "Competent",
+    "order": 2
+  }
+},
+{
+  "model": "registration.skilllevel",
+  "pk": "proficient",
+  "fields": {
+    "name": "Proficient",
+    "order": 3
+  }
+},
+{
+  "model": "registration.skilllevel",
+  "pk": "expert",
+  "fields": {
+    "name": "Expert",
+    "order": 4
+  }
+}
+]

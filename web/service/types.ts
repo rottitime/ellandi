@@ -6,13 +6,17 @@ export enum Query {
   Functions = 'functions',
   ContractTypes = 'contract-types',
   Languages = 'languages',
+  LanguageSkillLevels = 'languageSkillLevels',
   Skills = 'skills',
-  Me = 'me'
+  SkillLevels = 'skillLevels',
+  Me = 'me',
+  TeamMembers = 'teamMembers'
 }
 
 export type GenericDataList = {
   slug: string
   name: string
+  order?: number
 }
 
 export interface AuthUser {
@@ -54,12 +58,23 @@ export type ProfessionType = {
   profession_other: string
 }
 
+export type SkillType = {
+  id?: string
+  name: string
+  level: string
+}
+
+export type SkillDevelopType = {
+  id?: string
+  name: string
+}
+
 export type SkillsType = {
-  skills: string[]
+  skills: SkillType[]
 }
 
 export type SkillsDevelopType = {
-  skills_develop: string[]
+  skills_develop: SkillDevelopType[]
 }
 
 export type PrimaryProfessionType = {
@@ -81,9 +96,10 @@ export type FunctionType = {
 }
 
 export type LanguageType = {
-  language: string
-  speaking: string
-  writing: string
+  id?: string
+  name: string
+  speaking_level: string
+  writing_level: string
 }
 
 export type LanguagesType = {
@@ -94,6 +110,7 @@ export type RegisterUserResponse = {
   id: string
   email: string
   url: string
+  is_line_manager: boolean
 } & PrivacyAcceptType &
   RegisterDetailsType &
   GradeType &
@@ -105,3 +122,32 @@ export type RegisterUserResponse = {
   ContractType &
   FunctionType &
   SkillsDevelopType
+
+export type TeamMember = {
+  id: string
+  email: string
+  privacy_policy_agreement: boolean
+  first_name: string
+  last_name: string
+  department: null
+  organisation: null
+  job_title: string
+  business_unit: string
+  location: string
+  line_manager_email: string
+  grade: string
+  grade_other: null
+  professions: ProfessionType[]
+  profession_other: null
+  primary_profession: string
+  function: string
+  function_other: null
+  contract_type: string
+  contract_type_other: null
+  contact_preference: true
+  skills: SkillType[]
+  languages: LanguageType[]
+  skills_develop: SkillDevelopType[]
+  created_at: string
+  modified_at: string
+}

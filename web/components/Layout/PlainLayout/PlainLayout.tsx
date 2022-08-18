@@ -1,12 +1,8 @@
-import { FC, ReactNode } from 'react'
+import { FC } from 'react'
 import { Box, styled, Typography } from '@mui/material'
 import Icon from '@/components/Icon/Icon'
 import Template from '@/components/Layout/Template'
-
-type Props = {
-  children: ReactNode
-  title: string | ReactNode
-}
+import { Props } from './types'
 
 const Page = styled(Template)`
   padding-top: ${(p) => p.theme.spacing(6)};

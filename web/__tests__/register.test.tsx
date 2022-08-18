@@ -9,13 +9,6 @@ jest.mock('next/router', () => ({
   push: jest.fn()
 }))
 
-// jest.mock('next/dynamic', () => ({
-//   ...jest.requireActual('next/dynamic'),
-//   default: () => {
-//     dynamic: (s) => 'd'
-//   }
-// }))
-
 //TODO: Test the steps page
 describe.skip('Page: Registration steps', () => {
   afterEach(() => {
@@ -23,7 +16,7 @@ describe.skip('Page: Registration steps', () => {
   })
 
   it('render', async () => {
-    const { debug } = await renderWithProviders(
+    renderWithProviders(
       <RegisterStepPage
         stepInt={0}
         nextUrl=""

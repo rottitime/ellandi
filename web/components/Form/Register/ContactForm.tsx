@@ -8,7 +8,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import Form from '@/components/Form/Register/FormRegister/FormRegister'
 
 const schema: SchemaOf<ContactType> = object().shape({
-  contact_preference: boolean()
+  contact_preference: boolean().nullable()
 })
 
 const ContactForm: FC<StandardRegisterProps<ContactType>> = (props) => {

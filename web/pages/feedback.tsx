@@ -1,4 +1,4 @@
-import CardLayout from '@/components/Layout/CardLayout'
+import CardLayout from '@/components/Layout/CardLayout/CardLayout'
 import FeedbackForm from '@/components/Form/FeedbackForm/FeedbackForm'
 import { useState } from 'react'
 import { Typography } from '@mui/material'

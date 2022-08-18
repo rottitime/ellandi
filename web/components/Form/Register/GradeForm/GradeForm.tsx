@@ -1,4 +1,4 @@
-import { FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material'
+import { Box, FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material'
 import { useQuery } from 'react-query'
 import RadioSkeleton from '@/components/UI/Skeleton/RadioSkeleton'
 import { fetchGrades, GenericDataList, GradeType, Query } from '@/service/api'
@@ -50,10 +50,6 @@ const GradeForm: FC<StandardRegisterProps<GradeType>> = (props) => {
           Select your grade. You may only choose one
         </Typography>
 
-        <Typography gutterBottom>
-          We'll use this to suggest learning opportunities that are relevant to you
-        </Typography>
-
         <Controller
           name="grade"
           control={control}
@@ -64,20 +60,20 @@ const GradeForm: FC<StandardRegisterProps<GradeType>> = (props) => {
                     <RadioSkeleton key={i} width="80%" sx={{ mb: 1 }} />
                   ))
                 : data.map(({ name }) => (
-                    <FormControlLabel
-                      key={name}
-                      control={<Radio />}
-                      label={name}
-                      value={name}
-                    />
+                    <Box key={name}>
+                      <FormControlLabel control={<Radio />} label={name} value={name} />
+                      {name === 'Other' && watchFields.grade === 'Other' && (
+                        <TextFieldControlled
+                          name="grade_other"
+                          label="Enter grade"
+                          subfield
+                        />
+                      )}
+                    </Box>
                   ))}
             </RadioGroup>
           )}
         />
-
-        {watchFields.grade === 'Other' && (
-          <TextFieldControlled name="grade_other" label="Enter grade" />
-        )}
       </Form>
     </FormProvider>
   )

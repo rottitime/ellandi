@@ -47,7 +47,7 @@ const AppBar = styled(MuiAppBar)`
   }
 `
 
-const ResponsiveAppBar: FC<Props> = ({ pages, settings }) => {
+const ResponsiveAppBar: FC<Props> = ({ pages, logoUrl, settings }) => {
   const theme = useTheme()
   const router = useRouter()
 
@@ -64,23 +64,25 @@ const ResponsiveAppBar: FC<Props> = ({ pages, settings }) => {
   return (
     <AppBar position="static" elevation={0}>
       <Toolbar disableGutters>
-        <Link href="/account">
+        <Link href={logoUrl}>
           <a>
             <Icon icon="crown-logo" className="header-logo" />
           </a>
         </Link>
 
         <Box className="menu">
-          {pages.map(({ title, url, color }) => (
-            <Button
-              style={{ textDecorationColor: theme.colors[color] }}
-              key={title}
-              href={url}
-              className={` ${router.pathname === url ? 'active' : ''}`}
-            >
-              {title}
-            </Button>
-          ))}
+          {pages
+            .filter(({ hidden }) => !hidden)
+            .map(({ title, url, color }) => (
+              <Button
+                style={{ textDecorationColor: theme.colors[color] }}
+                key={title}
+                href={url}
+                className={` ${router.pathname === url ? 'active' : ''}`}
+              >
+                {title}
+              </Button>
+            ))}
         </Box>
 
         <Box sx={{ flexGrow: 0 }}>

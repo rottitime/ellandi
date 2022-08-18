@@ -1,9 +1,9 @@
 import { Chip, Typography, Stack, Divider, Skeleton } from '@mui/material'
 import { FC, useEffect } from 'react'
 import { StandardRegisterProps } from './types'
-import { FormProvider, useForm } from 'react-hook-form'
+import { Controller, FormProvider, useForm } from 'react-hook-form'
 import CreatableAutocomplete from '../CreatableAutocomplete/CreatableAutocomplete'
-import { Query, SkillsType } from '@/service/types'
+import { Query, SkillsType, SkillType } from '@/service/types'
 import { fetchSkills } from '@/service/api'
 import { useQuery } from 'react-query'
 import { array, object, SchemaOf, string } from 'yup'
@@ -11,8 +11,14 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import Form from '@/components/Form/Register/FormRegister/FormRegister'
 import { Field } from '../Field/Field'
 
+const skillSchema: SchemaOf<SkillType> = object({
+  id: string().nullable(),
+  name: string().required('This is a required field'),
+  level: string().nullable()
+})
+
 const schema: SchemaOf<SkillsType> = object().shape({
-  skills: array().of(string())
+  skills: array().of(skillSchema).min(1, 'This is a required field')
 })
 const fieldName: keyof SkillsType = 'skills'
 
@@ -21,7 +27,7 @@ const SkillsForm: FC<StandardRegisterProps<SkillsType>> = (props) => {
     defaultValues: { skills: [] },
     resolver: yupResolver(schema)
   })
-  const { setValue, register, unregister, watch } = methods
+  const { setValue, register, unregister, watch, control } = methods
 
   const { isLoading, data } = useQuery<string[], { message?: string }>(
     Query.Skills,
@@ -34,7 +40,7 @@ const SkillsForm: FC<StandardRegisterProps<SkillsType>> = (props) => {
     return () => unregister(fieldName)
   }, [register, unregister])
 
-  const skills = watch(fieldName)
+  const skills = watch(fieldName, [])
 
   return (
     <FormProvider {...methods}>
@@ -42,27 +48,36 @@ const SkillsForm: FC<StandardRegisterProps<SkillsType>> = (props) => {
         <Typography variant="subtitle1" sx={{ mb: 3 }}>
           Add any skills that you already have. You can change or add to these later
         </Typography>
-        <Typography sx={{ mb: 4 }}>
-          We'll use this to suggest learning opportunities that are relevant to you
-        </Typography>
 
         {isLoading ? (
           <Skeleton width={100} sx={{ m: 1 }} />
         ) : (
           <Field>
-            <CreatableAutocomplete
-              loading={isLoading}
-              disableOptions={skills}
-              label="Select a skill or enter your own skill"
-              data={isLoading ? [] : data.map((title) => ({ title }))}
-              onSelected={async (_event, { title }) => {
-                setValue(
-                  fieldName,
-                  Array.isArray(skills) && skills?.includes(title)
-                    ? skills.filter((item) => item !== title)
-                    : [...skills, title]
-                )
-              }}
+            <Controller
+              name={fieldName}
+              control={control}
+              render={({ fieldState: { error } }) => (
+                <CreatableAutocomplete
+                  loading={isLoading}
+                  disableOptions={skills.map(({ name }) => name)}
+                  label="Select a skill or enter your own skill"
+                  data={isLoading ? [] : data.map((title) => ({ title }))}
+                  onSelected={async (_event, { title }) => {
+                    const includes =
+                      Array.isArray(skills) && !!skills.find(({ name }) => name === title)
+
+                    setValue(
+                      fieldName,
+                      includes
+                        ? skills.filter(({ name }) => name !== title)
+                        : [...skills, { name: title, level: null }]
+                    )
+                  }}
+                  onSelectedClear
+                  error={!!error}
+                  helperText={!!error && error.message}
+                />
+              )}
             />
           </Field>
         )}
@@ -74,14 +89,14 @@ const SkillsForm: FC<StandardRegisterProps<SkillsType>> = (props) => {
             <Typography sx={{ mb: 3 }}>Your selected skills</Typography>
 
             <Stack flexWrap="wrap" direction="row" gap={3}>
-              {skills.map((skill) => (
+              {skills.map(({ name }) => (
                 <Chip
-                  key={skill}
-                  label={skill}
+                  key={name}
+                  label={name}
                   onDelete={() =>
                     setValue(
                       fieldName,
-                      skills.filter((item) => item !== skill)
+                      skills.filter((skill) => name !== skill.name)
                     )
                   }
                 />

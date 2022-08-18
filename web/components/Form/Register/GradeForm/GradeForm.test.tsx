@@ -45,7 +45,7 @@ describe('GradeForm', () => {
     })
   })
 
-  it.skip('submits', async () => {
+  it('submits', async () => {
     const mockData = mockResponse[0]
     const mockSubmit = jest.fn()
 
@@ -66,6 +66,8 @@ describe('GradeForm', () => {
     await userEvent.click(screen.getByLabelText(mockData.name))
     await userEvent.click(button)
 
-    expect(mockSubmit).toHaveBeenCalledWith({ grade: mockData.name })
+    await waitFor(async () => {
+      expect(mockSubmit).toHaveBeenCalled()
+    })
   })
 })

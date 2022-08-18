@@ -12,9 +12,11 @@ from .models import (
     Location,
     Organisation,
     Profession,
+    SkillLevel,
     User,
     UserLanguage,
     UserSkill,
+    UserSkillDevelop,
 )
 
 
@@ -24,6 +26,10 @@ class UserSkillInline(admin.TabularInline):
 
 class UserLanguageInline(admin.TabularInline):
     model = UserLanguage
+
+
+class UserSkillDevelopInline(admin.TabularInline):
+    model = UserSkillDevelop
 
 
 class UserAdmin(django.contrib.auth.admin.UserAdmin):
@@ -92,7 +98,7 @@ class UserAdmin(django.contrib.auth.admin.UserAdmin):
             },
         ),
     )
-    inlines = [UserSkillInline, UserLanguageInline]
+    inlines = [UserSkillInline, UserLanguageInline, UserSkillDevelopInline]
     readonly_fields = ("id", "created_at", "modified_at", "professions")
     list_display = ("email", "first_name", "last_name")
 
@@ -102,6 +108,10 @@ class UserSkillAdmin(admin.ModelAdmin):
 
 
 class UserLanguageAdmin(admin.ModelAdmin):
+    readonly_fields = ("created_at", "modified_at")
+
+
+class UserSkillDevelopAdmin(admin.ModelAdmin):
     readonly_fields = ("created_at", "modified_at")
 
 
@@ -151,9 +161,14 @@ class FunctionAdmin(DropDownListAdmin):
     readonly_fields = ("name", "slug", "order")
 
 
+class SkillLevelAdmin(DropDownListAdmin):
+    readonly_fields = ("name", "slug", "order")
+
+
 admin.site.register(User, UserAdmin)
 admin.site.register(UserSkill, UserSkillAdmin)
 admin.site.register(UserLanguage, UserLanguageAdmin)
+admin.site.register(UserSkillDevelop, UserSkillDevelopAdmin)
 admin.site.register(Organisation, OrganisationAdmin)
 admin.site.register(ContractType, ContractTypeAdmin)
 admin.site.register(Location, LocationAdmin)
@@ -163,4 +178,5 @@ admin.site.register(Grade, GradeAdmin)
 admin.site.register(LanguageSkillLevel, LanguageSkillLevelAdmin)
 admin.site.register(Country, CountryAdmin)
 admin.site.register(Function, FunctionAdmin)
+admin.site.register(SkillLevel, SkillLevelAdmin)
 admin.site.register(EmailSalt)

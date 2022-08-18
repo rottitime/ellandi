@@ -1,4 +1,4 @@
-import PlainLayout from '@/components/Layout/PlainLayout'
+import PlainLayout from '@/components/Layout/PlainLayout/PlainLayout'
 import { Link, Typography } from '@mui/material'
 
 const PrivacyPage = () => (

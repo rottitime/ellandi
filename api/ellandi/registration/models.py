@@ -15,11 +15,21 @@ def now():
     return datetime.datetime.now(tz=pytz.UTC)
 
 
+class LowercaseEmailField(models.EmailField):
+    def pre_save(self, model_instance, add):
+        """Return field's value just before saving."""
+        value = getattr(model_instance, self.attname)
+        value = value and value.lower() or ""
+        setattr(model_instance, self.attname, value)
+        return value
+
+
 class DropDownListModel(models.Model):
     """Base class for lists for drop-downs etc."""
 
     name = models.CharField(max_length=127, blank=False, null=False)
     slug = models.CharField(max_length=127, blank=False, null=False, primary_key=True)
+    order = models.PositiveSmallIntegerField(null=True)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name.replace("|", "_"))
@@ -30,6 +40,7 @@ class DropDownListModel(models.Model):
 
     class Meta:
         abstract = True
+        ordering = ["order"]
 
 
 class Organisation(DropDownListModel):
@@ -37,10 +48,7 @@ class Organisation(DropDownListModel):
 
 
 class ContractType(DropDownListModel):
-    order = models.PositiveSmallIntegerField(null=True)
-
-    class Meta:
-        ordering = ["order"]
+    pass
 
 
 class Location(DropDownListModel):
@@ -52,17 +60,11 @@ class Language(DropDownListModel):
 
 
 class Profession(DropDownListModel):
-    order = models.PositiveSmallIntegerField(null=True)
-
-    class Meta:
-        ordering = ["order"]
+    pass
 
 
 class Grade(DropDownListModel):
-    order = models.PositiveSmallIntegerField(null=True)
-
-    class Meta:
-        ordering = ["order"]
+    pass
 
 
 class LanguageSkillLevel(DropDownListModel):
@@ -75,14 +77,19 @@ class Country(DropDownListModel):
 
 
 class Function(DropDownListModel):
-    order = models.PositiveSmallIntegerField(null=True)
+    pass
 
-    class Meta:
-        ordering = ["order"]
+
+class SkillLevel(DropDownListModel):
+    pass
 
 
 class UserManager(BaseUserManager):
     use_in_migrations = True
+
+    def normalize_email(self, email):
+        email = email or ""
+        return email.lower()
 
     def _create_user(self, email, password, **extra_fields):
         if not email:
@@ -111,15 +118,8 @@ class UserManager(BaseUserManager):
 
 
 class TimeStampedModel(models.Model):
-    created_at = models.DateTimeField(editable=False, default=now)
-    modified_at = models.DateTimeField(editable=False, default=now)
-
-    def save(self, *args, **kwargs):
-        update_fields = kwargs.get("update_fields", None)
-        if update_fields:
-            kwargs["update_fields"] = set(update_fields).union({"modified_at"})
-
-        super().save(*args, **kwargs)
+    created_at = models.DateTimeField(editable=False, auto_now_add=True)
+    modified_at = models.DateTimeField(editable=False, auto_now=True)
 
     class Meta:
         abstract = True
@@ -135,7 +135,7 @@ class RegistrationAbstractUser(models.Model):
     business_unit = models.CharField(max_length=127, blank=True, null=True)
     location = models.CharField(max_length=127, blank=True, null=True)
     location_other = models.CharField(max_length=127, blank=True, null=True)
-    line_manager_email = models.CharField(max_length=128, blank=True, null=True)
+    line_manager_email = LowercaseEmailField(max_length=128, blank=True, null=True)
     grade = models.CharField(max_length=127, blank=True, null=True)
     grade_other = models.CharField(max_length=127, blank=True, null=True)
     professions = models.ManyToManyField(Profession, blank=True)
@@ -151,7 +151,7 @@ class RegistrationAbstractUser(models.Model):
 class User(AbstractUser, TimeStampedModel, RegistrationAbstractUser):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     username = None
-    email = models.EmailField("email", unique=True)
+    email = LowercaseEmailField("email", unique=True)
     privacy_policy_agreement = models.BooleanField(default=False, blank=False, null=False)
 
     first_name = models.CharField("first name", max_length=128, blank=True, null=True)
@@ -167,32 +167,33 @@ class UserSkill(TimeStampedModel):
     """Info on a particular skill for a given user."""
 
     class SkillLevel(models.TextChoices):
-        BEGINNER = ("beginner", "Beginner")
-        ADVANCED_BEGINNER = ("advanced-beginner", "Advanced beginner")
-        COMPETENT = ("competent", "Competent")
-        PROFICIENT = ("proficient", "Proficient")
-        EXPERT = ("expert", "Expert")
+        BEGINNER = ("Beginner", "Beginner")
+        ADVANCED_BEGINNER = ("Advanced beginner", "Advanced beginner")
+        COMPETENT = ("Competent", "Competent")
+        PROFICIENT = ("Proficient", "Proficient")
+        EXPERT = ("Expert", "Expert")
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, related_name="skills", on_delete=models.CASCADE)
-    skill_name = models.CharField(max_length=256)
+    name = models.CharField(max_length=256)
     level = models.CharField(max_length=64, choices=SkillLevel.choices, blank=True, null=True)
     validated = models.BooleanField(default=False, blank=False)
 
     def __str__(self):
-        return f"{self.skill_name} ({self.id})"
+        return f"{self.name} ({self.id})"
 
     class Meta:
-        unique_together = ["user", "skill_name"]
+        unique_together = ["user", "name"]
 
 
 class UserLanguage(TimeStampedModel):
     """Info on a particular language for a given user."""
 
     class LanguageLevel(models.TextChoices):
-        BASIC = ("basic", "Basic")
-        INDEPENDENT = ("independent", "Independent")
-        PROFICIENT = ("proficient", "Proficient")
+        BASIC = ("Basic", "Basic")
+        INDEPENDENT = ("Independent", "Independent")
+        PROFICIENT = ("Proficient", "Proficient")
+        NONE = ("None", "None")
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, related_name="languages", on_delete=models.CASCADE)
@@ -201,7 +202,7 @@ class UserLanguage(TimeStampedModel):
     writing_level = models.CharField(max_length=127, choices=LanguageLevel.choices, blank=True, null=True)
 
     def __str__(self):
-        return f"{self.language} ({self.id})"
+        return f"{self.name} ({self.id})"
 
     class Meta:
         unique_together = ["user", "name"]
@@ -212,11 +213,17 @@ class UserSkillDevelop(TimeStampedModel):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, related_name="skills_develop", on_delete=models.CASCADE)
-    skill_name = models.CharField(max_length=127, blank=True, null=True)
+    name = models.CharField(max_length=127, blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.name} ({self.id})"
+
+    class Meta:
+        unique_together = ["user", "name"]
 
 
 class EmailSalt(models.Model):
-    email = models.EmailField("email", unique=True, primary_key=True)
+    email = LowercaseEmailField("email", unique=True, primary_key=True)
     salt = models.BinaryField(max_length=16, blank=False, null=False)
 
     def get_one_time_login(self):

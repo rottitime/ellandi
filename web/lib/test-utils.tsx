@@ -1,5 +1,5 @@
 import { ThemeProvider } from '@mui/material'
-import { render, RenderOptions } from '@testing-library/react'
+import { render, RenderOptions, waitFor } from '@testing-library/react'
 import { ReactNode } from 'react'
 import theme from '@/style/theme'
 import { QueryClient, QueryClientProvider } from 'react-query'
@@ -43,7 +43,7 @@ export const renderWithProviders = async (
       }
     }
   })
-  const { rerender, ...props } = await render(
+  const rendered = await render(
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
         <UiProvider>
@@ -53,5 +53,15 @@ export const renderWithProviders = async (
     </QueryClientProvider>,
     options
   )
-  return { ...props, rerender }
+  return {
+    ...rendered
+    // rerender: (ui, options) =>
+    //   renderWithProviders(ui, { container: rendered.container, ...options })
+  }
 }
+
+export const bugfixForTimeout = async () =>
+  await waitFor(() => new Promise((resolve) => setTimeout(resolve, 0)))
+
+export * from '@testing-library/react'
+export { renderWithProviders as render }

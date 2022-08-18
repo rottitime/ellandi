@@ -1,10 +1,13 @@
-import CardLayout from '@/components/Layout/CardLayout'
+import CardLayout from '@/components/Layout/CardLayout/CardLayout'
 import Link from '@/components/UI/Link'
 import { Alert, Fade, Typography } from '@mui/material'
 import SignInForm from '@/components/Form/SignInForm/SignInForm'
 import router from 'next/router'
 import { useState } from 'react'
 import useAuth from '@/hooks/useAuth'
+import getConfig from 'next/config'
+
+const { publicRuntimeConfig } = getConfig()
 
 const SigninPage = () => {
   const [fetching, setFetching] = useState(false)
@@ -13,9 +16,9 @@ const SigninPage = () => {
 
   return (
     <>
-      <Typography gutterBottom>
+      <Typography sx={{ mb: 4 }}>
         If this is the first time you have used this website, you will need to{' '}
-        <Link href="/register">create an account</Link>.
+        <Link href="/register/step/0">create an account</Link>.
       </Typography>
 
       {error && (
@@ -34,7 +37,7 @@ const SigninPage = () => {
 
           try {
             await login(data)
-            router.push('/account')
+            router.push(publicRuntimeConfig.urls.landingSignin)
           } catch (err) {
             setError(err.message)
           }

@@ -2,7 +2,7 @@ import { ComponentProps, FC, ReactNode } from 'react'
 import { Link as MuiLink } from '@mui/material'
 import NextLink from 'next/link'
 
-type Props = {
+export type Props = {
   href: string
   children: ReactNode
 } & ComponentProps<typeof MuiLink>

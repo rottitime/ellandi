@@ -1,11 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import CardLayout from '@/components/Layout/CardLayout'
+import CardLayout from '@/components/Layout/CardLayout/CardLayout'
 import { useUiContext } from '@/context/UiContext'
 import {
   fetchContractTypes,
   fetchFunctions,
   fetchGrades,
   fetchLanguages,
+  fetchLanguageSkillLevels,
   fetchProfessions,
   fetchSkills,
   Query,
@@ -81,7 +82,7 @@ const RegisterPage = ({ stepInt, nextUrl, skip, ...props }: Props) => {
   >(
     async (data) =>
       !!stepInt && userId
-        ? updateUser(userId, data)
+        ? authFetch(updateUser, { ...data, id: userId })
         : createAndLogin(data as RegisterUser),
     {
       onSuccess: async (data) => {
@@ -155,6 +156,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
   await queryClient.prefetchQuery(Query.Functions, fetchFunctions)
   await queryClient.prefetchQuery(Query.ContractTypes, fetchContractTypes)
   await queryClient.prefetchQuery(Query.Languages, fetchLanguages)
+  await queryClient.prefetchQuery(Query.LanguageSkillLevels, fetchLanguageSkillLevels)
   await queryClient.prefetchQuery(Query.Skills, fetchSkills)
 
   return {
@@ -162,7 +164,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
       progress: Math.floor((stepInt / (steps.length + 1)) * 100),
       stepInt,
       title,
-      backUrl: stepInt === 0 ? '/register' : `/register/step/${stepInt - 1}`,
+      backUrl: stepInt === 0 ? '/' : `/register/step/${stepInt - 1}`,
       nextUrl: nextUrl || `/register/step/${stepInt + 1}`,
       skip: !!skip,
       dehydratedState: dehydrate(queryClient)
@@ -193,8 +195,7 @@ const steps: Steps[] = [
   },
   {
     form: dynamic(() => import('@/components/Form/Register/ProfessionForm')),
-    title: 'Profession',
-    skip: true
+    title: 'Profession'
   },
   {
     form: dynamic(() => import('@/components/Form/Register/PrimaryProfessionForm')),
@@ -207,32 +208,26 @@ const steps: Steps[] = [
   },
   {
     form: dynamic(() => import('@/components/Form/Register/ContractTypeForm')),
-    title: 'Contract type'
-  },
-  {
-    form: dynamic(() => import('@/components/Form/Register/ContactForm')),
-    title: 'Contact preference',
+    title: 'Contract type',
     nextUrl: '/register/thankyou'
   },
+  // Hidden temporarily
+  // {
+  //   form: dynamic(() => import('@/components/Form/Register/ContactForm')),
+  //   title: 'Contact preference',
+  //   nextUrl: '/register/thankyou'
+  // },
   {
-    form: dynamic(() => import('@/components/Form/Register/LanguageForm')),
-    title: 'Language skills',
-    skip: true
-  },
-  {
-    form: dynamic(() => import('@/components/Form/Register/LanguageFormTest')),
-    title: 'Language skills (DEMO)',
-    skip: true
+    form: dynamic(() => import('@/components/Form/Register/LanguageForm/LanguageForm')),
+    title: 'Language skills'
   },
   {
     form: dynamic(() => import('@/components/Form/Register/SkillsForm')),
-    title: 'Current skills',
-    skip: true
+    title: 'Current skills'
   },
   {
     form: dynamic(() => import('@/components/Form/Register/SkillsDevelopForm')),
     title: 'Skills you would like to develop',
-    nextUrl: '/register/complete',
-    skip: true
+    nextUrl: '/register/complete'
   }
 ]
