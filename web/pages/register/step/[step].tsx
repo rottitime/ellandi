@@ -209,25 +209,25 @@ const steps: Steps[] = [
   {
     form: dynamic(() => import('@/components/Form/Register/ContractTypeForm')),
     title: 'Contract type',
-    nextUrl: '/register/thankyou'
-  },
+    nextUrl: '/register/complete'
+  }
   // Hidden temporarily
   // {
   //   form: dynamic(() => import('@/components/Form/Register/ContactForm')),
   //   title: 'Contact preference',
   //   nextUrl: '/register/thankyou'
   // },
-  {
-    form: dynamic(() => import('@/components/Form/Register/LanguageForm/LanguageForm')),
-    title: 'Language skills'
-  },
-  {
-    form: dynamic(() => import('@/components/Form/Register/SkillsForm')),
-    title: 'Current skills'
-  },
-  {
-    form: dynamic(() => import('@/components/Form/Register/SkillsDevelopForm')),
-    title: 'Skills you would like to develop',
-    nextUrl: '/register/complete'
-  }
+  // {
+  //   form: dynamic(() => import('@/components/Form/Register/LanguageForm/LanguageForm')),
+  //   title: 'Language skills'
+  // },
+  // {
+  //   form: dynamic(() => import('@/components/Form/Register/SkillsForm')),
+  //   title: 'Current skills'
+  // },
+  // {
+  //   form: dynamic(() => import('@/components/Form/Register/SkillsDevelopForm')),
+  //   title: 'Skills you would like to develop',
+  //   nextUrl: '/register/complete'
+  // }
 ]
