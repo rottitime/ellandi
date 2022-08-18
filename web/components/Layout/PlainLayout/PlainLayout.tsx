@@ -4,7 +4,8 @@ import Template from '@/components/Layout/Template'
 import { Props } from './types'
 
 const Page = styled(Template)`
-  padding-top: ${(p) => p.theme.spacing(6)};
+  padding-top: ${(p) => p.theme.spacing(5)};
+  padding-bottom: ${(p) => p.theme.spacing(5)};
   .main-header {
     text-align: center;
     margin-bottom: ${(p) => p.theme.spacing(5)};
