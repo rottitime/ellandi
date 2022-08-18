@@ -72,8 +72,7 @@ def test_user_put(client, user_id):
     assert response.status_code == status.HTTP_405_METHOD_NOT_ALLOWED
 
 
-@utils.with_logged_in_client
-def test_user_patch(client, user_id):
+def patch_user(client, user_id, endpoint):
     user_skill_data = {
         "user": user_id,
         "name": "maths",
@@ -96,11 +95,13 @@ def test_user_patch(client, user_id):
     assert response.status_code == status.HTTP_201_CREATED, response.text
     response = client.post("/user-languages/", json=user_languages_data)
     assert response.status_code == status.HTTP_201_CREATED
-    response = client.patch(f"/users/{user_id}/", json=more_user_data)
+    response = client.patch(endpoint, json=more_user_data)
+    data = response.json()
     assert response.status_code == status.HTTP_200_OK
-    assert response.json()["email"] == "jane@example.com", "Email field should be read-only"
-    assert response.json()["last_name"] == "Green"
-    assert response.json()["skills"][0]["name"] == "maths"
+    assert data["email"] == "jane@example.com", "Email field should be read-only"
+    assert data["last_name"] == "Green"
+    assert data["skills"][0]["name"] == "maths"
+    assert data["location"] == "Manchester"
 
     more_nested_user_data = {
         "first_name": "Alice",
@@ -110,11 +111,11 @@ def test_user_patch(client, user_id):
         "languages": [],
         "skills_develop": [{"name": "Statistics"}, {"name": "R"}],
     }
-    response = client.patch(f"/users/{user_id}/", json=more_nested_user_data)
+    response = client.patch(endpoint, json=more_nested_user_data)
     assert response.status_code == status.HTTP_200_OK, response.text
     data = response.json()
-    assert data["first_name"] == "Alice"
-    assert len(data["professions"]) == 2
+    assert data["first_name"] == "Alice", data
+    assert len(data["professions"]) == 2, data["professions"]
     assert "Policy" in data["professions"]
     assert data["profession_other"] == ""
     assert len(data["languages"]) == 1, data["languages"]
@@ -127,7 +128,7 @@ def test_user_patch(client, user_id):
             {"name": "Spanish", "speaking_level": "Proficient", "writing_level": "Proficient"},
         ]
     }
-    response = client.patch(f"/users/{user_id}/", json=even_more_nested_data)
+    response = client.patch(endpoint, json=even_more_nested_data)
     assert response.status_code == status.HTTP_200_OK, response.text
     data = response.json()
     languages_list = data["languages"]
@@ -135,6 +136,18 @@ def test_user_patch(client, user_id):
     assert "French" in [lang["name"] for lang in languages_list]
     spanish_lang = [lang for lang in languages_list if lang["name"] == "Spanish"][0]
     assert spanish_lang["speaking_level"] == "Proficient"
+
+
+@utils.with_logged_in_client
+def test_user_patch(client, user_id):
+    endpoint = f"/users/{user_id}/"
+    patch_user(client, user_id, endpoint)
+
+
+@utils.with_logged_in_client
+def test_me_patch(client, user_id):
+    endpoint = "/me"
+    patch_user(client, user_id, endpoint)
 
 
 @utils.with_logged_in_client
