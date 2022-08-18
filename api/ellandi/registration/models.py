@@ -157,6 +157,12 @@ class User(AbstractUser, TimeStampedModel, RegistrationAbstractUser):
     first_name = models.CharField("first name", max_length=128, blank=True, null=True)
     last_name = models.CharField("last name", max_length=128, blank=True, null=True)
 
+    @property
+    def is_line_manager(self):
+        email = self.email
+        has_direct_reports = User.objects.filter(line_manager_email=email).exists()
+        return has_direct_reports
+
     objects = UserManager()
 
     USERNAME_FIELD = "email"
