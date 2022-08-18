@@ -16,6 +16,7 @@ export enum Query {
 export type GenericDataList = {
   slug: string
   name: string
+  order?: number
 }
 
 export interface AuthUser {
