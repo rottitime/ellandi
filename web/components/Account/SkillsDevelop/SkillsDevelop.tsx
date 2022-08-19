@@ -7,6 +7,7 @@ import { fetchMe } from '@/service/me'
 import TableSkeleton from '@/components/UI/Skeleton/TableSkeleton'
 import { Alert, Box, Typography } from '@mui/material'
 import { deleteSkillDevelop } from '@/service/account'
+import Link from '@/components/UI/Link'
 
 const SkillsDevelop: FC = () => {
   const { authFetch } = useAuth()
@@ -33,12 +34,17 @@ const SkillsDevelop: FC = () => {
   ) : (
     <Box sx={{ height: 'auto', width: '100%' }}>
       {isError && <Alert severity="error">{error.message}</Alert>}
+
       <Box sx={{ height: 'auto', width: '100%' }}>
         <DataGrid
           hideFooterPagination
-          components={{
-            NoRowsOverlay: () => <Alert severity="info">Enter a skill to develop</Alert>
-          }}
+          noRowContent={
+            <Alert severity="info">
+              <Link href="/account/skills/add/skills-to-develop">
+                Enter a skill to develop
+              </Link>
+            </Alert>
+          }
           autoHeight
           columns={columns}
           rows={data.skills_develop}
