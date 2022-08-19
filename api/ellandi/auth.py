@@ -27,7 +27,9 @@ class SimpleAuthentication(authentication.BaseAuthentication):
 
         user = authenticate(email=email, password=password)
         if not user:
-            raise exceptions.AuthenticationFailed("No such user")
+            raise exceptions.AuthenticationFailed(
+                "Either the email address and/or password you have entered is incorrect"
+            )
 
         return (user, None)
 
