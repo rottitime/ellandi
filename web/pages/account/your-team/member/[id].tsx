@@ -52,6 +52,7 @@ const YourTeamPage = () => {
             list={[
               ...[
                 { name: 'Job title', value: member.job_title },
+                { name: 'Business unit', value: member.business_unit },
                 { name: 'Work location', value: member.location },
                 { name: 'Grade', value: member.grade },
                 { name: 'Professions', value: member.professions.join(', ') },
