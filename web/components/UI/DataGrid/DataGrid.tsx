@@ -39,6 +39,7 @@ const DataGrid: FC<Props> = ({
   onDelete,
   deleteModalTitle,
   deleteModalContent,
+  noRowContent,
   ...props
 }) => {
   const [deleteCell, setDeleteCell] = useState<CellType>(null)
@@ -61,10 +62,7 @@ const DataGrid: FC<Props> = ({
               component="label"
               data-testid={`delete-button-${cell.formattedValue}`}
               sx={{ color: 'text.primary' }}
-              onClick={() => {
-                setDeleteCell(cell)
-                //onDelete && typeof onDelete === 'function' && onDelete(cell)
-              }}
+              onClick={() => setDeleteCell(cell)}
             >
               <Icon icon="circle-delete" />
             </IconButton>
@@ -76,6 +74,9 @@ const DataGrid: FC<Props> = ({
     ...props,
     columns
   }
+
+  if (noRowContent && !props.rows.length) return noRowContent
+
   return (
     <>
       <StyledGrid {...gridProps} />
