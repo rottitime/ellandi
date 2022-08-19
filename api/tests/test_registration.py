@@ -414,7 +414,7 @@ def test_get_skills(client, user_id):
     data = response.json()
     assert "An existing skill" in data
     assert "A new and exciting skill" in data
-    assert "Econometrics" in data
+    assert "Accessibility" in data
 
 
 def patch_get_delete_skills(client, endpoint_to_test):
