@@ -82,7 +82,7 @@ const RegisterPage = ({ stepInt, nextUrl, skip, ...props }: Props) => {
   >(
     async (data) =>
       !!stepInt && userId
-        ? authFetch(updateUser, { ...data, id: userId })
+        ? authFetch(updateUser, data)
         : createAndLogin(data as RegisterUser),
     {
       onSuccess: async (data) => {
