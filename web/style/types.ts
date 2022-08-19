@@ -11,12 +11,14 @@ export type ColorBrands = {
   brandGov: CSSProperties['color']
   brandSkills: CSSProperties['color']
   brandLearning: CSSProperties['color']
+  brandTeams: CSSProperties['color']
 }
 
 export type Colors = {
   black: CSSProperties['color']
   teal: CSSProperties['color']
   orange: CSSProperties['color']
+  purple: CSSProperties['color']
   grey1: CSSProperties['color']
   grey2: CSSProperties['color']
   grey3: CSSProperties['color']

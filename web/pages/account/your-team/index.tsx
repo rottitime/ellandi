@@ -48,8 +48,9 @@ export default YourTeamPage
 
 YourTeamPage.getLayout = (page) => (
   <AccountLayout
+    brandColor="brandTeams"
+    titleIcon="team"
     title="Your team"
-    titleIcon="skills"
     teaserHeadline="View team members skills and profile"
     breadcrumbs={[{ title: 'Your team' }]}
   >

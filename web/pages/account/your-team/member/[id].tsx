@@ -52,6 +52,7 @@ const YourTeamPage = () => {
             list={[
               ...[
                 { name: 'Job title', value: member.job_title },
+                { name: 'Business unit', value: member.business_unit },
                 { name: 'Work location', value: member.location },
                 { name: 'Grade', value: member.grade },
                 { name: 'Professions', value: member.professions.join(', ') },
@@ -142,8 +143,9 @@ export default YourTeamPage
 
 YourTeamPage.getLayout = (page) => (
   <AccountLayout
+    brandColor="brandTeams"
+    titleIcon="team"
     title="Your team"
-    titleIcon="skills"
     teaserHeadline="View team members skills and profile"
     breadcrumbs={[{ title: 'Your team' }]}
   >
