@@ -1,8 +1,6 @@
 import Head from 'next/head'
-import { ThemeProvider } from '@mui/material/styles'
-import CssBaseline from '@mui/material/CssBaseline'
+import ThemeProvider from '@/components/ThemeProvider/ThemeProvider'
 import { CacheProvider, EmotionCache } from '@emotion/react'
-import theme from '@/style/theme'
 import createEmotionCache from '@/lib/createEmotionCache'
 import { ReactNode } from 'react'
 import { Hydrate, QueryClient, QueryClientProvider } from 'react-query'
@@ -40,8 +38,7 @@ export default function MyApp({
       </Head>
       {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
 
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
+      <ThemeProvider>
         <QueryClientProvider client={queryClient}>
           <Hydrate state={pageProps.dehydratedState}>
             <UiProvider>{getLayout(<Component {...pageProps} />)}</UiProvider>
