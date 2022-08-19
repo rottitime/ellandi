@@ -12,7 +12,8 @@ export default {
     design: {
       type: 'figma',
       url: 'https://www.figma.com/file/JEg4GJzDWL4NbiWXShxHiL/Ellandi-Prototype-V3.4?node-id=9890%3A62450'
-    }
+    },
+    controls: { include: ['children'] }
   }
 } as Meta
 
