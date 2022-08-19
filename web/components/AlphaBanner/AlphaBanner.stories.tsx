@@ -1,16 +1,14 @@
 import { Meta, Story } from '@storybook/react'
+import ThemeProvider from '@/components/ThemeProvider/ThemeProvider'
 import AlphaBanner from './AlphaBanner'
-import { ThemeProvider } from '@mui/material/styles'
-import CssBaseline from '@mui/material/CssBaseline'
-import theme from '@/style/theme'
 
 export default {
   title: 'Ellandi/AlphaBanner',
   component: AlphaBanner,
   parameters: {
-    actions: {
-      handles: ['click a']
-    },
+    // actions: {
+    //   handles: ['click a']
+    // },
     design: {
       type: 'figma',
       url: 'https://www.figma.com/file/JEg4GJzDWL4NbiWXShxHiL/Ellandi-Prototype-V3.4?node-id=9890%3A62450'
@@ -20,8 +18,7 @@ export default {
 
 const Template: Story = ({ ...args }) => {
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
+    <ThemeProvider>
       <AlphaBanner {...args} />
     </ThemeProvider>
   )
