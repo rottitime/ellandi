@@ -1,5 +1,4 @@
 import { ComponentStory, Meta } from '@storybook/react'
-import ThemeProvider from '@/components/ThemeProvider/ThemeProvider'
 import Icon, { icons } from './Icon'
 import { IconsType } from './types'
 import { Box } from '@mui/material'
@@ -30,20 +29,14 @@ export default {
 } as Meta
 
 const TemplateAll: ComponentStory<typeof Icon> = ({ ...args }) => (
-  <ThemeProvider>
-    <Box style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
-      {Object.keys(icons).map((icon) => (
-        <Icon {...args} icon={icon as IconsType} key={icon} />
-      ))}
-    </Box>
-  </ThemeProvider>
+  <Box style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
+    {Object.keys(icons).map((icon) => (
+      <Icon {...args} icon={icon as IconsType} key={icon} />
+    ))}
+  </Box>
 )
 
-const Template: ComponentStory<typeof Icon> = ({ ...args }) => (
-  <ThemeProvider>
-    <Icon {...args} />
-  </ThemeProvider>
-)
+const Template: ComponentStory<typeof Icon> = ({ ...args }) => <Icon {...args} />
 
 export const All = TemplateAll.bind({})
 All.args = {}

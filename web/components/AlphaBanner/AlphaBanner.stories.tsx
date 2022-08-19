@@ -1,5 +1,4 @@
 import { Meta, Story } from '@storybook/react'
-import ThemeProvider from '@/components/ThemeProvider/ThemeProvider'
 import AlphaBanner from './AlphaBanner'
 
 export default {
@@ -17,13 +16,8 @@ export default {
   }
 } as Meta
 
-const Template: Story = ({ ...args }) => {
-  return (
-    <ThemeProvider>
-      <AlphaBanner {...args} />
-    </ThemeProvider>
-  )
-}
+const Template: Story = ({ ...args }) => <AlphaBanner {...args} />
+
 export const Default = Template.bind({})
 Default.args = {
   children:
