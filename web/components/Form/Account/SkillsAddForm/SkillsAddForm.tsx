@@ -8,9 +8,15 @@ import {
   styled,
   Box
 } from '@mui/material'
-import { GenericDataList, Query, SkillsType, SkillType } from '@/service/types'
+import {
+  GenericDataList,
+  Query,
+  RegisterUserResponse,
+  SkillsType,
+  SkillType
+} from '@/service/types'
 import { fetchSkillLevels, fetchSkills } from '@/service/api'
-import { FC } from 'react'
+import { FC, useEffect, useMemo } from 'react'
 import { useQuery } from 'react-query'
 import { Controller, FormProvider, useFieldArray, useForm } from 'react-hook-form'
 import { Field } from '@/components/Form/Field/Field'
@@ -20,6 +26,8 @@ import { Props } from './types'
 import CreatableAutocomplete from '../../CreatableAutocomplete/CreatableAutocomplete'
 import Icon from '@/components/Icon/Icon'
 import Button from '@/components/UI/Button/Button'
+import { fetchMe } from '@/service/me'
+import useAuth from '@/hooks/useAuth'
 
 const Row = styled(Field)`
   display: flex;
@@ -49,10 +57,16 @@ const schema: SchemaOf<SkillsType> = object().shape({
 })
 
 const SkillsAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
+  const { authFetch } = useAuth()
   const { isLoading, data: levels } = useQuery<GenericDataList[], { message?: string }>(
     Query.SkillLevels,
     fetchSkillLevels,
     { staleTime: Infinity }
+  )
+
+  const { isFetched: isFetchedMe, data: dataMe } = useQuery<RegisterUserResponse>(
+    Query.Me,
+    () => authFetch(fetchMe)
   )
 
   const { isLoading: isLoadingSkills, data: skillsList } = useQuery<
@@ -69,9 +83,22 @@ const SkillsAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
 
   const { fields, append, remove } = useFieldArray<SkillsType, 'skills', 'name'>({
     control,
-    name: 'skills',
-    keyName: 'name'
+    name: 'skills'
+    // keyName: 'name'
   })
+
+  useEffect(() => {
+    append({ name: '', level: '' })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const disableOptions = useMemo(
+    () => [
+      ...fields.map(({ name }) => name),
+      ...(isFetchedMe ? dataMe.skills.map(({ name }) => name) : [])
+    ],
+    [fields, isFetchedMe, dataMe]
+  )
 
   return (
     <FormProvider {...methods}>
@@ -84,21 +111,17 @@ const SkillsAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
               {fields.map((_item, index) => (
                 <Row key={index}>
                   <Controller
-                    name={`skills.${index}.name` as `skills.${number}`}
+                    name={`skills.${index}.name`}
                     control={control}
-                    render={({ fieldState: { error } }) => (
+                    render={({ field: { name }, fieldState: { error } }) => (
                       <CreatableAutocomplete
                         loading={isLoadingSkills}
-                        disableOptions={fields.map(({ name }) => name)}
+                        disableOptions={disableOptions}
                         label="Ener a skill"
                         data={
                           isLoading ? [] : skillsList.map((skill) => ({ title: skill }))
                         }
-                        onSelected={
-                          async (_event, values) =>
-                            setValue(`skills.${index}.name`, values?.title)
-                          // setValue(name, title)
-                        }
+                        onSelected={(_event, { title }) => setValue(name, title)}
                         size="small"
                         error={!!error}
                         helperText={!!error && error.message}
