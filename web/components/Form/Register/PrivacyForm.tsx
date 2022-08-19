@@ -30,7 +30,7 @@ const PrivacyForm: FC<StandardRegisterProps<PrivacyAcceptType>> = (props) => {
     <FormProvider {...methods}>
       <Form {...props} submitDisabled>
         <Typography gutterBottom>
-          <Link href="/help/privacy-notice" target="_tab">
+          <Link href="/help/privacy-policy" target="_tab">
             Privacy policy (opens in a new tab)
           </Link>
         </Typography>
