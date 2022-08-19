@@ -20,6 +20,7 @@ const colors: Colors = {
   black: '#000',
   teal: '#00897B',
   orange: '#FF3D00',
+  purple: '#6458F4',
 
   grey1: '#E9EAEC',
   grey2: '#AEAEAE',
@@ -39,6 +40,7 @@ const theme = createTheme({
     brandGov: colors.black,
     brandSkills: colors.teal,
     brandLearning: colors.orange,
+    brandTeams: colors.purple,
     link: colors.blue1,
     success: colors.green
   },
