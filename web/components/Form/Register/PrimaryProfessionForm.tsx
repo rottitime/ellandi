@@ -35,7 +35,16 @@ const PrimaryProfessionForm: FC<
     authFetch(fetchMe)
   )
 
-  const professions = useMemo(() => data?.professions || [], [data])
+  const professions = useMemo(() => {
+    return (
+      data?.professions.map((profession) => {
+        if (profession.toLowerCase() === 'other') {
+          return data.profession_other
+        }
+        return profession
+      }) || []
+    )
+  }, [data])
 
   useEffect(() => {
     if (!isLoading && professions.length < 2) router.push(props.backUrl, undefined)
