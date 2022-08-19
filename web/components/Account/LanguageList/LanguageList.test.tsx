@@ -72,7 +72,7 @@ describe('LanguageList', () => {
     await bugfixForTimeout()
 
     await waitFor(async () => {
-      expect(screen.getByText('Enter a language')).toBeInTheDocument()
+      expect(screen.getByText('Add a language skill')).toBeInTheDocument()
     })
   })
 
@@ -103,12 +103,12 @@ describe('LanguageList', () => {
       await waitFor(async () => {
         expect(screen.getByText(mockSuccess.languages[0].name)).toBeInTheDocument()
       })
-      expect(screen.queryByText('Enter a language')).not.toBeInTheDocument()
+      expect(screen.queryByText('Add a language skill')).not.toBeInTheDocument()
       await userEvent.click(screen.getByTestId('delete-button-test1'))
       await userEvent.click(screen.getByTestId('delete-button-test2'))
       await userEvent.click(screen.getByTestId('delete-button-test3'))
       await waitFor(async () => {
-        expect(screen.getByText('Enter a language')).toBeInTheDocument()
+        expect(screen.getByText('Add a language skill')).toBeInTheDocument()
       })
     })
   })
