@@ -1,7 +1,10 @@
-import { ComponentProps, ReactNode } from 'react'
+import { ComponentProps, ReactElement, ReactNode } from 'react'
 import { DataGrid, GridRenderCellParams } from '@mui/x-data-grid'
 
-export type Props = DeleteProps & ComponentProps<typeof DataGrid>
+export type Props = {
+  noRowContent?: ReactElement
+} & DeleteProps &
+  ComponentProps<typeof DataGrid>
 
 type DeleteProps =
   | {
