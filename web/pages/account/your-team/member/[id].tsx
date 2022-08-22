@@ -24,6 +24,15 @@ const YourTeamPage = () => {
     [data, isFetched, id]
   )
 
+  const professions = useMemo(
+    () =>
+      member?.professions.map((profession) => {
+        return member.profession_other
+        return profession
+      }) || [],
+    [member]
+  )
+
   return (
     <AccountLayout
       brandColor="brandTeams"
@@ -65,7 +74,7 @@ const YourTeamPage = () => {
                   { name: 'Business unit', value: member.business_unit },
                   { name: 'Work location', value: member.location },
                   { name: 'Grade', value: member.grade },
-                  { name: 'Professions', value: member.professions.join(', ') },
+                  { name: 'Professions', value: professions.join(', ') },
                   { name: 'Primary Profession', value: member.primary_profession },
                   { name: 'Function', value: member.function },
                   { name: 'Contract type', value: member.contract_type }
