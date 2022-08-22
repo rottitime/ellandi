@@ -72,7 +72,7 @@ export const SectionOne: FC<SectionOneProps> = ({ active }) => (
             value={title}
             control={<Radio />}
             label={title}
-            onClick={() => Router.push(url)}
+            onClick={async () => await Router.push(url)}
           />
         ))}
       </RadioGroup>

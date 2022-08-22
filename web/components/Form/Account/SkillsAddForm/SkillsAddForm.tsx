@@ -72,7 +72,9 @@ const SkillsAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
   const { isLoading: isLoadingSkills, data: skillsList } = useQuery<
     string[],
     { message?: string }
-  >(Query.Skills, fetchSkills, { staleTime: Infinity })
+  >(Query.Skills, fetchSkills, {
+    staleTime: Infinity
+  })
 
   const methods = useForm<SkillsType>({
     defaultValues: { skills: [] },
@@ -118,9 +120,7 @@ const SkillsAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
                         loading={isLoadingSkills}
                         disableOptions={disableOptions}
                         label="Ener a skill"
-                        data={
-                          isLoading ? [] : skillsList.map((skill) => ({ title: skill }))
-                        }
+                        data={(skillsList || []).map((skill) => ({ title: skill }))}
                         onSelected={(_event, { title }) => setValue(name, title)}
                         size="small"
                         error={!!error}

@@ -22,7 +22,7 @@ const SkillsAddSkillsPage = () => {
   const { isLoading, ...mutate } = useMutation<RegisterUserResponse, Error, SkillType[]>(
     async (data) => authFetch(addSkills, data),
     {
-      onSuccess: async () => Router.push('/account/skills')
+      onSuccess: async () => await Router.push('/account/skills')
     }
   )
 
