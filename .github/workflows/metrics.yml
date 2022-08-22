@@ -1,0 +1,50 @@
+---
+name: Deploy Prometheus
+
+on:
+  push:
+    branches:
+      - sandbox
+    paths:
+      - .github/workflows/metrics.yml
+      - 'manifests/Metrics/PromethuesServer/**'
+
+jobs:
+  deploy_prometheus:
+
+    runs-on: ubuntu-latest
+
+    env:
+      CF_SPACE: i-dot-ai-metrics
+
+    strategy:
+      matrix:
+        app: [prometheus-server]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Download CF CLI
+        working-directory: ./manifests/Metrics/PrometheusServer
+        run: curl -L "https://packages.cloudfoundry.org/stable?release=linux64-binary&version=v7&source=github" | tar -zx
+
+      - name: CF login
+        working-directory: ./manifests/Metrics/PrometheusServer
+        run: ./cf login -a api.london.cloud.service.gov.uk -u "${{ secrets.CF_USER }}" -p "${{ secrets.CF_PASSWORD }}" -o co-i-ai -s "$CF_SPACE"
+
+      - name: CF push prometheus-server
+        working-directory: ./manifests/Metrics/PrometheusServer
+        run: ./cf push -f manifest.yml
+
+
+      - uses: actions/checkout@v2
+      - name: Slack Notification
+        continue-on-error: true
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_COLOR: '#FF0000'
+          SLACK_ICON: https://avatars0.githubusercontent.com/u/818058?s=200&v=4
+          SLACK_TITLE: '${{ github.ref_name }} deployment ${{ job.status }} :warning:'
+          SLACK_USERNAME: ${{ github.actor }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_MESSAGE: '${{ github.ref_name }} Action ${{ job.status }}'
