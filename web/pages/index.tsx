@@ -32,7 +32,7 @@ const IndexPage = () => (
 
       <Box width={16} />
 
-      <Button variant="contained" href="/register/step/0">
+      <Button variant="contained" href="/register">
         Create Account
       </Button>
     </Box>

@@ -18,7 +18,7 @@ const SigninPage = () => {
     <>
       <Typography sx={{ mb: 4 }}>
         If this is the first time you have used this website, you will need to{' '}
-        <Link href="/register/step/0">create an account</Link>.
+        <Link href="/register">create an account</Link>.
       </Typography>
 
       {error && (
