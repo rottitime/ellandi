@@ -11,7 +11,7 @@ import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldCo
 import Form from '@/components/Form/Register/FormRegister/FormRegister'
 
 const schema: SchemaOf<GradeType> = object().shape({
-  grade: string().nullable().required('This field is required'),
+  grade: string().nullable().required('This is a required field'),
   grade_other: string()
     .nullable()
     .when('grade', (grade) => {

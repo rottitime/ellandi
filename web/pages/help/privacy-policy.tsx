@@ -3,6 +3,10 @@ import { Link, Typography } from '@mui/material'
 
 const PrivacyPage = () => (
   <>
+    <Typography gutterBottom sx={{ color: 'error.main' }} variant="h1" component="p">
+      DRAFT POLICY
+    </Typography>
+
     <Typography gutterBottom>
       For the Skills and Learning Service, we process the following personal data:
     </Typography>

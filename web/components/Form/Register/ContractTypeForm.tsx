@@ -12,7 +12,7 @@ import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldCo
 import Form from '@/components/Form/Register/FormRegister/FormRegister'
 
 const schema: SchemaOf<ContractType> = object().shape({
-  contract_type: string().required('This field is required'),
+  contract_type: string().required('This is a required field'),
   contract_type_other: string()
     .nullable()
     .when('contract_type', (functionType) => {
