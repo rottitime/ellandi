@@ -2,8 +2,7 @@
 import { FC, useState, SyntheticEvent, useEffect, useId, ReactNode } from 'react'
 import { Box, styled, Tab, Tabs as MuiTabs } from '@mui/material'
 import { Props } from './types'
-import ConditionalWrapper from '@/components/ConditionalWrapper/ConditionalWrapper'
-import NextLink from 'next/link'
+import { useRouter } from 'next/router'
 
 const Wrapper = styled(Box)`
   .MuiTabs-flexContainer {
@@ -41,6 +40,7 @@ const Tabs: FC<Props> = ({
   ...props
 }) => {
   const [currentActiveTab, setCurrentActiveTab] = useState<number>(activeIndex)
+  const router = useRouter()
   const id = useId()
 
   useEffect(() => {
@@ -73,27 +73,19 @@ const Tabs: FC<Props> = ({
   return (
     <Wrapper>
       <MuiTabs {...props} value={currentActiveTab} onChange={handleChange}>
-        {tabItems.map((item, index) => {
-          return (
-            <ConditionalWrapper
-              condition={!!item.href}
-              wrapper={(children) => (
-                <NextLink href={item.href} passHref>
-                  {children}
-                </NextLink>
-              )}
-              key={index}
-            >
-              <Tab
-                className={currentActiveTab === index ? 'active' : ''}
-                label={item.title}
-                disabled={item.disabled}
-                id={`${id}-tab-${index}`}
-                aria-controls={`${id}-tabpanel-${index}`}
-              />
-            </ConditionalWrapper>
-          )
-        })}
+        {tabItems.map((item, index) => (
+          <Tab
+            key="index"
+            className={currentActiveTab === index ? 'active' : ''}
+            label={item.title}
+            disabled={item.disabled}
+            id={`${id}-tab-${index}`}
+            aria-controls={`${id}-tabpanel-${index}`}
+            onClick={() => {
+              item.href && router.push(item.href)
+            }}
+          />
+        ))}
       </MuiTabs>
 
       {tabPanel
