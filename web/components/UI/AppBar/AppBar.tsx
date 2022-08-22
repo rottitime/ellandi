@@ -78,7 +78,7 @@ const ResponsiveAppBar: FC<Props> = ({ pages, logoUrl, settings }) => {
                 style={{ textDecorationColor: theme.colors[color] }}
                 key={title}
                 href={url}
-                className={` ${router.pathname === url ? 'active' : ''}`}
+                className={` ${router?.pathname === url ? 'active' : ''}`}
               >
                 {title}
               </Button>
