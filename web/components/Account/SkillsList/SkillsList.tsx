@@ -38,7 +38,7 @@ const SkillsList: FC = () => {
         hideFooterPagination
         noRowContent={
           <Alert severity="info">
-            <Link href="/account/skills/add/skill">Enter a skill</Link>
+            <Link href="/account/skills/add/skill">Add a skill</Link>
           </Alert>
         }
         autoHeight

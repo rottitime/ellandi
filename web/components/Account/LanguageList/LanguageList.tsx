@@ -38,7 +38,7 @@ const LanguageList: FC = () => {
         hideFooterPagination
         noRowContent={
           <Alert severity="info">
-            <Link href="/account/skills/add/language">Enter a language</Link>
+            <Link href="/account/skills/add/language">Add a language skill</Link>
           </Alert>
         }
         autoHeight

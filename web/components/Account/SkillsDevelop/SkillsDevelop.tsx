@@ -41,7 +41,7 @@ const SkillsDevelop: FC = () => {
           noRowContent={
             <Alert severity="info">
               <Link href="/account/skills/add/skills-to-develop">
-                Enter a skill to develop
+                Add a skill to develop
               </Link>
             </Alert>
           }
