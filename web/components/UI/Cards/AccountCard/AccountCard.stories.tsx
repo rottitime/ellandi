@@ -1,5 +1,5 @@
 import { Typography } from '@mui/material'
-import { ComponentMeta, ComponentStory, Meta, Story } from '@storybook/react'
+import { ComponentMeta, ComponentStory } from '@storybook/react'
 import AccountCard from './AccountCard'
 
 export default {
@@ -8,7 +8,7 @@ export default {
   parameters: {
     design: {
       type: 'figma',
-      url: 'https://www.figma.com/file/JEg4GJzDWL4NbiWXShxHiL/Ellandi-Prototype-V3.4?node-id=9890%3A62450'
+      url: 'https://www.figma.com/file/JEg4GJzDWL4NbiWXShxHiL/Ellandi-Prototype-V3.4?node-id=9324%3A78304'
     }
   }
 } as ComponentMeta<typeof AccountCard>
