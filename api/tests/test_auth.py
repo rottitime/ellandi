@@ -75,7 +75,7 @@ def test_failed_login(client):
 
 @utils.with_logged_in_client
 def test_me_view(client, user_id):
-    response = client.get("/me")
+    response = client.get("/me/")
     data = response.json()
     assert data["id"] == user_id
     for key in ("email", "first_name", "last_name"):
