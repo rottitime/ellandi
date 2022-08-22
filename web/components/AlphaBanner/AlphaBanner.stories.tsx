@@ -1,4 +1,4 @@
-import { Meta, Story } from '@storybook/react'
+import { ComponentMeta, ComponentStory } from '@storybook/react'
 import AlphaBanner from './AlphaBanner'
 
 export default {
@@ -14,9 +14,11 @@ export default {
     },
     controls: { include: ['children'] }
   }
-} as Meta
+} as ComponentMeta<typeof AlphaBanner>
 
-const Template: Story = ({ ...args }) => <AlphaBanner {...args} />
+const Template: ComponentStory<typeof AlphaBanner> = ({ ...args }) => (
+  <AlphaBanner {...args} />
+)
 
 export const Default = Template.bind({})
 Default.args = {
