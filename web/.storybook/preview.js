@@ -7,6 +7,14 @@ export const parameters = {
       color: /(background|color)$/i,
       date: /Date$/
     }
+  },
+  backgrounds: {
+    default: 'White',
+    values: [
+      { name: 'Ellandi dark grey', value: '#AEAEAE' },
+      { name: 'Ellandi light', value: '#E9EAEC' },
+      { name: 'White', value: '#fff' }
+    ]
   }
 }
 
