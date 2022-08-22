@@ -22,21 +22,6 @@ api_urlpatterns = [
         "me/skills-develop/<str:skill_develop_id>/", views.me_skill_develop_delete_view, name="me-skill-develop-delete"
     ),
     path("me/direct-reports/", views.me_direct_reports_view, name="me-direct-reports"),
-    path("users/<str:user_id>/skills/", views.user_skills_view, name="user-skills"),
-    path("users/<str:user_id>/languages/", views.user_languages_view, name="user-languages"),
-    path("users/<str:user_id>/skills-develop/", views.user_skills_develop_view, name="user-skill-develop"),
-    path("users/<str:user_id>/skills/<str:skill_id>/", views.users_skill_delete_view, name="user-skill-delete"),
-    path(
-        "users/<str:user_id>/languages/<str:language_id>/",
-        views.users_language_delete_view,
-        name="user-language-delete",
-    ),
-    path(
-        "users/<str:user_id>/skills-develop/<str:skill_develop_id>/",
-        views.users_skill_develop_delete_view,
-        name="user-skill-develop",
-    ),
-    path("users/<str:user_id>/direct-reports/", views.user_direct_reports_view, name="user-direct-reports"),
     path("register/", views.register_view, name="register"),
     path("skills/", views.skills_list_view, name="skills"),
     path("one-time-login-token/", views.create_one_time_login_view),
