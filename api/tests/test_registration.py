@@ -8,28 +8,9 @@ TEST_SERVER_URL = "http://testserver:8000/"
 
 
 @utils.with_logged_in_client
-def test_users_get(client, user_id):
-    # Populate with some skills first
-    user_skill_data = {
-        "user": user_id,
-        "name": "maths",
-        "level": "Proficient",
-    }
-    response = client.post("/user-skills/", json=user_skill_data)
-    assert response.status_code == status.HTTP_201_CREATED
-    response = client.get("/users/")
-    assert response.status_code == status.HTTP_200_OK
-    data = response.json()
-    assert data[0]["email"] == "jane@example.com"
-    assert data[0]["skills"][0]["name"] == "maths"
-
-
-@utils.with_logged_in_client
 def test_user_get(client, user_id):
     response = client.get(f"/users/{user_id}/")
-    assert response.status_code == status.HTTP_200_OK
-    data = response.json()
-    assert data["first_name"] == "Jane"
+    assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
 @utils.with_logged_in_client
@@ -45,13 +26,13 @@ def test_user_post(client, user_id):
         "privacy_policy_agreement": True,
     }
     response = client.post("/users/", json=data)
-    assert response.status_code == status.HTTP_405_METHOD_NOT_ALLOWED
+    assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
 @utils.with_logged_in_client
 def test_delete(client, user_id):
     response = client.delete(f"/users/{user_id}/")
-    assert response.status_code == status.HTTP_405_METHOD_NOT_ALLOWED
+    assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
 @utils.with_logged_in_client
@@ -69,7 +50,7 @@ def test_user_put(client, user_id):
         "function": "Analysis",
     }
     response = client.put(f"/users/{user_id}/", data=updated_user_data)
-    assert response.status_code == status.HTTP_405_METHOD_NOT_ALLOWED
+    assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
 def patch_user(client, user_id, endpoint):
@@ -141,7 +122,8 @@ def patch_user(client, user_id, endpoint):
 @utils.with_logged_in_client
 def test_user_patch(client, user_id):
     endpoint = f"/users/{user_id}/"
-    patch_user(client, user_id, endpoint)
+    response = client.patch(endpoint, json={"first_name": "Bob"})
+    assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
 @utils.with_logged_in_client
@@ -165,9 +147,7 @@ def test_get_user_userskills(client, user_id):
     assert response.json()["level"] == "Proficient"
 
     response = client.get(f"/users/{user_id}/skills/")
-    assert response.status_code == status.HTTP_200_OK
-    assert response.json()[0]["name"] == "typing"
-    assert response.json()[0]["level"] == "Proficient"
+    assert response.status_code == status.HTTP_404_NOT_FOUND
 
     response = client.delete(f"/user-skills/{user_skill_id}/")
     assert response.status_code == status.HTTP_204_NO_CONTENT
@@ -190,9 +170,7 @@ def test_get_user_userlanguages(client, user_id):
     assert response.json()["writing_level"] == "Independent"
 
     response = client.get(f"/users/{user_id}/languages/")
-    assert response.status_code == status.HTTP_200_OK
-    assert response.json()[0]["name"] == "Spanish"
-    assert response.json()[0]["speaking_level"] == "Proficient"
+    assert response.status_code == status.HTTP_404_NOT_FOUND
 
     response = client.delete(f"/user-languages/{user_language_id}/")
     assert response.status_code == status.HTTP_204_NO_CONTENT
@@ -513,12 +491,10 @@ def patch_get_delete_skills_develop(client, endpoint_to_test):
 
 
 @utils.with_logged_in_client
-def test_user_patch_get_delete_skills(client, user_id):
+def test_user_get_skills(client, user_id):
     endpoint_to_test = f"/users/{user_id}/skills/"
-    patch_get_delete_skills(client, endpoint_to_test)
-    incorrect_id = "9adee5d9-b28f-48d2-92bc-1d5ce47eee65"
-    response = client.get(f"/users/{incorrect_id}/skills/")
-    assert response.status_code == status.HTTP_400_BAD_REQUEST
+    response = client.get(endpoint_to_test)
+    assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
 @utils.with_logged_in_client
@@ -528,9 +504,10 @@ def test_me_patch_get_delete_skills(client, user_id):
 
 
 @utils.with_logged_in_client
-def test_user_patch_get_delete_languages(client, user_id):
+def test_user_get_languages(client, user_id):
     endpoint_to_test = f"/users/{user_id}/languages/"
-    patch_get_delete_languages(client, endpoint_to_test)
+    response = client.get(endpoint_to_test)
+    assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
 @utils.with_logged_in_client
@@ -540,9 +517,10 @@ def test_me_patch_get_delete_languages(client, user_id):
 
 
 @utils.with_logged_in_client
-def test_user_patch_get_delete_skills_develop(client, user_id):
+def test_user_get_skills_develop(client, user_id):
     endpoint_to_test = f"/users/{user_id}/skills-develop/"
-    patch_get_delete_skills_develop(client, endpoint_to_test)
+    response = client.get(endpoint_to_test)
+    assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
 @utils.with_logged_in_client
@@ -553,7 +531,7 @@ def test_me_patch_get_delete_skills_develop(client, user_id):
 
 @utils.with_logged_in_client
 def test_created_modified_at(client, user_id):
-    response = client.get(f"/users/{user_id}/")
+    response = client.get(f"/me")
     data = response.json()
     created_at = data["created_at"]
     modified_at = data["modified_at"]
@@ -563,7 +541,7 @@ def test_created_modified_at(client, user_id):
         "languages": [{"name": "Spanish", "speaking_level": "Proficient", "writing_level": "Basic"}],
         "skills_to_develop": [{"name": "Maths"}],
     }
-    response = client.patch(f"/users/{user_id}/", json=more_user_data)
+    response = client.patch(f"/me", json=more_user_data)
     data = response.json()
     assert created_at == data["created_at"], "date object created shouldn't change"
     assert data["modified_at"] >= modified_at, f'{data["modified_at"]} {modified_at}'
@@ -586,16 +564,16 @@ def test_created_modified_at(client, user_id):
 
 @utils.with_logged_in_client
 def test_email_field(client, user_id):
-    user_data = client.get(f"/users/{user_id}/").json()
+    user_data = client.get(f"/me").json()
     email = user_data["email"]
 
-    direct_reports_before = client.get(f"/users/{user_id}/direct-reports/").json()
+    direct_reports_before = client.get(f"/me/direct-reports/").json()
     assert len(direct_reports_before) == 0
 
     for i in range(3):
         User.objects.create_user(f"user{i}@example.com", "P455w0rd", line_manager_email=email)
 
-    direct_reports_after = client.get(f"/users/{user_id}/direct-reports/").json()
+    direct_reports_after = client.get(f"/me/direct-reports/").json()
     assert len(direct_reports_after) == 3
 
 
