@@ -531,7 +531,7 @@ def test_me_patch_get_delete_skills_develop(client, user_id):
 
 @utils.with_logged_in_client
 def test_created_modified_at(client, user_id):
-    response = client.get(f"/me")
+    response = client.get("/me")
     data = response.json()
     created_at = data["created_at"]
     modified_at = data["modified_at"]
@@ -541,7 +541,7 @@ def test_created_modified_at(client, user_id):
         "languages": [{"name": "Spanish", "speaking_level": "Proficient", "writing_level": "Basic"}],
         "skills_to_develop": [{"name": "Maths"}],
     }
-    response = client.patch(f"/me", json=more_user_data)
+    response = client.patch("/me", json=more_user_data)
     data = response.json()
     assert created_at == data["created_at"], "date object created shouldn't change"
     assert data["modified_at"] >= modified_at, f'{data["modified_at"]} {modified_at}'
@@ -564,16 +564,16 @@ def test_created_modified_at(client, user_id):
 
 @utils.with_logged_in_client
 def test_email_field(client, user_id):
-    user_data = client.get(f"/me").json()
+    user_data = client.get("/me").json()
     email = user_data["email"]
 
-    direct_reports_before = client.get(f"/me/direct-reports/").json()
+    direct_reports_before = client.get("/me/direct-reports/").json()
     assert len(direct_reports_before) == 0
 
     for i in range(3):
         User.objects.create_user(f"user{i}@example.com", "P455w0rd", line_manager_email=email)
 
-    direct_reports_after = client.get(f"/me/direct-reports/").json()
+    direct_reports_after = client.get("/me/direct-reports/").json()
     assert len(direct_reports_after) == 3
 
 
