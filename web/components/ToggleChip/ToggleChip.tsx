@@ -1,12 +1,7 @@
-import { FC, useState, ComponentProps, MouseEvent, useEffect } from 'react'
-import { Chip as MuiChip } from '@mui/material'
+import { FC, useState, useEffect } from 'react'
+import { Chip as MuiChip, Avatar } from '@mui/material'
 import { styled } from '@mui/material/styles'
-
-type Props = {
-  toggle?: boolean
-  active?: boolean
-  onToggle?: (e: MouseEvent<HTMLDivElement>, active: boolean) => void
-} & ComponentProps<typeof MuiChip>
+import { Props } from './types'
 
 const StyledChip = styled(MuiChip)<Props>`
   .MuiChip-avatar {
@@ -36,7 +31,13 @@ const StyledChip = styled(MuiChip)<Props>`
   }
 `
 
-const ToggleChip: FC<Props> = ({ toggle = true, active = false, onToggle, ...rest }) => {
+const ToggleChip: FC<Props> = ({
+  toggle = true,
+  avatarText,
+  active = false,
+  onToggle,
+  ...rest
+}) => {
   const [chipActive, setChipActive] = useState(active)
 
   useEffect(() => {
@@ -51,6 +52,7 @@ const ToggleChip: FC<Props> = ({ toggle = true, active = false, onToggle, ...res
         setChipActive(active)
         if (typeof onToggle === 'function') onToggle(e, active)
       }}
+      avatar={avatarText && <Avatar>{avatarText}</Avatar>}
       {...rest}
     />
   )
