@@ -184,33 +184,27 @@ const LanguageForm: FC<StandardRegisterProps<LanguagesType>> = (props) => {
                             aria-labelledby={`${formId}${index}:${name.toLowerCase()}`}
                             {...field}
                           >
-                            {dataLevels
-                              .sort((a, b) => {
-                                if (a.order < b.order) return -1
-                                if (a.order > b.order) return 1
-                                return 0
-                              })
-                              .map(({ name: title }) => (
-                                <Field key={title}>
-                                  <FormControlLabel
-                                    control={<Radio sx={{ pt: 0 }} />}
-                                    sx={{ alignItems: 'flex-start' }}
-                                    label={
-                                      <>
+                            {dataLevels.map(({ name: title }) => (
+                              <Field key={title}>
+                                <FormControlLabel
+                                  control={<Radio sx={{ pt: 0 }} />}
+                                  sx={{ alignItems: 'flex-start' }}
+                                  label={
+                                    <>
+                                      <Typography>
+                                        <b>{title}</b>
+                                      </Typography>
+                                      <Collapse in={field.value === (title as unknown)}>
                                         <Typography>
-                                          <b>{title}</b>
+                                          {content[name.toLowerCase()][title]}
                                         </Typography>
-                                        <Collapse in={field.value === (title as unknown)}>
-                                          <Typography>
-                                            {content[name.toLowerCase()][title]}
-                                          </Typography>
-                                        </Collapse>
-                                      </>
-                                    }
-                                    value={title}
-                                  />
-                                </Field>
-                              ))}
+                                      </Collapse>
+                                    </>
+                                  }
+                                  value={title}
+                                />
+                              </Field>
+                            ))}
                           </RadioGroup>
                           {!!error && <FormHelperText>{error.message}</FormHelperText>}
                         </>
