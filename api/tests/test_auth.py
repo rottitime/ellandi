@@ -51,7 +51,7 @@ def test_logout(client):
 
     response = client.get("/")
     assert response.status_code == 200
-    assert response.json()["users"] == "http://testserver:8000/users/"
+    assert response.json()["user-skills"] == "http://testserver:8000/user-skills/"
 
     response = client.post("/logout/")
     assert response.status_code == 204

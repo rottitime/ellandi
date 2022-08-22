@@ -18,7 +18,6 @@ def register(name):
     return _inner
 
 
-@register("users")
 class UserViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
