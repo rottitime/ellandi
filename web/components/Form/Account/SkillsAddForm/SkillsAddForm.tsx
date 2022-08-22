@@ -119,7 +119,7 @@ const SkillsAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
                       <CreatableAutocomplete
                         loading={isLoadingSkills}
                         disableOptions={disableOptions}
-                        label="Ener a skill"
+                        label="Enter a skill"
                         data={(skillsList || []).map((skill) => ({ title: skill }))}
                         onSelected={(_event, { title }) => setValue(name, title)}
                         size="small"

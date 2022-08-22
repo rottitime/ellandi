@@ -99,7 +99,7 @@ const SkillsDevelopAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
                   <CreatableAutocomplete
                     loading={isLoadingSkills}
                     disableOptions={disableOptions}
-                    label="Ener a skill"
+                    label="Enter a skill"
                     data={
                       isLoadingSkills ? [] : skillsList.map((skill) => ({ title: skill }))
                     }
