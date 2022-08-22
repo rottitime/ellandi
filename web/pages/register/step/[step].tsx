@@ -10,7 +10,6 @@ import {
   fetchProfessions,
   fetchSkills,
   Query,
-  RegisterUser,
   RegisterUserResponse
 } from '@/service/api'
 import { updateUser } from '@/service/auth'
@@ -49,7 +48,7 @@ type Steps = {
 
 const RegisterPage = ({ stepInt, nextUrl, skip, ...props }: Props) => {
   const { setLoading, setError } = useUiContext()
-  const { createAndLogin, authFetch, hasToken } = useAuth()
+  const { authFetch, hasToken } = useAuth()
   const router = useRouter()
   const queryClient = useQueryClient()
   const FormComponent = steps[stepInt].form
@@ -59,8 +58,6 @@ const RegisterPage = ({ stepInt, nextUrl, skip, ...props }: Props) => {
     () => authFetch(fetchMe),
     { enabled: !!stepInt }
   )
-
-  const userId = useMemo(() => data?.id || null, [data])
 
   const isFormHidden = (step, data): boolean => !!step?.isHidden && step.isHidden(data)
 
@@ -79,19 +76,13 @@ const RegisterPage = ({ stepInt, nextUrl, skip, ...props }: Props) => {
     RegisterUserResponse,
     Error,
     Partial<RegisterUserResponse>
-  >(
-    async (data) =>
-      !!stepInt && userId
-        ? authFetch(updateUser, data)
-        : createAndLogin(data as RegisterUser),
-    {
-      onSuccess: async (data) => {
-        if (!!stepInt) queryClient.setQueryData(Query.Me, data)
-        router.push(getNextUrl(data))
-      },
-      onError: ({ message }) => setError(message)
-    }
-  )
+  >(async (data) => authFetch(updateUser, data), {
+    onSuccess: async (data) => {
+      if (!!stepInt) queryClient.setQueryData(Query.Me, data)
+      router.push(getNextUrl(data))
+    },
+    onError: ({ message }) => setError(message)
+  })
 
   useEffect(() => {
     //disable loading once a new step has initialised
@@ -100,6 +91,9 @@ const RegisterPage = ({ stepInt, nextUrl, skip, ...props }: Props) => {
 
   useEffect(() => {
     setLoading(isLoadingMe)
+    return () => {
+      setLoading(false)
+    }
   }, [isLoadingMe])
 
   //handle unauthorized user (no id)
@@ -108,13 +102,15 @@ const RegisterPage = ({ stepInt, nextUrl, skip, ...props }: Props) => {
       setLoading(true)
       queryClient.removeQueries(Query.Me)
       await router.replace({
-        pathname: '/register/step/0',
+        pathname: '/register',
         query: { ecode: 1 }
       })
     }
 
-    if ((!hasToken() || (!isLoadingMe && !userId)) && stepInt > 0) redirect()
-  }, [stepInt, router, userId, isLoadingMe, hasToken, queryClient, data])
+    if (!hasToken()) {
+      redirect()
+    }
+  }, [stepInt, router, isLoadingMe, hasToken, queryClient, data])
 
   return (
     <FormComponent
@@ -164,7 +160,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
       progress: Math.floor((stepInt / (steps.length + 1)) * 100),
       stepInt,
       title,
-      backUrl: stepInt === 0 ? '/' : `/register/step/${stepInt - 1}`,
+      backUrl: stepInt ? `/register/step/${stepInt - 1}` : null,
       nextUrl: nextUrl || `/register/step/${stepInt + 1}`,
       skip: !!skip,
       dehydratedState: dehydrate(queryClient)
@@ -173,12 +169,6 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 }
 
 const steps: Steps[] = [
-  {
-    form: dynamic(
-      () => import('@/components/Form/Register/CreateAccountForm/CreateAccountForm')
-    ),
-    title: 'Create an account'
-  },
   {
     form: dynamic(() => import('@/components/Form/Register/PrivacyForm')),
     title: 'Privacy policy'
