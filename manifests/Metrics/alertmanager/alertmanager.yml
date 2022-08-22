@@ -11,4 +11,4 @@ receivers:
     - send_resolved: true
       username: 'rickyp72@googlemail.com'
       channel: 'notification-sandbox'
-      api_url: 'https://hooks.slack.com/services/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'
+      api_url: {{ secrets.SLACK_WEBHOOK }}
