@@ -9,11 +9,11 @@ import {
   Pagination,
   Select,
   styled,
-  Typography
+  Typography,
+  Card
 } from '@mui/material'
 import AccountLayout from '@/components/Layout/AccountLayout/AccountLayout'
 import Icon from '@/components/Icon/Icon'
-import Card from '@/components/UI/Card'
 import Link from '@/components/UI/Link'
 import { StarBorder } from '@mui/icons-material'
 
@@ -162,7 +162,7 @@ const Page = () => {
           </Card>
         </Grid>
         <Grid item xs={8}>
-          <Card fullHeight>
+          <Card>
             <Box sx={{ display: 'flex', justifyContent: 'center', p: 1 }}>
               <Pagination count={10} shape="rounded" size="large" />
             </Box>
