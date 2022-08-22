@@ -38,7 +38,6 @@ const YourTeamPage = () => {
       brandColor="brandTeams"
       titleIcon="team"
       title="Your team"
-      teaserHeadline="View team members skills and profile"
       breadcrumbs={[
         { title: 'Your team', url: '/account/your-team' },
         { title: member?.first_name ? `${member.first_name} ${member?.last_name}` : null }
@@ -61,7 +60,7 @@ const YourTeamPage = () => {
             headerLogo="profile"
             header={
               <Typography variant="h1" component="h2">
-                Personal Details
+                Personal details
               </Typography>
             }
             sx={{ mb: 4 }}

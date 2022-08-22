@@ -105,7 +105,7 @@ const AccountLayout: FC<Props> = ({
           ]}
           settings={[
             { title: 'Profile', url: '/account/profile' },
-            { title: 'Logout', url: urls.signin, onClick: logout }
+            { title: 'Sign out', url: urls.signin, onClick: logout }
           ]}
         />
         <Breadcrumbs aria-label="breadcrumb">

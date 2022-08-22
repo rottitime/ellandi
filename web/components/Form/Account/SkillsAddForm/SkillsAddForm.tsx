@@ -179,7 +179,7 @@ const SkillsAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
         </Field>
         <Field textAlign="right">
           <Button type="submit" variant="contained" loading={loading}>
-            Submit skills
+            Add Skills
           </Button>
         </Field>
       </form>
