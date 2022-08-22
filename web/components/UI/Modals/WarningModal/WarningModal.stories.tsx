@@ -1,4 +1,4 @@
-import { ComponentMeta, ComponentStory, Meta } from '@storybook/react'
+import { ComponentMeta, ComponentStory } from '@storybook/react'
 import WarningModal from './WarningModal'
 
 export default {
@@ -10,7 +10,7 @@ export default {
       url: 'https://www.figma.com/file/JEg4GJzDWL4NbiWXShxHiL/Ellandi-Prototype-V3.4?node-id=9890%3A62450'
     }
   }
-} as ComponentMetay<typeof WarningModal>
+} as ComponentMeta<typeof WarningModal>
 
 const Template: ComponentStory<typeof WarningModal> = ({ ...args }) => (
   <WarningModal open={true} {...args} />
