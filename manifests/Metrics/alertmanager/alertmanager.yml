@@ -1,0 +1,14 @@
+route:
+  group_by: [Alertname]
+  receiver: 'slack'
+  group_wait: 10s
+  group_interval: 10s
+  repeat_interval: 10m
+
+receivers:
+  - name: 'slack'
+    slack_configs:
+    - send_resolved: true
+      username: 'rickyp72@googlemail.com'
+      channel: 'notification-sandbox'
+      api_url: 'https://hooks.slack.com/services/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'

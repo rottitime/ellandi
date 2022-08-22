@@ -35,7 +35,7 @@ Create a separate metrics space in GovPaaS to keep the metrics separate.
 - Run `cf add-network-policy prometheus-server prometheus-exporter --protocol tcp --port 8080`
 - Run `cf push prometheus-server`
 
-### Setup frontend WebUI routing and proxy
+### Setup frontend WebUI routing and proxy for server
 - Run `cf map-route prometheus-server london.cloudapps.digital --hostname prometheus-server-i-dot-ai`
 - cd to the proxy/ folder
 - Run 
@@ -46,6 +46,27 @@ ROUTE_SERVICE_NAME="prometheus-server-route-i-dot-ai" \
 PROTECTED_APP_NAME="prometheus-server" \
 ./deploy.sh
 ```
+
+### Alert manager
+- CD into directory Metrics/alertmanager
+- Set your Cloud Foundry target space to the right one for the one where prometheus-server is running above
+- Run `cf push --no-start prometheus-alertmanager`
+- Run `cf map-route prometheus-alertmanager apps.internal --hostname prometheus-alertmanager-i-dot-ai`
+- Run `cf add-network-policy prometheus-server prometheus-alertmanager --protocol tcp --port 8080`
+- Run `cf start prometheus-alertmanager`
+
+### Setup frontend WebUI routing and proxy for Alertmanager
+- Run `cf map-route prometheus-alertmanager london.cloudapps.digital --hostname prometheus-alertmanager-i-dot-ai`
+- cd to the proxy/ folder
+- Run 
+```bash
+ALLOWED_IPS="51.149.9.240/29,51.149.9.112/29,51.149.8.0/25,165.225.80.0/22,147.161.166.0/23,165.225.196.0/23,165.225.198.0/23,81.144.180.0/24,165.225.17.0/24,147.161.236.0/23,147.161.224.0/23,165.225.16.0/23,81.150.77.189/32" \
+ROUTE_SERVICE_APP_NAME="prometheus-alertmanager-proxy-i-dot-ai" \
+ROUTE_SERVICE_NAME="prometheus-alertmanager-route-i-dot-ai" \
+PROTECTED_APP_NAME="prometheus-alertmanager" \
+./deploy.sh
+```
+
 
 
 
