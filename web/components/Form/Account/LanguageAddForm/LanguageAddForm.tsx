@@ -112,7 +112,7 @@ const LanguageAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
                 <TableRow>
                   <TableCell>Language</TableCell>
                   <TableCell sx={{ width: 145 }}>Speaking</TableCell>
-                  <TableCell sx={{ width: 145 }}>Writng</TableCell>
+                  <TableCell sx={{ width: 145 }}>Writing</TableCell>
                   <TableCell sx={{ width: 20, p: 1 }}>&nbsp;</TableCell>
                 </TableRow>
               </TableHead>
@@ -223,7 +223,7 @@ const LanguageAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
         </Field>
         <Field textAlign="right">
           <Button type="submit" variant="contained" loading={loading}>
-            Submit skills
+            Add Skills
           </Button>
         </Field>
       </form>

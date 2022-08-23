@@ -24,12 +24,20 @@ const YourTeamPage = () => {
     [data, isFetched, id]
   )
 
+  const professions = useMemo(
+    () =>
+      member?.professions.map((profession) => {
+        return member.profession_other
+        return profession
+      }) || [],
+    [member]
+  )
+
   return (
     <AccountLayout
       brandColor="brandTeams"
       titleIcon="team"
       title="Your team"
-      teaserHeadline="View team members skills and profile"
       breadcrumbs={[
         { title: 'Your team', url: '/account/your-team' },
         { title: member?.first_name ? `${member.first_name} ${member?.last_name}` : null }
@@ -52,7 +60,7 @@ const YourTeamPage = () => {
             headerLogo="profile"
             header={
               <Typography variant="h1" component="h2">
-                Personal Details
+                Personal details
               </Typography>
             }
             sx={{ mb: 4 }}
@@ -65,7 +73,7 @@ const YourTeamPage = () => {
                   { name: 'Business unit', value: member.business_unit },
                   { name: 'Work location', value: member.location },
                   { name: 'Grade', value: member.grade },
-                  { name: 'Professions', value: member.professions.join(', ') },
+                  { name: 'Professions', value: professions.join(', ') },
                   { name: 'Primary Profession', value: member.primary_profession },
                   { name: 'Function', value: member.function },
                   { name: 'Contract type', value: member.contract_type }
