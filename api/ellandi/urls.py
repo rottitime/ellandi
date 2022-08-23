@@ -12,7 +12,7 @@ from ellandi.registration import views
 
 api_urlpatterns = [
     path("", include(views.registration_router.urls)),
-    path("me", views.me_view, name="me"),
+    path("me/", views.me_view, name="me"),
     path("me/skills/", views.me_skills_view, name="me-skills"),
     path("me/languages/", views.me_languages_view, name="me-languages"),
     path("me/skills-develop/", views.me_skills_develop_view, name="me-skills-develop"),
