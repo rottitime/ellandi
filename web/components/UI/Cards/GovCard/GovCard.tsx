@@ -10,7 +10,6 @@ import { FC } from 'react'
 import { Props } from './types'
 import Icon from '@/components/Icon/Icon'
 import LinearProgress from '@/components/UI/LinearProgress/LinearProgress'
-import { useUiContext } from '@/context/UiContext'
 
 const Card = styled(MuiCard)`
   position: relative;
