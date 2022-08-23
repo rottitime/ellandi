@@ -5,5 +5,4 @@ export type Props = {
   footer?: ReactNode
   title?: string | ReactNode
   progress?: number
-  showPromo?: boolean
 }
