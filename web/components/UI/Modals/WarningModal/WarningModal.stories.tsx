@@ -12,7 +12,7 @@ export default {
   }
 } as ComponentMeta<typeof WarningModal>
 
-const Template: ComponentStory<typeof WarningModal> = ({ ...args }) => (
+const Template: ComponentStory<typeof WarningModal> = (args) => (
   <WarningModal open={true} {...args} />
 )
 

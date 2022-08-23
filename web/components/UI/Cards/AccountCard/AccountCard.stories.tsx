@@ -13,9 +13,7 @@ export default {
   }
 } as ComponentMeta<typeof AccountCard>
 
-const Template: ComponentStory<typeof AccountCard> = ({ ...args }) => (
-  <AccountCard {...args} />
-)
+const Template: ComponentStory<typeof AccountCard> = (args) => <AccountCard {...args} />
 
 export const Default = Template.bind({})
 Default.args = {

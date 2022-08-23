@@ -12,9 +12,7 @@ export default {
   }
 } as ComponentMeta<typeof BadgeNumber>
 
-const Template: ComponentStory<typeof BadgeNumber> = ({ ...args }) => (
-  <BadgeNumber {...args} />
-)
+const Template: ComponentStory<typeof BadgeNumber> = (args) => <BadgeNumber {...args} />
 
 export const Default = Template.bind({})
 Default.args = {

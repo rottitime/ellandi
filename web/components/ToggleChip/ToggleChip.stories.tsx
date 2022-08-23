@@ -13,9 +13,7 @@ export default {
   argTypes: {}
 } as ComponentMeta<typeof ToggleChip>
 
-const Template: ComponentStory<typeof ToggleChip> = ({ ...args }) => (
-  <ToggleChip {...args} />
-)
+const Template: ComponentStory<typeof ToggleChip> = (args) => <ToggleChip {...args} />
 
 export const Default = Template.bind({})
 Default.args = {

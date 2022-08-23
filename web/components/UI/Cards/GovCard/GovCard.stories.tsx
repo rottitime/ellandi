@@ -19,7 +19,7 @@ export default {
   }
 } as ComponentMeta<typeof GovCard>
 
-const Template: ComponentStory<typeof GovCard> = ({ ...args }) => <GovCard {...args} />
+const Template: ComponentStory<typeof GovCard> = (args) => <GovCard {...args} />
 
 export const Default = Template.bind({})
 Default.args = {

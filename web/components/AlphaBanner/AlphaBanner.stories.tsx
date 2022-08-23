@@ -16,9 +16,7 @@ export default {
   }
 } as ComponentMeta<typeof AlphaBanner>
 
-const Template: ComponentStory<typeof AlphaBanner> = ({ ...args }) => (
-  <AlphaBanner {...args} />
-)
+const Template: ComponentStory<typeof AlphaBanner> = (args) => <AlphaBanner {...args} />
 
 export const Default = Template.bind({})
 Default.args = {

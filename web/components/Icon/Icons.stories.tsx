@@ -28,7 +28,7 @@ export default {
   }
 } as Meta
 
-const TemplateAll: ComponentStory<typeof Icon> = ({ ...args }) => (
+const TemplateAll: ComponentStory<typeof Icon> = (args) => (
   <Box style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
     {Object.keys(icons).map((icon) => (
       <Icon {...args} icon={icon as IconsType} key={icon} />
@@ -36,7 +36,7 @@ const TemplateAll: ComponentStory<typeof Icon> = ({ ...args }) => (
   </Box>
 )
 
-const Template: ComponentStory<typeof Icon> = ({ ...args }) => <Icon {...args} />
+const Template: ComponentStory<typeof Icon> = (args) => <Icon {...args} />
 
 export const All = TemplateAll.bind({})
 All.args = {}

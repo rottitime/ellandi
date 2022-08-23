@@ -24,7 +24,7 @@ export default {
   }
 } as ComponentMeta<typeof Typography>
 
-const TemplateAll: ComponentStory<typeof Typography> = ({ ...args }) => (
+const TemplateAll: ComponentStory<typeof Typography> = (args) => (
   <>
     {variants.map((variant) => (
       <Row key={variant}>
@@ -36,7 +36,7 @@ const TemplateAll: ComponentStory<typeof Typography> = ({ ...args }) => (
   </>
 )
 
-const TemplateSingle: ComponentStory<typeof Typography> = ({ ...args }) => (
+const TemplateSingle: ComponentStory<typeof Typography> = (args) => (
   <Typography {...args} />
 )
 
