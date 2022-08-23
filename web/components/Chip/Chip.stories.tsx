@@ -1,9 +1,9 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react'
-import ToggleChip from './ToggleChip'
+import Chip from './Chip'
 
 export default {
-  title: 'Ellandi/ToggleChip',
-  component: ToggleChip,
+  title: 'Ellandi/Chip',
+  component: Chip,
   parameters: {
     design: {
       type: 'figma',
@@ -11,18 +11,23 @@ export default {
     }
   },
   argTypes: {}
-} as ComponentMeta<typeof ToggleChip>
+} as ComponentMeta<typeof Chip>
 
-const Template: ComponentStory<typeof ToggleChip> = (args) => <ToggleChip {...args} />
+const Template: ComponentStory<typeof Chip> = (args) => <Chip {...args} />
 
 export const Default = Template.bind({})
 Default.args = {
-  toggle: true,
   label: 'Chip'
 }
 
-export const AvatarText = Template.bind({})
-AvatarText.args = {
+export const Toggle = Template.bind({})
+Toggle.args = {
   ...Default.args,
+  toggle: true
+}
+
+export const ToggleAvatarText = Template.bind({})
+ToggleAvatarText.args = {
+  ...Toggle.args,
   avatarText: 'C'
 }

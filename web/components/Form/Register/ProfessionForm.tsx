@@ -1,5 +1,5 @@
 import { Alert, AlertTitle, Box, Skeleton, Typography } from '@mui/material'
-import ToggleChip from '@/components/ToggleChip/ToggleChip'
+import Chip from '@/components/Chip/Chip'
 import { fetchProfessions } from '@/service/api'
 import { GenericDataList, ProfessionType, Query } from '@/service/types'
 import { useQuery } from 'react-query'
@@ -71,7 +71,7 @@ const ProfessionForm: FC<StandardRegisterProps<ProfessionType>> = (props) => {
             ))
           : [...data].map(({ name, slug }) => (
               <Box sx={{ mb: 1 }} key={name}>
-                <ToggleChip
+                <Chip
                   avatarText={slug === 'i-dont-know' ? '?' : name.charAt(0).toUpperCase()}
                   active={getValues(fieldName).includes(name)}
                   label={name}
@@ -87,6 +87,7 @@ const ProfessionForm: FC<StandardRegisterProps<ProfessionType>> = (props) => {
 
                     await trigger(fieldName)
                   }}
+                  toggle
                 />
 
                 {name === 'Other' && watchFields.professions.includes('Other') && (

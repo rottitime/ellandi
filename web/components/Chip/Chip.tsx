@@ -31,13 +31,7 @@ const StyledChip = styled(MuiChip)<Props>`
   }
 `
 
-const ToggleChip: FC<Props> = ({
-  toggle = true,
-  avatarText,
-  active = false,
-  onToggle,
-  ...rest
-}) => {
+const Chip: FC<Props> = ({ toggle, avatarText, active = false, onToggle, ...rest }) => {
   const [chipActive, setChipActive] = useState(active)
 
   useEffect(() => {
@@ -58,4 +52,4 @@ const ToggleChip: FC<Props> = ({
   )
 }
 
-export default ToggleChip
+export default Chip
