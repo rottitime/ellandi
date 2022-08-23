@@ -28,14 +28,14 @@ const Page = styled(Box)`
 `
 
 const CardLayout: FC<Props> = ({ children, title, footer, progress }) => {
-  const { error } = useUiContext()
+  const { error, loading } = useUiContext()
   return (
     <Template disableGutters>
       <style jsx global>
         {withGovLogoBackground}
       </style>
       <Page>
-        <GovCard title={title} progress={progress}>
+        <GovCard title={title} progress={progress} loading={loading}>
           {!!error && (
             <Alert severity="error" sx={{ mt: 3, mb: 3 }}>
               <>{error}</>

@@ -22,10 +22,12 @@ const Card = styled(MuiCard)`
     background: ${(p) => p.theme.colors.black};
     padding: ${({ theme: { spacing } }) => `${spacing(2)} ${spacing(3)} `};
     display: flex;
+    align-items: center;
     position: relative;
+    color: ${(p) => p.theme.colors.white};
     svg {
-      color: ${(p) => p.theme.colors.white};
       font-size: 33px;
+      margin-right: ${(p) => p.theme.spacing(2)};
     }
   }
 
@@ -61,13 +63,19 @@ const Card = styled(MuiCard)`
   }
 `
 
-const GovCard: FC<Props> = ({ children, progress, title, ...props }) => {
-  const { loading } = useUiContext()
-
+const GovCard: FC<Props> = ({
+  children,
+  loading,
+  progress,
+  headerTitle,
+  title,
+  ...props
+}) => {
   return (
     <Card className={`${loading ? 'loading-active' : ''}`} {...props}>
       <Box className="card-logo">
         <Icon icon="crown-logo" />
+        {headerTitle && <Typography>{headerTitle}</Typography>}
         {loading && <MuiLinearProgress className="loading-bar" />}
       </Box>
 
