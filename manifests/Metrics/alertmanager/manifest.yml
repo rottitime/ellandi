@@ -3,10 +3,12 @@ applications:
 - name: prometheus-alertmanager
   routes:
   - route: prometheus-alertmanager-i-dot-ai.apps.internal
-    protocol: http1
 
   memory: 100M
   instances: 1
   buildpacks:
     - https://github.com/uktrade/prometheus-alertmanager-buildpack.git
   stack: cflinuxfs3
+
+  env:
+    METRICS_SLACK_WEBHOOK: {{ $METRICS_SLACK_WEBHOOK }}

@@ -3,11 +3,41 @@ groups:
   rules:
 
   # Alert for any instance that is unreachable for >2 minutes.
-  - alert: service_down
+  - alert: ServiceDown
     expr: up == 0
-    for: 2m
     labels:
       severity: critical
     annotations:
       summary: "Instance {{ $labels.instance }} down"
       description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 2 minutes."
+
+  # Alert for any apps running low on memory.
+  - alert: HostLowOnMemory
+    expr: memory_utilization  >	85
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Host low on memory (App {{ $labels.app }})"
+      description: "Node memory is filling up (< 25% left)\n"
+
+  # Alert for any instance that is unreachable for >2 minutes.
+  - alert: AppCrash
+    expr: crash == 1
+    for: 1m
+    labels:
+      severity: critical
+    annotations:
+      summary: "{{ $labels.severity }} Service {{ $labels.app }} has crashed"
+      description: "{{ $labels.severity }} {{ $labels.app }} has crashed."
+
+
+  # Alert for any instance that is unreachable for >2 minutes.
+  - alert: NoAlertmanagerDiscovered
+    expr: prometheus_notifications_alertmanagers_discovered == 0
+    labels:
+      severity: warning
+    annotations:
+      summary: "Instance {{ $labels.instance }} can't find an Alertmanager service"
+      description: "{{ $labels.instance }} can't find an Alertmanager service"
+

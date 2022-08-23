@@ -3,12 +3,12 @@ route:
   receiver: 'slack'
   group_wait: 10s
   group_interval: 10s
-  repeat_interval: 10m
+  repeat_interval: 5m
 
 receivers:
   - name: 'slack'
     slack_configs:
     - send_resolved: true
-      username: 'rickyp72@googlemail.com'
       channel: 'notification-sandbox'
-      api_url: {{ secrets.SLACK_WEBHOOK }}
+      api_url: 'https://hooks.slack.com/services/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' #TODO: remove
+

@@ -24,9 +24,3 @@ scrape_configs:
       - targets:
           - 'localhost:8080'
 
-  - job_name: 'monitoring_apps'
-    scrape_interval: 5s
-    static_configs:
-      - targets:
-          - 'localhost:8080'
-          - 'prometheus-alertmanager-i-dot-ai.apps.internal:8080'
