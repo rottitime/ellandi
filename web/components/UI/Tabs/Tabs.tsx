@@ -75,7 +75,7 @@ const Tabs: FC<Props> = ({
       <MuiTabs {...props} value={currentActiveTab} onChange={handleChange}>
         {tabItems.map((item, index) => (
           <Tab
-            key="index"
+            key={index}
             className={currentActiveTab === index ? 'active' : ''}
             label={item.title}
             disabled={item.disabled}
