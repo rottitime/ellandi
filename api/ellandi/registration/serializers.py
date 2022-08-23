@@ -29,7 +29,7 @@ class OrganisationSerializer(serializers.ModelSerializer):
 class ContractTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = ContractType
-        fields = ["slug", "name", "order"]
+        fields = ["slug", "name", "order", "stupid field"]
 
 
 class LocationSerializer(serializers.ModelSerializer):
