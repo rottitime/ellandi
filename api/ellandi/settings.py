@@ -158,8 +158,8 @@ REST_FRAMEWORK = {
 }
 
 
-SENTRY_DSN = env.str("SENTRY_DSN")
-SENTRY_ENVIRONMENT = env.str("SENTRY_ENVIRONMENT")
+SENTRY_DSN = env.str("SENTRY_DSN", default="")
+SENTRY_ENVIRONMENT = env.str("SENTRY_ENVIRONMENT", default="")
 
 sentry_sdk.init(
     dsn=SENTRY_DSN,
@@ -168,4 +168,5 @@ sentry_sdk.init(
     ],
     environment=SENTRY_ENVIRONMENT,
     send_default_pii=False,
+    traces_sample_rate=0.0,
 )
