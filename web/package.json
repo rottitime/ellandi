@@ -10,8 +10,9 @@
     "test:watch": "jest --watch",
     "test:all": "next lint && jest",
     "test": "jest",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "storybook:dev": "start-storybook -p 6006",
+    "storybook:build": "build-storybook",
+    "storybook:prod": "npx http-server ./storybook-static"
   },
   "dependencies": {
     "@emotion/cache": "^11.9.3",
