@@ -9,6 +9,3 @@ applications:
   buildpacks:
     - https://github.com/uktrade/prometheus-alertmanager-buildpack.git
   stack: cflinuxfs3
-
-  env:
-    METRICS_SLACK_WEBHOOK: {{ $METRICS_SLACK_WEBHOOK }}

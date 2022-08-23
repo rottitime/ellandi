@@ -43,7 +43,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Setup prod api url
-        if:  ${{ github.ref_name == 'sandbox' }}
+        if:  ${{ github.ref_name == 'main' }}
         run: echo "NEXT_PUBLIC_API_URL=https://ellandi-api.london.cloudapps.digital" >> $GITHUB_ENV
 
       - name: Login to GitHub Container Registry
@@ -59,7 +59,6 @@ jobs:
           DOCKER_IMAGE: ${{ matrix.app }}
 
         run: |
-          echo ${{ env.NEXT_PUBLIC_API_URL }}
           docker build . --file $DOCKER_FILE --tag $DOCKER_REPOSITORY/${{ github.repository_owner }}/$DOCKER_IMAGE:$IMAGE_TAG --build-arg NODE_ENV=$NODE_ENV --build-arg NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
           docker push -a $DOCKER_REPOSITORY/${{ github.repository_owner }}/$DOCKER_IMAGE
 

@@ -1,7 +1,7 @@
 # Metrics
 
 Metrics for this app are exported in Prometheus format using the [alphagov Prometheus exporter](https://github.com/alphagov/paas-prometheus-exporter).
-The metrics are ingested and stored in a private [Prometheus](https://prometheus.io/) server and then displayed and alerted on using a private [Grafana](https://grafana.com/docs/grafana/latest/introduction/oss-details/) instance.
+The metrics are ingested and stored in a private [Prometheus](https://prometheus.io/) server and then displayed and alerted on using a prometheus alertmanager service
 
 ## Installation
 
@@ -51,6 +51,7 @@ PROTECTED_APP_NAME="prometheus-server" \
 - CD into directory Metrics/alertmanager
 - Set your Cloud Foundry target space to the right one for the one where prometheus-server is running above
 - Run `cf push --no-start prometheus-alertmanager`
+- Run `cf set-env prometheus-alertmanager METRICS_SLACK_WEBHOOK <slackwebhook>`
 - Run `cf map-route prometheus-alertmanager apps.internal --hostname prometheus-alertmanager-i-dot-ai`
 - Run `cf add-network-policy prometheus-server prometheus-alertmanager --protocol tcp --port 8080`
 - Run `cf start prometheus-alertmanager`

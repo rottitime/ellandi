@@ -10,5 +10,5 @@ receivers:
     slack_configs:
     - send_resolved: true
       channel: 'notification-sandbox'
-      api_url: {{ $METRICS_SLACK_WEBHOOK }} #TODO: remove
+      api_url: ${METRICS_SLACK_WEBHOOK}
 

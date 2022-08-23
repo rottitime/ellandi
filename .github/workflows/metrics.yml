@@ -75,7 +75,7 @@ jobs:
 
       - name: CF push prometheus-alertmanager
         env:
-          METRICS_SLACK_WEBHOOK: {{ secrets.METRICS_SLACK_WEBHOOK }}
+          METRICS_SLACK_WEBHOOK: ${{ secrets.METRICS_SLACK_WEBHOOK }}
         working-directory: ./manifests/Metrics/alertmanager
         run: ./cf push -f manifest.yml
 
