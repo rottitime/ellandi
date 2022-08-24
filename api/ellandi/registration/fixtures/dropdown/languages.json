@@ -1,18 +1,66 @@
 [
 {
   "model": "registration.language",
+  "pk": "afrikaans",
+  "fields": {
+    "name": "Afrikaans",
+    "order": 0
+  }
+},
+{
+  "model": "registration.language",
   "pk": "arabic",
   "fields": {
-    "name": "Arabic",
-    "order": null
+    "name": "Arabic / ارابي",
+    "order": 1
+  }
+},
+{
+  "model": "registration.language",
+  "pk": "baltic-languages",
+  "fields": {
+    "name": "Baltic languages",
+    "order": 2
   }
 },
 {
   "model": "registration.language",
   "pk": "bengali",
   "fields": {
-    "name": "Bengali",
-    "order": null
+    "name": "Bengali / বাংলা",
+    "order": 3
+  }
+},
+{
+  "model": "registration.language",
+  "pk": "british-sign-language-bsl",
+  "fields": {
+    "name": "British Sign Language (BSL)",
+    "order": 4
+  }
+},
+{
+  "model": "registration.language",
+  "pk": "bulgarian",
+  "fields": {
+    "name": "Bulgarian / български",
+    "order": 5
+  }
+},
+{
+  "model": "registration.language",
+  "pk": "cantonese",
+  "fields": {
+    "name": "Cantonese / 廣東話",
+    "order": 6
+  }
+},
+{
+  "model": "registration.language",
+  "pk": "dutch-nederlands",
+  "fields": {
+    "name": "Dutch / Nederlands",
+    "order": 7
   }
 },
 {
@@ -20,71 +68,255 @@
   "pk": "english",
   "fields": {
     "name": "English",
-    "order": null
+    "order": 8
   }
 },
 {
   "model": "registration.language",
-  "pk": "french",
+  "pk": "farsi",
   "fields": {
-    "name": "French",
-    "order": null
+    "name": "Farsi / فارسی",
+    "order": 9
+  }
+},
+{
+  "model": "registration.language",
+  "pk": "french-francais",
+  "fields": {
+    "name": "French / français",
+    "order": 10
+  }
+},
+{
+  "model": "registration.language",
+  "pk": "georgian",
+  "fields": {
+    "name": "Georgian / ქართული",
+    "order": 12
+  }
+},
+{
+  "model": "registration.language",
+  "pk": "german-deutsch",
+  "fields": {
+    "name": "German / Deutsch",
+    "order": 11
+  }
+},
+{
+  "model": "registration.language",
+  "pk": "greek",
+  "fields": {
+    "name": "Greek / Ελληνικά",
+    "order": 13
+  }
+},
+{
+  "model": "registration.language",
+  "pk": "hebrew",
+  "fields": {
+    "name": "Hebrew / עִברִיתת",
+    "order": 14
   }
 },
 {
   "model": "registration.language",
   "pk": "hindi",
   "fields": {
-    "name": "Hindi",
-    "order": null
+    "name": "Hindi / हिंदी",
+    "order": 15
   }
 },
 {
   "model": "registration.language",
-  "pk": "indonesian",
+  "pk": "hungarian-magyar",
   "fields": {
-    "name": "Indonesian",
-    "order": null
+    "name": "Hungarian / Magyar",
+    "order": 16
   }
 },
 {
   "model": "registration.language",
-  "pk": "mandarin-chinese",
+  "pk": "indonesian-bahasa-indonesia",
   "fields": {
-    "name": "Mandarin Chinese",
-    "order": null
+    "name": "Indonesian / Bahasa Indonesia",
+    "order": 18
   }
 },
 {
   "model": "registration.language",
-  "pk": "other",
+  "pk": "irish-gaelige",
   "fields": {
-    "name": "Other",
-    "order": null
+    "name": "Irish / Gaelige",
+    "order": 17
   }
 },
 {
   "model": "registration.language",
-  "pk": "portuguese",
+  "pk": "italian-italiano",
   "fields": {
-    "name": "Portuguese",
-    "order": null
+    "name": "Italian / Italiano",
+    "order": 19
+  }
+},
+{
+  "model": "registration.language",
+  "pk": "japanese",
+  "fields": {
+    "name": "Japanese / 日本語",
+    "order": 20
+  }
+},
+{
+  "model": "registration.language",
+  "pk": "korean",
+  "fields": {
+    "name": "Korean / 한국어",
+    "order": 21
+  }
+},
+{
+  "model": "registration.language",
+  "pk": "latin-lingua-latina",
+  "fields": {
+    "name": "Latin / lingua latīna",
+    "order": 22
+  }
+},
+{
+  "model": "registration.language",
+  "pk": "mandarin",
+  "fields": {
+    "name": "Mandarin / 普通话",
+    "order": 23
+  }
+},
+{
+  "model": "registration.language",
+  "pk": "nordic-languages",
+  "fields": {
+    "name": "Nordic languages",
+    "order": 24
+  }
+},
+{
+  "model": "registration.language",
+  "pk": "panjabi",
+  "fields": {
+    "name": "Panjabi / ਪੰਜਾਬੀ / پن٘جابی",
+    "order": 25
+  }
+},
+{
+  "model": "registration.language",
+  "pk": "polish-polski",
+  "fields": {
+    "name": "Polish / Polski",
+    "order": 26
+  }
+},
+{
+  "model": "registration.language",
+  "pk": "portuguese-portugues",
+  "fields": {
+    "name": "Portuguese / português",
+    "order": 27
+  }
+},
+{
+  "model": "registration.language",
+  "pk": "romanian-romana",
+  "fields": {
+    "name": "Romanian / Română",
+    "order": 28
   }
 },
 {
   "model": "registration.language",
   "pk": "russian",
   "fields": {
-    "name": "Russian",
-    "order": null
+    "name": "Russian / русский язык",
+    "order": 29
   }
 },
 {
   "model": "registration.language",
-  "pk": "spanish",
+  "pk": "scottish-gaelic-gaidhlig",
   "fields": {
-    "name": "Spanish",
-    "order": null
+    "name": "Scottish Gaelic / Gàidhlig",
+    "order": 30
+  }
+},
+{
+  "model": "registration.language",
+  "pk": "spanish-espanol",
+  "fields": {
+    "name": "Spanish / español",
+    "order": 31
+  }
+},
+{
+  "model": "registration.language",
+  "pk": "swahili-kiswahili",
+  "fields": {
+    "name": "Swahili / Kiswahili",
+    "order": 32
+  }
+},
+{
+  "model": "registration.language",
+  "pk": "tagalog",
+  "fields": {
+    "name": "Tagalog",
+    "order": 33
+  }
+},
+{
+  "model": "registration.language",
+  "pk": "tamil-malayalam",
+  "fields": {
+    "name": "Tamil / Malayalam தமிழ் / മലയാളം",
+    "order": 34
+  }
+},
+{
+  "model": "registration.language",
+  "pk": "thai",
+  "fields": {
+    "name": "Thai / ภาษาไทย",
+    "order": 35
+  }
+},
+{
+  "model": "registration.language",
+  "pk": "turkish-turkce",
+  "fields": {
+    "name": "Turkish / Türkçe",
+    "order": 36
+  }
+},
+{
+  "model": "registration.language",
+  "pk": "ukrainian",
+  "fields": {
+    "name": "Ukrainian / Українська",
+    "order": 37
+  }
+},
+{
+  "model": "registration.language",
+  "pk": "urdu",
+  "fields": {
+    "name": "Urdu / اردو",
+    "order": 38
+  }
+},
+{
+  "model": "registration.language",
+  "pk": "welsh-cymraeg",
+  "fields": {
+    "name": "Welsh / Cymraeg",
+    "order": 39
   }
 }
 ]
