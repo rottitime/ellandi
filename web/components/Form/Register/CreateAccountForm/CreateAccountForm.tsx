@@ -9,6 +9,12 @@ import { Field } from '@/components/Form/Field/Field'
 import { CreateAccountType } from './types'
 import useAuth from '@/hooks/useAuth'
 import Form from '@/components/Form/Register/FormRegister/FormRegister'
+import Link from '@/components/UI/Link'
+import getConfig from 'next/config'
+
+const {
+  publicRuntimeConfig: { urls }
+} = getConfig()
 
 const minPassword = 8
 const defaultValues = { email: '', password: '', emailConfirm: '', passwordConfirm: '' }
@@ -72,13 +78,17 @@ const CreateAccountForm: FC<StandardRegisterProps<CreateAccountType>> = (props) 
         <Field>
           <TextFieldControlled name="password" label="Password" type="password" />
         </Field>
-        <Field noMargin>
+        <Field>
           <TextFieldControlled
             name="passwordConfirm"
             label="Confirm your password"
             type="password"
           />
         </Field>
+
+        <Typography gutterBottom>
+          Already have an account? <Link href={urls.signin}>Sign in</Link>
+        </Typography>
       </Form>
     </FormProvider>
   )
