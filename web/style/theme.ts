@@ -49,6 +49,7 @@ const theme = createTheme({
   },
   palette: {
     primary: createColor(colors.blue1),
+    secondary: createColor(colors.grey3),
     blueDark: createColor('#091f3e'),
     greyDark: createColor('#ccc'),
     greyLight: createColor('#f2f2f2'),

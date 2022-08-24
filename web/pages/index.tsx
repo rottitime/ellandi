@@ -8,13 +8,6 @@ const List = styled(Box)`
     margin-bottom: ${(p) => p.theme.spacing(3)};
   }
 `
-const SignInButton = styled(Button)`
-  background-color: ${(p) => p.theme.colors.grey3};
-
-  :hover {
-    background-color: ${(p) => p.theme.colors.grey2};
-  }
-`
 
 const IndexPage = () => (
   <div>
@@ -26,9 +19,9 @@ const IndexPage = () => (
     </List>
 
     <Box display="flex" justifyContent={'end'}>
-      <SignInButton variant="contained" href="/signin">
+      <Button variant="contained" href="/signin" color="secondary">
         Sign in
-      </SignInButton>
+      </Button>
 
       <Box width={16} />
 
