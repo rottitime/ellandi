@@ -32,10 +32,8 @@ receivers:
         {{ with index .Alerts 0 -}}
           {{- if .Annotations.runbook }}   :notebook: *<{{ .Annotations.runbook }}|Runbook>*{{ end }}
         {{ end }}
-        {{ range .Alertmanager -}}
         *Alertmanager:*
         https://prometheus-alertmanager-i-dot-ai.london.cloudapps.digital/#/alerts
-        {{ end }}
         *Alert details*:
         {{ range .Alerts -}}
           *Alert:* {{ .Annotations.title }}{{ if .Labels.severity }} - `{{ .Labels.severity }}`{{ end }}
