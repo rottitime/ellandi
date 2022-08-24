@@ -21,6 +21,17 @@ groups:
       summary: "Host low on memory (App {{ $labels.app }})"
       description: "Node memory is filling up (< 25% left)\n"
 
+  # Alert for any apps running low on memory.
+  - alert: HostLowOnDiskSpace
+    expr: disk_utilization  >	85
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Host low on disk space (App {{ $labels.app }})"
+      description: "Node disk space is filling up (< 25% left)\n"
+
+
   # Alert for any instance that is unreachable for >2 minutes.
   - alert: AppCrash
     expr: crash == 1
