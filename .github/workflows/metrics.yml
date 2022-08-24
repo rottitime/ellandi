@@ -7,7 +7,7 @@ on:
       - sandbox
     paths:
       - .github/workflows/metrics.yml
-      - 'manifests/Metrics/PromethuesServer/**'
+      - 'manifests/Metrics/PrometheusServer/**'
 
 jobs:
   deploy_prometheus:
