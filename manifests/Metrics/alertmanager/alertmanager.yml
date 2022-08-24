@@ -30,7 +30,6 @@ receivers:
         {{- end }}
       text: >-
         {{ with index .Alerts 0 -}}
-          :chart_with_upwards_trend: *<{{ .GeneratorURL }}|Graph>*
           {{- if .Annotations.runbook }}   :notebook: *<{{ .Annotations.runbook }}|Runbook>*{{ end }}
         {{ end }}
         *Alert details*:
@@ -41,7 +40,7 @@ receivers:
           {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}`
           {{ end }}
         {{ end }}
-        
+
 inhibit_rules:
   - source_match:
       severity: 'critical'
