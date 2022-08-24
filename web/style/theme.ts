@@ -53,15 +53,8 @@ const theme = createTheme({
       main: colors.grey3,
       dark: colors.grey2
     },
-    blueDark: createColor('#091f3e'),
-    greyDark: createColor('#ccc'),
-    greyLight: createColor('#f2f2f2'),
-    green: createColor('#44D600'),
-    //profiles
 
-    //ui
     link: createColor(colors.blue1),
-
     background: { default: colors.grey1 }
   },
   typography: {

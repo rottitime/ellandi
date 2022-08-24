@@ -52,12 +52,6 @@ declare module '@mui/material/Typography' {
 //   }
 // }
 
-declare module '@mui/material/AppBar' {
-  interface AppBarPropsColorOverrides {
-    blueDark: true
-  }
-}
-
 declare module '@mui/material/styles' {
   interface TypographyVariantsOptions {
     display?: CSSProperties
@@ -72,11 +66,6 @@ declare module '@mui/material/styles' {
   }
 
   interface CustomPalette {
-    blueDark: PaletteColorOptions
-    greyDark: PaletteColorOptions
-    greyLight: PaletteColorOptions
-    green: PaletteColorOptions
-
     link: PaletteColorOptions
   }
 
