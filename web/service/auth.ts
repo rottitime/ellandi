@@ -75,5 +75,11 @@ export const resetPasswordCode = async (data: ResetPasswordType) => {
     body: JSON.stringify(data)
   })
   if (res.ok) return await res.json()
+
+  try {
+    const { detail } = await res.json()
+    if (detail) return Promise.reject(new Error(detail))
+  } catch (e) {}
+
   throw new Error(defaultError)
 }
