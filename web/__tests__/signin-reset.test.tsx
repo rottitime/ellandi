@@ -45,7 +45,8 @@ describe('Page: Reset Password', () => {
   })
 
   it('shows server error', async () => {
-    fetchMock.mockResponseOnce(JSON.stringify({ detail: 'message from server' }), {
+    const error = 'message from server'
+    fetchMock.mockResponseOnce(JSON.stringify({ detail: error }), {
       status: 400
     })
     renderWithProviders(<ResetPasswordPage />)
@@ -53,7 +54,27 @@ describe('Page: Reset Password', () => {
     userEvent.click(submitButton)
 
     await waitFor(async () => {
-      expect(screen.getByText('Error: message from server')).toBeInTheDocument()
+      expect(() => {
+        screen.getByText(`Error: ${error}`)
+      }).toThrow(`Error: ${error}`)
+    })
+
+    expect(Router.push).not.toHaveBeenCalled()
+  })
+
+  it('shows default error', async () => {
+    const error = 'Error: Sorry, there is a problem with the service. Try again later.'
+    fetchMock.mockResponseOnce(JSON.stringify('broken message'), {
+      status: 400
+    })
+    renderWithProviders(<ResetPasswordPage />)
+    const submitButton = screen.getByTestId('mock-form-button')
+    userEvent.click(submitButton)
+
+    await waitFor(async () => {
+      expect(() => {
+        screen.getByText(error)
+      }).toThrow(error)
     })
 
     expect(Router.push).not.toHaveBeenCalled()

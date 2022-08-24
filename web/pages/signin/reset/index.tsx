@@ -11,7 +11,7 @@ const ResetPasswordPage = () => {
     ResetPasswordType,
     Error,
     ResetPasswordType
-  >(async (data) => resetPasswordCode(data), {
+  >((data) => resetPasswordCode(data), {
     onSuccess: async () => Router.push('/signin/reset/next')
   })
 
