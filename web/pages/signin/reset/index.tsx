@@ -1,29 +1,18 @@
 import CardLayout from '@/components/Layout/CardLayout/CardLayout'
-import Link from '@/components/UI/Link'
 import { Alert, Fade, Typography } from '@mui/material'
-
-import router from 'next/router'
-import { useState } from 'react'
-import useAuth from '@/hooks/useAuth'
-import getConfig from 'next/config'
+import Router from 'next/router'
 import ForgottenPasswordForm from '@/components/Form/ForgottenPasswordForm/ForgottenPasswordForm'
 import { useMutation } from 'react-query'
 import { resetPasswordCode } from '@/service/auth'
 import { ResetPasswordType } from '@/service/types'
 
-const { publicRuntimeConfig } = getConfig()
-
 const ResetPasswordPage = () => {
-  const { login } = useAuth()
-
   const { isLoading, error, ...mutate } = useMutation<
     ResetPasswordType,
     Error,
     ResetPasswordType
   >(async (data) => resetPasswordCode(data), {
-    onSuccess: async (data) => {
-      console.log({ data })
-    }
+    onSuccess: async () => Router.push('/signin/reset/next')
   })
 
   return (

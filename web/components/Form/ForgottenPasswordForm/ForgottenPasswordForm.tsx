@@ -7,6 +7,11 @@ import Button from '@/components/UI/Button/Button'
 import { Field } from '../Field/Field'
 import { FormData, Props } from './types'
 import FooterButtons from '@/components/UI/FooterButtons/FooterButtons'
+import getConfig from 'next/config'
+
+const {
+  publicRuntimeConfig: { urls }
+} = getConfig()
 
 const schema: SchemaOf<FormData> = object().shape({
   email: string()
@@ -33,6 +38,9 @@ const SignInForm: FC<Props> = ({ onFormSubmit, loading }) => {
         </Field>
 
         <FooterButtons>
+          <Button color="tertiary" href={urls.signin} size="small">
+            Back
+          </Button>
           <Button
             color="primary"
             type="submit"
