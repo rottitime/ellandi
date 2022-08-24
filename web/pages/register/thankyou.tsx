@@ -19,10 +19,10 @@ const RegisterPage = () => (
     </ul>
 
     <FooterButtons>
-      <Button variant="outlined" size="small" onClick={() => router.back()}>
+      <Button color="tertiary" size="small" onClick={() => router.back()}>
         Back
       </Button>
-      <Button variant="contained" href={`/register/step/${nextPage}`}>
+      <Button color="primary" href={`/register/step/${nextPage}`}>
         Continue
       </Button>
     </FooterButtons>

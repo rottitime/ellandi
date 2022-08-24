@@ -46,11 +46,11 @@ declare module '@mui/material/Typography' {
   }
 }
 
-// declare module '@mui/material/Button' {
-//   interface ButtonPropsColorOverrides {
-//     tertiary: true
-//   }
-// }
+declare module '@mui/material/Button' {
+  interface ButtonPropsColorOverrides {
+    tertiary: true
+  }
+}
 
 declare module '@mui/material/styles' {
   interface TypographyVariantsOptions {
@@ -66,7 +66,7 @@ declare module '@mui/material/styles' {
   }
 
   interface CustomPalette {
-    link: PaletteColorOptions
+    tertiary: PaletteColorOptions
   }
 
   interface Palette extends CustomPalette {}

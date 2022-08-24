@@ -19,7 +19,7 @@ const FormFooter: FC<Props> = ({
   <FooterButtons>
     <Box>
       {backUrl && (
-        <Button href={backUrl} variant="outlined" size="small" sx={{ mr: 2 }}>
+        <Button href={backUrl} color="tertiary" size="small" sx={{ mr: 2 }}>
           Back
         </Button>
       )}

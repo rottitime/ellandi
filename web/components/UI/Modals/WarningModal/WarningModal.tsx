@@ -8,10 +8,10 @@ const WarningModal: FC<Props> = ({ children, onConfirm, confirmButton, ...props 
     {...props}
     footer={
       <>
-        <Button variant="outlined" onClick={(e) => props.onClose(e, 'escapeKeyDown')}>
+        <Button color="secondary" onClick={(e) => props.onClose(e, 'escapeKeyDown')}>
           Cancel
         </Button>
-        <Button variant="contained" color="error" onClick={onConfirm}>
+        <Button color="error" onClick={onConfirm}>
           {confirmButton}
         </Button>
       </>

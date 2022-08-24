@@ -53,8 +53,7 @@ const theme = createTheme({
       main: colors.grey3,
       dark: colors.grey2
     },
-
-    link: createColor(colors.blue1),
+    tertiary: createColor(colors.blue1),
     background: { default: colors.grey1 }
   },
   typography: {

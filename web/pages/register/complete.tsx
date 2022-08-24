@@ -28,7 +28,7 @@ const RegisterPage = () => {
       </Typography>
 
       <FooterButtons>
-        <Button variant="outlined" size="small" onClick={() => router.back()}>
+        <Button color="tertiary" size="small" onClick={() => router.back()}>
           Back
         </Button>
         <Button href={publicRuntimeConfig.urls.landingSignin} variant="contained">

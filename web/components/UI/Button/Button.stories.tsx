@@ -12,13 +12,18 @@ export default {
       url: 'https://www.figma.com/file/JEg4GJzDWL4NbiWXShxHiL/Ellandi-Prototype-V3.4?node-id=9818%3A85811'
     }
   },
-  args: {
-    variant: 'contained'
-  },
+  // args: {
+  //   variant: 'contained'
+  // },
   argTypes: { onClick: { action: 'clicked' } }
 } as ComponentMeta<typeof Button>
 
-const colors: ComponentProps<typeof Button>['color'][] = ['primary', 'secondary', 'error']
+const colors: ComponentProps<typeof Button>['color'][] = [
+  'primary',
+  'secondary',
+  'error',
+  'tertiary'
+]
 
 const TemplateAll: ComponentStory<typeof Button> = ({ ...args }) => (
   <>
