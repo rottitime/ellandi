@@ -8,6 +8,7 @@ on:
     paths:
       - .github/workflows/metrics.yml
       - 'manifests/Metrics/PrometheusServer/**'
+      - 'manifests/Metrics/alertmanager/**'
 
 jobs:
   deploy_prometheus:
