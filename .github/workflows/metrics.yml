@@ -4,7 +4,7 @@ name: Deploy Prometheus
 on:
   push:
     branches:
-      - '*'
+      - '**'
     paths:
       - .github/workflows/metrics.yml
       - 'manifests/Metrics/PrometheusServer/**'
