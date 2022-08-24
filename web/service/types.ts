@@ -150,3 +150,7 @@ export type TeamMember = {
   created_at: string
   modified_at: string
 }
+
+export type ResetPasswordType = {
+  email: string
+}

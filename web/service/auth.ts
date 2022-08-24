@@ -1,5 +1,5 @@
 import getConfig from 'next/config'
-import { RegisterUser, RegisterUserResponse } from './types'
+import { RegisterUser, RegisterUserResponse, ResetPasswordType } from './types'
 import { SignInType } from '@/components/Form/SignInForm/types'
 import { AuthUser } from './types'
 const { publicRuntimeConfig } = getConfig()
@@ -64,4 +64,16 @@ export const logoutUser = async (token: string) => {
     method: 'POST',
     headers: { Authorization: `Token ${token}` }
   })
+}
+
+export const resetPasswordCode = async (data: ResetPasswordType) => {
+  const res: Response = await fetch(`${publicRuntimeConfig.apiUrl}/resetpasswordcode/`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+  if (res.ok) return await res.json()
+  throw new Error(defaultError)
 }
