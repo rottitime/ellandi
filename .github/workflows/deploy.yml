@@ -9,6 +9,7 @@ on:
       - temp
       - develop
       - main
+      - sandbox
 
 permissions:
   packages: write
@@ -83,6 +84,7 @@ jobs:
           key: "${{github.ref_name}}"
           map: |
             {
+              "sandbox": {"CF_SPACE": "sandbox"},
               "temp": {"CF_SPACE": "temp"},
               "develop": {"CF_SPACE": "develop"},
               "main": {"CF_SPACE": "prod"},
