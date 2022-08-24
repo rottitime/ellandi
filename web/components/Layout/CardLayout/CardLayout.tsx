@@ -35,7 +35,12 @@ const CardLayout: FC<Props> = ({ children, title, footer, progress }) => {
         {withGovLogoBackground}
       </style>
       <Page>
-        <GovCard title={title} progress={progress} loading={loading}>
+        <GovCard
+          title={title}
+          progress={progress}
+          loading={loading}
+          headerTitle="Civil Service Skills and Learning"
+        >
           {!!error && (
             <Alert severity="error" sx={{ mt: 3, mb: 3 }}>
               <>{error}</>
