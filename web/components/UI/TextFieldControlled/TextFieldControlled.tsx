@@ -1,7 +1,7 @@
 import ConditionalWrapper from '@/components/ConditionalWrapper/ConditionalWrapper'
 import TextField from '@/components/Form/TextField/TextField'
 import { Box, styled } from '@mui/material'
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import { Props } from './types'
 
@@ -14,7 +14,15 @@ const SubField = styled(Box)`
 `
 
 const TextFieldControlled: FC<Props> = ({ label, subfield, name, ...props }) => {
-  const { control } = useFormContext()
+  const { control, setValue, trigger } = useFormContext()
+
+  useEffect(() => {
+    return () => {
+      //bug fix: force react-form-hook update 'isValid'
+      setValue(name, '')
+      trigger()
+    }
+  }, [])
 
   return (
     <ConditionalWrapper
