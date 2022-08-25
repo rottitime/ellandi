@@ -6,11 +6,21 @@ import { useQuery } from 'react-query'
 import { fetchMe } from '@/service/me'
 import { Query, RegisterUserResponse } from '@/service/api'
 import useAuth from '@/hooks/useAuth'
+import { useMemo } from 'react'
 
 const Page = () => {
   const { authFetch } = useAuth()
   const { isLoading, data } = useQuery<RegisterUserResponse>(Query.Me, () =>
     authFetch(fetchMe)
+  )
+
+  const professions = useMemo(
+    () =>
+      data?.professions.map((profession) => {
+        if (profession.toLowerCase() === 'other') return data.profession_other
+        return profession
+      }) || [],
+    [data]
   )
 
   const renderTable = (list = []) => (
@@ -62,7 +72,7 @@ const Page = () => {
           { name: 'Work location', value: data.location },
           { name: 'Line manager email', value: data.line_manager_email },
           { name: 'Grade', value: data.grade_other || data.grade },
-          { name: 'Profession(s)', value: data.professions.join(', ') },
+          { name: 'Profession(s)', value: professions.join(', ') },
           { name: 'Primary profession', value: data.primary_profession },
           { name: 'Function', value: data.function_other || data.function },
           {

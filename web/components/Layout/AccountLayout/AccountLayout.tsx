@@ -105,7 +105,7 @@ const AccountLayout: FC<Props> = ({
           ]}
           settings={[
             { title: 'Profile', url: '/account/profile' },
-            { title: 'Logout', url: urls.signin, onClick: logout }
+            { title: 'Sign out', url: urls.signin, onClick: logout }
           ]}
         />
         <Breadcrumbs aria-label="breadcrumb">
@@ -155,7 +155,7 @@ const AccountLayout: FC<Props> = ({
       <Footer
         menu={[
           { title: 'Cookies', url: '#' },
-          { title: 'Privacy', url: '#' },
+          { title: 'Privacy', url: '/help/privacy-policy' },
           { title: 'Contact us', url: '#' },
           { title: 'Help', url: '#' },
           { title: 'Accessibility statement', url: '#' }

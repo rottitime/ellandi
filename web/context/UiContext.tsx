@@ -14,7 +14,7 @@ const ecodes = {
   2: (
     <>
       You need to <Link href="/signin">sign in</Link> or{' '}
-      <Link href="/register/step/0">create an account</Link> before using this service
+      <Link href="/register">create an account</Link> before using this service
     </>
   )
 }

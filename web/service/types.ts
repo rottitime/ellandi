@@ -137,7 +137,7 @@ export type TeamMember = {
   line_manager_email: string
   grade: string
   grade_other: null
-  professions: ProfessionType[]
+  professions: string[]
   profession_other: null
   primary_profession: string
   function: string

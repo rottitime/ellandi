@@ -8,8 +8,8 @@ const RegisterPage = () => (
       You are invited to register for Civil Service Skills and Learning.
     </Typography>
     <Typography gutterBottom>
-      You can <Link href="/register/step/0">register with this one time only link</Link>.
-      If you use the link more than once, your invitation will expire.
+      You can <Link href="/register">register with this one time only link</Link>. If you
+      use the link more than once, your invitation will expire.
     </Typography>
     <Typography gutterBottom>
       You need to contact{' '}

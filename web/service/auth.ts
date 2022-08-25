@@ -7,7 +7,7 @@ const { publicRuntimeConfig } = getConfig()
 const defaultError = 'Sorry, there is a problem with the service. Try again later.'
 
 export const updateUser = async (token: string, data: Partial<RegisterUserResponse>) => {
-  const res: Response = await fetch(`${publicRuntimeConfig.apiUrl}/users/${data.id}/`, {
+  const res: Response = await fetch(`${publicRuntimeConfig.apiUrl}/me/`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',

@@ -47,7 +47,7 @@ describe('RegisterDetailsForm', () => {
     await userEvent.click(button)
 
     await waitFor(async () => {
-      expect(screen.getAllByText('This field is required')).toHaveLength(6)
+      expect(screen.getAllByText('This is a required field')).toHaveLength(6)
     })
   })
 

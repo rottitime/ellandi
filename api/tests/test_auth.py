@@ -51,7 +51,7 @@ def test_logout(client):
 
     response = client.get("/")
     assert response.status_code == 200
-    assert response.json()["users"] == "http://testserver:8000/users/"
+    assert response.json()["user-skills"] == "http://testserver:8000/user-skills/"
 
     response = client.post("/logout/")
     assert response.status_code == 204
@@ -64,9 +64,18 @@ def test_login(client):
     assert response.json()["token"]
 
 
+@utils.with_client
+def test_failed_login(client):
+    response = client.post("/login/", json={"email": user_data["email"], "password": "floooble-flabble"})
+    assert response.status_code == 403
+    error_message = response.json()["detail"]
+    expected = "Either the email address and/or password you have entered is incorrect"
+    assert error_message == expected
+
+
 @utils.with_logged_in_client
 def test_me_view(client, user_id):
-    response = client.get("/me")
+    response = client.get("/me/")
     data = response.json()
     assert data["id"] == user_id
     for key in ("email", "first_name", "last_name"):

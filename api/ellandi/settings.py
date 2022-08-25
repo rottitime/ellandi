@@ -1,3 +1,6 @@
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
 from .settings_base import (
     BASE_DIR,
     SECRET_KEY,
@@ -153,3 +156,17 @@ REST_FRAMEWORK = {
     "DEFAULT_PARSER_CLASSES": ("rest_framework.parsers.JSONParser",),
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
 }
+
+
+SENTRY_DSN = env.str("SENTRY_DSN", default="")
+SENTRY_ENVIRONMENT = env.str("SENTRY_ENVIRONMENT", default="")
+
+sentry_sdk.init(
+    dsn=SENTRY_DSN,
+    integrations=[
+        DjangoIntegration(),
+    ],
+    environment=SENTRY_ENVIRONMENT,
+    send_default_pii=False,
+    traces_sample_rate=0.0,
+)

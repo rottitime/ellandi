@@ -7,6 +7,7 @@ import { fetchMe } from '@/service/me'
 import TableSkeleton from '@/components/UI/Skeleton/TableSkeleton'
 import { Alert, Box, Chip, Typography } from '@mui/material'
 import { deleteLanguage } from '@/service/account'
+import Link from '@/components/UI/Link'
 
 const LanguageList: FC = () => {
   const queryClient = useQueryClient()
@@ -35,9 +36,11 @@ const LanguageList: FC = () => {
       {isError && <Alert severity="error">{error.message}</Alert>}
       <DataGrid
         hideFooterPagination
-        components={{
-          NoRowsOverlay: () => <Alert severity="info">Enter a language</Alert>
-        }}
+        noRowContent={
+          <Alert severity="info">
+            <Link href="/account/skills/add/language">Add a language skill</Link>
+          </Alert>
+        }
         autoHeight
         columns={columns}
         rows={data.languages}

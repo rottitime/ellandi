@@ -10,15 +10,15 @@ import { Field } from '@/components/Form/Field/Field'
 import Form from '@/components/Form/Register/FormRegister/FormRegister'
 
 const schema: SchemaOf<RegisterDetailsType> = object().shape({
-  first_name: string().nullable().required('This field is required'),
-  last_name: string().nullable().required('This field is required'),
-  job_title: string().nullable().required('This field is required'),
+  first_name: string().nullable().required('This is a required field'),
+  last_name: string().nullable().required('This is a required field'),
+  job_title: string().nullable().required('This is a required field'),
   line_manager_email: string()
     .nullable()
     .email('Email address must be valid')
-    .required('This field is required'),
-  location: string().nullable().required('This field is required'),
-  business_unit: string().nullable().required('This field is required')
+    .required('This is a required field'),
+  location: string().nullable().required('This is a required field'),
+  business_unit: string().nullable().required('This is a required field')
 })
 
 const RegisterDetailsForm: FC<StandardRegisterProps<RegisterDetailsType>> = (props) => {
