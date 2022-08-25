@@ -24,14 +24,14 @@ const YourTeamPage = () => {
     [data, isFetched, id]
   )
 
-  const professions = useMemo(
-    () =>
+  const professions = useMemo(() => {
+    return (
       member?.professions.map((profession) => {
-        return member.profession_other
+        if (profession.toLowerCase() === 'other') return member.profession_other
         return profession
-      }) || [],
-    [member]
-  )
+      }) || []
+    )
+  }, [member])
 
   return (
     <AccountLayout
@@ -72,11 +72,14 @@ const YourTeamPage = () => {
                   { name: 'Job title', value: member.job_title },
                   { name: 'Business unit', value: member.business_unit },
                   { name: 'Work location', value: member.location },
-                  { name: 'Grade', value: member.grade },
+                  { name: 'Grade', value: member.grade_other || member.grade },
                   { name: 'Professions', value: professions.join(', ') },
                   { name: 'Primary Profession', value: member.primary_profession },
-                  { name: 'Function', value: member.function },
-                  { name: 'Contract type', value: member.contract_type }
+                  { name: 'Function', value: member.function_other || member.function },
+                  {
+                    name: 'Contract type',
+                    value: member.contract_type_other || member.contract_type
+                  }
                 ].map<TableCellProps[]>(({ name, value }) => [
                   { children: name, component: 'th' },
                   { children: <Typography variant="subtitle1">{value}</Typography> }
