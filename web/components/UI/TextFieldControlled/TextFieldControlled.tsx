@@ -28,6 +28,7 @@ const TextFieldControlled: FC<Props> = ({ label, subfield, name, ...props }) => 
           <TextField
             {...field}
             label={label}
+            value={field.value || ''}
             variant="outlined"
             size="small"
             error={!!error}
