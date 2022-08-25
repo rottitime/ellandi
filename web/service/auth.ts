@@ -31,7 +31,7 @@ export const createUser = async (data: RegisterUser): Promise<RegisterUserRespon
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(data)
+    body: JSON.stringify({ ...data, email: data.email.toLowerCase() })
   })
   if (res.ok) return res.json()
 
@@ -49,7 +49,7 @@ export const loginWithEmailAndPassword = async (data: SignInType): Promise<AuthU
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(data)
+    body: JSON.stringify({ ...data, email: data.email.toLowerCase() })
   })
 
   if (res.ok) return await res.json()
