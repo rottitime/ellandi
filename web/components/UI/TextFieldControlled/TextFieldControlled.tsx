@@ -22,6 +22,7 @@ const TextFieldControlled: FC<Props> = ({ label, subfield, name, ...props }) => 
       setValue(name, '')
       trigger()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
