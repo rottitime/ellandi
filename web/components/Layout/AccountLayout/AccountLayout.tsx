@@ -155,7 +155,7 @@ const AccountLayout: FC<Props> = ({
       <Footer
         menu={[
           { title: 'Cookies', url: '#' },
-          { title: 'Privacy', url: '#' },
+          { title: 'Privacy', url: '/help/privacy-policy' },
           { title: 'Contact us', url: '#' },
           { title: 'Help', url: '#' },
           { title: 'Accessibility statement', url: '#' }
