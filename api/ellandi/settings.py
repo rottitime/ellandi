@@ -197,20 +197,3 @@ elif EMAIL_BACKEND_TYPE == "GOVUKNOTIFY":
     GOVUK_NOTIFY_PLAIN_EMAIL_TEMPLATE_ID = env.str("GOVUK_NOTIFY_PLAIN_EMAIL_TEMPLATE_ID")
 else:
     assert EMAIL_BACKEND_TYPE in ("FILE", "CONSOLE", "GOVUKNOTIFY")
-
-# Email Verification
-
-
-def verified_callback(user):
-    user.verified = True
-    user.save()
-
-
-EMAIL_VERIFIED_CALLBACK = verified_callback
-EMAIL_FROM_ADDRESS = "orgdata@no10.gov.uk"
-EMAIL_MAIL_SUBJECT = "Confirm your email address"
-EMAIL_MAIL_HTML = "mail_body.html"
-EMAIL_MAIL_PLAIN = "mail_body.txt"
-EMAIL_TOKEN_LIFE = 60 * 60 * 24
-EMAIL_PAGE_TEMPLATE = "confirm_email_verification.html"
-EMAIL_PAGE_DOMAIN = f"http://{HOST_URL}"
