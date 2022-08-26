@@ -16,17 +16,25 @@ STATICFILES_DIRS = STATICFILES_DIRS
 STATIC_ROOT = STATIC_ROOT
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool("DEBUG", default=False)
 
-ALLOWED_HOSTS = [
+DEV_HOSTS = (
+    "localhost",
+    "127.0.0.1",
+    "testserver",
+)
+
+PROD_HOSTS = (
     "ellandi-api-sandbox.london.cloudapps.digital",
     "ellandi-api-temp.london.cloudapps.digital",
     "ellandi-api-develop.london.cloudapps.digital",
     "ellandi-api.london.cloudapps.digital",
-    "localhost",
-    "127.0.0.1",
-    "testserver",
-]
+)
+
+if DEBUG:
+    ALLOWED_HOSTS = DEV_HOSTS
+else:
+    ALLOWED_HOSTS = DEV_HOSTS + PROD_HOSTS
 
 CORS_ALLOWED_ORIGINS = [
     "https://ellandi-api-sandbox.london.cloudapps.digital",
