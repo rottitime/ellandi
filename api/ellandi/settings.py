@@ -18,30 +18,44 @@ STATIC_ROOT = STATIC_ROOT
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DEBUG", default=False)
 
-ALLOWED_HOSTS = [
-    "ellandi-api-sandbox.london.cloudapps.digital",
-    "ellandi-api-temp.london.cloudapps.digital",
-    "ellandi-api-develop.london.cloudapps.digital",
-    "ellandi-api.london.cloudapps.digital",
-    "localhost",
-    "127.0.0.1",
-    "testserver",
-]
+if DEBUG:
+    ALLOWED_HOSTS = [
+        "localhost",
+        "127.0.0.1",
+        "testserver",
+    ]
 
-CORS_ALLOWED_ORIGINS = [
-    "https://ellandi-api-sandbox.london.cloudapps.digital",
-    "https://ellandi-api-temp.london.cloudapps.digital",
-    "https://ellandi-api-develop.london.cloudapps.digital",
-    "https://ellandi-api.london.cloudapps.digital",
-    "https://ellandi-web-sandbox.london.cloudapps.digital",
-    "https://ellandi-web-temp.london.cloudapps.digital",
-    "https://ellandi-web-develop.london.cloudapps.digital",
-    "https://ellandi-web.london.cloudapps.digital",
-    "http://localhost:3000",
-    "http://localhost:8000",
-    "http://127.0.0.1:3000",
-    "http://127.0.0.1:8000",
-]
+    CORS_ALLOWED_ORIGINS = [
+        "http://localhost:3000",
+        "http://localhost:8000",
+        "http://127.0.0.1:3000",
+        "http://127.0.0.1:8000",
+    ]
+else:
+    ALLOWED_HOSTS = [
+        "ellandi-api-sandbox.london.cloudapps.digital",
+        "ellandi-api-temp.london.cloudapps.digital",
+        "ellandi-api-develop.london.cloudapps.digital",
+        "ellandi-api.london.cloudapps.digital",
+        "localhost",
+        "127.0.0.1",
+        "testserver",
+    ]
+
+    CORS_ALLOWED_ORIGINS = [
+        "https://ellandi-api-sandbox.london.cloudapps.digital",
+        "https://ellandi-api-temp.london.cloudapps.digital",
+        "https://ellandi-api-develop.london.cloudapps.digital",
+        "https://ellandi-api.london.cloudapps.digital",
+        "https://ellandi-web-sandbox.london.cloudapps.digital",
+        "https://ellandi-web-temp.london.cloudapps.digital",
+        "https://ellandi-web-develop.london.cloudapps.digital",
+        "https://ellandi-web.london.cloudapps.digital",
+        "http://localhost:3000",
+        "http://localhost:8000",
+        "http://127.0.0.1:3000",
+        "http://127.0.0.1:8000",
+    ]
 
 # Application definition
 
