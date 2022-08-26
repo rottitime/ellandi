@@ -109,6 +109,9 @@ WSGI_APPLICATION = "ellandi.wsgi.application"
 
 VCAP_SERVICES = env.json("VCAP_SERVICES", default={})
 
+VCAP_APPLICATION = env.json("VCAP_APPLICATION")
+HOST_URL = VCAP_APPLICATION["application_uris"][0]
+
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
