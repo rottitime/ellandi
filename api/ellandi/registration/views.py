@@ -379,3 +379,10 @@ def me_direct_reports_view(request):
 def user_direct_reports_view(request, user_id):
     user = models.User.objects.get(id=user_id)
     return list_direct_reports(request, user)
+
+
+@decorators.api_view(["GET"])
+@decorators.permission_classes((permissions.IsAdminUser,))
+def create_error(request):
+    """Endpoint to be used for testing."""
+    raise Exception("This is the create error endpoint (for testing)")
