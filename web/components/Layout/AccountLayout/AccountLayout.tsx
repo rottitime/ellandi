@@ -155,11 +155,15 @@ const AccountLayout: FC<Props> = ({
       <Footer
         menu={[
           // { title: 'Cookies', url: '#' },
-          { title: 'Privacy', url: '/help/privacy-policy' }
+          { title: 'Privacy', url: '/help/privacy-policy' },
           // { title: 'Contact us', url: '#' },
           // { title: 'Help', url: '#' },
           // { title: 'Accessibility statement', url: '#' }
-          //{ title: 'Feedback', url: '/feedback' }
+          {
+            title: 'Feedback',
+            url: 'https://civilserviceinsight.qualtrics.com/jfe/form/SV_1NQ8jHnD05yvpUW',
+            newWindow: true
+          }
         ]}
       />
     </Layout>
