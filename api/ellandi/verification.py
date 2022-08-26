@@ -10,6 +10,7 @@ from rest_framework import decorators, permissions
 from ellandi.registration import models
 
 TOKEN_GENERATOR = PasswordResetTokenGenerator()
+EMAIL_FROM_ADDRESS = "something@example.com"
 EMAIL_SUBJECT = "Verify your email"
 EMAIL_TEMPLATE = """
 Your email {user.email} address was registered with Ellandi.
@@ -30,7 +31,7 @@ def send_verification_email(user):
     send_mail(
         subject=EMAIL_SUBJECT,
         message=body,
-        from_email=settings.EMAIL_FROM_ADDRESS,
+        from_email=EMAIL_FROM_ADDRESS,
         recipient_list=[user.email],
     )
 
