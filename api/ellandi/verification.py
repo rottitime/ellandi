@@ -10,9 +10,12 @@ from rest_framework import decorators, permissions
 from ellandi.registration import models
 
 TOKEN_GENERATOR = PasswordResetTokenGenerator()
-EMAIL_FROM_ADDRESS = "something@example.com"
-EMAIL_SUBJECT = "Verify your email"
-EMAIL_TEMPLATE = """
+
+EMAIL_MAPPING = {
+    'verification': {
+        'from_address': "something@example.com",
+        'subject': "Verify your email",
+        'template': """
 Your email {user.email} address was registered with Ellandi.
 
 If it was you that did this, please confirm your email at the following url:
@@ -21,7 +24,9 @@ If it was you that did this, please confirm your email at the following url:
 
 Thank you
 """
+},
 
+}
 
 
 
@@ -38,7 +43,9 @@ def _send_token_email(user, subject, template, from_address):
     )
 
 def send_verification_email(user):
-    return _send_token_email(user, EMAIL_SUBJECT, EMAIL_TEMPLATE, EMAIL_FROM_ADDRESS)
+    data = EMAIL_MAPPING['verification']
+    return _send_token_email(user, **data)
+
 
 @decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.AllowAny,))
