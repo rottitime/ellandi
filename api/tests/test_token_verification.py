@@ -1,8 +1,7 @@
-import pathlib
 import os
+import pathlib
 
 from django.conf import settings
-
 from tests import utils
 
 from ellandi.registration.models import User
@@ -34,14 +33,13 @@ def test_verify_email(client):
         "password": "foo",
     }
     response = client.post("/register/", json={"email": user_data["email"], "password": user_data["password"]})
-    print(response)
     assert response.status_code == 200
 
     url = _get_latest_email_url()
 
     response = client.get(url)
     assert response.status_code == 200
-    assert response.json()['email'] == user_data['email']
+    assert response.json()["email"] == user_data["email"]
 
     user = User.objects.get(email=user_data["email"])
     assert user.verified

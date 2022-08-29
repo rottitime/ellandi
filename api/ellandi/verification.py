@@ -5,12 +5,11 @@ from django.core.exceptions import BadRequest
 from django.core.mail import send_mail
 from django.shortcuts import redirect
 from django.urls import reverse
+from drf_spectacular.utils import extend_schema
 from rest_framework import decorators, permissions
 from rest_framework.response import Response
-from drf_spectacular.utils import extend_schema
 
 from ellandi.registration import models, serializers
-
 
 TOKEN_GENERATOR = PasswordResetTokenGenerator()
 

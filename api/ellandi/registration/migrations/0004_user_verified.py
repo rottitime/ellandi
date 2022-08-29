@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('registration', '0003_loaddata_fixtures_langs'),
+        ("registration", "0003_loaddata_fixtures_langs"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='user',
-            name='verified',
+            model_name="user",
+            name="verified",
             field=models.BooleanField(blank=True, default=False, null=True),
         ),
     ]
