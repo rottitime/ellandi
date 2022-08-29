@@ -25,6 +25,19 @@ If it was you that did this, please confirm your email at the following url:
 Thank you
 """,
     },
+    "password-reset": {
+        "from_address": "something@example.com",
+        "subject": "Reset your password",
+        "template": """
+Someone requested that your password be reset
+
+If it was you that did this, please reset it at the following url:
+
+{url}
+
+Thank you
+""",
+    },
 }
 
 
@@ -46,6 +59,11 @@ def send_verification_email(user):
     return _send_token_email(user, **data)
 
 
+def send_password_reset_email(user):
+    data = EMAIL_MAPPING["password-reset"]
+    return _send_token_email(user, **data)
+
+
 @decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.AllowAny,))
 def verification_view(request, user_id, token):
@@ -53,6 +71,20 @@ def verification_view(request, user_id, token):
     result = TOKEN_GENERATOR.check_token(user, token)
     if result:
         user.verified = True
+        user.save()
+        login(request, user)
+        return redirect(reverse("pages", args=("your-details",)))
+    else:
+        raise BadRequest("Invalid token")
+
+
+@decorators.api_view(["GET"])
+@decorators.permission_classes((permissions.AllowAny,))
+def password_reset_view(request, user_id, token, new_password):
+    user = models.User.objects.get(id=user_id)
+    result = TOKEN_GENERATOR.check_token(user, token)
+    if result:
+        user.set_password(new_password)
         user.save()
         login(request, user)
         return redirect(reverse("pages", args=("your-details",)))
