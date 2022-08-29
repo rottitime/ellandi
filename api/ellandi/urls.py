@@ -22,7 +22,7 @@ api_urlpatterns = [
         "me/skills-develop/<str:skill_develop_id>/", views.me_skill_develop_delete_view, name="me-skill-develop-delete"
     ),
     path("me/direct-reports/", views.me_direct_reports_view, name="me-direct-reports"),
-    path("verify/<uuid:user_id>/verify/<str:token>", verification.verification_view, name="verify"),
+    path("user/<uuid:user_id>/verify/<str:token>", verification.verification_view, name="verify"),
     path("register/", views.register_view, name="register"),
     path("skills/", views.skills_list_view, name="skills"),
     path("one-time-login-token/", views.create_one_time_login_view),
