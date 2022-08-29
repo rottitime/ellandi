@@ -23,18 +23,22 @@ Thank you
 """
 
 
-def send_verification_email(user):
+
+
+def _send_token_email(user, subject, template, from_address):
     token = TOKEN_GENERATOR.make_token(user)
     host_url = settings.HOST_URL.strip("/")
     url = "/".join(("http:/", host_url, "user", str(user.id), "verify", token))
-    body = EMAIL_TEMPLATE.format(user=user, url=url)
-    send_mail(
-        subject=EMAIL_SUBJECT,
+    body = template.format(user=user, url=url)
+    return send_mail(
+        subject=subject,
         message=body,
-        from_email=EMAIL_FROM_ADDRESS,
+        from_email=from_address,
         recipient_list=[user.email],
     )
 
+def send_verification_email(user):
+    return _send_token_email(user, EMAIL_SUBJECT, EMAIL_TEMPLATE, EMAIL_FROM_ADDRESS)
 
 @decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.AllowAny,))
