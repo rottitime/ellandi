@@ -6,8 +6,11 @@ from django.core.mail import send_mail
 from django.shortcuts import redirect
 from django.urls import reverse
 from rest_framework import decorators, permissions
+from rest_framework.response import Response
+from drf_spectacular.utils import extend_schema
 
-from ellandi.registration import models
+from ellandi.registration import models, serializers
+
 
 TOKEN_GENERATOR = PasswordResetTokenGenerator()
 
@@ -64,6 +67,9 @@ def send_password_reset_email(user):
     return _send_token_email(user, **data)
 
 
+@extend_schema(
+    responses=serializers.UserSerializer,
+)
 @decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.AllowAny,))
 def verification_view(request, user_id, token):
@@ -73,7 +79,8 @@ def verification_view(request, user_id, token):
         user.verified = True
         user.save()
         login(request, user)
-        return redirect(reverse("pages", args=("your-details",)))
+        user_data = serializers.UserSerializer(user, context={"request": request}).data
+        return Response(user_data)
     else:
         raise BadRequest("Invalid token")
 
