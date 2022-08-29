@@ -12,10 +12,10 @@ from ellandi.registration import models
 TOKEN_GENERATOR = PasswordResetTokenGenerator()
 
 EMAIL_MAPPING = {
-    'verification': {
-        'from_address': "something@example.com",
-        'subject': "Verify your email",
-        'template': """
+    "verification": {
+        "from_address": "something@example.com",
+        "subject": "Verify your email",
+        "template": """
 Your email {user.email} address was registered with Ellandi.
 
 If it was you that did this, please confirm your email at the following url:
@@ -23,11 +23,9 @@ If it was you that did this, please confirm your email at the following url:
 {url}
 
 Thank you
-"""
-},
-
+""",
+    },
 }
-
 
 
 def _send_token_email(user, subject, template, from_address):
@@ -42,8 +40,9 @@ def _send_token_email(user, subject, template, from_address):
         recipient_list=[user.email],
     )
 
+
 def send_verification_email(user):
-    data = EMAIL_MAPPING['verification']
+    data = EMAIL_MAPPING["verification"]
     return _send_token_email(user, **data)
 
 
