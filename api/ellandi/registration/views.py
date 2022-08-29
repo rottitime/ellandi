@@ -7,6 +7,8 @@ from rest_framework.response import Response
 
 from . import exceptions, initial_data, models, serializers
 
+from ellandi.verification import send_verification_email
+
 registration_router = routers.DefaultRouter()
 
 
@@ -132,6 +134,7 @@ def register_view(request):
         raise exceptions.RegistrationError()
     user = get_user_model().objects.create_user(email=email, password=password)
     user_data = serializers.UserSerializer(user, context={"request": request}).data
+    send_verification_email(user)
     return Response(user_data)
 
 
