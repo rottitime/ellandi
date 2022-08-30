@@ -7,11 +7,6 @@ import Button from '@/components/UI/Button/Button'
 import { Field } from '../Field/Field'
 import { FormData, Props } from './types'
 import FooterButtons from '@/components/UI/FooterButtons/FooterButtons'
-import getConfig from 'next/config'
-
-const {
-  publicRuntimeConfig: { urls }
-} = getConfig()
 
 const minPassword = 8
 
