@@ -29,6 +29,7 @@ const Template: FC<Props> = ({ children, ...props }) => (
         This is a new service - your{' '}
         <Link
           href="https://civilserviceinsight.qualtrics.com/jfe/form/SV_1NQ8jHnD05yvpUW"
+          rel="noopener noreferrer"
           target="_blank"
         >
           feedback
