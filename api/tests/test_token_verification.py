@@ -7,10 +7,6 @@ from tests import utils
 from ellandi.registration.models import User
 
 
-def setup():
-    User.objects.create_user(**utils.user_data)
-
-
 def teardown():
     User.objects.filter(email=utils.user_data["email"]).delete()
 
