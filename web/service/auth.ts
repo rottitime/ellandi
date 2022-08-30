@@ -72,14 +72,14 @@ export const logoutUser = async (token: string) => {
 }
 
 export const resetEmailPassword = async (data: ResetEmailPasswordType) => {
-  const res: Response = await fetch(`${publicRuntimeConfig.apiUrl}/resetpasswordcode/`, {
+  const res: Response = await fetch(`${publicRuntimeConfig.apiUrl}/password-reset/`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(data)
   })
-  if (res.ok) return res.json()
+  if (res.ok) return true
 
   try {
     const { detail } = await res.json()
@@ -97,7 +97,7 @@ export const resetUpdatePassword = async (data: ResetUpdatePasswordType) => {
     },
     body: JSON.stringify(data)
   })
-  if (res.ok) return res.json()
+  if (res.ok) return true
 
   try {
     const { detail } = await res.json()

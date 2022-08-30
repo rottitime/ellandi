@@ -8,11 +8,11 @@ import { ResetEmailPasswordType } from '@/service/types'
 
 const ForgottenPasswordPage = () => {
   const { isLoading, error, ...mutate } = useMutation<
-    ResetEmailPasswordType,
+    boolean,
     Error,
     ResetEmailPasswordType
   >((data) => resetEmailPassword(data), {
-    onSuccess: async () => Router.push('/signin/reset/next')
+    onSuccess: async () => Router.push('/signin/forgotten-password/next')
   })
 
   return (
