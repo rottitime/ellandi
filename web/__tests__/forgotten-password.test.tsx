@@ -1,6 +1,6 @@
 import { screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import ResetPasswordPage from '@/pages/signin/reset/index'
+import ForgottenPasswordPage from '@/pages/signin/forgotten-password/index'
 import fetchMock from 'jest-fetch-mock'
 import Router from 'next/router'
 import { Props } from '@/components/Form/ForgottenPasswordForm/types'
@@ -31,7 +31,7 @@ describe('Page: Reset Password', () => {
     fetchMock.mockResponseOnce(JSON.stringify({}), {
       status: 200
     })
-    renderWithProviders(<ResetPasswordPage />)
+    renderWithProviders(<ForgottenPasswordPage />)
 
     const submitButton = screen.getByTestId('mock-form-button')
 
@@ -49,7 +49,7 @@ describe('Page: Reset Password', () => {
     fetchMock.mockResponseOnce(JSON.stringify({ detail: error }), {
       status: 400
     })
-    renderWithProviders(<ResetPasswordPage />)
+    renderWithProviders(<ForgottenPasswordPage />)
     const submitButton = screen.getByTestId('mock-form-button')
     userEvent.click(submitButton)
 
@@ -67,7 +67,7 @@ describe('Page: Reset Password', () => {
     fetchMock.mockResponseOnce(JSON.stringify('broken message'), {
       status: 400
     })
-    renderWithProviders(<ResetPasswordPage />)
+    renderWithProviders(<ForgottenPasswordPage />)
     const submitButton = screen.getByTestId('mock-form-button')
     userEvent.click(submitButton)
 

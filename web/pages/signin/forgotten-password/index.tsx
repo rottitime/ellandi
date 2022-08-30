@@ -6,7 +6,7 @@ import { useMutation } from 'react-query'
 import { resetPasswordCode } from '@/service/auth'
 import { ResetPasswordType } from '@/service/types'
 
-const ResetPasswordPage = () => {
+const ForgottenPasswordPage = () => {
   const { isLoading, error, ...mutate } = useMutation<
     ResetPasswordType,
     Error,
@@ -38,7 +38,7 @@ const ResetPasswordPage = () => {
   )
 }
 
-export default ResetPasswordPage
-ResetPasswordPage.getLayout = (page) => (
+export default ForgottenPasswordPage
+ForgottenPasswordPage.getLayout = (page) => (
   <CardLayout title="Reset your password">{page}</CardLayout>
 )
