@@ -14,13 +14,13 @@ describe('Page: Reset Password', () => {
   it('renders', () => {
     renderWithProviders(<ResetPasswordForm onFormSubmit={jest.fn()} loading={false} />)
     expect(screen.getByTestId('submit-button')).toBeInTheDocument()
-    expect(screen.getByTestId('textfield_password')).toBeInTheDocument()
-    expect(screen.getByTestId('textfield_passwordConfirm')).toBeInTheDocument()
+    expect(screen.getByTestId('textfield_new_password')).toBeInTheDocument()
+    expect(screen.getByTestId('textfield_new_password_confirm')).toBeInTheDocument()
   })
 
   it('have values typed', async () => {
     renderWithProviders(<ResetPasswordForm onFormSubmit={jest.fn()} loading={false} />)
-    const inputPassword = screen.getByTestId('textfield_password')
+    const inputPassword = screen.getByTestId('textfield_new_password')
 
     await userEvent.type(inputPassword, email)
 
@@ -35,11 +35,11 @@ describe('Page: Reset Password', () => {
       <ResetPasswordForm onFormSubmit={(data) => mockSubmit(data)} loading={false} />
     )
 
-    const inputPassword = screen.getByTestId('textfield_password')
+    const inputPassword = screen.getByTestId('textfield_new_password')
     const button = screen.getByTestId('submit-button')
 
-    const fieldPassword = screen.getByTestId('field_password')
-    const fieldPasswordConfirm = screen.getByTestId('field_passwordConfirm')
+    const fieldPassword = screen.getByTestId('field_new_password')
+    const fieldPasswordConfirm = screen.getByTestId('field_new_password_confirm')
 
     await userEvent.type(inputPassword, 't')
     await userEvent.click(button)
@@ -55,23 +55,26 @@ describe('Page: Reset Password', () => {
 
   it('submits', async () => {
     const mockSubmit = jest.fn()
-    const password = 'MyPassword12345'
+    const new_password = 'MyPassword12345'
     renderWithProviders(
       <ResetPasswordForm onFormSubmit={(data) => mockSubmit(data)} loading={false} />
     )
 
-    const inputPassword = screen.getByTestId('textfield_password')
-    const inputPasswordConfirm = screen.getByTestId('textfield_passwordConfirm')
+    const inputPassword = screen.getByTestId('textfield_new_password')
+    const inputPasswordConfirm = screen.getByTestId('textfield_new_password_confirm')
 
     const button = screen.getByTestId('submit-button')
 
-    await userEvent.type(inputPassword, password)
-    await userEvent.type(inputPasswordConfirm, password)
+    await userEvent.type(inputPassword, new_password)
+    await userEvent.type(inputPasswordConfirm, new_password)
 
     await userEvent.click(button)
 
     await waitFor(async () => {
-      expect(mockSubmit).toHaveBeenCalledWith({ password, passwordConfirm: password })
+      expect(mockSubmit).toHaveBeenCalledWith({
+        new_password,
+        new_password_confirm: new_password
+      })
     })
   })
 })

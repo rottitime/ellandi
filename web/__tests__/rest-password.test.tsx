@@ -6,7 +6,7 @@ import Router from 'next/router'
 import { Props } from '@/components/Form/ResetPasswordForm/types'
 import { renderWithProviders } from '@/lib/test-utils'
 
-const mockRouter = jest.fn(() => ({ query: { code: 'mycode' } }))
+const mockRouter = jest.fn(() => ({ query: { code: 'mycode', userid: 'abc123' } }))
 
 jest.mock('next/router', () => ({
   ...jest.requireActual('next/router'),
@@ -22,15 +22,15 @@ jest.mock(
         data-testid="mock-form-button"
         onClick={() =>
           props.onFormSubmit({
-            password,
-            passwordConfirm: password
+            new_password,
+            new_password_confirm: new_password
           })
         }
       />
     )
 )
 
-const password = 'test@test.com'
+const new_password = 'MyPassword123'
 
 describe('Page: Reset Password', () => {
   afterEach(() => {
@@ -50,7 +50,7 @@ describe('Page: Reset Password', () => {
     userEvent.click(submitButton)
 
     await waitFor(async () => {
-      expect(Router.push).toHaveBeenCalledWith('/signin/reset/complete')
+      expect(Router.push).toHaveBeenCalledWith('/signin/forgotten-password/complete')
     })
   })
 

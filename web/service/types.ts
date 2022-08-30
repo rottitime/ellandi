@@ -156,6 +156,5 @@ export type ResetEmailPasswordType = {
 }
 
 export type ResetUpdatePasswordType = {
-  resetcode: string
-  password: string
+  new_password: string
 }

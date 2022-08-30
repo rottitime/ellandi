@@ -11,18 +11,18 @@ import FooterButtons from '@/components/UI/FooterButtons/FooterButtons'
 const minPassword = 8
 
 const schema: SchemaOf<FormData> = object().shape({
-  password: string()
+  new_password: string()
     .min(minPassword, `Password must be ${minPassword} characters or more`)
     .max(20)
     .required('This is a required field'),
-  passwordConfirm: string()
-    .oneOf([ref('password'), null], 'Does not match with password')
+  new_password_confirm: string()
+    .oneOf([ref('new_password'), null], 'Does not match with password')
     .required('This is a required field')
 })
 
 const SignInForm: FC<Props> = ({ onFormSubmit, loading }) => {
   const methods = useForm<FormData>({
-    defaultValues: { password: '', passwordConfirm: '' },
+    defaultValues: { new_password: '', new_password_confirm: '' },
     resolver: yupResolver(schema)
   })
 
@@ -30,11 +30,11 @@ const SignInForm: FC<Props> = ({ onFormSubmit, loading }) => {
     <FormProvider {...methods}>
       <form onSubmit={methods.handleSubmit(onFormSubmit)} noValidate>
         <Field>
-          <TextFieldControlled name="password" label="Password" type="password" />
+          <TextFieldControlled name="new_password" label="Password" type="password" />
         </Field>
         <Field>
           <TextFieldControlled
-            name="passwordConfirm"
+            name="new_password_confirm"
             label="Confirm your password"
             type="password"
           />

@@ -89,14 +89,21 @@ export const resetEmailPassword = async (data: ResetEmailPasswordType) => {
   throw new Error(defaultError)
 }
 
-export const resetUpdatePassword = async (data: ResetUpdatePasswordType) => {
-  const res: Response = await fetch(`${publicRuntimeConfig.apiUrl}/resetpasswordcode/`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
-  })
+export const resetUpdatePassword = async (
+  data: ResetUpdatePasswordType,
+  user_id: string,
+  token: string
+) => {
+  const res: Response = await fetch(
+    `${publicRuntimeConfig.apiUrl}/user/${user_id}/password-reset/${token}/`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    }
+  )
   if (res.ok) return true
 
   try {

@@ -40,7 +40,7 @@ describe('Page: Reset Password', () => {
     userEvent.click(submitButton)
 
     await waitFor(async () => {
-      expect(Router.push).toHaveBeenCalledWith('/signin/reset/next')
+      expect(Router.push).toHaveBeenCalledWith('/signin/forgotten-password/next')
     })
   })
 

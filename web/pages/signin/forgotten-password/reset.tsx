@@ -5,18 +5,17 @@ import { Alert, Fade, Typography } from '@mui/material'
 import Router, { useRouter } from 'next/router'
 import { useMutation } from 'react-query'
 import { resetUpdatePassword } from '@/service/auth'
-import { ResetUpdatePasswordType } from '@/service/types'
 
 const ResetPasswordPage = () => {
   const router = useRouter()
-  const { code } = router.query
-  const { isLoading, error, ...mutate } = useMutation<
-    ResetUpdatePasswordType,
-    Error,
-    FormData
-  >(({ password }) => resetUpdatePassword({ password, resetcode: code.toString() }), {
-    onSuccess: async () => Router.push('/signin/reset/complete')
-  })
+  const { code, userid } = router.query
+  const { isLoading, error, ...mutate } = useMutation<boolean, Error, FormData>(
+    ({ new_password }) =>
+      resetUpdatePassword({ new_password }, userid.toString(), code.toString()),
+    {
+      onSuccess: async () => Router.push('/signin/forgotten-password/complete')
+    }
+  )
 
   return (
     <>
