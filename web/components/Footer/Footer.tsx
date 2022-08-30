@@ -1,7 +1,7 @@
 import { Box, Container, styled } from '@mui/material'
+import Link from '@/components/UI/Link'
+import Icon from '@/components/Icon/Icon'
 import { FC } from 'react'
-import Icon from '../Icon/Icon'
-import Link from '../UI/Link'
 import { Props } from './types'
 
 const StyledFooter = styled(Box)`
@@ -41,9 +41,11 @@ const Footer: FC<Props> = ({ menu, ...props }) => (
     <Container maxWidth="xl">
       <nav>
         <ul>
-          {menu.map(({ title, url }) => (
+          {menu.map(({ title, url, newWindow }) => (
             <li key={title}>
-              <Link href={url}>{title}</Link>
+              <Link href={url} target={!!newWindow && '_blank'}>
+                {title}
+              </Link>
             </li>
           ))}
         </ul>

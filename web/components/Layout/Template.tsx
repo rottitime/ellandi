@@ -27,7 +27,11 @@ const Template: FC<Props> = ({ children, ...props }) => (
     <AlphaBanner sx={{ minHeight: bannerHeight }}>
       <Typography>
         This is a new service - your{' '}
-        <Link href="mailto:feedback@gov.uk?subject=Ellandi feedback" target="_blank">
+        <Link
+          href="https://civilserviceinsight.qualtrics.com/jfe/form/SV_1NQ8jHnD05yvpUW"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
           feedback
         </Link>{' '}
         will help us to improve it.

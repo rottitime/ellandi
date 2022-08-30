@@ -1,4 +1,4 @@
-import { loginWithEmailAndPassword } from '@/service/auth'
+import { createUser, loginWithEmailAndPassword } from '@/service/auth'
 import fetchMock from 'jest-fetch-mock'
 
 const mockData = { email: 'test@test.com', password: 'test' },
@@ -35,6 +35,38 @@ describe('Service: user', () => {
       expect(loginWithEmailAndPassword(mockData)).rejects.toThrow(
         'Sorry, there is a problem with the service. Try again later.'
       )
+    })
+
+    it('converts email to lowercase', async () => {
+      fetchMock.mockResponseOnce(JSON.stringify(mockSuccess), { status: 200 })
+
+      loginWithEmailAndPassword({
+        ...mockData,
+        email: 'CapItaL@TeST.cOM'
+      })
+
+      const lastFetchCall = JSON.parse(fetchMock.mock.calls[0][1].body as string)
+
+      expect(lastFetchCall.email).toEqual('capital@test.com')
+    })
+  })
+
+  describe('createUser', () => {
+    beforeEach(() => {
+      fetchMock.resetMocks()
+    })
+
+    it('converts email to lowercase', async () => {
+      fetchMock.mockResponseOnce(JSON.stringify(mockSuccess), { status: 200 })
+
+      createUser({
+        ...mockData,
+        email: 'CapItaL@TeST.cOM'
+      })
+
+      const lastFetchCall = JSON.parse(fetchMock.mock.calls[0][1].body as string)
+
+      expect(lastFetchCall.email).toEqual('capital@test.com')
     })
   })
 })

@@ -26,6 +26,7 @@ api_urlpatterns = [
     path("skills/", views.skills_list_view, name="skills"),
     path("one-time-login-token/", views.create_one_time_login_view),
     path("first-time-login/", views.first_log_in_view),
+    path("create-error/", views.create_error, name="create-error"),
 ]
 
 schema_urlpatterns = [

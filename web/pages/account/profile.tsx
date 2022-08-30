@@ -8,7 +8,7 @@ import { Query, RegisterUserResponse } from '@/service/api'
 import useAuth from '@/hooks/useAuth'
 import { useMemo } from 'react'
 
-const Page = () => {
+const ProfilePage = () => {
   const { authFetch } = useAuth()
   const { isLoading, data } = useQuery<RegisterUserResponse>(Query.Me, () =>
     authFetch(fetchMe)
@@ -35,9 +35,13 @@ const Page = () => {
   )
 
   if (isLoading)
-    return [...Array(2).keys()].map((i) => (
-      <AccountCard loading={true} sx={{ mb: 4 }} key={i} />
-    ))
+    return (
+      <>
+        {[...Array(2).keys()].map((i) => (
+          <AccountCard loading={true} sx={{ mb: 4 }} key={i} />
+        ))}
+      </>
+    )
 
   return (
     <>
@@ -85,8 +89,8 @@ const Page = () => {
   )
 }
 
-export default Page
-Page.getLayout = (page) => (
+export default ProfilePage
+ProfilePage.getLayout = (page) => (
   <AccountLayout
     breadcrumbs={[{ title: 'Profile' }]}
     title="Profile"
