@@ -55,7 +55,7 @@ def test_password_reset(client):
 
     url = _get_latest_email_url()
 
-    response = client.post(url, json={ 'new_password': new_password})
+    response = client.post(url, json={"new_password": new_password})
     assert response.status_code == 200
     assert response.json()["email"] == user_data["email"]
 

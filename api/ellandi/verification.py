@@ -3,8 +3,6 @@ from django.contrib.auth import login
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.core.exceptions import BadRequest
 from django.core.mail import send_mail
-from django.shortcuts import redirect
-from django.urls import reverse
 from drf_spectacular.utils import extend_schema
 from rest_framework import decorators, permissions
 from rest_framework.response import Response
