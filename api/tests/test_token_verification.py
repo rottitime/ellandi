@@ -43,3 +43,25 @@ def test_verify_email(client):
 
     user = User.objects.get(email=user_data["email"])
     assert user.verified
+
+
+@utils.with_client
+def test_password_reset(client):
+    user_data = {
+        "email": "forgetful-bobby@example.com",
+        "password": "foo",
+    }
+    new_password = "N3wP455w0rd"
+    user = User.objects.create_user(**user_data)
+
+    response = client.post("/password-reset/", json={"email": user_data["email"]})
+    assert response.status_code == 200
+
+    url = _get_latest_email_url()
+
+    response = client.post(url, json={ 'new_password': new_password})
+    assert response.status_code == 200
+    assert response.json()["email"] == user_data["email"]
+
+    user = User.objects.get(email=user_data["email"])
+    assert user.check_password(new_password)
