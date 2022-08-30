@@ -8,7 +8,7 @@ from ellandi.registration.models import User
 
 
 def teardown():
-    User.objects.filter(email=utils.user_data["email"]).delete()
+    User.objects.delete()
 
 
 def _get_latest_email_url():
