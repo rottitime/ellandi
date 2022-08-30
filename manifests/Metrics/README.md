@@ -40,7 +40,7 @@ Create a separate metrics space in GovPaaS to keep the metrics separate.
 - cd to the proxy/ folder
 - Run 
 ```bash
-ALLOWED_IPS="51.149.9.240/29,51.149.9.112/29,51.149.8.0/25,165.225.80.0/22,147.161.166.0/23,165.225.196.0/23,165.225.198.0/23,81.144.180.0/24,165.225.17.0/24,147.161.236.0/23,147.161.224.0/23,165.225.16.0/23,81.150.77.189/32" \
+ALLOWED_IPS="" \
 ROUTE_SERVICE_APP_NAME="prometheus-server-proxy-i-dot-ai" \
 ROUTE_SERVICE_NAME="prometheus-server-route-i-dot-ai" \
 PROTECTED_APP_NAME="prometheus-server" \
@@ -61,7 +61,7 @@ PROTECTED_APP_NAME="prometheus-server" \
 - cd to the proxy/ folder
 - Run 
 ```bash
-ALLOWED_IPS="51.149.9.240/29,51.149.9.112/29,51.149.8.0/25,165.225.80.0/22,147.161.166.0/23,165.225.196.0/23,165.225.198.0/23,81.144.180.0/24,165.225.17.0/24,147.161.236.0/23,147.161.224.0/23,165.225.16.0/23,81.150.77.189/32" \
+ALLOWED_IPS="" \
 ROUTE_SERVICE_APP_NAME="prometheus-alertmanager-proxy-i-dot-ai" \
 ROUTE_SERVICE_NAME="prometheus-alertmanager-route-i-dot-ai" \
 PROTECTED_APP_NAME="prometheus-alertmanager" \
