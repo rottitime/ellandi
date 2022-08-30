@@ -19,7 +19,7 @@ api_urlpatterns = [
     path("me/skills/<str:skill_id>/", views.me_skill_delete_view),
     path("me/languages/<str:language_id>/", views.me_language_delete_view),
     path(
-        "me/skills-develop/<str:skill_develop_id>/", views.me_skill_develop_delete_view, name="me-skill-develop-delete"
+        "me/skills-develop/<str:skill_develop_id>/", views.me_skill_develop_delete_view
     ),
     path("me/direct-reports/", views.me_direct_reports_view),
     path("user/<uuid:user_id>/verify/<str:token>", verification.verification_view),
