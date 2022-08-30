@@ -82,6 +82,10 @@ def verification_view(request, user_id, token):
         raise BadRequest("Invalid token")
 
 
+@extend_schema(
+    request=serializers.PasswordResetAskSerializer,
+    responses=serializers.UserSerializer,
+)
 @decorators.api_view(["POST"])
 @decorators.permission_classes((permissions.AllowAny,))
 def password_reset_ask_view(request):
@@ -91,6 +95,10 @@ def password_reset_ask_view(request):
     return Response()
 
 
+@extend_schema(
+    request=serializers.PasswordResetUseSerializer,
+    responses=serializers.UserSerializer,
+)
 @decorators.api_view(["POST"])
 @decorators.permission_classes((permissions.AllowAny,))
 def password_reset_use_view(request, user_id, token):
