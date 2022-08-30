@@ -93,6 +93,7 @@ class UserAdmin(django.contrib.auth.admin.UserAdmin):
                     "contract_type",
                     "contract_type_other",
                     "contact_preference",
+                    "verified",
                     "created_at",
                     "modified_at",
                 )
@@ -100,7 +101,7 @@ class UserAdmin(django.contrib.auth.admin.UserAdmin):
         ),
     )
     inlines = [UserSkillInline, UserLanguageInline, UserSkillDevelopInline]
-    readonly_fields = ("id", "created_at", "modified_at", "professions", "is_line_manager")
+    readonly_fields = ("id", "created_at", "modified_at", "professions", "is_line_manager", "verified")
     list_display = ("email", "first_name", "last_name")
 
 
