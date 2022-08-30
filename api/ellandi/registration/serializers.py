@@ -202,6 +202,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "email",
+            "verified",
             "privacy_policy_agreement",
             "first_name",
             "last_name",
@@ -228,6 +229,7 @@ class UserSerializer(serializers.ModelSerializer):
             "created_at",
             "modified_at",
         ]
+        read_only_fields = ['verified']
 
 
 class RegisterSerializer(serializers.Serializer):
