@@ -43,10 +43,10 @@ Thank you
 }
 
 
-def _send_token_email(user, subject, template, from_address):
+def _send_token_email(user, subject, template, from_address, token_type):
     token = TOKEN_GENERATOR.make_token(user)
     host_url = settings.HOST_URL.strip("/")
-    url = "/".join(("http:/", host_url, "user", str(user.id), "verify", token))
+    url = "/".join(("http:/", host_url, "user", str(user.id), token_type, token))
     body = template.format(user=user, url=url)
     return send_mail(
         subject=subject,
@@ -58,7 +58,7 @@ def _send_token_email(user, subject, template, from_address):
 
 def send_verification_email(user):
     data = EMAIL_MAPPING["verification"]
-    return _send_token_email(user, **data)
+    return _send_token_email(user, token_type="verify", **data)
 
 
 def send_password_reset_email(user):
