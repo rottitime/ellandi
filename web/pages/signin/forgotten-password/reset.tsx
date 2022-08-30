@@ -1,18 +1,21 @@
-import CardLayout from '@/components/Layout/CardLayout/CardLayout'
-import { Alert, Fade, Typography } from '@mui/material'
-import Router from 'next/router'
 import ResetPasswordForm from '@/components/Form/ResetPasswordForm/ResetPasswordForm'
+import CardLayout from '@/components/Layout/CardLayout/CardLayout'
+import { FormData } from '@/components/Form/ResetPasswordForm/types'
+import { Alert, Fade, Typography } from '@mui/material'
+import Router, { useRouter } from 'next/router'
 import { useMutation } from 'react-query'
-import { resetPasswordCode } from '@/service/auth'
-import { ResetPasswordType } from '@/service/types'
+import { resetUpdatePassword } from '@/service/auth'
+import { ResetUpdatePasswordType } from '@/service/types'
 
 const ResetPasswordPage = () => {
+  const router = useRouter()
+  const { code } = router.query
   const { isLoading, error, ...mutate } = useMutation<
-    ResetPasswordType,
+    ResetUpdatePasswordType,
     Error,
-    ResetPasswordType
-  >((data) => resetPasswordCode(data), {
-    onSuccess: async () => Router.push('/signin/reset/next')
+    FormData
+  >(({ password }) => resetUpdatePassword({ password, resetcode: code.toString() }), {
+    onSuccess: async () => Router.push('/signin/reset/complete')
   })
 
   return (

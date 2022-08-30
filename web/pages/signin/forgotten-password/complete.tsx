@@ -8,21 +8,21 @@ const {
   publicRuntimeConfig: { urls }
 } = getConfig()
 
-const CongratulationsPahe = () => (
+const CompletedPage = () => (
   <>
     <Typography variant="subtitle1" sx={{ mb: 3 }}>
       You have successfully changed your password
     </Typography>
 
     <FooterButtons>
-      <Button color="tertiary" size="small" href={urls.signin}>
+      <Button color="primary" href={urls.signin} sx={{ ml: 'auto' }}>
         Sign in
       </Button>
     </FooterButtons>
   </>
 )
 
-export default CongratulationsPahe
-CongratulationsPahe.getLayout = (page) => (
+export default CompletedPage
+CompletedPage.getLayout = (page) => (
   <CardLayout title="Congratulations">{page}</CardLayout>
 )

@@ -3,15 +3,15 @@ import { Alert, Fade, Typography } from '@mui/material'
 import Router from 'next/router'
 import ForgottenPasswordForm from '@/components/Form/ForgottenPasswordForm/ForgottenPasswordForm'
 import { useMutation } from 'react-query'
-import { resetPasswordCode } from '@/service/auth'
-import { ResetPasswordType } from '@/service/types'
+import { resetEmailPassword } from '@/service/auth'
+import { ResetEmailPasswordType } from '@/service/types'
 
 const ForgottenPasswordPage = () => {
   const { isLoading, error, ...mutate } = useMutation<
-    ResetPasswordType,
+    ResetEmailPasswordType,
     Error,
-    ResetPasswordType
-  >((data) => resetPasswordCode(data), {
+    ResetEmailPasswordType
+  >((data) => resetEmailPassword(data), {
     onSuccess: async () => Router.push('/signin/reset/next')
   })
 

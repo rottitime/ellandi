@@ -151,6 +151,11 @@ export type TeamMember = {
   modified_at: string
 }
 
-export type ResetPasswordType = {
+export type ResetEmailPasswordType = {
   email: string
+}
+
+export type ResetUpdatePasswordType = {
+  resetcode: string
+  password: string
 }
