@@ -24,6 +24,7 @@ api_urlpatterns = [
     path("me/direct-reports/", views.me_direct_reports_view, name="me-direct-reports"),
     path("user/<uuid:user_id>/verify/<str:token>", verification.verification_view, name="verify"),
     path("user/<uuid:user_id>/password-reset/<str:token>", verification.password_reset_view, name="password-reset"),
+    path("password-reset/", verification.password_reset_ask_view),
     path("register/", views.register_view, name="register"),
     path("skills/", views.skills_list_view, name="skills"),
     path("one-time-login-token/", views.create_one_time_login_view),

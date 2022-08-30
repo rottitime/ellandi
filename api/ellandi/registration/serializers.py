@@ -235,6 +235,14 @@ class RegisterSerializer(serializers.Serializer):
     password = serializers.CharField()
 
 
+class PasswordResetAskSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+
+
+class PasswordResetUseSerializer(serializers.Serializer):
+    new_password = serializers.CharField()
+
+
 class EmailSaltSerializer(serializers.ModelSerializer):
     class Meta:
         model = EmailSalt

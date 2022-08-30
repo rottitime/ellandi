@@ -63,7 +63,7 @@ def send_verification_email(user):
 
 def send_password_reset_email(user):
     data = EMAIL_MAPPING["password-reset"]
-    return _send_token_email(user, **data)
+    return _send_token_email(user, token_type="password-reset", **data)
 
 
 @extend_schema(
@@ -84,15 +84,26 @@ def verification_view(request, user_id, token):
         raise BadRequest("Invalid token")
 
 
-@decorators.api_view(["GET"])
+@decorators.api_view(["POST"])
 @decorators.permission_classes((permissions.AllowAny,))
-def password_reset_view(request, user_id, token, new_password):
+def password_reset_ask_view(request):
+    email = request.data.get("email")
+    user = models.User.objects.get(email=email)
+    send_password_reset_email(user)
+    return Response()
+
+
+@decorators.api_view(["POST"])
+@decorators.permission_classes((permissions.AllowAny,))
+def password_reset_use_view(request, user_id, token):
+    new_password = request.data.get("new_password")
     user = models.User.objects.get(id=user_id)
     result = TOKEN_GENERATOR.check_token(user, token)
     if result:
         user.set_password(new_password)
         user.save()
         login(request, user)
-        return redirect(reverse("pages", args=("your-details",)))
+        user_data = serializers.UserSerializer(user, context={"request": request}).data
+        return Response(user_data)
     else:
         raise BadRequest("Invalid token")
