@@ -37,6 +37,7 @@ else:
     ALLOWED_HOSTS = DEV_HOSTS + PROD_HOSTS
 
 HOST_MAP = {
+    "http://testserver": "http://testserver",
     "http://localhost:8000": "http://localhost:3000",
     "http://127.0.0.1:8000": "http://127.0.0.1:3000",
     "https://ellandi-api-sandbox.london.cloudapps.digital": "https://ellandi-web-sandbox.london.cloudapps.digital",
