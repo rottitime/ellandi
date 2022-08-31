@@ -30,12 +30,16 @@ const SignInForm: FC<Props> = ({ onFormSubmit, loading }) => {
     <FormProvider {...methods}>
       <form onSubmit={methods.handleSubmit(onFormSubmit)} noValidate>
         <Field>
-          <TextFieldControlled name="new_password" label="Password" type="password" />
+          <TextFieldControlled
+            name="new_password"
+            label="Enter new password"
+            type="password"
+          />
         </Field>
         <Field>
           <TextFieldControlled
             name="new_password_confirm"
-            label="Confirm your password"
+            label="Confirm new password"
             type="password"
           />
         </Field>
