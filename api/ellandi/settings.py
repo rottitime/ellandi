@@ -36,20 +36,17 @@ if DEBUG:
 else:
     ALLOWED_HOSTS = DEV_HOSTS + PROD_HOSTS
 
-CORS_ALLOWED_ORIGINS = [
-    "https://ellandi-api-sandbox.london.cloudapps.digital",
-    "https://ellandi-api-temp.london.cloudapps.digital",
-    "https://ellandi-api-develop.london.cloudapps.digital",
-    "https://ellandi-api.london.cloudapps.digital",
-    "https://ellandi-web-sandbox.london.cloudapps.digital",
-    "https://ellandi-web-temp.london.cloudapps.digital",
-    "https://ellandi-web-develop.london.cloudapps.digital",
-    "https://ellandi-web.london.cloudapps.digital",
-    "http://localhost:3000",
-    "http://localhost:8000",
-    "http://127.0.0.1:3000",
-    "http://127.0.0.1:8000",
-]
+HOST_MAP = {
+    "http://localhost:8000": "http://localhost:3000",
+    "http://127.0.0.1:8000": "http://127.0.0.1:3000",
+    "https://ellandi-api-sandbox.london.cloudapps.digital": "https://ellandi-web-sandbox.london.cloudapps.digital",
+    "https://ellandi-api-temp.london.cloudapps.digital": "https://ellandi-web-temp.london.cloudapps.digital",
+    "https://ellandi-api-develop.london.cloudapps.digital": "https://ellandi-web-develop.london.cloudapps.digital",
+    "https://ellandi-api.london.cloudapps.digital": "https://ellandi-web.london.cloudapps.digital",
+    "http://api:8000": "http://web:3000",
+}
+
+CORS_ALLOWED_ORIGINS = tuple(HOST_MAP.keys()) + tuple(HOST_MAP.values())
 
 # Application definition
 
