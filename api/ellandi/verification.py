@@ -1,3 +1,4 @@
+import furl
 from django.conf import settings
 from django.contrib.auth import login
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
@@ -7,7 +8,6 @@ from django.template.loader import render_to_string
 from drf_spectacular.utils import extend_schema
 from rest_framework import decorators, permissions
 from rest_framework.response import Response
-import furl
 
 from ellandi.registration import models, serializers
 
@@ -33,7 +33,7 @@ def _send_token_email(user, subject, template_name, from_address, token_type, ur
     token = TOKEN_GENERATOR.make_token(user)
     api_host_url = settings.HOST_URL.strip("/")
     web_host_url = settings.HOST_MAP[api_host_url]
-    url = str(furl.furl(url=web_host_url, path=url_path, query_params={'code': token, 'user_id': str(user.id)}))
+    url = str(furl.furl(url=web_host_url, path=url_path, query_params={"code": token, "user_id": str(user.id)}))
     context = dict(user=user, url=url)
     body = render_to_string(template_name, context)
     return send_mail(
