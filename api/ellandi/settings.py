@@ -18,6 +18,11 @@ STATIC_ROOT = STATIC_ROOT
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DEBUG", default=False)
 
+VCAP_SERVICES = env.json("VCAP_SERVICES", default={})
+
+VCAP_APPLICATION = env.json("VCAP_APPLICATION")
+HOST_URL = VCAP_APPLICATION["application_uris"][0]
+
 DEV_HOSTS = (
     "localhost",
     "127.0.0.1",
@@ -47,7 +52,7 @@ HOST_MAP = {
     "http://api:8000": "http://web:3000",
 }
 
-CORS_ALLOWED_ORIGINS = tuple(HOST_MAP.keys()) + tuple(HOST_MAP.values())
+CORS_ALLOWED_ORIGINS = (HOST_URL, HOST_MAP[HOST_URL])
 
 # Application definition
 
@@ -104,11 +109,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "ellandi.wsgi.application"
-
-VCAP_SERVICES = env.json("VCAP_SERVICES", default={})
-
-VCAP_APPLICATION = env.json("VCAP_APPLICATION")
-HOST_URL = VCAP_APPLICATION["application_uris"][0]
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
