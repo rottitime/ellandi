@@ -69,13 +69,13 @@ const tabs: RoutedTabItem[] = [
     id: ''
   },
   {
-    title: 'Language skills',
-    content: <LanguageList />,
-    id: 'language-skills'
-  },
-  {
     title: 'Skills you would like to develop',
     content: <SkillsDevelop />,
     id: 'skills-develop'
+  },
+  {
+    title: 'Language skills',
+    content: <LanguageList />,
+    id: 'language-skills'
   }
 ]
