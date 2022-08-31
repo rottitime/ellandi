@@ -3,8 +3,9 @@ import pathlib
 
 from django.conf import settings
 from django.test import override_settings
-from tests import utils
+import furl
 
+from tests import utils
 from ellandi.registration.models import User
 
 
@@ -12,14 +13,18 @@ def teardown():
     User.objects.all().delete()
 
 
-def _get_latest_email_url():
+def _get_latest_email_url(token_type):
     email_dir = pathlib.Path(settings.EMAIL_FILE_PATH)
     latest_email_path = max(email_dir.iterdir(), key=os.path.getmtime)
     with latest_email_path.open() as f:
         lines = f.readlines()
     url_lines = tuple(line for line in lines if line.startswith("http://testserver/"))
     assert len(url_lines) == 1
-    url = url_lines[0].strip()
+    email_url = url_lines[0].strip()
+    args = furl.furl(email_url).query.params
+    host_url = furl.furl(settings.HOST_URL.strip("/"))
+    url = furl.furl(host_url).set(path=("user", args['user_id'], token_type, args['code']))
+    url = str(url)
     return url
 
 
@@ -33,8 +38,7 @@ def test_verify_email(client):
     response = client.post("/register/", json={"email": user_data["email"], "password": user_data["password"]})
     assert response.status_code == 200
 
-    url = _get_latest_email_url()
-
+    url = _get_latest_email_url('verify')
     response = client.get(url)
     assert response.status_code == 200
     assert response.json()["email"] == user_data["email"]
@@ -55,7 +59,7 @@ def test_password_reset(client):
     response = client.post("/password-reset/", json={"email": user_data["email"]})
     assert response.status_code == 200
 
-    url = _get_latest_email_url()
+    url = _get_latest_email_url("password-reset")
 
     response = client.post(url, json={"new_password": new_password})
     assert response.status_code == 200
