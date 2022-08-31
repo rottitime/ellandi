@@ -202,6 +202,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "email",
+            "verified",
             "privacy_policy_agreement",
             "first_name",
             "last_name",
@@ -228,11 +229,20 @@ class UserSerializer(serializers.ModelSerializer):
             "created_at",
             "modified_at",
         ]
+        read_only_fields = ["verified"]
 
 
 class RegisterSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField()
+
+
+class PasswordResetAskSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+
+
+class PasswordResetUseSerializer(serializers.Serializer):
+    new_password = serializers.CharField()
 
 
 class EmailSaltSerializer(serializers.ModelSerializer):

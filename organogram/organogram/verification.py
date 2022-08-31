@@ -9,6 +9,7 @@ from django.urls import reverse
 from organogram.registration import models
 
 TOKEN_GENERATOR = PasswordResetTokenGenerator()
+EMAIL_FROM_ADDRESS = "orgdata@no10.gov.uk"
 EMAIL_SUBJECT = "Verify your email"
 EMAIL_TEMPLATE = """
 Your email {user.email} address was entered in the Cabinet Office Organogram.
@@ -29,7 +30,7 @@ def send_verification_email(user):
     send_mail(
         subject=EMAIL_SUBJECT,
         message=body,
-        from_email=settings.EMAIL_FROM_ADDRESS,
+        from_email=EMAIL_FROM_ADDRESS,
         recipient_list=[user.email],
     )
 
