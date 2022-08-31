@@ -14,12 +14,12 @@ const Preloader = styled(Box)`
 
 const EmailVerifyPage = () => {
   const router = useRouter()
-  const { code, userid } = router.query
-  const enabled = !!code && !!userid
+  const { code, user_id } = router.query
+  const enabled = !!code && !!user_id
 
   const { isLoading, data, error } = useQuery<boolean, Error>(
     'verifyEmail',
-    () => verifyEmail((userid || '').toString(), (code || '').toString()),
+    () => verifyEmail((user_id || '').toString(), (code || '').toString()),
     {
       retry: false,
       refetchOnWindowFocus: false,

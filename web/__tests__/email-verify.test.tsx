@@ -1,9 +1,9 @@
 import { screen, waitFor } from '@testing-library/react'
-import EmailVerifyPage from '@/pages/register/email-verify'
+import EmailVerifyPage from '@/pages/signin/verify'
 import fetchMock from 'jest-fetch-mock'
 import { renderWithProviders, bugfixForTimeout } from '@/lib/test-utils'
 
-const mockRouter = jest.fn(() => ({ query: { code: 'mycode', userid: 'abc123' } }))
+const mockRouter = jest.fn(() => ({ query: { code: 'mycode', user_id: 'abc123' } }))
 
 jest.mock('next/router', () => ({
   ...jest.requireActual('next/router'),

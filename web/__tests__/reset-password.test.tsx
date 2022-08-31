@@ -6,7 +6,7 @@ import Router from 'next/router'
 import { Props } from '@/components/Form/ResetPasswordForm/types'
 import { renderWithProviders } from '@/lib/test-utils'
 
-const mockRouter = jest.fn(() => ({ query: { code: 'mycode', userid: 'abc123' } }))
+const mockRouter = jest.fn(() => ({ query: { code: 'mycode', user_id: 'abc123' } }))
 
 jest.mock('next/router', () => ({
   ...jest.requireActual('next/router'),

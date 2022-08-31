@@ -8,10 +8,10 @@ import { resetUpdatePassword } from '@/service/auth'
 
 const ResetPasswordPage = () => {
   const router = useRouter()
-  const { code, userid } = router.query
+  const { code, user_id } = router.query
   const { isLoading, error, ...mutate } = useMutation<boolean, Error, FormData>(
     ({ new_password }) =>
-      resetUpdatePassword({ new_password }, userid.toString(), code.toString()),
+      resetUpdatePassword({ new_password }, user_id.toString(), code.toString()),
     {
       onSuccess: async () => Router.push('/signin/forgotten-password/complete')
     }
