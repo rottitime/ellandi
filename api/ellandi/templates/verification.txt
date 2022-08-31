@@ -1,0 +1,7 @@
+Your email {{user.email}} address was registered with Ellandi
+
+If it was you that did this, please confirm your email at the following url:
+
+{{url}}
+
+Thank you
