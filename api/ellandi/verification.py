@@ -17,13 +17,13 @@ EMAIL_MAPPING = {
     "verification": {
         "from_address": "something@example.com",
         "subject": "Verify your email",
-        "template_name": "verification.txt",
+        "template_name": "email/verification.txt",
         "url_path": "/signin/verify",
     },
     "password-reset": {
         "from_address": "something@example.com",
         "subject": "Reset your password",
-        "template_name": "password-reset.txt",
+        "template_name": "email/password-reset.txt",
         "url_path": "/signin/forgotten-password/reset",
     },
 }
