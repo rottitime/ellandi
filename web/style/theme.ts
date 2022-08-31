@@ -101,6 +101,13 @@ const theme = createTheme({
   spacing: [0, 5, 10, 16, 30, 60, 110],
   shadows: Array(25).fill('none') as Shadows,
   components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          textTransform: 'none'
+        }
+      }
+    },
     MuiLink: {
       styleOverrides: {
         root: {
