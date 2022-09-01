@@ -1,5 +1,6 @@
 import os
 
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from drf_spectacular.utils import extend_schema
 from rest_framework import decorators, permissions, routers, status, viewsets
@@ -134,7 +135,8 @@ def register_view(request):
         raise exceptions.RegistrationError()
     user = get_user_model().objects.create_user(email=email, password=password)
     user_data = serializers.UserSerializer(user, context={"request": request}).data
-    send_verification_email(user)
+    if settings.SEND_VERIFICATION_EMAIL:
+        send_verification_email(user)
     return Response(user_data)
 
 
