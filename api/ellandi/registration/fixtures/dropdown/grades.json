@@ -1,17 +1,18 @@
 [
-  {
-    "model": "registration.grade",
-    "pk": "administrative-officer-ao-equivalent",
-    "fields": {
-      "name": "Administrative Officer (AO) Equivalent",
-      "order": 0
-    }
-  },
+
   {
   "model": "registration.grade",
   "pk": "administrative-assistant-aa-equivalent",
   "fields": {
     "name": "Administrative Assistant (AA) Equivalent",
+    "order": 0
+  }
+},
+{
+  "model": "registration.grade",
+  "pk": "administrative-officer-ao-equivalent",
+  "fields": {
+    "name": "Administrative Officer (AO) Equivalent",
     "order": 1
   }
 },
