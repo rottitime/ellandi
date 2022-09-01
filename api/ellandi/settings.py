@@ -43,6 +43,7 @@ if DEBUG:
 else:
     ALLOWED_HOSTS = DEV_HOSTS + PROD_HOSTS
 
+<<<<<<< HEAD
 HOST_MAP = {
     "http://testserver": "http://testserver",
     "http://localhost:8000": "http://localhost:3000",
@@ -56,6 +57,24 @@ HOST_MAP = {
 }
 
 CORS_ALLOWED_ORIGINS = (HOST_URL, HOST_MAP[HOST_URL])
+=======
+CORS_ALLOWED_ORIGINS = [
+    "https://ellandi-api-sandbox.london.cloudapps.digital",
+    "https://ellandi-api-temp.london.cloudapps.digital",
+    "https://ellandi-api-demo.london.cloudapps.digital",
+    "https://ellandi-api-develop.london.cloudapps.digital",
+    "https://ellandi-api.london.cloudapps.digital",
+    "https://ellandi-web-sandbox.london.cloudapps.digital",
+    "https://ellandi-web-temp.london.cloudapps.digital",
+    "https://ellandi-web-demo.london.cloudapps.digital",
+    "https://ellandi-web-develop.london.cloudapps.digital",
+    "https://ellandi-web.london.cloudapps.digital",
+    "http://localhost:3000",
+    "http://localhost:8000",
+    "http://127.0.0.1:3000",
+    "http://127.0.0.1:8000",
+]
+>>>>>>> 421f2075 (Cors structure fix)
 
 # Application definition
 
