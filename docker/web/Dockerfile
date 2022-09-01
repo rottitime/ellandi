@@ -9,15 +9,14 @@ WORKDIR /app/web
 
 ENV PATH /app/web/node_modules/.bin:$PATH
 
-COPY ./web/package-lock.json /app/web/
-COPY ./web/package.json /app/web/
-
-COPY . /app
+COPY ./web /app/web
 
 WORKDIR /app/web
 
 RUN npm install
 RUN npm run build
+
+COPY . /app
 
 EXPOSE 3000
 CMD [ "npm", "start" ]
