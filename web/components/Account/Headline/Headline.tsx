@@ -1,7 +1,9 @@
 import { Box, styled } from '@mui/material'
 import { Props } from './types'
 
-const Headline = styled(Box)<Props>`
+const Headline = styled(Box, {
+  shouldForwardProp: (p) => p !== 'textColor'
+})<Props>`
   margin-bottom: ${(p) => p.theme.spacing(5)};
   h1.MuiTypography-h1 {
     display: flex;
