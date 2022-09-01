@@ -47,7 +47,7 @@ const StyledAppBar = styled(MuiAppBar)`
   }
 `
 
-const AppBar: FC<Props> = ({ pages, logoUrl, settings }) => {
+const AppBar: FC<Props> = ({ pages, logoUrl, settings, settingsTip = '' }) => {
   const theme = useTheme()
   const router = useRouter()
 
@@ -86,7 +86,7 @@ const AppBar: FC<Props> = ({ pages, logoUrl, settings }) => {
         </Box>
 
         <Box sx={{ flexGrow: 0 }}>
-          <Tooltip title="Open settings">
+          <Tooltip title={settingsTip}>
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
               <Icon icon="account-circle" className="icon-profile" />
             </IconButton>

@@ -6,6 +6,12 @@ export const fetchMe = async (token: string) => {
   const res = await fetch(`${publicRuntimeConfig.apiUrl}/me/`, {
     headers: { Authorization: `Token ${token}` }
   })
-  if (res.ok) return res.json()
+  if (res.ok) {
+    const data = await res.json()
+    return {
+      ...data,
+      fullname: data?.first_name ? `${data?.first_name} ${data?.last_name}` : ''
+    }
+  }
   throw new Error(defaultError)
 }

@@ -95,6 +95,7 @@ const AccountLayout: FC<Props> = ({
       <Template>
         <AppBar
           logoUrl={urls.landingSignin}
+          settingsTip={data?.fullname}
           pages={[
             { title: 'Home', url: urls.landingSignin },
             {

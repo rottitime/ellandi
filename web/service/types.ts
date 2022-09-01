@@ -106,6 +106,10 @@ export type LanguagesType = {
   languages: LanguageType[]
 }
 
+type CustomFieldType = {
+  fullname: string
+}
+
 export type RegisterUserResponse = {
   id: string
   email: string
@@ -120,7 +124,8 @@ export type RegisterUserResponse = {
   SkillsType &
   ContractType &
   FunctionType &
-  SkillsDevelopType
+  SkillsDevelopType &
+  CustomFieldType
 
 export type TeamMember = {
   id: string
