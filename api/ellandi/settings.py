@@ -34,6 +34,7 @@ DEV_HOSTS = (
 PROD_HOSTS = (
     "ellandi-api-sandbox.london.cloudapps.digital",
     "ellandi-api-temp.london.cloudapps.digital",
+    "ellandi-api-demo.london.cloudapps.digital",
     "ellandi-api-develop.london.cloudapps.digital",
     "ellandi-api.london.cloudapps.digital",
 )
