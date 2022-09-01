@@ -8,7 +8,8 @@ on:
     branches:
       - temp
       - develop
-      - main
+  release:
+    types: [published]
 
 permissions:
   packages: write
@@ -42,7 +43,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Setup prod api url
-        if:  ${{ github.ref_name == 'main' }}
+        if:  ${{ github.event_name == 'release' }}
         run: echo "NEXT_PUBLIC_API_URL=https://ellandi-api.london.cloudapps.digital" >> $GITHUB_ENV
 
       - name: Login to GitHub Container Registry
@@ -85,7 +86,7 @@ jobs:
             {
               "temp": {"CF_SPACE": "temp"},
               "develop": {"CF_SPACE": "develop"},
-              "main": {"CF_SPACE": "prod"},
+              "v?.?.?": {"CF_SPACE": "prod"},
               "feature/deploy-from-main": {"CF_SPACE": "flibble"}
             }
 
