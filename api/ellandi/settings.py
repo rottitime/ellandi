@@ -49,6 +49,7 @@ HOST_MAP = {
     "http://127.0.0.1:8000": "http://127.0.0.1:3000",
     "https://ellandi-api-sandbox.london.cloudapps.digital": "https://ellandi-web-sandbox.london.cloudapps.digital",
     "https://ellandi-api-temp.london.cloudapps.digital": "https://ellandi-web-temp.london.cloudapps.digital",
+    "https://ellandi-api-demo.london.cloudapps.digital": "https://ellandi-web-demo.london.cloudapps.digital",
     "https://ellandi-api-develop.london.cloudapps.digital": "https://ellandi-web-develop.london.cloudapps.digital",
     "https://ellandi-api.london.cloudapps.digital": "https://ellandi-web.london.cloudapps.digital",
     "http://api:8000": "http://web:3000",
