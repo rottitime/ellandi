@@ -2,6 +2,7 @@ import os
 import pathlib
 
 from django.conf import settings
+from django.test import override_settings
 from tests import utils
 
 from ellandi.registration.models import User
@@ -23,6 +24,7 @@ def _get_latest_email_url():
 
 
 @utils.with_client
+@override_settings(SEND_VERIFICATION_EMAIL=True)
 def test_verify_email(client):
     user_data = {
         "email": "bobby@example.com",
