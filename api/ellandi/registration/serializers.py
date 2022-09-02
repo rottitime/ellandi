@@ -20,6 +20,21 @@ from .models import (
 )
 
 
+ALLOWED_DOMAINS = [
+    "cabinet-office.x.gsi.gov.uk",
+    "cabinetoffice.gov.uk",
+    "crowncommercial.gov.uk",
+    "csep.gov.uk",
+    "cslearning.gov.uk",
+    "csc.gov.uk",
+    "digital.cabinet-office.gov.uk",
+    "geo.gov.uk",
+    "gpa.gov.uk",
+    "no10.gov.uk",
+    "odandd.gov.uk",
+]
+
+
 class OrganisationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Organisation
@@ -146,6 +161,13 @@ class UserSerializer(serializers.ModelSerializer):
     professions = serializers.SlugRelatedField(
         many=True, queryset=Profession.objects.all(), read_only=False, slug_field="name", required=False
     )
+
+    def validate_email(self, value):
+        email_split = value.lower().split("@")
+        domain_name = email_split[-1]
+        if domain_name not in ALLOWED_DOMAINS:
+            raise serializers.ValidationError("You need a recognised Cabinet Office email address to use this service")
+        return value
 
     def update(self, instance, validated_data):
         single_fields_to_update = [

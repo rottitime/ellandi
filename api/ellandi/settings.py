@@ -200,4 +200,4 @@ else:
 
 SEND_VERIFICATION_EMAIL = env.bool("SEND_VERIFICATION_EMAIL", default=False)
 
-ALLOW_EXAMPLE_EMAILS = env.bool("ALLOW_EXAMPLE_EMAIL", default=True)
+ALLOW_EXAMPLE_EMAILS = env.bool("ALLOW_EXAMPLE_EMAILS", default=True)
