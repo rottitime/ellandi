@@ -1,7 +1,7 @@
 DEBUG=True
 DJANGO_SETTINGS_MODULE=ellandi.settings
 DJANGO_SECRET_KEY="django-insecure-&3_9ebzl!$@-vv=v=u@6h=lm@abd69u&cfs4lj0ml0v$thw*f3"
-VCAP_APPLICATION='{"application_uris": ["localhost:8001"]}'
+VCAP_APPLICATION='{"application_uris": ["http://localhost:8000"]}'
 POSTGRES_HOST=ellandi-db
 POSTGRES_PORT=5432
 POSTGRES_DB=ellandi

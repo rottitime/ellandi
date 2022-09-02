@@ -1,8 +1,10 @@
+import furl
 from django.conf import settings
 from django.contrib.auth import login
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.core.exceptions import BadRequest
 from django.core.mail import send_mail
+from django.template.loader import render_to_string
 from drf_spectacular.utils import extend_schema
 from rest_framework import decorators, permissions
 from rest_framework.response import Response
@@ -15,37 +17,25 @@ EMAIL_MAPPING = {
     "verification": {
         "from_address": "something@example.com",
         "subject": "Verify your email",
-        "template": """
-Your email {user.email} address was registered with Ellandi.
-
-If it was you that did this, please confirm your email at the following url:
-
-{url}
-
-Thank you
-""",
+        "template_name": "email/verification.txt",
+        "url_path": "/signin/verify",
     },
     "password-reset": {
         "from_address": "something@example.com",
         "subject": "Reset your password",
-        "template": """
-Someone requested that your password be reset
-
-If it was you that did this, please reset it at the following url:
-
-{url}
-
-Thank you
-""",
+        "template_name": "email/password-reset.txt",
+        "url_path": "/signin/forgotten-password/reset",
     },
 }
 
 
-def _send_token_email(user, subject, template, from_address, token_type):
+def _send_token_email(user, subject, template_name, from_address, token_type, url_path):
     token = TOKEN_GENERATOR.make_token(user)
-    host_url = settings.HOST_URL.strip("/")
-    url = "/".join(("http:/", host_url, "user", str(user.id), token_type, token))
-    body = template.format(user=user, url=url)
+    api_host_url = settings.HOST_URL.strip("/")
+    web_host_url = settings.HOST_MAP[api_host_url]
+    url = str(furl.furl(url=web_host_url, path=url_path, query_params={"code": token, "user_id": str(user.id)}))
+    context = dict(user=user, url=url)
+    body = render_to_string(template_name, context)
     return send_mail(
         subject=subject,
         message=body,

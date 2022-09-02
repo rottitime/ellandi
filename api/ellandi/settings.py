@@ -18,6 +18,11 @@ STATIC_ROOT = STATIC_ROOT
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DEBUG", default=False)
 
+VCAP_SERVICES = env.json("VCAP_SERVICES", default={})
+
+VCAP_APPLICATION = env.json("VCAP_APPLICATION")
+HOST_URL = VCAP_APPLICATION["application_uris"][0]
+
 DEV_HOSTS = (
     "localhost",
     "127.0.0.1",
@@ -36,20 +41,18 @@ if DEBUG:
 else:
     ALLOWED_HOSTS = DEV_HOSTS + PROD_HOSTS
 
-CORS_ALLOWED_ORIGINS = [
-    "https://ellandi-api-sandbox.london.cloudapps.digital",
-    "https://ellandi-api-temp.london.cloudapps.digital",
-    "https://ellandi-api-develop.london.cloudapps.digital",
-    "https://ellandi-api.london.cloudapps.digital",
-    "https://ellandi-web-sandbox.london.cloudapps.digital",
-    "https://ellandi-web-temp.london.cloudapps.digital",
-    "https://ellandi-web-develop.london.cloudapps.digital",
-    "https://ellandi-web.london.cloudapps.digital",
-    "http://localhost:3000",
-    "http://localhost:8000",
-    "http://127.0.0.1:3000",
-    "http://127.0.0.1:8000",
-]
+HOST_MAP = {
+    "http://testserver": "http://testserver",
+    "http://localhost:8000": "http://localhost:3000",
+    "http://127.0.0.1:8000": "http://127.0.0.1:3000",
+    "https://ellandi-api-sandbox.london.cloudapps.digital": "https://ellandi-web-sandbox.london.cloudapps.digital",
+    "https://ellandi-api-temp.london.cloudapps.digital": "https://ellandi-web-temp.london.cloudapps.digital",
+    "https://ellandi-api-develop.london.cloudapps.digital": "https://ellandi-web-develop.london.cloudapps.digital",
+    "https://ellandi-api.london.cloudapps.digital": "https://ellandi-web.london.cloudapps.digital",
+    "http://api:8000": "http://web:3000",
+}
+
+CORS_ALLOWED_ORIGINS = (HOST_URL, HOST_MAP[HOST_URL])
 
 # Application definition
 
@@ -106,11 +109,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "ellandi.wsgi.application"
-
-VCAP_SERVICES = env.json("VCAP_SERVICES", default={})
-
-VCAP_APPLICATION = env.json("VCAP_APPLICATION")
-HOST_URL = VCAP_APPLICATION["application_uris"][0]
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
