@@ -1,10 +1,9 @@
 import os
 import pathlib
 
+import furl
 from django.conf import settings
 from django.test import override_settings
-import furl
-
 from tests import utils
 
 from ellandi.registration.models import User
