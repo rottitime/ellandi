@@ -30,11 +30,13 @@ describe('Service: user', () => {
     })
 
     it('Error returned with default message', async () => {
-      fetchMock.mockResponseOnce(JSON.stringify('broken and unknown'), { status: 400 })
-
-      expect(loginWithEmailAndPassword(mockData)).rejects.toThrow(
-        'Sorry, there is a problem with the service. Try again later.'
-      )
+      try {
+        await loginWithEmailAndPassword(mockData)
+      } catch (err) {
+        expect(err).toEqual(
+          new Error('Sorry, there is a problem with the service. Try again later.')
+        )
+      }
     })
 
     it('converts email to lowercase', async () => {

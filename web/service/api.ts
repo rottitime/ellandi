@@ -1,13 +1,12 @@
 import getConfig from 'next/config'
 import { FeedabckType, GenericDataList } from './types'
 import { sortWithOrder } from '@/lib/data-utils'
+import { defaultError } from '@/service/auth'
 
 const { publicRuntimeConfig } = getConfig()
 
 const byOrder = (a: GenericDataList, b: GenericDataList) =>
   sortWithOrder(a.order, b.order)
-
-const defaultError = 'Sorry, there is a problem with the service. Try again later.'
 
 export const fetchGrades = async (): Promise<GenericDataList[]> => {
   //const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/grades/`)
