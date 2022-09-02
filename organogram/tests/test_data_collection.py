@@ -1,4 +1,5 @@
 import pathlib
+import os
 
 import testino
 from django.conf import settings
@@ -30,6 +31,17 @@ def _fill_in_user_form(agent, data):
     return form
 
 
+def _get_latest_email_url():
+    email_dir = pathlib.Path(settings.EMAIL_FILE_PATH)
+    latest_email_path = max(email_dir.iterdir(), key=os.path.getmtime)
+    with latest_email_path.open() as f:
+        lines = f.readlines()
+    url_lines = tuple(line for line in lines if line.startswith("http://testserver/"))
+    assert len(url_lines) == 1
+    email_url = url_lines[0].strip()
+    return email_url
+
+
 def test_email_verification():
     data = {
         "email": "billy@example.com",
@@ -41,13 +53,7 @@ def test_email_verification():
     agent = testino.WSGIAgent(wsgi.application, "http://testserver/")
     form = _fill_in_user_form(agent, data)
     page = form.submit().follow()
-    email_folder = pathlib.Path(settings.EMAIL_FILE_PATH)
-    email_file = next(email_folder.glob("*"))
-    with email_file.open() as f:
-        lines = f.readlines()
-    url_lines = tuple(line for line in lines if line.startswith("http://testserver/"))
-    assert len(url_lines) == 1
-    url = url_lines[0]
+    url = _get_latest_email_url()
     page = agent.get(url).follow()
 
     assert page.path == "/your-details"
