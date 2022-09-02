@@ -162,13 +162,6 @@ class UserSerializer(serializers.ModelSerializer):
         many=True, queryset=Profession.objects.all(), read_only=False, slug_field="name", required=False
     )
 
-    def validate_email(self, value):
-        email_split = value.lower().split("@")
-        domain_name = email_split[-1]
-        if domain_name not in ALLOWED_DOMAINS:
-            raise serializers.ValidationError("You need a recognised Cabinet Office email address to use this service")
-        return value
-
     def update(self, instance, validated_data):
         single_fields_to_update = [
             "privacy_policy_agreement",
@@ -257,6 +250,14 @@ class UserSerializer(serializers.ModelSerializer):
 class RegisterSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField()
+
+    def validate_email(self, value):
+        email_split = value.lower().split("@")
+        print(email_split)
+        domain_name = email_split[-1]
+        if domain_name not in ALLOWED_DOMAINS:
+            raise serializers.ValidationError("You need a recognised Cabinet Office email address to use this service")
+        return value
 
 
 class PasswordResetAskSerializer(serializers.Serializer):
