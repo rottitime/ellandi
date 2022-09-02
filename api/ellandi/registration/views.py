@@ -134,8 +134,7 @@ def register_view(request):
     try:
         serializers.RegisterSerializer(data=request.data).is_valid(raise_exception=True)
     except ValidationError as err:
-        # TODO - get text here
-        return Response(repr(err), status=status.HTTP_400_BAD_REQUEST)
+        return Response(err.args[0]["email"], status=status.HTTP_400_BAD_REQUEST)
     email = request.data.get("email")
     password = request.data.get("password")
     if get_user_model().objects.filter(email=email).exists():
