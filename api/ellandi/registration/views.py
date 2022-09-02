@@ -1,9 +1,11 @@
 import os
+from xml.dom import ValidationErr
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from drf_spectacular.utils import extend_schema
 from rest_framework import decorators, permissions, routers, status, viewsets
+from rest_framework.serializers import ValidationError
 from rest_framework.response import Response
 
 from ellandi.verification import send_verification_email
@@ -129,6 +131,11 @@ class SkillViewSet(viewsets.ReadOnlyModelViewSet):
 @decorators.api_view(["POST"])
 @decorators.permission_classes((permissions.AllowAny,))
 def register_view(request):
+    try:
+        serializers.RegisterSerializer(data=request.data).is_valid(raise_exception=True)
+    except ValidationError as err:
+        # TODO - get text here
+        return Response(repr(err), status=status.HTTP_400_BAD_REQUEST)
     email = request.data.get("email")
     password = request.data.get("password")
     if get_user_model().objects.filter(email=email).exists():

@@ -30,9 +30,19 @@ ALLOWED_DOMAINS = [
     "digital.cabinet-office.gov.uk",
     "geo.gov.uk",
     "gpa.gov.uk",
+    "ipa.gov.uk",
     "no10.gov.uk",
     "odandd.gov.uk",
 ]
+
+# TODO - add switch for example.com
+
+def check_email_domain(email):
+    email_split = email.lower().split("@")
+    domain_name = email_split[-1]
+    if domain_name not in ALLOWED_DOMAINS:
+        raise serializers.ValidationError("You need a recognised Cabinet Office email address to use this service")
+    return email
 
 
 class OrganisationSerializer(serializers.ModelSerializer):
@@ -248,16 +258,8 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class RegisterSerializer(serializers.Serializer):
-    email = serializers.EmailField()
+    email = serializers.EmailField(validators=[check_email_domain])
     password = serializers.CharField()
-
-    def validate_email(self, value):
-        email_split = value.lower().split("@")
-        print(email_split)
-        domain_name = email_split[-1]
-        if domain_name not in ALLOWED_DOMAINS:
-            raise serializers.ValidationError("You need a recognised Cabinet Office email address to use this service")
-        return value
 
 
 class PasswordResetAskSerializer(serializers.Serializer):
