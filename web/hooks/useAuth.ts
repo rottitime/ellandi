@@ -1,14 +1,16 @@
 import { SignInType } from '@/components/Form/SignInForm/types'
 import { createUser, loginWithEmailAndPassword, logoutUser } from '@/service/auth'
 import { AuthUser, RegisterUser } from '@/service/types'
+import { defaultError } from '@/service/auth'
 
 const TOKEN_KEY = 'token'
 
 const useAuth = () => {
   const hasToken = (): boolean => !!sessionStorage.getItem(TOKEN_KEY)
 
-  const authFetch = async (callback, data = {}) =>
-    await callback(sessionStorage.getItem(TOKEN_KEY), data)
+  const authFetch = async (callback, data = {}) => {
+    return await callback(sessionStorage.getItem(TOKEN_KEY), data)
+  }
 
   const login = async (data: SignInType): Promise<AuthUser> => {
     try {
@@ -18,6 +20,10 @@ const useAuth = () => {
         return res
       }
     } catch (err) {
+      if (err.message.includes('Failed to fetch')) {
+        return Promise.reject(new Error(defaultError))
+      }
+
       return Promise.reject(new Error(err))
     }
   }

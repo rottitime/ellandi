@@ -32,7 +32,6 @@ const SigninPage = () => {
       <SignInForm
         loading={fetching}
         onFormSubmit={async (data) => {
-          // eslint-disable-next-line no-console
           setFetching(true)
 
           try {

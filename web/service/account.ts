@@ -1,8 +1,7 @@
 import getConfig from 'next/config'
 import { LanguageType, SkillDevelopType, SkillType } from './types'
 const { publicRuntimeConfig } = getConfig()
-
-const defaultError = 'Sorry, there is a problem with the service. Try again later.'
+import { defaultError } from '@/service/auth'
 
 export const deleteSkill = async (token: string, id: string) => {
   const res: Response = await fetch(`${publicRuntimeConfig.apiUrl}/user-skills/${id}/`, {
