@@ -16,7 +16,7 @@ import Icon from '@/components/Icon/Icon'
 import Headline from '@/components/Account/Headline/Headline'
 import { useQuery } from 'react-query'
 import { fetchMe } from '@/service/me'
-import { Query, RegisterUserResponse } from '@/service/api'
+import { Query, RegisterUserResponseWithCustomFields } from '@/service/api'
 import router from 'next/router'
 import getConfig from 'next/config'
 import { Props } from './types'
@@ -72,7 +72,7 @@ const AccountLayout: FC<Props> = ({
   teaserContent
 }) => {
   const { logout, authFetch, invalidate } = useAuth()
-  const { isLoading, data, isError } = useQuery<RegisterUserResponse>(
+  const { isLoading, data, isError } = useQuery<RegisterUserResponseWithCustomFields>(
     Query.Me,
     () => authFetch(fetchMe),
     { retry: 1 }

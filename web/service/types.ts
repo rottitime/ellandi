@@ -124,8 +124,9 @@ export type RegisterUserResponse = {
   SkillsType &
   ContractType &
   FunctionType &
-  SkillsDevelopType &
-  CustomFieldType
+  SkillsDevelopType
+
+export type RegisterUserResponseWithCustomFields = RegisterUserResponse & CustomFieldType
 
 export type TeamMember = {
   id: string
