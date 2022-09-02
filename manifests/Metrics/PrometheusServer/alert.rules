@@ -34,8 +34,8 @@ groups:
 
   # Alert for any instance that is unreachable for >2 minutes.
   - alert: AppCrash
-    expr: sum by (app) (crash) > 0
-    for: 1m
+    expr: sum by (app) (increase(crash [10m]) > 0)
+    for: 5m
     labels:
       severity: critical
     annotations:
