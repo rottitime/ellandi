@@ -22,6 +22,8 @@ VCAP_SERVICES = env.json("VCAP_SERVICES", default={})
 
 VCAP_APPLICATION = env.json("VCAP_APPLICATION")
 HOST_URL = VCAP_APPLICATION["application_uris"][0]
+if not HOST_URL.startswith("http"):
+    HOST_URL = f"https://{HOST_URL}"
 
 DEV_HOSTS = (
     "localhost",
