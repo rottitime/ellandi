@@ -39,7 +39,6 @@ def test_create_user_wrong_email(client):
     assert error["detail"] == "You need a recognised Cabinet Office email address to use this service"
 
 
-
 # TODO: Uncomment when we re-enable auth
 # @utils.with_client
 # def test_homepage_no_auth(client):

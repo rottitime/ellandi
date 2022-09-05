@@ -1,6 +1,6 @@
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from rest_framework import serializers, status
-from django.conf import settings
 
 from .models import (
     ContractType,
@@ -19,7 +19,6 @@ from .models import (
     UserSkill,
     UserSkillDevelop,
 )
-
 
 ALLOWED_DOMAINS = [
     "cabinet-office.x.gsi.gov.uk",
