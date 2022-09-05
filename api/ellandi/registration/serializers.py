@@ -36,7 +36,7 @@ ALLOWED_DOMAINS = [
 ]
 
 if settings.ALLOW_EXAMPLE_EMAILS:
-    ALLOWED_DOMAINS = ALLOWED_DOMAINS.append("example.com")
+    ALLOWED_DOMAINS.append("example.com")
 
 
 def check_email_domain(email):

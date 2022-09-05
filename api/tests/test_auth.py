@@ -4,7 +4,7 @@ from ellandi.registration.models import User
 
 user_data = dict(email="mr_flibble@example.com", password="P455w0rd")
 new_user_data = dict(email="someone_new@example.com", password="0th3rP455w0rd")
-
+wrong_domain_user = dict(email="mr_wrong_email_domain@example.org", password="0th3rP455w0rd")
 
 def setup():
     User.objects.create_user(**user_data)
@@ -33,10 +33,10 @@ def test_create_user(client):
 
 @utils.with_client
 def test_create_user_wrong_email(client):
-    response = client.post("/register/", json={"email": "mr_wrong_email@example.org", "password": "elephants123"})
+    response = client.post("/register/", json=wrong_domain_user)
     assert response.status_code == 400
     error = response.json()
-    assert error["detail"] == "You need a recognised Cabinet Office email address to use this service"
+    assert error == {"detail": "You need a recognised Cabinet Office email address to use this service"}
 
 
 # TODO: Uncomment when we re-enable auth
