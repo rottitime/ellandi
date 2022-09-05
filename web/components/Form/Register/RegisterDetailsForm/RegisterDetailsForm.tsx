@@ -39,7 +39,9 @@ const RegisterDetailsForm: FC<StandardRegisterProps<RegisterDetailsType>> = (pro
       <Form {...props}>
         <Grid container spacing={3}>
           <Grid item xs={6}>
-            <TextFieldControlled name="first_name" label="First name" />
+            <Field>
+              <TextFieldControlled name="first_name" label="First name" />
+            </Field>
           </Grid>
           <Grid item xs={6}>
             <Field>
