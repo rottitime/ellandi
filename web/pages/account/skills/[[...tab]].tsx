@@ -73,7 +73,7 @@ const tabs: TabItem[] = [
     href: '/account/skills/language-skills'
   },
   {
-    title: "Skills you'd like to develop",
+    title: 'Skills you would like to develop',
     content: <SkillsDevelop />,
     href: '/account/skills/skills-develop'
   }

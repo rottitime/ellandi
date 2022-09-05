@@ -39,7 +39,7 @@ export const menu: MenuDataType[] = [
     url: '/account/skills/add/skill'
   },
   {
-    title: "Skill you'd like to develop",
+    title: 'Skills you would like to develop',
     url: '/account/skills/add/skills-to-develop'
   },
   {

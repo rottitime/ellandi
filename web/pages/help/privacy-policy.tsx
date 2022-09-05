@@ -273,4 +273,4 @@ const PrivacyPage = () => (
 )
 
 export default PrivacyPage
-PrivacyPage.getLayout = (page) => <PlainLayout title="Privacy notice">{page}</PlainLayout>
+PrivacyPage.getLayout = (page) => <PlainLayout title="Privacy policy">{page}</PlainLayout>

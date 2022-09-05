@@ -58,14 +58,16 @@ const SkillsAddSkillsPage = () => {
             </Typography>
             <Typography fontWeight="bold">Independent</Typography>
             <Typography gutterBottom>
-              You can produce clear, detailed text on a wide range of subjects and explain
-              the advantages and disadvantages of a topical issue
+              You can deal with most situations likely to arise while travelling in an
+              area where the language is spoken and interact with a degree of fluency
             </Typography>
+
             <Typography fontWeight="bold">Proficient</Typography>
             <Typography gutterBottom>
-              You can produce clear, well-structured, detailed text on complex subjects
-              and can express yourself fluently and precisely
+              You can express ideas fluently and spontaneously and can use the language
+              flexibly for social, academic and professional purposes
             </Typography>
+
             <Typography variant="subtitle1" component="h3" gutterBottom>
               Writing
             </Typography>
@@ -76,13 +78,14 @@ const SkillsAddSkillsPage = () => {
             </Typography>
             <Typography fontWeight="bold">Independent</Typography>
             <Typography gutterBottom>
-              You can deal with most situations likely to arise while travelling in an
-              area where the language is spoken and interact with a degree of fluency
+              You can produce clear, detailed text on a wide range of subjects and explain
+              the advantages and disadvantages of a topical issue
             </Typography>
+
             <Typography fontWeight="bold">Proficient</Typography>
             <Typography gutterBottom>
-              You can express ideas fluently and spontaneously and can use the language
-              flexibly for social, academic and professional purposes
+              You can produce clear, well-structured, detailed text on complex subjects
+              and can express yourself fluently and precisely
             </Typography>
           </AccountCard>
         </Grid>

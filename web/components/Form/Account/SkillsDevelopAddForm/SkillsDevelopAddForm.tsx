@@ -38,7 +38,7 @@ const Row = styled(Field)`
 
 const skillSchema: SchemaOf<SkillDevelopType> = object({
   id: string().nullable(),
-  name: string().required('This is required')
+  name: string().required('Enter a skill name')
 })
 
 const schema: SchemaOf<SkillsDevelopType> = object().shape({
@@ -136,7 +136,7 @@ const SkillsDevelopAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
         </Field>
         <Field textAlign="right">
           <Button type="submit" variant="contained" loading={loading}>
-            Add Skills
+            Add skills
           </Button>
         </Field>
       </form>
