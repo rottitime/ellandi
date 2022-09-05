@@ -145,7 +145,8 @@ def register_view(request):
 def skills_list_view(request):
     existing_skills = set(models.UserSkill.objects.all().values_list("name", flat=True))
     skills_to_develop = set(models.UserSkillDevelop.objects.all().values_list("name", flat=True))
-    skills = initial_data.INITIAL_SKILLS.union(existing_skills)
+    initial_skills = initial_data.INITIAL_SKILLS.union(initial_data.NLP_DERIVED_SKILLS)
+    skills = initial_skills.union(existing_skills)
     skills = skills.union(skills_to_develop)
     skills = sorted(skills)
     return Response(skills)
