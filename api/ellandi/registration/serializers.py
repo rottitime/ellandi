@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers, status
+from django.conf import settings
 
 from .models import (
     ContractType,
@@ -35,7 +36,8 @@ ALLOWED_DOMAINS = [
     "odandd.gov.uk",
 ]
 
-# TODO - add switch for example.com
+if settings.ALLOW_EXAMPLE_EMAILS:
+    ALLOWED_DOMAINS = ALLOWED_DOMAINS.append("example.com")
 
 
 def check_email_domain(email):
