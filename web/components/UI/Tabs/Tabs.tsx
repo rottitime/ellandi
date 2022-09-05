@@ -10,11 +10,16 @@ const Wrapper = styled(Box)`
   }
   .MuiTab-root {
     transition: background-color 0.3s ease-in-out, color 0.3s 0.2s ease-out;
-
+    color: ${(p) => p.theme.colors.grey3};
     background-color: ${(p) => p.theme.colors.grey4};
     text-transform: initial;
     border-radius: 12px 12px 0 0;
     font-weight: bold;
+
+    &:hover {
+      background-color: ${(p) => p.theme.colors.grey2};
+    }
+
     &.active {
       background-color: ${(p) => p.theme.colors.teal};
       color: ${(p) => p.theme.colors.white};
