@@ -23,6 +23,18 @@ def register(name):
     return _inner
 
 
+
+def return_email_error(validation_error):
+    error_message = validation_error.args[0]
+    print(f"error_message: {error_message}")
+    if "email" in validation_error:
+        error_message = error_message["email"]
+        return {"detail": error_message["email"]}
+    else:
+        return {"detail": error_message}
+
+
+
 class UserViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
@@ -133,8 +145,8 @@ class SkillViewSet(viewsets.ReadOnlyModelViewSet):
 def register_view(request):
     try:
         serializers.RegisterSerializer(data=request.data).is_valid(raise_exception=True)
-    except ValidationError as err:
-        return Response(err.args[0]["email"], status=status.HTTP_400_BAD_REQUEST)
+    except ValidationError as error:
+        return Response(return_email_error(error), status=status.HTTP_400_BAD_REQUEST)
     email = request.data.get("email")
     password = request.data.get("password")
     if get_user_model().objects.filter(email=email).exists():
@@ -162,8 +174,11 @@ def skills_list_view(request):
 @decorators.api_view(["POST"])
 @decorators.permission_classes((permissions.AllowAny,))
 def create_one_time_login_view(request):
-    if "email" not in request.data:
-        raise exceptions.LoginMissingEmailError
+    try:
+        serializers.EmailSaltSerializer(data=request.data).is_valid(raise_exception=True)
+    except ValidationError as error:
+        print(error)
+        return Response(return_email_error(error), status=status.HTTP_400_BAD_REQUEST)
     email = request.data["email"]
     email = email.lower()
     try:
@@ -179,11 +194,12 @@ def create_one_time_login_view(request):
 @decorators.api_view(["POST"])
 @decorators.permission_classes((permissions.AllowAny,))
 def first_log_in_view(request):
-    if "email" not in request.data:
-        raise exceptions.LoginMissingEmailError
-    else:
-        email = request.data["email"]
-        email = email.lower()
+    try:
+        serializers.UserLoginSerializer(data=request.data).is_valid(raise_exception=True)
+    except ValidationError as error:
+        return Response(return_email_error(error), status=status.HTTP_400_BAD_REQUEST)
+    email = request.data["email"]
+    email = email.lower()
     one_time_token = request.data["one_time_token"]
     try:
         email_salt = models.EmailSalt.objects.get(email__iexact=email)

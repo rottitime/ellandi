@@ -43,8 +43,7 @@ def check_email_domain(email):
     email_split = email.lower().split("@")
     domain_name = email_split[-1]
     if domain_name not in ALLOWED_DOMAINS:
-        raise serializers.ValidationError(
-            {"detail": "You need a recognised Cabinet Office email address to use this service"},
+        raise serializers.ValidationError("You need a recognised Cabinet Office email address to use this service",
             code=status.HTTP_400_BAD_REQUEST,
         )
     return email
@@ -276,12 +275,15 @@ class PasswordResetUseSerializer(serializers.Serializer):
 
 
 class EmailSaltSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(validators=[check_email_domain])
+
     class Meta:
         model = EmailSalt
         fields = ["email"]
 
 
 class UserLoginSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(validators=[check_email_domain])
     one_time_token = serializers.CharField(required=True)
 
     class Meta:

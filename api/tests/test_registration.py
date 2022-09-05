@@ -359,10 +359,13 @@ def test_post_create_one_time_login(client):
 
 @utils.with_client
 @with_setup(None, teardown_one_time_login)
-def test_post_create_one_time_login_no_email(client):
+def test_post_create_one_time_login_incorrect_email(client):
     response = client.post("/one-time-login-token/")
     assert response.status_code == status.HTTP_400_BAD_REQUEST
-    assert response.json()["detail"] == "You need to provide an email"
+    assert response.json() == {"detail": "You need a recognised Cabinet Office email address to use this service"}
+    response = client.post("/one-time-login-token/", json={"email":"mr_wrong_email_domain@example.org", "password":"0th3rP455w0rd"})
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
+    assert response.json() == {"detail": "You need a recognised Cabinet Office email address to use this service"}
 
 
 @utils.with_client
@@ -373,6 +376,7 @@ def test_post_first_time_login(client):
     user = User.objects.get(email="test_login@example.com")
     assert response.status_code == status.HTTP_201_CREATED
     assert user
+
 
 
 @utils.with_logged_in_client
