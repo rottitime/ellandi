@@ -48,9 +48,9 @@ const Table = styled(MuiTable)`
 
 const skillSchema: SchemaOf<LanguageType> = object({
   id: string().nullable(),
-  name: string().required('This is required'),
-  speaking_level: string().required('This is required'),
-  writing_level: string().required('This is required')
+  name: string().required('Select a language'),
+  speaking_level: string().required('Select a proficiency level'),
+  writing_level: string().required('Select a proficiency level')
 })
 
 const schema: SchemaOf<LanguagesType> = object().shape({
@@ -223,7 +223,7 @@ const LanguageAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
         </Field>
         <Field textAlign="right">
           <Button type="submit" variant="contained" loading={loading}>
-            Add Skills
+            Add skills
           </Button>
         </Field>
       </form>

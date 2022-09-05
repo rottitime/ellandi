@@ -73,8 +73,8 @@ const YourTeamPage = () => {
                   { name: 'Business unit', value: member.business_unit },
                   { name: 'Work location', value: member.location },
                   { name: 'Grade', value: member.grade_other || member.grade },
-                  { name: 'Professions', value: professions.join(', ') },
-                  { name: 'Primary Profession', value: member.primary_profession },
+                  { name: 'Profession(s)', value: professions.join(', ') },
+                  { name: 'Primary profession', value: member.primary_profession },
                   { name: 'Function', value: member.function_other || member.function },
                   {
                     name: 'Contract type',
@@ -141,7 +141,7 @@ const YourTeamPage = () => {
             headerLogo="skills"
             header={
               <Typography variant="h1" component="h2">
-                Skills you'd like to develop
+                Skills you would like to develop
               </Typography>
             }
             sx={{ mb: 4 }}
