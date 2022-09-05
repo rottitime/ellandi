@@ -8,6 +8,7 @@ export const icons = {
   crest: dynamic(() => import('@/components/Icon/Icons/Crest')),
   skills: dynamic(() => import('@/components/Icon/Icons/Skills')),
   learning: dynamic(() => import('@/components/Icon/Icons/Learning')),
+  pencil: dynamic(() => import('@/components/Icon/Icons/Pencil')),
   profile: dynamic(() => import('@/components/Icon/Icons/Profile')),
   case: dynamic(() => import('@/components/Icon/Icons/Case')),
   mail: dynamic(() => import('@/components/Icon/Icons/Mail')),

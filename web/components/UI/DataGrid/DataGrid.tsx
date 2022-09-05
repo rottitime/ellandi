@@ -1,9 +1,11 @@
+import Icon from '@/components/Icon/Icon'
+import WarningModal from '@/components/UI/Modals/WarningModal/WarningModal'
+import Button from '../Button/Button'
+import Modal from '@/components/UI/Modals/Modal/Modal'
 import { FC, useState } from 'react'
 import { Props, CellType } from './types'
 import { DataGrid as MuiDataGrid, GridColDef } from '@mui/x-data-grid'
 import { IconButton, styled } from '@mui/material'
-import Icon from '@/components/Icon/Icon'
-import WarningModal from '@/components/UI/Modals/WarningModal/WarningModal'
 
 const StyledGrid = styled(MuiDataGrid)`
   border: none;
@@ -35,41 +37,71 @@ const StyledGrid = styled(MuiDataGrid)`
 `
 
 const DataGrid: FC<Props> = ({
-  enableDelete,
   onDelete,
+  onEdit,
+  editModalTitle,
+  editModalContent,
   deleteModalTitle,
   deleteModalContent,
   noRowContent,
+  modalLoading,
+  onModalClose,
   ...props
 }) => {
   const [deleteCell, setDeleteCell] = useState<CellType>(null)
+  const [editCell, setEditCell] = useState<CellType>(null)
+  const enableDelete = typeof onDelete === 'function'
+  const enableEdit = typeof onEdit === 'function'
 
-  const columns: GridColDef[] = enableDelete
-    ? [
-        ...props.columns,
-        {
-          field: 'id',
-          headerName: '',
-          resizable: false,
-          disableColumnMenu: true,
-          sortable: false,
-          align: 'right',
-          width: 50,
-          renderCell: (cell) => (
-            <IconButton
-              color="primary"
-              aria-label="delete"
-              component="label"
-              data-testid={`delete-button-${cell.formattedValue}`}
-              sx={{ color: 'text.primary' }}
-              onClick={() => setDeleteCell(cell)}
-            >
-              <Icon icon="circle-delete" />
-            </IconButton>
-          )
-        }
-      ]
-    : props.columns
+  const onClose = () => {
+    setDeleteCell(null)
+    setEditCell(null)
+    if (typeof onEdit === 'function') onModalClose()
+  }
+
+  const columns: GridColDef[] =
+    enableDelete || enableEdit
+      ? [
+          ...props.columns,
+          {
+            field: 'id',
+            headerName: '',
+            resizable: false,
+            disableColumnMenu: true,
+            sortable: false,
+            align: 'right',
+            renderCell: (cell) => (
+              <>
+                {enableEdit && (
+                  <IconButton
+                    color="primary"
+                    aria-label="edit"
+                    component="label"
+                    data-testid={`edit-button-${cell.formattedValue}`}
+                    sx={{ color: 'text.primary' }}
+                    onClick={() => setEditCell(cell)}
+                  >
+                    <Icon icon="pencil" />
+                  </IconButton>
+                )}
+                {enableDelete && (
+                  <IconButton
+                    color="primary"
+                    aria-label="delete"
+                    component="label"
+                    data-testid={`delete-button-${cell.formattedValue}`}
+                    sx={{ color: 'text.primary' }}
+                    onClick={() => setDeleteCell(cell)}
+                  >
+                    <Icon icon="circle-delete" />
+                  </IconButton>
+                )}
+              </>
+            )
+          }
+        ]
+      : props.columns
+
   const gridProps = {
     ...props,
     columns
@@ -85,15 +117,41 @@ const DataGrid: FC<Props> = ({
           data-testid="datagrid-delete-modal"
           confirmButton="Delete"
           open={!!deleteCell}
-          onClose={() => setDeleteCell(null)}
+          onClose={onClose}
+          buttonLoading={modalLoading}
           onConfirm={async () => {
             await onDelete(deleteCell)
             setDeleteCell(null)
           }}
           title={deleteModalTitle}
         >
-          <>{deleteModalContent}</>
+          {deleteModalContent}
         </WarningModal>
+      )}
+
+      {enableEdit && (
+        <Modal
+          title={editModalTitle}
+          open={!!editCell}
+          onClose={onClose}
+          data-testid="datagrid-edit-modal"
+          footer={
+            <>
+              <Button color="secondary" onClick={onClose}>
+                Cancel
+              </Button>
+              <Button
+                loading={modalLoading}
+                color="primary"
+                onClick={async () => (await onEdit(editCell)) && setEditCell(null)}
+              >
+                Confirm
+              </Button>
+            </>
+          }
+        >
+          {editModalContent(editCell)}
+        </Modal>
       )}
     </>
   )

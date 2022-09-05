@@ -44,7 +44,8 @@ describe('Page: Profile', () => {
       profession_other: 'Custom other profession',
       grade_other: 'Custom other grade',
       function_other: 'Custom other function',
-      contract_type_other: 'custom other contract'
+      contract_type_other: 'custom other contract',
+      fullname: 'James Bond'
     }
 
     fetchMock.mockResponses([JSON.stringify(data), { status: 200 }])

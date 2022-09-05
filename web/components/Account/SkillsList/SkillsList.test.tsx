@@ -58,21 +58,6 @@ describe('SkillsList', () => {
   })
 
   describe('on deleting', () => {
-    it('renders confirm modal', async () => {
-      fetchMock.mockResponse(JSON.stringify(mockSuccess), { status: 200 })
-      renderWithProviders(<SkillsList />)
-      await waitForElementToBeRemoved(() => screen.queryByTestId('skelton-table'))
-
-      await waitFor(async () => {
-        expect(screen.getByText(mockSuccess.skills[0].name)).toBeInTheDocument()
-      })
-
-      await userEvent.click(screen.getByTestId('delete-button-test1'))
-      await waitFor(async () => {
-        expect(screen.getByTestId('datagrid-delete-modal')).toBeVisible()
-      })
-    })
-
     it('successfully removes', async () => {
       fetchMock.mockResponse(JSON.stringify(mockSuccess), { status: 200 })
       renderWithProviders(<SkillsList />)
@@ -82,17 +67,15 @@ describe('SkillsList', () => {
         expect(screen.getByText(mockSuccess.skills[0].name)).toBeInTheDocument()
       })
 
-      const deleteButton = screen.getByTestId('delete-button-test1')
-
       await waitFor(async () => {
-        expect(deleteButton).toBeInTheDocument()
+        expect(screen.getByTestId('delete-button-test1')).toBeInTheDocument()
       })
       expect(screen.getByTestId('delete-button-test2')).toBeInTheDocument()
       expect(screen.getByTestId('delete-button-test3')).toBeInTheDocument()
 
       fetchMock.mockResponse(JSON.stringify({}), { status: 200 })
 
-      await userEvent.click(deleteButton)
+      await userEvent.click(screen.getByTestId('delete-button-test1'))
 
       await waitFor(async () => {
         expect(screen.getByTestId('datagrid-delete-modal')).toBeVisible()

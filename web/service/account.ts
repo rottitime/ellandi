@@ -50,6 +50,19 @@ export const addSkills = async (token: string, data: SkillType[]) => {
   throw new Error(defaultError)
 }
 
+export const editSkill = async (token: string, data: SkillType) => {
+  const res: Response = await fetch(`${publicRuntimeConfig.apiUrl}/me/skills/`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Token ${token}`
+    },
+    body: JSON.stringify(data)
+  })
+  if (res.ok) return await res.json()
+  throw new Error(defaultError)
+}
+
 export const addLanguages = async (token: string, data: LanguageType[]) => {
   const res: Response = await fetch(`${publicRuntimeConfig.apiUrl}/me/languages/`, {
     method: 'PATCH',

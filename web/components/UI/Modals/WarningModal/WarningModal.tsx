@@ -3,7 +3,13 @@ import Modal from '@/components/UI/Modals/Modal/Modal'
 import { FC } from 'react'
 import { Props } from './types'
 
-const WarningModal: FC<Props> = ({ children, onConfirm, confirmButton, ...props }) => (
+const WarningModal: FC<Props> = ({
+  children,
+  onConfirm,
+  confirmButton,
+  buttonLoading,
+  ...props
+}) => (
   <Modal
     {...props}
     footer={
@@ -11,7 +17,7 @@ const WarningModal: FC<Props> = ({ children, onConfirm, confirmButton, ...props 
         <Button color="secondary" onClick={(e) => props.onClose(e, 'escapeKeyDown')}>
           Cancel
         </Button>
-        <Button color="error" onClick={onConfirm}>
+        <Button color="error" onClick={onConfirm} loading={buttonLoading}>
           {confirmButton}
         </Button>
       </>

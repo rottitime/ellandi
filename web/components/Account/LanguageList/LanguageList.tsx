@@ -44,7 +44,6 @@ const LanguageList: FC = () => {
         autoHeight
         columns={columns}
         rows={data.languages}
-        enableDelete
         onDelete={async (cell) => await mutate(cell.id)}
         deleteModalTitle="Delete language"
         deleteModalContent={

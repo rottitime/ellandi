@@ -34,14 +34,23 @@ export const Default = Template.bind({})
 Default.args = {
   rows,
   columns,
-  autoHeight: true
+  autoHeight: true,
+  onEdit: null,
+  onDelete: null
 }
 
 export const WithDelete = Template.bind({})
 WithDelete.args = {
   ...Default.args,
-  enableDelete: true,
   onDelete: () => null,
   deleteModalTitle: 'Delete headline',
   deleteModalContent: 'Are you sure you want to delete?'
+}
+
+export const WithEditDelete = Template.bind({})
+WithEditDelete.args = {
+  ...WithDelete.args,
+  onEdit: () => null,
+  editModalTitle: 'Delete headline',
+  editModalContent: 'Are you sure you want to delete?'
 }
