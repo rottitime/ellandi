@@ -31,6 +31,15 @@ def test_create_user(client):
     assert user["id"]
 
 
+@utils.with_client
+def test_create_user_wrong_email(client):
+    response = client.post("/register/", json={"email": "mr_wrong_email@example.org", "password": "elephants123"})
+    assert response.status_code == 400
+    error = response.json()
+    assert error["detail"] == "You need a recognised Cabinet Office email address to use this service"
+
+
+
 # TODO: Uncomment when we re-enable auth
 # @utils.with_client
 # def test_homepage_no_auth(client):
