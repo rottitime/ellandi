@@ -6,6 +6,7 @@ user_data = dict(email="mr_flibble@example.com", password="P455w0rd")
 new_user_data = dict(email="someone_new@example.com", password="0th3rP455w0rd")
 wrong_domain_user = dict(email="mr_wrong_email_domain@example.org", password="0th3rP455w0rd")
 
+
 def setup():
     User.objects.create_user(**user_data)
 

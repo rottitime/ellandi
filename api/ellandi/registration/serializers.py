@@ -43,7 +43,8 @@ def check_email_domain(email):
     email_split = email.lower().split("@")
     domain_name = email_split[-1]
     if domain_name not in ALLOWED_DOMAINS:
-        raise serializers.ValidationError("You need a recognised Cabinet Office email address to use this service",
+        raise serializers.ValidationError(
+            "Incorrect domain",
             code=status.HTTP_400_BAD_REQUEST,
         )
     return email

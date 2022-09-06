@@ -1,5 +1,5 @@
 import os
-from xml.dom import ValidationErr
+from distutils.log import error
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -14,6 +14,8 @@ from . import exceptions, initial_data, models, serializers
 
 registration_router = routers.DefaultRouter()
 
+EMAIL_ERROR = "You need a recognised Cabinet Office email address to use this service"
+
 
 def register(name):
     def _inner(cls):
@@ -21,18 +23,6 @@ def register(name):
         return cls
 
     return _inner
-
-
-
-def return_email_error(validation_error):
-    error_message = validation_error.args[0]
-    print(f"error_message: {error_message}")
-    if "email" in validation_error:
-        error_message = error_message["email"]
-        return {"detail": error_message["email"]}
-    else:
-        return {"detail": error_message}
-
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -145,8 +135,8 @@ class SkillViewSet(viewsets.ReadOnlyModelViewSet):
 def register_view(request):
     try:
         serializers.RegisterSerializer(data=request.data).is_valid(raise_exception=True)
-    except ValidationError as error:
-        return Response(return_email_error(error), status=status.HTTP_400_BAD_REQUEST)
+    except ValidationError:
+        return Response(detail=EMAIL_ERROR, status=status.HTTP_400_BAD_REQUEST)
     email = request.data.get("email")
     password = request.data.get("password")
     if get_user_model().objects.filter(email=email).exists():
@@ -176,9 +166,8 @@ def skills_list_view(request):
 def create_one_time_login_view(request):
     try:
         serializers.EmailSaltSerializer(data=request.data).is_valid(raise_exception=True)
-    except ValidationError as error:
-        print(error)
-        return Response(return_email_error(error), status=status.HTTP_400_BAD_REQUEST)
+    except ValidationError:
+        return Response(detail=EMAIL_ERROR, status=status.HTTP_400_BAD_REQUEST)
     email = request.data["email"]
     email = email.lower()
     try:
@@ -197,7 +186,7 @@ def first_log_in_view(request):
     try:
         serializers.UserLoginSerializer(data=request.data).is_valid(raise_exception=True)
     except ValidationError as error:
-        return Response(return_email_error(error), status=status.HTTP_400_BAD_REQUEST)
+        return Response(detail=EMAIL_ERROR, status=status.HTTP_400_BAD_REQUEST)
     email = request.data["email"]
     email = email.lower()
     one_time_token = request.data["one_time_token"]
