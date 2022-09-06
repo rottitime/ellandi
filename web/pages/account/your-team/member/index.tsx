@@ -74,16 +74,21 @@ const YourTeamPage = () => {
                   { name: 'Work location', value: member.location },
                   { name: 'Grade', value: member.grade_other || member.grade },
                   { name: 'Profession(s)', value: professions.join(', ') },
-                  { name: 'Primary profession', value: member.primary_profession },
+                  {
+                    name: 'Primary profession',
+                    value: professions.length > 1 && member.primary_profession
+                  },
                   { name: 'Function', value: member.function_other || member.function },
                   {
                     name: 'Contract type',
                     value: member.contract_type_other || member.contract_type
                   }
-                ].map<TableCellProps[]>(({ name, value }) => [
-                  { children: name, component: 'th' },
-                  { children: <Typography variant="subtitle1">{value}</Typography> }
-                ])
+                ]
+                  .filter(({ name, value }) => !(name == 'Primary profession' && !value))
+                  .map<TableCellProps[]>(({ name, value }) => [
+                    { children: name, component: 'th' },
+                    { children: <Typography variant="subtitle1">{value}</Typography> }
+                  ])
               ]}
             />
           </AccountCard>
