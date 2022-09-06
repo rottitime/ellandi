@@ -10,7 +10,7 @@ jest.mock('next/router', () => ({
   useRouter: () => mockRouter()
 }))
 
-describe('Page: Email Vrrify page', () => {
+describe('Page: Email Verify page', () => {
   beforeEach(() => {
     jest.spyOn(console, 'error').mockImplementation(jest.fn())
   })
@@ -65,9 +65,7 @@ describe('Page: Email Vrrify page', () => {
     renderWithProviders(<EmailVerifyPage />)
 
     await waitFor(async () => {
-      expect(() => {
-        screen.getByText(error)
-      }).toThrow(error)
+      expect(screen.getByText(error)).toBeInTheDocument()
     })
   })
 })
