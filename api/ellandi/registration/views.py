@@ -1,5 +1,4 @@
 import os
-from distutils.log import error
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -185,7 +184,7 @@ def create_one_time_login_view(request):
 def first_log_in_view(request):
     try:
         serializers.UserLoginSerializer(data=request.data).is_valid(raise_exception=True)
-    except ValidationError as error:
+    except ValidationError:
         return Response(detail=EMAIL_ERROR, status=status.HTTP_400_BAD_REQUEST)
     email = request.data["email"]
     email = email.lower()
