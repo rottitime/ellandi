@@ -44,8 +44,7 @@ describe('Page: Profile', () => {
       profession_other: 'Custom other profession',
       grade_other: 'Custom other grade',
       function_other: 'Custom other function',
-      contract_type_other: 'custom other contract',
-      fullname: 'James Bond'
+      contract_type_other: 'custom other contract'
     }
 
     fetchMock.mockResponses([JSON.stringify(data), { status: 200 }])
@@ -60,5 +59,23 @@ describe('Page: Profile', () => {
     expect(
       screen.getByText('Chosen profession, Custom other profession')
     ).toBeInTheDocument()
+  })
+
+  it('hide primary profession', async () => {
+    const data: RegisterUserResponse = {
+      ...mockMe,
+      professions: ['Bunch of professions'],
+      primary_profession: 'my primary profession'
+    }
+
+    fetchMock.mockResponses([JSON.stringify(data), { status: 200 }])
+
+    renderWithProviders(<ProfilePage />)
+
+    await waitFor(async () => {
+      expect(screen.getByText(data.professions[0])).toBeInTheDocument()
+    })
+
+    expect(screen.queryByText(data.primary_profession)).not.toBeInTheDocument()
   })
 })

@@ -26,10 +26,12 @@ const ProfilePage = () => {
   const renderTable = (list = []) => (
     <SimpleTable
       list={[
-        ...list.map<TableCellProps[]>(({ name, value }) => [
-          { children: name, component: 'th' },
-          { children: <Typography variant="subtitle1">{value}</Typography> }
-        ])
+        ...list
+          .filter(({ value }) => !!value)
+          .map<TableCellProps[]>(({ name, value }) => [
+            { children: name, component: 'th' },
+            { children: <Typography variant="subtitle1">{value}</Typography> }
+          ])
       ]}
     />
   )
@@ -77,7 +79,10 @@ const ProfilePage = () => {
           { name: 'Line manager email', value: data.line_manager_email },
           { name: 'Grade', value: data.grade_other || data.grade },
           { name: 'Profession(s)', value: professions.join(', ') },
-          { name: 'Primary profession', value: data.primary_profession },
+          {
+            name: 'Primary profession',
+            value: professions.length > 1 && data.primary_profession
+          },
           { name: 'Function', value: data.function_other || data.function },
           {
             name: 'Contract type',
