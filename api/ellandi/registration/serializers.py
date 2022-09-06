@@ -2,6 +2,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from rest_framework import serializers, status
 
+from .exceptions import IncorrectDomainError
 from .models import (
     ContractType,
     Country,
@@ -43,10 +44,7 @@ def check_email_domain(email):
     email_split = email.lower().split("@")
     domain_name = email_split[-1]
     if domain_name not in ALLOWED_DOMAINS:
-        raise serializers.ValidationError(
-            "Incorrect domain",
-            code=status.HTTP_400_BAD_REQUEST,
-        )
+        raise IncorrectDomainError
     return email
 
 

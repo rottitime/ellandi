@@ -362,9 +362,7 @@ def test_post_create_one_time_login(client):
 def test_post_create_one_time_login_incorrect_email(client):
     response = client.post("/one-time-login-token/")
     assert response.status_code == status.HTTP_400_BAD_REQUEST
-    assert response.json() == {
-        "detail": "You need a recognised Cabinet Office email address to use this service"
-    }, response.json()
+    assert response.json() == {"detail": "You need to provide an email"}, response.json()
     response = client.post(
         "/one-time-login-token/", json={"email": "mr_wrong_email_domain@example.org", "password": "0th3rP455w0rd"}
     )

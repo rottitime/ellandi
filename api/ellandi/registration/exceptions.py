@@ -19,3 +19,8 @@ class LoginNoTokenError(APIException):
 class LoginIncorrectTokenError(APIException):
     status_code = 400
     default_detail = "Incorrect token"
+
+
+class IncorrectDomainError(APIException):
+    status_code = 400
+    default_detail = "You need a recognised Cabinet Office email address to use this service"

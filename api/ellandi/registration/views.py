@@ -13,8 +13,6 @@ from . import exceptions, initial_data, models, serializers
 
 registration_router = routers.DefaultRouter()
 
-EMAIL_ERROR = "You need a recognised Cabinet Office email address to use this service"
-
 
 def register(name):
     def _inner(cls):
@@ -132,10 +130,7 @@ class SkillViewSet(viewsets.ReadOnlyModelViewSet):
 @decorators.api_view(["POST"])
 @decorators.permission_classes((permissions.AllowAny,))
 def register_view(request):
-    try:
-        serializers.RegisterSerializer(data=request.data).is_valid(raise_exception=True)
-    except ValidationError:
-        return Response(detail=EMAIL_ERROR, status=status.HTTP_400_BAD_REQUEST)
+    serializers.RegisterSerializer(data=request.data).is_valid(raise_exception=True)
     email = request.data.get("email")
     password = request.data.get("password")
     if get_user_model().objects.filter(email=email).exists():
@@ -163,10 +158,9 @@ def skills_list_view(request):
 @decorators.api_view(["POST"])
 @decorators.permission_classes((permissions.AllowAny,))
 def create_one_time_login_view(request):
-    try:
-        serializers.EmailSaltSerializer(data=request.data).is_valid(raise_exception=True)
-    except ValidationError:
-        return Response(detail=EMAIL_ERROR, status=status.HTTP_400_BAD_REQUEST)
+    if "email" not in request.data:
+        raise exceptions.LoginMissingEmailError
+    serializers.EmailSaltSerializer(data=request.data).is_valid(raise_exception=True)
     email = request.data["email"]
     email = email.lower()
     try:
@@ -182,10 +176,7 @@ def create_one_time_login_view(request):
 @decorators.api_view(["POST"])
 @decorators.permission_classes((permissions.AllowAny,))
 def first_log_in_view(request):
-    try:
-        serializers.UserLoginSerializer(data=request.data).is_valid(raise_exception=True)
-    except ValidationError:
-        return Response(detail=EMAIL_ERROR, status=status.HTTP_400_BAD_REQUEST)
+    serializers.UserLoginSerializer(data=request.data).is_valid(raise_exception=True)
     email = request.data["email"]
     email = email.lower()
     one_time_token = request.data["one_time_token"]
