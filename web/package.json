@@ -4,6 +4,7 @@
     "dev": "next dev",
     "static": "http-server ./static",
     "build": "next build",
+    "build:static": "next build && next export",
     "start": "next start",
     "lint": "next lint",
     "test:watch": "jest --watch",
