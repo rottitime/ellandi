@@ -29,7 +29,7 @@ const YourTeamPage = () => {
       <Grid item xs={6} md={4} key={id}>
         <AccountCard>
           <Typography variant="h1" component="h3">
-            <Link href={`/account/your-team/member/${id}/`}>
+            <Link href={`/account/your-team/member/?id=${id}`}>
               {first_name} {last_name}
             </Link>
           </Typography>

@@ -1,5 +1,5 @@
 import { screen, waitFor } from '@testing-library/react'
-import TeamMemberPage from '@/pages/account/your-team/member/[id]'
+import TeamMemberPage from '@/pages/account/your-team/member'
 import fetchMock from 'jest-fetch-mock'
 import { renderWithProviders, mockMe, mockTeam } from '@/lib/test-utils'
 
