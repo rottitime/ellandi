@@ -29,7 +29,6 @@ const Layout = styled(Box)`
   --footer-height: 60px;
 
   > .MuiContainer-root {
-    padding-top: ${(p) => p.theme.spacing(3)};
     padding-bottom: ${(p) => p.theme.spacing(5)};
     ${({ theme }) => theme.breakpoints.up('md')} {
       min-height: calc(100vh - (var(--footer-height) + var(--banner-height)));
@@ -94,6 +93,7 @@ const AccountLayout: FC<Props> = ({
     <Layout>
       <Template>
         <AppBar
+          sx={{ mt: 4 }}
           logoUrl={urls.landingSignin}
           settingsTip={data?.fullname}
           pages={[
