@@ -10,9 +10,9 @@ import { FC, useState } from 'react'
 
 type Props = ContainerProps
 
-//const bannerHeight = 60
-
-const Container = styled(MuiContainer)<Props & { bannerHeight: number }>`
+const Container = styled(MuiContainer, {
+  shouldForwardProp: (p) => p !== 'bannerHeight'
+})<Props & { bannerHeight: number }>`
   --banner-height: ${({ bannerHeight }) => bannerHeight}px;
 
   padding: var(--banner-height)
@@ -29,11 +29,7 @@ const Template: FC<Props> = ({ children, ...props }) => {
 
   return (
     <>
-      <AlphaBanner
-        sx={{ minHeight: bannerHeight }}
-        getHeight={(height) => setBannerHeight(height)}
-        sticky
-      >
+      <AlphaBanner getHeight={(height) => setBannerHeight(height)} sticky>
         <Typography>
           This is a new service - your{' '}
           <Link
