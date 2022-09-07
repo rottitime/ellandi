@@ -13,7 +13,7 @@ export const defaultError = 'Sorry, there is a problem with the service. Try aga
 
 export const updateUser = async (token: string, data: Partial<RegisterUserResponse>) => {
   try {
-    const res: Response = await fetch(`${publicRuntimeConfig.apiUrl}/me/`, {
+    const res: Response = await fetch(`${publicRuntimeConfig.apiUrl}/api/me/`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -31,7 +31,7 @@ export const updateUser = async (token: string, data: Partial<RegisterUserRespon
 
 export const createUser = async (data: RegisterUser): Promise<RegisterUserResponse> => {
   try {
-    const res: Response = await fetch(`${publicRuntimeConfig.apiUrl}/register/`, {
+    const res: Response = await fetch(`${publicRuntimeConfig.apiUrl}/api/register/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -48,7 +48,7 @@ export const createUser = async (data: RegisterUser): Promise<RegisterUserRespon
 
 export const loginWithEmailAndPassword = async (data: SignInType): Promise<AuthUser> => {
   try {
-    const res = await fetch(`${publicRuntimeConfig.apiUrl}/login/`, {
+    const res = await fetch(`${publicRuntimeConfig.apiUrl}/api/login/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -65,7 +65,7 @@ export const loginWithEmailAndPassword = async (data: SignInType): Promise<AuthU
 }
 
 export const logoutUser = async (token: string) => {
-  await fetch(`${publicRuntimeConfig.apiUrl}/logout/`, {
+  await fetch(`${publicRuntimeConfig.apiUrl}/api/logout/`, {
     method: 'POST',
     headers: { Authorization: `Token ${token}` }
   })

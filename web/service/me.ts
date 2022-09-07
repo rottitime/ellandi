@@ -4,7 +4,7 @@ import { defaultError } from '@/service/auth'
 import { MeLearningList } from './types'
 
 export const fetchMe = async (token: string) => {
-  const res = await fetch(`${publicRuntimeConfig.apiUrl}/me/`, {
+  const res = await fetch(`${publicRuntimeConfig.apiUrl}/api/me/`, {
     headers: { Authorization: `Token ${token}` }
   })
   if (res.ok) {
