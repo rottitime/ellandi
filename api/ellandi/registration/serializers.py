@@ -21,29 +21,11 @@ from .models import (
     UserSkillDevelop,
 )
 
-ALLOWED_DOMAINS = [
-    "cabinet-office.x.gsi.gov.uk",
-    "cabinetoffice.gov.uk",
-    "crowncommercial.gov.uk",
-    "csep.gov.uk",
-    "cslearning.gov.uk",
-    "csc.gov.uk",
-    "digital.cabinet-office.gov.uk",
-    "geo.gov.uk",
-    "gpa.gov.uk",
-    "ipa.gov.uk",
-    "no10.gov.uk",
-    "odandd.gov.uk",
-]
-
-if settings.ALLOW_EXAMPLE_EMAILS:
-    ALLOWED_DOMAINS.append("example.com")
-
 
 def check_email_domain(email):
     email_split = email.lower().split("@")
     domain_name = email_split[-1]
-    if domain_name not in ALLOWED_DOMAINS:
+    if domain_name not in settings.ALLOWED_DOMAINS:
         raise IncorrectDomainError
     return email
 
