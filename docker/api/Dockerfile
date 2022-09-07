@@ -14,11 +14,24 @@ RUN python3 -m pip install -U pip setuptools wheel
 COPY ./api/requirements.lock /app/api/requirements.lock
 RUN python3 -m pip install -r /app/api/requirements.lock --no-cache-dir
 
+RUN apt-get update && \
+    apt-get install -y curl wget gpg && \
+    curl -sL https://deb.nodesource.com/setup_16.x | bash - && \
+    apt-get install -y nodejs
+
+
 COPY ./docker/api/start.sh /start.sh
 RUN chmod +x /start.sh
 
 COPY ./docker/api/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
+
+COPY ./web /app/web
+
+WORKDIR /app/web
+
+RUN npm install
+RUN npm run build:static
 
 COPY . /app
 
@@ -28,6 +41,8 @@ RUN \
     DJANGO_SETTINGS_MODULE=ellandi.settings_base \
     DJANGO_SECRET_KEY="temp" \
     python manage.py collectstatic --no-input
+
+RUN cp -R /app/web/out /staticfiles/
 
 EXPOSE 8000
 
