@@ -51,9 +51,7 @@ describe('Page: Email Verify page', () => {
     await bugfixForTimeout()
 
     await waitFor(async () => {
-      expect(() => {
-        screen.getByText(errorMessage)
-      }).toThrow(errorMessage)
+      expect(screen.getByText(errorMessage)).toBeInTheDocument()
     })
   })
 
