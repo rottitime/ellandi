@@ -3,10 +3,11 @@ import {
   styled,
   DialogTitle,
   DialogContent,
-  DialogActions
+  DialogActions,
+  Slide
 } from '@mui/material'
-import { FC, useId } from 'react'
-import { Props } from './types'
+import React, { FC, forwardRef, useId } from 'react'
+import { Props, TransitionProps } from './types'
 
 const StyledDialog = styled(MuiDialog)`
   .MuiDialog-paper {
@@ -31,6 +32,7 @@ const Dialog: FC<Props> = ({ children, title, maxWidth = 'md', actions, ...props
   return (
     <StyledDialog
       {...props}
+      TransitionComponent={Transition}
       maxWidth={maxWidth}
       aria-labelledby={idTitle}
       aria-describedby={idDescription}
@@ -44,3 +46,10 @@ const Dialog: FC<Props> = ({ children, title, maxWidth = 'md', actions, ...props
 
 export default Dialog
 export { DialogContentText } from '@mui/material'
+
+const Transition = forwardRef(function Transition(
+  props: TransitionProps,
+  ref: React.Ref<unknown>
+) {
+  return <Slide direction="up" ref={ref} {...props} />
+})
