@@ -61,6 +61,7 @@ CORS_ALLOWED_ORIGINS = (HOST_URL, HOST_MAP[HOST_URL])
 # Application definition
 
 INSTALLED_APPS = [
+    'whitenoise.runserver_nostatic',
     "ellandi.registration",
     "django.contrib.admin",
     "django.contrib.auth",
