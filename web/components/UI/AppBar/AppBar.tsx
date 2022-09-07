@@ -11,7 +11,7 @@ import {
   useTheme
 } from '@mui/material'
 import Link from 'next/link'
-import { ComponentProps, FC, useState } from 'react'
+import { FC, useState } from 'react'
 import { Props } from './types'
 import Icon from '@/components/Icon/Icon'
 import { useRouter } from 'next/router'
@@ -47,13 +47,7 @@ const StyledAppBar = styled(MuiAppBar)`
   }
 `
 
-const AppBar: FC<Props & ComponentProps<typeof MuiAppBar>> = ({
-  pages,
-  logoUrl,
-  settings,
-  settingsTip = '',
-  ...props
-}) => {
+const AppBar: FC<Props> = ({ pages, logoUrl, settings, settingsTip = '', ...props }) => {
   const theme = useTheme()
   const router = useRouter()
 

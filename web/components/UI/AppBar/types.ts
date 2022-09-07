@@ -1,5 +1,6 @@
 import { ColorBrands } from '@/style/types'
-import { MouseEvent } from 'react'
+import { AppBar } from '@mui/material'
+import { ComponentProps, MouseEvent } from 'react'
 
 export type BrandColor = keyof ColorBrands
 
@@ -16,4 +17,4 @@ export type Props = {
   pages: MenuItem[]
   settings: MenuItem[]
   settingsTip?: string
-}
+} & ComponentProps<typeof AppBar>
