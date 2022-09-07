@@ -202,7 +202,7 @@ SEND_VERIFICATION_EMAIL = env.bool("SEND_VERIFICATION_EMAIL", default=False)
 
 ALLOW_EXAMPLE_EMAILS = env.bool("ALLOW_EXAMPLE_EMAILS", default=False)
 
-ALLOWED_DOMAINS = [
+DEFAULT_ALLOWED_DOMAINS = frozenset([
     "cabinet-office.x.gsi.gov.uk",
     "cabinetoffice.gov.uk",
     "crowncommercial.gov.uk",
@@ -215,7 +215,9 @@ ALLOWED_DOMAINS = [
     "ipa.gov.uk",
     "no10.gov.uk",
     "odandd.gov.uk",
-]
+])
 
 if ALLOW_EXAMPLE_EMAILS:
-    ALLOWED_DOMAINS.append("example.com")
+    ALLOWED_DOMAINS = DEFAULT_ALLOWED_DOMAINS.union({"example.com"})
+else:
+    ALLOWED_DOMAINS = DEFAULT_ALLOWED_DOMAINS
