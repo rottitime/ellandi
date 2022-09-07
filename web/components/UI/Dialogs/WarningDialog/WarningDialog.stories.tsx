@@ -1,19 +1,19 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react'
-import WarningModal from './WarningModal'
+import WarningDialog from './WarningDialog'
 
 export default {
   title: 'Ellandi/Modal',
-  component: WarningModal,
+  component: WarningDialog,
   parameters: {
     design: {
       type: 'figma',
       url: 'https://www.figma.com/file/JEg4GJzDWL4NbiWXShxHiL/Ellandi-Prototype-V3.4?node-id=9890%3A62450'
     }
   }
-} as ComponentMeta<typeof WarningModal>
+} as ComponentMeta<typeof WarningDialog>
 
-const Template: ComponentStory<typeof WarningModal> = (args) => (
-  <WarningModal open={true} {...args} />
+const Template: ComponentStory<typeof WarningDialog> = (args) => (
+  <WarningDialog open={true} {...args} />
 )
 
 export const Warning = Template.bind({})

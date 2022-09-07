@@ -1,7 +1,7 @@
 import Icon from '@/components/Icon/Icon'
-import WarningModal from '@/components/UI/Modals/WarningModal/WarningModal'
 import Button from '../Button/Button'
-import Modal from '@/components/UI/Modals/Modal/Modal'
+import Dialog from '@/components/UI/Dialogs/Dialog/Dialog'
+import WarningDialog from '@/components/UI/Dialogs/WarningDialog/WarningDialog'
 import { FC, useState } from 'react'
 import { Props, CellType } from './types'
 import { DataGrid as MuiDataGrid, GridColDef } from '@mui/x-data-grid'
@@ -113,7 +113,7 @@ const DataGrid: FC<Props> = ({
     <>
       <StyledGrid {...gridProps} />
       {enableDelete && (
-        <WarningModal
+        <WarningDialog
           data-testid="datagrid-delete-modal"
           confirmButton="Delete"
           open={!!deleteCell}
@@ -126,16 +126,16 @@ const DataGrid: FC<Props> = ({
           title={deleteModalTitle}
         >
           {deleteModalContent}
-        </WarningModal>
+        </WarningDialog>
       )}
 
       {enableEdit && (
-        <Modal
+        <Dialog
           title={editModalTitle}
           open={!!editCell}
           onClose={onClose}
           data-testid="datagrid-edit-modal"
-          footer={
+          actions={
             <>
               <Button color="secondary" onClick={onClose}>
                 Cancel
@@ -151,7 +151,7 @@ const DataGrid: FC<Props> = ({
           }
         >
           {editModalContent(editCell)}
-        </Modal>
+        </Dialog>
       )}
     </>
   )

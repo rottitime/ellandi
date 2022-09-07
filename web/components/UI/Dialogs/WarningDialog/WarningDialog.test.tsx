@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { screen, waitFor } from '@testing-library/react'
-import WarningModal from './WarningModal'
+import WarningDialog from './WarningDialog'
 import { renderWithProviders } from '@/lib/test-utils'
 
 import userEvent from '@testing-library/user-event'
 
 const mockClose = jest.fn()
 
-describe('WarningModal', () => {
+describe('WarningDialog', () => {
   it('Renders', async () => {
     renderWithProviders(
-      <WarningModal
+      <WarningDialog
         data-testid="test-warning-modal"
         onConfirm={() => mockClose()}
         confirmButton="delete-button"
@@ -18,7 +18,7 @@ describe('WarningModal', () => {
         open={true}
       >
         <div data-testid="test-content">Random content</div>
-      </WarningModal>
+      </WarningDialog>
     )
 
     expect(screen.getByTestId('test-warning-modal')).toBeVisible()
@@ -29,7 +29,7 @@ describe('WarningModal', () => {
 
   it('Confim callback', async () => {
     renderWithProviders(
-      <WarningModal
+      <WarningDialog
         data-testid="test-warning-modal"
         onConfirm={() => mockClose('close was clicked')}
         confirmButton="delete-button"
@@ -37,7 +37,7 @@ describe('WarningModal', () => {
         open={true}
       >
         <div data-testid="test-content">Random content</div>
-      </WarningModal>
+      </WarningDialog>
     )
 
     expect(screen.getByTestId('test-warning-modal')).toBeVisible()

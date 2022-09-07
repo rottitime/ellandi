@@ -1,18 +1,18 @@
 import Button from '@/components/UI/Button/Button'
-import Modal from '@/components/UI/Modals/Modal/Modal'
+import Dialog from '@/components/UI/Dialogs/Dialog/Dialog'
 import { FC } from 'react'
 import { Props } from './types'
 
-const WarningModal: FC<Props> = ({
+const WarningDialog: FC<Props> = ({
   children,
   onConfirm,
   confirmButton,
   buttonLoading,
   ...props
 }) => (
-  <Modal
+  <Dialog
     {...props}
-    footer={
+    actions={
       <>
         <Button color="secondary" onClick={(e) => props.onClose(e, 'escapeKeyDown')}>
           Cancel
@@ -24,7 +24,7 @@ const WarningModal: FC<Props> = ({
     }
   >
     {children}
-  </Modal>
+  </Dialog>
 )
 
-export default WarningModal
+export default WarningDialog
