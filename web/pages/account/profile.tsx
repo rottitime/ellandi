@@ -1,12 +1,18 @@
 import AccountLayout from '@/components/Layout/AccountLayout/AccountLayout'
 import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
 import SimpleTable from '@/components/UI/SimpleTable/SimpleTable'
-import { Typography, TableCellProps } from '@mui/material'
+import { Typography, TableCellProps, styled } from '@mui/material'
 import { useQuery } from 'react-query'
 import { fetchMe } from '@/service/me'
 import { Query, RegisterUserResponse } from '@/service/api'
 import useAuth from '@/hooks/useAuth'
 import { useMemo } from 'react'
+
+const Table = styled(SimpleTable)`
+  th {
+    width: 29%;
+  }
+`
 
 const ProfilePage = () => {
   const { authFetch } = useAuth()
@@ -24,7 +30,7 @@ const ProfilePage = () => {
   )
 
   const renderTable = (list = []) => (
-    <SimpleTable
+    <Table
       list={[
         ...list
           .filter(({ name, value }) => !(name == 'Primary profession' && !value))

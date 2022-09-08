@@ -1,13 +1,19 @@
 import AccountLayout from '@/components/Layout/AccountLayout/AccountLayout'
 import SimpleTable from '@/components/UI/SimpleTable/SimpleTable'
 import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
-import { Typography, TableCellProps, Chip } from '@mui/material'
+import { Typography, TableCellProps, Chip, styled } from '@mui/material'
 import useAuth from '@/hooks/useAuth'
 import { useQuery } from 'react-query'
 import { Query, TeamMember } from '@/service/api'
 import { fetchTeam } from '@/service/account'
 import { useMemo } from 'react'
 import { useRouter } from 'next/router'
+
+const Table = styled(SimpleTable)`
+  th {
+    width: 29%;
+  }
+`
 
 const YourTeamPage = () => {
   const { authFetch } = useAuth()
@@ -65,7 +71,7 @@ const YourTeamPage = () => {
             }
             sx={{ mb: 4 }}
           >
-            <SimpleTable
+            <Table
               loading={isLoading}
               list={[
                 ...[
@@ -102,7 +108,7 @@ const YourTeamPage = () => {
             }
             sx={{ mb: 4 }}
           >
-            <SimpleTable
+            <Table
               loading={isLoading}
               headers={[
                 { children: 'Language' },
@@ -130,7 +136,7 @@ const YourTeamPage = () => {
             }
             sx={{ mb: 4 }}
           >
-            <SimpleTable
+            <Table
               loading={isLoading}
               headers={[{ children: 'Skill' }, { children: 'Skill level' }]}
               list={[
@@ -151,7 +157,7 @@ const YourTeamPage = () => {
             }
             sx={{ mb: 4 }}
           >
-            <SimpleTable
+            <Table
               loading={isLoading}
               headers={[{ children: 'Skill' }]}
               list={[
