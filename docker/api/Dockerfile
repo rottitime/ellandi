@@ -11,16 +11,15 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN curl -o /bin/wait-for-db https://github.com/palfrey/wait-for-db/releases/download/v1.2.0/wait-for-db-linux-x86
 RUN chmod +x /bin/wait-for-db
 
-RUN python3 -m pip install -U pip setuptools wheel
-
-COPY ./api/requirements.lock /app/api/requirements.lock
-RUN python3 -m pip install -r /app/api/requirements.lock --no-cache-dir
-
 RUN apt-get update && \
     apt-get install -y curl wget gpg && \
     curl -sL https://deb.nodesource.com/setup_16.x | bash - && \
     apt-get install -y nodejs
 
+RUN python3 -m pip install -U pip setuptools wheel
+
+COPY ./api/requirements.lock /app/api/requirements.lock
+RUN python3 -m pip install -r /app/api/requirements.lock --no-cache-dir
 
 COPY ./docker/api/start.sh /start.sh
 RUN chmod +x /start.sh
