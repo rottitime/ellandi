@@ -1,4 +1,4 @@
-import { IconButton, Tooltip as MuiTooltip, styled, useTheme } from '@mui/material'
+import { IconButton, Tooltip as MuiTooltip, styled, useTheme, Zoom } from '@mui/material'
 import Icon from '@/components/Icon/Icon'
 import { FC } from 'react'
 import { Props } from './types'
@@ -22,6 +22,7 @@ const Tooltip: FC<Props> = ({
   return (
     <StyledTooltip
       arrow={arrow}
+      TransitionComponent={Zoom}
       placement={placement}
       PopperProps={{
         sx: {

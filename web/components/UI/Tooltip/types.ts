@@ -1,6 +1,6 @@
 import { Tooltip } from '@mui/material'
 import { ColorBrands } from '@/style/types'
-import { ComponentProps, ReactNode } from 'react'
+import { ComponentProps, ReactElement } from 'react'
 
 export type Props = {
   brandColor?: keyof ColorBrands
