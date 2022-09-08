@@ -44,7 +44,7 @@ RUN \
     DJANGO_SECRET_KEY="temp" \
     python manage.py collectstatic --no-input
 
-RUN cp -R /app/web/out /staticfiles/
+RUN cp -R /app/web/out/* /staticfiles/
 
 EXPOSE 8000
 
