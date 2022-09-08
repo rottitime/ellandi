@@ -355,6 +355,7 @@ def users_language_delete_view(request, user_id, language_id):
     return skill_lang_delete(user=user, id=language_id, model_name=model_name)
 
 
+
 @decorators.api_view(["DELETE"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
 def users_skill_develop_delete_view(request, user_id, skill_develop_id):
@@ -374,6 +375,7 @@ def list_direct_reports(request, user):
     return response
 
 
+@extend_schema(responses=serializers.UserSerializer)
 @decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
 def me_direct_reports_view(request):
@@ -381,6 +383,7 @@ def me_direct_reports_view(request):
     return list_direct_reports(request, user)
 
 
+@extend_schema(responses=serializers.UserSerializer)
 @decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
 def user_direct_reports_view(request, user_id):
