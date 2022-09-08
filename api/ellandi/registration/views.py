@@ -129,6 +129,7 @@ class SkillViewSet(viewsets.ReadOnlyModelViewSet):
 @decorators.api_view(["POST"])
 @decorators.permission_classes((permissions.AllowAny,))
 def register_view(request):
+    serializers.RegisterSerializer(data=request.data).is_valid(raise_exception=True)
     email = request.data.get("email")
     password = request.data.get("password")
     if get_user_model().objects.filter(email=email).exists():
@@ -158,6 +159,7 @@ def skills_list_view(request):
 def create_one_time_login_view(request):
     if "email" not in request.data:
         raise exceptions.LoginMissingEmailError
+    serializers.EmailSaltSerializer(data=request.data).is_valid(raise_exception=True)
     email = request.data["email"]
     email = email.lower()
     try:
@@ -173,11 +175,9 @@ def create_one_time_login_view(request):
 @decorators.api_view(["POST"])
 @decorators.permission_classes((permissions.AllowAny,))
 def first_log_in_view(request):
-    if "email" not in request.data:
-        raise exceptions.LoginMissingEmailError
-    else:
-        email = request.data["email"]
-        email = email.lower()
+    serializers.UserLoginSerializer(data=request.data).is_valid(raise_exception=True)
+    email = request.data["email"]
+    email = email.lower()
     one_time_token = request.data["one_time_token"]
     try:
         email_salt = models.EmailSalt.objects.get(email__iexact=email)

@@ -4,3 +4,4 @@ VCAP_SERVICES='{"aws-s3-bucket": [{"credentials": {"aws_access_key_id": "3X4MPL3
 VCAP_APPLICATION='{"application_uris": ["http://testserver"]}'
 EMAIL_BACKEND_TYPE=FILE
 EMAIL_FILE_PATH="/app/mail"
+ALLOW_EXAMPLE_EMAILS=True

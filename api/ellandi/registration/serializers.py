@@ -1,6 +1,8 @@
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
+from .exceptions import IncorrectDomainError
 from .models import (
     ContractType,
     Country,
@@ -18,6 +20,14 @@ from .models import (
     UserSkill,
     UserSkillDevelop,
 )
+
+
+def check_email_domain(email):
+    email_split = email.lower().split("@")
+    domain_name = email_split[-1]
+    if domain_name not in settings.ALLOWED_DOMAINS:
+        raise IncorrectDomainError
+    return email
 
 
 class OrganisationSerializer(serializers.ModelSerializer):
@@ -233,7 +243,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class RegisterSerializer(serializers.Serializer):
-    email = serializers.EmailField()
+    email = serializers.EmailField(validators=[check_email_domain])
     password = serializers.CharField()
 
 
@@ -246,12 +256,15 @@ class PasswordResetUseSerializer(serializers.Serializer):
 
 
 class EmailSaltSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(validators=[check_email_domain])
+
     class Meta:
         model = EmailSalt
         fields = ["email"]
 
 
 class UserLoginSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(validators=[check_email_domain])
     one_time_token = serializers.CharField(required=True)
 
     class Meta:
