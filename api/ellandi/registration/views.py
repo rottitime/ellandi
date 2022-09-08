@@ -192,7 +192,8 @@ def first_log_in_view(request):
     return response
 
 
-@extend_schema(methods=["PATCH"], request=serializers.UserSerializer(many=False))
+@extend_schema(methods=["PATCH"], request=serializers.UserSerializer(many=False),     responses=serializers.UserSerializer)
+@extend_schema(methods=["GET"],      responses=serializers.UserSerializer)
 @decorators.api_view(["GET", "PATCH"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
 def me_view(request):
