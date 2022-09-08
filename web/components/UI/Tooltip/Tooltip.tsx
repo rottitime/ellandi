@@ -13,6 +13,7 @@ const Tooltip: FC<Props> = ({
   brandColor,
   placement = 'top',
   arrow = true,
+  children,
   ...props
 }) => {
   const { colors } = useTheme()
@@ -21,7 +22,6 @@ const Tooltip: FC<Props> = ({
   return (
     <StyledTooltip
       arrow={arrow}
-      open={true}
       placement={placement}
       PopperProps={{
         sx: {
@@ -31,9 +31,11 @@ const Tooltip: FC<Props> = ({
       }}
       {...props}
     >
-      <IconButton>
-        <Icon icon="question" />
-      </IconButton>
+      {children || (
+        <IconButton>
+          <Icon icon="question" />
+        </IconButton>
+      )}
     </StyledTooltip>
   )
 }
