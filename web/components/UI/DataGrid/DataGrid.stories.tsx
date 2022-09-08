@@ -14,7 +14,7 @@ const columns: GridColDef[] = [
 ]
 
 export default {
-  title: 'Ellandi/DataGrid',
+  title: 'Ellandi/Table/DataGrid',
   component: DataGrid,
   parameters: {
     design: {
