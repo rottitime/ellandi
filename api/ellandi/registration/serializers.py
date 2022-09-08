@@ -87,7 +87,7 @@ class FunctionSerializer(serializers.ModelSerializer):
 class SkillLevelSerializer(serializers.ModelSerializer):
     class Meta:
         model = SkillLevel
-        fields = ["slug", "name", "order"]
+        fields = ["slug", "name", "order", "description"]
 
 
 class UserSkillSerializer(serializers.ModelSerializer):

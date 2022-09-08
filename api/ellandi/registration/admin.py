@@ -164,7 +164,7 @@ class FunctionAdmin(DropDownListAdmin):
 
 
 class SkillLevelAdmin(DropDownListAdmin):
-    readonly_fields = ("name", "slug", "order")
+    readonly_fields = ("name", "slug", "order", "description")
 
 
 admin.site.register(User, UserAdmin)
