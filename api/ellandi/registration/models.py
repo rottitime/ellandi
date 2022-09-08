@@ -81,7 +81,7 @@ class Function(DropDownListModel):
 
 
 class SkillLevel(DropDownListModel):
-    pass
+    description = models.CharField(max_length=255, blank=True, null=True, default="")
 
 
 class UserManager(BaseUserManager):
