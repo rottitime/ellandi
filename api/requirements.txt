@@ -11,3 +11,4 @@ django-rest-knox
 sentry-sdk
 django-gov-notify
 furl
+django-spa
