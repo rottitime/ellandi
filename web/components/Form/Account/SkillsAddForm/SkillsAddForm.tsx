@@ -1,13 +1,4 @@
-import {
-  FormHelperText,
-  IconButton,
-  Skeleton,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
-  styled,
-  Box
-} from '@mui/material'
+import { FormHelperText, IconButton, Radio, styled } from '@mui/material'
 import {
   GenericDataList,
   Query,
@@ -16,7 +7,7 @@ import {
   SkillType
 } from '@/service/types'
 import { fetchSkillLevels, fetchSkills } from '@/service/api'
-import { FC, useEffect, useMemo } from 'react'
+import { FC, useEffect, useId, useMemo } from 'react'
 import { useQuery } from 'react-query'
 import { Controller, FormProvider, useFieldArray, useForm } from 'react-hook-form'
 import { Field } from '@/components/Form/Field/Field'
@@ -28,21 +19,15 @@ import Icon from '@/components/Icon/Icon'
 import Button from '@/components/UI/Button/Button'
 import { fetchMe } from '@/service/me'
 import useAuth from '@/hooks/useAuth'
+import SimpleTable, {
+  Props as SimpleTableProps
+} from '@/components/UI/SimpleTable/SimpleTable'
+import Tooltip from '@/components/UI/Tooltip/Tooltip'
 
-const Row = styled(Field)`
-  display: flex;
-  gap: ${(p) => p.theme.spacing(3)};
-  .creatable-autocomplete {
-    width: 350px;
-  }
-  .button-remove {
-    color: ${(p) => p.theme.palette.text.primary};
-    margin-left: auto;
-  }
-  .MuiFormGroup-root {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+const Table = styled(SimpleTable)`
+  th,
+  td {
+    text-align: center;
   }
 `
 
@@ -57,6 +42,7 @@ const schema: SchemaOf<SkillsType> = object().shape({
 })
 
 const SkillsAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
+  const id = useId()
   const { authFetch } = useAuth()
   const { isLoading, data: levels } = useQuery<GenericDataList[], { message?: string }>(
     Query.SkillLevels,
@@ -81,12 +67,16 @@ const SkillsAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
     resolver: yupResolver(schema)
   })
 
-  const { control, handleSubmit, setValue } = methods
+  const {
+    control,
+    handleSubmit,
+    setValue,
+    formState: { errors }
+  } = methods
 
   const { fields, append, remove } = useFieldArray<SkillsType, 'skills', 'name'>({
     control,
     name: 'skills'
-    // keyName: 'name'
   })
 
   useEffect(() => {
@@ -102,68 +92,101 @@ const SkillsAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
     [fields, isFetchedMe, dataMe]
   )
 
+  const tableData: SimpleTableProps['list'] = useMemo(() => {
+    if (!fields?.length) return []
+
+    const rows = fields.map((_item, index) => [
+      {
+        children: (
+          <>
+            <Controller
+              name={`skills.${index}.name`}
+              control={control}
+              render={({ field: { name }, fieldState: { error } }) => (
+                <CreatableAutocomplete
+                  loading={isLoadingSkills}
+                  disableOptions={disableOptions}
+                  label="Enter a skill"
+                  data={(skillsList || []).map((skill) => ({ title: skill }))}
+                  onSelected={(_event, { title }) => setValue(name, title)}
+                  size="small"
+                  error={!!error}
+                  helperText={error?.message}
+                />
+              )}
+            />
+
+            {errors?.['skills']?.[index]?.['level'] && (
+              <FormHelperText error>
+                {errors?.['skills']?.[index]?.['level']?.message}
+              </FormHelperText>
+            )}
+          </>
+        )
+      },
+      ...levels.map(({ name, slug }) => ({
+        children: (
+          <Controller
+            name={`skills.${index}.level` as `skills.${number}.level`}
+            control={control}
+            render={({ field }) => (
+              <Radio
+                {...field}
+                value={name}
+                inputProps={{ 'aria-labelledby': `${id}-th-${slug}`, 'aria-label': name }}
+                checked={field.value === name}
+              />
+            )}
+          />
+        )
+      })),
+
+      {
+        children: (
+          <IconButton
+            className="button-remove"
+            aria-label="Remove"
+            title="Remove"
+            onClick={() => remove(index)}
+          >
+            <Icon icon="circle-delete" />
+          </IconButton>
+        )
+      }
+    ])
+
+    return [...rows]
+  }, [
+    control,
+    disableOptions,
+    fields,
+    isLoadingSkills,
+    levels,
+    remove,
+    setValue,
+    skillsList,
+    errors,
+    id
+  ])
+
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
-        {isLoading ? (
-          <Skeleton width={100} sx={{ m: 1 }} />
-        ) : (
-          !!fields.length && (
-            <>
-              {fields.map((_item, index) => (
-                <Row key={index}>
-                  <Controller
-                    name={`skills.${index}.name`}
-                    control={control}
-                    render={({ field: { name }, fieldState: { error } }) => (
-                      <CreatableAutocomplete
-                        loading={isLoadingSkills}
-                        disableOptions={disableOptions}
-                        label="Enter a skill"
-                        data={(skillsList || []).map((skill) => ({ title: skill }))}
-                        onSelected={(_event, { title }) => setValue(name, title)}
-                        size="small"
-                        error={!!error}
-                        helperText={!!error && error.message}
-                      />
-                    )}
-                  />
-
-                  <Controller
-                    name={`skills.${index}.level` as `skills.${number}`}
-                    control={control}
-                    render={({ field, fieldState: { error } }) => (
-                      <Box className="radio-options">
-                        <RadioGroup {...field}>
-                          {levels.map(({ name: title }) => (
-                            <FormControlLabel
-                              key={title}
-                              control={<Radio />}
-                              label={title}
-                              value={title}
-                            />
-                          ))}
-                        </RadioGroup>
-                        {!!error && (
-                          <FormHelperText error>{error.message}</FormHelperText>
-                        )}
-                      </Box>
-                    )}
-                  />
-
-                  <IconButton
-                    className="button-remove"
-                    aria-label="Remove"
-                    title="Remove"
-                    onClick={() => remove(index)}
-                  >
-                    <Icon icon="circle-delete" />
-                  </IconButton>
-                </Row>
-              ))}
-            </>
-          )
-        )}
+        <Table
+          loading={isLoading}
+          list={tableData}
+          headers={[
+            { children: <>&nbsp;</>, width: 227 },
+            ...levels.map(({ slug, name, description }) => ({
+              children: (
+                <span id={`${id}-th-${slug}`}>
+                  {name} <Tooltip brandColor="brandSkills" title={description} />
+                </span>
+              )
+            })),
+            { children: <>&nbsp;</> }
+          ]}
+        />
 
         <Field>
           <Button
