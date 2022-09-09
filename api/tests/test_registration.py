@@ -595,7 +595,6 @@ def test_is_line_manager(client, user_id):
     assert user_data["is_line_manager"] is False, user_data
 
 
-
 # TODO - some tests on user-skills etc. when not logged in/for a different user
 
 # TODO - test all-skills etc.

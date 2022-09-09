@@ -68,7 +68,6 @@ class UserSkillDevelopViewSet(viewsets.ModelViewSet):
         return qs
 
 
-
 @register("all-user-skills")
 class UserSkillViewSet(viewsets.ModelViewSet):
     queryset = models.UserSkill.objects.all().order_by("user")
@@ -394,7 +393,6 @@ def users_language_delete_view(request, user_id, language_id):
         return Response(status=status.HTTP_400_BAD_REQUEST)
     model_name = "UserLanguage"
     return skill_lang_delete(user=user, id=language_id, model_name=model_name)
-
 
 
 @decorators.api_view(["DELETE"])
