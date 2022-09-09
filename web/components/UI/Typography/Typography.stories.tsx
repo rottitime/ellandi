@@ -24,12 +24,12 @@ export default {
   }
 } as ComponentMeta<typeof Typography>
 
-const TemplateAll: ComponentStory<typeof Typography> = (args) => (
+const TemplateAll: ComponentStory<typeof Typography> = ({ children, ...args }) => (
   <>
     {variants.map((variant) => (
       <Row key={variant}>
         <Typography variant={variant as any} {...args}>
-          {variant}
+          {children || variant}
         </Typography>
       </Row>
     ))}
@@ -41,7 +41,9 @@ const TemplateSingle: ComponentStory<typeof Typography> = (args) => (
 )
 
 export const All = TemplateAll.bind({})
-All.args = {}
+All.args = {
+  children: ''
+}
 // All.parameters = { controls: { exclude: ['Typography'] } }
 
 export const Single = TemplateSingle.bind({})
