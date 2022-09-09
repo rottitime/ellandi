@@ -84,16 +84,6 @@ services:
       - "9000:9000"
     command: server /data
 
-  integration:
-    build:
-      context: .
-      dockerfile: ./docker/integration/Dockerfile
-    image: ellandi_integration
-    depends_on:
-      - web
-    profiles:
-      - testing
-
   tests-api:
     build:
       context: .
