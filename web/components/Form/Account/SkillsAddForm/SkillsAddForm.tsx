@@ -104,13 +104,13 @@ const SkillsAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
             <Controller
               name={`skills.${index}.name`}
               control={control}
-              render={({ field: { name }, fieldState: { error } }) => (
+              render={({ field, fieldState: { error } }) => (
                 <CreatableAutocomplete
+                  {...field}
                   loading={isLoadingSkills}
                   disableOptions={disableOptions}
                   label="Enter a skill"
                   options={(skillsList || []).map((skill) => ({ title: skill }))}
-                  onSelected={(_event, { title }) => setValue(name, title)}
                   size="small"
                   error={!!error}
                   helperText={error?.message}
@@ -165,7 +165,6 @@ const SkillsAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
     isLoadingSkills,
     levels,
     remove,
-    setValue,
     skillsList,
     errors,
     id

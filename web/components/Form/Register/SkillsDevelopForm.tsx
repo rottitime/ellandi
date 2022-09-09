@@ -56,13 +56,14 @@ const SkillsForm: FC<StandardRegisterProps<SkillsDevelopType>> = (props) => {
             <Controller
               name={fieldName}
               control={control}
-              render={({ fieldState: { error } }) => (
+              render={({ field, fieldState: { error } }) => (
                 <CreatableAutocomplete
+                  {...field}
                   loading={isLoading}
                   disableOptions={watchFields.map(({ name }) => name)}
                   label="Select a skill or enter your own skill"
                   options={isLoading ? [] : data.map((title) => ({ title }))}
-                  onSelected={async (_event, { title }) => {
+                  onChange={async (_event, title) => {
                     const includes =
                       Array.isArray(watchFields) &&
                       !!watchFields.find(({ name }) => name === title)
@@ -76,7 +77,6 @@ const SkillsForm: FC<StandardRegisterProps<SkillsDevelopType>> = (props) => {
                   }}
                   error={!!error}
                   helperText={!!error && error.message}
-                  onSelectedClear
                 />
               )}
             />

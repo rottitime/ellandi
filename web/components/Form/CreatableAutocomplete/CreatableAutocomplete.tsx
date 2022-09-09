@@ -47,12 +47,8 @@ const CreatableAutocomplete: FC<Props> = ({
         loading={loading}
         fullWidth
         open={open}
-        onOpen={() => {
-          setOpen(true)
-        }}
-        onClose={() => {
-          setOpen(false)
-        }}
+        onOpen={() => setOpen(true)}
+        onClose={() => setOpen(false)}
         getOptionDisabled={(data: ListType) => disableOptions.includes(data?.title)}
         onChange={(event, value: OnChangeValue, reason) => {
           let title

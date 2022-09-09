@@ -3,7 +3,7 @@ import CreatableAutocomplete from './CreatableAutocomplete'
 import { renderWithProviders } from '@/lib/test-utils'
 import userEvent from '@testing-library/user-event'
 
-const mockOptions = [
+export const mockOptions = [
   { title: 'First suggested title' },
   { title: 'Second suggested title' },
   { title: 'Third suggested title' }

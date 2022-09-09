@@ -62,7 +62,7 @@ const SkillsDevelopAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
     () => authFetch(fetchMe)
   )
 
-  const { control, handleSubmit, setValue } = methods
+  const { control, handleSubmit } = methods
 
   const { fields, append, remove } = useFieldArray<
     SkillsDevelopType,
@@ -95,15 +95,15 @@ const SkillsDevelopAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
               <Controller
                 name={`skills_develop.${index}.name`}
                 control={control}
-                render={({ field: { name }, fieldState: { error } }) => (
+                render={({ field, fieldState: { error } }) => (
                   <CreatableAutocomplete
+                    {...field}
                     loading={isLoadingSkills}
                     disableOptions={disableOptions}
                     label="Enter a skill"
                     options={
                       isLoadingSkills ? [] : skillsList.map((skill) => ({ title: skill }))
                     }
-                    onSelected={(_event, values) => setValue(name, values?.title)}
                     size="small"
                     error={!!error}
                     helperText={!!error && error.message}

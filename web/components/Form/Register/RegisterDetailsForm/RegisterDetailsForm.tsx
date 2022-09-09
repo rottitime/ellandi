@@ -69,7 +69,6 @@ const RegisterDetailsForm: FC<StandardRegisterProps<RegisterDetailsType>> = (pro
           <Controller
             name="job_title"
             control={methods.control}
-            defaultValue={'my-default-value2'}
             render={({ field, fieldState: { error } }) => (
               <CreatableAutocomplete
                 {...field}
