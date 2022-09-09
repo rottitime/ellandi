@@ -1,6 +1,6 @@
 import { screen, waitFor } from '@testing-library/react'
 import CreatableAutocomplete from './CreatableAutocomplete'
-import { renderWithProviders, bugfixForTimeout } from '@/lib/test-utils'
+import { renderWithProviders } from '@/lib/test-utils'
 import userEvent from '@testing-library/user-event'
 
 const mockOptions = [
