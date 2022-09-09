@@ -9,7 +9,7 @@ export interface ListType {
 
 export type Props = {
   onChange: (
-    newValue: ListType,
+    newValue: string,
     e: SyntheticEvent<Element, Event>,
     reason: AutocompleteChangeReason
   ) => void

@@ -50,6 +50,10 @@ const CreatableAutocomplete: FC<Props> = ({
         onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
         getOptionDisabled={(data: ListType) => disableOptions.includes(data?.title)}
+        onSelect={(event) =>
+          typeof onChange === 'function' &&
+          onChange((event.target as HTMLInputElement).value, event, 'selectOption')
+        }
         onChange={(event, value: OnChangeValue, reason) => {
           let title
           if (typeof value === 'string') {

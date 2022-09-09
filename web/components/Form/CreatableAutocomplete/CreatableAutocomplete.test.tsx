@@ -80,6 +80,22 @@ describe('CreatableAutocomplete', () => {
       expect(screen.getByText(mockOptions[2].title)).toBeVisible()
     })
 
+    it('sets value', async () => {
+      const mockSelected = jest.fn()
+      renderWithProviders(
+        <CreatableAutocomplete
+          label="my-label"
+          options={mockOptions}
+          onChange={(data) => mockSelected(data)}
+        />
+      )
+
+      const textfield = screen.getByLabelText('my-label')
+      await userEvent.click(textfield)
+      await userEvent.type(textfield, 'Sec')
+      expect(mockSelected).toHaveBeenLastCalledWith('Sec')
+    })
+
     it('shows matches', async () => {
       renderWithProviders(
         <CreatableAutocomplete

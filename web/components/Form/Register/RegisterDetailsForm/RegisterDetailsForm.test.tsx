@@ -80,7 +80,7 @@ describe('RegisterDetailsForm', () => {
     )
   })
 
-  it.skip('submits', async () => {
+  it('submits', async () => {
     const mockSubmit = jest.fn()
 
     renderWithProviders(
@@ -96,9 +96,6 @@ describe('RegisterDetailsForm', () => {
     await userEvent.type(screen.getByTestId('textfield_first_name'), mockData.first_name)
     await userEvent.type(screen.getByTestId('textfield_last_name'), mockData.last_name)
 
-    await userEvent.click(screen.getByLabelText('Job title'))
-
-    //TODO: fix for onblur
     await userEvent.type(screen.getByLabelText('Job title'), mockData.job_title)
 
     await userEvent.type(
@@ -113,9 +110,7 @@ describe('RegisterDetailsForm', () => {
     expect(screen.getByLabelText('Job title')).toHaveValue(mockData.job_title)
 
     await userEvent.click(button)
-    await bugfixForTimeout()
 
-    // await waitFor(async () => expect(mockSubmit).toHaveBeenCalledWith(mockData))
-    await waitFor(async () => expect(mockSubmit).toHaveBeenCalled())
+    await waitFor(async () => expect(mockSubmit).toHaveBeenCalledWith(mockData))
   })
 })
