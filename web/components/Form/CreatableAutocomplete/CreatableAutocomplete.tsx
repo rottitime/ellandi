@@ -5,7 +5,8 @@ import {
   TextField,
   Autocomplete,
   FormHelperText,
-  Paper
+  Paper,
+  CircularProgress
 } from '@mui/material'
 import { createFilterOptions } from '@mui/material/Autocomplete'
 import Icon from '@/components/Icon/Icon'
@@ -17,15 +18,13 @@ const DropDown = styled(Paper)`
   border: 1px solid ${(p) => p.theme.colors.grey1};
 `
 
-const Wrapper = styled(Box)`
-  .button-add {
-    display: flex;
-    align-items: center;
-    svg {
-      color: ${(p) => p.theme.colors.grey3};
-      font-size: 25px;
-      margin-right: ${(p) => p.theme.spacing(2)};
-    }
+const ButtonAdd = styled(Box)`
+  display: flex;
+  align-items: center;
+  svg {
+    color: ${(p) => p.theme.colors.grey3};
+    font-size: 25px;
+    margin-right: ${(p) => p.theme.spacing(2)};
   }
 `
 
@@ -42,13 +41,21 @@ const CreatableAutocomplete: FC<Props> = ({
   ...props
 }) => {
   const [value, setValue] = useState<ListType | null>(null)
+  const [open, setOpen] = useState(false)
 
   return (
-    <Wrapper className="creatable-autocomplete" {...props}>
+    <Box className="creatable-autocomplete" {...props}>
       <Autocomplete
         loading={loading}
         value={value}
         fullWidth
+        open={open}
+        onOpen={() => {
+          setOpen(true)
+        }}
+        onClose={() => {
+          //setOpen(false)
+        }}
         getOptionDisabled={({ title }) => disableOptions.includes(title)}
         onChange={(event, newValue) => {
           if (typeof newValue === 'string') {
@@ -75,10 +82,10 @@ const CreatableAutocomplete: FC<Props> = ({
               inputValue,
               title: `Add "${params.inputValue}"`,
               helper: (
-                <Box className="button-add">
+                <ButtonAdd>
                   <Icon icon="circle-plus" />
                   Add "{params.inputValue}"
-                </Box>
+                </ButtonAdd>
               )
             })
           }
@@ -105,11 +112,27 @@ const CreatableAutocomplete: FC<Props> = ({
         renderOption={(props, { helper, title }) => <li {...props}>{helper || title}</li>}
         freeSolo
         renderInput={(params) => (
-          <TextField {...params} label={label} size={size} error={error} />
+          <TextField
+            {...params}
+            label={label}
+            size={size}
+            error={error}
+            InputProps={{
+              ...params.InputProps,
+              endAdornment: (
+                <>
+                  {loading && open ? (
+                    <CircularProgress color="inherit" size={20} />
+                  ) : null}
+                  {params.InputProps.endAdornment}
+                </>
+              )
+            }}
+          />
         )}
       />
       {helperText && <FormHelperText error={error}>{helperText}</FormHelperText>}
-    </Wrapper>
+    </Box>
   )
 }
 
