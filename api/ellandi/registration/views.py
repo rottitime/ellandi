@@ -36,6 +36,7 @@ class UserSkillViewSet(viewsets.ModelViewSet):
     queryset = models.UserSkill.objects.all().order_by("user")
     serializer_class = serializers.UserSkillSerializer
     http_method_names = ["get", "post", "patch", "delete"]
+    permission_classes = (permissions.IsAdminUser,)
 
 
 @register("user-languages")
@@ -43,6 +44,7 @@ class UserLanguageViewSet(viewsets.ModelViewSet):
     queryset = models.UserLanguage.objects.all().order_by("user")
     serializer_class = serializers.UserLanguageSerializer
     http_method_names = ["get", "post", "patch", "delete"]
+    permission_classes = (permissions.IsAdminUser,)
 
 
 @register("user-skills-develop")
@@ -50,6 +52,7 @@ class UserSkillDevelopViewSet(viewsets.ModelViewSet):
     queryset = models.UserSkillDevelop.objects.all().order_by("user")
     serializer_class = serializers.UserSkillDevelopSerializer
     http_method_names = ["get", "post", "patch", "delete"]
+    permission_classes = (permissions.IsAdminUser,)
 
 
 @register("organisations")
