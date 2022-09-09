@@ -139,7 +139,6 @@ export const Default = Template.bind({})
 Default.args = {
   options,
   helperText: 'Start typing and selecting',
-  onSelectedClear: false,
   label: 'Favourite movie'
 }
 

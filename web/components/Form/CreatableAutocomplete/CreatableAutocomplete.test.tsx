@@ -1,4 +1,4 @@
-import { screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react'
+import { screen, waitFor } from '@testing-library/react'
 import CreatableAutocomplete from './CreatableAutocomplete'
 import { renderWithProviders } from '@/lib/test-utils'
 import userEvent from '@testing-library/user-event'
@@ -20,15 +20,26 @@ describe('CreatableAutocomplete', () => {
       <CreatableAutocomplete
         label="my-label"
         defaultValue="my-default-value"
-        value="my-value"
         options={mockOptions}
-        onSelected={mockSubmit}
+        onChange={mockSubmit}
       />
     )
 
     const textfield = screen.getByLabelText('my-label')
-    expect(textfield).toHaveValue('my-value')
+    expect(textfield).toHaveValue('my-default-value')
     expect(textfield).toBeInTheDocument()
+  })
+
+  it('renders with value', async () => {
+    renderWithProviders(
+      <CreatableAutocomplete
+        label="my-label"
+        value="my-value"
+        options={mockOptions}
+        onChange={jest.fn()}
+      />
+    )
+    expect(screen.getByLabelText('my-label')).toHaveValue('my-value')
   })
 
   it('loading', async () => {
@@ -38,7 +49,7 @@ describe('CreatableAutocomplete', () => {
         label="my-label"
         loading={true}
         options={[]}
-        onSelected={mockSelected}
+        onChange={mockSelected}
       />
     )
 
@@ -50,7 +61,7 @@ describe('CreatableAutocomplete', () => {
     expect(screen.getByText('Loading…')).toBeInTheDocument()
   })
 
-  describe('user types', () => {
+  describe('on typing', () => {
     it('renders full list', async () => {
       const mockSelected = jest.fn()
       renderWithProviders(
@@ -58,7 +69,7 @@ describe('CreatableAutocomplete', () => {
           label="my-label"
           loading={true}
           options={mockOptions}
-          onSelected={mockSelected}
+          onChange={mockSelected}
         />
       )
 
@@ -80,7 +91,7 @@ describe('CreatableAutocomplete', () => {
           label="my-label"
           loading={true}
           options={mockOptions}
-          onSelected={mockSelected}
+          onChange={mockSelected}
         />
       )
 
@@ -100,7 +111,7 @@ describe('CreatableAutocomplete', () => {
     })
   })
 
-  describe('user selects', () => {
+  describe('on selecting', () => {
     it('sets value', async () => {
       const mockSelected = jest.fn()
       renderWithProviders(
@@ -108,7 +119,7 @@ describe('CreatableAutocomplete', () => {
           label="my-label"
           loading={true}
           options={mockOptions}
-          onSelected={mockSelected}
+          onChange={(data) => mockSelected(data)}
         />
       )
 
@@ -125,6 +136,7 @@ describe('CreatableAutocomplete', () => {
       await userEvent.click(screen.getByText(mockOptions[1].title))
 
       expect(textfield).toHaveValue(mockOptions[1].title)
+      expect(mockSelected).toHaveBeenLastCalledWith(mockOptions[1].title)
     })
   })
 })

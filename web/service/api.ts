@@ -15,6 +15,20 @@ export const fetchGrades = async (): Promise<GenericDataList[]> => {
   throw new Error(defaultError)
 }
 
+export const fetchJobTitles = async (): Promise<GenericDataList[]> => {
+  // const res = await fetch(`${publicRuntimeConfig.apiUrl}/job-titles/`)
+  // if (res.ok) return res.json()
+  // throw new Error(defaultError)
+
+  return [
+    {
+      slug: 'string',
+      name: 'string',
+      order: 32767
+    }
+  ]
+}
+
 export const fetchProfessions = async (): Promise<GenericDataList[]> => {
   //const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/grades/`)
   const res = await fetch(`${publicRuntimeConfig.apiUrl}/professions/`)

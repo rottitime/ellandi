@@ -29,24 +29,22 @@ const ButtonAdd = styled(Box)`
 `
 
 const CreatableAutocomplete: FC<Props> = ({
-  onSelected,
   label,
   helperText,
   loading = false,
-  onSelectedClear,
   disableOptions = [],
   size = 'medium',
+  onChange,
   error,
   ...props
 }) => {
-  const [value, setValue] = useState<ListType | null>(null)
   const [open, setOpen] = useState(false)
 
   return (
     <>
       <Autocomplete
-        loading={true}
-        value={value}
+        {...props}
+        loading={loading}
         fullWidth
         open={open}
         onOpen={() => {
@@ -56,16 +54,17 @@ const CreatableAutocomplete: FC<Props> = ({
           setOpen(false)
         }}
         getOptionDisabled={(data: ListType) => disableOptions.includes(data?.title)}
-        onChange={(event, newValue: OnChangeValue) => {
-          if (typeof newValue === 'string') {
-            setValue({ title: newValue })
-            onSelected(event, { title: newValue })
-          } else if (!!newValue?.inputValue) {
-            // Create a new value from the user input
-            setValue({ title: newValue.inputValue })
-            onSelected(event, { title: newValue.inputValue })
+        onChange={(event, value: OnChangeValue, reason) => {
+          let title
+          if (typeof value === 'string') {
+            title = value
+          } else if (value?.inputValue) {
+            title = value?.inputValue
+          } else if (value?.title) {
+            title = value.title
           }
-          onSelectedClear && setValue({ title: '' })
+
+          if (typeof onChange === 'function') onChange(title, event, reason)
         }}
         filterOptions={(options: ListType[], params) => {
           const filtered = filter(options, params)
@@ -89,18 +88,13 @@ const CreatableAutocomplete: FC<Props> = ({
           return filtered
         }}
         selectOnFocus
-        clearOnBlur
         handleHomeEndKeys
         PaperComponent={DropDown}
         getOptionLabel={(option: ListType) => {
           // Value selected with enter, right from the input
-          if (typeof option === 'string') {
-            return option
-          }
+          if (typeof option === 'string') return option
           // Add "xxx" option created dynamically
-          if (!!option?.inputValue) {
-            return option.inputValue
-          }
+          if (!!option?.inputValue) return option.inputValue
           // Regular option
           return option.title
         }}
@@ -129,7 +123,6 @@ const CreatableAutocomplete: FC<Props> = ({
             }}
           />
         )}
-        {...props}
       />
       {helperText && <FormHelperText error={error}>{helperText}</FormHelperText>}
     </>

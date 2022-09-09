@@ -69,6 +69,7 @@ const RegisterDetailsForm: FC<StandardRegisterProps<RegisterDetailsType>> = (pro
           <Controller
             name="job_title"
             control={methods.control}
+            defaultValue={'my-default-value2'}
             render={({ field, fieldState: { error } }) => (
               <CreatableAutocomplete
                 {...field}
@@ -76,7 +77,6 @@ const RegisterDetailsForm: FC<StandardRegisterProps<RegisterDetailsType>> = (pro
                 label="Job title"
                 size="small"
                 options={isSuccess ? data.map(({ name: title }) => ({ title })) : []}
-                onSelected={(_event, data) => methods.setValue(field.name, data?.title)}
                 error={!!error}
                 helperText={!!error && error.message}
               />

@@ -1,5 +1,5 @@
 import { ComponentProps, ReactNode, SyntheticEvent } from 'react'
-import { Autocomplete } from '@mui/material'
+import { Autocomplete, AutocompleteChangeReason } from '@mui/material'
 
 export interface ListType {
   inputValue?: string
@@ -8,19 +8,18 @@ export interface ListType {
 }
 
 export type Props = {
-  onSelected: (e: SyntheticEvent<Element, Event>, newValue: ListType) => void
+  onChange: (
+    newValue: ListType,
+    e: SyntheticEvent<Element, Event>,
+    reason: AutocompleteChangeReason
+  ) => void
   options: ListType[]
   helperText?: string
   label: string
   loading?: ComponentProps<typeof Autocomplete>['loading']
   disableOptions?: string[]
-  onSelectedClear?: boolean
   size?: 'medium' | 'small'
   error?: boolean
 } & Omit<ComponentProps<typeof Autocomplete>, 'renderInput'>
 
-export type OnChangeValue =
-  | {
-      inputValue: string
-    }
-  | string
+export type OnChangeValue = ListType | string
