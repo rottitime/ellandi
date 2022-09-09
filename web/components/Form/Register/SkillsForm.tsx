@@ -56,24 +56,24 @@ const SkillsForm: FC<StandardRegisterProps<SkillsType>> = (props) => {
             <Controller
               name={fieldName}
               control={control}
-              render={({ fieldState: { error } }) => (
+              render={({ field, fieldState: { error } }) => (
                 <CreatableAutocomplete
+                  {...field}
                   loading={isLoading}
                   disableOptions={skills.map(({ name }) => name)}
                   label="Select a skill or enter your own skill"
                   options={isLoading ? [] : data.map((title) => ({ title }))}
-                  onSelected={async (_event, { title }) => {
+                  onChange={async (title) => {
                     const includes =
                       Array.isArray(skills) && !!skills.find(({ name }) => name === title)
 
                     setValue(
-                      fieldName,
+                      field.name,
                       includes
                         ? skills.filter(({ name }) => name !== title)
                         : [...skills, { name: title, level: null }]
                     )
                   }}
-                  onSelectedClear
                   error={!!error}
                   helperText={!!error && error.message}
                 />
