@@ -13,9 +13,9 @@ from . import exceptions, initial_data, models, serializers
 registration_router = routers.DefaultRouter()
 
 
-def register(name):
+def register(name, basename=None):
     def _inner(cls):
-        registration_router.register(name, cls)
+        registration_router.register(name, cls, basename=basename)
         return cls
 
     return _inner
@@ -31,28 +31,43 @@ class UserViewSet(viewsets.ModelViewSet):
     http_method_names = ["get", "patch"]
 
 
-@register("user-skills")
+# TODO - basename?
+@register("user-skills", basename="")
 class UserSkillViewSet(viewsets.ModelViewSet):
-    queryset = models.UserSkill.objects.all().order_by("user")
     serializer_class = serializers.UserSkillSerializer
     http_method_names = ["get", "post", "patch", "delete"]
-    permission_classes = (permissions.IsAdminUser,)
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get_queryset(self):
+        user = self.request.user
+        qs = models.UserSkill.filter(user=user)
+        return qs
 
 
-@register("user-languages")
+
+@register("user-languages", basename="")
 class UserLanguageViewSet(viewsets.ModelViewSet):
-    queryset = models.UserLanguage.objects.all().order_by("user")
     serializer_class = serializers.UserLanguageSerializer
     http_method_names = ["get", "post", "patch", "delete"]
-    permission_classes = (permissions.IsAdminUser,)
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get_queryset(self):
+        user = self.request.user
+        qs = models.UserLanguage.filter(user=user)
+        return qs
 
 
-@register("user-skills-develop")
+
+@register("user-skills-develop", basename="")
 class UserSkillDevelopViewSet(viewsets.ModelViewSet):
-    queryset = models.UserSkillDevelop.objects.all().order_by("user")
     serializer_class = serializers.UserSkillDevelopSerializer
     http_method_names = ["get", "post", "patch", "delete"]
-    permission_classes = (permissions.IsAdminUser,)
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get_queryset(self):
+        user = self.request.user
+        qs = models.UserSkillDevelop.filter(user=user)
+        return qs
 
 
 @register("organisations")
