@@ -142,6 +142,12 @@ Default.args = {
   label: 'Favourite movie'
 }
 
+export const DisabledOptions = Template.bind({})
+DisabledOptions.args = {
+  ...Default.args,
+  disableOptions: [options[1].title]
+}
+
 export const Error = Template.bind({})
 Error.args = {
   ...Default.args,
