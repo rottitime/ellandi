@@ -56,48 +56,9 @@ export const fetchSkills = async (): Promise<string[]> => {
 }
 
 export const fetchSkillLevels = async (): Promise<GenericDataList[]> => {
-  // const res = await fetch(`${publicRuntimeConfig.apiUrl}/skill-levels/`)
-  // if (res.ok) return res.json()
-  // throw new Error(defaultError)
-
-  //TODO: replace with live data
-  return [
-    {
-      slug: 'beginner',
-      name: 'Beginner',
-      description:
-        'You have minimal or textbook knowledge and need close supervision or guidance',
-      order: 0
-    },
-    {
-      slug: 'advanced-beginner',
-      name: 'Advanced beginner',
-      description:
-        'You have basic knowledge of key aspects and can do straightforward tasks using your own judgement',
-      order: 1
-    },
-    {
-      slug: 'competent',
-      name: 'Competent',
-      description:
-        'You have good working and background knowledge and can achieve most tasks using your own judgement',
-      order: 2
-    },
-    {
-      slug: 'proficient',
-      name: 'Proficient',
-      description:
-        'You have deep understanding and take full responsibility for your own work. You can deal with complex situations and make informed decisions',
-      order: 3
-    },
-    {
-      slug: 'expert',
-      name: 'Expert',
-      description:
-        'You have authoritative knowledge and achieve excellence with ease, going beyond existing standards and seeing the bigger picture',
-      order: 4
-    }
-  ]
+  const res = await fetch(`${publicRuntimeConfig.apiUrl}/skill-levels/`)
+  if (res.ok) return res.json()
+  throw new Error(defaultError)
 }
 
 export const fetchFunctions = async (): Promise<GenericDataList[]> => {
