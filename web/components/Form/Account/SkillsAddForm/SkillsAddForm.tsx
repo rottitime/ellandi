@@ -180,7 +180,10 @@ const SkillsAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
             ...levels.map(({ slug, name, description }) => ({
               children: (
                 <span id={`${id}-th-${slug}`}>
-                  {name} <Tooltip brandColor="brandSkills" title={description} />
+                  {name}{' '}
+                  {description && (
+                    <Tooltip brandColor="brandSkills" title={description} />
+                  )}
                 </span>
               )
             })),
