@@ -1,6 +1,7 @@
 export enum Query {
   Countries = 'countries',
   Grades = 'grades',
+  JobTitles = 'jobTitles',
   Professions = 'professions',
   PrimaryProfessions = 'primaryProfessions',
   Functions = 'functions',
