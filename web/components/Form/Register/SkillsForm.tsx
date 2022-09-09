@@ -61,7 +61,7 @@ const SkillsForm: FC<StandardRegisterProps<SkillsType>> = (props) => {
                   loading={isLoading}
                   disableOptions={skills.map(({ name }) => name)}
                   label="Select a skill or enter your own skill"
-                  data={isLoading ? [] : data.map((title) => ({ title }))}
+                  options={isLoading ? [] : data.map((title) => ({ title }))}
                   onSelected={async (_event, { title }) => {
                     const includes =
                       Array.isArray(skills) && !!skills.find(({ name }) => name === title)

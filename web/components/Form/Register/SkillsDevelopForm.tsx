@@ -61,7 +61,7 @@ const SkillsForm: FC<StandardRegisterProps<SkillsDevelopType>> = (props) => {
                   loading={isLoading}
                   disableOptions={watchFields.map(({ name }) => name)}
                   label="Select a skill or enter your own skill"
-                  data={isLoading ? [] : data.map((title) => ({ title }))}
+                  options={isLoading ? [] : data.map((title) => ({ title }))}
                   onSelected={async (_event, { title }) => {
                     const includes =
                       Array.isArray(watchFields) &&

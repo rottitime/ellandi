@@ -1,13 +1,20 @@
-import React, { FC } from 'react'
-import { useForm, FormProvider } from 'react-hook-form'
+import CreatableAutocomplete from '@/components/Form/CreatableAutocomplete/CreatableAutocomplete'
 import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldControlled'
+import { useForm, FormProvider, Controller } from 'react-hook-form'
+import { FC } from 'react'
 import { object, SchemaOf, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Grid } from '@mui/material'
 import { StandardRegisterProps } from '../types'
-import { RegisterDetailsType } from '@/service/api'
+import {
+  fetchJobTitles,
+  GenericDataList,
+  Query,
+  RegisterDetailsType
+} from '@/service/api'
 import { Field } from '@/components/Form/Field/Field'
 import Form from '@/components/Form/Register/FormRegister/FormRegister'
+import { useQuery } from 'react-query'
 
 const schema: SchemaOf<RegisterDetailsType> = object().shape({
   first_name: string().nullable().required('This is a required field'),
@@ -34,6 +41,14 @@ const RegisterDetailsForm: FC<StandardRegisterProps<RegisterDetailsType>> = (pro
     resolver: yupResolver(schema)
   })
 
+  const { isLoading, data, isSuccess } = useQuery<GenericDataList[], Error>(
+    Query.JobTitles,
+    fetchJobTitles,
+    {
+      staleTime: Infinity
+    }
+  )
+
   return (
     <FormProvider {...methods}>
       <Form {...props}>
@@ -51,7 +66,22 @@ const RegisterDetailsForm: FC<StandardRegisterProps<RegisterDetailsType>> = (pro
         </Grid>
 
         <Field>
-          <TextFieldControlled name="job_title" label="Job title" />
+          <Controller
+            name="job_title"
+            control={methods.control}
+            render={({ field, fieldState: { error } }) => (
+              <CreatableAutocomplete
+                {...field}
+                loading={isLoading}
+                label="Job title"
+                size="small"
+                options={isSuccess ? data.map(({ name: title }) => ({ title })) : []}
+                onSelected={(_event, data) => methods.setValue(field.name, data?.title)}
+                error={!!error}
+                helperText={!!error && error.message}
+              />
+            )}
+          />
         </Field>
 
         <Field>

@@ -100,7 +100,7 @@ const SkillsDevelopAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
                     loading={isLoadingSkills}
                     disableOptions={disableOptions}
                     label="Enter a skill"
-                    data={
+                    options={
                       isLoadingSkills ? [] : skillsList.map((skill) => ({ title: skill }))
                     }
                     onSelected={(_event, values) => setValue(name, values?.title)}

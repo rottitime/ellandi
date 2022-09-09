@@ -16,7 +16,7 @@ const Template: ComponentStory<typeof CreatableAutocomplete> = ({ ...args }) => 
   <CreatableAutocomplete {...args} />
 )
 
-const data = [
+const options = [
   { title: 'The Shawshank Redemption' },
   { title: 'The Godfather' },
   { title: 'The Godfather: Part II' },
@@ -137,7 +137,7 @@ const data = [
 
 export const Default = Template.bind({})
 Default.args = {
-  data,
+  options,
   helperText: 'Start typing and selecting',
   onSelectedClear: false,
   label: 'Favourite movie'

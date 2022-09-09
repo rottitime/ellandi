@@ -109,7 +109,7 @@ const SkillsAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
                   loading={isLoadingSkills}
                   disableOptions={disableOptions}
                   label="Enter a skill"
-                  data={(skillsList || []).map((skill) => ({ title: skill }))}
+                  options={(skillsList || []).map((skill) => ({ title: skill }))}
                   onSelected={(_event, { title }) => setValue(name, title)}
                   size="small"
                   error={!!error}

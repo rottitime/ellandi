@@ -10,9 +10,9 @@ import {
 } from '@mui/material'
 import { createFilterOptions } from '@mui/material/Autocomplete'
 import Icon from '@/components/Icon/Icon'
-import { FilmOptionType, ListType, Props } from './types'
+import { ListType, OnChangeValue, Props } from './types'
 
-const filter = createFilterOptions<FilmOptionType>()
+const filter = createFilterOptions<ListType>()
 
 const DropDown = styled(Paper)`
   border: 1px solid ${(p) => p.theme.colors.grey1};
@@ -30,7 +30,6 @@ const ButtonAdd = styled(Box)`
 
 const CreatableAutocomplete: FC<Props> = ({
   onSelected,
-  data,
   label,
   helperText,
   loading = false,
@@ -44,9 +43,9 @@ const CreatableAutocomplete: FC<Props> = ({
   const [open, setOpen] = useState(false)
 
   return (
-    <Box className="creatable-autocomplete" {...props}>
+    <>
       <Autocomplete
-        loading={loading}
+        loading={true}
         value={value}
         fullWidth
         open={open}
@@ -54,24 +53,21 @@ const CreatableAutocomplete: FC<Props> = ({
           setOpen(true)
         }}
         onClose={() => {
-          //setOpen(false)
+          setOpen(false)
         }}
-        getOptionDisabled={({ title }) => disableOptions.includes(title)}
-        onChange={(event, newValue) => {
+        getOptionDisabled={(data: ListType) => disableOptions.includes(data?.title)}
+        onChange={(event, newValue: OnChangeValue) => {
           if (typeof newValue === 'string') {
             setValue({ title: newValue })
             onSelected(event, { title: newValue })
-          } else if (newValue && newValue.inputValue) {
+          } else if (!!newValue?.inputValue) {
             // Create a new value from the user input
             setValue({ title: newValue.inputValue })
             onSelected(event, { title: newValue.inputValue })
-          } else {
-            setValue(newValue)
-            onSelected(event, newValue)
           }
           onSelectedClear && setValue({ title: '' })
         }}
-        filterOptions={(options, params) => {
+        filterOptions={(options: ListType[], params) => {
           const filtered = filter(options, params)
 
           const { inputValue } = params
@@ -96,14 +92,13 @@ const CreatableAutocomplete: FC<Props> = ({
         clearOnBlur
         handleHomeEndKeys
         PaperComponent={DropDown}
-        options={data}
-        getOptionLabel={(option) => {
+        getOptionLabel={(option: ListType) => {
           // Value selected with enter, right from the input
           if (typeof option === 'string') {
             return option
           }
           // Add "xxx" option created dynamically
-          if (option.inputValue) {
+          if (!!option?.inputValue) {
             return option.inputValue
           }
           // Regular option
@@ -122,7 +117,11 @@ const CreatableAutocomplete: FC<Props> = ({
               endAdornment: (
                 <>
                   {loading && open ? (
-                    <CircularProgress color="inherit" size={20} />
+                    <CircularProgress
+                      color="inherit"
+                      size={20}
+                      data-testid="loading-icon"
+                    />
                   ) : null}
                   {params.InputProps.endAdornment}
                 </>
@@ -130,9 +129,10 @@ const CreatableAutocomplete: FC<Props> = ({
             }}
           />
         )}
+        {...props}
       />
       {helperText && <FormHelperText error={error}>{helperText}</FormHelperText>}
-    </Box>
+    </>
   )
 }
 
