@@ -593,3 +593,27 @@ def test_is_line_manager(client, user_id):
     User.objects.filter(line_manager_email=email).delete()
     user_data = client.get("/me/").json()
     assert user_data["is_line_manager"] is False, user_data
+
+
+
+# TODO - some tests on user-skills etc. when not logged in/for a different user
+
+# TODO - test all-skills etc.
+
+
+@utils.with_logged_in_client
+def test_all_user_skills_not_admin(client, user_id):
+    response = client.get("/all-user-skills/")
+    assert response.status_code == status.HTTP_403_FORBIDDEN
+
+
+@utils.with_logged_in_client
+def test_all_user_languages_not_admin(client, user_id):
+    response = client.get("/all-user-languages/")
+    assert response.status_code == status.HTTP_403_FORBIDDEN
+
+
+@utils.with_logged_in_client
+def test_all_user_skills_develop_not_admin(client, user_id):
+    response = client.get("/all-user-skills-develop/")
+    assert response.status_code == status.HTTP_403_FORBIDDEN

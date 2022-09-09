@@ -32,7 +32,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
 
 # TODO - basename?
-@register("user-skills", basename="")
+@register("user-skills", basename="user-skills")
 class UserSkillViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.UserSkillSerializer
     http_method_names = ["get", "post", "patch", "delete"]
@@ -40,12 +40,11 @@ class UserSkillViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        qs = models.UserSkill.filter(user=user)
+        qs = models.UserSkill.objects.filter(user=user)
         return qs
 
 
-
-@register("user-languages", basename="")
+@register("user-languages", basename="user-languages")
 class UserLanguageViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.UserLanguageSerializer
     http_method_names = ["get", "post", "patch", "delete"]
@@ -53,8 +52,21 @@ class UserLanguageViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        qs = models.UserLanguage.filter(user=user)
+        qs = models.UserLanguage.objects.filter(user=user)
         return qs
+
+
+@register("user-skills-develop", basename="user-skills-develop")
+class UserSkillDevelopViewSet(viewsets.ModelViewSet):
+    serializer_class = serializers.UserSkillDevelopSerializer
+    http_method_names = ["get", "post", "patch", "delete"]
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get_queryset(self):
+        user = self.request.user
+        qs = models.UserSkillDevelop.objects.filter(user=user)
+        return qs
+
 
 
 @register("all-user-skills")
@@ -79,22 +91,6 @@ class UserSkillDevelopViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.UserSkillDevelopSerializer
     http_method_names = ["get"]
     permission_classes = (permissions.IsAdminUser,)
-
-
-
-
-
-
-@register("user-skills-develop", basename="")
-class UserSkillDevelopViewSet(viewsets.ModelViewSet):
-    serializer_class = serializers.UserSkillDevelopSerializer
-    http_method_names = ["get", "post", "patch", "delete"]
-    permission_classes = (permissions.IsAuthenticated,)
-
-    def get_queryset(self):
-        user = self.request.user
-        qs = models.UserSkillDevelop.filter(user=user)
-        return qs
 
 
 @register("organisations")
