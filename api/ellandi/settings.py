@@ -61,7 +61,7 @@ CORS_ALLOWED_ORIGINS = (HOST_URL, HOST_MAP[HOST_URL])
 # Application definition
 
 INSTALLED_APPS = [
-    'whitenoise.runserver_nostatic',
+    "whitenoise.runserver_nostatic",
     "ellandi.registration",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -79,7 +79,7 @@ MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
-    'spa.middleware.SPAMiddleware',
+    "spa.middleware.SPAMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -235,4 +235,4 @@ SPECTACULAR_SETTINGS = {
 }
 
 WHITENOISE_USE_FINDERS = False
-STATICFILES_STORAGE = 'spa.storage.SPAStaticFilesStorage'
+STATICFILES_STORAGE = "spa.storage.SPAStaticFilesStorage"

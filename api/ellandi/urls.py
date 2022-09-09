@@ -53,5 +53,4 @@ auth_urlpatterns = [
     path(r"logoutall/", auth.LogoutAllView.as_view()),
 ]
 
-urlpatterns = [    path("api/", include(api_urlpatterns + auth_urlpatterns))
-] + admin_urlpatterns + schema_urlpatterns
+urlpatterns = [path("api/", include(api_urlpatterns + auth_urlpatterns))] + admin_urlpatterns + schema_urlpatterns
