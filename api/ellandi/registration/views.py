@@ -180,7 +180,6 @@ def register_view(request):
     return Response(user_data)
 
 
-# TODO - what kind of serializer?
 @extend_schema(request=None, responses=None)
 @decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.AllowAny,))
@@ -451,7 +450,7 @@ def list_direct_reports(request, user):
     return response
 
 
-@extend_schema(request=None, responses=serializers.UserSerializer)
+@extend_schema(request=None, responses=serializers.UserSerializer(many=True))
 @decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
 def me_direct_reports_view(request):
@@ -459,7 +458,7 @@ def me_direct_reports_view(request):
     return list_direct_reports(request, user)
 
 
-@extend_schema(request=None, responses=serializers.UserSerializer)
+@extend_schema(request=None, responses=serializers.UserSerializer(many=True))
 @decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
 def user_direct_reports_view(request, user_id):
