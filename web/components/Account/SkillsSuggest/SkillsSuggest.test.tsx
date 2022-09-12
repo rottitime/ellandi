@@ -63,6 +63,6 @@ describe('SkillsSuggest', () => {
     await bugfixForTimeout()
     await waitFor(() => expect(fetch).toBeCalled())
 
-    expect(screen.getByTestId('suggestion-box')).not.toBeVisible()
+    expect(screen.getByTestId('suggestion-box')).toHaveAttribute('aria-hidden', 'true')
   })
 })

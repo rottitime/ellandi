@@ -37,7 +37,11 @@ const SkillsSuggest: FC<Props> = ({ onSelected, hideOptions, ...props }) => {
 
   return (
     <Collapse in={isSuccess}>
-      <Wrapper {...props} data-testid="suggestion-box">
+      <Wrapper
+        {...props}
+        data-testid="suggestion-box"
+        aria-hidden={!isSuccess || !list.length}
+      >
         <Typography gutterBottom>
           Skills you might have, based on your profile:
         </Typography>
