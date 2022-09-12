@@ -2,7 +2,7 @@ from nose.tools import with_setup
 from rest_framework import status
 from tests import utils
 
-from ellandi.registration.models import EmailSalt, User, UserSkill
+from ellandi.registration.models import EmailSalt, User, UserSkill, UserLanguage, UserSkillDevelop
 
 TEST_SERVER_URL = "http://testserver:8000/"
 
@@ -616,3 +616,58 @@ def test_all_user_languages_not_admin(client, user_id):
 def test_all_user_skills_develop_not_admin(client, user_id):
     response = client.get("/all-user-skills-develop/")
     assert response.status_code == status.HTTP_403_FORBIDDEN
+
+
+@utils.with_logged_in_client
+def test_all_user_skills(client, user_id):
+    user = User.objects.get(id=user_id)
+    user.is_staff = True
+    user.save()
+    another_user = User(email="anotheruser@example.com")
+    another_user.save()
+    UserSkill(user=another_user, name="Cake making").save()
+    response = client.get("/all-user-skills/")
+    assert response.status_code == status.HTTP_200_OK
+    data = response.json()
+    cake_making = [data[k] == "Cake making" for k in data]
+    assert len(cake_making) == 1, cake_making
+    another_user.delete()
+
+
+@utils.with_logged_in_client
+def test_all_user_languages(client, user_id):
+    user = User.objects.get(id=user_id)
+    user.is_staff = True
+    user.save()
+    another_user = User(email="anotheruser@example.com")
+    another_user.save()
+    UserLanguage(user=another_user, name="Dutch").save()
+    response = client.get("/all-user-languages/")
+    assert response.status_code == status.HTTP_200_OK
+    data = response.json()
+    dutch = [data[k] == "Dutch" for k in data]
+    assert len(dutch) == 1, dutch
+    another_user.delete()
+
+
+@utils.with_logged_in_client
+def test_all_user_skills_to_develop(client, user_id):
+    user = User.objects.get(id=user_id)
+    user.is_staff = True
+    user.save()
+    another_user = User(email="anotheruser@example.com")
+    another_user.save()
+    UserSkillDevelop(user=another_user, name="Cake making").save()
+    response = client.get("/all-user-skills-develop/")
+    assert response.status_code == status.HTTP_200_OK
+    data = response.json()
+    cake_making = [data[k] == "Cake making" for k in data]
+    assert len(cake_making) == 1, cake_making
+    another_user.delete()
+
+
+
+
+
+
+
