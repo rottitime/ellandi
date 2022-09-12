@@ -59,7 +59,9 @@ describe('SkillsSuggest', () => {
     fetchMock.mockResponseOnce(JSON.stringify([]), { status: 200 })
     const mockClick = jest.fn()
     renderWithProviders(<SkillsSuggest hideOptions={[]} onSelected={mockClick} />)
+
     await bugfixForTimeout()
+    await waitFor(() => expect(fetch).toBeCalled())
 
     expect(screen.getByTestId('suggestion-box')).not.toBeVisible()
   })
