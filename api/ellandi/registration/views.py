@@ -161,6 +161,13 @@ class SkillViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = (permissions.AllowAny,)
 
 
+@register("job-titles")
+class JobTitleViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.JobTitle.objects.all().order_by("slug")
+    serializer_class = serializers.JobTitleSerializer
+    permission_classes = (permissions.AllowAny,)
+
+
 @extend_schema(
     request=serializers.RegisterSerializer,
     responses=serializers.UserSerializer,

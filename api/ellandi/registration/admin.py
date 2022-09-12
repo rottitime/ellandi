@@ -4,6 +4,7 @@ from django.contrib import admin
 from .models import (
     ContractType,
     Country,
+    DropDownListModel,
     EmailSalt,
     Function,
     Grade,
@@ -17,6 +18,7 @@ from .models import (
     UserLanguage,
     UserSkill,
     UserSkillDevelop,
+    JobTitle
 )
 
 
@@ -165,6 +167,10 @@ class FunctionAdmin(DropDownListAdmin):
 
 class SkillLevelAdmin(DropDownListAdmin):
     readonly_fields = ("name", "slug", "order", "description")
+
+
+class JobTitleAdmin(DropDownListAdmin):
+    pass
 
 
 admin.site.register(User, UserAdmin)

@@ -9,6 +9,7 @@ from .models import (
     EmailSalt,
     Function,
     Grade,
+    JobTitle,
     Language,
     LanguageSkillLevel,
     Location,
@@ -88,6 +89,12 @@ class SkillLevelSerializer(serializers.ModelSerializer):
     class Meta:
         model = SkillLevel
         fields = ["slug", "name", "order", "description"]
+
+
+class JobTitleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = JobTitle
+        fields = ["slug", "name", "order"]
 
 
 class UserSkillSerializer(serializers.ModelSerializer):
