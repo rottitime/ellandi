@@ -211,7 +211,7 @@ def create_one_time_login_view(request):
     return Response(data={"one_time_token": one_time_login_token}, status=status.HTTP_200_OK)
 
 
-@extend_schema(request=serializers.UserLoginSerializer)
+@extend_schema(request=serializers.UserLoginSerializer, responses=None)
 @decorators.api_view(["POST"])
 @decorators.permission_classes((permissions.AllowAny,))
 def first_log_in_view(request):
@@ -272,7 +272,8 @@ def list_skills_langs(request, user, model_name, field_name):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@extend_schema(methods=["PATCH"], request=serializers.UserSkillSerializerNested(many=True))
+@extend_schema(methods=["PATCH"], request=serializers.UserSkillSerializerNested(many=True), responses=serializers.UserSkillSerializerNested(many=True))
+@extend_schema(methods=["GET"], responses=serializers.UserSkillSerializerNested(many=True))
 @decorators.api_view(["GET", "PATCH"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
 def me_skills_view(request):
@@ -281,7 +282,8 @@ def me_skills_view(request):
     return list_skills_langs(request, request.user, model_name=model_name, field_name=field_name)
 
 
-@extend_schema(methods=["PATCH"], request=serializers.UserLanguageSerializerNested(many=True))
+@extend_schema(methods=["PATCH"], request=serializers.UserLanguageSerializerNested(many=True), responses=serializers.UserLanguageSerializerNested(many=True))
+@extend_schema(methods=["GET"], responses=serializers.UserLanguageSerializerNested(many=True))
 @decorators.api_view(["GET", "PATCH"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
 def me_languages_view(request):
@@ -290,7 +292,8 @@ def me_languages_view(request):
     return list_skills_langs(request, request.user, model_name=model_name, field_name=field_name)
 
 
-@extend_schema(methods=["PATCH"], request=serializers.UserSkillDevelopSerializerNested(many=True))
+@extend_schema(methods=["PATCH"], request=serializers.UserSkillDevelopSerializerNested(many=True), responses=serializers.UserSkillDevelopSerializerNested(many=True))
+@extend_schema(methods=["GET"], responses=serializers.UserSkillDevelopSerializerNested(many=True))
 @decorators.api_view(["GET", "PATCH"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
 def me_skills_develop_view(request):
@@ -299,7 +302,8 @@ def me_skills_develop_view(request):
     return list_skills_langs(request, request.user, model_name=model_name, field_name=field_name)
 
 
-@extend_schema(methods=["PATCH"], request=serializers.UserSkillSerializerNested(many=True))
+@extend_schema(methods=["PATCH"], request=serializers.UserSkillSerializerNested(many=True), responses=serializers.UserSkillSerializerNested(many=True))
+@extend_schema(methods=["GET"], responses=serializers.UserSkillSerializerNested(many=True))
 @decorators.api_view(["GET", "PATCH"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
 def user_skills_view(request, user_id):
@@ -312,7 +316,8 @@ def user_skills_view(request, user_id):
     return list_skills_langs(request, user, model_name=model_name, field_name=field_name)
 
 
-@extend_schema(methods=["PATCH"], request=serializers.UserLanguageSerializerNested(many=True))
+@extend_schema(methods=["PATCH"], request=serializers.UserLanguageSerializerNested(many=True), responses=serializers.UserLanguageSerializerNested(many=True))
+@extend_schema(methods=["GET"], responses=serializers.UserLanguageSerializerNested(many=True))
 @decorators.api_view(["GET", "PATCH"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
 def user_languages_view(request, user_id):
@@ -325,7 +330,8 @@ def user_languages_view(request, user_id):
     return list_skills_langs(request, user, model_name=model_name, field_name=field_name)
 
 
-@extend_schema(methods=["PATCH"], request=serializers.UserSkillDevelopSerializerNested(many=True))
+@extend_schema(methods=["PATCH"], request=serializers.UserSkillDevelopSerializerNested(many=True), responses=serializers.UserSkillDevelopSerializerNested(many=True))
+@extend_schema(methods=["GET"], responses=serializers.UserSkillDevelopSerializerNested(many=True))
 @decorators.api_view(["GET", "PATCH"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
 def user_skills_develop_view(request, user_id):
@@ -352,6 +358,7 @@ def skill_lang_delete(user, id, model_name):
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
+@extend_schema(methods=["DELETE"], responses=None)
 @decorators.api_view(["DELETE"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
 def me_skill_delete_view(request, skill_id):
@@ -359,6 +366,7 @@ def me_skill_delete_view(request, skill_id):
     return skill_lang_delete(user=request.user, id=skill_id, model_name=model_name)
 
 
+@extend_schema(methods=["DELETE"], responses=None)
 @decorators.api_view(["DELETE"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
 def me_language_delete_view(request, language_id):
@@ -366,6 +374,7 @@ def me_language_delete_view(request, language_id):
     return skill_lang_delete(user=request.user, id=language_id, model_name=model_name)
 
 
+@extend_schema(methods=["DELETE"], responses=None)
 @decorators.api_view(["DELETE"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
 def me_skill_develop_delete_view(request, skill_develop_id):
@@ -373,6 +382,7 @@ def me_skill_develop_delete_view(request, skill_develop_id):
     return skill_lang_delete(user=request.user, id=skill_develop_id, model_name=model_name)
 
 
+@extend_schema(methods=["DELETE"], responses=None)
 @decorators.api_view(["DELETE"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
 def users_skill_delete_view(request, user_id, skill_id):
@@ -430,6 +440,7 @@ def user_direct_reports_view(request, user_id):
     return list_direct_reports(request, user)
 
 
+@extend_schema(request=None, responses=None)
 @decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.IsAdminUser,))
 def create_error(request):
