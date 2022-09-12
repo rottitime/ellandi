@@ -26,7 +26,8 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      IMAGE_TAG: ${{ github.ref_name }}
+      # IMAGE_TAG: ${{ github.ref_name }}
+      IMAGE_TAG: test
       DOCKER_REPOSITORY: ghcr.io
       NODE_ENV: development
 
