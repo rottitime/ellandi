@@ -72,7 +72,8 @@ const SkillsAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
     control,
     handleSubmit,
     setValue,
-    formState: { errors }
+    formState: { errors },
+    getValues
   } = methods
 
   const { fields, append, remove } = useFieldArray<SkillsType, 'skills', 'name'>({
@@ -175,8 +176,11 @@ const SkillsAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
       <SkillsSuggest
         sx={{ mb: 4 }}
         hideOptions={disableOptions}
-        onSelected={(value) => {
-          console.log({ value })
+        onSelected={(name) => {
+          const firstRow = getValues('skills.0')
+          return !firstRow.name && !firstRow.level
+            ? setValue('skills.0.name', name)
+            : append({ name, level: '' })
         }}
       />
       <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
