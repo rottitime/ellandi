@@ -28,6 +28,7 @@ jobs:
     env:
       IMAGE_TAG: ${{ github.ref_name }}
       DOCKER_REPOSITORY: ghcr.io
+      NODE_ENV: development
 
     steps:
       - uses: actions/checkout@v3
