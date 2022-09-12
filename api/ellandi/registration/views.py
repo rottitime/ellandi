@@ -1,3 +1,4 @@
+from crypt import methods
 import os
 
 from django.conf import settings
@@ -31,7 +32,6 @@ class UserViewSet(viewsets.ModelViewSet):
     http_method_names = ["get", "patch"]
 
 
-# TODO - basename?
 @register("user-skills", basename="user-skills")
 class UserSkillViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.UserSkillSerializer
@@ -181,6 +181,7 @@ def register_view(request):
     return Response(user_data)
 
 
+# TODO - what kind of serializer?
 @decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.AllowAny,))
 def skills_list_view(request):
@@ -358,7 +359,7 @@ def skill_lang_delete(user, id, model_name):
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-@extend_schema(methods=["DELETE"], responses=None)
+@extend_schema(methods=["DELETE"], request=None, responses=None)
 @decorators.api_view(["DELETE"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
 def me_skill_delete_view(request, skill_id):
@@ -366,7 +367,7 @@ def me_skill_delete_view(request, skill_id):
     return skill_lang_delete(user=request.user, id=skill_id, model_name=model_name)
 
 
-@extend_schema(methods=["DELETE"], responses=None)
+@extend_schema(methods=["DELETE"], request=None, responses=None)
 @decorators.api_view(["DELETE"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
 def me_language_delete_view(request, language_id):
@@ -374,7 +375,7 @@ def me_language_delete_view(request, language_id):
     return skill_lang_delete(user=request.user, id=language_id, model_name=model_name)
 
 
-@extend_schema(methods=["DELETE"], responses=None)
+@extend_schema(methods=["DELETE"], request=None, responses=None)
 @decorators.api_view(["DELETE"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
 def me_skill_develop_delete_view(request, skill_develop_id):
@@ -382,7 +383,7 @@ def me_skill_develop_delete_view(request, skill_develop_id):
     return skill_lang_delete(user=request.user, id=skill_develop_id, model_name=model_name)
 
 
-@extend_schema(methods=["DELETE"], responses=None)
+@extend_schema(methods=["DELETE"], request=None, responses=None)
 @decorators.api_view(["DELETE"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
 def users_skill_delete_view(request, user_id, skill_id):
@@ -394,6 +395,7 @@ def users_skill_delete_view(request, user_id, skill_id):
     return skill_lang_delete(user=user, id=skill_id, model_name=model_name)
 
 
+@extend_schema(methods=["DELETE"], request=None, responses=None)
 @decorators.api_view(["DELETE"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
 def users_language_delete_view(request, user_id, language_id):
@@ -405,6 +407,7 @@ def users_language_delete_view(request, user_id, language_id):
     return skill_lang_delete(user=user, id=language_id, model_name=model_name)
 
 
+@extend_schema(methods=["DELETE"], request=None, responses=None)
 @decorators.api_view(["DELETE"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
 def users_skill_develop_delete_view(request, user_id, skill_develop_id):
@@ -424,7 +427,7 @@ def list_direct_reports(request, user):
     return response
 
 
-@extend_schema(responses=serializers.UserSerializer)
+@extend_schema(request=None, responses=serializers.UserSerializer)
 @decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
 def me_direct_reports_view(request):
@@ -432,7 +435,7 @@ def me_direct_reports_view(request):
     return list_direct_reports(request, user)
 
 
-@extend_schema(responses=serializers.UserSerializer)
+@extend_schema(request=None, responses=serializers.UserSerializer)
 @decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
 def user_direct_reports_view(request, user_id):
