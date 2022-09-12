@@ -1,4 +1,5 @@
 import functools
+from ellandi.registration.models import UserLanguage, UserSkill, UserSkillDevelop
 
 import httpx
 
@@ -12,6 +13,16 @@ user_data = dict(
     organisation="DfE",
     password="P455w0rd",
 )
+
+another_user_data = dict(
+    email="anotheruser@example.com",
+    password="P455w0rd",
+)
+
+def add_user_skills_etc(user):
+    UserSkill(user=user, name="Cake making").save()
+    UserLanguage(user=user, name="Dutch").save()
+    UserSkillDevelop(user=user, name="Biscuit making").save()
 
 
 def with_client(func):
@@ -27,6 +38,8 @@ def with_logged_in_client(func):
     @functools.wraps(func)
     def _inner(*args, **kwargs):
         user = User.objects.create_user(**user_data)
+        another_user = User.objects.create_user(**another_user_data)
+        add_user_skills_etc(another_user)
 
         with httpx.Client(app=wsgi.application, base_url="http://testserver:8000") as client:
             response = client.post("/login/", json={"email": user_data["email"], "password": user_data["password"]})
@@ -40,5 +53,6 @@ def with_logged_in_client(func):
                 return func(client, str(user.id), *args, **kwargs)
             finally:
                 User.objects.filter(id=user.id).delete()
+                User.objects.filter(id=another_user.id).delete()
 
     return _inner

@@ -595,9 +595,28 @@ def test_is_line_manager(client, user_id):
     assert user_data["is_line_manager"] is False, user_data
 
 
-# TODO - some tests on user-skills etc. when not logged in/for a different user
+@utils.with_logged_in_client
+def test_user_skills_other_user(client, user_id):
+    response = client.get("/user-skills/")
+    data = response.json()
+    different_users_skill = [data[k] for k in data if data[k] == "Cake making"]
+    assert len(different_users_skill) == 0, "Should only see skills for logged in user"
 
-# TODO - test all-skills etc.
+
+@utils.with_logged_in_client
+def test_user_languages_other_user(client, user_id):
+    response = client.get("/user-languages/")
+    data = response.json()
+    different_users_skill = [data[k] for k in data if data[k] == "Dutch"]
+    assert len(different_users_skill) == 0, "Should only see languages for logged in user"
+
+
+@utils.with_logged_in_client
+def test_user_skills_other_user(client, user_id):
+    response = client.get("/user-skills-develop/")
+    data = response.json()
+    different_users_skill = [data[k] for k in data if data[k] == "Biscuit making"]
+    assert len(different_users_skill) == 0, "Should only see skills for logged in user"
 
 
 @utils.with_logged_in_client
@@ -623,15 +642,11 @@ def test_all_user_skills(client, user_id):
     user = User.objects.get(id=user_id)
     user.is_staff = True
     user.save()
-    another_user = User(email="anotheruser@example.com")
-    another_user.save()
-    UserSkill(user=another_user, name="Cake making").save()
     response = client.get("/all-user-skills/")
     assert response.status_code == status.HTTP_200_OK
     data = response.json()
-    cake_making = [data[k] == "Cake making" for k in data]
+    cake_making = [data[k] for k in data if data[k] == "Cake making"]
     assert len(cake_making) == 1, cake_making
-    another_user.delete()
 
 
 @utils.with_logged_in_client
@@ -639,15 +654,11 @@ def test_all_user_languages(client, user_id):
     user = User.objects.get(id=user_id)
     user.is_staff = True
     user.save()
-    another_user = User(email="anotheruser@example.com")
-    another_user.save()
-    UserLanguage(user=another_user, name="Dutch").save()
     response = client.get("/all-user-languages/")
     assert response.status_code == status.HTTP_200_OK
     data = response.json()
-    dutch = [data[k] == "Dutch" for k in data]
-    assert len(dutch) == 1, dutch
-    another_user.delete()
+    dutch = [data[k] for k in data if data[k] == "Dutch"]
+    assert len(dutch) == 1, "Expected languages for another user"
 
 
 @utils.with_logged_in_client
@@ -655,19 +666,22 @@ def test_all_user_skills_to_develop(client, user_id):
     user = User.objects.get(id=user_id)
     user.is_staff = True
     user.save()
-    another_user = User(email="anotheruser@example.com")
-    another_user.save()
-    UserSkillDevelop(user=another_user, name="Cake making").save()
     response = client.get("/all-user-skills-develop/")
     assert response.status_code == status.HTTP_200_OK
     data = response.json()
-    cake_making = [data[k] == "Cake making" for k in data]
-    assert len(cake_making) == 1, cake_making
-    another_user.delete()
+    biscuit_making = [data[k]  for k in data if data[k] == "Biscuit making"]
+    assert len(biscuit_making) == 1, "Expected skills to develop for another user"
 
 
-
-
-
-
-
+@utils.with_client
+def check_endpoints_require_login(client):
+    endpoints = [
+        "/create-error/",
+        "/me/",
+        "/user-languages/",
+        "/user-skills/",
+        "/user-skills-develop/"
+    ]
+    for endpoint in endpoints:
+        response = client.get(endpoint)
+        assert response.status_code == status.HTTP_401_UNAUTHORIZED, response.status_code
