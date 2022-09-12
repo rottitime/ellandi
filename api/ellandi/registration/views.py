@@ -1,5 +1,4 @@
 import os
-from crypt import methods
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -69,7 +68,7 @@ class UserSkillDevelopViewSet(viewsets.ModelViewSet):
 
 
 @register("all-user-skills")
-class UserSkillViewSet(viewsets.ModelViewSet):
+class AllUserSkillViewSet(viewsets.ModelViewSet):
     queryset = models.UserSkill.objects.all().order_by("user")
     serializer_class = serializers.UserSkillSerializer
     http_method_names = ["get"]
@@ -77,7 +76,7 @@ class UserSkillViewSet(viewsets.ModelViewSet):
 
 
 @register("all-user-languages")
-class UserLanguageViewSet(viewsets.ModelViewSet):
+class AllUserLanguageViewSet(viewsets.ModelViewSet):
     queryset = models.UserLanguage.objects.all().order_by("user")
     serializer_class = serializers.UserLanguageSerializer
     http_method_names = ["get"]
@@ -85,7 +84,7 @@ class UserLanguageViewSet(viewsets.ModelViewSet):
 
 
 @register("all-user-skills-develop")
-class UserSkillDevelopViewSet(viewsets.ModelViewSet):
+class AllUserSkillDevelopViewSet(viewsets.ModelViewSet):
     queryset = models.UserSkillDevelop.objects.all().order_by("user")
     serializer_class = serializers.UserSkillDevelopSerializer
     http_method_names = ["get"]
