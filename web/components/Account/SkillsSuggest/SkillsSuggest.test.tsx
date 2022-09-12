@@ -1,4 +1,4 @@
-import { screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react'
+import { screen, waitFor } from '@testing-library/react'
 import SkillsSuggest from './SkillsSuggest'
 import fetchMock from 'jest-fetch-mock'
 import { bugfixForTimeout, renderWithProviders } from '@/lib/test-utils'
