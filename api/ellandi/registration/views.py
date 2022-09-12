@@ -13,9 +13,9 @@ from . import exceptions, initial_data, models, serializers
 registration_router = routers.DefaultRouter()
 
 
-def register(name):
+def register(name, basename=None):
     def _inner(cls):
-        registration_router.register(name, cls)
+        registration_router.register(name, cls, basename=basename)
         return cls
 
     return _inner
@@ -31,25 +31,64 @@ class UserViewSet(viewsets.ModelViewSet):
     http_method_names = ["get", "patch"]
 
 
-@register("user-skills")
+@register("user-skills", basename="user-skills")
 class UserSkillViewSet(viewsets.ModelViewSet):
-    queryset = models.UserSkill.objects.all().order_by("user")
     serializer_class = serializers.UserSkillSerializer
     http_method_names = ["get", "post", "patch", "delete"]
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get_queryset(self):
+        user = self.request.user
+        qs = models.UserSkill.objects.filter(user=user)
+        return qs
 
 
-@register("user-languages")
+@register("user-languages", basename="user-languages")
 class UserLanguageViewSet(viewsets.ModelViewSet):
-    queryset = models.UserLanguage.objects.all().order_by("user")
     serializer_class = serializers.UserLanguageSerializer
     http_method_names = ["get", "post", "patch", "delete"]
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get_queryset(self):
+        user = self.request.user
+        qs = models.UserLanguage.objects.filter(user=user)
+        return qs
 
 
-@register("user-skills-develop")
+@register("user-skills-develop", basename="user-skills-develop")
 class UserSkillDevelopViewSet(viewsets.ModelViewSet):
-    queryset = models.UserSkillDevelop.objects.all().order_by("user")
     serializer_class = serializers.UserSkillDevelopSerializer
     http_method_names = ["get", "post", "patch", "delete"]
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get_queryset(self):
+        user = self.request.user
+        qs = models.UserSkillDevelop.objects.filter(user=user)
+        return qs
+
+
+@register("all-user-skills")
+class AllUserSkillViewSet(viewsets.ModelViewSet):
+    queryset = models.UserSkill.objects.all().order_by("user")
+    serializer_class = serializers.UserSkillSerializer
+    http_method_names = ["get"]
+    permission_classes = (permissions.IsAdminUser,)
+
+
+@register("all-user-languages")
+class AllUserLanguageViewSet(viewsets.ModelViewSet):
+    queryset = models.UserLanguage.objects.all().order_by("user")
+    serializer_class = serializers.UserLanguageSerializer
+    http_method_names = ["get"]
+    permission_classes = (permissions.IsAdminUser,)
+
+
+@register("all-user-skills-develop")
+class AllUserSkillDevelopViewSet(viewsets.ModelViewSet):
+    queryset = models.UserSkillDevelop.objects.all().order_by("user")
+    serializer_class = serializers.UserSkillDevelopSerializer
+    http_method_names = ["get"]
+    permission_classes = (permissions.IsAdminUser,)
 
 
 @register("organisations")
@@ -141,6 +180,7 @@ def register_view(request):
     return Response(user_data)
 
 
+@extend_schema(request=None, responses=None)
 @decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.AllowAny,))
 def skills_list_view(request):
@@ -171,7 +211,7 @@ def create_one_time_login_view(request):
     return Response(data={"one_time_token": one_time_login_token}, status=status.HTTP_200_OK)
 
 
-@extend_schema(request=serializers.UserLoginSerializer)
+@extend_schema(request=serializers.UserLoginSerializer, responses=None)
 @decorators.api_view(["POST"])
 @decorators.permission_classes((permissions.AllowAny,))
 def first_log_in_view(request):
@@ -232,7 +272,12 @@ def list_skills_langs(request, user, model_name, field_name):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@extend_schema(methods=["PATCH"], request=serializers.UserSkillSerializerNested(many=True))
+@extend_schema(
+    methods=["PATCH"],
+    request=serializers.UserSkillSerializerNested(many=True),
+    responses=serializers.UserSkillSerializerNested(many=True),
+)
+@extend_schema(methods=["GET"], responses=serializers.UserSkillSerializerNested(many=True))
 @decorators.api_view(["GET", "PATCH"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
 def me_skills_view(request):
@@ -241,7 +286,12 @@ def me_skills_view(request):
     return list_skills_langs(request, request.user, model_name=model_name, field_name=field_name)
 
 
-@extend_schema(methods=["PATCH"], request=serializers.UserLanguageSerializerNested(many=True))
+@extend_schema(
+    methods=["PATCH"],
+    request=serializers.UserLanguageSerializerNested(many=True),
+    responses=serializers.UserLanguageSerializerNested(many=True),
+)
+@extend_schema(methods=["GET"], responses=serializers.UserLanguageSerializerNested(many=True))
 @decorators.api_view(["GET", "PATCH"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
 def me_languages_view(request):
@@ -250,7 +300,12 @@ def me_languages_view(request):
     return list_skills_langs(request, request.user, model_name=model_name, field_name=field_name)
 
 
-@extend_schema(methods=["PATCH"], request=serializers.UserSkillDevelopSerializerNested(many=True))
+@extend_schema(
+    methods=["PATCH"],
+    request=serializers.UserSkillDevelopSerializerNested(many=True),
+    responses=serializers.UserSkillDevelopSerializerNested(many=True),
+)
+@extend_schema(methods=["GET"], responses=serializers.UserSkillDevelopSerializerNested(many=True))
 @decorators.api_view(["GET", "PATCH"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
 def me_skills_develop_view(request):
@@ -259,7 +314,12 @@ def me_skills_develop_view(request):
     return list_skills_langs(request, request.user, model_name=model_name, field_name=field_name)
 
 
-@extend_schema(methods=["PATCH"], request=serializers.UserSkillSerializerNested(many=True))
+@extend_schema(
+    methods=["PATCH"],
+    request=serializers.UserSkillSerializerNested(many=True),
+    responses=serializers.UserSkillSerializerNested(many=True),
+)
+@extend_schema(methods=["GET"], responses=serializers.UserSkillSerializerNested(many=True))
 @decorators.api_view(["GET", "PATCH"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
 def user_skills_view(request, user_id):
@@ -272,7 +332,12 @@ def user_skills_view(request, user_id):
     return list_skills_langs(request, user, model_name=model_name, field_name=field_name)
 
 
-@extend_schema(methods=["PATCH"], request=serializers.UserLanguageSerializerNested(many=True))
+@extend_schema(
+    methods=["PATCH"],
+    request=serializers.UserLanguageSerializerNested(many=True),
+    responses=serializers.UserLanguageSerializerNested(many=True),
+)
+@extend_schema(methods=["GET"], responses=serializers.UserLanguageSerializerNested(many=True))
 @decorators.api_view(["GET", "PATCH"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
 def user_languages_view(request, user_id):
@@ -285,7 +350,12 @@ def user_languages_view(request, user_id):
     return list_skills_langs(request, user, model_name=model_name, field_name=field_name)
 
 
-@extend_schema(methods=["PATCH"], request=serializers.UserSkillDevelopSerializerNested(many=True))
+@extend_schema(
+    methods=["PATCH"],
+    request=serializers.UserSkillDevelopSerializerNested(many=True),
+    responses=serializers.UserSkillDevelopSerializerNested(many=True),
+)
+@extend_schema(methods=["GET"], responses=serializers.UserSkillDevelopSerializerNested(many=True))
 @decorators.api_view(["GET", "PATCH"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
 def user_skills_develop_view(request, user_id):
@@ -312,6 +382,7 @@ def skill_lang_delete(user, id, model_name):
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
+@extend_schema(methods=["DELETE"], request=None, responses=None)
 @decorators.api_view(["DELETE"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
 def me_skill_delete_view(request, skill_id):
@@ -319,6 +390,7 @@ def me_skill_delete_view(request, skill_id):
     return skill_lang_delete(user=request.user, id=skill_id, model_name=model_name)
 
 
+@extend_schema(methods=["DELETE"], request=None, responses=None)
 @decorators.api_view(["DELETE"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
 def me_language_delete_view(request, language_id):
@@ -326,6 +398,7 @@ def me_language_delete_view(request, language_id):
     return skill_lang_delete(user=request.user, id=language_id, model_name=model_name)
 
 
+@extend_schema(methods=["DELETE"], request=None, responses=None)
 @decorators.api_view(["DELETE"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
 def me_skill_develop_delete_view(request, skill_develop_id):
@@ -333,6 +406,7 @@ def me_skill_develop_delete_view(request, skill_develop_id):
     return skill_lang_delete(user=request.user, id=skill_develop_id, model_name=model_name)
 
 
+@extend_schema(methods=["DELETE"], request=None, responses=None)
 @decorators.api_view(["DELETE"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
 def users_skill_delete_view(request, user_id, skill_id):
@@ -344,6 +418,7 @@ def users_skill_delete_view(request, user_id, skill_id):
     return skill_lang_delete(user=user, id=skill_id, model_name=model_name)
 
 
+@extend_schema(methods=["DELETE"], request=None, responses=None)
 @decorators.api_view(["DELETE"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
 def users_language_delete_view(request, user_id, language_id):
@@ -355,6 +430,7 @@ def users_language_delete_view(request, user_id, language_id):
     return skill_lang_delete(user=user, id=language_id, model_name=model_name)
 
 
+@extend_schema(methods=["DELETE"], request=None, responses=None)
 @decorators.api_view(["DELETE"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
 def users_skill_develop_delete_view(request, user_id, skill_develop_id):
@@ -374,6 +450,7 @@ def list_direct_reports(request, user):
     return response
 
 
+@extend_schema(request=None, responses=serializers.UserSerializer(many=True))
 @decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
 def me_direct_reports_view(request):
@@ -381,6 +458,7 @@ def me_direct_reports_view(request):
     return list_direct_reports(request, user)
 
 
+@extend_schema(request=None, responses=serializers.UserSerializer(many=True))
 @decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
 def user_direct_reports_view(request, user_id):
@@ -388,6 +466,7 @@ def user_direct_reports_view(request, user_id):
     return list_direct_reports(request, user)
 
 
+@extend_schema(request=None, responses=None)
 @decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.IsAdminUser,))
 def create_error(request):
