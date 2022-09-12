@@ -14,6 +14,9 @@ on:
       - .github/workflows/storybook.yml
       - 'docker/storybook/Dockerfile'
       - 'manifests/*/ellandi-storybook_manifest.yml'
+      - 'web/.storybook/**'
+      - 'web/*.stories.tsx'
+      - 'web/*.tsx'
 
 permissions:
   packages: write
