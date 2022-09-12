@@ -645,7 +645,7 @@ def test_all_user_skills(client, user_id):
     response = client.get("/all-user-skills/")
     assert response.status_code == status.HTTP_200_OK
     data = response.json()
-    cake_making = [data[k] for k in data if data[k] == "Cake making"]
+    cake_making = [skill["name"] for skill in data if skill["name"] == "Cake making" ]
     assert len(cake_making) == 1, cake_making
 
 
@@ -657,7 +657,7 @@ def test_all_user_languages(client, user_id):
     response = client.get("/all-user-languages/")
     assert response.status_code == status.HTTP_200_OK
     data = response.json()
-    dutch = [data[k] for k in data if data[k] == "Dutch"]
+    dutch = [lang["name"] for lang in data if lang["name"] == "Dutch"]
     assert len(dutch) == 1, "Expected languages for another user"
 
 
@@ -669,7 +669,7 @@ def test_all_user_skills_to_develop(client, user_id):
     response = client.get("/all-user-skills-develop/")
     assert response.status_code == status.HTTP_200_OK
     data = response.json()
-    biscuit_making = [data[k]  for k in data if data[k] == "Biscuit making"]
+    biscuit_making = [lang["name"] for lang in data if lang["name"] == "Biscuit making"]
     assert len(biscuit_making) == 1, "Expected skills to develop for another user"
 
 
