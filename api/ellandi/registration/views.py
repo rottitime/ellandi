@@ -1,5 +1,5 @@
-from crypt import methods
 import os
+from crypt import methods
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -273,7 +273,11 @@ def list_skills_langs(request, user, model_name, field_name):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@extend_schema(methods=["PATCH"], request=serializers.UserSkillSerializerNested(many=True), responses=serializers.UserSkillSerializerNested(many=True))
+@extend_schema(
+    methods=["PATCH"],
+    request=serializers.UserSkillSerializerNested(many=True),
+    responses=serializers.UserSkillSerializerNested(many=True),
+)
 @extend_schema(methods=["GET"], responses=serializers.UserSkillSerializerNested(many=True))
 @decorators.api_view(["GET", "PATCH"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
@@ -283,7 +287,11 @@ def me_skills_view(request):
     return list_skills_langs(request, request.user, model_name=model_name, field_name=field_name)
 
 
-@extend_schema(methods=["PATCH"], request=serializers.UserLanguageSerializerNested(many=True), responses=serializers.UserLanguageSerializerNested(many=True))
+@extend_schema(
+    methods=["PATCH"],
+    request=serializers.UserLanguageSerializerNested(many=True),
+    responses=serializers.UserLanguageSerializerNested(many=True),
+)
 @extend_schema(methods=["GET"], responses=serializers.UserLanguageSerializerNested(many=True))
 @decorators.api_view(["GET", "PATCH"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
@@ -293,7 +301,11 @@ def me_languages_view(request):
     return list_skills_langs(request, request.user, model_name=model_name, field_name=field_name)
 
 
-@extend_schema(methods=["PATCH"], request=serializers.UserSkillDevelopSerializerNested(many=True), responses=serializers.UserSkillDevelopSerializerNested(many=True))
+@extend_schema(
+    methods=["PATCH"],
+    request=serializers.UserSkillDevelopSerializerNested(many=True),
+    responses=serializers.UserSkillDevelopSerializerNested(many=True),
+)
 @extend_schema(methods=["GET"], responses=serializers.UserSkillDevelopSerializerNested(many=True))
 @decorators.api_view(["GET", "PATCH"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
@@ -303,7 +315,11 @@ def me_skills_develop_view(request):
     return list_skills_langs(request, request.user, model_name=model_name, field_name=field_name)
 
 
-@extend_schema(methods=["PATCH"], request=serializers.UserSkillSerializerNested(many=True), responses=serializers.UserSkillSerializerNested(many=True))
+@extend_schema(
+    methods=["PATCH"],
+    request=serializers.UserSkillSerializerNested(many=True),
+    responses=serializers.UserSkillSerializerNested(many=True),
+)
 @extend_schema(methods=["GET"], responses=serializers.UserSkillSerializerNested(many=True))
 @decorators.api_view(["GET", "PATCH"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
@@ -317,7 +333,11 @@ def user_skills_view(request, user_id):
     return list_skills_langs(request, user, model_name=model_name, field_name=field_name)
 
 
-@extend_schema(methods=["PATCH"], request=serializers.UserLanguageSerializerNested(many=True), responses=serializers.UserLanguageSerializerNested(many=True))
+@extend_schema(
+    methods=["PATCH"],
+    request=serializers.UserLanguageSerializerNested(many=True),
+    responses=serializers.UserLanguageSerializerNested(many=True),
+)
 @extend_schema(methods=["GET"], responses=serializers.UserLanguageSerializerNested(many=True))
 @decorators.api_view(["GET", "PATCH"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
@@ -331,7 +351,11 @@ def user_languages_view(request, user_id):
     return list_skills_langs(request, user, model_name=model_name, field_name=field_name)
 
 
-@extend_schema(methods=["PATCH"], request=serializers.UserSkillDevelopSerializerNested(many=True), responses=serializers.UserSkillDevelopSerializerNested(many=True))
+@extend_schema(
+    methods=["PATCH"],
+    request=serializers.UserSkillDevelopSerializerNested(many=True),
+    responses=serializers.UserSkillDevelopSerializerNested(many=True),
+)
 @extend_schema(methods=["GET"], responses=serializers.UserSkillDevelopSerializerNested(many=True))
 @decorators.api_view(["GET", "PATCH"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
