@@ -11,6 +11,12 @@ on:
       - temp
       - demo
 
+permissions:
+  packages: write
+  repository-projects: read
+  id-token: write
+  contents: read
+
 jobs:
   push_images:
     runs-on: ubuntu-latest
