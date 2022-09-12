@@ -1,7 +1,5 @@
 import os
 
-import rest_framework
-
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from drf_spectacular.utils import extend_schema
