@@ -85,8 +85,7 @@ class SkillLevel(DropDownListModel):
 
 
 class JobTitle(DropDownListModel):
-    class Meta:
-        ordering = ("slug",)
+    pass
 
 
 class UserManager(BaseUserManager):

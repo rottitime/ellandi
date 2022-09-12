@@ -1,0 +1,306 @@
+[
+{
+  "model": "registration.jobtitle",
+  "pk": "application-operations-engineer",
+  "fields": {
+    "name": "Application operations engineer",
+    "order": null
+  }
+},
+{
+  "model": "registration.jobtitle",
+  "pk": "business-analyst",
+  "fields": {
+    "name": "Business analyst",
+    "order": null
+  }
+},
+{
+  "model": "registration.jobtitle",
+  "pk": "business-relationship-manager",
+  "fields": {
+    "name": "Business relationship manager",
+    "order": null
+  }
+},
+{
+  "model": "registration.jobtitle",
+  "pk": "change-and-release-manager",
+  "fields": {
+    "name": "Change and release manager",
+    "order": null
+  }
+},
+{
+  "model": "registration.jobtitle",
+  "pk": "command-and-control-centre-manager",
+  "fields": {
+    "name": "Command and control centre manager",
+    "order": null
+  }
+},
+{
+  "model": "registration.jobtitle",
+  "pk": "content-designer",
+  "fields": {
+    "name": "Content designer",
+    "order": null
+  }
+},
+{
+  "model": "registration.jobtitle",
+  "pk": "content-strategist",
+  "fields": {
+    "name": "Content strategist",
+    "order": null
+  }
+},
+{
+  "model": "registration.jobtitle",
+  "pk": "data-analyst",
+  "fields": {
+    "name": "Data analyst",
+    "order": null
+  }
+},
+{
+  "model": "registration.jobtitle",
+  "pk": "data-architect",
+  "fields": {
+    "name": "Data architect",
+    "order": null
+  }
+},
+{
+  "model": "registration.jobtitle",
+  "pk": "data-engineer",
+  "fields": {
+    "name": "Data engineer",
+    "order": null
+  }
+},
+{
+  "model": "registration.jobtitle",
+  "pk": "data-scientist",
+  "fields": {
+    "name": "Data scientist",
+    "order": null
+  }
+},
+{
+  "model": "registration.jobtitle",
+  "pk": "delivery-manager",
+  "fields": {
+    "name": "Delivery manager",
+    "order": null
+  }
+},
+{
+  "model": "registration.jobtitle",
+  "pk": "development-operations-devops-engineer",
+  "fields": {
+    "name": "Development operations (DevOps) engineer",
+    "order": null
+  }
+},
+{
+  "model": "registration.jobtitle",
+  "pk": "end-user-computing-engineer",
+  "fields": {
+    "name": "End user computing engineer",
+    "order": null
+  }
+},
+{
+  "model": "registration.jobtitle",
+  "pk": "frontend-developer",
+  "fields": {
+    "name": "Frontend developer",
+    "order": null
+  }
+},
+{
+  "model": "registration.jobtitle",
+  "pk": "graphic-designer",
+  "fields": {
+    "name": "Graphic designer",
+    "order": null
+  }
+},
+{
+  "model": "registration.jobtitle",
+  "pk": "incident-manager",
+  "fields": {
+    "name": "Incident manager",
+    "order": null
+  }
+},
+{
+  "model": "registration.jobtitle",
+  "pk": "infrastructure-engineer",
+  "fields": {
+    "name": "Infrastructure engineer",
+    "order": null
+  }
+},
+{
+  "model": "registration.jobtitle",
+  "pk": "infrastructure-operations-engineer",
+  "fields": {
+    "name": "Infrastructure operations engineer",
+    "order": null
+  }
+},
+{
+  "model": "registration.jobtitle",
+  "pk": "interaction-designer",
+  "fields": {
+    "name": "Interaction designer",
+    "order": null
+  }
+},
+{
+  "model": "registration.jobtitle",
+  "pk": "it-service-manager",
+  "fields": {
+    "name": "IT service manager",
+    "order": null
+  }
+},
+{
+  "model": "registration.jobtitle",
+  "pk": "network-architect",
+  "fields": {
+    "name": "Network architect",
+    "order": null
+  }
+},
+{
+  "model": "registration.jobtitle",
+  "pk": "performance-analyst",
+  "fields": {
+    "name": "Performance analyst",
+    "order": null
+  }
+},
+{
+  "model": "registration.jobtitle",
+  "pk": "problem-manager",
+  "fields": {
+    "name": "Problem manager",
+    "order": null
+  }
+},
+{
+  "model": "registration.jobtitle",
+  "pk": "product-manager",
+  "fields": {
+    "name": "Product manager",
+    "order": null
+  }
+},
+{
+  "model": "registration.jobtitle",
+  "pk": "programme-delivery-manager",
+  "fields": {
+    "name": "Programme delivery manager",
+    "order": null
+  }
+},
+{
+  "model": "registration.jobtitle",
+  "pk": "quality-assurance-testing-qat-analyst",
+  "fields": {
+    "name": "Quality Assurance Testing (QAT) analyst",
+    "order": null
+  }
+},
+{
+  "model": "registration.jobtitle",
+  "pk": "security-architect",
+  "fields": {
+    "name": "Security architect",
+    "order": null
+  }
+},
+{
+  "model": "registration.jobtitle",
+  "pk": "service-designer",
+  "fields": {
+    "name": "Service designer",
+    "order": null
+  }
+},
+{
+  "model": "registration.jobtitle",
+  "pk": "service-desk-manager",
+  "fields": {
+    "name": "Service desk manager",
+    "order": null
+  }
+},
+{
+  "model": "registration.jobtitle",
+  "pk": "service-owner",
+  "fields": {
+    "name": "Service owner",
+    "order": null
+  }
+},
+{
+  "model": "registration.jobtitle",
+  "pk": "service-transition-manager",
+  "fields": {
+    "name": "Service transition manager",
+    "order": null
+  }
+},
+{
+  "model": "registration.jobtitle",
+  "pk": "software-developer",
+  "fields": {
+    "name": "Software developer",
+    "order": null
+  }
+},
+{
+  "model": "registration.jobtitle",
+  "pk": "technical-architect",
+  "fields": {
+    "name": "Technical architect",
+    "order": null
+  }
+},
+{
+  "model": "registration.jobtitle",
+  "pk": "technical-writer",
+  "fields": {
+    "name": "Technical writer",
+    "order": null
+  }
+},
+{
+  "model": "registration.jobtitle",
+  "pk": "test-engineer",
+  "fields": {
+    "name": "Test engineer",
+    "order": null
+  }
+},
+{
+  "model": "registration.jobtitle",
+  "pk": "test-manager",
+  "fields": {
+    "name": "Test manager",
+    "order": null
+  }
+},
+{
+  "model": "registration.jobtitle",
+  "pk": "user-researcher",
+  "fields": {
+    "name": "User researcher",
+    "order": null
+  }
+}
+]
