@@ -1,5 +1,7 @@
 import os
 
+import rest_framework
+
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from drf_spectacular.utils import extend_schema
@@ -181,6 +183,7 @@ def register_view(request):
 
 
 # TODO - what kind of serializer?
+@extend_schema(request=None, responses=None)
 @decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.AllowAny,))
 def skills_list_view(request):
