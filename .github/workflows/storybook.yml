@@ -26,8 +26,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      # IMAGE_TAG: ${{ github.ref_name }}
-      IMAGE_TAG: test
+      IMAGE_TAG: ${{ github.ref_name }}
       DOCKER_REPOSITORY: ghcr.io
       NODE_ENV: development
 
@@ -47,7 +46,7 @@ jobs:
           DOCKER_IMAGE: ellandi-storybook
 
         run: |
-          docker build . --file $DOCKER_FILE --tag $DOCKER_REPOSITORY/${{ github.repository_owner }}/$DOCKER_IMAGE:$IMAGE_TAG --build-arg NODE_ENV=$NODE_ENV
+          docker build . --file $DOCKER_FILE --tag $DOCKER_REPOSITORY/${{ github.repository_owner }}/$DOCKER_IMAGE:$IMAGE_TAG
           docker push -a $DOCKER_REPOSITORY/${{ github.repository_owner }}/$DOCKER_IMAGE
 
 
