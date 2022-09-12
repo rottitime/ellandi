@@ -1,10 +1,14 @@
 import functools
-from ellandi.registration.models import UserLanguage, UserSkill, UserSkillDevelop
 
 import httpx
 
 from ellandi import wsgi
-from ellandi.registration.models import User
+from ellandi.registration.models import (
+    User,
+    UserLanguage,
+    UserSkill,
+    UserSkillDevelop,
+)
 
 user_data = dict(
     email="jane@example.com",
@@ -18,6 +22,7 @@ another_user_data = dict(
     email="anotheruser@example.com",
     password="P455w0rd",
 )
+
 
 def add_user_skills_etc(user):
     UserSkill(user=user, name="Cake making").save()

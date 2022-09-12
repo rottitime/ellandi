@@ -2,7 +2,7 @@ from nose.tools import with_setup
 from rest_framework import status
 from tests import utils
 
-from ellandi.registration.models import EmailSalt, User, UserSkill, UserLanguage, UserSkillDevelop
+from ellandi.registration.models import EmailSalt, User, UserSkill
 
 TEST_SERVER_URL = "http://testserver:8000/"
 
@@ -612,11 +612,11 @@ def test_user_languages_other_user(client, user_id):
 
 
 @utils.with_logged_in_client
-def test_user_skills_other_user(client, user_id):
+def test_user_skills_develop_other_user(client, user_id):
     response = client.get("/user-skills-develop/")
     data = response.json()
     different_users_skill = [data[k] for k in data if data[k] == "Biscuit making"]
-    assert len(different_users_skill) == 0, "Should only see skills for logged in user"
+    assert len(different_users_skill) == 0, "Should only see skills to develop for logged in user"
 
 
 @utils.with_logged_in_client
@@ -645,7 +645,7 @@ def test_all_user_skills(client, user_id):
     response = client.get("/all-user-skills/")
     assert response.status_code == status.HTTP_200_OK
     data = response.json()
-    cake_making = [skill["name"] for skill in data if skill["name"] == "Cake making" ]
+    cake_making = [skill["name"] for skill in data if skill["name"] == "Cake making"]
     assert len(cake_making) == 1, cake_making
 
 
@@ -675,13 +675,7 @@ def test_all_user_skills_to_develop(client, user_id):
 
 @utils.with_client
 def check_endpoints_require_login(client):
-    endpoints = [
-        "/create-error/",
-        "/me/",
-        "/user-languages/",
-        "/user-skills/",
-        "/user-skills-develop/"
-    ]
+    endpoints = ["/create-error/", "/me/", "/user-languages/", "/user-skills/", "/user-skills-develop/"]
     for endpoint in endpoints:
         response = client.get(endpoint)
         assert response.status_code == status.HTTP_401_UNAUTHORIZED, response.status_code
