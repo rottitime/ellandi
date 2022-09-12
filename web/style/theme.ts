@@ -58,12 +58,12 @@ const theme = createTheme({
   },
   typography: {
     fontFamily: fonts.default.join(','),
-    display: {
-      fontWeight: 700,
-      fontSize: '60px',
-      lineHeight: '110%',
-      letterSpacing: '-3px'
-    },
+    // display: {
+    //   fontWeight: 700,
+    //   fontSize: '60px',
+    //   lineHeight: '110%',
+    //   letterSpacing: '-3px'
+    // },
     h1: {
       fontWeight: 700,
       fontSize: '30px',
@@ -73,16 +73,26 @@ const theme = createTheme({
         marginBottom: 16
       }
     },
-    subtitle1: {
+    // subtitle1: {
+    //   fontSize: '22px',
+    //   lineHeight: '133.4%;',
+    //   letterSpacing: 0,
+    //   '&.MuiTypography-gutterBottom': {
+    //     marginBottom: 10
+    //   }
+    // },
+    body1: {
+      fontWeight: 500,
       fontSize: '22px',
-      lineHeight: '133.4%;',
-      letterSpacing: 0,
+      lineHeight: '150%;',
+      letterSpacing: '0.15px',
       '&.MuiTypography-gutterBottom': {
         marginBottom: 10
       }
     },
-    body1: {
+    body2: {
       fontSize: '16px',
+      fontWeight: 500,
       lineHeight: '150%;',
       letterSpacing: '0.15px',
       '&.MuiTypography-gutterBottom': {
@@ -94,9 +104,11 @@ const theme = createTheme({
     h4: undefined,
     h5: undefined,
     h6: undefined,
+    subtitle1: undefined,
     subtitle2: undefined,
-    body2: undefined,
-    overline: undefined
+    // body2: undefined,
+    overline: undefined,
+    caption: undefined
   },
   spacing: [0, 5, 10, 16, 30, 60, 110],
   shadows: Array(25).fill('none') as Shadows,
@@ -124,7 +136,7 @@ const theme = createTheme({
     MuiTypography: {
       defaultProps: {
         variantMapping: {
-          display: 'h1',
+          // display: 'h1',
           h1: 'h1',
           // h2: 'h2',
           // h3: 'h3',

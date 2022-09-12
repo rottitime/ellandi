@@ -11,7 +11,7 @@ const List = styled(Box)`
 
 const IndexPage = () => (
   <div>
-    <Typography variant="subtitle1">You can use this service to:</Typography>
+    <Typography>You can use this service to:</Typography>
     <List as="ul">
       <li>upload and maintain your skills profile</li>
       <li>specify any skills you would like to develop in the future</li>
