@@ -10,7 +10,8 @@ export enum Query {
   Skills = 'skills',
   SkillLevels = 'skillLevels',
   Me = 'me',
-  TeamMembers = 'teamMembers'
+  TeamMembers = 'teamMembers',
+  SuggestedSkills = 'SuggestedSkills'
 }
 
 export type GenericDataList = {
@@ -165,3 +166,5 @@ export type ResetEmailPasswordType = {
 export type ResetUpdatePasswordType = {
   new_password: string
 }
+
+export type MeSuggestedSkillsResponse = string[]

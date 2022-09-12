@@ -15,6 +15,7 @@ import { array, object, SchemaOf, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Props } from './types'
 import CreatableAutocomplete from '../../CreatableAutocomplete/CreatableAutocomplete'
+import SkillsSuggest from '@/components/Account/SkillsSuggest/SkillsSuggest'
 import Icon from '@/components/Icon/Icon'
 import Button from '@/components/UI/Button/Button'
 import { fetchMe } from '@/service/me'
@@ -171,6 +172,13 @@ const SkillsAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
 
   return (
     <FormProvider {...methods}>
+      <SkillsSuggest
+        sx={{ mb: 4 }}
+        hideOptions={disableOptions}
+        onSelected={(value) => {
+          console.log({ value })
+        }}
+      />
       <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
         <Table
           loading={isLoading}
