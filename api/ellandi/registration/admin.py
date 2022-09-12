@@ -4,10 +4,10 @@ from django.contrib import admin
 from .models import (
     ContractType,
     Country,
-    DropDownListModel,
     EmailSalt,
     Function,
     Grade,
+    JobTitle,
     Language,
     LanguageSkillLevel,
     Location,
@@ -18,7 +18,6 @@ from .models import (
     UserLanguage,
     UserSkill,
     UserSkillDevelop,
-    JobTitle
 )
 
 
@@ -187,4 +186,5 @@ admin.site.register(LanguageSkillLevel, LanguageSkillLevelAdmin)
 admin.site.register(Country, CountryAdmin)
 admin.site.register(Function, FunctionAdmin)
 admin.site.register(SkillLevel, SkillLevelAdmin)
+admin.site.register(JobTitle, JobTitleAdmin)
 admin.site.register(EmailSalt)
