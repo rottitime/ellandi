@@ -3,7 +3,7 @@ import useAuth from '@/hooks/useAuth'
 import { fetchMeSuggestedSkills } from '@/service/me'
 import { MeSuggestedSkillsResponse, Query } from '@/service/types'
 import { Box, Collapse, styled, Typography } from '@mui/material'
-import { FC, useMemo } from 'react'
+import { FC, useMemo, useState } from 'react'
 import { useQuery } from 'react-query'
 import { Props } from './types'
 
@@ -20,6 +20,7 @@ const Wrapper = styled(Box)`
 
 const SkillsSuggest: FC<Props> = ({ onSelected, hideOptions, ...props }) => {
   const { authFetch } = useAuth()
+  const [selected, setSelected] = useState<string[]>([])
 
   const { isSuccess, data } = useQuery<MeSuggestedSkillsResponse>(
     Query.SuggestedSkills,
@@ -27,8 +28,11 @@ const SkillsSuggest: FC<Props> = ({ onSelected, hideOptions, ...props }) => {
   )
 
   const list: MeSuggestedSkillsResponse = useMemo(
-    () => (isSuccess ? data.filter((name) => !hideOptions.includes(name)) : []),
-    [isSuccess, data, hideOptions]
+    () =>
+      isSuccess
+        ? data.filter((name) => !(hideOptions.includes(name) || selected.includes(name)))
+        : [],
+    [selected, isSuccess, data, hideOptions]
   )
 
   return (
@@ -38,10 +42,16 @@ const SkillsSuggest: FC<Props> = ({ onSelected, hideOptions, ...props }) => {
           Skills you might have, based on your profile:
         </Typography>
         <Box className="list">
-          {isSuccess &&
-            list.map((name) => (
-              <Chip key={name} label={name} onClick={() => onSelected(name)} />
-            ))}
+          {list.map((name) => (
+            <Chip
+              key={name}
+              label={name}
+              onClick={() => {
+                setSelected((p) => [...p, name])
+                onSelected(name)
+              }}
+            />
+          ))}
         </Box>
       </Wrapper>
     </Collapse>
