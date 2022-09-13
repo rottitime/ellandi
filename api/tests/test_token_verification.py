@@ -48,6 +48,25 @@ def test_verify_email(client):
 
 
 @utils.with_client
+@override_settings(SEND_VERIFICATION_EMAIL=True)
+def test_verify_email_bad_token(client):
+    user_data = {
+        "email": "bobby-bad-token@example.com",
+        "password": "foo",
+    }
+    user = User.objects.create_user(**user_data)
+    token = "B4dT0k3n"
+    response = client.get(f"/user/{user.id}/verify/{token}/")
+    print(response)
+    print(response.json())
+    assert response.status_code == 400
+    assert response.json()["detail"] == "Invalid token"
+
+    user = User.objects.get(email=user_data["email"])
+    assert not user.verified
+
+
+@utils.with_client
 def test_password_reset(client):
     user_data = {
         "email": "forgetful-bobby@example.com",
@@ -67,6 +86,24 @@ def test_password_reset(client):
 
     user = User.objects.get(email=user_data["email"])
     assert user.check_password(new_password)
+
+
+@utils.with_client
+@override_settings(SEND_VERIFICATION_EMAIL=True)
+def test_password_reset_email_bad_token(client):
+    user_data = {
+        "email": "billy-bad-token@example.com",
+        "password": "foo",
+    }
+    new_password = "N3wP455w0rd"
+    user = User.objects.create_user(**user_data)
+    token = "B4dT0k3n"
+    response = client.post(f"/user/{user.id}/password-reset/{token}/", json={'new_password': new_password})
+    assert response.status_code == 400
+    assert response.json()["detail"] == "Invalid token"
+
+    user = User.objects.get(email=user_data["email"])
+    assert not user.check_password(new_password)
 
 
 @utils.with_logged_in_client
