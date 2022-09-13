@@ -111,7 +111,7 @@ def password_reset_use_view(request, user_id, token):
 )
 @decorators.api_view(["POST"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
-def password_reset_view(request):
+def password_change_view(request):
     old_password = request.data.get("old_password")
     new_password = request.data.get("new_password")
 
