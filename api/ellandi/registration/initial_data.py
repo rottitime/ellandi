@@ -1,6 +1,5 @@
 from ellandi.registration.utils import reverse_dict_lists
 
-
 INITIAL_SKILLS = set(
     [
         "Accessibility",
