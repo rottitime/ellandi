@@ -1,3 +1,6 @@
+from ellandi.registration.utils import reverse_dict_lists
+
+
 INITIAL_SKILLS = set(
     [
         "Accessibility",
@@ -1714,14 +1717,7 @@ DDAT_SKILLS_TO_JOB_LOOKUP = {
 # TODO - include these skills in the skills list
 
 
-def reverse_dict(initial_dict):
-    output_dict = dict()
-    all_jobs_lists = list(initial_dict.values())
-    all_jobs = {job for job_list in all_jobs_lists for job in job_list}
-    for job in all_jobs:
-        relevant_skills = {skill for (skill, job_list) in initial_dict.items() if job in job_list}
-        output_dict[job] = list(relevant_skills)
-    return output_dict
 
 
-DDAT_JOB_TO_SKILLS_LOOKUP = reverse_dict(DDAT_SKILLS_TO_JOB_LOOKUP)
+
+DDAT_JOB_TO_SKILLS_LOOKUP = reverse_dict_lists(DDAT_SKILLS_TO_JOB_LOOKUP)
