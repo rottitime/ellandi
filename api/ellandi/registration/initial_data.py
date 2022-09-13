@@ -1710,3 +1710,16 @@ DDAT_SKILLS_TO_JOB_LOOKUP = {
     "Verification and validation of data and analysis": ["Performance analyst"],
     "Web Performance Optimisation": ["Frontend developer"],
 }
+
+
+def reverse_dict(initial_dict):
+    output_dict = dict()
+    all_jobs_lists = list(initial_dict.values())
+    all_jobs = {job in job_list for job_list in all_jobs_lists for job in job_list}
+    for job in all_jobs:
+        relevant_skills = {skill for (skill, job_list) in initial_dict.items() if job in job_list}
+        output_dict[job] = list(relevant_skills)
+    return output_dict
+
+
+DDAT_JOB_TO_SKILLS_LOOKUP = reverse_dict(DDAT_SKILLS_TO_JOB_LOOKUP)
