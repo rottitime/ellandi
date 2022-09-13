@@ -227,3 +227,9 @@ if ALLOW_EXAMPLE_EMAILS:
     ALLOWED_DOMAINS = DEFAULT_ALLOWED_DOMAINS.union({"example.com"})
 else:
     ALLOWED_DOMAINS = DEFAULT_ALLOWED_DOMAINS
+
+SPECTACULAR_SETTINGS = {
+    'ENUM_NAME_OVERRIDES': {
+        'LanguageLevelEnum': 'ellandi.registration.models.UserLanguage.LanguageLevel'
+    }
+}
