@@ -1,4 +1,3 @@
-
 def reverse_dict_lists(initial_dict):
     output_dict = dict()
     all_lists = list(initial_dict.values())

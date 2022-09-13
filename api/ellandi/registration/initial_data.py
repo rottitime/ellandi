@@ -1487,7 +1487,6 @@ DDAT_SKILLS_TO_JOB_LOOKUP = {
         "Service transition manager",
     ],
     "Customer service management": ["Service desk manager"],
-    "Cyber/security": [""],
     "Data analysis and synthesis": ["Data engineer", "Data architect"],
     "Data communication": ["Data architect"],
     "Data development process": ["Data engineer"],
@@ -1715,9 +1714,6 @@ DDAT_SKILLS_TO_JOB_LOOKUP = {
 }
 
 # TODO - include these skills in the skills list
-
-
-
 
 
 DDAT_JOB_TO_SKILLS_LOOKUP = reverse_dict_lists(DDAT_SKILLS_TO_JOB_LOOKUP)
