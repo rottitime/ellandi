@@ -80,3 +80,12 @@ def test_password_change(client, user_id):
 
     user = User.objects.get(email=user_data["email"])
     assert user.check_password(new_password)
+
+
+@utils.with_logged_in_client
+def test_password_change(client, user_id):
+    new_password = "N3wP455w0rd"
+
+    response = client.post("/me/password-change/", json={"old_password":"incorrect", "new_password": new_password})
+    assert response.status_code == 400
+    assert response.json()["detail"] == "Incorrect password"
