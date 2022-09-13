@@ -1715,7 +1715,8 @@ DDAT_SKILLS_TO_JOB_LOOKUP = {
 def reverse_dict(initial_dict):
     output_dict = dict()
     all_jobs_lists = list(initial_dict.values())
-    all_jobs = {job in job_list for job_list in all_jobs_lists for job in job_list}
+    all_jobs = {job for job_list in all_jobs_lists for job in job_list}
+    print(all_jobs)
     for job in all_jobs:
         relevant_skills = {skill for (skill, job_list) in initial_dict.items() if job in job_list}
         output_dict[job] = list(relevant_skills)
