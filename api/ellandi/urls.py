@@ -44,8 +44,8 @@ admin_urlpatterns = [
 
 auth_urlpatterns = [
     path(r"login/", auth.LoginView.as_view()),
-    path(r"logout/", knox.views.LogoutView.as_view()),
-    path(r"logoutall/", knox.views.LogoutAllView.as_view()),
+    path(r"logout/", auth.LogoutView.as_view()),
+    path(r"logoutall/", auth.LogoutAllView.as_view()),
 ]
 
 urlpatterns = api_urlpatterns + admin_urlpatterns + schema_urlpatterns + auth_urlpatterns
