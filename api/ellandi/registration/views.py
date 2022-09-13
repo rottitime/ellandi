@@ -479,3 +479,13 @@ def user_direct_reports_view(request, user_id):
 def create_error(request):
     """Endpoint to be used for testing."""
     raise Exception("This is the create error endpoint (for testing)")
+
+
+@extend_schema(request=None, responses=None)
+@decorators.api_view(["GET"])
+@decorators.permission_classes((permissions.IsAuthenticated,))
+def me_suggested_skills(request):
+    user = request.user
+    job_title = user.job_title
+    suggested_skills = initial_data.DDAT_JOB_TO_SKILLS_LOOKUP.get(job_title, [])
+    return Response(data=suggested_skills, status=status.HTTP_200_OK)
