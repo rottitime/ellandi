@@ -20,11 +20,16 @@ const FormRegister: FC<Props> = ({
   } = useFormContext()
 
   useEffect(() => {
-    reset(defaultValues)
+    if (defaultValues) {
+      reset(defaultValues)
+    }
   }, [reset, defaultValues])
 
+  const filteredProps = { ...props }
+  delete filteredProps.pickFields
+
   return (
-    <form onSubmit={handleSubmit(onFormSubmit)} noValidate {...props}>
+    <form onSubmit={handleSubmit(onFormSubmit)} noValidate {...filteredProps}>
       {children}
       <FormFooter
         skipUrl={skipUrl}

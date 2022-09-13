@@ -9,6 +9,7 @@ import { object, SchemaOf, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldControlled'
 import Form from '@/components/Form/Register/FormRegister/FormRegister'
+import { useProfile } from '@/hooks/useProfile'
 
 const schema: SchemaOf<GradeType> = object().shape({
   grade: string().nullable().required('This is a required field'),
@@ -78,3 +79,25 @@ const GradeForm: FC<StandardRegisterProps<GradeType>> = (props) => {
 }
 
 export default GradeForm
+
+export const UpdateGradeForm = ({ callback }: { callback?: () => void }) => {
+  const { mutate, userProfile } = useProfile<GradeType>({
+    callback
+  })
+
+  return (
+    <GradeForm
+      onFormSubmit={(data) => {
+        mutate({
+          grade: data.grade,
+          grade_other: data.grade_other
+        })
+      }}
+      backUrl={null}
+      defaultValues={{
+        grade: userProfile.grade,
+        grade_other: userProfile.grade_other
+      }}
+    />
+  )
+}

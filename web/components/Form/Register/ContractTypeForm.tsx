@@ -10,6 +10,7 @@ import { object, SchemaOf, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldControlled'
 import Form from '@/components/Form/Register/FormRegister/FormRegister'
+import { useProfile } from '@/hooks/useProfile'
 
 const schema: SchemaOf<ContractType> = object().shape({
   contract_type: string().required('This is a required field'),
@@ -84,3 +85,25 @@ const ContractTypeForm: FC<StandardRegisterProps<ContractType>> = (props) => {
 }
 
 export default ContractTypeForm
+
+export const UpdateContractTypeForm = ({ callback }: { callback?: () => void }) => {
+  const { mutate, userProfile } = useProfile<ContractType>({
+    callback
+  })
+
+  return (
+    <ContractTypeForm
+      onFormSubmit={(data) => {
+        mutate({
+          contract_type: data.contract_type,
+          contract_type_other: data.contract_type_other
+        })
+      }}
+      backUrl={null}
+      defaultValues={{
+        contract_type: userProfile.contract_type,
+        contract_type_other: userProfile.contract_type_other
+      }}
+    />
+  )
+}
