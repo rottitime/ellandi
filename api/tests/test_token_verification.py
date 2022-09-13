@@ -69,14 +69,10 @@ def test_password_reset(client):
     assert user.check_password(new_password)
 
 
-@utils.with_client
-def test_password_change(client):
-    user_data = {
-        "email": "compromised-bobby@example.com",
-        "password": "foo",
-    }
+@utils.with_logged_in_client
+def test_password_change(client, user_id):
+    user_data = utils.user_data
     new_password = "N3wP455w0rd"
-    user = User.objects.create_user(**user_data)
 
     response = client.post("/me/password-change/", json={"old_password": user_data["password"], "new_password": new_password})
     assert response.status_code == 200
