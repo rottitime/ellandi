@@ -57,8 +57,6 @@ def test_verify_email_bad_token(client):
     user = User.objects.create_user(**user_data)
     token = "B4dT0k3n"
     response = client.get(f"/user/{user.id}/verify/{token}/")
-    print(response)
-    print(response.json())
     assert response.status_code == 400
     assert response.json()["detail"] == "Invalid token"
 
@@ -98,7 +96,7 @@ def test_password_reset_email_bad_token(client):
     new_password = "N3wP455w0rd"
     user = User.objects.create_user(**user_data)
     token = "B4dT0k3n"
-    response = client.post(f"/user/{user.id}/password-reset/{token}/", json={'new_password': new_password})
+    response = client.post(f"/user/{user.id}/password-reset/{token}/", json={"new_password": new_password})
     assert response.status_code == 400
     assert response.json()["detail"] == "Invalid token"
 
@@ -111,7 +109,9 @@ def test_password_change(client, user_id):
     user_data = utils.user_data
     new_password = "N3wP455w0rd"
 
-    response = client.post("/me/password-change/", json={"old_password": user_data["password"], "new_password": new_password})
+    response = client.post(
+        "/me/password-change/", json={"old_password": user_data["password"], "new_password": new_password}
+    )
     assert response.status_code == 200
     assert response.json()["email"] == user_data["email"]
 
@@ -120,9 +120,9 @@ def test_password_change(client, user_id):
 
 
 @utils.with_logged_in_client
-def test_password_change(client, user_id):
+def test_password_change_wrong_password(client, user_id):
     new_password = "N3wP455w0rd"
 
-    response = client.post("/me/password-change/", json={"old_password":"incorrect", "new_password": new_password})
+    response = client.post("/me/password-change/", json={"old_password": "incorrect", "new_password": new_password})
     assert response.status_code == 400
     assert response.json()["detail"] == "Incorrect password"

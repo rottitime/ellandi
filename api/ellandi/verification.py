@@ -2,7 +2,6 @@ import furl
 from django.conf import settings
 from django.contrib.auth import login
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
-from django.core.exceptions import BadRequest
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from drf_spectacular.utils import extend_schema
@@ -70,7 +69,6 @@ def verification_view(request, user_id, token):
         return Response(user_data)
     else:
         return Response({"detail": "Invalid token"}, status=status.HTTP_400_BAD_REQUEST)
-
 
 
 @extend_schema(
