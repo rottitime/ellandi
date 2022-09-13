@@ -255,6 +255,11 @@ class PasswordResetUseSerializer(serializers.Serializer):
     new_password = serializers.CharField()
 
 
+class PasswordResetSerializer(serializers.Serializer):
+    old_password = serializers.CharField()
+    new_password = serializers.CharField()
+
+
 class EmailSaltSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(validators=[check_email_domain])
 

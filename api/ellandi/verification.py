@@ -103,3 +103,25 @@ def password_reset_use_view(request, user_id, token):
         return Response(user_data)
     else:
         raise BadRequest("Invalid token")
+
+
+@extend_schema(
+    request=serializers.PasswordResetSerializer,
+    responses=serializers.UserSerializer,
+)
+@decorators.api_view(["POST"])
+@decorators.permission_classes((permissions.IsAuthenticated,))
+def password_reset_view(request):
+    old_password = request.data.get("old_password")
+    new_password = request.data.get("new_password")
+
+    user = request.user
+
+    if user.check_password(old_password):
+        user.set_password(new_password)
+        user.save()
+        login(request, user)
+        user_data = serializers.UserSerializer(user, context={"request": request}).data
+        return Response(user_data)
+    else:
+        raise BadRequest("Incorrect password")
