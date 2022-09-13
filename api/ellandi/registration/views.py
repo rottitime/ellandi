@@ -2,7 +2,7 @@ import os
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from drf_spectacular.utils import extend_schema
+from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiTypes
 from rest_framework import decorators, permissions, routers, status, viewsets
 from rest_framework.response import Response
 
@@ -31,6 +31,11 @@ class UserViewSet(viewsets.ModelViewSet):
     http_method_names = ["get", "patch"]
 
 
+@extend_schema(
+    parameters=[
+      OpenApiParameter("id", OpenApiTypes.UUID, OpenApiParameter.PATH)
+    ]
+)
 @register("user-skills", basename="user-skills")
 class UserSkillViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.UserSkillSerializer
@@ -42,7 +47,11 @@ class UserSkillViewSet(viewsets.ModelViewSet):
         qs = models.UserSkill.objects.filter(user=user)
         return qs
 
-
+@extend_schema(
+    parameters=[
+      OpenApiParameter("id", OpenApiTypes.UUID, OpenApiParameter.PATH)
+    ]
+)
 @register("user-languages", basename="user-languages")
 class UserLanguageViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.UserLanguageSerializer
@@ -55,6 +64,11 @@ class UserLanguageViewSet(viewsets.ModelViewSet):
         return qs
 
 
+@extend_schema(
+    parameters=[
+      OpenApiParameter("id", OpenApiTypes.UUID, OpenApiParameter.PATH)
+    ]
+)
 @register("user-skills-develop", basename="user-skills-develop")
 class UserSkillDevelopViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.UserSkillDevelopSerializer
