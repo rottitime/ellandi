@@ -30,7 +30,7 @@ const Template: FC<Props> = ({ children, ...props }) => {
   return (
     <>
       <AlphaBanner getHeight={(height) => setBannerHeight(height)} sticky>
-        <Typography>
+        <Typography variant="body2">
           This is a new service - your{' '}
           <Link
             href="https://civilserviceinsight.qualtrics.com/jfe/form/SV_1NQ8jHnD05yvpUW"

@@ -122,7 +122,7 @@ const ContentBox = styled('div')`
 const Page = () => {
   return (
     <>
-      <Typography variant="subtitle1" gutterBottom>
+      <Typography gutterBottom>
         Course suggestions are based on your current role
       </Typography>
 

@@ -15,7 +15,7 @@ const Page = styled(Template)`
 const PlainLayout: FC<Props> = ({ title, children }) => (
   <Page>
     <header className="main-header">
-      <Typography variant="display" sx={{ textAlign: 'center', mb: 3 }}>
+      <Typography variant="h1" sx={{ textAlign: 'center', mb: 3 }}>
         {title}
       </Typography>
     </header>

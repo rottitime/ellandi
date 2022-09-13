@@ -45,7 +45,7 @@ const SkillsForm: FC<StandardRegisterProps<SkillsType>> = (props) => {
   return (
     <FormProvider {...methods}>
       <Form {...props}>
-        <Typography variant="subtitle1" sx={{ mb: 3 }}>
+        <Typography sx={{ mb: 3 }}>
           Add any skills that you already have. You can change or add to these later
         </Typography>
 

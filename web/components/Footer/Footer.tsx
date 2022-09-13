@@ -1,4 +1,4 @@
-import { Box, Container, styled } from '@mui/material'
+import { Box, Container, styled, Typography } from '@mui/material'
 import Link from '@/components/UI/Link'
 import Icon from '@/components/Icon/Icon'
 import { FC } from 'react'
@@ -50,10 +50,10 @@ const Footer: FC<Props> = ({ menu, ...props }) => (
           ))}
         </ul>
       </nav>
-      <Box className="copyright">
+      <Typography variant="body2" className="copyright">
         <Icon icon="crest" className="header-logo" />
         &copy; Crown copyright
-      </Box>
+      </Typography>
     </Container>
   </StyledFooter>
 )

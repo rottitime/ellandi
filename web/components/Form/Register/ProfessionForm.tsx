@@ -61,7 +61,7 @@ const ProfessionForm: FC<StandardRegisterProps<ProfessionType>> = (props) => {
   return (
     <FormProvider {...methods}>
       <Form {...props} submitDisabled>
-        <Typography variant="subtitle1" gutterBottom>
+        <Typography gutterBottom>
           Select the profession(s) that you belong to. You may choose more than one
         </Typography>
 

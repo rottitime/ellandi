@@ -8,6 +8,7 @@ const Banner = styled(Box)`
   border-bottom: 1px solid ${(p) => p.theme.colors.black};
   padding: ${(p) => p.theme.spacing(3)};
   display: flex;
+  align-items: center;
 
   .title {
     font-weight: bold;

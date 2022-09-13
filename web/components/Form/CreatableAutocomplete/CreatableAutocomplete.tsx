@@ -1,13 +1,13 @@
 import { FC, useState } from 'react'
 import {
-  Box,
   styled,
-  TextField,
   Autocomplete,
   FormHelperText,
   Paper,
-  CircularProgress
+  CircularProgress,
+  Typography
 } from '@mui/material'
+import TextField from '@/components/Form/TextField/TextField'
 import { createFilterOptions } from '@mui/material/Autocomplete'
 import Icon from '@/components/Icon/Icon'
 import { ListType, OnChangeValue, Props } from './types'
@@ -16,11 +16,16 @@ const filter = createFilterOptions<ListType>()
 
 const DropDown = styled(Paper)`
   border: 1px solid ${(p) => p.theme.colors.grey1};
+
+  li {
+    font-size: 16px;
+  }
 `
 
-const ButtonAdd = styled(Box)`
+const ButtonAdd = styled(Typography)`
   display: flex;
   align-items: center;
+
   svg {
     color: ${(p) => p.theme.colors.grey3};
     font-size: 25px;
@@ -77,7 +82,7 @@ const CreatableAutocomplete: FC<Props> = ({
               inputValue,
               title: `Add "${params.inputValue}"`,
               helper: (
-                <ButtonAdd>
+                <ButtonAdd variant="body2">
                   <Icon icon="circle-plus" />
                   Add "{params.inputValue}"
                 </ButtonAdd>

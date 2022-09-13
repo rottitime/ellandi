@@ -22,7 +22,7 @@ const ContactForm: FC<StandardRegisterProps<ContactType>> = (props) => {
   return (
     <FormProvider {...methods}>
       <Form {...props}>
-        <Typography variant="subtitle1" sx={{ mb: 3 }}>
+        <Typography sx={{ mb: 3 }}>
           Are you happy for recruitment and HR to contact you with opportunities from time
           to time based on your skills? You can change this later
         </Typography>

@@ -43,7 +43,7 @@ declare module '@mui/material/Typography' {
     subtitle2: false
     body2: true
     overline: false
-    caption: false
+    // caption: false
   }
 }
 

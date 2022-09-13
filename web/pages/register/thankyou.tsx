@@ -8,7 +8,7 @@ const nextPage = 8
 
 const RegisterPage = () => (
   <>
-    <Typography variant="subtitle1" sx={{ mb: 3 }}>
+    <Typography gutterBottom>
       We're now going to ask you about your skills, including:
     </Typography>
 

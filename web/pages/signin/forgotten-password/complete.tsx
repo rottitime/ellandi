@@ -10,9 +10,7 @@ const {
 
 const CompletedPage = () => (
   <>
-    <Typography variant="subtitle1" sx={{ mb: 3 }}>
-      You have successfully changed your password
-    </Typography>
+    <Typography gutterBottom>You have successfully changed your password</Typography>
 
     <FooterButtons>
       <Button color="primary" href={urls.signin} sx={{ ml: 'auto' }}>

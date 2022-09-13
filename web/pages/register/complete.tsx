@@ -20,7 +20,7 @@ const Title = styled(Box)`
 const RegisterPage = () => {
   return (
     <>
-      <Typography variant="subtitle1" sx={{ mb: 3 }}>
+      <Typography gutterBottom>
         You have successfully signed up for the Civil Service Skills and Learning Service
       </Typography>
       <Typography gutterBottom>

@@ -46,9 +46,7 @@ const GradeForm: FC<StandardRegisterProps<GradeType>> = (props) => {
   return (
     <FormProvider {...methods}>
       <Form {...props} submitDisabled>
-        <Typography variant="subtitle1" gutterBottom>
-          Select your grade. You may only choose one
-        </Typography>
+        <Typography gutterBottom>Select your grade. You may only choose one</Typography>
 
         <Controller
           name="grade"

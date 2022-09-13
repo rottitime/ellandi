@@ -35,7 +35,7 @@ const SkillsAddSkillsPage = () => {
         <Grid item xs={12} md={6}>
           <AccountCard
             header={
-              <Typography variant="subtitle1" component="h2">
+              <Typography component="h2">
                 <BadgeNumber label="2" sx={{ mr: 2 }} /> Language and levels
               </Typography>
             }
@@ -48,7 +48,7 @@ const SkillsAddSkillsPage = () => {
         </Grid>
         <Grid item xs={12} md={6}>
           <AccountCard>
-            <Typography variant="subtitle1" component="h3" gutterBottom>
+            <Typography component="h3" gutterBottom>
               Speaking
             </Typography>
             <Typography fontWeight="bold">Basic</Typography>
@@ -68,7 +68,7 @@ const SkillsAddSkillsPage = () => {
               flexibly for social, academic and professional purposes
             </Typography>
 
-            <Typography variant="subtitle1" component="h3" gutterBottom>
+            <Typography component="h3" gutterBottom>
               Writing
             </Typography>
             <Typography fontWeight="bold">Basic</Typography>

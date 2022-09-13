@@ -10,12 +10,10 @@ const {
 
 const NextPage = () => (
   <>
-    <Typography variant="subtitle1" sx={{ mb: 3 }}>
+    <Typography gutterBottom>
       Check your email for the link to reset your password.
     </Typography>
-    <Typography variant="subtitle1" gutterBottom>
-      The link will expire in 24 hours.
-    </Typography>
+    <Typography gutterBottom>The link will expire in 24 hours.</Typography>
 
     <FooterButtons>
       <Button color="tertiary" size="small" href={urls.signin}>

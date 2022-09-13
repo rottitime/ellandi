@@ -43,6 +43,7 @@ const Layout = styled(Box)`
     border-bottom: 3px solid #000;
     color: ${(p) => alpha(p.theme.colors.black, 0.6)};
     margin-bottom: ${(p) => p.theme.spacing(4)};
+    font-size: 16px;
     li {
       margin-bottom: 10px;
     }
@@ -120,7 +121,9 @@ const AccountLayout: FC<Props> = ({
                 {item.title}
               </Link>
             ) : (
-              <Typography key={item.title}>{item.title}</Typography>
+              <Typography key={item.title} variant="body2">
+                {item.title}
+              </Typography>
             )
           )}
         </Breadcrumbs>
@@ -136,11 +139,7 @@ const AccountLayout: FC<Props> = ({
                 {teaserHeadline}
               </Typography>
             )}
-            {teaserContent && (
-              <Typography variant="subtitle1" component="p" gutterBottom>
-                {teaserContent}
-              </Typography>
-            )}
+            {teaserContent && <Typography gutterBottom>{teaserContent}</Typography>}
           </Headline>
         )}
 

@@ -58,12 +58,6 @@ const theme = createTheme({
   },
   typography: {
     fontFamily: fonts.default.join(','),
-    // display: {
-    //   fontWeight: 700,
-    //   fontSize: '60px',
-    //   lineHeight: '110%',
-    //   letterSpacing: '-3px'
-    // },
     h1: {
       fontWeight: 700,
       fontSize: '30px',
@@ -73,14 +67,6 @@ const theme = createTheme({
         marginBottom: 16
       }
     },
-    // subtitle1: {
-    //   fontSize: '22px',
-    //   lineHeight: '133.4%;',
-    //   letterSpacing: 0,
-    //   '&.MuiTypography-gutterBottom': {
-    //     marginBottom: 10
-    //   }
-    // },
     body1: {
       fontWeight: 500,
       fontSize: '22px',
@@ -107,12 +93,28 @@ const theme = createTheme({
     subtitle1: undefined,
     subtitle2: undefined,
     // body2: undefined,
-    overline: undefined,
-    caption: undefined
+    overline: undefined
+    // caption: undefined
   },
   spacing: [0, 5, 10, 16, 30, 60, 110],
   shadows: Array(25).fill('none') as Shadows,
   components: {
+    MuiFormControlLabel: {
+      styleOverrides: {
+        root: {
+          '.MuiFormControlLabel-label': {
+            fontSize: '16px'
+          }
+        }
+      }
+    },
+    MuiInputLabel: {
+      styleOverrides: {
+        // root: {
+        //   fontSize: '12px'
+        // }
+      }
+    },
     MuiButton: {
       styleOverrides: {
         root: {
@@ -136,16 +138,9 @@ const theme = createTheme({
     MuiTypography: {
       defaultProps: {
         variantMapping: {
-          // display: 'h1',
           h1: 'h1',
-          // h2: 'h2',
-          // h3: 'h3',
-          // h4: 'h4',
-          // h5: 'h5',
-          // h6: 'h6',
-          // subtitle1: 'h3',
-          subtitle1: 'p',
-          body1: 'p'
+          body1: 'p',
+          body2: 'p'
         }
       }
     }

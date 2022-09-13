@@ -96,7 +96,7 @@ const IndexPage = () => {
             {[...Array(3).keys()].map((i) => (
               <li key={i}>
                 <Typography>27.06.23 @ 14:00</Typography>
-                <Typography variant="subtitle1">
+                <Typography>
                   <Box className="circle" component="span" />
                   <Link href="#">Agile Bitesized</Link> learning course added
                 </Typography>
@@ -114,11 +114,9 @@ const IndexPage = () => {
             </Typography>
           }
         >
-          <Typography variant="display" sx={{ mb: 4 }}>
-            16
-          </Typography>
+          <Typography sx={{ mb: 4 }}>16</Typography>
           <Link href="#">
-            <Typography variant="subtitle1">Add a skill</Typography>
+            <Typography>Add a skill</Typography>
           </Link>
         </AccountCard>
 
@@ -131,11 +129,9 @@ const IndexPage = () => {
             </Typography>
           }
         >
-          <Typography variant="display" sx={{ mb: 4 }}>
-            2hrs
-          </Typography>
+          <Typography sx={{ mb: 4 }}>2hrs</Typography>
           <Link href="#">
-            <Typography variant="subtitle1">Record learning</Typography>
+            <Typography>Record learning</Typography>
           </Link>
         </AccountCard>
 
@@ -152,9 +148,7 @@ const IndexPage = () => {
             }
             headerColorInherit
           >
-            <Typography variant="subtitle1" gutterBottom>
-              {profile.content}
-            </Typography>
+            <Typography gutterBottom>{profile.content}</Typography>
             <Button variant="contained" href={profile.url}>
               Review {profile.title}
             </Button>

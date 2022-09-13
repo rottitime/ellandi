@@ -93,7 +93,7 @@ const YourTeamPage = () => {
                   .filter(({ name, value }) => !(name == 'Primary profession' && !value))
                   .map<TableCellProps[]>(({ name, value }) => [
                     { children: name, component: 'th' },
-                    { children: <Typography variant="subtitle1">{value}</Typography> }
+                    { children: <Typography>{value}</Typography> }
                   ])
               ]}
             />

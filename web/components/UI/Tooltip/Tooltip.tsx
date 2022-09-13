@@ -26,7 +26,11 @@ const Tooltip: FC<Props> = ({
       placement={placement}
       PopperProps={{
         sx: {
-          '.MuiTooltip-tooltip': { backgroundColor: popperColor },
+          '.MuiTooltip-tooltip': {
+            backgroundColor: popperColor,
+            fontSize: 14,
+            lineHeight: '24px'
+          },
           '.MuiTooltip-arrow': { color: popperColor }
         }
       }}

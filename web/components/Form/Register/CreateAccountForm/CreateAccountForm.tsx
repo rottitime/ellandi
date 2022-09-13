@@ -67,14 +67,12 @@ const CreateAccountForm: FC<StandardRegisterProps<CreateAccountType>> = (props) 
   return (
     <FormProvider {...methods}>
       <Form {...props} defaultValues={defaultValues} submitDisabled>
-        <Typography variant="subtitle1" gutterBottom>
+        <Typography gutterBottom>
           You need to create an account before using this service. Already have an
           account? <Link href={urls.signin}>Sign in</Link>
         </Typography>
 
-        <Typography variant="subtitle1" gutterBottom>
-          Email address
-        </Typography>
+        <Typography gutterBottom>Email address</Typography>
         <Field>
           <TextFieldControlled name="email" label="Email address" />
         </Field>
@@ -82,11 +80,9 @@ const CreateAccountForm: FC<StandardRegisterProps<CreateAccountType>> = (props) 
           <TextFieldControlled name="emailConfirm" label="Confirm your email address" />
         </Field>
 
-        <Typography variant="subtitle1" gutterBottom>
-          Create password
-        </Typography>
+        <Typography gutterBottom>Create password</Typography>
 
-        <Typography gutterBottom>
+        <Typography variant="body2" gutterBottom>
           Your password should have at least {minPassword} characters and not include your
           name or email address
         </Typography>
