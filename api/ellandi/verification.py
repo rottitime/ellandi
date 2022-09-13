@@ -105,7 +105,7 @@ def password_reset_use_view(request, user_id, token):
 
 
 @extend_schema(
-    request=serializers.PasswordResetSerializer,
+    request=serializers.PasswordChangeSerializer,
     responses=serializers.UserSerializer,
 )
 @decorators.api_view(["POST"])

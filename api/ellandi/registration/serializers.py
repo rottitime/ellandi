@@ -255,7 +255,7 @@ class PasswordResetUseSerializer(serializers.Serializer):
     new_password = serializers.CharField()
 
 
-class PasswordResetSerializer(serializers.Serializer):
+class PasswordChangeSerializer(serializers.Serializer):
     old_password = serializers.CharField()
     new_password = serializers.CharField()
 
