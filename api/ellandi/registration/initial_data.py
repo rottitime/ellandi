@@ -1712,7 +1712,4 @@ DDAT_SKILLS_TO_JOB_LOOKUP = {
     "Web Performance Optimisation": ["Frontend developer"],
 }
 
-# TODO - include these skills in the skills list
-
-
 DDAT_JOB_TO_SKILLS_LOOKUP = reverse_dict_lists(DDAT_SKILLS_TO_JOB_LOOKUP)
