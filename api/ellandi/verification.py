@@ -6,7 +6,7 @@ from django.core.exceptions import BadRequest
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from drf_spectacular.utils import extend_schema
-from rest_framework import decorators, permissions
+from rest_framework import decorators, permissions, status
 from rest_framework.response import Response
 
 from ellandi.registration import models, serializers
@@ -69,7 +69,8 @@ def verification_view(request, user_id, token):
         user_data = serializers.UserSerializer(user, context={"request": request}).data
         return Response(user_data)
     else:
-        raise BadRequest("Invalid token")
+        return Response({"detail": "Invalid token"}, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 @extend_schema(
@@ -102,7 +103,7 @@ def password_reset_use_view(request, user_id, token):
         user_data = serializers.UserSerializer(user, context={"request": request}).data
         return Response(user_data)
     else:
-        raise BadRequest("Invalid token")
+        return Response({"detail": "Invalid token"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @extend_schema(
@@ -124,4 +125,4 @@ def password_change_view(request):
         user_data = serializers.UserSerializer(user, context={"request": request}).data
         return Response(user_data)
     else:
-        raise BadRequest("Incorrect password")
+        return Response({"detail": "Incorrect password"}, status=status.HTTP_400_BAD_REQUEST)
