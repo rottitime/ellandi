@@ -20,8 +20,8 @@ EMAIL_MAPPING = {
         "url_path": "/signin/verify",
     },
     "password-reset": {
-        "from_address": "something@example.com",
-        "subject": "Reset your password",
+        "from_address": "support-ellandi@cabinetoffice.gov.uk",
+        "subject": "Civil Service Skills and Learning: password reset",
         "template_name": "email/password-reset.txt",
         "url_path": "/signin/forgotten-password/reset",
     },
