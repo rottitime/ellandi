@@ -7,7 +7,7 @@ from django.db import migrations
 def reload_jobtitles(apps, schema_editor):
     JobTitle = apps.get_model("registration", "JobTitle")
     JobTitle.objects.all().delete()
-    fixture_file = f"dropdown/jobtitles.json"
+    fixture_file = "dropdown/jobtitles.json"
     call_command("loaddata", fixture_file, app_label="registration", ignorenonexistent=True)
 
 
