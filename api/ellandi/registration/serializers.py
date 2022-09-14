@@ -252,6 +252,7 @@ class UserSerializer(serializers.ModelSerializer):
 class RegisterSerializer(serializers.Serializer):
     email = serializers.EmailField(validators=[check_email_domain])
     password = serializers.CharField()
+    privacy_policy_agreement = serializers.BooleanField(required=False)
 
 
 class PasswordResetAskSerializer(serializers.Serializer):
