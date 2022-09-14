@@ -156,7 +156,7 @@ class User(AbstractUser, TimeStampedModel, RegistrationAbstractUser):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     username = None
     email = LowercaseEmailField("email", unique=True)
-    privacy_policy_agreement = models.BooleanField(default=False, blank=False, null=False)
+    privacy_policy_agreement = models.BooleanField(blank=True, null=True)
     verified = models.BooleanField(default=False, blank=True, null=True)
 
     first_name = models.CharField("first name", max_length=128, blank=True, null=True)
