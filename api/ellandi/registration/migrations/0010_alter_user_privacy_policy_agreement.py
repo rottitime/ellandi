@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('registration', '0009_loaddata_fixtures_jobtitles'),
+        ("registration", "0009_loaddata_fixtures_jobtitles"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='user',
-            name='privacy_policy_agreement',
+            model_name="user",
+            name="privacy_policy_agreement",
             field=models.BooleanField(blank=True, null=True),
         ),
     ]
