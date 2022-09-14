@@ -1,4 +1,4 @@
-import knox
+import knox.views
 from django.contrib.auth import authenticate
 from drf_spectacular.extensions import OpenApiAuthenticationExtension
 from drf_spectacular.utils import extend_schema
