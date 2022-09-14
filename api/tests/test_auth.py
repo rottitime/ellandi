@@ -20,7 +20,7 @@ def teardown():
 
 @utils.with_client
 def test_create_user_already_exists(client):
-    response = client.post("/register/", json={"email": user_data["email"], "password": user_data["password"]})
+    response = client.post("/api/register/", json={"email": user_data["email"], "password": user_data["password"]})
     assert response.status_code == 400
     error = response.json()
     assert error == {"detail": "User already exists"}
@@ -29,7 +29,7 @@ def test_create_user_already_exists(client):
 @utils.with_client
 def test_create_user_without_privacy_policy(client):
     response = client.post(
-        "/register/", json={"email": new_user_1_data["email"], "password": new_user_1_data["password"]}
+        "/api/register/", json={"email": new_user_1_data["email"], "password": new_user_1_data["password"]}
     )
     assert response.status_code == 200
     user = response.json()
@@ -40,7 +40,7 @@ def test_create_user_without_privacy_policy(client):
 @utils.with_client
 def test_create_user_with_privacy_policy(client):
     response = client.post(
-        "/register/",
+        "/api/register/",
         json={
             "email": new_user_2_data["email"],
             "password": new_user_2_data["password"],
@@ -55,7 +55,7 @@ def test_create_user_with_privacy_policy(client):
 
 @utils.with_client
 def test_create_user_wrong_email(client):
-    response = client.post("/register/", json=wrong_domain_user)
+    response = client.post("/api/register/", json=wrong_domain_user)
     assert response.status_code == 400
     error = response.json()
     assert error == {"detail": "You need a recognised Cabinet Office email address to use this service"}
@@ -70,7 +70,7 @@ def test_homepage_no_auth(client):
 
 @utils.with_client
 def test_logout(client):
-    response = client.post("/login/", json={"email": user_data["email"], "password": user_data["password"]})
+    response = client.post("/api/login/", json={"email": user_data["email"], "password": user_data["password"]})
     assert response.status_code == 200
     token = response.json()["token"]
     assert token
@@ -82,20 +82,20 @@ def test_logout(client):
     assert response.status_code == 200
     assert response.json()["user-skills"] == "http://testserver:8000/user-skills/", response.json()
 
-    response = client.post("/logout/")
+    response = client.post("/api/logout/")
     assert response.status_code == 204
 
 
 @utils.with_client
 def test_login(client):
-    response = client.post("/login/", json={"email": user_data["email"], "password": user_data["password"]})
+    response = client.post("/api/login/", json={"email": user_data["email"], "password": user_data["password"]})
     assert response.status_code == 200
     assert response.json()["token"]
 
 
 @utils.with_client
 def test_failed_login(client):
-    response = client.post("/login/", json={"email": user_data["email"], "password": "floooble-flabble"})
+    response = client.post("/api/login/", json={"email": user_data["email"], "password": "floooble-flabble"})
     assert response.status_code == 403
     error_message = response.json()["detail"]
     expected = "Either the email address and/or password you have entered is incorrect"
@@ -104,7 +104,7 @@ def test_failed_login(client):
 
 @utils.with_logged_in_client
 def test_me_view(client, user_id):
-    response = client.get("/me/")
+    response = client.get("/api/me/")
     data = response.json()
     assert data["id"] == user_id
     for key in ("email", "first_name", "last_name"):
