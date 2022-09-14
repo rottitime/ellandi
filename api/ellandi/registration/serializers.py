@@ -163,7 +163,7 @@ class UserSerializer(serializers.ModelSerializer):
     professions = serializers.SlugRelatedField(
         many=True, queryset=Profession.objects.all(), read_only=False, slug_field="name", required=False
     )
-    is_line_manager = serializers.CharField()
+    is_line_manager = serializers.BooleanField(required=False)
 
     def update(self, instance, validated_data):
         single_fields_to_update = [
