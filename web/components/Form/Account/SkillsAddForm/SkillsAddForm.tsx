@@ -188,7 +188,7 @@ const SkillsAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
           list={tableData}
           headers={[
             { children: <>&nbsp;</>, width: 227 },
-            ...levels.map(({ slug, name, description }) => ({
+            ...(levels || []).map(({ slug, name, description }) => ({
               children: (
                 <span id={`${id}-th-${slug}`}>
                   {name}{' '}
