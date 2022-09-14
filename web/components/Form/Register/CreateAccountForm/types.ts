@@ -3,4 +3,5 @@ export type CreateAccountType = {
   emailConfirm: string
   password: string
   passwordConfirm: string
+  privacy_policy_agreement: boolean
 }

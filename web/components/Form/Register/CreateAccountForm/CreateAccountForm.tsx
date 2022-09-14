@@ -1,8 +1,14 @@
 import { FC, useEffect } from 'react'
-import { Typography } from '@mui/material'
-import { object, SchemaOf, string, ref } from 'yup'
+import {
+  Checkbox,
+  FormControlLabel,
+  FormGroup,
+  FormHelperText,
+  Typography
+} from '@mui/material'
+import { object, SchemaOf, string, ref, boolean } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useForm, FormProvider } from 'react-hook-form'
+import { useForm, FormProvider, Controller } from 'react-hook-form'
 import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldControlled'
 import { StandardRegisterProps } from '@/components/Form/Register/types'
 import { Field } from '@/components/Form/Field/Field'
@@ -17,7 +23,13 @@ const {
 } = getConfig()
 
 const minPassword = 8
-const defaultValues = { email: '', password: '', emailConfirm: '', passwordConfirm: '' }
+const defaultValues = {
+  email: '',
+  password: '',
+  emailConfirm: '',
+  passwordConfirm: '',
+  privacy_policy_agreement: false
+}
 
 const schema: SchemaOf<CreateAccountType> = object().shape({
   email: string()
@@ -33,7 +45,10 @@ const schema: SchemaOf<CreateAccountType> = object().shape({
     .required('This is a required field'),
   passwordConfirm: string()
     .oneOf([ref('password'), null], 'Does not match with password')
-    .required('This is a required field')
+    .required('This is a required field'),
+  privacy_policy_agreement: boolean()
+    .required()
+    .oneOf([true], 'You must accept the privacy policy')
 })
 
 const CreateAccountForm: FC<StandardRegisterProps<CreateAccountType>> = (props) => {
@@ -51,9 +66,10 @@ const CreateAccountForm: FC<StandardRegisterProps<CreateAccountType>> = (props) 
 
   return (
     <FormProvider {...methods}>
-      <Form {...props} defaultValues={defaultValues}>
+      <Form {...props} defaultValues={defaultValues} submitDisabled>
         <Typography variant="subtitle1" gutterBottom>
-          You need to create an account before using this service
+          You need to create an account before using this service. Already have an
+          account? <Link href={urls.signin}>Sign in</Link>
         </Typography>
 
         <Typography variant="subtitle1" gutterBottom>
@@ -87,8 +103,32 @@ const CreateAccountForm: FC<StandardRegisterProps<CreateAccountType>> = (props) 
         </Field>
 
         <Typography gutterBottom>
-          Already have an account? <Link href={urls.signin}>Sign in</Link>
+          <Link href="/help/privacy-policy" target="_tab">
+            Privacy policy (opens in a new tab)
+          </Link>
         </Typography>
+
+        <FormGroup>
+          <Controller
+            name="privacy_policy_agreement"
+            control={methods.control}
+            render={({ field, fieldState: { error } }) => (
+              <>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      data-testid="privacy-checkbox"
+                      checked={field.value}
+                      {...field}
+                    />
+                  }
+                  label="I agree to the privacy policy"
+                />
+                {error && <FormHelperText error>{error.message}</FormHelperText>}
+              </>
+            )}
+          />
+        </FormGroup>
       </Form>
     </FormProvider>
   )

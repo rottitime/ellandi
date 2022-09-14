@@ -12,13 +12,16 @@ describe('CreateAccountForm', () => {
       <CreateAccountForm defaultValues={null} backUrl="/back" onFormSubmit={jest.fn()} />
     )
 
-    expect(screen.getByRole('button', { name: /Continue/i })).toBeInTheDocument()
+    const button = screen.getByRole('button', { name: /Continue/i })
+    expect(button).toBeInTheDocument()
+    expect(button).toBeDisabled()
     expect(screen.getByRole('textbox', { name: 'Email address' })).toBeInTheDocument()
     expect(
       screen.getByRole('textbox', { name: 'Confirm your email address' })
     ).toBeInTheDocument()
     expect(screen.getByLabelText('Password')).toBeInTheDocument()
     expect(screen.getByLabelText('Confirm your password')).toBeInTheDocument()
+    expect(screen.getByLabelText('I agree to the privacy policy')).toBeInTheDocument()
   })
 
   it('errors for required fields', async () => {
@@ -29,6 +32,7 @@ describe('CreateAccountForm', () => {
     const button = screen.getByRole('button', { name: /Continue/i })
     expect(button).toBeInTheDocument()
 
+    await userEvent.click(screen.getByTestId('privacy-checkbox'))
     await userEvent.click(button)
 
     await waitFor(async () => {
@@ -93,6 +97,7 @@ describe('CreateAccountForm', () => {
     await userEvent.type(emailField2, email)
     await userEvent.type(passwordField1, password)
     await userEvent.type(passwordField2, password)
+    await userEvent.click(screen.getByTestId('privacy-checkbox'))
 
     await userEvent.click(button)
 
@@ -101,7 +106,8 @@ describe('CreateAccountForm', () => {
         email,
         emailConfirm: email,
         password,
-        passwordConfirm: password
+        passwordConfirm: password,
+        privacy_policy_agreement: true
       })
     })
   })

@@ -172,10 +172,6 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 
 const steps: Steps[] = [
   {
-    form: dynamic(() => import('@/components/Form/Register/PrivacyForm')),
-    title: 'Privacy policy'
-  },
-  {
     form: dynamic(
       () => import('@/components/Form/Register/RegisterDetailsForm/RegisterDetailsForm')
     ),
