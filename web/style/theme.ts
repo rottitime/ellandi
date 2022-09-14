@@ -108,13 +108,6 @@ const theme = createTheme({
         }
       }
     },
-    MuiInputLabel: {
-      styleOverrides: {
-        // root: {
-        //   fontSize: '12px'
-        // }
-      }
-    },
     MuiButton: {
       styleOverrides: {
         root: {

@@ -98,7 +98,7 @@ const CreateAccountForm: FC<StandardRegisterProps<CreateAccountType>> = (props) 
           />
         </Field>
 
-        <Typography gutterBottom>
+        <Typography variant="body2" gutterBottom>
           <Link href="/help/privacy-policy" target="_tab">
             Privacy policy (opens in a new tab)
           </Link>
