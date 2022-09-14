@@ -28,7 +28,9 @@ def test_create_user_already_exists(client):
 
 @utils.with_client
 def test_create_user_without_privacy_policy(client):
-    response = client.post("/register/", json={"email": new_user_1_data["email"], "password": new_user_1_data["password"]})
+    response = client.post(
+        "/register/", json={"email": new_user_1_data["email"], "password": new_user_1_data["password"]}
+    )
     assert response.status_code == 200
     user = response.json()
     assert user["id"]
@@ -37,11 +39,18 @@ def test_create_user_without_privacy_policy(client):
 
 @utils.with_client
 def test_create_user_with_privacy_policy(client):
-    response = client.post("/register/", json={"email": new_user_2_data["email"], "password": new_user_2_data["password"], "privacy_policy_agreement": True})
+    response = client.post(
+        "/register/",
+        json={
+            "email": new_user_2_data["email"],
+            "password": new_user_2_data["password"],
+            "privacy_policy_agreement": True,
+        },
+    )
     assert response.status_code == 200
     user = response.json()
     assert user["id"]
-    assert user["privacy_policy_agreement"] == True
+    assert user["privacy_policy_agreement"]
 
 
 @utils.with_client

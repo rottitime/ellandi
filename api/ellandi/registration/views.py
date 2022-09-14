@@ -181,7 +181,9 @@ def register_view(request):
     privacy_policy_agreement = request.data.get("privacy_policy_agreement")
     if get_user_model().objects.filter(email=email).exists():
         raise exceptions.RegistrationError()
-    user = get_user_model().objects.create_user(email=email, password=password, privacy_policy_agreement=privacy_policy_agreement)
+    user = get_user_model().objects.create_user(
+        email=email, password=password, privacy_policy_agreement=privacy_policy_agreement
+    )
     user_data = serializers.UserSerializer(user, context={"request": request}).data
     if settings.SEND_VERIFICATION_EMAIL:
         send_verification_email(user)
