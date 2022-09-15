@@ -14,8 +14,8 @@ TOKEN_GENERATOR = PasswordResetTokenGenerator()
 
 EMAIL_MAPPING = {
     "verification": {
-        "from_address": "something@example.com",
-        "subject": "Verify your email",
+        "from_address": "support-ellandi@cabinetoffice.gov.uk",
+        "subject": "Civil Service Skills and Learning: account created",
         "template_name": "email/verification.txt",
         "url_path": "/signin/verify",
     },

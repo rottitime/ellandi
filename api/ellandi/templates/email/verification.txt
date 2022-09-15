@@ -1,7 +1,13 @@
-Your email {{user.email}} address was registered with Ellandi
+Hi {{user.first_name}},
 
-If it was you that did this, please confirm your email at the following url:
+Your Civil Service Skills and Learning Service account has been created.
 
-{{url|safe}}
+To get signed in to your account to: {{url|safe}}, where you can:
+* manage your profile, add news skills or update your learning record
+* find and explore learning, training and development opportunities
 
-Thank you
+If you have a query about this notification, please email the support team: support-ellandi@cabinetoffice.gov.uk
+
+Regards
+
+Civil Service Skills and Learning
