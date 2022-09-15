@@ -2,7 +2,7 @@ Hi {{user.first_name}},
 
 Your Civil Service Skills and Learning Service account has been created.
 
-To get signed in to your account to: {{url|safe}}, where you can:
+To get signed in to your account go to: {{url|safe}}, where you can:
 * manage your profile, add news skills or update your learning record
 * find and explore learning, training and development opportunities
 

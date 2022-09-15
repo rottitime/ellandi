@@ -1,3 +1,4 @@
+import email
 import os
 import pathlib
 
@@ -18,9 +19,10 @@ def _get_latest_email_url(token_type):
     latest_email_path = max(email_dir.iterdir(), key=os.path.getmtime)
     with latest_email_path.open() as f:
         lines = f.readlines()
-    url_lines = tuple(line for line in lines if line.startswith("http://testserver/"))
+    url_lines = tuple(word for line in lines for word in line.split() if word.startswith("http://testserver/"))
     assert len(url_lines) == 1
     email_url = url_lines[0].strip()
+    email_url = email_url.strip(",")
     args = furl.furl(email_url).query.params
     host_url = furl.furl(settings.HOST_URL.strip("/"))
     url = furl.furl(host_url).set(path=("user", args["user_id"], token_type, args["code"], ""))
