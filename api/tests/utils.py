@@ -48,7 +48,7 @@ def with_logged_in_client(func):
         add_user_skills_etc(another_user)
 
         with httpx.Client(app=wsgi.application, base_url="http://testserver:8000") as client:
-            response = client.post("/login/", json={"email": user_data["email"], "password": user_data["password"]})
+            response = client.post("/api/login/", json={"email": user_data["email"], "password": user_data["password"]})
             assert response.status_code == 200
             token = response.json()["token"]
             assert token

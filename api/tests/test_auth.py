@@ -63,7 +63,7 @@ def test_create_user_wrong_email(client):
 
 @utils.with_client
 def test_homepage_no_auth(client):
-    response = client.get("/")
+    response = client.get("/api/")
     assert response.status_code == 401
     assert response.json() == {"detail": "Authentication credentials were not provided."}
 
@@ -78,9 +78,9 @@ def test_logout(client):
     headers = {"Authorization": f"Token {token}"}
     client.headers = headers
 
-    response = client.get("/")
+    response = client.get("/api/")
     assert response.status_code == 200
-    assert response.json()["user-skills"] == "http://testserver:8000/user-skills/", response.json()
+    assert response.json()["user-skills"] == "http://testserver:8000/api/user-skills/", response.json()
 
     response = client.post("/api/logout/")
     assert response.status_code == 204

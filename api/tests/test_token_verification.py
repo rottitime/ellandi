@@ -25,7 +25,7 @@ def _get_latest_email_url(token_type):
     email_url = email_url.strip(",")
     args = furl.furl(email_url).query.params
     host_url = furl.furl(settings.HOST_URL.strip("/"))
-    url = furl.furl(host_url).set(path=("user", args["user_id"], token_type, args["code"], ""))
+    url = furl.furl(host_url).set(path=("api", "user", args["user_id"], token_type, args["code"], ""))
     url = str(url)
     return url
 
