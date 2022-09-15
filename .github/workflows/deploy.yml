@@ -31,8 +31,10 @@ jobs:
 
     strategy:
       matrix:
-        app: [ellandi-api, ellandi-web, organogram]
+        app: [ellandi-api, ellandi-web, organogram, ellandi]
         include:
+          - app: ellandi
+            dockerfile: docker/ellandi/Dockerfile
           - app: ellandi-api
             dockerfile: docker/api/Dockerfile
           - app: ellandi-web
