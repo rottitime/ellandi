@@ -6,6 +6,22 @@ volumes:
   minio_data: {}
 
 services:
+  ellandi:
+    build:
+      context: .
+      dockerfile: ./docker/ellandi/Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: http://localhost:8000
+    image: ellandi_main
+    depends_on:
+      - ellandi-db
+    env_file:
+      - ./.envs/ellandi
+    volumes:
+      - ./:/app/:z
+    ports:
+      - "8000:8000"
+
   api:
     build:
       context: .
