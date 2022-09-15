@@ -38,7 +38,7 @@ const Row = styled(Field)`
 
 const skillSchema: SchemaOf<SkillDevelopType> = object({
   id: string().nullable(),
-  name: string().required('This is required')
+  name: string().required('Enter a skill name')
 })
 
 const schema: SchemaOf<SkillsDevelopType> = object().shape({
@@ -62,7 +62,7 @@ const SkillsDevelopAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
     () => authFetch(fetchMe)
   )
 
-  const { control, handleSubmit, setValue } = methods
+  const { control, handleSubmit } = methods
 
   const { fields, append, remove } = useFieldArray<
     SkillsDevelopType,
@@ -95,15 +95,15 @@ const SkillsDevelopAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
               <Controller
                 name={`skills_develop.${index}.name`}
                 control={control}
-                render={({ field: { name }, fieldState: { error } }) => (
+                render={({ field, fieldState: { error } }) => (
                   <CreatableAutocomplete
+                    {...field}
                     loading={isLoadingSkills}
                     disableOptions={disableOptions}
                     label="Enter a skill"
-                    data={
+                    options={
                       isLoadingSkills ? [] : skillsList.map((skill) => ({ title: skill }))
                     }
-                    onSelected={(_event, values) => setValue(name, values?.title)}
                     size="small"
                     error={!!error}
                     helperText={!!error && error.message}
@@ -135,8 +135,8 @@ const SkillsDevelopAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
           </Button>
         </Field>
         <Field textAlign="right">
-          <Button type="submit" variant="contained" loading={loading}>
-            Add Skills
+          <Button type="submit" color="primary" loading={loading}>
+            Add skills
           </Button>
         </Field>
       </form>

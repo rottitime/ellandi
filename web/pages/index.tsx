@@ -8,32 +8,25 @@ const List = styled(Box)`
     margin-bottom: ${(p) => p.theme.spacing(3)};
   }
 `
-const SignInButton = styled(Button)`
-  background-color: ${(p) => p.theme.colors.grey3};
-
-  :hover {
-    background-color: ${(p) => p.theme.colors.grey2};
-  }
-`
 
 const IndexPage = () => (
   <div>
-    <Typography variant="subtitle1">You can use this service to:</Typography>
+    <Typography>You can use this service to:</Typography>
     <List as="ul">
       <li>upload and maintain your skills profile</li>
-      <li>specify any skills you'd like to develop in the future</li>
+      <li>specify any skills you would like to develop in the future</li>
       <li>support discussions around skills development with your line manager</li>
     </List>
 
     <Box display="flex" justifyContent={'end'}>
-      <SignInButton variant="contained" href="/signin">
+      <Button variant="contained" href="/signin" color="secondary">
         Sign in
-      </SignInButton>
+      </Button>
 
       <Box width={16} />
 
       <Button variant="contained" href="/register">
-        Create Account
+        Create account
       </Button>
     </Box>
   </div>
@@ -41,7 +34,5 @@ const IndexPage = () => (
 
 export default IndexPage
 IndexPage.getLayout = (page) => (
-  <CardLayout title="Civil Service Skills and Learning" showPromo={false}>
-    {page}
-  </CardLayout>
+  <CardLayout title="Civil Service Skills and Learning">{page}</CardLayout>
 )

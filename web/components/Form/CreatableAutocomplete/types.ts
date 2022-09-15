@@ -1,5 +1,5 @@
 import { ComponentProps, ReactNode, SyntheticEvent } from 'react'
-import { Autocomplete, Box } from '@mui/material'
+import { Autocomplete, AutocompleteChangeReason } from '@mui/material'
 
 export interface ListType {
   inputValue?: string
@@ -8,20 +8,18 @@ export interface ListType {
 }
 
 export type Props = {
-  onSelected: (e: SyntheticEvent<Element, Event>, newValue: ListType) => void
-  data: ListType[]
+  onChange: (
+    newValue: string,
+    e: SyntheticEvent<Element, Event>,
+    reason: AutocompleteChangeReason
+  ) => void
+  options: ListType[]
   helperText?: string
   label: string
   loading?: ComponentProps<typeof Autocomplete>['loading']
   disableOptions?: string[]
-  onSelectedClear?: boolean
   size?: 'medium' | 'small'
   error?: boolean
-} & ComponentProps<typeof Box>
+} & Omit<ComponentProps<typeof Autocomplete>, 'renderInput'>
 
-export type FilmOptionType = {
-  inputValue?: string
-  title: string
-  year?: number
-  helper?: ReactNode
-}
+export type OnChangeValue = ListType | string

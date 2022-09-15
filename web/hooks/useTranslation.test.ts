@@ -18,13 +18,13 @@ describe('Hook: useTranslation', () => {
     expect(result.current.t('validEmail')).toEqual('HelloWorld')
   })
 
-  it.skip('Shows anotherlangiage content', async () => {
-    useRouter.mockImplementation(() => ({
-      locale: 'de'
-    }))
+  // it.skip('Shows anotherlangiage content', async () => {
+  //   useRouter.mockImplementation(() => ({
+  //     locale: 'de'
+  //   }))
 
-    const { result } = renderHook(() => useTranslation())
+  //   const { result } = renderHook(() => useTranslation())
 
-    expect(result.current.t('validEmail')).toEqual('HelloWorld')
-  })
+  //   expect(result.current.t('validEmail')).toEqual('HelloWorld')
+  // })
 })

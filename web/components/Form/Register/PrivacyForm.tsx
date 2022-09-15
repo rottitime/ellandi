@@ -42,8 +42,8 @@ const PrivacyForm: FC<StandardRegisterProps<PrivacyAcceptType>> = (props) => {
             render={({ field, fieldState: { error } }) => (
               <>
                 <FormControlLabel
-                  control={<Checkbox checked={field.value} {...field} />}
                   label="I agree to the privacy policy"
+                  control={<Checkbox checked={field.value} {...field} />}
                 />
                 {error && <FormHelperText error>{error.message}</FormHelperText>}
               </>

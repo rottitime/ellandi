@@ -16,7 +16,7 @@ import Icon from '@/components/Icon/Icon'
 import Headline from '@/components/Account/Headline/Headline'
 import { useQuery } from 'react-query'
 import { fetchMe } from '@/service/me'
-import { Query, RegisterUserResponse } from '@/service/api'
+import { Query, RegisterUserResponseWithCustomFields } from '@/service/api'
 import router from 'next/router'
 import getConfig from 'next/config'
 import { Props } from './types'
@@ -29,7 +29,6 @@ const Layout = styled(Box)`
   --footer-height: 60px;
 
   > .MuiContainer-root {
-    padding-top: ${(p) => p.theme.spacing(3)};
     padding-bottom: ${(p) => p.theme.spacing(5)};
     ${({ theme }) => theme.breakpoints.up('md')} {
       min-height: calc(100vh - (var(--footer-height) + var(--banner-height)));
@@ -44,6 +43,7 @@ const Layout = styled(Box)`
     border-bottom: 3px solid #000;
     color: ${(p) => alpha(p.theme.colors.black, 0.6)};
     margin-bottom: ${(p) => p.theme.spacing(4)};
+    font-size: 16px;
     li {
       margin-bottom: 10px;
     }
@@ -72,7 +72,7 @@ const AccountLayout: FC<Props> = ({
   teaserContent
 }) => {
   const { logout, authFetch, invalidate } = useAuth()
-  const { isLoading, data, isError } = useQuery<RegisterUserResponse>(
+  const { isLoading, data, isError } = useQuery<RegisterUserResponseWithCustomFields>(
     Query.Me,
     () => authFetch(fetchMe),
     { retry: 1 }
@@ -94,7 +94,9 @@ const AccountLayout: FC<Props> = ({
     <Layout>
       <Template>
         <AppBar
+          sx={{ mt: 4 }}
           logoUrl={urls.landingSignin}
+          settingsTip={data?.fullname}
           pages={[
             { title: 'Home', url: urls.landingSignin },
             {
@@ -119,7 +121,9 @@ const AccountLayout: FC<Props> = ({
                 {item.title}
               </Link>
             ) : (
-              <Typography key={item.title}>{item.title}</Typography>
+              <Typography key={item.title} variant="body2">
+                {item.title}
+              </Typography>
             )
           )}
         </Breadcrumbs>
@@ -135,11 +139,7 @@ const AccountLayout: FC<Props> = ({
                 {teaserHeadline}
               </Typography>
             )}
-            {teaserContent && (
-              <Typography variant="subtitle1" component="p" gutterBottom>
-                {teaserContent}
-              </Typography>
-            )}
+            {teaserContent && <Typography gutterBottom>{teaserContent}</Typography>}
           </Headline>
         )}
 

@@ -14,7 +14,7 @@ const FeedbackPage = () => {
     <>
       {complete ? (
         <>
-          <Typography variant="subtitle1" gutterBottom data-testid="success-message">
+          <Typography gutterBottom data-testid="success-message">
             Thank you, Lorem ipsum dolor sit amet.
           </Typography>
           <Typography>

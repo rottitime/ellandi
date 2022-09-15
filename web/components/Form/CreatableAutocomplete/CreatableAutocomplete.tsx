@@ -1,70 +1,77 @@
 import { FC, useState } from 'react'
 import {
-  Box,
   styled,
-  TextField,
   Autocomplete,
   FormHelperText,
-  Paper
+  Paper,
+  CircularProgress,
+  Typography
 } from '@mui/material'
+import TextField from '@/components/Form/TextField/TextField'
 import { createFilterOptions } from '@mui/material/Autocomplete'
 import Icon from '@/components/Icon/Icon'
-import { FilmOptionType, ListType, Props } from './types'
+import { ListType, OnChangeValue, Props } from './types'
 
-const filter = createFilterOptions<FilmOptionType>()
+const filter = createFilterOptions<ListType>()
 
 const DropDown = styled(Paper)`
   border: 1px solid ${(p) => p.theme.colors.grey1};
+
+  li {
+    font-size: 16px;
+  }
 `
 
-const Wrapper = styled(Box)`
-  .button-add {
-    display: flex;
-    align-items: center;
-    svg {
-      color: ${(p) => p.theme.colors.grey3};
-      font-size: 25px;
-      margin-right: ${(p) => p.theme.spacing(2)};
-    }
+const ButtonAdd = styled(Typography)`
+  display: flex;
+  align-items: center;
+
+  svg {
+    color: ${(p) => p.theme.colors.grey3};
+    font-size: 25px;
+    margin-right: ${(p) => p.theme.spacing(2)};
   }
 `
 
 const CreatableAutocomplete: FC<Props> = ({
-  onSelected,
-  data,
   label,
   helperText,
   loading = false,
-  onSelectedClear,
   disableOptions = [],
   size = 'medium',
+  onChange,
   error,
   ...props
 }) => {
-  const [value, setValue] = useState<ListType | null>(null)
+  const [open, setOpen] = useState(false)
 
   return (
-    <Wrapper className="creatable-autocomplete" {...props}>
+    <>
       <Autocomplete
+        {...props}
         loading={loading}
-        value={value}
         fullWidth
-        getOptionDisabled={({ title }) => disableOptions.includes(title)}
-        onChange={(event, newValue) => {
-          if (typeof newValue === 'string') {
-            setValue({ title: newValue })
-            onSelected(event, { title: newValue })
-          } else if (newValue && newValue.inputValue) {
-            // Create a new value from the user input
-            setValue({ title: newValue.inputValue })
-            onSelected(event, { title: newValue.inputValue })
-          } else {
-            setValue(newValue)
-            onSelected(event, newValue)
+        open={open}
+        onOpen={() => setOpen(true)}
+        onClose={() => setOpen(false)}
+        getOptionDisabled={(data: ListType) => disableOptions.includes(data?.title)}
+        onSelect={(event) =>
+          typeof onChange === 'function' &&
+          onChange((event.target as HTMLInputElement).value, event, 'selectOption')
+        }
+        onChange={(event, value: OnChangeValue, reason) => {
+          let title
+          if (typeof value === 'string') {
+            title = value
+          } else if (value?.inputValue) {
+            title = value?.inputValue
+          } else if (value?.title) {
+            title = value.title
           }
-          onSelectedClear && setValue({ title: '' })
+
+          if (typeof onChange === 'function') onChange(title, event, reason)
         }}
-        filterOptions={(options, params) => {
+        filterOptions={(options: ListType[], params) => {
           const filtered = filter(options, params)
 
           const { inputValue } = params
@@ -75,10 +82,10 @@ const CreatableAutocomplete: FC<Props> = ({
               inputValue,
               title: `Add "${params.inputValue}"`,
               helper: (
-                <Box className="button-add">
+                <ButtonAdd variant="body2">
                   <Icon icon="circle-plus" />
                   Add "{params.inputValue}"
-                </Box>
+                </ButtonAdd>
               )
             })
           }
@@ -86,30 +93,44 @@ const CreatableAutocomplete: FC<Props> = ({
           return filtered
         }}
         selectOnFocus
-        clearOnBlur
         handleHomeEndKeys
         PaperComponent={DropDown}
-        options={data}
-        getOptionLabel={(option) => {
+        getOptionLabel={(option: ListType) => {
           // Value selected with enter, right from the input
-          if (typeof option === 'string') {
-            return option
-          }
+          if (typeof option === 'string') return option
           // Add "xxx" option created dynamically
-          if (option.inputValue) {
-            return option.inputValue
-          }
+          if (!!option?.inputValue) return option.inputValue
           // Regular option
           return option.title
         }}
         renderOption={(props, { helper, title }) => <li {...props}>{helper || title}</li>}
         freeSolo
         renderInput={(params) => (
-          <TextField {...params} label={label} size={size} error={error} />
+          <TextField
+            {...params}
+            label={label}
+            size={size}
+            error={error}
+            InputProps={{
+              ...params.InputProps,
+              endAdornment: (
+                <>
+                  {loading && open ? (
+                    <CircularProgress
+                      color="inherit"
+                      size={20}
+                      data-testid="loading-icon"
+                    />
+                  ) : null}
+                  {params.InputProps.endAdornment}
+                </>
+              )
+            }}
+          />
         )}
       />
       {helperText && <FormHelperText error={error}>{helperText}</FormHelperText>}
-    </Wrapper>
+    </>
   )
 }
 

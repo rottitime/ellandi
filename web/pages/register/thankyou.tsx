@@ -8,7 +8,7 @@ const nextPage = 8
 
 const RegisterPage = () => (
   <>
-    <Typography variant="subtitle1" sx={{ mb: 3 }}>
+    <Typography gutterBottom>
       We're now going to ask you about your skills, including:
     </Typography>
 
@@ -19,10 +19,10 @@ const RegisterPage = () => (
     </ul>
 
     <FooterButtons>
-      <Button variant="outlined" size="small" onClick={() => router.back()}>
+      <Button color="tertiary" size="small" onClick={() => router.back()}>
         Back
       </Button>
-      <Button variant="contained" href={`/register/step/${nextPage}`}>
+      <Button color="primary" href={`/register/step/${nextPage}`}>
         Continue
       </Button>
     </FooterButtons>

@@ -1,12 +1,18 @@
 import AccountLayout from '@/components/Layout/AccountLayout/AccountLayout'
 import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
 import SimpleTable from '@/components/UI/SimpleTable/SimpleTable'
-import { Typography, TableCellProps } from '@mui/material'
+import { Typography, TableCellProps, styled } from '@mui/material'
 import { useQuery } from 'react-query'
 import { fetchMe } from '@/service/me'
 import { Query, RegisterUserResponse } from '@/service/api'
 import useAuth from '@/hooks/useAuth'
 import { useMemo } from 'react'
+
+const Table = styled(SimpleTable)`
+  th {
+    width: 29%;
+  }
+`
 
 const ProfilePage = () => {
   const { authFetch } = useAuth()
@@ -24,12 +30,14 @@ const ProfilePage = () => {
   )
 
   const renderTable = (list = []) => (
-    <SimpleTable
+    <Table
       list={[
-        ...list.map<TableCellProps[]>(({ name, value }) => [
-          { children: name, component: 'th' },
-          { children: <Typography variant="subtitle1">{value}</Typography> }
-        ])
+        ...list
+          .filter(({ name, value }) => !(name == 'Primary profession' && !value))
+          .map<TableCellProps[]>(({ name, value }) => [
+            { children: name, component: 'th' },
+            { children: <Typography>{value}</Typography> }
+          ])
       ]}
     />
   )
@@ -77,7 +85,10 @@ const ProfilePage = () => {
           { name: 'Line manager email', value: data.line_manager_email },
           { name: 'Grade', value: data.grade_other || data.grade },
           { name: 'Profession(s)', value: professions.join(', ') },
-          { name: 'Primary profession', value: data.primary_profession },
+          {
+            name: 'Primary profession',
+            value: professions.length > 1 && data.primary_profession
+          },
           { name: 'Function', value: data.function_other || data.function },
           {
             name: 'Contract type',

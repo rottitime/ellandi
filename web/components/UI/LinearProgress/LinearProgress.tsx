@@ -32,11 +32,9 @@ const LinearProgress: FC<Props> = ({ label, sx, ...props }) => {
         <MuiLinearProgress variant="determinate" {...props} />
       </Box>
       {label && (
-        <Box>
-          <Typography variant="caption" className="progress-label">
-            {label}
-          </Typography>
-        </Box>
+        <Typography variant="caption" className="progress-label">
+          {label}
+        </Typography>
       )}
     </Wrapper>
   )

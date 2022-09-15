@@ -1,13 +1,4 @@
-import {
-  FormHelperText,
-  IconButton,
-  Skeleton,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
-  styled,
-  Box
-} from '@mui/material'
+import { FormHelperText, IconButton, Radio, styled } from '@mui/material'
 import {
   GenericDataList,
   Query,
@@ -16,7 +7,7 @@ import {
   SkillType
 } from '@/service/types'
 import { fetchSkillLevels, fetchSkills } from '@/service/api'
-import { FC, useEffect, useMemo } from 'react'
+import { FC, useEffect, useId, useMemo } from 'react'
 import { useQuery } from 'react-query'
 import { Controller, FormProvider, useFieldArray, useForm } from 'react-hook-form'
 import { Field } from '@/components/Form/Field/Field'
@@ -24,32 +15,27 @@ import { array, object, SchemaOf, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Props } from './types'
 import CreatableAutocomplete from '../../CreatableAutocomplete/CreatableAutocomplete'
+import SkillsSuggest from '@/components/Account/SkillsSuggest/SkillsSuggest'
 import Icon from '@/components/Icon/Icon'
 import Button from '@/components/UI/Button/Button'
 import { fetchMe } from '@/service/me'
 import useAuth from '@/hooks/useAuth'
+import SimpleTable, {
+  Props as SimpleTableProps
+} from '@/components/UI/SimpleTable/SimpleTable'
+import Tooltip from '@/components/UI/Tooltip/Tooltip'
 
-const Row = styled(Field)`
-  display: flex;
-  gap: ${(p) => p.theme.spacing(3)};
-  .creatable-autocomplete {
-    width: 350px;
-  }
-  .button-remove {
-    color: ${(p) => p.theme.palette.text.primary};
-    margin-left: auto;
-  }
-  .MuiFormGroup-root {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+const Table = styled(SimpleTable)`
+  th,
+  td {
+    text-align: center;
   }
 `
 
 const skillSchema: SchemaOf<SkillType> = object({
   id: string().nullable(),
-  name: string().required('This is required'),
-  level: string().required('This is required')
+  name: string().required('Enter a skill name'),
+  level: string().required('Select a skill level')
 })
 
 const schema: SchemaOf<SkillsType> = object().shape({
@@ -57,6 +43,7 @@ const schema: SchemaOf<SkillsType> = object().shape({
 })
 
 const SkillsAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
+  const id = useId()
   const { authFetch } = useAuth()
   const { isLoading, data: levels } = useQuery<GenericDataList[], { message?: string }>(
     Query.SkillLevels,
@@ -81,12 +68,17 @@ const SkillsAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
     resolver: yupResolver(schema)
   })
 
-  const { control, handleSubmit, setValue } = methods
+  const {
+    control,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+    getValues
+  } = methods
 
   const { fields, append, remove } = useFieldArray<SkillsType, 'skills', 'name'>({
     control,
     name: 'skills'
-    // keyName: 'name'
   })
 
   useEffect(() => {
@@ -102,68 +94,113 @@ const SkillsAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
     [fields, isFetchedMe, dataMe]
   )
 
+  const tableData: SimpleTableProps['list'] = useMemo(() => {
+    if (!fields?.length) return []
+
+    const rows = fields.map((_item, index) => [
+      {
+        children: (
+          <>
+            <Controller
+              name={`skills.${index}.name`}
+              control={control}
+              render={({ field, fieldState: { error } }) => (
+                <CreatableAutocomplete
+                  {...field}
+                  loading={isLoadingSkills}
+                  disableOptions={disableOptions}
+                  label="Enter a skill"
+                  options={(skillsList || []).map((skill) => ({ title: skill }))}
+                  size="small"
+                  error={!!error}
+                  helperText={error?.message}
+                />
+              )}
+            />
+
+            {errors?.['skills']?.[index]?.['level'] && (
+              <FormHelperText error>
+                {errors?.['skills']?.[index]?.['level']?.message}
+              </FormHelperText>
+            )}
+          </>
+        )
+      },
+      ...levels.map(({ name, slug }) => ({
+        children: (
+          <Controller
+            name={`skills.${index}.level` as `skills.${number}.level`}
+            control={control}
+            render={({ field }) => (
+              <Radio
+                {...field}
+                value={name}
+                inputProps={{ 'aria-labelledby': `${id}-th-${slug}`, 'aria-label': name }}
+                checked={field.value === name}
+              />
+            )}
+          />
+        )
+      })),
+
+      {
+        children: (
+          <IconButton
+            className="button-remove"
+            aria-label="Remove"
+            title="Remove"
+            onClick={() => remove(index)}
+          >
+            <Icon icon="circle-delete" />
+          </IconButton>
+        )
+      }
+    ])
+
+    return [...rows]
+  }, [
+    control,
+    disableOptions,
+    fields,
+    isLoadingSkills,
+    levels,
+    remove,
+    skillsList,
+    errors,
+    id
+  ])
+
   return (
     <FormProvider {...methods}>
+      <SkillsSuggest
+        sx={{ mb: 4 }}
+        hideOptions={disableOptions}
+        onSelected={(name) => {
+          const firstRow = getValues('skills.0')
+          return !firstRow.name && !firstRow.level
+            ? setValue('skills.0.name', name)
+            : append({ name, level: '' })
+        }}
+      />
       <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
-        {isLoading ? (
-          <Skeleton width={100} sx={{ m: 1 }} />
-        ) : (
-          !!fields.length && (
-            <>
-              {fields.map((_item, index) => (
-                <Row key={index}>
-                  <Controller
-                    name={`skills.${index}.name`}
-                    control={control}
-                    render={({ field: { name }, fieldState: { error } }) => (
-                      <CreatableAutocomplete
-                        loading={isLoadingSkills}
-                        disableOptions={disableOptions}
-                        label="Enter a skill"
-                        data={(skillsList || []).map((skill) => ({ title: skill }))}
-                        onSelected={(_event, { title }) => setValue(name, title)}
-                        size="small"
-                        error={!!error}
-                        helperText={!!error && error.message}
-                      />
-                    )}
-                  />
-
-                  <Controller
-                    name={`skills.${index}.level` as `skills.${number}`}
-                    control={control}
-                    render={({ field, fieldState: { error } }) => (
-                      <Box className="radio-options">
-                        <RadioGroup {...field}>
-                          {levels.map(({ name: title }) => (
-                            <FormControlLabel
-                              key={title}
-                              control={<Radio />}
-                              label={title}
-                              value={title}
-                            />
-                          ))}
-                        </RadioGroup>
-                        {!!error && (
-                          <FormHelperText error>{error.message}</FormHelperText>
-                        )}
-                      </Box>
-                    )}
-                  />
-
-                  <IconButton
-                    className="button-remove"
-                    aria-label="Remove"
-                    title="Remove"
-                    onClick={() => remove(index)}
-                  >
-                    <Icon icon="circle-delete" />
-                  </IconButton>
-                </Row>
-              ))}
-            </>
-          )
-        )}
+        <Table
+          loading={isLoading}
+          list={tableData}
+          headers={[
+            { children: <>&nbsp;</>, width: 227 },
+            ...levels.map(({ slug, name, description }) => ({
+              children: (
+                <span id={`${id}-th-${slug}`}>
+                  {name}{' '}
+                  {description && (
+                    <Tooltip brandColor="brandSkills" title={description} />
+                  )}
+                </span>
+              )
+            })),
+            { children: <>&nbsp;</> }
+          ]}
+        />
 
         <Field>
           <Button
@@ -179,7 +216,7 @@ const SkillsAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
         </Field>
         <Field textAlign="right">
           <Button type="submit" variant="contained" loading={loading}>
-            Add Skills
+            Add skills
           </Button>
         </Field>
       </form>

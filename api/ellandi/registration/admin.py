@@ -7,6 +7,7 @@ from .models import (
     EmailSalt,
     Function,
     Grade,
+    JobTitle,
     Language,
     LanguageSkillLevel,
     Location,
@@ -118,7 +119,7 @@ class UserSkillDevelopAdmin(admin.ModelAdmin):
 
 
 class DropDownListAdmin(admin.ModelAdmin):
-    readonly_fields = ("name", "slug")
+    readonly_fields = ("name", "slug", "order")
 
     def has_delete_permission(self, request, obj=None):
         return False
@@ -132,7 +133,7 @@ class OrganisationAdmin(DropDownListAdmin):
 
 
 class ContractTypeAdmin(DropDownListAdmin):
-    readonly_fields = ("name", "slug", "order")
+    pass
 
 
 class LocationAdmin(DropDownListAdmin):
@@ -144,15 +145,15 @@ class LanguageAdmin(DropDownListAdmin):
 
 
 class ProfessionAdmin(DropDownListAdmin):
-    readonly_fields = ("name", "slug", "order")
+    pass
 
 
 class GradeAdmin(DropDownListAdmin):
-    readonly_fields = ("name", "slug", "order")
+    pass
 
 
 class LanguageSkillLevelAdmin(DropDownListAdmin):
-    pass
+    readonly_fields = ("name", "slug", "order", "description")
 
 
 class CountryAdmin(DropDownListAdmin):
@@ -160,11 +161,15 @@ class CountryAdmin(DropDownListAdmin):
 
 
 class FunctionAdmin(DropDownListAdmin):
-    readonly_fields = ("name", "slug", "order")
+    pass
 
 
 class SkillLevelAdmin(DropDownListAdmin):
-    readonly_fields = ("name", "slug", "order")
+    readonly_fields = ("name", "slug", "order", "description")
+
+
+class JobTitleAdmin(DropDownListAdmin):
+    pass
 
 
 admin.site.register(User, UserAdmin)
@@ -181,4 +186,5 @@ admin.site.register(LanguageSkillLevel, LanguageSkillLevelAdmin)
 admin.site.register(Country, CountryAdmin)
 admin.site.register(Function, FunctionAdmin)
 admin.site.register(SkillLevel, SkillLevelAdmin)
+admin.site.register(JobTitle, JobTitleAdmin)
 admin.site.register(EmailSalt)

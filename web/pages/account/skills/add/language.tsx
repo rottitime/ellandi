@@ -35,7 +35,7 @@ const SkillsAddSkillsPage = () => {
         <Grid item xs={12} md={6}>
           <AccountCard
             header={
-              <Typography variant="subtitle1" component="h2">
+              <Typography component="h2">
                 <BadgeNumber label="2" sx={{ mr: 2 }} /> Language and levels
               </Typography>
             }
@@ -48,26 +48,8 @@ const SkillsAddSkillsPage = () => {
         </Grid>
         <Grid item xs={12} md={6}>
           <AccountCard>
-            <Typography variant="subtitle1" component="h3" gutterBottom>
+            <Typography component="h3" gutterBottom>
               Speaking
-            </Typography>
-            <Typography fontWeight="bold">Basic</Typography>
-            <Typography gutterBottom>
-              You can understand and use basic phrases, introduce yourself and describe in
-              simple terms aspects of your background and environment
-            </Typography>
-            <Typography fontWeight="bold">Independent</Typography>
-            <Typography gutterBottom>
-              You can produce clear, detailed text on a wide range of subjects and explain
-              the advantages and disadvantages of a topical issue
-            </Typography>
-            <Typography fontWeight="bold">Proficient</Typography>
-            <Typography gutterBottom>
-              You can produce clear, well-structured, detailed text on complex subjects
-              and can express yourself fluently and precisely
-            </Typography>
-            <Typography variant="subtitle1" component="h3" gutterBottom>
-              Writing
             </Typography>
             <Typography fontWeight="bold">Basic</Typography>
             <Typography gutterBottom>
@@ -79,10 +61,31 @@ const SkillsAddSkillsPage = () => {
               You can deal with most situations likely to arise while travelling in an
               area where the language is spoken and interact with a degree of fluency
             </Typography>
+
             <Typography fontWeight="bold">Proficient</Typography>
             <Typography gutterBottom>
               You can express ideas fluently and spontaneously and can use the language
               flexibly for social, academic and professional purposes
+            </Typography>
+
+            <Typography component="h3" gutterBottom>
+              Writing
+            </Typography>
+            <Typography fontWeight="bold">Basic</Typography>
+            <Typography gutterBottom>
+              You can understand and use basic phrases, introduce yourself and describe in
+              simple terms aspects of your background and environment
+            </Typography>
+            <Typography fontWeight="bold">Independent</Typography>
+            <Typography gutterBottom>
+              You can produce clear, detailed text on a wide range of subjects and explain
+              the advantages and disadvantages of a topical issue
+            </Typography>
+
+            <Typography fontWeight="bold">Proficient</Typography>
+            <Typography gutterBottom>
+              You can produce clear, well-structured, detailed text on complex subjects
+              and can express yourself fluently and precisely
             </Typography>
           </AccountCard>
         </Grid>

@@ -300,6 +300,7 @@ def test_dropdown_list(client, user_id):
         {"name": "United Kingdom", "slug": "united-kingdom", "endpoint": "/countries/"},
         {"name": "Analysis", "slug": "analysis", "endpoint": "/functions/"},
         {"name": "Advanced beginner", "slug": "advanced-beginner", "endpoint": "/skill-levels/"},
+        {"name": "User researcher", "slug": "user-researcher", "endpoint": "/job-titles/"},
     ]
 
     def test_get(endpoint):
@@ -359,10 +360,17 @@ def test_post_create_one_time_login(client):
 
 @utils.with_client
 @with_setup(None, teardown_one_time_login)
-def test_post_create_one_time_login_no_email(client):
+def test_post_create_one_time_login_incorrect_email(client):
     response = client.post("/one-time-login-token/")
     assert response.status_code == status.HTTP_400_BAD_REQUEST
-    assert response.json()["detail"] == "You need to provide an email"
+    assert response.json() == {"detail": "You need to provide an email"}, response.json()
+    response = client.post(
+        "/one-time-login-token/", json={"email": "mr_wrong_email_domain@example.org", "password": "0th3rP455w0rd"}
+    )
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
+    assert response.json() == {
+        "detail": "You need a recognised Cabinet Office email address to use this service"
+    }, response.json()
 
 
 @utils.with_client
@@ -586,3 +594,89 @@ def test_is_line_manager(client, user_id):
     User.objects.filter(line_manager_email=email).delete()
     user_data = client.get("/me/").json()
     assert user_data["is_line_manager"] is False, user_data
+
+
+@utils.with_logged_in_client
+def test_user_skills_other_user(client, user_id):
+    response = client.get("/user-skills/")
+    data = response.json()
+    different_users_skill = [data[k] for k in data if data[k] == "Cake making"]
+    assert len(different_users_skill) == 0, "Should only see skills for logged in user"
+
+
+@utils.with_logged_in_client
+def test_user_languages_other_user(client, user_id):
+    response = client.get("/user-languages/")
+    data = response.json()
+    different_users_skill = [data[k] for k in data if data[k] == "Dutch"]
+    assert len(different_users_skill) == 0, "Should only see languages for logged in user"
+
+
+@utils.with_logged_in_client
+def test_user_skills_develop_other_user(client, user_id):
+    response = client.get("/user-skills-develop/")
+    data = response.json()
+    different_users_skill = [data[k] for k in data if data[k] == "Biscuit making"]
+    assert len(different_users_skill) == 0, "Should only see skills to develop for logged in user"
+
+
+@utils.with_logged_in_client
+def test_all_user_skills_not_admin(client, user_id):
+    response = client.get("/all-user-skills/")
+    assert response.status_code == status.HTTP_403_FORBIDDEN
+
+
+@utils.with_logged_in_client
+def test_all_user_languages_not_admin(client, user_id):
+    response = client.get("/all-user-languages/")
+    assert response.status_code == status.HTTP_403_FORBIDDEN
+
+
+@utils.with_logged_in_client
+def test_all_user_skills_develop_not_admin(client, user_id):
+    response = client.get("/all-user-skills-develop/")
+    assert response.status_code == status.HTTP_403_FORBIDDEN
+
+
+@utils.with_logged_in_client
+def test_all_user_skills(client, user_id):
+    user = User.objects.get(id=user_id)
+    user.is_staff = True
+    user.save()
+    response = client.get("/all-user-skills/")
+    assert response.status_code == status.HTTP_200_OK
+    data = response.json()
+    cake_making = [skill["name"] for skill in data if skill["name"] == "Cake making"]
+    assert len(cake_making) == 1, cake_making
+
+
+@utils.with_logged_in_client
+def test_all_user_languages(client, user_id):
+    user = User.objects.get(id=user_id)
+    user.is_staff = True
+    user.save()
+    response = client.get("/all-user-languages/")
+    assert response.status_code == status.HTTP_200_OK
+    data = response.json()
+    dutch = [lang["name"] for lang in data if lang["name"] == "Dutch"]
+    assert len(dutch) == 1, "Expected languages for another user"
+
+
+@utils.with_logged_in_client
+def test_all_user_skills_to_develop(client, user_id):
+    user = User.objects.get(id=user_id)
+    user.is_staff = True
+    user.save()
+    response = client.get("/all-user-skills-develop/")
+    assert response.status_code == status.HTTP_200_OK
+    data = response.json()
+    biscuit_making = [lang["name"] for lang in data if lang["name"] == "Biscuit making"]
+    assert len(biscuit_making) == 1, "Expected skills to develop for another user"
+
+
+@utils.with_client
+def check_endpoints_require_login(client):
+    endpoints = ["/create-error/", "/me/", "/user-languages/", "/user-skills/", "/user-skills-develop/"]
+    for endpoint in endpoints:
+        response = client.get(endpoint)
+        assert response.status_code == status.HTTP_401_UNAUTHORIZED, response.status_code

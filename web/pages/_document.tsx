@@ -11,10 +11,9 @@ export default class MyDocument extends Document {
           <meta name="theme-color" content={theme.palette.primary.main} />
           <link rel="shortcut icon" href="/static/favicon.ico" />
           <link
+            href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;0,700;1,500;1,700&display=swap"
             rel="stylesheet"
-            href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap"
           />
-
           {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             (this.props as any).emotionStyleTags

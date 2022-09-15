@@ -48,7 +48,6 @@ const SkillsDevelop: FC = () => {
           autoHeight
           columns={columns}
           rows={data.skills_develop}
-          enableDelete
           onDelete={async (cell) => await mutate(cell.id)}
           deleteModalTitle="Delete skill to develop"
           deleteModalContent={

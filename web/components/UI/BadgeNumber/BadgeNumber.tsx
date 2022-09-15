@@ -15,7 +15,7 @@ const Badge = styled(Typography)`
 `
 
 const BadgeNumber: FC<Props> = ({ label, ...props }) => (
-  <Badge variant="subtitle1" as="span" {...props}>
+  <Badge as="span" {...props}>
     {label}
   </Badge>
 )

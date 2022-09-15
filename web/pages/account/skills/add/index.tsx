@@ -39,7 +39,7 @@ export const menu: MenuDataType[] = [
     url: '/account/skills/add/skill'
   },
   {
-    title: "Skill you'd like to develop",
+    title: 'Skills you would like to develop',
     url: '/account/skills/add/skills-to-develop'
   },
   {
@@ -59,7 +59,7 @@ export const SectionOne: FC<SectionOneProps> = ({ active }) => (
     <AccountCard
       sx={{ maxWidth: 430, marginBottom: 4 }}
       header={
-        <Typography variant="subtitle1" component="h2">
+        <Typography component="h2">
           <BadgeNumber label="1" sx={{ mr: 2 }} />
           Choose a skill or language type
         </Typography>

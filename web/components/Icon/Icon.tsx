@@ -3,17 +3,19 @@ import { FC } from 'react'
 import { Props } from './types'
 
 export const icons = {
-  'crown-logo': dynamic(() => import('@/components/Icon/Icons/CrownLogo')),
   'account-circle': dynamic(() => import('@/components/Icon/Icons/AccountCircle')),
-  crest: dynamic(() => import('@/components/Icon/Icons/Crest')),
-  skills: dynamic(() => import('@/components/Icon/Icons/Skills')),
-  learning: dynamic(() => import('@/components/Icon/Icons/Learning')),
-  profile: dynamic(() => import('@/components/Icon/Icons/Profile')),
   case: dynamic(() => import('@/components/Icon/Icons/Case')),
-  mail: dynamic(() => import('@/components/Icon/Icons/Mail')),
   'circle-plus': dynamic(() => import('@/components/Icon/Icons/CirclePlus')),
   'circle-delete': dynamic(() => import('@/components/Icon/Icons/CircleDelete')),
   'circle-info': dynamic(() => import('@/components/Icon/Icons/InfoCircle')),
+  'crown-logo': dynamic(() => import('@/components/Icon/Icons/CrownLogo')),
+  crest: dynamic(() => import('@/components/Icon/Icons/Crest')),
+  skills: dynamic(() => import('@/components/Icon/Icons/Skills')),
+  learning: dynamic(() => import('@/components/Icon/Icons/Learning')),
+  mail: dynamic(() => import('@/components/Icon/Icons/Mail')),
+  pencil: dynamic(() => import('@/components/Icon/Icons/Pencil')),
+  profile: dynamic(() => import('@/components/Icon/Icons/Profile')),
+  question: dynamic(() => import('@/components/Icon/Icons/Question')),
   team: dynamic(() => import('@/components/Icon/Icons/Team')),
   world: dynamic(() => import('@/components/Icon/Icons/World'))
 }

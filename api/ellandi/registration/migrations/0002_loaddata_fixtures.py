@@ -13,7 +13,6 @@ DROPDOWN_MODELS = {
     "Location": "locations",
     "Organisation": "organisations",
     "Profession": "professions",
-    "SkillLevel": "skilllevel",
 }
 
 

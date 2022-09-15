@@ -5,6 +5,7 @@ import {
   fetchContractTypes,
   fetchFunctions,
   fetchGrades,
+  fetchJobTitles,
   fetchLanguages,
   fetchLanguageSkillLevels,
   fetchProfessions,
@@ -148,6 +149,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 
   const queryClient = new QueryClient()
   await queryClient.prefetchQuery(Query.Grades, fetchGrades)
+  await queryClient.prefetchQuery(Query.JobTitles, fetchJobTitles)
   await queryClient.prefetchQuery(Query.Professions, fetchProfessions)
   await queryClient.prefetchQuery(Query.Functions, fetchFunctions)
   await queryClient.prefetchQuery(Query.ContractTypes, fetchContractTypes)
@@ -169,10 +171,6 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 }
 
 const steps: Steps[] = [
-  {
-    form: dynamic(() => import('@/components/Form/Register/PrivacyForm')),
-    title: 'Privacy policy'
-  },
   {
     form: dynamic(
       () => import('@/components/Form/Register/RegisterDetailsForm/RegisterDetailsForm')

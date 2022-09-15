@@ -17,7 +17,7 @@ import Icon from '@/components/Icon/Icon'
 import { useRouter } from 'next/router'
 import Button from '../Button/Button'
 
-const AppBar = styled(MuiAppBar)`
+const StyledAppBar = styled(MuiAppBar)`
   background: transparent;
 
   .header-logo {
@@ -47,7 +47,7 @@ const AppBar = styled(MuiAppBar)`
   }
 `
 
-const ResponsiveAppBar: FC<Props> = ({ pages, logoUrl, settings }) => {
+const AppBar: FC<Props> = ({ pages, logoUrl, settings, settingsTip = '', ...props }) => {
   const theme = useTheme()
   const router = useRouter()
 
@@ -62,7 +62,7 @@ const ResponsiveAppBar: FC<Props> = ({ pages, logoUrl, settings }) => {
   }
 
   return (
-    <AppBar position="static" elevation={0}>
+    <StyledAppBar position="static" elevation={0} {...props}>
       <Toolbar disableGutters>
         <Link href={logoUrl}>
           <a>
@@ -78,7 +78,7 @@ const ResponsiveAppBar: FC<Props> = ({ pages, logoUrl, settings }) => {
                 style={{ textDecorationColor: theme.colors[color] }}
                 key={title}
                 href={url}
-                className={` ${router.pathname === url ? 'active' : ''}`}
+                className={` ${router?.pathname === url ? 'active' : ''}`}
               >
                 {title}
               </Button>
@@ -86,7 +86,7 @@ const ResponsiveAppBar: FC<Props> = ({ pages, logoUrl, settings }) => {
         </Box>
 
         <Box sx={{ flexGrow: 0 }}>
-          <Tooltip title="Open settings">
+          <Tooltip title={settingsTip}>
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
               <Icon icon="account-circle" className="icon-profile" />
             </IconButton>
@@ -123,7 +123,7 @@ const ResponsiveAppBar: FC<Props> = ({ pages, logoUrl, settings }) => {
           </Menu>
         </Box>
       </Toolbar>
-    </AppBar>
+    </StyledAppBar>
   )
 }
-export default ResponsiveAppBar
+export default AppBar

@@ -1,6 +1,7 @@
 export enum Query {
   Countries = 'countries',
   Grades = 'grades',
+  JobTitles = 'jobTitles',
   Professions = 'professions',
   PrimaryProfessions = 'primaryProfessions',
   Functions = 'functions',
@@ -10,12 +11,14 @@ export enum Query {
   Skills = 'skills',
   SkillLevels = 'skillLevels',
   Me = 'me',
-  TeamMembers = 'teamMembers'
+  TeamMembers = 'teamMembers',
+  SuggestedSkills = 'SuggestedSkills'
 }
 
 export type GenericDataList = {
   slug: string
   name: string
+  description?: string
   order?: number
 }
 
@@ -106,6 +109,10 @@ export type LanguagesType = {
   languages: LanguageType[]
 }
 
+type CustomFieldType = {
+  fullname: string
+}
+
 export type RegisterUserResponse = {
   id: string
   email: string
@@ -121,6 +128,8 @@ export type RegisterUserResponse = {
   ContractType &
   FunctionType &
   SkillsDevelopType
+
+export type RegisterUserResponseWithCustomFields = RegisterUserResponse & CustomFieldType
 
 export type TeamMember = {
   id: string
@@ -150,3 +159,13 @@ export type TeamMember = {
   created_at: string
   modified_at: string
 }
+
+export type ResetEmailPasswordType = {
+  email: string
+}
+
+export type ResetUpdatePasswordType = {
+  new_password: string
+}
+
+export type MeSuggestedSkillsResponse = string[]

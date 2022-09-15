@@ -20,7 +20,7 @@ const Title = styled(Box)`
 const RegisterPage = () => {
   return (
     <>
-      <Typography variant="subtitle1" sx={{ mb: 3 }}>
+      <Typography gutterBottom>
         You have successfully signed up for the Civil Service Skills and Learning Service
       </Typography>
       <Typography gutterBottom>
@@ -28,7 +28,7 @@ const RegisterPage = () => {
       </Typography>
 
       <FooterButtons>
-        <Button variant="outlined" size="small" onClick={() => router.back()}>
+        <Button color="tertiary" size="small" onClick={() => router.back()}>
           Back
         </Button>
         <Button href={publicRuntimeConfig.urls.landingSignin} variant="contained">

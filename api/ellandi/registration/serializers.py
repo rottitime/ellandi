@@ -1,12 +1,15 @@
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
+from .exceptions import IncorrectDomainError
 from .models import (
     ContractType,
     Country,
     EmailSalt,
     Function,
     Grade,
+    JobTitle,
     Language,
     LanguageSkillLevel,
     Location,
@@ -18,6 +21,14 @@ from .models import (
     UserSkill,
     UserSkillDevelop,
 )
+
+
+def check_email_domain(email):
+    email_split = email.lower().split("@")
+    domain_name = email_split[-1]
+    if domain_name not in settings.ALLOWED_DOMAINS:
+        raise IncorrectDomainError
+    return email
 
 
 class OrganisationSerializer(serializers.ModelSerializer):
@@ -77,6 +88,12 @@ class FunctionSerializer(serializers.ModelSerializer):
 class SkillLevelSerializer(serializers.ModelSerializer):
     class Meta:
         model = SkillLevel
+        fields = ["slug", "name", "order", "description"]
+
+
+class JobTitleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = JobTitle
         fields = ["slug", "name", "order"]
 
 
@@ -233,8 +250,9 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class RegisterSerializer(serializers.Serializer):
-    email = serializers.EmailField()
+    email = serializers.EmailField(validators=[check_email_domain])
     password = serializers.CharField()
+    privacy_policy_agreement = serializers.BooleanField(required=False)
 
 
 class PasswordResetAskSerializer(serializers.Serializer):
@@ -245,13 +263,21 @@ class PasswordResetUseSerializer(serializers.Serializer):
     new_password = serializers.CharField()
 
 
+class PasswordChangeSerializer(serializers.Serializer):
+    old_password = serializers.CharField()
+    new_password = serializers.CharField()
+
+
 class EmailSaltSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(validators=[check_email_domain])
+
     class Meta:
         model = EmailSalt
         fields = ["email"]
 
 
 class UserLoginSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(validators=[check_email_domain])
     one_time_token = serializers.CharField(required=True)
 
     class Meta:

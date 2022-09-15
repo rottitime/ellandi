@@ -18,6 +18,13 @@ STATIC_ROOT = STATIC_ROOT
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DEBUG", default=False)
 
+VCAP_SERVICES = env.json("VCAP_SERVICES", default={})
+
+VCAP_APPLICATION = env.json("VCAP_APPLICATION")
+HOST_URL = VCAP_APPLICATION["application_uris"][0]
+if not HOST_URL.startswith("http"):
+    HOST_URL = f"https://{HOST_URL}"
+
 DEV_HOSTS = (
     "localhost",
     "127.0.0.1",
@@ -27,6 +34,7 @@ DEV_HOSTS = (
 PROD_HOSTS = (
     "ellandi-api-sandbox.london.cloudapps.digital",
     "ellandi-api-temp.london.cloudapps.digital",
+    "ellandi-api-demo.london.cloudapps.digital",
     "ellandi-api-develop.london.cloudapps.digital",
     "ellandi-api.london.cloudapps.digital",
 )
@@ -36,20 +44,19 @@ if DEBUG:
 else:
     ALLOWED_HOSTS = DEV_HOSTS + PROD_HOSTS
 
-CORS_ALLOWED_ORIGINS = [
-    "https://ellandi-api-sandbox.london.cloudapps.digital",
-    "https://ellandi-api-temp.london.cloudapps.digital",
-    "https://ellandi-api-develop.london.cloudapps.digital",
-    "https://ellandi-api.london.cloudapps.digital",
-    "https://ellandi-web-sandbox.london.cloudapps.digital",
-    "https://ellandi-web-temp.london.cloudapps.digital",
-    "https://ellandi-web-develop.london.cloudapps.digital",
-    "https://ellandi-web.london.cloudapps.digital",
-    "http://localhost:3000",
-    "http://localhost:8000",
-    "http://127.0.0.1:3000",
-    "http://127.0.0.1:8000",
-]
+HOST_MAP = {
+    "http://testserver": "http://testserver",
+    "http://localhost:8000": "http://localhost:3000",
+    "http://127.0.0.1:8000": "http://127.0.0.1:3000",
+    "https://ellandi-api-sandbox.london.cloudapps.digital": "https://ellandi-web-sandbox.london.cloudapps.digital",
+    "https://ellandi-api-temp.london.cloudapps.digital": "https://ellandi-web-temp.london.cloudapps.digital",
+    "https://ellandi-api-demo.london.cloudapps.digital": "https://ellandi-web-demo.london.cloudapps.digital",
+    "https://ellandi-api-develop.london.cloudapps.digital": "https://ellandi-web-develop.london.cloudapps.digital",
+    "https://ellandi-api.london.cloudapps.digital": "https://ellandi-web.london.cloudapps.digital",
+    "http://api:8000": "http://web:3000",
+}
+
+CORS_ALLOWED_ORIGINS = (HOST_URL, HOST_MAP[HOST_URL])
 
 # Application definition
 
@@ -106,11 +113,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "ellandi.wsgi.application"
-
-VCAP_SERVICES = env.json("VCAP_SERVICES", default={})
-
-VCAP_APPLICATION = env.json("VCAP_APPLICATION")
-HOST_URL = VCAP_APPLICATION["application_uris"][0]
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
@@ -197,3 +199,31 @@ elif EMAIL_BACKEND_TYPE == "GOVUKNOTIFY":
     GOVUK_NOTIFY_PLAIN_EMAIL_TEMPLATE_ID = env.str("GOVUK_NOTIFY_PLAIN_EMAIL_TEMPLATE_ID")
 else:
     assert EMAIL_BACKEND_TYPE in ("FILE", "CONSOLE", "GOVUKNOTIFY")
+
+SEND_VERIFICATION_EMAIL = env.bool("SEND_VERIFICATION_EMAIL", default=False)
+
+ALLOW_EXAMPLE_EMAILS = env.bool("ALLOW_EXAMPLE_EMAILS", default=False)
+
+DEFAULT_ALLOWED_DOMAINS = frozenset(
+    [
+        "cabinet-office.x.gsi.gov.uk",
+        "cabinetoffice.gov.uk",
+        "crowncommercial.gov.uk",
+        "csep.gov.uk",
+        "cslearning.gov.uk",
+        "csc.gov.uk",
+        "digital.cabinet-office.gov.uk",
+        "geo.gov.uk",
+        "gpa.gov.uk",
+        "ipa.gov.uk",
+        "no10.gov.uk",
+        "odandd.gov.uk",
+    ]
+)
+
+PASSWORD_RESET_TIMEOUT = 60 * 60 * 24
+
+if ALLOW_EXAMPLE_EMAILS:
+    ALLOWED_DOMAINS = DEFAULT_ALLOWED_DOMAINS.union({"example.com"})
+else:
+    ALLOWED_DOMAINS = DEFAULT_ALLOWED_DOMAINS

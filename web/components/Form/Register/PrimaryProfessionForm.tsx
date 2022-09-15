@@ -53,7 +53,7 @@ const PrimaryProfessionForm: FC<
   return (
     <FormProvider {...methods}>
       <Form {...props} submitDisabled>
-        <Typography variant="subtitle1" gutterBottom>
+        <Typography gutterBottom>
           Select your main profession. You may only choose one
         </Typography>
 

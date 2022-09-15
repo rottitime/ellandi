@@ -1,11 +1,11 @@
 import { FC } from 'react'
 import { LoadingButton as MuiButton } from '@mui/lab'
 import Link from 'next/link'
-import { Props } from './types'
+import { Props, ButtonOverrides } from './types'
 
 const Button: FC<Props> = ({ href, ...rest }) => {
   const routeProps = href ? { component: 'a', to: href } : {}
-  const props = { ...rest, ...routeProps }
+  const props = { ...routeProps, ...overrides[rest.color], ...rest }
 
   return href ? (
     <Link href={href} passHref>
@@ -17,3 +17,10 @@ const Button: FC<Props> = ({ href, ...rest }) => {
 }
 
 export default Button
+
+export const overrides: ButtonOverrides = {
+  primary: { variant: 'contained' },
+  secondary: { variant: 'contained' },
+  tertiary: { variant: 'outlined' },
+  error: { variant: 'contained' }
+}

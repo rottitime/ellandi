@@ -8,6 +8,7 @@ on:
     branches:
       - temp
       - develop
+      - demo
   release:
     types: [published]
 
@@ -84,6 +85,7 @@ jobs:
           key: "${{github.ref_name}}"
           map: |
             {
+              "demo": {"CF_SPACE": "demo"},
               "temp": {"CF_SPACE": "temp"},
               "develop": {"CF_SPACE": "develop"},
               "v?.?.?": {"CF_SPACE": "prod"},

@@ -32,7 +32,7 @@ const SkillsAddSkillsPage = () => {
 
       <AccountCard
         header={
-          <Typography variant="subtitle1" component="h2">
+          <Typography component="h2">
             <BadgeNumber label="2" sx={{ mr: 2 }} /> Skill name and levels
           </Typography>
         }

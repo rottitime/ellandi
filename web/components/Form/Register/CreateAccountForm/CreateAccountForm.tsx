@@ -1,17 +1,35 @@
 import { FC, useEffect } from 'react'
-import { Typography } from '@mui/material'
-import { object, SchemaOf, string, ref } from 'yup'
+import {
+  Checkbox,
+  FormControlLabel,
+  FormGroup,
+  FormHelperText,
+  Typography
+} from '@mui/material'
+import { object, SchemaOf, string, ref, boolean } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useForm, FormProvider } from 'react-hook-form'
+import { useForm, FormProvider, Controller } from 'react-hook-form'
 import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldControlled'
 import { StandardRegisterProps } from '@/components/Form/Register/types'
 import { Field } from '@/components/Form/Field/Field'
 import { CreateAccountType } from './types'
 import useAuth from '@/hooks/useAuth'
 import Form from '@/components/Form/Register/FormRegister/FormRegister'
+import Link from '@/components/UI/Link'
+import getConfig from 'next/config'
+
+const {
+  publicRuntimeConfig: { urls }
+} = getConfig()
 
 const minPassword = 8
-const defaultValues = { email: '', password: '', emailConfirm: '', passwordConfirm: '' }
+const defaultValues = {
+  email: '',
+  password: '',
+  emailConfirm: '',
+  passwordConfirm: '',
+  privacy_policy_agreement: false
+}
 
 const schema: SchemaOf<CreateAccountType> = object().shape({
   email: string()
@@ -27,7 +45,10 @@ const schema: SchemaOf<CreateAccountType> = object().shape({
     .required('This is a required field'),
   passwordConfirm: string()
     .oneOf([ref('password'), null], 'Does not match with password')
-    .required('This is a required field')
+    .required('This is a required field'),
+  privacy_policy_agreement: boolean()
+    .required()
+    .oneOf([true], 'You must accept the privacy policy')
 })
 
 const CreateAccountForm: FC<StandardRegisterProps<CreateAccountType>> = (props) => {
@@ -45,14 +66,13 @@ const CreateAccountForm: FC<StandardRegisterProps<CreateAccountType>> = (props) 
 
   return (
     <FormProvider {...methods}>
-      <Form {...props} defaultValues={defaultValues}>
-        <Typography variant="subtitle1" gutterBottom>
-          You need to create an account before using this service
+      <Form {...props} defaultValues={defaultValues} submitDisabled>
+        <Typography gutterBottom>
+          You need to create an account before using this service. Already have an
+          account? <Link href={urls.signin}>Sign in</Link>
         </Typography>
 
-        <Typography variant="subtitle1" gutterBottom>
-          Email address
-        </Typography>
+        <Typography gutterBottom>Email address</Typography>
         <Field>
           <TextFieldControlled name="email" label="Email address" />
         </Field>
@@ -60,11 +80,9 @@ const CreateAccountForm: FC<StandardRegisterProps<CreateAccountType>> = (props) 
           <TextFieldControlled name="emailConfirm" label="Confirm your email address" />
         </Field>
 
-        <Typography variant="subtitle1" gutterBottom>
-          Create password
-        </Typography>
+        <Typography gutterBottom>Create password</Typography>
 
-        <Typography gutterBottom>
+        <Typography variant="body2" gutterBottom>
           Your password should have at least {minPassword} characters and not include your
           name or email address
         </Typography>
@@ -72,13 +90,41 @@ const CreateAccountForm: FC<StandardRegisterProps<CreateAccountType>> = (props) 
         <Field>
           <TextFieldControlled name="password" label="Password" type="password" />
         </Field>
-        <Field noMargin>
+        <Field>
           <TextFieldControlled
             name="passwordConfirm"
             label="Confirm your password"
             type="password"
           />
         </Field>
+
+        <Typography variant="body2" gutterBottom>
+          <Link href="/help/privacy-policy" target="_tab">
+            Privacy policy (opens in a new tab)
+          </Link>
+        </Typography>
+
+        <FormGroup>
+          <Controller
+            name="privacy_policy_agreement"
+            control={methods.control}
+            render={({ field, fieldState: { error } }) => (
+              <>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      data-testid="privacy-checkbox"
+                      checked={field.value}
+                      {...field}
+                    />
+                  }
+                  label="I agree to the privacy policy"
+                />
+                {error && <FormHelperText error>{error.message}</FormHelperText>}
+              </>
+            )}
+          />
+        </FormGroup>
       </Form>
     </FormProvider>
   )

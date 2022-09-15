@@ -14,7 +14,6 @@ const Table = styled(MuiTable)`
   th {
     font-weight: 700;
     font-size: 16px;
-    width: 29%;
   }
   th,
   td {
@@ -22,11 +21,11 @@ const Table = styled(MuiTable)`
   }
 `
 
-const SimpleTable: FC<Props> = ({ list = [], headers, loading }) =>
+const SimpleTable: FC<Props> = ({ list = [], headers, loading, ...props }) =>
   loading ? (
     <TableSkeleton />
   ) : (
-    <Table size="small">
+    <Table size="small" {...props}>
       {headers && (
         <TableHead>
           <TableRow>
@@ -51,3 +50,4 @@ const SimpleTable: FC<Props> = ({ list = [], headers, loading }) =>
   )
 
 export default SimpleTable
+export * from './types'

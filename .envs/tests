@@ -1,6 +1,7 @@
 DATABASE_URL="sqlite:///tests-db.sqlite3"
 DJANGO_SECRET_KEY="django-insecure-&3_9ebzl!$@-vv=v=u@6h=lm@abd69u&cfs4lj0ml0v$thw*f3"
 VCAP_SERVICES='{"aws-s3-bucket": [{"credentials": {"aws_access_key_id": "3X4MPL3_4CC355_K3Y", "aws_region": "eu-west-2", "aws_secret_access_key": "3X4MPL3_53CR3T_K3Y", "bucket_name": "example-bucket"}}]}'
-VCAP_APPLICATION='{"application_uris": ["testserver"]}'
+VCAP_APPLICATION='{"application_uris": ["http://testserver"]}'
 EMAIL_BACKEND_TYPE=FILE
 EMAIL_FILE_PATH="/app/mail"
+ALLOW_EXAMPLE_EMAILS=True

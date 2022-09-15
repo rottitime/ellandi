@@ -27,8 +27,8 @@ class LowercaseEmailField(models.EmailField):
 class DropDownListModel(models.Model):
     """Base class for lists for drop-downs etc."""
 
-    name = models.CharField(max_length=127, blank=False, null=False)
-    slug = models.CharField(max_length=127, blank=False, null=False, primary_key=True)
+    name = models.CharField(max_length=127, blank=False)
+    slug = models.CharField(max_length=127, blank=False, primary_key=True)
     order = models.PositiveSmallIntegerField(null=True)
 
     def save(self, *args, **kwargs):
@@ -81,6 +81,10 @@ class Function(DropDownListModel):
 
 
 class SkillLevel(DropDownListModel):
+    description = models.CharField(max_length=255, blank=True, null=True, default="")
+
+
+class JobTitle(DropDownListModel):
     pass
 
 
@@ -152,7 +156,7 @@ class User(AbstractUser, TimeStampedModel, RegistrationAbstractUser):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     username = None
     email = LowercaseEmailField("email", unique=True)
-    privacy_policy_agreement = models.BooleanField(default=False, blank=False, null=False)
+    privacy_policy_agreement = models.BooleanField(blank=True, null=True)
     verified = models.BooleanField(default=False, blank=True, null=True)
 
     first_name = models.CharField("first name", max_length=128, blank=True, null=True)
@@ -231,7 +235,7 @@ class UserSkillDevelop(TimeStampedModel):
 
 class EmailSalt(models.Model):
     email = LowercaseEmailField("email", unique=True, primary_key=True)
-    salt = models.BinaryField(max_length=16, blank=False, null=False)
+    salt = models.BinaryField(max_length=16, blank=False)
 
     def get_one_time_login(self):
         salt_str = b64encode(self.salt).decode("utf-8")

@@ -9,9 +9,10 @@
 # testing
 /coverage
 
-# next.js
+# Aplication
 /.next/
 /out/
+/storybook-static
 
 # production
 /build

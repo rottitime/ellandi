@@ -44,7 +44,7 @@ const SkillsForm: FC<StandardRegisterProps<SkillsDevelopType>> = (props) => {
   return (
     <FormProvider {...methods}>
       <Form {...props}>
-        <Typography variant="subtitle1" sx={{ mb: 3 }}>
+        <Typography sx={{ mb: 3 }}>
           Add any skills that you would like to develop. You can change or add to these
           later
         </Typography>
@@ -56,13 +56,14 @@ const SkillsForm: FC<StandardRegisterProps<SkillsDevelopType>> = (props) => {
             <Controller
               name={fieldName}
               control={control}
-              render={({ fieldState: { error } }) => (
+              render={({ field, fieldState: { error } }) => (
                 <CreatableAutocomplete
+                  {...field}
                   loading={isLoading}
                   disableOptions={watchFields.map(({ name }) => name)}
                   label="Select a skill or enter your own skill"
-                  data={isLoading ? [] : data.map((title) => ({ title }))}
-                  onSelected={async (_event, { title }) => {
+                  options={isLoading ? [] : data.map((title) => ({ title }))}
+                  onChange={async (_event, title) => {
                     const includes =
                       Array.isArray(watchFields) &&
                       !!watchFields.find(({ name }) => name === title)
@@ -76,7 +77,6 @@ const SkillsForm: FC<StandardRegisterProps<SkillsDevelopType>> = (props) => {
                   }}
                   error={!!error}
                   helperText={!!error && error.message}
-                  onSelectedClear
                 />
               )}
             />

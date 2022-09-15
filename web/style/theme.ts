@@ -49,25 +49,15 @@ const theme = createTheme({
   },
   palette: {
     primary: createColor(colors.blue1),
-    blueDark: createColor('#091f3e'),
-    greyDark: createColor('#ccc'),
-    greyLight: createColor('#f2f2f2'),
-    green: createColor('#44D600'),
-    //profiles
-
-    //ui
-    link: createColor(colors.blue1),
-
+    secondary: {
+      main: colors.grey3,
+      dark: colors.grey2
+    },
+    tertiary: createColor(colors.blue1),
     background: { default: colors.grey1 }
   },
   typography: {
     fontFamily: fonts.default.join(','),
-    display: {
-      fontWeight: 700,
-      fontSize: '60px',
-      lineHeight: '110%',
-      letterSpacing: '-3px'
-    },
     h1: {
       fontWeight: 700,
       fontSize: '30px',
@@ -77,16 +67,18 @@ const theme = createTheme({
         marginBottom: 16
       }
     },
-    subtitle1: {
+    body1: {
+      fontWeight: 500,
       fontSize: '22px',
-      lineHeight: '133.4%;',
-      letterSpacing: 0,
+      lineHeight: '150%;',
+      letterSpacing: '0.15px',
       '&.MuiTypography-gutterBottom': {
         marginBottom: 10
       }
     },
-    body1: {
+    body2: {
       fontSize: '16px',
+      fontWeight: 500,
       lineHeight: '150%;',
       letterSpacing: '0.15px',
       '&.MuiTypography-gutterBottom': {
@@ -98,13 +90,31 @@ const theme = createTheme({
     h4: undefined,
     h5: undefined,
     h6: undefined,
+    subtitle1: undefined,
     subtitle2: undefined,
-    body2: undefined,
+    // body2: undefined,
     overline: undefined
+    // caption: undefined
   },
   spacing: [0, 5, 10, 16, 30, 60, 110],
   shadows: Array(25).fill('none') as Shadows,
   components: {
+    MuiFormControlLabel: {
+      styleOverrides: {
+        root: {
+          '.MuiFormControlLabel-label': {
+            fontSize: '16px'
+          }
+        }
+      }
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          textTransform: 'none'
+        }
+      }
+    },
     MuiLink: {
       styleOverrides: {
         root: {
@@ -121,16 +131,9 @@ const theme = createTheme({
     MuiTypography: {
       defaultProps: {
         variantMapping: {
-          display: 'h1',
           h1: 'h1',
-          // h2: 'h2',
-          // h3: 'h3',
-          // h4: 'h4',
-          // h5: 'h5',
-          // h6: 'h6',
-          // subtitle1: 'h3',
-          subtitle1: 'p',
-          body1: 'p'
+          body1: 'p',
+          body2: 'p'
         }
       }
     }
