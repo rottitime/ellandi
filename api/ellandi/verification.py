@@ -28,7 +28,7 @@ EMAIL_MAPPING = {
 }
 
 
-def _send_token_email(user, subject, template_name, from_address, token_type, url_path):
+def _send_token_email(user, subject, template_name, from_address, url_path):
     token = TOKEN_GENERATOR.make_token(user)
     api_host_url = settings.HOST_URL.strip("/")
     web_host_url = settings.HOST_MAP[api_host_url]
@@ -45,12 +45,12 @@ def _send_token_email(user, subject, template_name, from_address, token_type, ur
 
 def send_verification_email(user):
     data = EMAIL_MAPPING["verification"]
-    return _send_token_email(user, token_type="verify", **data)
+    return _send_token_email(user, **data)
 
 
 def send_password_reset_email(user):
     data = EMAIL_MAPPING["password-reset"]
-    return _send_token_email(user, token_type="password-reset", **data)
+    return _send_token_email(user, **data)
 
 
 @extend_schema(
