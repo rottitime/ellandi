@@ -196,7 +196,9 @@ def register_view(request):
 def skills_list_view(request):
     existing_skills = set(models.UserSkill.objects.all().values_list("name", flat=True))
     skills_to_develop = set(models.UserSkillDevelop.objects.all().values_list("name", flat=True))
-    initial_skills = initial_data.INITIAL_SKILLS.union(initial_data.NLP_DERIVED_SKILLS)
+    initial_skills = initial_data.INITIAL_SKILLS.union(initial_data.NLP_DERIVED_SKILLS).union(
+        initial_data.DDAT_SKILLS_TO_JOB_LOOKUP.keys()
+    )
     skills = initial_skills.union(existing_skills)
     skills = skills.union(skills_to_develop)
     skills = sorted(skills)
@@ -482,3 +484,13 @@ def user_direct_reports_view(request, user_id):
 def create_error(request):
     """Endpoint to be used for testing."""
     raise Exception("This is the create error endpoint (for testing)")
+
+
+@extend_schema(request=None, responses=None)
+@decorators.api_view(["GET"])
+@decorators.permission_classes((permissions.IsAuthenticated,))
+def me_suggested_skills(request):
+    user = request.user
+    job_title = user.job_title
+    suggested_skills = initial_data.DDAT_JOB_TO_SKILLS_LOOKUP.get(job_title, [])
+    return Response(data=suggested_skills, status=status.HTTP_200_OK)

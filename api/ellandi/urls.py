@@ -21,6 +21,7 @@ api_urlpatterns = [
     path("me/skills-develop/<str:skill_develop_id>/", views.me_skill_develop_delete_view),
     path("me/direct-reports/", views.me_direct_reports_view),
     path("me/password-change/", verification.password_change_view),
+    path("me/skills-suggested/", views.me_suggested_skills),
     path("user/<uuid:user_id>/verify/<str:token>/", verification.verification_view),
     path("password-reset/", verification.password_reset_ask_view),
     path("user/<uuid:user_id>/password-reset/<str:token>/", verification.password_reset_use_view),

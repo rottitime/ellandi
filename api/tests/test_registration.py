@@ -675,8 +675,31 @@ def test_all_user_skills_to_develop(client, user_id):
 
 
 @utils.with_client
-def check_endpoints_require_login(client):
-    endpoints = ["/create-error/", "/me/", "/user-languages/", "/user-skills/", "/user-skills-develop/"]
+def test_endpoints_require_login(client):
+    endpoints = [
+        "/create-error/",
+        "/me/",
+        "/me/direct-reports/",
+        "/me/languages/",
+        "/me/skills/",
+        "/me/skills-develop/",
+        "/me/skills-suggested/",
+        "/user-languages/",
+        "/user-skills/",
+        "/user-skills-develop/",
+    ]
     for endpoint in endpoints:
         response = client.get(endpoint)
         assert response.status_code == status.HTTP_401_UNAUTHORIZED, response.status_code
+
+
+@utils.with_logged_in_client
+def test_me_skills_suggested(client, user_id):
+    response = client.get("/me/skills-suggested/")
+    assert response.status_code == status.HTTP_200_OK, response.status_code
+    data = response.json()
+    assert "Programming and build (software engineering)" in data, data
+    response = client.patch("/me/", json={"job_title": "Made up title"})
+    response = client.get("/me/skills-suggested/")
+    assert response.status_code == status.HTTP_200_OK, response.status_code
+    assert response.json() == [], response.json()
