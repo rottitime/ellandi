@@ -36,7 +36,7 @@ const SkillsSuggest: FC<Props> = ({ onSelected, hideOptions, ...props }) => {
   )
 
   return (
-    <Collapse in={isSuccess}>
+    <Collapse in={isSuccess && !!list.length}>
       <Wrapper
         {...props}
         data-testid="suggestion-box"
