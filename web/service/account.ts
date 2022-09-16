@@ -100,7 +100,7 @@ export const fetchTeam = async (token: string) => {
   throw new Error(defaultError)
 }
 
-export const addLearning = async (token: string, data: LearningAddType) => {
+export const addLearningOnTheJob = async (token: string, data: LearningAddType) => {
   const res: Response = await fetch(
     `${publicRuntimeConfig.apiUrl}/me/learning-on-the-job/`,
     {
@@ -112,6 +112,19 @@ export const addLearning = async (token: string, data: LearningAddType) => {
       body: JSON.stringify(data)
     }
   )
+  if (res.ok) return await res.json()
+  throw new Error(defaultError)
+}
+
+export const addLearningSocial = async (token: string, data: LearningAddType) => {
+  const res: Response = await fetch(`${publicRuntimeConfig.apiUrl}/me/learning-social/`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Token ${token}`
+    },
+    body: JSON.stringify(data)
+  })
   if (res.ok) return await res.json()
   throw new Error(defaultError)
 }

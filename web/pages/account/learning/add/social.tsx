@@ -4,7 +4,7 @@ import { useMutation } from 'react-query'
 import { LearningAddType, RegisterUserResponse } from '@/service/api'
 import useAuth from '@/hooks/useAuth'
 import Router from 'next/router'
-import { addLearningOnTheJob } from '@/service/account'
+import { addLearningSocial } from '@/service/account'
 import LearningAddForm from '@/components/Form/LearningAddForm/LearningAddForm'
 
 const OnTheJobPage = () => {
@@ -14,7 +14,7 @@ const OnTheJobPage = () => {
     RegisterUserResponse,
     Error,
     LearningAddType
-  >(async (data) => authFetch(addLearningOnTheJob, data), {
+  >(async (data) => authFetch(addLearningSocial, data), {
     onSuccess: async () => await Router.push('/account/learning')
   })
 
