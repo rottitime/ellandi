@@ -1,19 +1,20 @@
-import { FormHelperText, styled, TextField } from '@mui/material'
+import TextField from '@/components/Form/TextField/TextField'
+import { FormHelperText, styled } from '@mui/material'
 import { DesktopDatePicker as MuiDatePicker } from '@mui/x-date-pickers'
 import dayjs, { Dayjs } from 'dayjs'
 import { forwardRef, useEffect, useState } from 'react'
 import { Props } from './types'
 
 const StyledDatePicker = styled(MuiDatePicker)<Props>`
-  .MuiFormLabel-root,
-  .MuiInputBase-root {
-    font-size: 16px;
-  }
-
   &.error {
     .MuiOutlinedInput-notchedOutline {
       border-color: ${(p) => p.theme.colors.red};
     }
+  }
+
+  .PrivatePickersFadeTransitionGroup-root {
+    font-size: 16px;
+    border: 10px solid red;
   }
 `
 
@@ -30,6 +31,11 @@ const DatePicker = forwardRef<HTMLInputElement, Props>(
       <StyledDatePicker
         {...props}
         value={value}
+        PopperProps={{
+          sx: {
+            '.PrivatePickersFadeTransitionGroup-root': { fontSize: 16 }
+          }
+        }}
         className={error ? 'error' : ''}
         inputRef={ref}
         onChange={setValue}
