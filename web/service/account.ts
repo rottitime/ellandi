@@ -1,5 +1,5 @@
 import getConfig from 'next/config'
-import { LanguageType, SkillDevelopType, SkillType } from './types'
+import { LanguageType, LearningAddType, SkillDevelopType, SkillType } from './types'
 const { publicRuntimeConfig } = getConfig()
 import { defaultError } from '@/service/auth'
 
@@ -96,6 +96,22 @@ export const fetchTeam = async (token: string) => {
       Authorization: `Token ${token}`
     }
   })
+  if (res.ok) return await res.json()
+  throw new Error(defaultError)
+}
+
+export const addLearning = async (token: string, data: LearningAddType) => {
+  const res: Response = await fetch(
+    `${publicRuntimeConfig.apiUrl}/me/learning-on-the-job/`,
+    {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Token ${token}`
+      },
+      body: JSON.stringify(data)
+    }
+  )
   if (res.ok) return await res.json()
   throw new Error(defaultError)
 }
