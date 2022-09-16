@@ -20,7 +20,13 @@ const OnTheJobPage = () => {
   return (
     <>
       <SectionOne active={menu[0].title} />
-      <LearningAddForm onFormSubmit={(data) => console.log({ data })} loading={false} />
+      <LearningAddForm
+        onFormSubmit={(data) => {
+          // eslint-disable-next-line no-console
+          console.log({ data, mutate })
+        }}
+        loading={isLoading}
+      />
     </>
   )
 }
