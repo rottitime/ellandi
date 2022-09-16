@@ -1,4 +1,4 @@
-Hi {{user.first_name}},
+Hi,
 
 Your Civil Service Skills and Learning Service account has been created.
 
