@@ -1,84 +1,72 @@
-import { TextField } from '@mui/material'
-import { FC, useEffect, useRef } from 'react'
+import { Box, FormHelperText, Grid } from '@mui/material'
+import TextField from '@/components/Form/TextField/TextField'
+import { FC, forwardRef, useEffect, useRef } from 'react'
 import { splitDays, combineDaysMinutesHoursToDays as combine } from '@/lib/date-utils'
 import { Props } from './types'
 
-const Duration: FC<Props> = ({ value, onChange }) => {
-  const daysRef = useRef<HTMLInputElement>()
-  const hoursRef = useRef<HTMLInputElement>()
-  const minutesRef = useRef<HTMLInputElement>()
+const Duration: FC<Props> = forwardRef<HTMLDivElement, Props>(
+  ({ value, onChange, error, helperText }, ref) => {
+    const daysRef = useRef<HTMLInputElement>()
+    const hoursRef = useRef<HTMLInputElement>()
+    const minutesRef = useRef<HTMLInputElement>()
 
-  const reset = () => {
-    daysRef.current.value = null
-    hoursRef.current.value = null
-    minutesRef.current.value = null
-  }
-
-  const getTotal = () =>
-    combine(
-      daysRef.current.valueAsNumber || 0,
-      hoursRef.current.valueAsNumber || 0,
-      minutesRef.current.valueAsNumber || 0
-    )
-
-  const onTextChanged = () => onChange(getTotal())
-
-  useEffect(() => {
-    if (!value) {
-      reset()
-    } else if (!!value && getTotal() !== value) {
-      const { days, minutes, hours } = splitDays(value)
-      daysRef.current.value = days.toString()
-      hoursRef.current.value = hours.toString()
-      minutesRef.current.value = minutes.toString()
+    const reset = () => {
+      daysRef.current.value = null
+      hoursRef.current.value = null
+      minutesRef.current.value = null
     }
-  }, [value])
 
-  return (
-    <>
-      <TextField
-        size="small"
-        label="Days"
-        name="Days"
-        type="number"
-        inputRef={daysRef}
-        inputProps={{
-          'data-testid': 'duration-days'
-        }}
-        onChange={onTextChanged}
-      />
-      <TextField
-        size="small"
-        label="Hours"
-        name="Hours"
-        type="number"
-        inputRef={hoursRef}
-        onChange={onTextChanged}
-        inputProps={{
-          'data-testid': 'duration-hours'
-        }}
-      />
-      <TextField
-        size="small"
-        label="Minutes"
-        name="Minutes"
-        type="number"
-        inputRef={minutesRef}
-        onChange={onTextChanged}
-        inputProps={{
-          'data-testid': 'duration-minutes'
-        }}
-      />
+    const getTotal = () =>
+      combine(
+        daysRef.current.valueAsNumber || 0,
+        hoursRef.current.valueAsNumber || 0,
+        minutesRef.current.valueAsNumber || 0
+      )
 
-      <button
-        onClick={() => {
-          daysRef.current.value = '12'
-        }}
-      >
-        click
-      </button>
-    </>
-  )
-}
+    useEffect(() => {
+      if (!value) {
+        reset()
+      } else if (!!value && getTotal() !== value) {
+        const { days, minutes, hours } = splitDays(value)
+        daysRef.current.value = days.toString()
+        hoursRef.current.value = hours.toString()
+        minutesRef.current.value = minutes.toString()
+      }
+    }, [value])
+
+    const fields = [
+      { name: 'Days', ref: daysRef },
+      { name: 'Hours', ref: hoursRef },
+      { name: 'Minutes', ref: minutesRef }
+    ]
+
+    return (
+      <Box ref={ref}>
+        <Grid container spacing={2}>
+          {fields.map(({ name, ref }) => (
+            <Grid item xs={4} key={name}>
+              <TextField
+                label={name}
+                name={name}
+                inputRef={ref}
+                size="small"
+                type="number"
+                error={error}
+                fullWidth
+                inputProps={{
+                  'data-testid': `duration-${name.toLowerCase()}`
+                }}
+                onChange={() => onChange(getTotal())}
+              />
+            </Grid>
+          ))}
+        </Grid>
+        {helperText && <FormHelperText error={error}>{helperText}</FormHelperText>}
+      </Box>
+    )
+  }
+)
+
+Duration.displayName = 'Duration'
 
 export default Duration
