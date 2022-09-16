@@ -1,4 +1,5 @@
 import ThemeProvider from '../components/ThemeProvider/ThemeProvider'
+import LocalizationProvider from '../components/LocalizationProvider/LocalizationProvider'
 
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
@@ -21,7 +22,9 @@ export const parameters = {
 export const decorators = [
   (Story) => (
     <ThemeProvider>
-      <Story />
+      <LocalizationProvider>
+        <Story />
+      </LocalizationProvider>
     </ThemeProvider>
   )
 ]
