@@ -1,4 +1,6 @@
 import Head from 'next/head'
+import { LocalizationProvider } from '@mui/x-date-pickers'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import ThemeProvider from '@/components/ThemeProvider/ThemeProvider'
 import { CacheProvider, EmotionCache } from '@emotion/react'
 import createEmotionCache from '@/lib/createEmotionCache'
@@ -41,7 +43,9 @@ export default function MyApp({
       <ThemeProvider>
         <QueryClientProvider client={queryClient}>
           <Hydrate state={pageProps.dehydratedState}>
-            <UiProvider>{getLayout(<Component {...pageProps} />)}</UiProvider>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <UiProvider>{getLayout(<Component {...pageProps} />)}</UiProvider>
+            </LocalizationProvider>
             <ReactQueryDevtools initialIsOpen={false} />
           </Hydrate>
         </QueryClientProvider>

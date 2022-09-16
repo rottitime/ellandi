@@ -24,6 +24,8 @@
     "@mui/lab": "^5.0.0-alpha.88",
     "@mui/material": "^5.8.5",
     "@mui/x-data-grid": "^5.15.1",
+    "@mui/x-date-pickers": "^5.0.1",
+    "dayjs": "^1.11.5",
     "http-server": "^14.1.1",
     "next": "^12.2.4",
     "react": "18.2.0",
