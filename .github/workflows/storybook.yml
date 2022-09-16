@@ -2,8 +2,8 @@ name: Build and Deploy
 on:
   push:
     branches:
-      - feature/v2-develop
-    paths: ["web/**"] # Trigger the action only when files change in the folders defined here
+      - develop
+    paths: ["web/components/**/*.tsx"] # Trigger the action only when files change in the folders defined here
 permissions:
   contents: write
 jobs:
