@@ -6,7 +6,7 @@ import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
 import { Typography } from '@mui/material'
 import BadgeNumber from '@/components/UI/BadgeNumber/BadgeNumber'
 import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldControlled'
-import { FC, useState } from 'react'
+import { FC } from 'react'
 import { Props } from './types'
 import { Field } from '../Field/Field'
 import Button from '@/components/UI/Button/Button'
@@ -32,17 +32,8 @@ const LearningAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
     resolver: yupResolver(schema)
   })
 
-  const [value, setValue] = useState(2.5)
-
   return (
     <FormProvider {...methods}>
-      <Duration
-        //value={2.5}
-        onChange={setValue}
-        value={value}
-      />
-      <p>Value: {value}</p>
-
       <form onSubmit={methods.handleSubmit(onFormSubmit)} noValidate>
         <AccountCard
           sx={{ mb: 4, maxWidth: 565 }}
@@ -63,7 +54,13 @@ const LearningAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
             </Typography>
           }
         >
-          <TextFieldControlled type="number" name="duration" label="Duration" />
+          <Controller
+            name="duration"
+            control={methods.control}
+            render={({ field, fieldState: { error } }) => (
+              <Duration {...field} error={!!error} helperText={error?.message} />
+            )}
+          />
         </AccountCard>
 
         <AccountCard
