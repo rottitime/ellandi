@@ -169,3 +169,9 @@ export type ResetUpdatePasswordType = {
 }
 
 export type MeSuggestedSkillsResponse = string[]
+
+export type LearningAddType = {
+  name: string
+  duration: number
+  date_completed: string
+}
