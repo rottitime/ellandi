@@ -22,10 +22,7 @@ const FormalPage = () => {
     <>
       <SectionOne active={menu[2].title} />
       <LearningAddFormalForm
-        onFormSubmit={(data) => {
-          console.log({ data })
-          //mutate.mutate(data)
-        }}
+        onFormSubmit={(data) => mutate.mutate(data)}
         loading={isLoading}
       />
     </>
