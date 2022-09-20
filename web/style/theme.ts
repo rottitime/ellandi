@@ -60,7 +60,7 @@ const theme = createTheme({
     fontFamily: fonts.default.join(','),
     h1: {
       fontWeight: 700,
-      fontSize: '30px',
+      fontSize: 30,
       lineHeight: '123.5%',
       letterSpacing: '-1px',
       '&.MuiTypography-gutterBottom': {
@@ -69,7 +69,7 @@ const theme = createTheme({
     },
     body1: {
       fontWeight: 500,
-      fontSize: '22px',
+      fontSize: 22,
       lineHeight: '150%;',
       letterSpacing: '0.15px',
       '&.MuiTypography-gutterBottom': {
@@ -77,7 +77,7 @@ const theme = createTheme({
       }
     },
     body2: {
-      fontSize: '16px',
+      fontSize: 16,
       fontWeight: 500,
       lineHeight: '150%;',
       letterSpacing: '0.15px',
@@ -99,11 +99,32 @@ const theme = createTheme({
   spacing: [0, 5, 10, 16, 30, 60, 110],
   shadows: Array(25).fill('none') as Shadows,
   components: {
+    MuiInputBase: {
+      styleOverrides: {
+        root: {
+          fontSize: 16
+        }
+      }
+    },
+    MuiMenuItem: {
+      styleOverrides: {
+        root: {
+          fontSize: 16
+        }
+      }
+    },
+    MuiFormLabel: {
+      styleOverrides: {
+        root: {
+          fontSize: 16
+        }
+      }
+    },
     MuiFormControlLabel: {
       styleOverrides: {
         root: {
           '.MuiFormControlLabel-label': {
-            fontSize: '16px'
+            fontSize: 16
           }
         }
       }
