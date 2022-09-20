@@ -34,19 +34,6 @@ class SimpleAuthentication(authentication.BaseAuthentication):
         return (user, None)
 
 
-class LoginAuthScheme(OpenApiAuthenticationExtension):
-    target_class = SimpleAuthentication
-    name = "UsernamePasswordAuth"
-
-    def get_security_definition(self, auto_schema):
-        return {
-            "type": "apiKey",
-            "in": "header",
-            "name": "Authorization",
-            "description": 'Token-based authentication with required prefix "Token"',
-        }
-
-
 class LoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField()
