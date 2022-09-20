@@ -266,6 +266,63 @@ def me_view(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+@extend_schema(
+    methods=["PATCH"],
+    request=serializers.LearningOnTheJobSerializer(many=True),
+    responses=serializers.LearningOnTheJobSerializer(many=True),
+)
+@extend_schema(methods=["GET"], responses=serializers.LearningOnTheJobSerializer(many=True))
+@decorators.api_view(["GET", "PATCH", "DELETE"])
+class MeLearningOnTheJobViewSet(viewsets.ModelViewSet):
+    serializer_class = serializers.LearningOnTheJobSerializer
+    http_method_names = ["get", "post", "patch", "delete"]
+    permission_classes = (permissions.IsAuthenticated,)
+    learning_type = models.Learning.LearningType.ONTHEJOB
+
+    def get_queryset(self):
+        user = self.request.user
+        qs = models.Learning.objects.filter(user=user, learning_type=self.learning_type)
+        return qs
+
+
+@extend_schema(
+    methods=["PATCH"],
+    request=serializers.LearningSocialSerializer(many=True),
+    responses=serializers.LearningSocialSerializer(many=True),
+)
+@extend_schema(methods=["GET"], responses=serializers.LearningSocialSerializer(many=True))
+@decorators.api_view(["GET", "PATCH", "DELETE"])
+class MeLearningSocialViewSet(viewsets.ModelViewSet):
+    serializer_class = serializers.LearningSocialSerializer
+    http_method_names = ["get", "patch", "delete"]
+    permission_classes = (permissions.IsAuthenticated,)
+    learning_type = models.Learning.LearningType.SOCIAL
+
+    def get_queryset(self):
+        user = self.request.user
+        qs = models.Learning.objects.filter(user=user, learning_type=self.learning_type)
+        return qs
+
+
+@extend_schema(
+    methods=["PATCH"],
+    request=serializers.LearningFormalSerializer(many=True),
+    responses=serializers.LearningFormalSerializer(many=True),
+)
+@extend_schema(methods=["GET"], responses=serializers.LearningFormalSerializer(many=True))
+@decorators.api_view(["GET", "PATCH", "DELETE"])
+class MeLearningFormalViewSet(viewsets.ModelViewSet):
+    serializer_class = serializers.LearningFormalSerializer
+    http_method_names = ["get", "patch", "delete"]
+    permission_classes = (permissions.IsAuthenticated,)
+    learning_type = models.Learning.LearningType.FORMAL
+
+    def get_queryset(self):
+        user = self.request.user
+        qs = models.Learning.objects.filter(user=user, learning_type=self.learning_type)
+        return qs
+
+
 def list_skills_langs(request, user, model_name, field_name):
     """
     For a given user, return the associated skills or languages or skills to develop.

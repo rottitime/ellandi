@@ -12,6 +12,7 @@ from .models import (
     JobTitle,
     Language,
     LanguageSkillLevel,
+    Learning,
     Location,
     Organisation,
     Profession,
@@ -153,6 +154,24 @@ class UserSkillDevelopSerializerNested(serializers.ModelSerializer):
     class Meta:
         model = UserSkillDevelop
         fields = ["id", "name"]
+
+
+class LearningOnTheJobSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Learning
+        fields = ["id", "name", "duration_minutes", "date_completed"]
+
+
+class LearningSocialSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Learning
+        fields = ["id", "name", "duration_minutes", "date_completed"]
+
+
+class LearningFormalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Learning
+        fields = ["id", "name", "duration_minutes", "date_completed", "cost_pounds", "cost_unknown"]
 
 
 class UserSerializer(serializers.ModelSerializer):
