@@ -2,7 +2,9 @@ import { Box, FormHelperText, Grid } from '@mui/material'
 import TextField from '@/components/Form/TextField/TextField'
 import { FC, forwardRef, useEffect, useRef } from 'react'
 import { splitDays, combineDaysMinutesHoursToDays as combine } from '@/lib/date-utils'
-import { Props } from './types'
+import { OnKeyDownType, Props } from './types'
+
+const invalidKeys = ['e', '-', '.']
 
 const Duration: FC<Props> = forwardRef<HTMLDivElement, Props>(
   ({ value, onChange, error, helperText }, ref) => {
@@ -40,6 +42,9 @@ const Duration: FC<Props> = forwardRef<HTMLDivElement, Props>(
       { name: 'Minutes', ref: minutesRef }
     ]
 
+    const onKeyDown: OnKeyDownType = (e) =>
+      !!invalidKeys.includes(e.key) && e.preventDefault()
+
     return (
       <Box ref={ref}>
         <Grid container spacing={2}>
@@ -53,6 +58,7 @@ const Duration: FC<Props> = forwardRef<HTMLDivElement, Props>(
                 type="number"
                 error={error}
                 fullWidth
+                onKeyDown={onKeyDown}
                 inputProps={{
                   'data-testid': `duration-${name.toLowerCase()}`
                 }}
