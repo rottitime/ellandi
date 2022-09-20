@@ -41,6 +41,8 @@ class UserAdmin(django.contrib.auth.admin.UserAdmin):
             {
                 "fields": (
                     "id",
+                    "is_staff",
+                    "is_superuser",
                     "email",
                     "privacy_policy_agreement",
                     "first_name",
