@@ -78,6 +78,7 @@ const LearningAddFormalForm: FC<Props> = ({ onFormSubmit, loading }) => {
             type="number"
             name="cost"
             label="Cost"
+            onKeyDown={(e) => (e.key === 'e' || e.key === '-') && e.preventDefault()}
             onChange={(e) => {
               setValue('cost_unknown', null)
               setValue('cost', (e.target as HTMLInputElement).valueAsNumber)
