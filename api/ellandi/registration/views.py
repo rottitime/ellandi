@@ -268,16 +268,16 @@ def me_view(request):
 
 @extend_schema(
     methods=["PATCH"],
-    request=serializers.LearningOnTheJobSerializer(many=True),
-    responses=serializers.LearningOnTheJobSerializer(many=True),
+    request=serializers.LearningWorkSerializer(many=True),
+    responses=serializers.LearningWorkSerializer(many=True),
 )
-@extend_schema(methods=["GET"], responses=serializers.LearningOnTheJobSerializer(many=True))
+@extend_schema(methods=["GET"], responses=serializers.LearningWorkSerializer(many=True))
 @decorators.api_view(["GET", "PATCH", "DELETE"])
-class MeLearningOnTheJobViewSet(viewsets.ModelViewSet):
-    serializer_class = serializers.LearningOnTheJobSerializer
+class MeLearningWorkViewSet(viewsets.ModelViewSet):
+    serializer_class = serializers.LearningWorkSerializer
     http_method_names = ["get", "post", "patch", "delete"]
     permission_classes = (permissions.IsAuthenticated,)
-    learning_type = models.Learning.LearningType.ONTHEJOB
+    learning_type = models.Learning.LearningType.WORK
 
     def get_queryset(self):
         user = self.request.user

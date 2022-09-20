@@ -21,7 +21,7 @@ api_urlpatterns = [
     path("me/direct-reports/", views.me_direct_reports_view),
     path("me/password-change/", verification.password_change_view),
     path("me/skills-suggested/", views.me_suggested_skills),
-    path("me/learning-onthejob/", views.MeLearningOnTheJobViewSet),
+    path("me/learning-work/", views.MeLearningWorkViewSet),
     path("me/learning-social/", views.MeLearningSocialViewSet),
     path("me/learning-formal/", views.MeLearningFormalViewSet),
     path("user/<uuid:user_id>/verify/<str:token>/", verification.verification_view),

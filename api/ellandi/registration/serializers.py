@@ -156,7 +156,7 @@ class UserSkillDevelopSerializerNested(serializers.ModelSerializer):
         fields = ["id", "name"]
 
 
-class LearningOnTheJobSerializer(serializers.ModelSerializer):
+class LearningWorkSerializer(serializers.ModelSerializer):
     class Meta:
         model = Learning
         fields = ["id", "name", "duration_minutes", "date_completed"]
