@@ -7,7 +7,7 @@ import Router from 'next/router'
 import { addLearningSocial } from '@/service/account'
 import LearningAddFormalForm from '@/components/Form/LearningAddFormalForm/LearningAddFormalForm'
 
-const OnTheJobPage = () => {
+const FormalPage = () => {
   const { authFetch } = useAuth()
 
   const { isLoading, ...mutate } = useMutation<
@@ -32,9 +32,9 @@ const OnTheJobPage = () => {
   )
 }
 
-export default OnTheJobPage
+export default FormalPage
 
-OnTheJobPage.getLayout = (page) => (
+FormalPage.getLayout = (page) => (
   <AccountLayout
     title="Learning"
     titleIcon="mortar-hat"

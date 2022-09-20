@@ -21,8 +21,16 @@ import Duration from '@/components/Form/Duration/Duration'
 
 const schema: SchemaOf<LearningAddFormalType> = object().shape({
   name: string().required('This is a required field'),
-  cost: number().typeError('you must specify a number'),
-  cost_unknown: boolean().oneOf([true], 'You must accept the privacy policy'),
+  cost: number()
+    .nullable()
+    .when('cost_unknown', (costUnknown) => {
+      if (!costUnknown)
+        return number()
+          .min(0, 'Min value 0.')
+          .required('This is a required field')
+          .typeError('you must specify a number')
+    }),
+  cost_unknown: boolean().nullable(),
   duration: number()
     .typeError('you must specify a number')
     .min(0, 'Min value 0.')
@@ -42,8 +50,7 @@ const LearningAddFormalForm: FC<Props> = ({ onFormSubmit, loading }) => {
     resolver: yupResolver(schema)
   })
 
-  const { control, handleSubmit, watch } = methods
-  const watchCosts = watch(['cost', 'cost_unknown'])
+  const { control, handleSubmit, setValue } = methods
 
   return (
     <FormProvider {...methods}>
@@ -67,20 +74,14 @@ const LearningAddFormalForm: FC<Props> = ({ onFormSubmit, loading }) => {
             </Typography>
           }
         >
-          {/* <Controller
-            name="duration"
-            control={control}
-            render={({ field, fieldState: { error } }) => (
-              <Duration {...field} error={!!error} helperText={error?.message} />
-            )}
-          /> */}
-
           <TextFieldControlled
             type="number"
-            inputProps={{ pattern: '^$d{1,3}(,d{3})*(.d+)?$' }}
             name="cost"
-            disabled={!!watchCosts[1]}
             label="Cost"
+            onChange={(e) => {
+              setValue('cost_unknown', null)
+              setValue('cost', (e.target as HTMLInputElement).valueAsNumber)
+            }}
             InputProps={{
               startAdornment: <InputAdornment position="start">&pound;</InputAdornment>
             }}
@@ -92,7 +93,15 @@ const LearningAddFormalForm: FC<Props> = ({ onFormSubmit, loading }) => {
               <>
                 <FormControlLabel
                   control={
-                    <Checkbox {...field} checked={!!field.value} value={!!field.value} />
+                    <Checkbox
+                      {...field}
+                      checked={!!field.value}
+                      value={!!field.value}
+                      onChange={(e) => {
+                        setValue('cost', null)
+                        setValue(field.name, (e.target as HTMLInputElement).checked)
+                      }}
+                    />
                   }
                   label="Unknown"
                 />
