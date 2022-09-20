@@ -1,11 +1,11 @@
 import AccountLayout from '@/components/Layout/AccountLayout/AccountLayout'
 import { menu, SectionOne } from './index'
 import { useMutation } from 'react-query'
-import { LearningAddType, RegisterUserResponse } from '@/service/api'
+import { LearningAddFormalType, RegisterUserResponse } from '@/service/api'
 import useAuth from '@/hooks/useAuth'
 import Router from 'next/router'
 import { addLearningSocial } from '@/service/account'
-import LearningAddForm from '@/components/Form/LearningAddForm/LearningAddForm'
+import LearningAddFormalForm from '@/components/Form/LearningAddFormalForm/LearningAddFormalForm'
 
 const OnTheJobPage = () => {
   const { authFetch } = useAuth()
@@ -13,15 +13,21 @@ const OnTheJobPage = () => {
   const { isLoading, ...mutate } = useMutation<
     RegisterUserResponse,
     Error,
-    LearningAddType
+    LearningAddFormalType
   >(async (data) => authFetch(addLearningSocial, data), {
     onSuccess: async () => await Router.push('/account/learning')
   })
 
   return (
     <>
-      <SectionOne active={menu[1].title} />
-      <LearningAddForm onFormSubmit={(data) => mutate.mutate(data)} loading={isLoading} />
+      <SectionOne active={menu[2].title} />
+      <LearningAddFormalForm
+        onFormSubmit={(data) => {
+          console.log({ data })
+          //mutate.mutate(data)
+        }}
+        loading={isLoading}
+      />
     </>
   )
 }

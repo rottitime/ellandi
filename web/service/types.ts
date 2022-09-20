@@ -175,3 +175,11 @@ export type LearningAddType = {
   duration: number
   date_completed: string
 }
+
+export type LearningAddFormalType = {
+  name: string
+  duration: number
+  date_completed: string
+  cost: number
+  cost_unknown: boolean
+}
