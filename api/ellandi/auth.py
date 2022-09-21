@@ -1,7 +1,7 @@
+import knox.views
 from django.contrib.auth import authenticate
 from drf_spectacular.extensions import OpenApiAuthenticationExtension
 from drf_spectacular.utils import extend_schema
-from knox.views import LoginView as KnoxLoginView
 from rest_framework import authentication, exceptions, permissions, serializers
 
 
@@ -48,6 +48,16 @@ class TokenSerializer(serializers.Serializer):
     request=LoginSerializer,
     responses=TokenSerializer,
 )
-class LoginView(KnoxLoginView):
+class LoginView(knox.views.LoginView):
     permission_classes = (permissions.AllowAny,)
     authentication_classes = [SimpleAuthentication]
+
+
+@extend_schema(request=None, responses=None)
+class LogoutView(knox.views.LogoutView):
+    pass
+
+
+@extend_schema(request=None, responses=None)
+class LogoutAllView(knox.views.LogoutView):
+    pass

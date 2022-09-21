@@ -1,4 +1,3 @@
-import knox.views
 from django.contrib import admin
 from django.urls import include, path
 from drf_spectacular.views import (
@@ -16,9 +15,9 @@ api_urlpatterns = [
     path("me/skills/", views.me_skills_view),
     path("me/languages/", views.me_languages_view),
     path("me/skills-develop/", views.me_skills_develop_view),
-    path("me/skills/<str:skill_id>/", views.me_skill_delete_view),
-    path("me/languages/<str:language_id>/", views.me_language_delete_view),
-    path("me/skills-develop/<str:skill_develop_id>/", views.me_skill_develop_delete_view),
+    path("me/skills/<uuid:skill_id>/", views.me_skill_delete_view),
+    path("me/languages/<uuid:language_id>/", views.me_language_delete_view),
+    path("me/skills-develop/<uuid:skill_develop_id>/", views.me_skill_develop_delete_view),
     path("me/direct-reports/", views.me_direct_reports_view),
     path("me/password-change/", verification.password_change_view),
     path("me/skills-suggested/", views.me_suggested_skills),
@@ -44,8 +43,8 @@ admin_urlpatterns = [
 
 auth_urlpatterns = [
     path(r"login/", auth.LoginView.as_view()),
-    path(r"logout/", knox.views.LogoutView.as_view()),
-    path(r"logoutall/", knox.views.LogoutAllView.as_view()),
+    path(r"logout/", auth.LogoutView.as_view()),
+    path(r"logoutall/", auth.LogoutAllView.as_view()),
 ]
 
 urlpatterns = api_urlpatterns + admin_urlpatterns + schema_urlpatterns + auth_urlpatterns
