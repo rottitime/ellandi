@@ -700,11 +700,11 @@ def test_endpoints_require_login(client):
 
 @utils.with_logged_in_client
 def test_me_skills_suggested(client, user_id):
-    response = client.get("/me/skills-suggested/")
+    response = client.get("/api/me/skills-suggested/")
     assert response.status_code == status.HTTP_200_OK, response.status_code
     data = response.json()
     assert "Programming and build (software engineering)" in data, data
-    response = client.patch("/me/", json={"job_title": "Made up title"})
-    response = client.get("/me/skills-suggested/")
+    response = client.patch("/api/me/", json={"job_title": "Made up title"})
+    response = client.get("/api/me/skills-suggested/")
     assert response.status_code == status.HTTP_200_OK, response.status_code
     assert response.json() == [], response.json()
