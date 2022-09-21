@@ -15,7 +15,6 @@ import {
 import { Field } from '@/components/Form/Field/Field'
 import Form from '@/components/Form/Register/FormRegister/FormRegister'
 import { useQuery } from 'react-query'
-import { useProfile } from '@/hooks/useProfile'
 
 const schema: SchemaOf<RegisterDetailsType> = object().shape({
   first_name: string().nullable().required('This is a required field'),
@@ -118,40 +117,3 @@ const RegisterDetailsForm: FC<StandardRegisterProps<RegisterDetailsType>> = (pro
 }
 
 export default RegisterDetailsForm
-
-export const UpdateRegisterDetailsForm = ({
-  pickFields,
-  callback
-}: {
-  pickFields?: (keyof RegisterDetailsType)[]
-  callback?: () => void
-}) => {
-  const { mutate, userProfile } = useProfile<RegisterDetailsType>({
-    callback
-  })
-
-  return (
-    <RegisterDetailsForm
-      pickFields={pickFields}
-      onFormSubmit={(data) => {
-        mutate({
-          business_unit: data.business_unit,
-          first_name: data.first_name,
-          job_title: data.job_title,
-          last_name: data.last_name,
-          location: data.location,
-          line_manager_email: data.line_manager_email
-        })
-      }}
-      backUrl={null}
-      defaultValues={{
-        business_unit: userProfile.business_unit,
-        first_name: userProfile.first_name,
-        job_title: userProfile.job_title,
-        last_name: userProfile.last_name,
-        location: userProfile.location,
-        line_manager_email: userProfile.line_manager_email
-      }}
-    />
-  )
-}

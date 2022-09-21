@@ -9,7 +9,6 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { object, SchemaOf, string } from 'yup'
 import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldControlled'
 import Form from '@/components/Form/Register/FormRegister/FormRegister'
-import { useProfile } from '@/hooks/useProfile'
 
 const schema: SchemaOf<FunctionType> = object().shape({
   function: string().required(),
@@ -79,25 +78,3 @@ const FunctionTypeForm: FC<StandardRegisterProps<FunctionType>> = (props) => {
 }
 
 export default FunctionTypeForm
-
-export const UpdateFunctionTypeForm = ({ callback }: { callback?: () => void }) => {
-  const { mutate, userProfile } = useProfile<FunctionType>({
-    callback
-  })
-
-  return (
-    <FunctionTypeForm
-      onFormSubmit={(data) => {
-        mutate({
-          function: data.function,
-          function_other: data.function_other
-        })
-      }}
-      backUrl={null}
-      defaultValues={{
-        function: userProfile.function,
-        function_other: userProfile.function_other
-      }}
-    />
-  )
-}

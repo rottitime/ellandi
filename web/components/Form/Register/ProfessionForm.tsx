@@ -10,7 +10,6 @@ import { array, object, SchemaOf, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldControlled'
 import Form from '@/components/Form/Register/FormRegister/FormRegister'
-import { useProfile } from '@/hooks/useProfile'
 
 const fieldName: keyof ProfessionType = 'professions'
 
@@ -108,25 +107,3 @@ const ProfessionForm: FC<StandardRegisterProps<ProfessionType>> = (props) => {
 }
 
 export default ProfessionForm
-
-export const UpdateProfessionForm = ({ callback }: { callback?: () => void }) => {
-  const { mutate, userProfile } = useProfile<ProfessionType>({
-    callback
-  })
-
-  return (
-    <ProfessionForm
-      onFormSubmit={(data) => {
-        mutate({
-          profession_other: data.profession_other,
-          professions: data.professions
-        })
-      }}
-      backUrl={null}
-      defaultValues={{
-        profession_other: userProfile.profession_other,
-        professions: userProfile.professions
-      }}
-    />
-  )
-}

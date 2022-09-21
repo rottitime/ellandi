@@ -8,4 +8,5 @@ export type StandardRegisterProps<T, I = any> = {
   buttonLoading?: boolean
   defaultValues?: T & I
   pickFields?: string[]
+  onCancel?: () => void
 }

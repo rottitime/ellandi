@@ -15,7 +15,6 @@ import useAuth from '@/hooks/useAuth'
 import { fetchMe } from '@/service/me'
 import Form from '@/components/Form/Register/FormRegister/FormRegister'
 import router from 'next/router'
-import { useProfile } from '@/hooks/useProfile'
 
 const schema: SchemaOf<PrimaryProfessionType> = object().shape({
   primary_profession: string().required('This is a required field')
@@ -83,25 +82,3 @@ const PrimaryProfessionForm: FC<
 }
 
 export default PrimaryProfessionForm
-
-export const UpdatePrimaryProfessionForm = ({ callback }: { callback?: () => void }) => {
-  const { mutate, userProfile } = useProfile<PrimaryProfessionType>({
-    callback
-  })
-
-  return (
-    <PrimaryProfessionForm
-      onFormSubmit={(data) => {
-        mutate({
-          primary_profession: data.primary_profession
-        })
-      }}
-      backUrl={null}
-      defaultValues={{
-        primary_profession: userProfile.primary_profession,
-        profession_other: userProfile.profession_other,
-        professions: userProfile.professions
-      }}
-    />
-  )
-}

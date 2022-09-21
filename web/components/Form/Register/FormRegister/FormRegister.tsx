@@ -10,6 +10,7 @@ const FormRegister: FC<Props> = ({
   children,
   skipUrl,
   backUrl,
+  onCancel,
   buttonLoading,
   ...props
 }) => {
@@ -25,15 +26,13 @@ const FormRegister: FC<Props> = ({
     }
   }, [reset, defaultValues])
 
-  const filteredProps = { ...props }
-  delete filteredProps.pickFields
-
   return (
-    <form onSubmit={handleSubmit(onFormSubmit)} noValidate {...filteredProps}>
+    <form onSubmit={handleSubmit(onFormSubmit)} noValidate {...props}>
       {children}
       <FormFooter
         skipUrl={skipUrl}
         backUrl={backUrl}
+        onCancel={onCancel}
         buttonProps={{
           loading: buttonLoading,
           disabled: submitDisabled && !isDirty && !isValid
