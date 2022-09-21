@@ -1,11 +1,18 @@
-import { ColorBrands } from '@/style/types'
+import { ColorBrands, Colors } from '@/style/types'
 
 export type Props = {
   brandColor?: keyof ColorBrands
   marks?: MarkType[]
+  data: DataType[]
 }
 
-export type MarkType = {
+type MarkType = {
   value: number
   label: string
+}
+
+type DataType = {
+  percentage: number
+  label: string
+  color: keyof Colors | keyof ColorBrands
 }
