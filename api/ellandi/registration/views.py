@@ -278,8 +278,9 @@ def make_learning_view(serializer_class, learning_type):
     def _learning_view(request):
         user = request.user
         queryset = models.Learning.objects.filter(user=user)
-        if learning_type:
-            queryset = queryset.filter(learning_type=learning_type)
+        _learning_type = learning_type or request.query_params.get("learning_type", None)
+        if _learning_type:
+            queryset = queryset.filter(learning_type=_learning_type)
         if request.method == "GET":
             serializer = serializer_class(queryset, many=True)
             return Response(serializer.data)

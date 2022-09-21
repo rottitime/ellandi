@@ -193,6 +193,8 @@ class LearningFormalSerializer(serializers.ModelSerializer):
 
 
 class LearningSerializer(serializers.ModelSerializer):
+    learning_type = serializers.ChoiceField(choices=Learning.LearningType.choices, required=True)
+
     class Meta:
         model = Learning
         fields = ["id", "learning_type", "name", "duration_minutes", "date_completed", "cost_pounds", "cost_unknown"]
