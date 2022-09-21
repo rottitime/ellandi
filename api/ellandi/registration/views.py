@@ -590,7 +590,7 @@ def create_job_embedding_matrix(request):
     embeddings.to_pickle("job_title_embeddings.pkl")
     return Response(status=status.HTTP_200_OK)
 
-@extend_schema(methods=["GET"], response=serializers.SkillTitleSerializer(), request=serializers.SkillTitleSerializer())
+@extend_schema(methods=["GET"], request= serializers.SkillTitleSerializer())
 @decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.AllowAny,))
 def skill_recommender(request, skill,  return_count=10):
