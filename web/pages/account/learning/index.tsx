@@ -1,5 +1,5 @@
 import AccountLayout from '@/components/Layout/AccountLayout/AccountLayout'
-import { Grid, Typography } from '@mui/material'
+import { Box, Grid, styled, Typography, useTheme } from '@mui/material'
 import Button from '@/components/UI/Button/Button'
 import useAuth from '@/hooks/useAuth'
 import { useQuery } from 'react-query'
@@ -14,9 +14,30 @@ import {
 } from '@/service/me'
 import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
 import Tooltip from '@/components/UI/Tooltip/Tooltip'
+import { useMemo } from 'react'
+import { BarDataType } from '@/components/UI/PercentageBar/types'
+import PercentageBar from '@/components/UI/PercentageBar/PercentageBar'
+
+const KeyList = styled(Typography)`
+  display: inline-flex;
+  margin-bottom: ${(p) => p.theme.spacing(2)};
+  > span {
+    display: inline-flex;
+    align-items: center;
+    margin-right: ${(p) => p.theme.spacing(2)};
+  }
+  .dot {
+    border: 2px solid ${(p) => p.theme.colors.black};
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: ${(p) => p.theme.spacing(1)};
+  }
+`
 
 const LearningPage = () => {
   const { authFetch } = useAuth()
+  const { colors } = useTheme()
 
   const { isLoading: isLoadingWork, data: dataWork } = useQuery<MeLearningList[]>(
     Query.MeLearningWork,
@@ -36,6 +57,19 @@ const LearningPage = () => {
     { initialData: [] }
   )
 
+  const barData = useMemo<BarDataType[]>(() => {
+    const totalWork = dataWork.length
+    const totalSocial = dataSocial.length
+    const totalFormal = dataFormal.length
+    const total = totalWork + totalSocial + totalFormal
+
+    return [
+      { label: 'On the job', percentage: (totalWork / total) * 100, color: 'blue1' },
+      { label: 'Social', percentage: (totalSocial / total) * 100, color: 'white' },
+      { label: 'Formal', percentage: (totalFormal / total) * 100, color: 'black' }
+    ]
+  }, [dataFormal.length, dataSocial.length, dataWork.length])
+
   return (
     <>
       <Headline>
@@ -51,7 +85,7 @@ const LearningPage = () => {
         Add learning
       </Button>
 
-      <Grid container spacing={2}>
+      <Grid container spacing={5} sx={{ mb: 5 }}>
         <Grid item xs={6}>
           <AccountCard>
             <Typography variant="body1" gutterBottom>
@@ -62,8 +96,13 @@ const LearningPage = () => {
                 on the job, 20% social and 10% formal training"
               />
             </Typography>
-            <Typography variant="body2">
-              blah{' '}
+            <KeyList variant="body2">
+              {barData.map(({ label, color, percentage }) => (
+                <span key={label}>
+                  <Box className="dot" sx={{ backgroundColor: colors[color] }} /> {label}{' '}
+                  ({percentage.toFixed()}%)
+                </span>
+              ))}
               <Tooltip
                 brandColor="brandLearning"
                 title={
@@ -80,18 +119,25 @@ const LearningPage = () => {
                   </>
                 }
               />
-            </Typography>
+            </KeyList>
+            <PercentageBar
+              data={barData}
+              marks={[0, 25, 50, 75, 100].map((value) => ({
+                value,
+                label: value.toString()
+              }))}
+            />
           </AccountCard>
         </Grid>
         <Grid item xs={6}>
-          <AccountCard>
+          {/* <AccountCard>
             <Typography variant="body1" gutterBottom>
               Learning goal
             </Typography>
             <Typography variant="body2">
               You are expected to complete 10 days learning each year
             </Typography>
-          </AccountCard>
+          </AccountCard> */}
         </Grid>
       </Grid>
 

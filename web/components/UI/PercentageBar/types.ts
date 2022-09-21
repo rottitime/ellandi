@@ -2,7 +2,7 @@ import { ColorBrands, Colors } from '@/style/types'
 
 export type Props = {
   marks?: MarkType[]
-  data: DataType[]
+  data: BarDataType[]
 }
 
 type MarkType = {
@@ -10,7 +10,7 @@ type MarkType = {
   label: string
 }
 
-type DataType = {
+export type BarDataType = {
   percentage: number
   label: string
   color: keyof Colors | keyof ColorBrands
