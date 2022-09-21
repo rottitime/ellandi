@@ -13,6 +13,7 @@ export const icons = {
   skills: dynamic(() => import('@/components/Icon/Icons/Skills')),
   learning: dynamic(() => import('@/components/Icon/Icons/Learning')),
   mail: dynamic(() => import('@/components/Icon/Icons/Mail')),
+  'mortar-hat': dynamic(() => import('@/components/Icon/Icons/MortarHat')),
   pencil: dynamic(() => import('@/components/Icon/Icons/Pencil')),
   profile: dynamic(() => import('@/components/Icon/Icons/Profile')),
   question: dynamic(() => import('@/components/Icon/Icons/Question')),

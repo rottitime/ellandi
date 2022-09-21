@@ -1,6 +1,7 @@
 import { TextField as MuiTextField, styled, alpha } from '@mui/material'
 
 const StyledTextField = styled(MuiTextField)`
+  .MuiInputAdornment-sizeSmall .MuiTypography-root,
   .MuiInputBase-root,
   .MuiFormLabel-root {
     font-size: 16px;
