@@ -12,7 +12,10 @@ export enum Query {
   SkillLevels = 'skillLevels',
   Me = 'me',
   TeamMembers = 'teamMembers',
-  SuggestedSkills = 'SuggestedSkills'
+  SuggestedSkills = 'SuggestedSkills',
+  MeLearningWork = 'meLearningWork',
+  MeLearningFormal = 'meLearningFormal',
+  MeLearningSocial = 'meLearningSocial'
 }
 
 export type GenericDataList = {
@@ -177,6 +180,22 @@ export type LearningAddType = {
 }
 
 export type LearningAddFormalType = {
+  name: string
+  duration_minutes: number
+  date_completed: string
+  cost_pounds: number
+  cost_unknown: boolean
+}
+
+export type MeLearningList = {
+  id: string
+  name: string
+  duration_minutes: number
+  date_completed: string
+}
+
+export type MeLearningFormalList = {
+  id: string
   name: string
   duration_minutes: number
   date_completed: string
