@@ -23,3 +23,17 @@ export const combineDaysMinutesHoursToDays = (
 
   return Math.round(total * 100) / 100
 }
+
+export const splitMinutes = (
+  totalMinutes: number
+): { days: number; hours: number; minutes: number } => ({
+  days: Math.floor(totalMinutes / 24 / 60),
+  hours: Math.floor((totalMinutes / 60) % 24),
+  minutes: totalMinutes % 60
+})
+
+export const combineDaysMinutesHoursToMinutes = (
+  days: number,
+  hours: number,
+  minutes: number
+): number => days * 1440 + hours * 60 + minutes
