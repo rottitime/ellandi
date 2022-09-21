@@ -1,49 +1,22 @@
 import { FC, useMemo } from 'react'
 import DataGrid, { GridColDef } from '@/components/UI/DataGrid/DataGrid'
 import useAuth from '@/hooks/useAuth'
+import { MeLearningList, Query } from '@/service/api'
+import { useQuery } from 'react-query'
 import {
-  fetchSkillLevels,
-  GenericDataList,
-  MeLearningList,
-  Query,
-  RegisterUserResponse,
-  SkillsType,
-  SkillType
-} from '@/service/api'
-import { useMutation, useQuery, useQueryClient } from 'react-query'
-import {
-  fetchMe,
   fetchMeLearningFormal,
   fetchMeLearningSocial,
   fetchMeLearningWork
 } from '@/service/me'
-import TableSkeleton from '@/components/UI/Skeleton/TableSkeleton'
-import {
-  Alert,
-  Box,
-  Chip,
-  duration,
-  FormControl,
-  FormHelperText,
-  InputLabel,
-  MenuItem,
-  Select,
-  Typography
-} from '@mui/material'
-import { addSkills, deleteSkill } from '@/service/account'
+import { Alert, Box, Chip } from '@mui/material'
 import Link from '@/components/UI/Link'
-import { Controller, useForm } from 'react-hook-form'
-import { ListRecords, RowsType } from './types'
+import { RowsType } from './types'
 import { SkeletonTable } from '@/components/UI/Skeleton/TableSkeleton.stories'
 import { splitMinutes } from '@/lib/date-utils'
 import dayjs from 'dayjs'
 
 const SkillsList: FC = () => {
   const { authFetch } = useAuth()
-  // const queryClient = useQueryClient()
-  const { isLoading, data } = useQuery<RegisterUserResponse>(Query.Me, () =>
-    authFetch(fetchMe)
-  )
 
   const { isLoading: isLoadingWork, data: dataWork } = useQuery<MeLearningList[]>(
     Query.MeLearningWork,
@@ -96,9 +69,7 @@ const SkillsList: FC = () => {
     ]
   }, [dataFormal, dataSocial, dataWork])
 
-  return isLoading ? (
-    <TableSkeleton data-testid="skelton-table" />
-  ) : (
+  return (
     <Box sx={{ height: 'auto', width: '100%' }}>
       {isLoadingWork || isLoadingSocial || isLoadingFormal ? (
         <SkeletonTable />

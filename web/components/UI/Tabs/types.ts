@@ -1,3 +1,4 @@
+import { ColorBrands } from '@/style/types'
 import { TabsProps } from '@mui/material'
 import { ReactNode } from 'react'
 
@@ -9,9 +10,14 @@ export type TabItem = {
   href?: string
 }
 
+type BrandColor = { brandColor?: keyof ColorBrands }
+
 export type Props = {
   tabItems: TabItem[]
   tabPanel?: ReactNode
   activeIndex?: number
   activeOnUrl?: boolean
-} & TabsProps
+} & TabsProps &
+  BrandColor
+
+export type StyleProps = BrandColor
