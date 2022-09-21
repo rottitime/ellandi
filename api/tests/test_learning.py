@@ -15,7 +15,6 @@ def test_me_learning_work(client, user_id):
         assert result[0][key] == value
 
 
-
 @utils.with_logged_in_client
 def test_me_learning_social(client, user_id):
     data = [{"name": "Did some social learning", "duration_minutes": 32767, "date_completed": "2022-09-21"}]
@@ -27,7 +26,6 @@ def test_me_learning_social(client, user_id):
     result = response.json()
     for key, value in data[0].items():
         assert result[0][key] == value
-
 
 
 @utils.with_logged_in_client
@@ -43,13 +41,28 @@ def test_me_learning_formal(client, user_id):
         assert result[0][key] == value
 
 
-
 @utils.with_logged_in_client
 def test_me_learning(client, user_id):
     data = [
-        {"name": "Did some work learning", "duration_minutes": 32767, "date_completed": "2022-09-21", "learning_type": "Work"},
-        {"name": "Did some social learning", "duration_minutes": 32767, "date_completed": "2022-09-21", "learning_type": "Social"},
-        {"name": "Did some formal learning", "duration_minutes": 32767, "date_completed": "2022-09-21", "learning_type": "Formal", "cost_pounds": 35},
+        {
+            "name": "Did some work learning",
+            "duration_minutes": 32767,
+            "date_completed": "2022-09-21",
+            "learning_type": "Work",
+        },
+        {
+            "name": "Did some social learning",
+            "duration_minutes": 32767,
+            "date_completed": "2022-09-21",
+            "learning_type": "Social",
+        },
+        {
+            "name": "Did some formal learning",
+            "duration_minutes": 32767,
+            "date_completed": "2022-09-21",
+            "learning_type": "Formal",
+            "cost_pounds": 35,
+        },
     ]
     response = client.patch("/me/learnings/", json=data)
     assert response.status_code == status.HTTP_200_OK, response.status_code

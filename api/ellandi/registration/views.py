@@ -307,9 +307,7 @@ me_learning_formal_view = make_learning_view(
     serializer_class=serializers.LearningFormalSerializer, learning_type=models.Learning.LearningType.FORMAL
 )
 
-me_learning_view = make_learning_view(
-    serializer_class=serializers.LearningSerializer, learning_type=None
-)
+me_learning_view = make_learning_view(serializer_class=serializers.LearningSerializer, learning_type=None)
 
 
 def list_skills_langs(request, user, model_name, field_name):
