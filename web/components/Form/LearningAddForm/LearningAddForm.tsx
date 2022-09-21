@@ -15,10 +15,9 @@ import Duration from '@/components/Form/Duration/Duration'
 
 const schema: SchemaOf<LearningAddType> = object().shape({
   name: string().required('This is a required field'),
-  duration: number()
+  duration_minutes: number()
     .typeError('you must specify a number')
-    .min(0, 'Min value 0.')
-    .max(30, 'Max value 30.'),
+    .min(0, 'Min value 0.'),
   date_completed: string().required('This is a required field')
 })
 
@@ -26,7 +25,7 @@ const LearningAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
   const methods = useForm<LearningAddType>({
     defaultValues: {
       name: '',
-      duration: null,
+      duration_minutes: null,
       date_completed: ''
     },
     resolver: yupResolver(schema)
@@ -55,7 +54,7 @@ const LearningAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
           }
         >
           <Controller
-            name="duration"
+            name="duration_minutes"
             control={methods.control}
             render={({ field, fieldState: { error } }) => (
               <Duration {...field} error={!!error} helperText={error?.message} />

@@ -78,7 +78,7 @@ export const fetchTeam = async (token: string) => {
 }
 
 export const addLearningOnTheJob = async (token: string, data: LearningAddType) => {
-  const res = await api(token, `${publicRuntimeConfig.apiUrl}/me/learning-on-the-job/`, {
+  const res = await api(token, `${publicRuntimeConfig.apiUrl}/me/learning-work/`, {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)

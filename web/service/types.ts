@@ -172,14 +172,14 @@ export type MeSuggestedSkillsResponse = string[]
 
 export type LearningAddType = {
   name: string
-  duration: number
+  duration_minutes: number
   date_completed: string
 }
 
 export type LearningAddFormalType = {
   name: string
-  duration: number
+  duration_minutes: number
   date_completed: string
-  cost: number
+  cost_pounds: number
   cost_unknown: boolean
 }

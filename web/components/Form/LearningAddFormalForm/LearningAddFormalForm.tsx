@@ -21,7 +21,7 @@ import Duration from '@/components/Form/Duration/Duration'
 
 const schema: SchemaOf<LearningAddFormalType> = object().shape({
   name: string().required('This is a required field'),
-  cost: number()
+  cost_pounds: number()
     .nullable()
     .when('cost_unknown', (costUnknown) => {
       if (!costUnknown)
@@ -31,10 +31,9 @@ const schema: SchemaOf<LearningAddFormalType> = object().shape({
           .typeError('you must specify a number')
     }),
   cost_unknown: boolean().nullable(),
-  duration: number()
+  duration_minutes: number()
     .typeError('you must specify a number')
-    .min(0, 'Min value 0.')
-    .max(30, 'Max value 30.'),
+    .min(0, 'Min value 0.'),
   date_completed: string().required('This is a required field')
 })
 
@@ -42,9 +41,9 @@ const LearningAddFormalForm: FC<Props> = ({ onFormSubmit, loading }) => {
   const methods = useForm<LearningAddFormalType>({
     defaultValues: {
       name: '',
-      cost: null,
+      cost_pounds: null,
       cost_unknown: null,
-      duration: null,
+      duration_minutes: null,
       date_completed: ''
     },
     resolver: yupResolver(schema)
@@ -76,12 +75,12 @@ const LearningAddFormalForm: FC<Props> = ({ onFormSubmit, loading }) => {
         >
           <TextFieldControlled
             type="number"
-            name="cost"
+            name="cost_pounds"
             label="Cost"
             onKeyDown={(e) => (e.key === 'e' || e.key === '-') && e.preventDefault()}
             onChange={(e) => {
               setValue('cost_unknown', null)
-              setValue('cost', (e.target as HTMLInputElement).valueAsNumber)
+              setValue('cost_pounds', (e.target as HTMLInputElement).valueAsNumber)
             }}
             InputProps={{
               startAdornment: <InputAdornment position="start">&pound;</InputAdornment>
@@ -99,7 +98,7 @@ const LearningAddFormalForm: FC<Props> = ({ onFormSubmit, loading }) => {
                       checked={!!field.value}
                       value={!!field.value}
                       onChange={(e) => {
-                        setValue('cost', null)
+                        setValue('cost_pounds', null)
                         setValue(field.name, (e.target as HTMLInputElement).checked)
                       }}
                     />
@@ -121,7 +120,7 @@ const LearningAddFormalForm: FC<Props> = ({ onFormSubmit, loading }) => {
           }
         >
           <Controller
-            name="duration"
+            name="duration_minutes"
             control={control}
             render={({ field, fieldState: { error } }) => (
               <Duration {...field} error={!!error} helperText={error?.message} />
