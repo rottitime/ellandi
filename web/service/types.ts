@@ -189,16 +189,8 @@ export type LearningAddFormalType = {
 
 export type MeLearningList = {
   id: string
-  name: string
-  duration_minutes: number
-  date_completed: string
-}
+} & LearningAddType
 
 export type MeLearningFormalList = {
   id: string
-  name: string
-  duration_minutes: number
-  date_completed: string
-  cost_pounds: number
-  cost_unknown: boolean
-}
+} & LearningAddFormalType
