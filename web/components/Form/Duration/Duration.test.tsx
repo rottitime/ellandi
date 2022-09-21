@@ -16,17 +16,17 @@ describe('Duration', () => {
   })
 
   it('renders duration', async () => {
-    renderWithProviders(<Duration value={2.5} onChange={jest.fn()} />)
-    expect(screen.getByTestId('duration-days')).toHaveValue(2)
-    expect(screen.getByTestId('duration-hours')).toHaveValue(12)
-    expect(screen.getByTestId('duration-minutes')).toHaveValue(0)
+    renderWithProviders(<Duration value={25} onChange={jest.fn()} />)
+    expect(screen.getByTestId('duration-days')).toHaveValue(0)
+    expect(screen.getByTestId('duration-hours')).toHaveValue(0)
+    expect(screen.getByTestId('duration-minutes')).toHaveValue(25)
   })
 
   it('renders duration with minutes', async () => {
-    renderWithProviders(<Duration value={2.7} onChange={jest.fn()} />)
-    expect(screen.getByTestId('duration-days')).toHaveValue(2)
-    expect(screen.getByTestId('duration-hours')).toHaveValue(16)
-    expect(screen.getByTestId('duration-minutes')).toHaveValue(48)
+    renderWithProviders(<Duration value={12127} onChange={jest.fn()} />)
+    expect(screen.getByTestId('duration-days')).toHaveValue(8)
+    expect(screen.getByTestId('duration-hours')).toHaveValue(10)
+    expect(screen.getByTestId('duration-minutes')).toHaveValue(7)
   })
 
   describe('onChange', () => {
@@ -40,16 +40,16 @@ describe('Duration', () => {
 
       await userEvent.type(days, '2')
       expect(days).toHaveValue(2)
-      expect(mockChange).toHaveBeenLastCalledWith(2)
+      expect(mockChange).toHaveBeenLastCalledWith(2880)
       expect(minutes).toHaveValue(null)
       expect(hours).toHaveValue(null)
 
       await userEvent.type(hours, '1')
-      expect(mockChange).toHaveBeenLastCalledWith(2.04)
+      expect(mockChange).toHaveBeenLastCalledWith(2940)
       expect(minutes).toHaveValue(null)
 
       await userEvent.type(minutes, '55')
-      expect(mockChange).toHaveBeenLastCalledWith(2.08)
+      expect(mockChange).toHaveBeenLastCalledWith(2995)
     })
   })
 })
