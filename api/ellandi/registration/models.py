@@ -242,6 +242,7 @@ class Learning(TimeStampedModel):
         FORMAL = ("Formal", "Formal")
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.ForeignKey(User, related_name="learnings", on_delete=models.CASCADE)
     learning_type = models.CharField(max_length=31, choices=LearningType.choices, editable=False)
     name = models.CharField(max_length=255, blank=True, null=True)
     duration_minutes = models.PositiveSmallIntegerField(null=True)
