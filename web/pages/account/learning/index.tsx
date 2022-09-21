@@ -70,6 +70,10 @@ const LearningPage = () => {
     ]
   }, [dataFormal.length, dataSocial.length, dataWork.length])
 
+  const loading: boolean = isLoadingWork || isLoadingSocial || isLoadingFormal
+
+  console.log({ loading })
+
   return (
     <>
       <Headline>
@@ -99,8 +103,12 @@ const LearningPage = () => {
             <KeyList variant="body2">
               {barData.map(({ label, color, percentage }) => (
                 <span key={label}>
-                  <Box className="dot" sx={{ backgroundColor: colors[color] }} /> {label}{' '}
-                  ({percentage.toFixed()}%)
+                  <Box
+                    className="dot"
+                    sx={{ backgroundColor: colors[color] }}
+                    component="span"
+                  />{' '}
+                  {label} ({percentage.toFixed()}%)
                 </span>
               ))}
               <Tooltip
