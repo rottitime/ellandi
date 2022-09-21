@@ -3,7 +3,7 @@ import os
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from drf_spectacular.utils import OpenApiParameter, OpenApiTypes, extend_schema
-from rest_framework import decorators, permissions, routers, status, viewsets
+from rest_framework import decorators, permissions, routers, status, viewsets, views
 from rest_framework.response import Response
 
 from ellandi.verification import send_verification_email
@@ -266,61 +266,38 @@ def me_view(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@extend_schema(
-    methods=["PATCH"],
-    request=serializers.LearningWorkSerializer(many=True),
-    responses=serializers.LearningWorkSerializer(many=True),
+def make_learning_view(serializer_class, learning_type):
+    @extend_schema(
+        methods=["PATCH"],
+        request=serializer_class(many=True),
+        responses=serializer_class(many=True),
+    )
+    @extend_schema(methods=["GET"], responses=serializer_class(many=True))
+    @decorators.api_view(["GET", "PATCH"])
+    @decorators.permission_classes((permissions.IsAuthenticated,))
+    def _learning_view(request):
+        user = request.user
+        queryset = models.Learning.objects.filter(user=user, learning_type=learning_type)
+        if request.method == "GET":
+            serializer = serializer_class(queryset, many=True)
+            return Response(serializer.data)
+        elif request.method == "PATCH":
+            data = [dict(**item) for item in request.data]
+            serializer = serializer_class(data=data, many=True, context={'user': user})
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    return _learning_view
+
+me_learning_work_view = make_learning_view(serializer_class=serializers.LearningWorkSerializer,     learning_type = models.Learning.LearningType.WORK
 )
-@extend_schema(methods=["GET"], responses=serializers.LearningWorkSerializer(many=True))
-@decorators.api_view(["GET", "PATCH", "DELETE"])
-class MeLearningWorkViewSet(viewsets.ModelViewSet):
-    serializer_class = serializers.LearningWorkSerializer
-    http_method_names = ["get", "post", "patch", "delete"]
-    permission_classes = (permissions.IsAuthenticated,)
-    learning_type = models.Learning.LearningType.WORK
 
-    def get_queryset(self):
-        user = self.request.user
-        qs = models.Learning.objects.filter(user=user, learning_type=self.learning_type)
-        return qs
-
-
-@extend_schema(
-    methods=["PATCH"],
-    request=serializers.LearningSocialSerializer(many=True),
-    responses=serializers.LearningSocialSerializer(many=True),
+me_learning_social_view = make_learning_view(serializer_class=serializers.LearningSocialSerializer,     learning_type = models.Learning.LearningType.SOCIAL
 )
-@extend_schema(methods=["GET"], responses=serializers.LearningSocialSerializer(many=True))
-@decorators.api_view(["GET", "PATCH", "DELETE"])
-class MeLearningSocialViewSet(viewsets.ModelViewSet):
-    serializer_class = serializers.LearningSocialSerializer
-    http_method_names = ["get", "patch", "delete"]
-    permission_classes = (permissions.IsAuthenticated,)
-    learning_type = models.Learning.LearningType.SOCIAL
 
-    def get_queryset(self):
-        user = self.request.user
-        qs = models.Learning.objects.filter(user=user, learning_type=self.learning_type)
-        return qs
-
-
-@extend_schema(
-    methods=["PATCH"],
-    request=serializers.LearningFormalSerializer(many=True),
-    responses=serializers.LearningFormalSerializer(many=True),
+me_learning_formal_view = make_learning_view(serializer_class=serializers.LearningFormalSerializer,     learning_type = models.Learning.LearningType.FORMAL
 )
-@extend_schema(methods=["GET"], responses=serializers.LearningFormalSerializer(many=True))
-@decorators.api_view(["GET", "PATCH", "DELETE"])
-class MeLearningFormalViewSet(viewsets.ModelViewSet):
-    serializer_class = serializers.LearningFormalSerializer
-    http_method_names = ["get", "patch", "delete"]
-    permission_classes = (permissions.IsAuthenticated,)
-    learning_type = models.Learning.LearningType.FORMAL
-
-    def get_queryset(self):
-        user = self.request.user
-        qs = models.Learning.objects.filter(user=user, learning_type=self.learning_type)
-        return qs
 
 
 def list_skills_langs(request, user, model_name, field_name):
