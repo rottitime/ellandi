@@ -3,7 +3,7 @@ import os
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from drf_spectacular.utils import OpenApiParameter, OpenApiTypes, extend_schema
-from rest_framework import decorators, permissions, routers, status, viewsets, views
+from rest_framework import decorators, permissions, routers, status, viewsets
 from rest_framework.response import Response
 
 from ellandi.verification import send_verification_email
@@ -283,20 +283,25 @@ def make_learning_view(serializer_class, learning_type):
             return Response(serializer.data)
         elif request.method == "PATCH":
             data = [dict(**item) for item in request.data]
-            serializer = serializer_class(data=data, many=True, context={'user': user})
+            serializer = serializer_class(data=data, many=True, context={"user": user})
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_200_OK)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
     return _learning_view
 
-me_learning_work_view = make_learning_view(serializer_class=serializers.LearningWorkSerializer,     learning_type = models.Learning.LearningType.WORK
+
+me_learning_work_view = make_learning_view(
+    serializer_class=serializers.LearningWorkSerializer, learning_type=models.Learning.LearningType.WORK
 )
 
-me_learning_social_view = make_learning_view(serializer_class=serializers.LearningSocialSerializer,     learning_type = models.Learning.LearningType.SOCIAL
+me_learning_social_view = make_learning_view(
+    serializer_class=serializers.LearningSocialSerializer, learning_type=models.Learning.LearningType.SOCIAL
 )
 
-me_learning_formal_view = make_learning_view(serializer_class=serializers.LearningFormalSerializer,     learning_type = models.Learning.LearningType.FORMAL
+me_learning_formal_view = make_learning_view(
+    serializer_class=serializers.LearningFormalSerializer, learning_type=models.Learning.LearningType.FORMAL
 )
 
 

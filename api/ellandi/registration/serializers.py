@@ -162,7 +162,7 @@ class LearningWorkSerializer(serializers.ModelSerializer):
         fields = ["id", "name", "duration_minutes", "date_completed"]
 
     def create(self, validated_data):
-        user = self.context['user']
+        user = self.context["user"]
         learning = Learning(user=user, learning_type=Learning.LearningType.WORK, **validated_data)
         learning.save()
         return learning
@@ -174,7 +174,7 @@ class LearningSocialSerializer(serializers.ModelSerializer):
         fields = ["id", "name", "duration_minutes", "date_completed"]
 
     def create(self, validated_data):
-        user = self.context['user']
+        user = self.context["user"]
         learning = Learning(user=user, learning_type=Learning.LearningType.WORK, **validated_data)
         learning.save()
         return learning
@@ -186,7 +186,7 @@ class LearningFormalSerializer(serializers.ModelSerializer):
         fields = ["id", "name", "duration_minutes", "date_completed", "cost_pounds", "cost_unknown"]
 
     def create(self, validated_data):
-        user = self.context['user']
+        user = self.context["user"]
         learning = Learning(user=user, learning_type=Learning.LearningType.WORK, **validated_data)
         learning.save()
         return learning
