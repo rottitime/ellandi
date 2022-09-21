@@ -1,5 +1,6 @@
 import { Box, styled, Typography, useTheme } from '@mui/material'
 import { FC } from 'react'
+import Tooltip from '../Tooltip/Tooltip'
 import { Props } from './types'
 
 const StyledPercentageBar = styled(Box)`
@@ -8,6 +9,7 @@ const StyledPercentageBar = styled(Box)`
     border: 2px solid ${(p) => p.theme.colors.black};
     border-radius: 12px;
     display: flex;
+    overflow: hidden;
     > div {
       height: 20px;
     }
@@ -18,14 +20,19 @@ const StyledPercentageBar = styled(Box)`
   }
 `
 
-const PercentageBar: FC<Props> = ({ brandColor, marks, data, ...props }) => {
+const PercentageBar: FC<Props> = ({ marks, data, ...props }) => {
   const { colors } = useTheme()
 
   return (
     <StyledPercentageBar {...props}>
       <Box className="bar">
-        {data.map(({ percentage, label }) => (
-          <Box key={label} aria-label={label} sx={{ width: `${percentage}%` }} />
+        {data.map(({ percentage, label, color }) => (
+          <Tooltip title={label} key={label}>
+            <Box
+              aria-label={label}
+              sx={{ width: `${percentage}%`, backgroundColor: colors[color] }}
+            />
+          </Tooltip>
         ))}
       </Box>
       {marks &&

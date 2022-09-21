@@ -1,7 +1,6 @@
 import { ColorBrands, Colors } from '@/style/types'
 
 export type Props = {
-  brandColor?: keyof ColorBrands
   marks?: MarkType[]
   data: DataType[]
 }

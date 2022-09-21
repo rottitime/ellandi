@@ -20,9 +20,9 @@ const Template: ComponentStory<typeof PercentageBar> = (args) => (
 export const Default = Template.bind({})
 Default.args = {
   data: [
-    { percentage: 30, label: 'On the job' },
-    { percentage: 15, label: 'Social' },
-    { percentage: 55, label: 'Formal' }
+    { percentage: 30, label: 'Pizza', color: 'blue1' },
+    { percentage: 15, label: 'Chips', color: 'white' },
+    { percentage: 55, label: 'Hash browns', color: 'brandSkills' }
   ]
 } as Props
 
