@@ -1,0 +1,6 @@
+import { MeLearningList } from '@/service/types'
+
+export type RowsType = {
+  type: string
+  duration: string
+} & MeLearningList
