@@ -36,6 +36,10 @@ api_urlpatterns = [
     path("one-time-login-token/", views.create_one_time_login_view),
     path("first-time-login/", views.first_log_in_view),
     path("create-error/", views.create_error),
+    path("create_title_embeddings/", views.create_job_embedding_matrix),
+    path("create_skill_similarity/", views.create_skill_similarity_matrix),
+    path("skill_recommender/", views.skill_recommender),
+    path("title_recommender/", views.job_title_recommender)
     path("debug/", debug_view),
 ]
 

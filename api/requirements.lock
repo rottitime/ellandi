@@ -37,3 +37,8 @@ urllib3==1.26.12
 watchdog==2.1.9
 whitenoise==6.2.0
 zipp==3.8.1
+scikit-learn
+sentence_transformers
+numpy
+scipy
+pandas

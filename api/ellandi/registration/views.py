@@ -6,7 +6,10 @@ from django.core.exceptions import ValidationError
 from drf_spectacular.utils import OpenApiParameter, OpenApiTypes, extend_schema
 from rest_framework import decorators, permissions, routers, status, viewsets
 from rest_framework.response import Response
+import pandas as pd
+import numpy as np
 
+from ellandi.registration.recommend import make_skill_similarity_matrix, get_job_embeddings, get_similar_skills, return_similar_title_skills
 from ellandi.verification import send_verification_email
 
 from . import exceptions, initial_data, models, serializers
@@ -560,3 +563,65 @@ def me_suggested_skills(request):
     job_title = user.job_title
     suggested_skills = initial_data.DDAT_JOB_TO_SKILLS_LOOKUP.get(job_title, [])
     return Response(data=suggested_skills, status=status.HTTP_200_OK)
+
+
+@decorators.api_view(["POST","GET"])
+@decorators.permission_classes((permissions.AllowAny,))
+def create_skill_similarity_matrix(request):
+    qs = models.UserSkill.objects.all().values_list("user__id", "id", "name", "user__job_title")
+
+    df = pd.DataFrame.from_records(qs).rename(columns={0: "user_id", 1: "skill_id",
+                                                       2: "skill_name", 3: "job_title"})
+
+    long_df = df[["user_id", "skill_name"]].copy()
+    long_df['rating'] = 1
+
+    similarity_matrix = make_skill_similarity_matrix(long_df)
+    np.save("similarity_matrix.pkl", similarity_matrix)
+    return Response(status=status.HTTP_200_OK)
+
+@decorators.api_view(["POST","GET"])
+@decorators.permission_classes((permissions.AllowAny,))
+def create_job_embedding_matrix(request):
+    qs = models.UserSkill.objects.all().values_list("user__id", "user__job_title")
+    df = pd.DataFrame.from_records(qs).rename(columns={0: "user_id", 1: "job_title"})
+    unique_job_titles = df.drop_duplicates(subset=['job_title']).dropna(axis=0)['job_title'].to_numpy()
+    embeddings = get_job_embeddings(unique_job_titles)
+    embeddings.to_pickle("job_title_embeddings.pkl")
+    return Response(status=status.HTTP_200_OK)
+
+@decorators.api_view(["POST","GET"])
+@decorators.permission_classes((permissions.AllowAny,))
+def skill_recommender(skill, request, return_count=10):
+    qs = models.UserSkill.objects.all().values_list("user__id", "id", "name", "user__job_title")
+
+    df = pd.DataFrame.from_records(qs).rename(columns={0: "user_id", 1: "skill_id",
+                                                              2: "skill_name", 3: "job_title"})
+
+    long_df = df[["user_id", "skill_name"]].copy()
+    long_df['rating'] = 1
+    skill_similarity_matrix = np.load("similarity_matrix.pkl", allow_pickle=True)
+
+    similar_skills = get_similar_skills(long_df, skill, skill_similarity_matrix, n=return_count)
+
+    return Response(data=similar_skills, status=status.HTTP_200_OK)
+
+@decorators.api_view(["POST","GET"])
+@decorators.permission_classes((permissions.AllowAny,))
+def job_title_recommender(request, return_count=10):
+    user = request.user
+    job_title = user.job_title
+
+    qs = models.UserSkill.objects.all().values_list("user__id", "id", "name", "user__job_title")
+
+    df = pd.DataFrame.from_records(qs).rename(columns={0: "user_id", 1: "skill_id",
+                                                       2: "skill_name", 3: "job_title"})
+
+    long_df = df[["user_id", "skill_name"]].copy()
+    long_df['rating'] = 1
+
+    loaded_embeddings = pd.read_pickle("job_title_embeddings.pkl")
+
+    similar_title_skills = return_similar_title_skills(job_title, long_df, loaded_embeddings, n=return_count,
+                                                       model_name='all-MiniLM-L6-v2')
+    return Response(data=similar_title_skills, status=status.HTTP_200_OK)
