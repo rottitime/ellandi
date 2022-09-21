@@ -592,7 +592,7 @@ def create_job_embedding_matrix(request):
 
 @decorators.api_view(["POST","GET"])
 @decorators.permission_classes((permissions.AllowAny,))
-def skill_recommender(skill, request, return_count=10):
+def skill_recommender(request, skill,  return_count=10):
     qs = models.UserSkill.objects.all().values_list("user__id", "id", "name", "user__job_title")
 
     df = pd.DataFrame.from_records(qs).rename(columns={0: "user_id", 1: "skill_id",
