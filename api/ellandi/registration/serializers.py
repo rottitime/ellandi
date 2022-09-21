@@ -192,6 +192,18 @@ class LearningFormalSerializer(serializers.ModelSerializer):
         return learning
 
 
+class LearningSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Learning
+        fields = ["id", "learning_type", "name", "duration_minutes", "date_completed", "cost_pounds", "cost_unknown"]
+
+    def create(self, validated_data):
+        user = self.context["user"]
+        learning = Learning(user=user, **validated_data)
+        learning.save()
+        return learning
+
+
 class UserSerializer(serializers.ModelSerializer):
     skills = UserSkillSerializerNested(many=True, read_only=False, required=False)
     languages = UserLanguageSerializerNested(many=True, read_only=False, required=False)
