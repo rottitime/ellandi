@@ -13,7 +13,7 @@ const OnTheJobPage = () => {
   const { isLoading, ...mutate } = useMutation<
     RegisterUserResponse,
     Error,
-    LearningAddType
+    LearningAddType[]
   >(async (data) => authFetch(addLearningOnTheJob, data), {
     onSuccess: async () => await Router.push('/account/learning')
   })
@@ -21,7 +21,10 @@ const OnTheJobPage = () => {
   return (
     <>
       <SectionOne active={menu[0].title} />
-      <LearningAddForm onFormSubmit={(data) => mutate.mutate(data)} loading={isLoading} />
+      <LearningAddForm
+        onFormSubmit={(data) => mutate.mutate([data])}
+        loading={isLoading}
+      />
     </>
   )
 }

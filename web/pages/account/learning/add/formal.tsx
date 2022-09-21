@@ -13,7 +13,7 @@ const FormalPage = () => {
   const { isLoading, ...mutate } = useMutation<
     RegisterUserResponse,
     Error,
-    LearningAddFormalType
+    LearningAddFormalType[]
   >(async (data) => authFetch(addLearningSocial, data), {
     onSuccess: async () => await Router.push('/account/learning')
   })
@@ -22,7 +22,7 @@ const FormalPage = () => {
     <>
       <SectionOne active={menu[2].title} />
       <LearningAddFormalForm
-        onFormSubmit={(data) => mutate.mutate(data)}
+        onFormSubmit={(data) => mutate.mutate([data])}
         loading={isLoading}
       />
     </>
