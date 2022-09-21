@@ -590,7 +590,8 @@ def create_job_embedding_matrix(request):
     embeddings.to_pickle("job_title_embeddings.pkl")
     return Response(status=status.HTTP_200_OK)
 
-@decorators.api_view(["POST","GET"])
+@extend_schema(methods=["GET"], response=serializers.SkillTitleSerializer(), request=serializers.SkillTitleSerializer())
+@decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.AllowAny,))
 def skill_recommender(request, skill,  return_count=10):
     qs = models.UserSkill.objects.all().values_list("user__id", "id", "name", "user__job_title")
@@ -602,9 +603,14 @@ def skill_recommender(request, skill,  return_count=10):
     long_df['rating'] = 1
     skill_similarity_matrix = np.load("similarity_matrix.pkl", allow_pickle=True)
 
-    similar_skills = get_similar_skills(long_df, skill, skill_similarity_matrix, n=return_count)
 
     return Response(data=similar_skills, status=status.HTTP_200_OK)
+    def get_queryset(self):
+        user = self.request.user
+        skill = self.request.query_params.get('skill')
+        similar_skills = get_similar_skills(long_df, skill, skill_similarity_matrix, n=return_count)
+        return Response(data=similar_skills, status=status.HTTP_200_OK)
+
 
 @decorators.api_view(["POST","GET"])
 @decorators.permission_classes((permissions.AllowAny,))
@@ -621,7 +627,9 @@ def job_title_recommender(request, return_count=10):
     long_df['rating'] = 1
 
     loaded_embeddings = pd.read_pickle("job_title_embeddings.pkl")
+    def get_queryset(self):
+        user = self.request.user
+        similar_title_skills = return_similar_title_skills(job_title, long_df, loaded_embeddings, n=return_count,
+                                                           model_name='all-MiniLM-L6-v2')
+        return Response(data=similar_title_skills, status=status.HTTP_200_OK)
 
-    similar_title_skills = return_similar_title_skills(job_title, long_df, loaded_embeddings, n=return_count,
-                                                       model_name='all-MiniLM-L6-v2')
-    return Response(data=similar_title_skills, status=status.HTTP_200_OK)
