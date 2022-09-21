@@ -34,6 +34,8 @@ import { addSkills, deleteSkill } from '@/service/account'
 import Link from '@/components/UI/Link'
 import { Controller, useForm } from 'react-hook-form'
 import { ListRecords, RowsType } from './types'
+import { SkeletonTable } from '@/components/UI/Skeleton/TableSkeleton.stories'
+import { splitMinutes } from '@/lib/date-utils'
 
 const SkillsList: FC = () => {
   const { authFetch } = useAuth()
@@ -60,13 +62,30 @@ const SkillsList: FC = () => {
     { initialData: [] }
   )
 
-  const formatDuration = (duration: number): string => {}
+  const formatDuration = ({ duration_minutes }: MeLearningList): string => {
+    const { days, minutes, hours } = splitMinutes(duration_minutes)
+    return `${!!days ? `${days}d` : ''} ${!!hours ? `${hours}hr` : ''} ${
+      !!minutes ? `${minutes}m` : ''
+    }`
+  }
 
   const rows: RowsType[] = useMemo(() => {
     return [
-      ...dataWork.map((data) => ({ ...data, type: 'On the job', duration: '1hr' })),
-      ...dataSocial.map((data) => ({ ...data, type: 'Social', duration: '1hr' })),
-      ...dataFormal.map((data) => ({ ...data, type: 'Formal', duration: '1hr' }))
+      ...dataWork.map((data) => ({
+        ...data,
+        type: 'On the job',
+        duration: formatDuration(data)
+      })),
+      ...dataSocial.map((data) => ({
+        ...data,
+        type: 'Social',
+        duration: formatDuration(data)
+      })),
+      ...dataFormal.map((data) => ({
+        ...data,
+        type: 'Formal',
+        duration: formatDuration(data)
+      }))
     ]
   }, [dataFormal, dataSocial, dataWork])
 
@@ -74,22 +93,26 @@ const SkillsList: FC = () => {
     <TableSkeleton data-testid="skelton-table" />
   ) : (
     <Box sx={{ height: 'auto', width: '100%' }}>
-      <DataGrid
-        hideFooterPagination
-        initialState={{
-          sorting: {
-            sortModel: [{ field: 'name', sort: 'asc' }]
+      {isLoadingWork || isLoadingSocial || isLoadingFormal ? (
+        <SkeletonTable />
+      ) : (
+        <DataGrid
+          hideFooterPagination
+          initialState={{
+            sorting: {
+              sortModel: [{ field: 'name', sort: 'asc' }]
+            }
+          }}
+          noRowContent={
+            <Alert severity="info">
+              <Link href="/account/learning/add">Add learning</Link>
+            </Alert>
           }
-        }}
-        noRowContent={
-          <Alert severity="info">
-            <Link href="/account/learning/add">Add learning</Link>
-          </Alert>
-        }
-        autoHeight
-        columns={columns}
-        rows={rows}
-      />
+          autoHeight
+          columns={columns}
+          rows={rows}
+        />
+      )}
     </Box>
   )
 }
@@ -113,7 +136,7 @@ const columns: GridColDef[] = [
     flex: 1
   },
   {
-    field: 'duration_minutes',
+    field: 'duration',
     headerName: 'Duration',
     disableColumnMenu: true,
     resizable: false,
