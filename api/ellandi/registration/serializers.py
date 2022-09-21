@@ -175,7 +175,7 @@ class LearningSocialSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user = self.context["user"]
-        learning = Learning(user=user, learning_type=Learning.LearningType.WORK, **validated_data)
+        learning = Learning(user=user, learning_type=Learning.LearningType.SOCIAL, **validated_data)
         learning.save()
         return learning
 
@@ -187,7 +187,7 @@ class LearningFormalSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user = self.context["user"]
-        learning = Learning(user=user, learning_type=Learning.LearningType.WORK, **validated_data)
+        learning = Learning(user=user, learning_type=Learning.LearningType.FORMAL, **validated_data)
         learning.save()
         return learning
 
