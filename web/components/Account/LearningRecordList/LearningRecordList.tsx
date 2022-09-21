@@ -36,6 +36,7 @@ import { Controller, useForm } from 'react-hook-form'
 import { ListRecords, RowsType } from './types'
 import { SkeletonTable } from '@/components/UI/Skeleton/TableSkeleton.stories'
 import { splitMinutes } from '@/lib/date-utils'
+import dayjs from 'dayjs'
 
 const SkillsList: FC = () => {
   const { authFetch } = useAuth()
@@ -69,22 +70,28 @@ const SkillsList: FC = () => {
     }`
   }
 
+  const formatDate = ({ date_completed }: MeLearningList): string =>
+    dayjs(date_completed).format('DD.MM.YYYY')
+
   const rows: RowsType[] = useMemo(() => {
     return [
       ...dataWork.map((data) => ({
         ...data,
         type: 'On the job',
-        duration: formatDuration(data)
+        duration: formatDuration(data),
+        completed: formatDate(data)
       })),
       ...dataSocial.map((data) => ({
         ...data,
         type: 'Social',
-        duration: formatDuration(data)
+        duration: formatDuration(data),
+        completed: formatDate(data)
       })),
       ...dataFormal.map((data) => ({
         ...data,
         type: 'Formal',
-        duration: formatDuration(data)
+        duration: formatDuration(data),
+        completed: formatDate(data)
       }))
     ]
   }, [dataFormal, dataSocial, dataWork])
@@ -144,7 +151,7 @@ const columns: GridColDef[] = [
     flex: 1
   },
   {
-    field: 'date_completed',
+    field: 'completed',
     headerName: 'Completed',
     disableColumnMenu: true,
     resizable: false,
