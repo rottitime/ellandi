@@ -36,7 +36,8 @@ const RegisterDetailsForm: FC<StandardRegisterProps<RegisterDetailsType>> = (pro
       job_title: '',
       line_manager_email: '',
       location: '',
-      business_unit: ''
+      business_unit: '',
+      ...props.defaultValues
     },
     resolver: yupResolver(schema)
   })
@@ -49,51 +50,67 @@ const RegisterDetailsForm: FC<StandardRegisterProps<RegisterDetailsType>> = (pro
     }
   )
 
+  const showField = (field: keyof RegisterDetailsType) => {
+    if (!props.pickFields || props.pickFields.includes(field)) {
+      return true
+    }
+    return false
+  }
+
   return (
     <FormProvider {...methods}>
       <Form {...props}>
-        <Grid container spacing={3}>
-          <Grid item xs={6}>
-            <Field>
-              <TextFieldControlled name="first_name" label="First name" />
-            </Field>
+        {(showField('first_name') || showField('last_name')) && (
+          <Grid container spacing={3}>
+            <Grid item xs={6}>
+              <Field>
+                <TextFieldControlled name="first_name" label="First name" />
+              </Field>
+            </Grid>
+            <Grid item xs={6}>
+              <Field>
+                <TextFieldControlled name="last_name" label="Last name" />
+              </Field>
+            </Grid>
           </Grid>
-          <Grid item xs={6}>
-            <Field>
-              <TextFieldControlled name="last_name" label="Last name" />
-            </Field>
-          </Grid>
-        </Grid>
+        )}
+        {/* </Grid> */}
 
-        <Field>
-          <Controller
-            name="job_title"
-            control={methods.control}
-            render={({ field, fieldState: { error } }) => (
-              <CreatableAutocomplete
-                {...field}
-                loading={isLoading}
-                label="Job title"
-                size="small"
-                options={isSuccess ? data.map(({ name: title }) => ({ title })) : []}
-                error={!!error}
-                helperText={!!error && error.message}
-              />
-            )}
-          />
-        </Field>
+        {showField('job_title') && (
+          <Field>
+            <Controller
+              name="job_title"
+              control={methods.control}
+              render={({ field, fieldState: { error } }) => (
+                <CreatableAutocomplete
+                  {...field}
+                  loading={isLoading}
+                  label="Job title"
+                  size="small"
+                  options={isSuccess ? data.map(({ name: title }) => ({ title })) : []}
+                  error={!!error}
+                  helperText={!!error && error.message}
+                />
+              )}
+            />
+          </Field>
+        )}
 
-        <Field>
-          <TextFieldControlled name="business_unit" label="Business unit" />
-        </Field>
-
-        <Field>
-          <TextFieldControlled name="location" label="Work location" />
-        </Field>
-
-        <Field>
-          <TextFieldControlled name="line_manager_email" label="Line manager email" />
-        </Field>
+        {showField('business_unit') && (
+          <Field>
+            <TextFieldControlled name="business_unit" label="Business unit" />
+          </Field>
+        )}
+        {showField('location') && (
+          <Field>
+            <TextFieldControlled name="location" label="Work location" />
+          </Field>
+        )}
+        {showField('line_manager_email') && (
+          <Field>
+            <TextFieldControlled name="line_manager_email" label="Line manager email" />
+          </Field>
+        )}
       </Form>
     </FormProvider>
   )

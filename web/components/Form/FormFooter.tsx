@@ -8,13 +8,15 @@ type Props = {
   submitText?: string
   backUrl?: string
   skipUrl?: string
+  onCancel?: () => void
 }
 
 const FormFooter: FC<Props> = ({
   backUrl,
   buttonProps,
   submitText = 'Continue',
-  skipUrl
+  skipUrl,
+  onCancel
 }) => (
   <FooterButtons>
     <Box>
@@ -29,14 +31,22 @@ const FormFooter: FC<Props> = ({
         </Button>
       )}
     </Box>
-    <Button
-      variant="contained"
-      type="submit"
-      {...buttonProps}
-      data-testid={`submit-button`}
-    >
-      {submitText}
-    </Button>
+    <div>
+      {!!onCancel && (
+        <Button onClick={onCancel} variant="contained" color="secondary" sx={{ mr: 2 }}>
+          Cancel
+        </Button>
+      )}
+
+      <Button
+        variant="contained"
+        type="submit"
+        {...buttonProps}
+        data-testid={`submit-button`}
+      >
+        {submitText}
+      </Button>
+    </div>
   </FooterButtons>
 )
 

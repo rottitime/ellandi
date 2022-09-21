@@ -4,8 +4,10 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  Slide
+  Slide,
+  IconButton
 } from '@mui/material'
+import CloseIcon from '@mui/icons-material/Close'
 import React, { FC, forwardRef, useId } from 'react'
 import { Props, TransitionProps } from './types'
 
@@ -37,7 +39,23 @@ const Dialog: FC<Props> = ({ children, title, maxWidth = 'md', actions, ...props
       aria-labelledby={idTitle}
       aria-describedby={idDescription}
     >
-      <DialogTitle id={idTitle}>{title}</DialogTitle>
+      <DialogTitle id={idTitle}>
+        {title}
+        {!!props.onClose && (
+          <IconButton
+            aria-label="close"
+            onClick={props.onClose}
+            sx={{
+              position: 'absolute',
+              right: 8,
+              top: 8,
+              color: (theme) => theme.palette.grey[500]
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        )}
+      </DialogTitle>
       <DialogContent id={idDescription}>{children}</DialogContent>
       {actions && <DialogActions>{actions}</DialogActions>}
     </StyledDialog>

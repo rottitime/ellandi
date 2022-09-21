@@ -6,6 +6,7 @@ export type Props = {
   children: ReactElement
   title: string
   actions?: ReactNode
+  onClose?: () => void
 } & ComponentProps<typeof Dialog>
 
 export type TransitionProps = MuiTransitionProps & {

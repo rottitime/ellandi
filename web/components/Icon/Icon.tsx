@@ -17,7 +17,8 @@ export const icons = {
   profile: dynamic(() => import('@/components/Icon/Icons/Profile')),
   question: dynamic(() => import('@/components/Icon/Icons/Question')),
   team: dynamic(() => import('@/components/Icon/Icons/Team')),
-  world: dynamic(() => import('@/components/Icon/Icons/World'))
+  world: dynamic(() => import('@/components/Icon/Icons/World')),
+  tick: dynamic(() => import('@/components/Icon/Icons/Tick'))
 }
 
 const Icon: FC<Props> = ({ icon, size, ...props }) => {

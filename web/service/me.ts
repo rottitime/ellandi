@@ -23,3 +23,33 @@ export const fetchMeSuggestedSkills = async (token: string) => {
   if (res.ok) return res.json()
   throw new Error(defaultError)
 }
+
+export const updatePassword = async (
+  token: string,
+  data: {
+    currentPassword: string
+    password: string
+  }
+) => {
+  try {
+    const res: Response = await fetch(
+      `${publicRuntimeConfig.apiUrl}/me/password-change/`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Token ${token}`
+        },
+        body: JSON.stringify({
+          old_password: data.currentPassword,
+          new_password: data.password
+        })
+      }
+    )
+    if (res.ok) return res.json()
+    const { detail } = await res.json()
+    if (detail) return Promise.reject(new Error(detail))
+  } catch (error) {
+    throw new Error(defaultError)
+  }
+}
