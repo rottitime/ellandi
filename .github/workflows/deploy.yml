@@ -92,7 +92,7 @@ jobs:
               "feature/deploy-from-main": {"CF_SPACE": "flibble"}
             }
 
-      - name: Get non-prod space name
+      - name: Get prod space name
         if:  ${{ github.event_name == 'release' }}
         uses: kanga333/variable-mapper@master
         with:
