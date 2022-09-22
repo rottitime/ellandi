@@ -92,80 +92,82 @@ const LearningPage = () => {
         Add learning
       </Button>
 
-      <Grid container spacing={5} sx={{ mb: 5 }}>
-        <Grid item xs={6}>
-          <AccountCard sx={{ height: '100%' }}>
-            <Typography variant="body1" gutterBottom>
-              Learning distribution{' '}
-              <Tooltip
-                brandColor="brandLearning"
-                title="To get the most out of your learning you should aim for 70% learning
+      {(!!dataWork.length || !!dataSocial.length || !!dataFormal.length) && (
+        <Grid container spacing={5} sx={{ mb: 5 }}>
+          <Grid item xs={6}>
+            <AccountCard sx={{ height: '100%' }}>
+              <Typography variant="body1" gutterBottom>
+                Learning distribution{' '}
+                <Tooltip
+                  brandColor="brandLearning"
+                  title="To get the most out of your learning you should aim for 70% learning
                 on the job, 20% social and 10% formal training"
+                />
+              </Typography>
+              <GraphDescription variant="body2">
+                {barData.map(({ label, color, percentage }) => (
+                  <span key={label}>
+                    <Box
+                      className="dot"
+                      sx={{ backgroundColor: colors[color] }}
+                      component="span"
+                    />{' '}
+                    {label} ({percentage.toFixed()}%)
+                  </span>
+                ))}
+                <Tooltip
+                  brandColor="brandLearning"
+                  sx={{ p: 0 }}
+                  title={
+                    <>
+                      <Typography variant="body2">On the job</Typography> Self-taught
+                      learning by doing, for example reading policies and guidance, using
+                      tools and software to do your job
+                      <Typography variant="body2">Social</Typography>
+                      Learning from colleagues, job shadowing, mentoring, coaching,
+                      networks and communities
+                      <Typography variant="body2">Formal</Typography>
+                      Completing a course on Civil Service Learning, external training,
+                      professional qualifications
+                    </>
+                  }
+                />
+              </GraphDescription>
+              <PercentageBar
+                data={barData}
+                marks={[0, 25, 50, 75, 100].map((value) => ({
+                  value,
+                  label: value.toString()
+                }))}
               />
-            </Typography>
-            <GraphDescription variant="body2">
-              {barData.map(({ label, color, percentage }) => (
-                <span key={label}>
-                  <Box
-                    className="dot"
-                    sx={{ backgroundColor: colors[color] }}
-                    component="span"
-                  />{' '}
-                  {label} ({percentage.toFixed()}%)
-                </span>
-              ))}
-              <Tooltip
-                brandColor="brandLearning"
-                sx={{ p: 0 }}
-                title={
-                  <>
-                    <Typography variant="body2">On the job</Typography> Self-taught
-                    learning by doing, for example reading policies and guidance, using
-                    tools and software to do your job
-                    <Typography variant="body2">Social</Typography>
-                    Learning from colleagues, job shadowing, mentoring, coaching, networks
-                    and communities
-                    <Typography variant="body2">Formal</Typography>
-                    Completing a course on Civil Service Learning, external training,
-                    professional qualifications
-                  </>
-                }
-              />
-            </GraphDescription>
-            <PercentageBar
-              data={barData}
-              marks={[0, 25, 50, 75, 100].map((value) => ({
-                value,
-                label: value.toString()
-              }))}
-            />
-          </AccountCard>
-        </Grid>
-        <Grid item xs={6}>
-          <AccountCard sx={{ height: '100%' }}>
-            <Typography variant="body1" gutterBottom>
-              Learning goal
-            </Typography>
-            <GraphDescription variant="body2" gutterBottom>
-              You are expected to complete 10 days learning each year
-            </GraphDescription>
+            </AccountCard>
+          </Grid>
+          <Grid item xs={6}>
+            <AccountCard sx={{ height: '100%' }}>
+              <Typography variant="body1" gutterBottom>
+                Learning goal
+              </Typography>
+              <GraphDescription variant="body2" gutterBottom>
+                You are expected to complete 10 days learning each year
+              </GraphDescription>
 
-            <PercentageBar
-              data={[
-                {
-                  label: 'goal',
-                  percentage: (totalMinutes / 450 / 10) * 100,
-                  color: 'blue1'
-                }
-              ]}
-              marks={[0, 25, 50, 75, 100].map((value) => ({
-                value,
-                label: (value / 10).toString()
-              }))}
-            />
-          </AccountCard>
+              <PercentageBar
+                data={[
+                  {
+                    label: 'goal',
+                    percentage: (totalMinutes / 450 / 10) * 100,
+                    color: 'blue1'
+                  }
+                ]}
+                marks={[0, 25, 50, 75, 100].map((value) => ({
+                  value,
+                  label: (value / 10).toString()
+                }))}
+              />
+            </AccountCard>
+          </Grid>
         </Grid>
-      </Grid>
+      )}
 
       <Tabs
         brandColor="brandLearning"
