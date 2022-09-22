@@ -45,7 +45,7 @@ BROWSER := $(PYTHON) -c "$$BROWSER_PYSCRIPT"
 help:
 	@$(PYTHON) -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
 
-include .envs/api
+include envs/api
 
 # -------------------------------- Builds and Installations -----------------------------
 
