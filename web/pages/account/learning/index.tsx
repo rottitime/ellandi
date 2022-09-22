@@ -44,19 +44,19 @@ const LearningPage = () => {
   const { isLoading: isLoadingWork, data: dataWork } = useQuery<MeLearningList[]>(
     Query.MeLearningWork,
     () => authFetch(fetchMeLearningWork),
-    { initialData: [] }
+    { initialData: [], staleTime: 0 }
   )
 
   const { isLoading: isLoadingSocial, data: dataSocial } = useQuery<MeLearningList[]>(
     Query.MeLearningSocial,
     () => authFetch(fetchMeLearningSocial),
-    { initialData: [] }
+    { initialData: [], staleTime: 0 }
   )
 
   const { isLoading: isLoadingFormal, data: dataFormal } = useQuery<MeLearningList[]>(
     Query.MeLearningFormal,
     () => authFetch(fetchMeLearningFormal),
-    { initialData: [] }
+    { initialData: [], staleTime: 0 }
   )
 
   const barData = useMemo<BarDataType[]>(() => {
