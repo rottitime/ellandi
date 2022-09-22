@@ -27,6 +27,7 @@ services:
       args:
         NODE_ENV: development
         NEXT_PUBLIC_API_URL: http://localhost:8000
+        NEXT_PUBLIC_GIT_SHA: "_REPLACE_ME_"
     image: ellandi_web
     env_file:
       - ./.envs/web
