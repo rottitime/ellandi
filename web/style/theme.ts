@@ -67,6 +67,24 @@ const theme = createTheme({
         marginBottom: 16
       }
     },
+    h2: {
+      fontWeight: 700,
+      fontSize: 22,
+      lineHeight: '123.5%',
+      letterSpacing: '-1px',
+      '&.MuiTypography-gutterBottom': {
+        marginBottom: 16
+      }
+    },
+    h3: {
+      fontWeight: 700,
+      fontSize: 16,
+      lineHeight: '123.5%',
+      letterSpacing: '-1px',
+      '&.MuiTypography-gutterBottom': {
+        marginBottom: 16
+      }
+    },
     body1: {
       fontWeight: 500,
       fontSize: 22,
@@ -85,16 +103,12 @@ const theme = createTheme({
         marginBottom: 10
       }
     },
-    h2: undefined,
-    h3: undefined,
     h4: undefined,
     h5: undefined,
     h6: undefined,
     subtitle1: undefined,
     subtitle2: undefined,
-    // body2: undefined,
     overline: undefined
-    // caption: undefined
   },
   spacing: [0, 5, 10, 16, 30, 60, 110],
   shadows: Array(25).fill('none') as Shadows,
