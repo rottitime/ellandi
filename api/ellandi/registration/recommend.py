@@ -62,20 +62,20 @@ def get_similar_embedding_jobs(job_title, job_embeddings, n=10, model_name="all-
 
 
 def return_similar_title_skills(
-    job_title, user_skills, job_embeddings, n=10, model_name="all-MiniLM-L6-v2", missing_ratings=True
+    job_title, user_skills, job_embeddings, n=10, model_name="all-MiniLM-L6-v2", missing_ratings=False
 ):
     """takes a list of skills per job title, and returns most common skills for similar"""
 
-    unique_job_titles = user_skills.drop_duplicates(subset=["clean_title"]).dropna(axis=0)["clean_title"].to_numpy()
+    unique_job_titles = user_skills.drop_duplicates(subset=["job_title"]).dropna(axis=0)["job_title"].to_numpy()
 
     if missing_ratings:
-        skills_to_dummy = user_skills[["vacancy_id", "skill_name"]]
-        long_skills = skills_to_dummy.copy().rename(columns={"vacancy_id": "user_id"})
+        skills_to_dummy = user_skills[["user_id", "skill_name"]]
+        long_skills = skills_to_dummy.copy().rename(columns={"user_id": "user_id"})
         long_skills["rating"] = 1
 
     else:
-        skills_to_dummy = user_skills[["vacancy_id", "skill_name", "rating"]]
-        long_skills = skills_to_dummy.copy().rename(columns={"vacancy_id": "user_id"})
+        skills_to_dummy = user_skills[["user_id", "skill_name", "rating"]]
+        long_skills = skills_to_dummy.copy().rename(columns={"user_id": "user_id"})
 
     sparse_df = (
         long_skills.groupby(["user_id", "skill_name"])["rating"].sum().astype("Sparse[int]").unstack(fill_value=0)
@@ -87,7 +87,7 @@ def return_similar_title_skills(
     dist = np.linalg.norm(job_embedding - job_embeddings, axis=1)
     jobs_by_dist = np.argsort(dist)
 
-    title_lookup = user_skills[["vacancy_id", "clean_title"]].drop_duplicates().set_index("vacancy_id")
+    title_lookup = user_skills[["user_id", "job_title"]].drop_duplicates().set_index("user_id")
 
     dist_df = pd.DataFrame(columns=["distance", "job_title"])
     dist_df["distance"] = dist
@@ -95,14 +95,14 @@ def return_similar_title_skills(
 
     distance_title_df = (
         title_lookup.reset_index()
-        .merge(dist_df, right_on="job_title", left_on="clean_title", how="left")
-        .set_index("vacancy_id")
+        .merge(dist_df, right_on="job_title", left_on="job_title", how="left")
+        .set_index("user_id")
     )
     comparison_df = (
         distance_title_df.merge(sparse_df, left_index=True, right_index=True)
         .fillna(0)
         .copy()
-        .drop(columns=["clean_title", "job_title"])
+        .drop(columns=["job_title", "job_title"])
     )
     similar_skill_dist = comparison_df.corr()["distance"].sort_values()
 
