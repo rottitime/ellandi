@@ -80,7 +80,7 @@ const LearningPage = () => {
   return (
     <>
       <Headline>
-        <Typography variant="h1" gutterBottom>
+        <Typography variant="h1" component="h2" gutterBottom>
           Welcome to the learning section
         </Typography>
         <Typography>
@@ -96,7 +96,7 @@ const LearningPage = () => {
         <Grid container spacing={5} sx={{ mb: 5 }}>
           <Grid item xs={6}>
             <AccountCard sx={{ height: '100%' }}>
-              <Typography variant="body1" gutterBottom>
+              <Typography variant="h2" component="h3" gutterBottom>
                 Learning distribution{' '}
                 <Tooltip
                   brandColor="brandLearning"
@@ -144,7 +144,7 @@ const LearningPage = () => {
           </Grid>
           <Grid item xs={6}>
             <AccountCard sx={{ height: '100%' }}>
-              <Typography variant="body1" gutterBottom>
+              <Typography variant="h2" component="h3" gutterBottom>
                 Learning goal
               </Typography>
               <GraphDescription variant="body2" gutterBottom>
