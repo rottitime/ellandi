@@ -89,7 +89,6 @@ def verification_view(request, user_id, token):
 
 @extend_schema(
     request=serializers.PasswordResetAskSerializer,
-    responses=serializers.UserSerializer,
 )
 @decorators.api_view(["POST"])
 @decorators.permission_classes((permissions.AllowAny,))
