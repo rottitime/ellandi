@@ -43,7 +43,8 @@ const CreateAccountForm: FC<StandardRegisterProps<CreateAccountType>> = (props) 
 
   useEffect(() => {
     hasToken() && logout()
-  }, [hasToken, logout])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const methods = useForm<CreateAccountType>({
     defaultValues,
