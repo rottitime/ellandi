@@ -1,18 +1,18 @@
 import os
 
+import numpy as np
+import pandas as pd
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from drf_spectacular.utils import OpenApiParameter, OpenApiTypes, extend_schema
 from rest_framework import decorators, permissions, routers, status, viewsets
 from rest_framework.response import Response
-import pandas as pd
-import numpy as np
 
 from ellandi.registration.recommend import (
-    make_skill_similarity_matrix,
     get_job_embeddings,
     get_similar_skills,
+    make_skill_similarity_matrix,
     return_similar_title_skills,
 )
 from ellandi.verification import send_verification_email
@@ -572,7 +572,9 @@ def me_suggested_skills(request):
 
 @extend_schema(request=None, responses=None)
 @decorators.api_view(["POST"])
-@decorators.permission_classes((permissions.AllowAny,)) # TODO - what permissions? Suggest only admin users permissions.IsAdminUser
+@decorators.permission_classes(
+    (permissions.AllowAny,)
+)  # TODO - what permissions? Suggest only admin users permissions.IsAdminUser
 def create_skill_similarity_matrix(request):
     qs = models.UserSkill.objects.all().values_list("user__id", "id", "name", "user__job_title")
 
@@ -588,7 +590,9 @@ def create_skill_similarity_matrix(request):
 
 @extend_schema(request=None, responses=None)
 @decorators.api_view(["POST"])
-@decorators.permission_classes((permissions.AllowAny,)) # TODO - what permissions? Suggest only admin users permissions.IsAdminUser
+@decorators.permission_classes(
+    (permissions.AllowAny,)
+)  # TODO - what permissions? Suggest only admin users permissions.IsAdminUser
 def create_job_embedding_matrix(request):
     qs = models.UserSkill.objects.all().values_list("user__id", "user__job_title")
     df = pd.DataFrame.from_records(qs).rename(columns={0: "user_id", 1: "job_title"})
@@ -600,10 +604,14 @@ def create_job_embedding_matrix(request):
 
 @extend_schema(methods=["GET"], request=serializers.SkillTitleSerializer())
 @decorators.api_view(["GET"])
-@decorators.permission_classes((permissions.AllowAny,)) # TODO - I think this is fine for permissions - anyone can see recommendation?
+@decorators.permission_classes(
+    (permissions.AllowAny,)
+)  # TODO - I think this is fine for permissions - anyone can see recommendation?
 def skill_recommender(request, skill_name, return_count=10):
     qs = models.UserSkill.objects.all().values_list("user__id", "id", "name", "user__job_title")
-    df = pd.DataFrame.from_records(qs).rename(columns={"user__id": "user_id", "id" : "skill_id", "name": "skill_name", "user__job_title": "job_title"})
+    df = pd.DataFrame.from_records(qs).rename(
+        columns={"user__id": "user_id", "id": "skill_id", "name": "skill_name", "user__job_title": "job_title"}
+    )
 
     long_df = df[["user_id", "skill_name"]].copy()
     long_df["rating"] = 1
@@ -617,6 +625,7 @@ def skill_recommender(request, skill_name, return_count=10):
     #     skill = self.request.query_params.get("skill")
     #     similar_skills = get_similar_skills(long_df, skill, skill_similarity_matrix, n=return_count)
     #     return Response(data=similar_skills, status=status.HTTP_200_OK)
+
 
 @extend_schema(request=None, responses=None)
 @decorators.api_view(["GET"])

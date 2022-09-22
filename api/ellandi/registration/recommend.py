@@ -1,8 +1,8 @@
-from sklearn.metrics.pairwise import cosine_similarity
-import scipy
 import numpy as np
-from sentence_transformers import SentenceTransformer
 import pandas as pd
+import scipy
+from sentence_transformers import SentenceTransformer
+from sklearn.metrics.pairwise import cosine_similarity
 
 
 def make_skill_similarity_matrix(long_skill_df):
