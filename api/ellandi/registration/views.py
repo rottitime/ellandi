@@ -570,8 +570,9 @@ def me_suggested_skills(request):
     return Response(data=suggested_skills, status=status.HTTP_200_OK)
 
 
-@decorators.api_view(["POST", "GET"])
-@decorators.permission_classes((permissions.AllowAny,))
+@extend_schema(request=None, responses=None)
+@decorators.api_view(["POST"])
+@decorators.permission_classes((permissions.AllowAny,)) # TODO - what permissions? Suggest only admin users permissions.IsAdminUser
 def create_skill_similarity_matrix(request):
     qs = models.UserSkill.objects.all().values_list("user__id", "id", "name", "user__job_title")
 
@@ -585,8 +586,9 @@ def create_skill_similarity_matrix(request):
     return Response(status=status.HTTP_200_OK)
 
 
-@decorators.api_view(["POST", "GET"])
-@decorators.permission_classes((permissions.AllowAny,))
+@extend_schema(request=None, responses=None)
+@decorators.api_view(["POST"])
+@decorators.permission_classes((permissions.AllowAny,)) # TODO - what permissions? Suggest only admin users permissions.IsAdminUser
 def create_job_embedding_matrix(request):
     qs = models.UserSkill.objects.all().values_list("user__id", "user__job_title")
     df = pd.DataFrame.from_records(qs).rename(columns={0: "user_id", 1: "job_title"})
@@ -598,28 +600,28 @@ def create_job_embedding_matrix(request):
 
 @extend_schema(methods=["GET"], request=serializers.SkillTitleSerializer())
 @decorators.api_view(["GET"])
-@decorators.permission_classes((permissions.AllowAny,))
-def skill_recommender(request, skill, return_count=10):
+@decorators.permission_classes((permissions.AllowAny,)) # TODO - I think this is fine for permissions - anyone can see recommendation?
+def skill_recommender(request, skill_name, return_count=10):
     qs = models.UserSkill.objects.all().values_list("user__id", "id", "name", "user__job_title")
-
-    df = pd.DataFrame.from_records(qs).rename(columns={0: "user_id", 1: "skill_id", 2: "skill_name", 3: "job_title"})
+    df = pd.DataFrame.from_records(qs).rename(columns={"user__id": "user_id", "id" : "skill_id", "name": "skill_name", "user__job_title": "job_title"})
 
     long_df = df[["user_id", "skill_name"]].copy()
     long_df["rating"] = 1
     skill_similarity_matrix = np.load("similarity_matrix.pkl", allow_pickle=True)
-
+    similar_skills = get_similar_skills(long_df, skill_name, skill_similarity_matrix, n=return_count)
     return Response(data=similar_skills, status=status.HTTP_200_OK)
 
-    def get_queryset(self):
-        user = self.request.user
-        skill = self.request.query_params.get("skill")
-        similar_skills = get_similar_skills(long_df, skill, skill_similarity_matrix, n=return_count)
-        return Response(data=similar_skills, status=status.HTTP_200_OK)
+    # TODO - not sure what this was doing
+    # def get_queryset(self):
+    #     user = self.request.user
+    #     skill = self.request.query_params.get("skill")
+    #     similar_skills = get_similar_skills(long_df, skill, skill_similarity_matrix, n=return_count)
+    #     return Response(data=similar_skills, status=status.HTTP_200_OK)
 
-
-@decorators.api_view(["POST", "GET"])
-@decorators.permission_classes((permissions.AllowAny,))
-def job_title_recommender(request, return_count=10):
+@extend_schema(request=None, responses=None)
+@decorators.api_view(["GET"])
+@decorators.permission_classes((permissions.IsAuthenticated,))
+def me_job_title_recommender(request, return_count=10):
     user = request.user
     job_title = user.job_title
 
@@ -631,10 +633,15 @@ def job_title_recommender(request, return_count=10):
     long_df["rating"] = 1
 
     loaded_embeddings = pd.read_pickle("job_title_embeddings.pkl")
+    similar_title_skills = return_similar_title_skills(
+        job_title, long_df, loaded_embeddings, n=return_count, model_name="all-MiniLM-L6-v2"
+    )
+    return Response(data=similar_title_skills, status=status.HTTP_200_OK)
 
-    def get_queryset(self):
-        user = self.request.user
-        similar_title_skills = return_similar_title_skills(
-            job_title, long_df, loaded_embeddings, n=return_count, model_name="all-MiniLM-L6-v2"
-        )
-        return Response(data=similar_title_skills, status=status.HTTP_200_OK)
+    # TODO - not sure what this is used for
+    # def get_queryset(self):
+    #     user = self.request.user
+    #     similar_title_skills = return_similar_title_skills(
+    #         job_title, long_df, loaded_embeddings, n=return_count, model_name="all-MiniLM-L6-v2"
+    #     )
+    #     return Response(data=similar_title_skills, status=status.HTTP_200_OK)
