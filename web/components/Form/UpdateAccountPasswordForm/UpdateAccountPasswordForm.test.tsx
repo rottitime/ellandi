@@ -10,7 +10,9 @@ jest.mock('next/router', () => ({
 
 describe('UpdateAccountPasswordForm', () => {
   it('renders', () => {
-    renderWithProviders(<UpdateAccountPasswordForm callback={jest.fn()} />)
+    renderWithProviders(
+      <UpdateAccountPasswordForm callback={jest.fn()} onCancel={jest.fn()} />
+    )
     expect(screen.getByTestId('submit-button')).toBeInTheDocument()
     expect(screen.getByTestId('textfield_password')).toBeInTheDocument()
     expect(screen.getByTestId('textfield_newPasswordConfirm')).toBeInTheDocument()
@@ -19,7 +21,9 @@ describe('UpdateAccountPasswordForm', () => {
 
   it('shows errors', async () => {
     const mockSubmit = jest.fn()
-    renderWithProviders(<UpdateAccountPasswordForm callback={jest.fn()} />)
+    renderWithProviders(
+      <UpdateAccountPasswordForm callback={jest.fn()} onCancel={jest.fn()} />
+    )
 
     const inputPassword = screen.getByTestId('textfield_password')
     const button = screen.getByTestId('submit-button')
