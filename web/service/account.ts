@@ -116,5 +116,9 @@ const api = async (
     headers: { ...init.headers, Authorization: `Token ${token}` }
   })
   if (res.ok) return res
+  try {
+    const { detail } = await res.json()
+    if (detail) throw new Error(detail)
+  } catch (e) {}
   throw new Error(defaultError)
 }

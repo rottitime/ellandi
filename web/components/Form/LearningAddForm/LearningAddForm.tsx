@@ -3,7 +3,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { LearningAddType } from '@/service/types'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
 import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
-import { Typography } from '@mui/material'
+import { Alert, Typography } from '@mui/material'
 import BadgeNumber from '@/components/UI/BadgeNumber/BadgeNumber'
 import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldControlled'
 import { FC } from 'react'
@@ -21,7 +21,7 @@ const schema: SchemaOf<LearningAddType> = object().shape({
   date_completed: string().required('This is a required field')
 })
 
-const LearningAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
+const LearningAddForm: FC<Props> = ({ onFormSubmit, loading, error }) => {
   const methods = useForm<LearningAddType>({
     defaultValues: {
       name: '',
@@ -86,6 +86,12 @@ const LearningAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
             )}
           />
         </AccountCard>
+
+        {error && (
+          <Alert severity="error" sx={{ mb: 4, maxWidth: 700 }}>
+            {error}
+          </Alert>
+        )}
 
         <Field>
           <Button type="submit" variant="contained" loading={loading}>

@@ -10,18 +10,19 @@ import LearningAddForm from '@/components/Form/LearningAddForm/LearningAddForm'
 const OnTheJobPage = () => {
   const { authFetch } = useAuth()
 
-  const { isLoading, ...mutate } = useMutation<
+  const { isLoading, error, ...mutate } = useMutation<
     RegisterUserResponse,
     Error,
     LearningAddType[]
   >(async (data) => authFetch(addLearningOnTheJob, data), {
-    onSuccess: async () => await Router.push('/account/learning')
+    onSuccess: async () => await Router.push('/account/skills/')
   })
 
   return (
     <>
       <SectionOne active={menu[0].title} />
       <LearningAddForm
+        error={error?.message}
         onFormSubmit={(data) => mutate.mutate([data])}
         loading={isLoading}
       />

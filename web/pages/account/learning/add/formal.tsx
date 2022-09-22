@@ -4,24 +4,25 @@ import { useMutation } from 'react-query'
 import { LearningAddFormalType, RegisterUserResponse } from '@/service/api'
 import useAuth from '@/hooks/useAuth'
 import Router from 'next/router'
-import { addLearningSocial } from '@/service/account'
+import { addLearningFormal } from '@/service/account'
 import LearningAddFormalForm from '@/components/Form/LearningAddFormalForm/LearningAddFormalForm'
 
 const FormalPage = () => {
   const { authFetch } = useAuth()
 
-  const { isLoading, ...mutate } = useMutation<
+  const { isLoading, error, ...mutate } = useMutation<
     RegisterUserResponse,
     Error,
     LearningAddFormalType[]
-  >(async (data) => authFetch(addLearningSocial, data), {
-    onSuccess: async () => await Router.push('/account/learning')
+  >(async (data) => authFetch(addLearningFormal, data), {
+    onSuccess: async () => await Router.push('/account/skills/')
   })
 
   return (
     <>
       <SectionOne active={menu[2].title} />
       <LearningAddFormalForm
+        error={error?.message}
         onFormSubmit={(data) => mutate.mutate([data])}
         loading={isLoading}
       />
