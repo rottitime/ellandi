@@ -12,6 +12,7 @@ from .models import (
     JobTitle,
     Language,
     LanguageSkillLevel,
+    Learning,
     Location,
     Organisation,
     Profession,
@@ -153,6 +154,56 @@ class UserSkillDevelopSerializerNested(serializers.ModelSerializer):
     class Meta:
         model = UserSkillDevelop
         fields = ["id", "name"]
+
+
+class LearningWorkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Learning
+        fields = ["id", "name", "duration_minutes", "date_completed"]
+
+    def create(self, validated_data):
+        user = self.context["user"]
+        learning = Learning(user=user, learning_type=Learning.LearningType.WORK, **validated_data)
+        learning.save()
+        return learning
+
+
+class LearningSocialSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Learning
+        fields = ["id", "name", "duration_minutes", "date_completed"]
+
+    def create(self, validated_data):
+        user = self.context["user"]
+        learning = Learning(user=user, learning_type=Learning.LearningType.SOCIAL, **validated_data)
+        learning.save()
+        return learning
+
+
+class LearningFormalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Learning
+        fields = ["id", "name", "duration_minutes", "date_completed", "cost_pounds", "cost_unknown"]
+
+    def create(self, validated_data):
+        user = self.context["user"]
+        learning = Learning(user=user, learning_type=Learning.LearningType.FORMAL, **validated_data)
+        learning.save()
+        return learning
+
+
+class LearningSerializer(serializers.ModelSerializer):
+    learning_type = serializers.ChoiceField(choices=Learning.LearningType.choices, required=True)
+
+    class Meta:
+        model = Learning
+        fields = ["id", "learning_type", "name", "duration_minutes", "date_completed", "cost_pounds", "cost_unknown"]
+
+    def create(self, validated_data):
+        user = self.context["user"]
+        learning = Learning(user=user, **validated_data)
+        learning.save()
+        return learning
 
 
 class UserSerializer(serializers.ModelSerializer):

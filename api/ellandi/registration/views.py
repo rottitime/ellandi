@@ -266,6 +266,50 @@ def me_view(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+def make_learning_view(serializer_class, learning_type):
+    @extend_schema(
+        methods=["PATCH"],
+        request=serializer_class(many=True),
+        responses=serializer_class(many=True),
+    )
+    @extend_schema(methods=["GET"], responses=serializer_class(many=True))
+    @decorators.api_view(["GET", "PATCH"])
+    @decorators.permission_classes((permissions.IsAuthenticated,))
+    def _learning_view(request):
+        user = request.user
+        queryset = models.Learning.objects.filter(user=user)
+        _learning_type = learning_type or request.query_params.get("learning_type", None)
+        if _learning_type:
+            queryset = queryset.filter(learning_type=_learning_type)
+        if request.method == "GET":
+            serializer = serializer_class(queryset, many=True)
+            return Response(serializer.data)
+        elif request.method == "PATCH":
+            data = [dict(**item) for item in request.data]
+            serializer = serializer_class(data=data, many=True, context={"user": user})
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    return _learning_view
+
+
+me_learning_work_view = make_learning_view(
+    serializer_class=serializers.LearningWorkSerializer, learning_type=models.Learning.LearningType.WORK
+)
+
+me_learning_social_view = make_learning_view(
+    serializer_class=serializers.LearningSocialSerializer, learning_type=models.Learning.LearningType.SOCIAL
+)
+
+me_learning_formal_view = make_learning_view(
+    serializer_class=serializers.LearningFormalSerializer, learning_type=models.Learning.LearningType.FORMAL
+)
+
+me_learning_view = make_learning_view(serializer_class=serializers.LearningSerializer, learning_type=None)
+
+
 def list_skills_langs(request, user, model_name, field_name):
     """
     For a given user, return the associated skills or languages or skills to develop.

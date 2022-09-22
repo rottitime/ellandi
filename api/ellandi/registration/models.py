@@ -233,6 +233,24 @@ class UserSkillDevelop(TimeStampedModel):
         unique_together = ["user", "name"]
 
 
+class Learning(TimeStampedModel):
+    """Learning time a user has spent"""
+
+    class LearningType(models.TextChoices):
+        WORK = ("Work", "Work")
+        SOCIAL = ("Social", "Social")
+        FORMAL = ("Formal", "Formal")
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.ForeignKey(User, related_name="learnings", on_delete=models.CASCADE)
+    learning_type = models.CharField(max_length=31, choices=LearningType.choices, editable=False)
+    name = models.CharField(max_length=255, blank=True, null=True)
+    duration_minutes = models.PositiveSmallIntegerField(null=True)
+    date_completed = models.DateField(null=True)
+    cost_pounds = models.PositiveSmallIntegerField(blank=True, null=True)
+    cost_unknown = models.BooleanField(blank=True, null=True)
+
+
 class EmailSalt(models.Model):
     email = LowercaseEmailField("email", unique=True, primary_key=True)
     salt = models.BinaryField(max_length=16, blank=False)
