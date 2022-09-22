@@ -351,8 +351,10 @@ class UserLoginSerializer(serializers.ModelSerializer):
 class OneTimeTokenSerializer(serializers.Serializer):
     one_time_token = serializers.CharField(required=True)
 
+
 class SkillTitleSerializer(serializers.ModelSerializer):
     name = serializers.CharField()
+
     class Meta:
         model = UserSkill
-        fields = [ "name"]
+        fields = ["name"]
