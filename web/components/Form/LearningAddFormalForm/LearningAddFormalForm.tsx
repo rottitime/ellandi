@@ -4,6 +4,7 @@ import { LearningAddFormalType } from '@/service/types'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
 import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
 import {
+  Alert,
   Checkbox,
   FormControlLabel,
   FormHelperText,
@@ -37,7 +38,7 @@ const schema: SchemaOf<LearningAddFormalType> = object().shape({
   date_completed: string().required('This is a required field')
 })
 
-const LearningAddFormalForm: FC<Props> = ({ onFormSubmit, loading }) => {
+const LearningAddFormalForm: FC<Props> = ({ onFormSubmit, error, loading }) => {
   const methods = useForm<LearningAddFormalType>({
     defaultValues: {
       name: '',
@@ -152,6 +153,12 @@ const LearningAddFormalForm: FC<Props> = ({ onFormSubmit, loading }) => {
             )}
           />
         </AccountCard>
+
+        {error && (
+          <Alert severity="error" sx={{ mb: 4, maxWidth: 700 }}>
+            {error}
+          </Alert>
+        )}
 
         <Field>
           <Button type="submit" variant="contained" loading={loading}>
