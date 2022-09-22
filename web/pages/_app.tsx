@@ -8,6 +8,7 @@ import { ReactQueryDevtools } from 'react-query/devtools'
 import { UiProvider } from '@/context/UiContext'
 import { AppProps } from 'next/app'
 import { NextPage } from 'next'
+import LocalizationProvider from '@/components/LocalizationProvider/LocalizationProvider'
 
 interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache
@@ -41,7 +42,9 @@ export default function MyApp({
       <ThemeProvider>
         <QueryClientProvider client={queryClient}>
           <Hydrate state={pageProps.dehydratedState}>
-            <UiProvider>{getLayout(<Component {...pageProps} />)}</UiProvider>
+            <LocalizationProvider>
+              <UiProvider>{getLayout(<Component {...pageProps} />)}</UiProvider>
+            </LocalizationProvider>
             <ReactQueryDevtools initialIsOpen={false} />
           </Hydrate>
         </QueryClientProvider>

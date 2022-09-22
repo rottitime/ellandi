@@ -6,7 +6,7 @@ import {
   FormHelperText,
   Typography
 } from '@mui/material'
-import { object, SchemaOf, string, ref, boolean } from 'yup'
+import { object, SchemaOf } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, FormProvider, Controller } from 'react-hook-form'
 import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldControlled'
@@ -17,12 +17,11 @@ import useAuth from '@/hooks/useAuth'
 import Form from '@/components/Form/Register/FormRegister/FormRegister'
 import Link from '@/components/UI/Link'
 import getConfig from 'next/config'
-
+import { schema as defaultSchema, minPassword } from '@/lib/schema'
 const {
   publicRuntimeConfig: { urls }
 } = getConfig()
 
-const minPassword = 8
 const defaultValues = {
   email: '',
   password: '',
@@ -32,23 +31,11 @@ const defaultValues = {
 }
 
 const schema: SchemaOf<CreateAccountType> = object().shape({
-  email: string()
-    .email('Enter an email address in the correct format, like name@example.com')
-    .required('This is a required field'),
-  emailConfirm: string()
-    .oneOf([ref('email'), null], 'Does not match with email')
-    .required('This is a required field'),
-
-  password: string()
-    .min(minPassword, `Password must be ${minPassword} characters or more`)
-    .max(20)
-    .required('This is a required field'),
-  passwordConfirm: string()
-    .oneOf([ref('password'), null], 'Does not match with password')
-    .required('This is a required field'),
-  privacy_policy_agreement: boolean()
-    .required()
-    .oneOf([true], 'You must accept the privacy policy')
+  email: defaultSchema.email,
+  emailConfirm: defaultSchema.emailConfirm,
+  password: defaultSchema.password,
+  passwordConfirm: defaultSchema.passwordConfirm,
+  privacy_policy_agreement: defaultSchema.privacyPolicyAgreement
 })
 
 const CreateAccountForm: FC<StandardRegisterProps<CreateAccountType>> = (props) => {

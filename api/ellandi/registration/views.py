@@ -2,7 +2,7 @@ import os
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from drf_spectacular.utils import extend_schema
+from drf_spectacular.utils import OpenApiParameter, OpenApiTypes, extend_schema
 from rest_framework import decorators, permissions, routers, status, viewsets
 from rest_framework.response import Response
 
@@ -31,6 +31,7 @@ class UserViewSet(viewsets.ModelViewSet):
     http_method_names = ["get", "patch"]
 
 
+@extend_schema(parameters=[OpenApiParameter("id", OpenApiTypes.UUID, OpenApiParameter.PATH)])
 @register("user-skills", basename="user-skills")
 class UserSkillViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.UserSkillSerializer
@@ -43,6 +44,7 @@ class UserSkillViewSet(viewsets.ModelViewSet):
         return qs
 
 
+@extend_schema(parameters=[OpenApiParameter("id", OpenApiTypes.UUID, OpenApiParameter.PATH)])
 @register("user-languages", basename="user-languages")
 class UserLanguageViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.UserLanguageSerializer
@@ -55,6 +57,7 @@ class UserLanguageViewSet(viewsets.ModelViewSet):
         return qs
 
 
+@extend_schema(parameters=[OpenApiParameter("id", OpenApiTypes.UUID, OpenApiParameter.PATH)])
 @register("user-skills-develop", basename="user-skills-develop")
 class UserSkillDevelopViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.UserSkillDevelopSerializer
@@ -196,7 +199,9 @@ def register_view(request):
 def skills_list_view(request):
     existing_skills = set(models.UserSkill.objects.all().values_list("name", flat=True))
     skills_to_develop = set(models.UserSkillDevelop.objects.all().values_list("name", flat=True))
-    initial_skills = initial_data.INITIAL_SKILLS.union(initial_data.NLP_DERIVED_SKILLS)
+    initial_skills = initial_data.INITIAL_SKILLS.union(initial_data.NLP_DERIVED_SKILLS).union(
+        initial_data.DDAT_SKILLS_TO_JOB_LOOKUP.keys()
+    )
     skills = initial_skills.union(existing_skills)
     skills = skills.union(skills_to_develop)
     skills = sorted(skills)
@@ -259,6 +264,50 @@ def me_view(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+def make_learning_view(serializer_class, learning_type):
+    @extend_schema(
+        methods=["PATCH"],
+        request=serializer_class(many=True),
+        responses=serializer_class(many=True),
+    )
+    @extend_schema(methods=["GET"], responses=serializer_class(many=True))
+    @decorators.api_view(["GET", "PATCH"])
+    @decorators.permission_classes((permissions.IsAuthenticated,))
+    def _learning_view(request):
+        user = request.user
+        queryset = models.Learning.objects.filter(user=user)
+        _learning_type = learning_type or request.query_params.get("learning_type", None)
+        if _learning_type:
+            queryset = queryset.filter(learning_type=_learning_type)
+        if request.method == "GET":
+            serializer = serializer_class(queryset, many=True)
+            return Response(serializer.data)
+        elif request.method == "PATCH":
+            data = [dict(**item) for item in request.data]
+            serializer = serializer_class(data=data, many=True, context={"user": user})
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    return _learning_view
+
+
+me_learning_work_view = make_learning_view(
+    serializer_class=serializers.LearningWorkSerializer, learning_type=models.Learning.LearningType.WORK
+)
+
+me_learning_social_view = make_learning_view(
+    serializer_class=serializers.LearningSocialSerializer, learning_type=models.Learning.LearningType.SOCIAL
+)
+
+me_learning_formal_view = make_learning_view(
+    serializer_class=serializers.LearningFormalSerializer, learning_type=models.Learning.LearningType.FORMAL
+)
+
+me_learning_view = make_learning_view(serializer_class=serializers.LearningSerializer, learning_type=None)
 
 
 def list_skills_langs(request, user, model_name, field_name):
@@ -482,3 +531,13 @@ def user_direct_reports_view(request, user_id):
 def create_error(request):
     """Endpoint to be used for testing."""
     raise Exception("This is the create error endpoint (for testing)")
+
+
+@extend_schema(request=None, responses=None)
+@decorators.api_view(["GET"])
+@decorators.permission_classes((permissions.IsAuthenticated,))
+def me_suggested_skills(request):
+    user = request.user
+    job_title = user.job_title
+    suggested_skills = initial_data.DDAT_JOB_TO_SKILLS_LOOKUP.get(job_title, [])
+    return Response(data=suggested_skills, status=status.HTTP_200_OK)

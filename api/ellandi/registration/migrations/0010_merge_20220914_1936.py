@@ -6,7 +6,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("registration", "0008_alter_user_privacy_policy_agreement"),
+        ("registration", "0008_jobtitle"),
         ("registration", "0009_loaddata_fixtures_jobtitles"),
     ]
 

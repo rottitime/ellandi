@@ -16,6 +16,7 @@ user_data = dict(
     last_name="Green",
     organisation="DfE",
     password="P455w0rd",
+    job_title="Software developer",
 )
 
 another_user_data = dict(

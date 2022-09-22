@@ -10,6 +10,7 @@ const FormRegister: FC<Props> = ({
   children,
   skipUrl,
   backUrl,
+  onCancel,
   buttonLoading,
   ...props
 }) => {
@@ -20,7 +21,9 @@ const FormRegister: FC<Props> = ({
   } = useFormContext()
 
   useEffect(() => {
-    reset(defaultValues)
+    if (defaultValues) {
+      reset(defaultValues)
+    }
   }, [reset, defaultValues])
 
   return (
@@ -29,6 +32,7 @@ const FormRegister: FC<Props> = ({
       <FormFooter
         skipUrl={skipUrl}
         backUrl={backUrl}
+        onCancel={onCancel}
         buttonProps={{
           loading: buttonLoading,
           disabled: submitDisabled && !isDirty && !isValid
