@@ -581,9 +581,13 @@ def create_skill_similarity_matrix(request):
     df = pd.DataFrame.from_records(qs).rename(columns={0: "user_id", 1: "skill_id", 2: "skill_name", 3: "job_title"})
 
     long_df = df[["user_id", "skill_name"]].copy()
+
+    # currently assuming all users have similar competence (1), though we can iterate on this later
     long_df["rating"] = 1
 
     similarity_matrix = make_skill_similarity_matrix(long_df)
+
+    # currently saving as a numpy array - memory efficient but could be better
     np.save("similarity_matrix.npy", similarity_matrix)
     return Response(status=status.HTTP_200_OK)
 
@@ -596,6 +600,8 @@ def create_skill_similarity_matrix(request):
 def create_job_embedding_matrix(request):
     qs = models.UserSkill.objects.all().values_list("user__id", "user__job_title")
     df = pd.DataFrame.from_records(qs).rename(columns={0: "user_id", 1: "job_title"})
+
+    # converts to numpy array for speed
     unique_job_titles = df.drop_duplicates(subset=["job_title"]).dropna(axis=0)["job_title"].to_numpy()
     embeddings = get_job_embeddings(unique_job_titles)
     embeddings.to_pickle("job_title_embeddings.pkl")
@@ -608,11 +614,15 @@ def create_job_embedding_matrix(request):
     (permissions.AllowAny,)
 )  # TODO - I think this is fine for permissions - anyone can see recommendation?
 def skill_recommender(request, skill_name, return_count=10):
+    # requires create_skill_similarity_matrix endpoint to have been run first
     qs = models.UserSkill.objects.all().values_list("user__id", "id", "name", "user__job_title")
     df = pd.DataFrame.from_records(qs).rename(columns={0: "user_id", 1: "skill_id", 2: "skill_name", 3: "job_title"})
 
     long_df = df[["user_id", "skill_name"]].copy()
+
+    # currently assumes all users have same skill rating, to improve in future
     long_df["rating"] = 1
+    # loads numpy array from previous function
     skill_similarity_matrix = np.load("similarity_matrix.npy")
     skill_outputs = get_similar_skills(long_df, skill_name, skill_similarity_matrix, n=return_count)
     similar_skills = skill_outputs[0]
@@ -623,6 +633,7 @@ def skill_recommender(request, skill_name, return_count=10):
 @decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
 def me_job_title_recommender(request, return_count=10):
+    # requires create_job_embedding_matrix endpoint to have been run first
     user = request.user
     job_title = user.job_title
 

@@ -6,7 +6,8 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 
 def make_skill_similarity_matrix(long_skill_df):
-    """given a lit of users and their skills, returns a similarity matrix"""
+    """given pandas dataframe list of users (user_id), skills (skill_name) and numeric ratings (rating)
+    , returns a matrix of skill similarity"""
 
     # create a long dataframe with all our users and skills
     sparse_df = (
@@ -21,7 +22,7 @@ def make_skill_similarity_matrix(long_skill_df):
 
 
 def get_similar_skills(long_skill_df, skill_name, similarity_matrix, n=10):
-    """given a long dataframe of user_id and skill_name and rating, returns a matrix of skill similarity based on
+    """given a pandas dataframe of user_id and skill_name and rating, returns a matrix of skill similarity based on
     common use"""
 
     # create a long dataframe with all our users and skills
