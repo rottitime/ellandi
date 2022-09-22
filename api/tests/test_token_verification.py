@@ -48,7 +48,6 @@ def test_verify_email(client):
     assert user.verified
 
 
-
 @utils.with_logged_in_client
 @override_settings(SEND_VERIFICATION_EMAIL=True)
 def test_resend_verify_email(client, user_id):

@@ -53,7 +53,6 @@ def send_password_reset_email(user):
     return _send_token_email(user, **data)
 
 
-
 @extend_schema(
     responses=serializers.UserSerializer,
 )
@@ -64,9 +63,6 @@ def me_send_verification_email_view(request):
     send_verification_email(user)
     serializer = serializers.UserSerializer(user)
     return Response(serializer.data, status=status.HTTP_200_OK)
-
-
-
 
 
 @extend_schema(
