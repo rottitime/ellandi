@@ -18,9 +18,11 @@ import { useMemo } from 'react'
 import { BarDataType } from '@/components/UI/PercentageBar/types'
 import PercentageBar from '@/components/UI/PercentageBar/PercentageBar'
 
-const KeyList = styled(Typography)`
+const GraphDescription = styled(Typography)`
   display: inline-flex;
   margin-bottom: ${(p) => p.theme.spacing(2)};
+  position: relative;
+  min-height: 24px;
   > span {
     display: inline-flex;
     align-items: center;
@@ -70,9 +72,10 @@ const LearningPage = () => {
     ]
   }, [dataFormal.length, dataSocial.length, dataWork.length])
 
-  const loading: boolean = isLoadingWork || isLoadingSocial || isLoadingFormal
-
-  console.log({ loading })
+  const totalMinutes = [...dataWork, ...dataSocial, ...dataFormal].reduce(
+    (p, { duration_minutes }) => p + duration_minutes,
+    0
+  )
 
   return (
     <>
@@ -91,7 +94,7 @@ const LearningPage = () => {
 
       <Grid container spacing={5} sx={{ mb: 5 }}>
         <Grid item xs={6}>
-          <AccountCard>
+          <AccountCard sx={{ height: '100%' }}>
             <Typography variant="body1" gutterBottom>
               Learning distribution{' '}
               <Tooltip
@@ -100,7 +103,7 @@ const LearningPage = () => {
                 on the job, 20% social and 10% formal training"
               />
             </Typography>
-            <KeyList variant="body2">
+            <GraphDescription variant="body2">
               {barData.map(({ label, color, percentage }) => (
                 <span key={label}>
                   <Box
@@ -113,6 +116,7 @@ const LearningPage = () => {
               ))}
               <Tooltip
                 brandColor="brandLearning"
+                sx={{ p: 0 }}
                 title={
                   <>
                     <Typography variant="body2">On the job</Typography> Self-taught
@@ -127,7 +131,7 @@ const LearningPage = () => {
                   </>
                 }
               />
-            </KeyList>
+            </GraphDescription>
             <PercentageBar
               data={barData}
               marks={[0, 25, 50, 75, 100].map((value) => ({
@@ -138,14 +142,28 @@ const LearningPage = () => {
           </AccountCard>
         </Grid>
         <Grid item xs={6}>
-          {/* <AccountCard>
+          <AccountCard sx={{ height: '100%' }}>
             <Typography variant="body1" gutterBottom>
               Learning goal
             </Typography>
-            <Typography variant="body2">
+            <GraphDescription variant="body2" gutterBottom>
               You are expected to complete 10 days learning each year
-            </Typography>
-          </AccountCard> */}
+            </GraphDescription>
+
+            <PercentageBar
+              data={[
+                {
+                  label: 'goal',
+                  percentage: (totalMinutes / 450 / 10) * 100,
+                  color: 'blue1'
+                }
+              ]}
+              marks={[0, 25, 50, 75, 100].map((value) => ({
+                value,
+                label: (value / 10).toString()
+              }))}
+            />
+          </AccountCard>
         </Grid>
       </Grid>
 

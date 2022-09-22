@@ -56,50 +56,25 @@ export const fetchMeSuggestedSkills = async (token: string) => {
 }
 
 export const fetchMeLearningFormal = async (token: string) => {
-  // const res = await fetch(`${publicRuntimeConfig.apiUrl}/me/learning-formal/`, {
-  //   headers: { Authorization: `Token ${token}` }
-  // })
-  // if (res.ok) return res.json()
-  // throw new Error(defaultError)
-
-  return [
-    {
-      id: '1232',
-      name: 'Mindfullness course',
-      duration_minutes: 23643,
-      date_completed: '2022-09-21'
-    }
-  ] as MeLearningList[]
+  const res = await fetch(`${publicRuntimeConfig.apiUrl}/me/learning-formal/`, {
+    headers: { Authorization: `Token ${token}` }
+  })
+  if (res.ok) return res.json()
+  throw new Error(defaultError)
 }
 
 export const fetchMeLearningSocial = async (token: string) => {
-  // const res = await fetch(`${publicRuntimeConfig.apiUrl}/me/learning-social/`, {
-  //   headers: { Authorization: `Token ${token}` }
-  // })
-  // if (res.ok) return res.json()
-  // throw new Error(defaultError)
-  return [
-    {
-      id: '389247',
-      name: 'Shadowing a colleague',
-      duration_minutes: 30,
-      date_completed: '2022-05-06'
-    }
-  ] as MeLearningList[]
+  const res = await fetch(`${publicRuntimeConfig.apiUrl}/me/learning-social/`, {
+    headers: { Authorization: `Token ${token}` }
+  })
+  if (res.ok) return res.json()
+  throw new Error(defaultError)
 }
 
 export const fetchMeLearningWork = async (token: string) => {
-  // const res = await fetch(`${publicRuntimeConfig.apiUrl}/me/learning-work/`, {
-  //   headers: { Authorization: `Token ${token}` }
-  // })
-  // if (res.ok) return res.json()
-  // throw new Error(defaultError)
-  return [
-    {
-      id: '3698js',
-      name: 'Following Mural tutorials',
-      duration_minutes: 60,
-      date_completed: '2022-05-26'
-    }
-  ] as MeLearningList[]
+  const res = await fetch(`${publicRuntimeConfig.apiUrl}/me/learning-work/`, {
+    headers: { Authorization: `Token ${token}` }
+  })
+  if (res.ok) return res.json()
+  throw new Error(defaultError)
 }
