@@ -10,6 +10,7 @@ from .models import (
     JobTitle,
     Language,
     LanguageSkillLevel,
+    Learning,
     Location,
     Organisation,
     Profession,
@@ -191,3 +192,4 @@ admin.site.register(Function, FunctionAdmin)
 admin.site.register(SkillLevel, SkillLevelAdmin)
 admin.site.register(JobTitle, JobTitleAdmin)
 admin.site.register(EmailSalt)
+admin.site.register(Learning)
