@@ -576,6 +576,8 @@ def me_suggested_skills(request):
     (permissions.AllowAny,)
 )  # TODO - what permissions? Suggest only admin users permissions.IsAdminUser
 def create_skill_similarity_matrix(request):
+    nlp_skill_df = pd.read_pickle("nlp_generated_skills.pkl")[["user_id", "skill_name", "rating"]].iloc[0:10000]
+
     qs = models.UserSkill.objects.all().values_list("user__id", "id", "name", "user__job_title")
 
     df = pd.DataFrame.from_records(qs).rename(columns={0: "user_id", 1: "skill_id", 2: "skill_name", 3: "job_title"})
@@ -584,8 +586,14 @@ def create_skill_similarity_matrix(request):
 
     # currently assuming all users have similar competence (1), though we can iterate on this later
     long_df["rating"] = 1
+    # todo - fix to uuid
+    long_df["user_id"] = long_df["user_id"].astype("string")
+    long_df["skill_name"] = long_df["skill_name"].astype("string")
+    long_df["rating"] = long_df["rating"].astype("int")
 
-    similarity_matrix = make_skill_similarity_matrix(long_df)
+    combined_long_df = pd.concat([long_df, nlp_skill_df]).reset_index(drop=True)
+
+    similarity_matrix = make_skill_similarity_matrix(combined_long_df)
 
     # currently saving as a numpy array - memory efficient but could be better
     np.save("similarity_matrix.npy", similarity_matrix)
@@ -599,12 +607,22 @@ def create_skill_similarity_matrix(request):
 )  # TODO - what permissions? Suggest only admin users permissions.IsAdminUser
 def create_job_embedding_matrix(request):
     qs = models.UserSkill.objects.all().values_list("user__id", "user__job_title")
-    df = pd.DataFrame.from_records(qs).rename(columns={0: "user_id", 1: "job_title"})
+    nlp_jobs_df = pd.read_pickle("nlp_generated_skills.pkl")[["user_id", "job_title"]].iloc[0:10000]
+
+    user_df = pd.DataFrame.from_records(qs).rename(columns={0: "user_id", 1: "job_title"})
+    # todo - fix to uuid
+    user_df["user_id"] = user_df["user_id"].astype("string")
+    user_df["job_title"] = user_df["job_title"].astype("string")
+
+    df = pd.concat([user_df, nlp_jobs_df]).reset_index(drop=True)
+    df.to_csv("embed_test.csv")
 
     # converts to numpy array for speed
     unique_job_titles = df.drop_duplicates(subset=["job_title"]).dropna(axis=0)["job_title"].to_numpy()
+    print("ingested, creating embeddings")
     embeddings = get_job_embeddings(unique_job_titles)
     embeddings.to_pickle("job_title_embeddings.pkl")
+    print("created")
     return Response(status=status.HTTP_200_OK)
 
 
@@ -615,16 +633,27 @@ def create_job_embedding_matrix(request):
 )  # TODO - I think this is fine for permissions - anyone can see recommendation?
 def skill_recommender(request, skill_name, return_count=10):
     # requires create_skill_similarity_matrix endpoint to have been run first
+
+    nlp_skill_df = pd.read_pickle("nlp_generated_skills.pkl")[["user_id", "skill_name", "rating"]].iloc[0:10000]
+
     qs = models.UserSkill.objects.all().values_list("user__id", "id", "name", "user__job_title")
+
     df = pd.DataFrame.from_records(qs).rename(columns={0: "user_id", 1: "skill_id", 2: "skill_name", 3: "job_title"})
 
     long_df = df[["user_id", "skill_name"]].copy()
 
-    # currently assumes all users have same skill rating, to improve in future
+    # currently assuming all users have similar competence (1), though we can iterate on this later
     long_df["rating"] = 1
-    # loads numpy array from previous function
+    # todo - fix to uuid
+    long_df["user_id"] = long_df["user_id"].astype("string")
+    long_df["skill_name"] = long_df["skill_name"].astype("string")
+    long_df["rating"] = long_df["rating"].astype("int")
+
+    combined_df = pd.concat([long_df, nlp_skill_df]).reset_index(drop=True)
+
     skill_similarity_matrix = np.load("similarity_matrix.npy")
-    skill_outputs = get_similar_skills(long_df, skill_name, skill_similarity_matrix, n=return_count)
+
+    skill_outputs = get_similar_skills(combined_df, skill_name, skill_similarity_matrix, n=return_count)
     similar_skills = skill_outputs[0]
     return Response(data=similar_skills, status=status.HTTP_200_OK)
 
@@ -639,9 +668,23 @@ def me_job_title_recommender(request, return_count=10):
 
     qs = models.UserSkill.objects.all().values_list("user__id", "id", "name", "user__job_title")
 
-    df = pd.DataFrame.from_records(qs).rename(columns={0: "user_id", 1: "skill_id", 2: "skill_name", 3: "job_title"})
+    user_df = pd.DataFrame.from_records(qs).rename(
+        columns={0: "user_id", 1: "skill_id", 2: "skill_name", 3: "job_title"}
+    )[["user_id", "skill_name", "job_title"]]
 
-    df["rating"] = 1
+    user_df["rating"] = 1
+
+    # todo - fix to uuid
+    user_df["user_id"] = user_df["user_id"].astype("string")
+    user_df["skill_name"] = user_df["skill_name"].astype("string")
+    user_df["job_title"] = user_df["job_title"].astype("string")
+    user_df.to_csv("user_test.csv")
+
+    nlp_jobs_df = pd.read_pickle("nlp_generated_skills.pkl")[["user_id", "skill_name", "job_title", "rating"]].iloc[
+        0:10000
+    ]
+
+    df = pd.concat([user_df, nlp_jobs_df]).reset_index(drop=True)
 
     loaded_embeddings = pd.read_pickle("job_title_embeddings.pkl")
     similar_title_skills_returns = return_similar_title_skills(
