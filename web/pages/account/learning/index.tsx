@@ -8,11 +8,7 @@ import { MeLearningList, Query } from '@/service/api'
 import Headline from '@/components/Account/Headline/Headline'
 import Tabs from '@/components/UI/Tabs/Tabs'
 import LearningRecordList from '@/components/Account/LearningRecordList/LearningRecordList'
-import {
-  fetchMeLearningFormal,
-  fetchMeLearningSocial,
-  fetchMeLearningWork
-} from '@/service/me'
+import { fetchMeLearning } from '@/service/me'
 import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
 import Tooltip from '@/components/UI/Tooltip/Tooltip'
 import { useMemo } from 'react'
@@ -38,40 +34,39 @@ const GraphDescription = styled(Typography)`
   }
 `
 
+const workLabel = 'On the job'
+
 const LearningPage = () => {
   const { authFetch } = useAuth()
   const { colors } = useTheme()
 
-  const { isLoading: isLoadingWork, data: dataWork } = useQuery<MeLearningList[]>(
-    Query.MeLearningWork,
-    () => authFetch(fetchMeLearningWork),
-    { initialData: [], staleTime: 0 }
-  )
-
-  const { isLoading: isLoadingSocial, data: dataSocial } = useQuery<MeLearningList[]>(
-    Query.MeLearningSocial,
-    () => authFetch(fetchMeLearningSocial),
-    { initialData: [], staleTime: 0 }
-  )
-
-  const { isLoading: isLoadingFormal, data: dataFormal } = useQuery<MeLearningList[]>(
-    Query.MeLearningFormal,
-    () => authFetch(fetchMeLearningFormal),
+  const { data } = useQuery<MeLearningList[]>(
+    Query.MeLearning,
+    () => authFetch(fetchMeLearning),
     { initialData: [], staleTime: 0 }
   )
 
   const barData = useMemo<BarDataType[]>(() => {
-    const totalWork = dataWork.length
-    const totalSocial = dataSocial.length
-    const totalFormal = dataFormal.length
+    const totalWork = data.filter(
+      ({ learning_type }) =>
+        learning_type.toLowerCase() === 'work' ||
+        learning_type.toLowerCase() === workLabel.toLowerCase()
+    ).length
+
+    const totalSocial = data.filter(
+      ({ learning_type }) => learning_type.toLowerCase() === 'social'
+    ).length
+    const totalFormal = data.filter(
+      ({ learning_type }) => learning_type.toLowerCase() === 'formal'
+    ).length
     const total = totalWork + totalSocial + totalFormal
 
     return [
-      { label: 'On the job', percentage: (totalWork / total) * 100, color: 'blue1' },
+      { label: workLabel, percentage: (totalWork / total) * 100, color: 'blue1' },
       { label: 'Social', percentage: (totalSocial / total) * 100, color: 'white' },
       { label: 'Formal', percentage: (totalFormal / total) * 100, color: 'black' }
     ]
-  }, [dataFormal.length, dataSocial.length, dataWork.length])
+  }, [data])
 
   return (
     <>
@@ -88,7 +83,7 @@ const LearningPage = () => {
         Add learning
       </Button>
 
-      {(!!dataWork.length || !!dataSocial.length || !!dataFormal.length) && (
+      {!!data.length && (
         <Grid container spacing={5} sx={{ mb: 5 }}>
           <Grid item xs={6}>
             <AccountCard sx={{ height: '100%' }}>
