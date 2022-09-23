@@ -13,6 +13,9 @@ const mockJobs = [
 
 describe('RegisterDetailsForm', () => {
   beforeEach(() => {
+    jest.spyOn(console, 'error').mockImplementation(jest.fn())
+  })
+  beforeEach(() => {
     fetchMock.resetMocks()
     fetchMock.mockResponse(JSON.stringify(mockJobs), {
       status: 200
