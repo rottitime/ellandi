@@ -15,7 +15,8 @@ export enum Query {
   SuggestedSkills = 'SuggestedSkills',
   MeLearningWork = 'meLearningWork',
   MeLearningFormal = 'meLearningFormal',
-  MeLearningSocial = 'meLearningSocial'
+  MeLearningSocial = 'meLearningSocial',
+  MeLearning = 'meLearning'
 }
 
 export type GenericDataList = {
