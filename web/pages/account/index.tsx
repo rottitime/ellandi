@@ -1,4 +1,5 @@
 import AccountLayout from '@/components/Layout/AccountLayout/AccountLayout'
+import LearningGoalBar from '@/components/Account/LearningGoalBar/LearningGoalBar'
 import { Button, Typography, styled, Box } from '@mui/material'
 import { IconsType } from '@/components/Icon/Icon'
 import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
@@ -100,6 +101,10 @@ const IndexPage = () => {
             </Typography>
           }
         >
+          <Typography variant="body2" gutterBottom>
+            You are expected to complete 10 days learning each year
+          </Typography>
+          <LearningGoalBar sx={{ mb: 4 }} />
           <Button variant="contained" href="/account/learning/add/">
             Add learning
           </Button>
