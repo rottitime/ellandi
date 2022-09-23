@@ -66,6 +66,9 @@ HOST_MAP = {
     "https://ellandi-demo.london.cloudapps.digital": "https://ellandi-demo.london.cloudapps.digital",
     "https://ellandi-develop.london.cloudapps.digital": "https://ellandi-develop.london.cloudapps.digital",
     "https://ellandi.london.cloudapps.digital": "https://ellandi.london.cloudapps.digital",
+    "http://ellandi:8002": "http://ellandi:8002",
+    "http://localhost:8002": "http://localhost:8002",
+    "http://127.0.0.1:8002": "http://127.0.0.1:8002",
 }
 
 CORS_ALLOWED_ORIGINS = (HOST_URL, HOST_MAP[HOST_URL])
