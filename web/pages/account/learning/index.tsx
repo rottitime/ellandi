@@ -90,6 +90,7 @@ const LearningPage = () => {
               <Typography variant="h2" component="h3" gutterBottom>
                 Learning distribution{' '}
                 <Tooltip
+                  sx={{ p: 0 }}
                   brandColor="brandLearning"
                   title="To get the most out of your learning you should aim for 70% learning
                 on the job, 20% social and 10% formal training"

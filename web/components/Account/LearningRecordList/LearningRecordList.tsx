@@ -3,11 +3,7 @@ import DataGrid, { GridColDef } from '@/components/UI/DataGrid/DataGrid'
 import useAuth from '@/hooks/useAuth'
 import { MeLearningList, Query } from '@/service/api'
 import { useQuery } from 'react-query'
-import {
-  fetchMeLearningFormal,
-  fetchMeLearningSocial,
-  fetchMeLearningWork
-} from '@/service/me'
+import { fetchMeLearning } from '@/service/me'
 import { Alert, Box, Chip } from '@mui/material'
 import Link from '@/components/UI/Link'
 import { RowsType } from './types'
@@ -17,23 +13,10 @@ import dayjs from 'dayjs'
 
 const SkillsList: FC = () => {
   const { authFetch } = useAuth()
-
-  const { isLoading: isLoadingWork, data: dataWork } = useQuery<MeLearningList[]>(
-    Query.MeLearningWork,
-    () => authFetch(fetchMeLearningWork),
-    { initialData: [] }
-  )
-
-  const { isLoading: isLoadingSocial, data: dataSocial } = useQuery<MeLearningList[]>(
-    Query.MeLearningSocial,
-    () => authFetch(fetchMeLearningSocial),
-    { initialData: [] }
-  )
-
-  const { isLoading: isLoadingFormal, data: dataFormal } = useQuery<MeLearningList[]>(
-    Query.MeLearningFormal,
-    () => authFetch(fetchMeLearningFormal),
-    { initialData: [] }
+  const { data, isLoading } = useQuery<MeLearningList[]>(
+    Query.MeLearning,
+    () => authFetch(fetchMeLearning),
+    { initialData: [], staleTime: 0 }
   )
 
   const formatDuration = ({ duration_minutes }: MeLearningList): string => {
@@ -46,32 +29,23 @@ const SkillsList: FC = () => {
   const formatDate = ({ date_completed }: MeLearningList): string =>
     dayjs(date_completed).format('DD.MM.YYYY')
 
-  const rows: RowsType[] = useMemo(() => {
-    return [
-      ...dataWork.map((data) => ({
-        ...data,
-        type: 'On the job',
-        duration: formatDuration(data),
-        completed: formatDate(data)
+  const rows: RowsType[] = useMemo(
+    () =>
+      data.map((record) => ({
+        ...record,
+        type:
+          record.learning_type.toLowerCase() === 'work'
+            ? 'On the job'
+            : record.learning_type,
+        duration: formatDuration(record),
+        completed: formatDate(record)
       })),
-      ...dataSocial.map((data) => ({
-        ...data,
-        type: 'Social',
-        duration: formatDuration(data),
-        completed: formatDate(data)
-      })),
-      ...dataFormal.map((data) => ({
-        ...data,
-        type: 'Formal',
-        duration: formatDuration(data),
-        completed: formatDate(data)
-      }))
-    ]
-  }, [dataFormal, dataSocial, dataWork])
+    [data]
+  )
 
   return (
     <Box sx={{ height: 'auto', width: '100%' }}>
-      {isLoadingWork || isLoadingSocial || isLoadingFormal ? (
+      {!!isLoading ? (
         <SkeletonTable />
       ) : (
         <DataGrid
