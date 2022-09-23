@@ -1,4 +1,5 @@
 import random
+
 import numpy as np
 import pandas as pd
 import scipy
@@ -36,8 +37,8 @@ def get_similar_skills(long_skill_df, skill_name, similarity_matrix):
     risk_index = np.where(sparse_df.columns == skill_name)
     similar_skills = cosine_sim[risk_index]
     sorted_skills = np.sort(similar_skills, axis=1)
-    top_skill = np.flip(sparse_df.columns[np.argsort(similar_skills, axis=1)][:, -(skill_return_count + 1): -1])
-    top_scores = np.flip(sorted_skills[:, -(skill_return_count + 1): -1])
+    top_skill = np.flip(sparse_df.columns[np.argsort(similar_skills, axis=1)][:, -(skill_return_count + 1) : -1])
+    top_scores = np.flip(sorted_skills[:, -(skill_return_count + 1) : -1])
     return top_skill, top_scores, cosine_sim
 
 
@@ -126,8 +127,8 @@ def create_skill_similarity_api_call(request, user_query):
 
     skill_sample_size = 10000
     nlp_skill_df = pd.read_pickle("nlp_generated_skills.pkl")[["user_id", "skill_name", "rating"]].iloc[
-                   0:skill_sample_size
-                   ]
+        0:skill_sample_size
+    ]
 
     df = pd.DataFrame.from_records(user_query).rename(
         columns={0: "user_id", 1: "skill_id", 2: "skill_name", 3: "job_title"}
@@ -175,8 +176,8 @@ def skill_recommend_api_call(request, user_query, skill_name):
     skill_sample_size = 10000
 
     nlp_skill_df = pd.read_pickle("nlp_generated_skills.pkl")[["user_id", "skill_name", "rating"]].iloc[
-                   0:skill_sample_size
-                   ]
+        0:skill_sample_size
+    ]
 
     df = pd.DataFrame.from_records(user_query).rename(
         columns={0: "user_id", 1: "skill_id", 2: "skill_name", 3: "job_title"}
@@ -203,12 +204,11 @@ def skill_recommend_api_call(request, user_query, skill_name):
 def job_title_recommend_api_call(request, user_query, job_title):
     """takes a django request, a query of all skills and job title, and returns a list of recommended job titles"""
 
-    return_count = 10
     skill_sample_size = 10000
 
     nlp_jobs_df = pd.read_pickle("nlp_generated_skills.pkl")[["user_id", "skill_name", "job_title", "rating"]].iloc[
-                  0:skill_sample_size
-                  ]
+        0:skill_sample_size
+    ]
 
     user_df = pd.DataFrame.from_records(user_query).rename(
         columns={0: "user_id", 1: "skill_id", 2: "skill_name", 3: "job_title"}
@@ -230,7 +230,7 @@ def job_title_recommend_api_call(request, user_query, job_title):
 
 def combined_recommend_api_call(request, user_query, skills_list, job_title):
     """takes a django request, a query of all skills, a list of skills, and a job title, and returns random selection
-    of recommendations """
+    of recommendations"""
 
     total_skill_count = 10
     skill_recommendation_count = 5
@@ -238,8 +238,8 @@ def combined_recommend_api_call(request, user_query, skills_list, job_title):
     skill_sample_size = 10000
 
     nlp_jobs_df = pd.read_pickle("nlp_generated_skills.pkl")[["user_id", "skill_name", "job_title", "rating"]].iloc[
-                  0:skill_sample_size
-                  ]
+        0:skill_sample_size
+    ]
 
     user_df = pd.DataFrame.from_records(user_query).rename(
         columns={0: "user_id", 1: "skill_id", 2: "skill_name", 3: "job_title"}
