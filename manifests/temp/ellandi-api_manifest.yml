@@ -3,6 +3,7 @@ applications:
 - name: ellandi-api-temp
   services:
   - ellandi-postgres-temp
+  - scale-ellandi-api-temp
   routes:
   - route: ellandi-api-temp.london.cloudapps.digital
     protocol: http1
