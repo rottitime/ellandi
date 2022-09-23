@@ -16,7 +16,7 @@ export const fetchGrades = async (): Promise<GenericDataList[]> => {
 }
 
 export const fetchJobTitles = async (): Promise<GenericDataList[]> => {
-  const res = await fetch(`${publicRuntimeConfig.apiUrl}/job-titles/`)
+  const res = await fetch(`${publicRuntimeConfig.apiUrl}/api/job-titles/`)
   if (res.ok) return res.json()
   throw new Error(defaultError)
 }
