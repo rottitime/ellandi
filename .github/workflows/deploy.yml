@@ -45,6 +45,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Setup standalone api url
+        if:  ${{ matrix.app == 'ellandi' &&  github.event_name != 'release' }}
+        run: echo "NEXT_PUBLIC_API_URL=https://ellandi-${{ github.ref_name }}.london.cloudapps.digital" >> $GITHUB_ENV
+
       - name: Setup prod api url
         if:  ${{ github.event_name == 'release' }}
         run: echo "NEXT_PUBLIC_API_URL=https://ellandi-api.london.cloudapps.digital" >> $GITHUB_ENV
@@ -76,7 +80,7 @@ jobs:
 
     strategy:
       matrix:
-        app: [ellandi-api, ellandi-web, organogram]
+        app: [ellandi-api, ellandi-web, organogram, ellandi]
 
     steps:
       - uses: actions/checkout@v3
