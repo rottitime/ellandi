@@ -79,6 +79,6 @@ def test_me_learning_patch_get_delete(client, user_id):
             assert all_result[i][key] == value
 
     formal_learning = [learning for learning in all_result if learning["name"] == "Did some formal learning"][0]
-    id_to_delete = formal_learning.id
+    id_to_delete = formal_learning["id"]
     response = client.delete(f"/me/learnings/{id_to_delete}/")
     assert response.status_code == status.HTTP_200_OK, response.status_code
