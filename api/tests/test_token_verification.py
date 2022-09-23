@@ -54,7 +54,7 @@ def test_verify_email(client):
 def test_resend_verify_email(client, user_id):
     user = User.objects.get(id=user_id)
 
-    response = client.post("/me/send-verification-email/")
+    response = client.post("/api/me/send-verification-email/")
     assert response.status_code == 200
 
     url = _get_latest_email_url("verify")
