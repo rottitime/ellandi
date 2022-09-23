@@ -15,7 +15,7 @@ const FormalPage = () => {
     Error,
     LearningAddFormalType[]
   >(async (data) => authFetch(addLearningFormal, data), {
-    onSuccess: async () => await Router.push('/account/skills/')
+    onSuccess: async () => await Router.push('/account/learning/')
   })
 
   return (

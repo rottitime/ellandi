@@ -1,10 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { FC, useState, SyntheticEvent, useEffect, useId, ReactNode } from 'react'
 import { Box, styled, Tab, Tabs as MuiTabs } from '@mui/material'
-import { Props } from './types'
+import { Props, StyleProps } from './types'
 import { useRouter } from 'next/router'
 
-const Wrapper = styled(Box)`
+const Wrapper = styled(Box, {
+  shouldForwardProp: (p) => p !== 'brandColor'
+})<StyleProps>`
   .MuiTabs-flexContainer {
     gap: ${(p) => p.theme.spacing(1)};
   }
@@ -21,7 +23,8 @@ const Wrapper = styled(Box)`
     }
 
     &.active {
-      background-color: ${(p) => p.theme.colors.teal};
+      background-color: ${({ theme, brandColor }) =>
+        brandColor ? theme.colors[brandColor] : theme.colors.teal};
       color: ${(p) => p.theme.colors.white};
     }
   }
@@ -42,6 +45,7 @@ const Tabs: FC<Props> = ({
   activeIndex = 0,
   tabItems,
   tabPanel,
+  brandColor,
   ...props
 }) => {
   const [currentActiveTab, setCurrentActiveTab] = useState<number>(activeIndex)
@@ -76,7 +80,7 @@ const Tabs: FC<Props> = ({
   }
 
   return (
-    <Wrapper>
+    <Wrapper brandColor={brandColor}>
       <MuiTabs {...props} value={currentActiveTab} onChange={handleChange}>
         {tabItems.map((item, index) => (
           <Tab
