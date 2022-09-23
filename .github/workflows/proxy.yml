@@ -6,6 +6,7 @@ on:
     branches:
       - develop
       - prod
+      - sandbox
     paths:
       - .github/workflows/proxy.yml
       - 'proxy/**'
