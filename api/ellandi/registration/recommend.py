@@ -1,3 +1,5 @@
+import random
+
 import numpy as np
 import pandas as pd
 import scipy
@@ -110,3 +112,144 @@ def return_similar_title_skills(
     returned_skills = list(similar_skill_dist.iloc[0:n].index)
     returned_jobs = unique_job_titles[jobs_by_dist][0:n]
     return returned_skills, returned_jobs
+
+
+def create_skill_similarity_api_call(request, user_query):
+    """takes a django request and generates the skill similarity matrix"""
+    nlp_skill_df = pd.read_pickle("nlp_generated_skills.pkl")[["user_id", "skill_name", "rating"]].iloc[0:10000]
+
+    df = pd.DataFrame.from_records(user_query).rename(
+        columns={0: "user_id", 1: "skill_id", 2: "skill_name", 3: "job_title"}
+    )
+
+    long_df = df[["user_id", "skill_name"]].copy()
+
+    # currently assuming all users have similar competence (1), though we can iterate on this later
+    long_df["rating"] = 1
+    # todo - fix to uuid
+    long_df["user_id"] = long_df["user_id"].astype("string")
+    long_df["skill_name"] = long_df["skill_name"].astype("string")
+    long_df["rating"] = long_df["rating"].astype("int")
+
+    combined_long_df = pd.concat([long_df, nlp_skill_df]).reset_index(drop=True)
+
+    similarity_matrix = make_skill_similarity_matrix(combined_long_df)
+
+    # currently saving as a numpy array - memory efficient but could be better
+    np.save("similarity_matrix.npy", similarity_matrix)
+
+
+def create_embedding_api_call(request, user_query):
+    nlp_jobs_df = pd.read_pickle("nlp_generated_skills.pkl")[["user_id", "job_title"]].iloc[0:10000]
+
+    user_df = pd.DataFrame.from_records(user_query).rename(columns={0: "user_id", 1: "job_title"})
+    # todo - fix to uuid
+    user_df["user_id"] = user_df["user_id"].astype("string")
+    user_df["job_title"] = user_df["job_title"].astype("string")
+
+    df = pd.concat([user_df, nlp_jobs_df]).reset_index(drop=True)
+    # converts to numpy array for speed
+    unique_job_titles = df.drop_duplicates(subset=["job_title"]).dropna(axis=0)["job_title"].to_numpy()
+    print("ingested, creating embeddings")
+    embeddings = get_job_embeddings(unique_job_titles)
+    embeddings.to_pickle("job_title_embeddings.pkl")
+
+
+def skill_recommend_api_call(request, user_query, skill_name):
+    return_count = 10
+
+    nlp_skill_df = pd.read_pickle("nlp_generated_skills.pkl")[["user_id", "skill_name", "rating"]].iloc[0:10000]
+
+    df = pd.DataFrame.from_records(user_query).rename(
+        columns={0: "user_id", 1: "skill_id", 2: "skill_name", 3: "job_title"}
+    )
+
+    long_df = df[["user_id", "skill_name"]].copy()
+
+    # currently assuming all users have similar competence (1), though we can iterate on this later
+    long_df["rating"] = 1
+    # todo - fix to uuid
+    long_df["user_id"] = long_df["user_id"].astype("string")
+    long_df["skill_name"] = long_df["skill_name"].astype("string")
+    long_df["rating"] = long_df["rating"].astype("int")
+
+    combined_df = pd.concat([long_df, nlp_skill_df]).reset_index(drop=True)
+
+    skill_similarity_matrix = np.load("similarity_matrix.npy")
+
+    skill_outputs = get_similar_skills(combined_df, skill_name, skill_similarity_matrix, n=return_count)
+    similar_skills = skill_outputs[0]
+    return similar_skills
+
+
+def job_title_recommend_api_call(request, user_query, job_title):
+    return_count = 10
+
+    user_df = pd.DataFrame.from_records(user_query).rename(
+        columns={0: "user_id", 1: "skill_id", 2: "skill_name", 3: "job_title"}
+    )[["user_id", "skill_name", "job_title"]]
+
+    user_df["rating"] = 1
+
+    # todo - fix to uuid
+    user_df["user_id"] = user_df["user_id"].astype("string")
+    user_df["skill_name"] = user_df["skill_name"].astype("string")
+    user_df["job_title"] = user_df["job_title"].astype("string")
+
+    nlp_jobs_df = pd.read_pickle("nlp_generated_skills.pkl")[["user_id", "skill_name", "job_title", "rating"]].iloc[
+        0:10000
+    ]
+
+    df = pd.concat([user_df, nlp_jobs_df]).reset_index(drop=True)
+
+    loaded_embeddings = pd.read_pickle("job_title_embeddings.pkl")
+    similar_title_skills_returns = return_similar_title_skills(
+        job_title, df, loaded_embeddings, n=return_count, model_name="all-MiniLM-L6-v2"
+    )
+    return similar_title_skills_returns[0]
+
+
+def combined_recommend_api_call(request, user_query, skills_list, job_title):
+    skill_recommendation_count = 5
+    title_recommendation_count = 5
+
+    user_df = pd.DataFrame.from_records(user_query).rename(
+        columns={0: "user_id", 1: "skill_id", 2: "skill_name", 3: "job_title"}
+    )[["user_id", "skill_name", "job_title"]]
+
+    user_df["rating"] = 1
+
+    # todo - fix to uuid
+    user_df["user_id"] = user_df["user_id"].astype("string")
+    user_df["skill_name"] = user_df["skill_name"].astype("string")
+    user_df["job_title"] = user_df["job_title"].astype("string")
+
+    nlp_jobs_df = pd.read_pickle("nlp_generated_skills.pkl")[["user_id", "skill_name", "job_title", "rating"]].iloc[
+        0:10000
+    ]
+
+    df = pd.concat([user_df, nlp_jobs_df]).reset_index(drop=True)
+
+    skill_similarity_matrix = np.load("similarity_matrix.npy")
+    loaded_embeddings = pd.read_pickle("job_title_embeddings.pkl")
+
+    skill_recommended_skills = []
+
+    for skill in skills_list:
+        relevant_skills = get_similar_skills(df, skill[0], skill_similarity_matrix, n=10)
+        skill_recommended_skills.extend(relevant_skills[0].tolist()[0])
+
+    print("skill combine list")
+    print(skill_recommended_skills)
+
+    job_title_skills = return_similar_title_skills(job_title, df, loaded_embeddings, n=10)[0]
+
+    print("title skills")
+    print(job_title_skills)
+    random.shuffle(skill_recommended_skills)
+
+    combined = skill_recommended_skills[0:skill_recommendation_count] + job_title_skills[0:title_recommendation_count]
+
+    print("combined")
+    print(combined)
+    return combined

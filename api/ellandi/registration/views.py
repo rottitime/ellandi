@@ -1,4 +1,5 @@
 import os
+import random
 
 import numpy as np
 import pandas as pd
@@ -8,13 +9,17 @@ from django.core.exceptions import ValidationError
 from drf_spectacular.utils import OpenApiParameter, OpenApiTypes, extend_schema
 from rest_framework import decorators, permissions, routers, status, viewsets
 from rest_framework.response import Response
-import random
 
 from ellandi.registration.recommend import (
+    combined_recommend_api_call,
+    create_embedding_api_call,
+    create_skill_similarity_api_call,
     get_job_embeddings,
     get_similar_skills,
+    job_title_recommend_api_call,
     make_skill_similarity_matrix,
     return_similar_title_skills,
+    skill_recommend_api_call,
 )
 from ellandi.verification import send_verification_email
 
@@ -577,27 +582,8 @@ def me_suggested_skills(request):
     (permissions.AllowAny,)
 )  # TODO - what permissions? Suggest only admin users permissions.IsAdminUser
 def create_skill_similarity_matrix(request):
-    nlp_skill_df = pd.read_pickle("nlp_generated_skills.pkl")[["user_id", "skill_name", "rating"]].iloc[0:10000]
-
     qs = models.UserSkill.objects.all().values_list("user__id", "id", "name", "user__job_title")
-
-    df = pd.DataFrame.from_records(qs).rename(columns={0: "user_id", 1: "skill_id", 2: "skill_name", 3: "job_title"})
-
-    long_df = df[["user_id", "skill_name"]].copy()
-
-    # currently assuming all users have similar competence (1), though we can iterate on this later
-    long_df["rating"] = 1
-    # todo - fix to uuid
-    long_df["user_id"] = long_df["user_id"].astype("string")
-    long_df["skill_name"] = long_df["skill_name"].astype("string")
-    long_df["rating"] = long_df["rating"].astype("int")
-
-    combined_long_df = pd.concat([long_df, nlp_skill_df]).reset_index(drop=True)
-
-    similarity_matrix = make_skill_similarity_matrix(combined_long_df)
-
-    # currently saving as a numpy array - memory efficient but could be better
-    np.save("similarity_matrix.npy", similarity_matrix)
+    create_skill_similarity_api_call(request, qs)
     return Response(status=status.HTTP_200_OK)
 
 
@@ -608,22 +594,7 @@ def create_skill_similarity_matrix(request):
 )  # TODO - what permissions? Suggest only admin users permissions.IsAdminUser
 def create_job_embedding_matrix(request):
     qs = models.UserSkill.objects.all().values_list("user__id", "user__job_title")
-    nlp_jobs_df = pd.read_pickle("nlp_generated_skills.pkl")[["user_id", "job_title"]].iloc[0:10000]
-
-    user_df = pd.DataFrame.from_records(qs).rename(columns={0: "user_id", 1: "job_title"})
-    # todo - fix to uuid
-    user_df["user_id"] = user_df["user_id"].astype("string")
-    user_df["job_title"] = user_df["job_title"].astype("string")
-
-    df = pd.concat([user_df, nlp_jobs_df]).reset_index(drop=True)
-    df.to_csv("embed_test.csv")
-
-    # converts to numpy array for speed
-    unique_job_titles = df.drop_duplicates(subset=["job_title"]).dropna(axis=0)["job_title"].to_numpy()
-    print("ingested, creating embeddings")
-    embeddings = get_job_embeddings(unique_job_titles)
-    embeddings.to_pickle("job_title_embeddings.pkl")
-    print("created")
+    create_embedding_api_call(request, qs)
     return Response(status=status.HTTP_200_OK)
 
 
@@ -632,89 +603,35 @@ def create_job_embedding_matrix(request):
 @decorators.permission_classes(
     (permissions.AllowAny,)
 )  # TODO - I think this is fine for permissions - anyone can see recommendation?
-def skill_recommender(request, skill_name, return_count=10):
+def skill_recommender(request, skill_name):
     # requires create_skill_similarity_matrix endpoint to have been run first
-
-    nlp_skill_df = pd.read_pickle("nlp_generated_skills.pkl")[["user_id", "skill_name", "rating"]].iloc[0:10000]
-
     qs = models.UserSkill.objects.all().values_list("user__id", "id", "name", "user__job_title")
-
-    df = pd.DataFrame.from_records(qs).rename(columns={0: "user_id", 1: "skill_id", 2: "skill_name", 3: "job_title"})
-
-    long_df = df[["user_id", "skill_name"]].copy()
-
-    # currently assuming all users have similar competence (1), though we can iterate on this later
-    long_df["rating"] = 1
-    # todo - fix to uuid
-    long_df["user_id"] = long_df["user_id"].astype("string")
-    long_df["skill_name"] = long_df["skill_name"].astype("string")
-    long_df["rating"] = long_df["rating"].astype("int")
-
-    combined_df = pd.concat([long_df, nlp_skill_df]).reset_index(drop=True)
-
-    skill_similarity_matrix = np.load("similarity_matrix.npy")
-
-    skill_outputs = get_similar_skills(combined_df, skill_name, skill_similarity_matrix, n=return_count)
-    similar_skills = skill_outputs[0]
+    similar_skills = skill_recommend_api_call(request, qs, skill_name)
     return Response(data=similar_skills, status=status.HTTP_200_OK)
 
 
 @extend_schema(request=None, responses=None)
 @decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
-def me_job_title_recommender(request, return_count=10):
+def me_job_title_recommender(request):
     # requires create_job_embedding_matrix endpoint to have been run first
     user = request.user
     job_title = user.job_title
-
     qs = models.UserSkill.objects.all().values_list("user__id", "id", "name", "user__job_title")
 
-    user_df = pd.DataFrame.from_records(qs).rename(
-        columns={0: "user_id", 1: "skill_id", 2: "skill_name", 3: "job_title"}
-    )[["user_id", "skill_name", "job_title"]]
-
-    user_df["rating"] = 1
-
-    # todo - fix to uuid
-    user_df["user_id"] = user_df["user_id"].astype("string")
-    user_df["skill_name"] = user_df["skill_name"].astype("string")
-    user_df["job_title"] = user_df["job_title"].astype("string")
-
-    nlp_jobs_df = pd.read_pickle("nlp_generated_skills.pkl")[["user_id", "skill_name", "job_title", "rating"]].iloc[
-        0:10000
-    ]
-
-    df = pd.concat([user_df, nlp_jobs_df]).reset_index(drop=True)
-
-    loaded_embeddings = pd.read_pickle("job_title_embeddings.pkl")
-    similar_title_skills_returns = return_similar_title_skills(
-        job_title, df, loaded_embeddings, n=return_count, model_name="all-MiniLM-L6-v2"
-    )
-    similar_title_skills = similar_title_skills_returns[0]
+    similar_title_skills = job_title_recommend_api_call(request, qs, job_title)
     return Response(data=similar_title_skills, status=status.HTTP_200_OK)
 
 
 @extend_schema(request=None, responses=None)
 @decorators.api_view(["GET"])
-#@decorators.permission_classes((permissions.IsAuthenticated,))
+# @decorators.permission_classes((permissions.IsAuthenticated,))
 def me_combined_skill_recommend(request):
     # requires create_job_embedding_matrix endpoint to have been run first
     user = request.user
     job_title = user.job_title
-
     qs = models.UserSkill.objects.all().values_list("user__id", "id", "name", "user__job_title")
-
     user_skills_list = list(models.UserSkill.objects.filter(user=user).values_list("name"))
 
-    skill_recommended_skills = []
-    for skill in user_skills_list:
-        skill_recommended_skills.extend(skill_recommender(request=request._request, skill_name=skill[0], return_count=10).data[0].tolist())
-    print(skill_recommended_skills[0])
-
-    job_title_skills = me_job_title_recommender(request._request, return_count=5).data
-
-    random.shuffle(skill_recommended_skills)
-
-    combined = skill_recommended_skills[0:5] + job_title_skills[0:5]
-
-    return Response(data=combined, status=status.HTTP_200_OK)
+    combined_recommendations = combined_recommend_api_call(request, qs, user_skills_list, job_title)
+    return Response(data=combined_recommendations, status=status.HTTP_200_OK)
