@@ -4,10 +4,10 @@ import { fetchMe } from '../service/me'
 import { Query, RegisterUserResponse } from '../service/api'
 import { updateUser } from '@/service/auth'
 
-export const useProfile = <T>({ callback }: { callback: () => void }) => {
+export const useProfile = <T>({ callback }: { callback?: () => void }) => {
   const { authFetch } = useAuth()
 
-  const { data: userProfile } = useQuery<RegisterUserResponse>(Query.Me, () =>
+  const { data: userProfile, isLoading } = useQuery<RegisterUserResponse>(Query.Me, () =>
     authFetch(fetchMe)
   )
 
@@ -22,6 +22,7 @@ export const useProfile = <T>({ callback }: { callback: () => void }) => {
 
   return {
     mutate,
+    isLoading,
     userProfile
   }
 }

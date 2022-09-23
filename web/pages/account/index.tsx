@@ -3,42 +3,19 @@ import { Button, Typography, styled, Box } from '@mui/material'
 import { IconsType } from '@/components/Icon/Icon'
 import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
 import Link from '@/components/UI/Link'
-import useAuth from '@/hooks/useAuth'
-import { fetchMe } from '@/service/me'
-import { useQuery } from 'react-query'
-import { Query, RegisterUserResponse } from '@/service/api'
+import { RegisterUserResponse } from '@/service/api'
 import Headline from '@/components/Account/Headline/Headline'
 import { ColorBrands } from '@/style/types'
+import Skeleton from '@/components/UI/Skeleton/Skeleton'
+import { useProfile } from '@/hooks/useProfile'
 
 type MenuDataType = {
   title: string
   content: string
-  linkText: string
   url: string
   color: keyof ColorBrands
   logo: IconsType
-}[]
-
-const profiles: MenuDataType = [
-  {
-    title: 'Skills',
-    content:
-      'Update your skills profile to record your current skills and ones you would like to develop.',
-    linkText: 'Review your skills',
-    url: '/account/skills',
-    color: 'brandSkills',
-    logo: 'skills'
-  },
-  {
-    title: 'Learning',
-    content:
-      'Explore the wide variety of  learning and training courses available to you.',
-    linkText: 'Find learning',
-    url: '/account/learning',
-    color: 'brandLearning',
-    logo: 'learning'
-  }
-]
+}
 
 const Content = styled(Box)`
   display: grid;
@@ -71,68 +48,61 @@ const Content = styled(Box)`
 `
 
 const IndexPage = () => {
-  const { authFetch } = useAuth()
-
-  const { data } = useQuery<RegisterUserResponse>(Query.Me, () => authFetch(fetchMe))
+  const { userProfile: data, isLoading } = useProfile<RegisterUserResponse>({})
 
   return (
     <>
       <Headline>
         <Typography variant="h1" gutterBottom>
-          Hello {data?.first_name}, welcome to the <br />
-          Skills and Learning Service
+          Hello {data?.first_name}, welcome to the Skills and Learning Service
+        </Typography>
+        <Typography>
+          Use this service to add and review your skills and find learning opportunities
         </Typography>
       </Headline>
-      <Content>
-        <AccountCard
-          color="brandGov"
-          header={
-            <Typography variant="h1" component="h3">
-              Latest updates
-            </Typography>
-          }
-        >
-          <ul className="news-feed">
-            {[...Array(3).keys()].map((i) => (
-              <li key={i}>
-                <Typography>27.06.23 @ 14:00</Typography>
-                <Typography>
-                  <Box className="circle" component="span" />
-                  <Link href="#">Agile Bitesized</Link> learning course added
-                </Typography>
-              </li>
-            ))}
-          </ul>
-        </AccountCard>
 
-        <AccountCard
-          color="brandSkills"
-          className="single"
-          header={
-            <Typography variant="h1" component="h3">
-              Skills added
-            </Typography>
-          }
-        >
-          <Typography sx={{ mb: 4 }}>16</Typography>
-          <Link href="#">
-            <Typography>Add a skill</Typography>
-          </Link>
+      <Content>
+        <AccountCard color="brandGov">
+          {isLoading ? (
+            [...Array(4).keys()].map((i) => (
+              <Skeleton key={i} sx={{ mb: 3, maxWidth: i % 2 ? 100 : 50 }} />
+            ))
+          ) : (
+            <>
+              <Typography variant="h2" gutterBottom>
+                Skills
+              </Typography>
+              <Link href="/account/skills/">
+                <Typography variant="h1" component="p" gutterBottom>
+                  {data?.skills.length}
+                </Typography>
+              </Link>
+              <Typography variant="h2" gutterBottom>
+                Languages
+              </Typography>
+              <Link href="/account/skills/language-skills/">
+                <Typography variant="h1" component="p" gutterBottom>
+                  {data?.languages.length}
+                </Typography>
+              </Link>
+              <Button variant="contained" href="/account/skills/add">
+                Add skills
+              </Button>
+            </>
+          )}
         </AccountCard>
 
         <AccountCard
           color="brandLearning"
-          className="single"
           header={
-            <Typography variant="h1" component="h3">
-              Learning this week
+            <Typography variant="h2" component="h3">
+              Learning goal
             </Typography>
           }
         >
-          <Typography sx={{ mb: 4 }}>2hrs</Typography>
-          <Link href="#">
-            <Typography>Record learning</Typography>
-          </Link>
+          <Button variant="contained" href="/account/learning/add/">
+            Add learning
+          </Button>
         </AccountCard>
 
         {profiles.map((profile) => (
@@ -141,16 +111,12 @@ const IndexPage = () => {
             key={profile.title}
             headerLogoSize="large"
             headerLogo={profile.logo}
-            header={
-              <Typography variant="h1" component="h3">
-                {profile.title}
-              </Typography>
-            }
+            header={<Typography variant="h2">{profile.title}</Typography>}
             headerColorInherit
           >
             <Typography gutterBottom>{profile.content}</Typography>
             <Button variant="contained" href={profile.url}>
-              Review {profile.title}
+              Review {profile.title.toLowerCase()}
             </Button>
           </AccountCard>
         ))}
@@ -162,3 +128,22 @@ const IndexPage = () => {
 export default IndexPage
 
 IndexPage.getLayout = (page) => <AccountLayout>{page}</AccountLayout>
+
+const profiles: MenuDataType[] = [
+  {
+    title: 'Skills',
+    content:
+      'Update your skills profile to record your current skills and ones you would like to develop.',
+    url: '/account/skills',
+    color: 'brandSkills',
+    logo: 'skills'
+  },
+  {
+    title: 'Learning',
+    content:
+      'Explore the wide variety of learning and training courses available to you.',
+    url: '/account/learning',
+    color: 'brandLearning',
+    logo: 'mortar-hat'
+  }
+]
