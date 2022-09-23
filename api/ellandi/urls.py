@@ -21,7 +21,7 @@ api_urlpatterns = [
     path("me/direct-reports/", views.me_direct_reports_view),
     path("me/password-change/", verification.password_change_view),
     path("me/skills-suggested/", views.me_suggested_skills),
-    path("me/learning-work/", views.me_learning_work_view),
+    path("me/learning-on-the-job/", views.me_learning_on_the_job_view),
     path("me/learning-social/", views.me_learning_social_view),
     path("me/learning-formal/", views.me_learning_formal_view),
     path("me/learnings/", views.me_learning_view),

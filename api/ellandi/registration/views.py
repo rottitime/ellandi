@@ -295,8 +295,8 @@ def make_learning_view(serializer_class, learning_type):
     return _learning_view
 
 
-me_learning_work_view = make_learning_view(
-    serializer_class=serializers.LearningWorkSerializer, learning_type=models.Learning.LearningType.WORK
+me_learning_on_the_job_view = make_learning_view(
+    serializer_class=serializers.LearningOnTheJobSerializer, learning_type=models.Learning.LearningType.ON_THE_JOB
 )
 
 me_learning_social_view = make_learning_view(
