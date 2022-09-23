@@ -122,3 +122,10 @@ const api = async (
   } catch (e) {}
   throw new Error(defaultError)
 }
+
+export const deleteLearning = async (token: string, id: string) => {
+  await api(token, `/me/learnings/${id}/`, {
+    method: 'DELETE'
+  })
+  return { id }
+}
