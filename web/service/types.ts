@@ -191,7 +191,6 @@ export type LearningAddFormalType = {
 export type MeLearningList = {
   id: string
   learning_type: string
-  learning_type_clean: string
 } & LearningAddType
 
 export type MeLearningFormalList = {

@@ -1,7 +1,7 @@
 import AccountLayout from '@/components/Layout/AccountLayout/AccountLayout'
 import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
 import SimpleTable from '@/components/UI/SimpleTable/SimpleTable'
-import { Typography, TableCellProps, styled } from '@mui/material'
+import { Typography, TableCellProps, styled, Alert } from '@mui/material'
 import { useQuery } from 'react-query'
 import { fetchMe } from '@/service/me'
 import { Query, RegisterUserResponse } from '@/service/api'
@@ -124,6 +124,10 @@ const ProfilePage = () => {
         maxWidth: '960px'
       }}
     >
+      <Alert severity="error" sx={{ mb: 4 }}>
+        Your profile is incomplete, to fully use our service you'll need to review and
+        update
+      </Alert>
       <AccountCard
         headerLogo="mail"
         header={
