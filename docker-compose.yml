@@ -16,7 +16,7 @@ services:
     depends_on:
       - ellandi-db
     env_file:
-      - ./.envs/ellandi
+      - ./envs/ellandi
     volumes:
       - ./:/app/:z
     ports:
