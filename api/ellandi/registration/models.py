@@ -244,7 +244,7 @@ class Learning(TimeStampedModel):
     """Learning time a user has spent"""
 
     class LearningType(models.TextChoices):
-        WORK = ("Work", "Work")
+        ON_THE_JOB = ("On the job", "On the job")
         SOCIAL = ("Social", "Social")
         FORMAL = ("Formal", "Formal")
 
