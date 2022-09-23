@@ -186,7 +186,7 @@ export default LearningPage
 LearningPage.getLayout = (page) => (
   <AccountLayout
     title="Learning"
-    titleIcon="learning"
+    titleIcon="mortar-hat"
     breadcrumbs={[{ title: 'Learning' }]}
     brandColor="brandLearning"
   >
