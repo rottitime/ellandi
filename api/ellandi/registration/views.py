@@ -427,10 +427,10 @@ def user_skills_develop_view(request, user_id):
     return list_skills_langs(request, user, model_name=model_name, field_name=field_name)
 
 
-def skill_lang_delete(user, id, model_name):
+def user_object_delete(user, id, model_name):
     """
-    For a given user, delete the skill/language/skill to develop specified by ID.
-    model_name - is UserSkill/UserLanguage/UserSkillDevelop
+    For a given user, delete the object to develop specified by ID.
+    model_name - is UserSkill/UserLanguage/UserSkillDevelop/Learning
     """
     model_to_delete = getattr(models, model_name)
     try:
@@ -446,7 +446,7 @@ def skill_lang_delete(user, id, model_name):
 @decorators.permission_classes((permissions.IsAuthenticated,))
 def me_skill_delete_view(request, skill_id):
     model_name = "UserSkill"
-    return skill_lang_delete(user=request.user, id=skill_id, model_name=model_name)
+    return user_object_delete(user=request.user, id=skill_id, model_name=model_name)
 
 
 @extend_schema(methods=["DELETE"], request=None, responses=None)
@@ -454,7 +454,7 @@ def me_skill_delete_view(request, skill_id):
 @decorators.permission_classes((permissions.IsAuthenticated,))
 def me_language_delete_view(request, language_id):
     model_name = "UserLanguage"
-    return skill_lang_delete(user=request.user, id=language_id, model_name=model_name)
+    return user_object_delete(user=request.user, id=language_id, model_name=model_name)
 
 
 @extend_schema(methods=["DELETE"], request=None, responses=None)
@@ -462,7 +462,15 @@ def me_language_delete_view(request, language_id):
 @decorators.permission_classes((permissions.IsAuthenticated,))
 def me_skill_develop_delete_view(request, skill_develop_id):
     model_name = "UserSkillDevelop"
-    return skill_lang_delete(user=request.user, id=skill_develop_id, model_name=model_name)
+    return user_object_delete(user=request.user, id=skill_develop_id, model_name=model_name)
+
+
+@extend_schema(methods=["DELETE"], request=None, responses=None)
+@decorators.api_view(["DELETE"])
+@decorators.permission_classes((permissions.IsAuthenticated,))
+def me_learning_delete_view(request, id):
+    model_name = "Learning"
+    return user_object_delete(user=request.user, id=id, model_name=model_name)
 
 
 @extend_schema(methods=["DELETE"], request=None, responses=None)
@@ -474,7 +482,7 @@ def users_skill_delete_view(request, user_id, skill_id):
     except models.User.DoesNotExist:
         return Response(status=status.HTTP_400_BAD_REQUEST)
     model_name = "UserSkill"
-    return skill_lang_delete(user=user, id=skill_id, model_name=model_name)
+    return user_object_delete(user=user, id=skill_id, model_name=model_name)
 
 
 @extend_schema(methods=["DELETE"], request=None, responses=None)
@@ -486,7 +494,7 @@ def users_language_delete_view(request, user_id, language_id):
     except models.User.DoesNotExist:
         return Response(status=status.HTTP_400_BAD_REQUEST)
     model_name = "UserLanguage"
-    return skill_lang_delete(user=user, id=language_id, model_name=model_name)
+    return user_object_delete(user=user, id=language_id, model_name=model_name)
 
 
 @extend_schema(methods=["DELETE"], request=None, responses=None)
@@ -498,7 +506,7 @@ def users_skill_develop_delete_view(request, user_id, skill_develop_id):
     except models.User.DoesNotExist:
         return Response(status=status.HTTP_400_BAD_REQUEST)
     model_name = "UserSkillDevelop"
-    return skill_lang_delete(user=user, id=skill_develop_id, model_name=model_name)
+    return user_object_delete(user=user, id=skill_develop_id, model_name=model_name)
 
 
 def list_direct_reports(request, user):

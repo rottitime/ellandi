@@ -25,6 +25,7 @@ api_urlpatterns = [
     path("me/learning-social/", views.me_learning_social_view),
     path("me/learning-formal/", views.me_learning_formal_view),
     path("me/learnings/", views.me_learning_view),
+    path("me/learnings/<uuid:id>/", views.me_learning_delete_view),
     path("me/send-verification-email/", verification.me_send_verification_email_view),
     path("user/<uuid:user_id>/verify/<str:token>/", verification.verification_view),
     path("password-reset/", verification.password_reset_ask_view),
