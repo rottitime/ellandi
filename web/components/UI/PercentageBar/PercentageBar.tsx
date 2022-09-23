@@ -43,7 +43,7 @@ const PercentageBar: FC<Props> = ({ marks, data, ...props }) => {
               left: value === 100 ? 'auto' : `${value}%`,
               right: value === 100 ? 0 : `auto`
             }}
-            variant="caption"
+            variant="body2"
             component="span"
             aria-label={label}
             className={`mark-label ${value === 100 ? 'last' : ''}`}
