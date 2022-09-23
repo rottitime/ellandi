@@ -40,6 +40,7 @@ api_urlpatterns = [
     path("create-skill-similarity/", views.create_skill_similarity_matrix),
     path("skill-recommender/<str:skill_name>/", views.skill_recommender),
     path("me/title-recommender/", views.me_job_title_recommender),
+    path("me/skill-recommender/", views.me_combined_skill_recommend),
     path("debug/", debug_view)
 ]
 

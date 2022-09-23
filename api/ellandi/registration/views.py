@@ -8,6 +8,7 @@ from django.core.exceptions import ValidationError
 from drf_spectacular.utils import OpenApiParameter, OpenApiTypes, extend_schema
 from rest_framework import decorators, permissions, routers, status, viewsets
 from rest_framework.response import Response
+import random
 
 from ellandi.registration.recommend import (
     get_job_embeddings,
@@ -678,7 +679,6 @@ def me_job_title_recommender(request, return_count=10):
     user_df["user_id"] = user_df["user_id"].astype("string")
     user_df["skill_name"] = user_df["skill_name"].astype("string")
     user_df["job_title"] = user_df["job_title"].astype("string")
-    user_df.to_csv("user_test.csv")
 
     nlp_jobs_df = pd.read_pickle("nlp_generated_skills.pkl")[["user_id", "skill_name", "job_title", "rating"]].iloc[
         0:10000
@@ -692,3 +692,29 @@ def me_job_title_recommender(request, return_count=10):
     )
     similar_title_skills = similar_title_skills_returns[0]
     return Response(data=similar_title_skills, status=status.HTTP_200_OK)
+
+
+@extend_schema(request=None, responses=None)
+@decorators.api_view(["GET"])
+#@decorators.permission_classes((permissions.IsAuthenticated,))
+def me_combined_skill_recommend(request):
+    # requires create_job_embedding_matrix endpoint to have been run first
+    user = request.user
+    job_title = user.job_title
+
+    qs = models.UserSkill.objects.all().values_list("user__id", "id", "name", "user__job_title")
+
+    user_skills_list = list(models.UserSkill.objects.filter(user=user).values_list("name"))
+
+    skill_recommended_skills = []
+    for skill in user_skills_list:
+        skill_recommended_skills.extend(skill_recommender(request=request._request, skill_name=skill[0], return_count=10).data[0].tolist())
+    print(skill_recommended_skills[0])
+
+    job_title_skills = me_job_title_recommender(request._request, return_count=5).data
+
+    random.shuffle(skill_recommended_skills)
+
+    combined = skill_recommended_skills[0:5] + job_title_skills[0:5]
+
+    return Response(data=combined, status=status.HTTP_200_OK)
