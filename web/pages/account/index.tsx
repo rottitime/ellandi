@@ -104,7 +104,7 @@ const IndexPage = () => {
           <Typography variant="body2" gutterBottom>
             You are expected to complete 10 days learning each year
           </Typography>
-          <LearningGoalBar sx={{ mb: 4 }} />
+          <LearningGoalBar sx={{ mb: 5 }} />
           <Button variant="contained" href="/account/learning/add/">
             Add learning
           </Button>

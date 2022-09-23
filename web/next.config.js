@@ -4,7 +4,7 @@ module.exports = {
     apiUrl: process.env.NEXT_PUBLIC_API_URL,
     gitSHA: process.env.NEXT_PUBLIC_GIT_SHA || 'development',
     urls: {
-      landingSignin: '/account/skills',
+      landingSignin: '/account/',
       signin: '/signin'
     }
   }
