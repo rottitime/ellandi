@@ -1,4 +1,5 @@
 import AccountLayout from '@/components/Layout/AccountLayout/AccountLayout'
+import LearningGoalBar from '@/components/Account/LearningGoalBar/LearningGoalBar'
 import { Box, Grid, styled, Typography, useTheme } from '@mui/material'
 import Button from '@/components/UI/Button/Button'
 import useAuth from '@/hooks/useAuth'
@@ -71,11 +72,6 @@ const LearningPage = () => {
       { label: 'Formal', percentage: (totalFormal / total) * 100, color: 'black' }
     ]
   }, [dataFormal.length, dataSocial.length, dataWork.length])
-
-  const totalMinutes = [...dataWork, ...dataSocial, ...dataFormal].reduce(
-    (p, { duration_minutes }) => p + duration_minutes,
-    0
-  )
 
   return (
     <>
@@ -151,19 +147,7 @@ const LearningPage = () => {
                 You are expected to complete 10 days learning each year
               </GraphDescription>
 
-              <PercentageBar
-                data={[
-                  {
-                    label: 'goal',
-                    percentage: (totalMinutes / 450 / 10) * 100,
-                    color: 'blue1'
-                  }
-                ]}
-                marks={[0, 25, 50, 75, 100].map((value) => ({
-                  value,
-                  label: (value / 10).toString()
-                }))}
-              />
+              <LearningGoalBar />
             </AccountCard>
           </Grid>
         </Grid>
