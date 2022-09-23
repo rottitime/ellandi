@@ -11,7 +11,7 @@ services:
       context: .
       dockerfile: ./docker/ellandi/Dockerfile
       args:
-        NEXT_PUBLIC_API_URL: http://localhost:8000
+        NEXT_PUBLIC_API_URL: http://localhost:8002
     image: ellandi_main
     depends_on:
       - ellandi-db
@@ -20,7 +20,7 @@ services:
     volumes:
       - ./:/app/:z
     ports:
-      - "8000:8000"
+      - "8002:8002"
 
   api:
     build:

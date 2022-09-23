@@ -45,7 +45,7 @@ RUN \
 
 RUN cp -R /app/web/out/* /staticfiles/
 
-EXPOSE 8000
+EXPOSE 8002
 
 ENTRYPOINT ["sh","/entrypoint.sh"]
 CMD ["sh","/start.sh"]
