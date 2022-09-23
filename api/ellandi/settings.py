@@ -37,6 +37,11 @@ PROD_HOSTS = (
     "ellandi-api-demo.london.cloudapps.digital",
     "ellandi-api-develop.london.cloudapps.digital",
     "ellandi-api.london.cloudapps.digital",
+    "ellandi-sandbox.london.cloudapps.digital",
+    "ellandi-temp.london.cloudapps.digital",
+    "ellandi-demo.london.cloudapps.digital",
+    "ellandi-develop.london.cloudapps.digital",
+    "ellandi.london.cloudapps.digital",
 )
 
 if DEBUG:
@@ -54,6 +59,11 @@ HOST_MAP = {
     "https://ellandi-api-develop.london.cloudapps.digital": "https://ellandi-web-develop.london.cloudapps.digital",
     "https://ellandi-api.london.cloudapps.digital": "https://ellandi-web.london.cloudapps.digital",
     "http://api:8000": "http://web:3000",
+    "https://ellandi-sandbox.london.cloudapps.digital": "https://ellandi-sandbox.london.cloudapps.digital",
+    "https://ellandi-temp.london.cloudapps.digital": "https://ellandi-temp.london.cloudapps.digital",
+    "https://ellandi-demo.london.cloudapps.digital": "https://ellandi-demo.london.cloudapps.digital",
+    "https://ellandi-develop.london.cloudapps.digital": "https://ellandi-develop.london.cloudapps.digital",
+    "https://ellandi.london.cloudapps.digital": "https://ellandi.london.cloudapps.digital",
 }
 
 CORS_ALLOWED_ORIGINS = (HOST_URL, HOST_MAP[HOST_URL])
