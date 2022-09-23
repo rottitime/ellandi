@@ -1,8 +1,4 @@
 import os
-import random
-
-import numpy as np
-import pandas as pd
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
@@ -14,11 +10,7 @@ from ellandi.registration.recommend import (
     combined_recommend_api_call,
     create_embedding_api_call,
     create_skill_similarity_api_call,
-    get_job_embeddings,
-    get_similar_skills,
     job_title_recommend_api_call,
-    make_skill_similarity_matrix,
-    return_similar_title_skills,
     skill_recommend_api_call,
 )
 from ellandi.verification import send_verification_email
