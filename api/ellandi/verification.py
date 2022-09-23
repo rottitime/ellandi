@@ -56,6 +56,18 @@ def send_password_reset_email(user):
 @extend_schema(
     responses=serializers.UserSerializer,
 )
+@decorators.api_view(["POST"])
+@decorators.permission_classes((permissions.IsAuthenticated,))
+def me_send_verification_email_view(request):
+    user = request.user
+    send_verification_email(user)
+    serializer = serializers.UserSerializer(user)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@extend_schema(
+    responses=serializers.UserSerializer,
+)
 @decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.AllowAny,))
 def verification_view(request, user_id, token):
@@ -73,7 +85,6 @@ def verification_view(request, user_id, token):
 
 @extend_schema(
     request=serializers.PasswordResetAskSerializer,
-    responses=serializers.UserSerializer,
 )
 @decorators.api_view(["POST"])
 @decorators.permission_classes((permissions.AllowAny,))

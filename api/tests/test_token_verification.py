@@ -48,6 +48,23 @@ def test_verify_email(client):
     assert user.verified
 
 
+@utils.with_logged_in_client
+@override_settings(SEND_VERIFICATION_EMAIL=True)
+def test_resend_verify_email(client, user_id):
+    user = User.objects.get(id=user_id)
+
+    response = client.post("/me/send-verification-email/")
+    assert response.status_code == 200
+
+    url = _get_latest_email_url("verify")
+    response = client.get(url)
+    assert response.status_code == 200
+    assert response.json()["email"] == user.email
+
+    user = User.objects.get(email=user.email)
+    assert user.verified
+
+
 @utils.with_client
 @override_settings(SEND_VERIFICATION_EMAIL=True)
 def test_verify_email_bad_token(client):
