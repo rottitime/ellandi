@@ -13,9 +13,6 @@ export enum Query {
   Me = 'me',
   TeamMembers = 'teamMembers',
   SuggestedSkills = 'SuggestedSkills',
-  MeLearningWork = 'meLearningWork',
-  MeLearningFormal = 'meLearningFormal',
-  MeLearningSocial = 'meLearningSocial',
   MeLearning = 'meLearning'
 }
 

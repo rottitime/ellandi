@@ -1,4 +1,4 @@
-import { FC, useMemo } from 'react'
+import { FC } from 'react'
 import DataGrid, { GridColDef } from '@/components/UI/DataGrid/DataGrid'
 import useAuth from '@/hooks/useAuth'
 import { MeLearningList, Query } from '@/service/api'
@@ -6,7 +6,6 @@ import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { fetchMeLearning } from '@/service/me'
 import { Alert, Box, Chip, Typography } from '@mui/material'
 import Link from '@/components/UI/Link'
-import { RowsType } from './types'
 import { splitMinutes } from '@/lib/date-utils'
 import dayjs from 'dayjs'
 import { deleteLearning } from '@/service/account'
@@ -29,24 +28,12 @@ const LearningRecordList: FC = () => {
     async (id) => await authFetch(deleteLearning, id),
     {
       onSuccess: async (id) => {
-        queryClient.setQueryData(Query.MeLearning, {
-          ...data,
-          skills: data.filter((learning) => learning.id !== id)
-        })
+        queryClient.setQueryData(
+          Query.MeLearning,
+          data.filter((learning) => learning.id !== id)
+        )
       }
     }
-  )
-
-  const rows: RowsType[] = useMemo(
-    () =>
-      data.map((record) => ({
-        ...record,
-        type:
-          record.learning_type.toLowerCase() === 'work'
-            ? 'On the job'
-            : record.learning_type
-      })),
-    [data]
   )
 
   return (
@@ -68,7 +55,7 @@ const LearningRecordList: FC = () => {
           }
           autoHeight
           columns={columns}
-          rows={rows}
+          rows={data}
           modalLoading={deleteLoading}
           onDelete={async (cell) => await mutate(cell.id.toString())}
           deleteModalTitle="Delete learning"
@@ -103,7 +90,7 @@ const columns: GridColDef[] = [
     flex: 1
   },
   {
-    field: 'type',
+    field: 'learning_type',
     headerName: 'Type',
     disableColumnMenu: true,
     resizable: false,

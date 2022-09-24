@@ -34,39 +34,34 @@ const GraphDescription = styled(Typography)`
   }
 `
 
-const workLabel = 'On the job'
-
 const LearningPage = () => {
   const { authFetch } = useAuth()
   const { colors } = useTheme()
 
-  const { data } = useQuery<MeLearningList[]>(
+  const { data: dataLearning } = useQuery<MeLearningList[]>(
     Query.MeLearning,
     () => authFetch(fetchMeLearning),
     { initialData: [], staleTime: 0 }
   )
 
   const barData = useMemo<BarDataType[]>(() => {
-    const totalWork = data.filter(
-      ({ learning_type }) =>
-        learning_type.toLowerCase() === 'work' ||
-        learning_type.toLowerCase() === workLabel.toLowerCase()
+    const totalWork = (dataLearning || []).filter(
+      ({ learning_type }) => learning_type.toLowerCase() === 'on the job'
     ).length
-
-    const totalSocial = data.filter(
+    const totalSocial = dataLearning.filter(
       ({ learning_type }) => learning_type.toLowerCase() === 'social'
     ).length
-    const totalFormal = data.filter(
+    const totalFormal = dataLearning.filter(
       ({ learning_type }) => learning_type.toLowerCase() === 'formal'
     ).length
     const total = totalWork + totalSocial + totalFormal
 
     return [
-      { label: workLabel, percentage: (totalWork / total) * 100, color: 'blue1' },
+      { label: 'On the job', percentage: (totalWork / total) * 100, color: 'blue1' },
       { label: 'Social', percentage: (totalSocial / total) * 100, color: 'white' },
       { label: 'Formal', percentage: (totalFormal / total) * 100, color: 'black' }
     ]
-  }, [data])
+  }, [dataLearning])
 
   return (
     <>
@@ -83,7 +78,7 @@ const LearningPage = () => {
         Add learning
       </Button>
 
-      {!!data.length && (
+      {!!dataLearning.length && (
         <Grid container spacing={5} sx={{ mb: 5 }}>
           <Grid item xs={6}>
             <AccountCard sx={{ height: '100%' }}>
