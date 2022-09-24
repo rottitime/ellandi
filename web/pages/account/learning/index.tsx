@@ -45,9 +45,7 @@ const LearningPage = () => {
   )
 
   const barData = useMemo<BarDataType[]>(() => {
-    debugger
-
-    const totalWork = (data || []).filter(
+    const totalWork = data.filter(
       ({ learning_type }) => learning_type.toLowerCase() === 'on the job'
     ).length
     const totalSocial = data.filter(
