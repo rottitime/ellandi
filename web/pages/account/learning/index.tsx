@@ -38,20 +38,22 @@ const LearningPage = () => {
   const { authFetch } = useAuth()
   const { colors } = useTheme()
 
-  const { data: dataLearning } = useQuery<MeLearningList[]>(
+  const { data } = useQuery<MeLearningList[]>(
     Query.MeLearning,
     () => authFetch(fetchMeLearning),
     { initialData: [], staleTime: 0 }
   )
 
   const barData = useMemo<BarDataType[]>(() => {
-    const totalWork = (dataLearning || []).filter(
+    debugger
+
+    const totalWork = (data || []).filter(
       ({ learning_type }) => learning_type.toLowerCase() === 'on the job'
     ).length
-    const totalSocial = dataLearning.filter(
+    const totalSocial = data.filter(
       ({ learning_type }) => learning_type.toLowerCase() === 'social'
     ).length
-    const totalFormal = dataLearning.filter(
+    const totalFormal = data.filter(
       ({ learning_type }) => learning_type.toLowerCase() === 'formal'
     ).length
     const total = totalWork + totalSocial + totalFormal
@@ -61,7 +63,7 @@ const LearningPage = () => {
       { label: 'Social', percentage: (totalSocial / total) * 100, color: 'white' },
       { label: 'Formal', percentage: (totalFormal / total) * 100, color: 'black' }
     ]
-  }, [dataLearning])
+  }, [data])
 
   return (
     <>
@@ -78,7 +80,7 @@ const LearningPage = () => {
         Add learning
       </Button>
 
-      {!!dataLearning.length && (
+      {!!data.length && (
         <Grid container spacing={5} sx={{ mb: 5 }}>
           <Grid item xs={6}>
             <AccountCard sx={{ height: '100%' }}>
