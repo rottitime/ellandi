@@ -27,7 +27,7 @@ jobs:
       IMAGE_TAG: ${{ github.ref_name }}
       DOCKER_REPOSITORY: ghcr.io
       NODE_ENV: development
-      NEXT_PUBLIC_API_URL: https://ellandi-api-${{ github.ref_name }}.london.cloudapps.digital
+      NEXT_PUBLIC_API_URL: https://ellandi-api-${{ github.ref_name }}.london.cloudapps.digital/api
       NEXT_PUBLIC_GIT_SHA: ${{ github.sha }}
 
     strategy:
@@ -48,11 +48,11 @@ jobs:
 
       - name: Setup standalone api url
         if:  ${{ matrix.app == 'ellandi' &&  github.event_name != 'release' }}
-        run: echo "NEXT_PUBLIC_API_URL=https://ellandi-${{ github.ref_name }}.london.cloudapps.digital" >> $GITHUB_ENV
+        run: echo "NEXT_PUBLIC_API_URL=https://ellandi-${{ github.ref_name }}.london.cloudapps.digital/api" >> $GITHUB_ENV
 
       - name: Setup prod api url
         if:  ${{ github.event_name == 'release' }}
-        run: echo "NEXT_PUBLIC_API_URL=https://ellandi-api.london.cloudapps.digital" >> $GITHUB_ENV
+        run: echo "NEXT_PUBLIC_API_URL=https://ellandi-api.london.cloudapps.digital/api" >> $GITHUB_ENV
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v2
