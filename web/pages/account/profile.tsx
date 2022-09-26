@@ -124,10 +124,6 @@ const ProfilePage = () => {
         maxWidth: '960px'
       }}
     >
-      <Alert severity="error" sx={{ mb: 4 }}>
-        Your profile is incomplete, to fully use our service you'll need to review and
-        update
-      </Alert>
       <AccountCard
         headerLogo="mail"
         header={
