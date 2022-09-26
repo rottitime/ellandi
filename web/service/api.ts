@@ -10,65 +10,65 @@ const byOrder = (a: GenericDataList, b: GenericDataList) =>
 
 export const fetchGrades = async (): Promise<GenericDataList[]> => {
   //const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/grades/`)
-  const res = await fetch(`${publicRuntimeConfig.apiUrl}/api/grades/`)
+  const res = await fetch(`${publicRuntimeConfig.apiUrl}/grades/`)
   if (res.ok) return res.json()
   throw new Error(defaultError)
 }
 
 export const fetchJobTitles = async (): Promise<GenericDataList[]> => {
-  const res = await fetch(`${publicRuntimeConfig.apiUrl}/api/job-titles/`)
+  const res = await fetch(`${publicRuntimeConfig.apiUrl}/job-titles/`)
   if (res.ok) return res.json()
   throw new Error(defaultError)
 }
 
 export const fetchProfessions = async (): Promise<GenericDataList[]> => {
   //const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/grades/`)
-  const res = await fetch(`${publicRuntimeConfig.apiUrl}/api/professions/`)
+  const res = await fetch(`${publicRuntimeConfig.apiUrl}/professions/`)
   if (res.ok) return res.json()
   throw new Error(defaultError)
 }
 
 export const fetchContractTypes = async (): Promise<GenericDataList[]> => {
   //const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/grades/`)
-  const res = await fetch(`${publicRuntimeConfig.apiUrl}/api/contract-types/`)
+  const res = await fetch(`${publicRuntimeConfig.apiUrl}/contract-types/`)
   if (res.ok) return res.json()
   throw new Error(defaultError)
 }
 
 export const fetchLanguages = async (): Promise<GenericDataList[]> => {
   //const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/grades/`)
-  const res = await fetch(`${publicRuntimeConfig.apiUrl}/api/languages/`)
+  const res = await fetch(`${publicRuntimeConfig.apiUrl}/languages/`)
   if (res.ok) return res.json()
   throw new Error(defaultError)
 }
 
 export const fetchLanguageSkillLevels = async (): Promise<GenericDataList[]> => {
   //const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/grades/`)
-  const res = await fetch(`${publicRuntimeConfig.apiUrl}/api/language-skill-levels/`)
+  const res = await fetch(`${publicRuntimeConfig.apiUrl}/language-skill-levels/`)
   if (res.ok) return ((await res.json()) as GenericDataList[]).sort(byOrder)
   throw new Error(defaultError)
 }
 
 export const fetchCountries = async (): Promise<GenericDataList[]> => {
-  const res = await fetch(`${publicRuntimeConfig.apiUrl}/api/countries/`)
+  const res = await fetch(`${publicRuntimeConfig.apiUrl}/countries/`)
   if (res.ok) return res.json()
   throw new Error(defaultError)
 }
 
 export const fetchSkills = async (): Promise<string[]> => {
-  const res = await fetch(`${publicRuntimeConfig.apiUrl}/api/skills/`)
+  const res = await fetch(`${publicRuntimeConfig.apiUrl}/skills/`)
   if (res.ok) return res.json()
   throw new Error(defaultError)
 }
 
 export const fetchSkillLevels = async (): Promise<GenericDataList[]> => {
-  const res = await fetch(`${publicRuntimeConfig.apiUrl}/api/skill-levels/`)
+  const res = await fetch(`${publicRuntimeConfig.apiUrl}/skill-levels/`)
   if (res.ok) return res.json()
   throw new Error(defaultError)
 }
 
 export const fetchFunctions = async (): Promise<GenericDataList[]> => {
-  const res = await fetch(`${publicRuntimeConfig.apiUrl}/api/functions/`)
+  const res = await fetch(`${publicRuntimeConfig.apiUrl}/functions/`)
   if (res.ok) return res.json()
   throw new Error(defaultError)
 }
@@ -76,7 +76,7 @@ export const fetchFunctions = async (): Promise<GenericDataList[]> => {
 export const fetchFeedback = async (
   data: FeedabckType
 ): Promise<{ success: boolean }> => {
-  const res = await fetch(`${publicRuntimeConfig.apiUrl}/api/feedback/`, {
+  const res = await fetch(`${publicRuntimeConfig.apiUrl}/feedback/`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

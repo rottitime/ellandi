@@ -4,7 +4,7 @@ import { defaultError } from '@/service/auth'
 import { MeLearningList } from './types'
 
 export const fetchMe = async (token: string) => {
-  const res = await fetch(`${publicRuntimeConfig.apiUrl}/api/me/`, {
+  const res = await fetch(`${publicRuntimeConfig.apiUrl}/me/`, {
     headers: { Authorization: `Token ${token}` }
   })
   if (res.ok) {
@@ -26,7 +26,7 @@ export const updatePassword = async (
 ) => {
   try {
     const res: Response = await fetch(
-      `${publicRuntimeConfig.apiUrl}/api/me/password-change/`,
+      `${publicRuntimeConfig.apiUrl}/me/password-change/`,
       {
         method: 'POST',
         headers: {
@@ -48,7 +48,7 @@ export const updatePassword = async (
 }
 
 export const fetchMeSuggestedSkills = async (token: string) => {
-  const res = await fetch(`${publicRuntimeConfig.apiUrl}/api/me/skills-suggested/`, {
+  const res = await fetch(`${publicRuntimeConfig.apiUrl}/me/skills-suggested/`, {
     headers: { Authorization: `Token ${token}` }
   })
   if (res.ok) return res.json()
@@ -56,7 +56,7 @@ export const fetchMeSuggestedSkills = async (token: string) => {
 }
 
 export const fetchMeLearningFormal = async (token: string) => {
-  const res = await fetch(`${publicRuntimeConfig.apiUrl}/api/me/learning-formal/`, {
+  const res = await fetch(`${publicRuntimeConfig.apiUrl}/me/learning-formal/`, {
     headers: { Authorization: `Token ${token}` }
   })
   if (res.ok) return res.json()
@@ -64,7 +64,7 @@ export const fetchMeLearningFormal = async (token: string) => {
 }
 
 export const fetchMeLearningSocial = async (token: string) => {
-  const res = await fetch(`${publicRuntimeConfig.apiUrl}/api/me/learning-social/`, {
+  const res = await fetch(`${publicRuntimeConfig.apiUrl}/me/learning-social/`, {
     headers: { Authorization: `Token ${token}` }
   })
   if (res.ok) return res.json()
@@ -72,7 +72,7 @@ export const fetchMeLearningSocial = async (token: string) => {
 }
 
 export const fetchMeLearningWork = async (token: string) => {
-  const res = await fetch(`${publicRuntimeConfig.apiUrl}/api/me/learning-work/`, {
+  const res = await fetch(`${publicRuntimeConfig.apiUrl}/me/learning-work/`, {
     headers: { Authorization: `Token ${token}` }
   })
   if (res.ok) return res.json()
@@ -80,7 +80,7 @@ export const fetchMeLearningWork = async (token: string) => {
 }
 
 export const fetchMeLearning = async (token: string) => {
-  const res = await fetch(`${publicRuntimeConfig.apiUrl}/api/me/learnings/`, {
+  const res = await fetch(`${publicRuntimeConfig.apiUrl}/me/learnings/`, {
     headers: { Authorization: `Token ${token}` }
   })
   if (res.ok) return res.json()
