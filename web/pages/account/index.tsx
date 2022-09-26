@@ -63,7 +63,7 @@ const IndexPage = () => {
       </Headline>
 
       <Content>
-        <AccountCard color="brandGov">
+        <AccountCard color="brandSkills">
           {isLoading ? (
             [...Array(4).keys()].map((i) => (
               <Skeleton key={i} sx={{ mb: 3, maxWidth: i % 2 ? 100 : 50 }} />

@@ -117,7 +117,9 @@ const AppBar: FC<Props> = ({ pages, logoUrl, settings, settingsTip = '', ...prop
                   if (url) router.push(url)
                 }}
               >
-                <Typography textAlign="center">{title}</Typography>
+                <Typography textAlign="center" variant="body2">
+                  {title}
+                </Typography>
               </MenuItem>
             ))}
           </Menu>

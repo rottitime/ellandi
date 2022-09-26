@@ -1,54 +1,47 @@
-import { FC, useMemo } from 'react'
+import { FC } from 'react'
 import DataGrid, { GridColDef } from '@/components/UI/DataGrid/DataGrid'
 import useAuth from '@/hooks/useAuth'
 import { MeLearningList, Query } from '@/service/api'
-import { useQuery } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { fetchMeLearning } from '@/service/me'
-import { Alert, Box, Chip } from '@mui/material'
+import { Alert, Box, Chip, Typography } from '@mui/material'
 import Link from '@/components/UI/Link'
-import { RowsType } from './types'
-import { SkeletonTable } from '@/components/UI/Skeleton/TableSkeleton.stories'
 import { splitMinutes } from '@/lib/date-utils'
 import dayjs from 'dayjs'
+import { deleteLearning } from '@/service/account'
 
-const SkillsList: FC = () => {
+const LearningRecordList: FC = () => {
   const { authFetch } = useAuth()
+  const queryClient = useQueryClient()
   const { data, isLoading } = useQuery<MeLearningList[]>(
     Query.MeLearning,
     () => authFetch(fetchMeLearning),
     { initialData: [], staleTime: 0 }
   )
 
-  const formatDuration = ({ duration_minutes }: MeLearningList): string => {
-    const { days, minutes, hours } = splitMinutes(duration_minutes)
-    return `${!!days ? `${days}d` : ''} ${!!hours ? `${hours}hr` : ''} ${
-      !!minutes ? `${minutes}m` : ''
-    }`
-  }
-
-  const formatDate = ({ date_completed }: MeLearningList): string =>
-    dayjs(date_completed).format('DD.MM.YYYY')
-
-  const rows: RowsType[] = useMemo(
-    () =>
-      data.map((record) => ({
-        ...record,
-        type:
-          record.learning_type.toLowerCase() === 'work'
-            ? 'On the job'
-            : record.learning_type,
-        duration: formatDuration(record),
-        completed: formatDate(record)
-      })),
-    [data]
+  const {
+    mutate,
+    error,
+    isError,
+    isLoading: deleteLoading
+  } = useMutation<string, Error, string>(
+    async (id) => await authFetch(deleteLearning, id),
+    {
+      onSuccess: async (id) => {
+        queryClient.setQueryData(
+          Query.MeLearning,
+          data.filter((learning) => learning.id !== id)
+        )
+      }
+    }
   )
 
   return (
     <Box sx={{ height: 'auto', width: '100%' }}>
-      {!!isLoading ? (
-        <SkeletonTable />
-      ) : (
+      <>
+        {isError && <Alert severity="error">{error.message}</Alert>}
         <DataGrid
+          loading={isLoading}
           hideFooterPagination
           initialState={{
             sorting: {
@@ -62,14 +55,31 @@ const SkillsList: FC = () => {
           }
           autoHeight
           columns={columns}
-          rows={rows}
+          rows={data}
+          modalLoading={deleteLoading}
+          onDelete={async (cell) => await mutate(cell.id.toString())}
+          deleteModalTitle="Delete learning"
+          deleteModalContent={
+            <Typography>
+              Are you sure you want to delete this learning from your learning record?
+            </Typography>
+          }
         />
-      )}
+      </>
     </Box>
   )
 }
 
-export default SkillsList
+export default LearningRecordList
+
+const formatDate = (dateValue: string): string => dayjs(dateValue).format('DD.MM.YYYY')
+
+const formatDuration = (duration: number): string => {
+  const { days, minutes, hours } = splitMinutes(duration)
+  return `${!!days ? `${days}d` : ''} ${!!hours ? `${hours}hr` : ''} ${
+    !!minutes ? `${minutes}m` : ''
+  }`
+}
 
 const columns: GridColDef[] = [
   {
@@ -80,7 +90,7 @@ const columns: GridColDef[] = [
     flex: 1
   },
   {
-    field: 'type',
+    field: 'learning_type',
     headerName: 'Type',
     disableColumnMenu: true,
     resizable: false,
@@ -88,19 +98,21 @@ const columns: GridColDef[] = [
     flex: 1
   },
   {
-    field: 'duration',
+    field: 'duration_minutes',
     headerName: 'Duration',
     disableColumnMenu: true,
     resizable: false,
-    renderCell: ({ formattedValue }) => formattedValue && <Chip label={formattedValue} />,
+    renderCell: ({ formattedValue }) =>
+      formattedValue && <Chip label={formatDuration(formattedValue)} />,
     flex: 1
   },
   {
-    field: 'completed',
+    field: 'date_completed',
     headerName: 'Completed',
     disableColumnMenu: true,
     resizable: false,
-    renderCell: ({ formattedValue }) => formattedValue && <Chip label={formattedValue} />,
+    renderCell: ({ formattedValue }) =>
+      formattedValue && <Chip label={formatDate(formattedValue)} />,
     flex: 1
   }
 ]

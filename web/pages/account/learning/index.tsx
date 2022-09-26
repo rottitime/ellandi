@@ -34,8 +34,6 @@ const GraphDescription = styled(Typography)`
   }
 `
 
-const workLabel = 'On the job'
-
 const LearningPage = () => {
   const { authFetch } = useAuth()
   const { colors } = useTheme()
@@ -48,11 +46,8 @@ const LearningPage = () => {
 
   const barData = useMemo<BarDataType[]>(() => {
     const totalWork = data.filter(
-      ({ learning_type }) =>
-        learning_type.toLowerCase() === 'work' ||
-        learning_type.toLowerCase() === workLabel.toLowerCase()
+      ({ learning_type }) => learning_type.toLowerCase() === 'on the job'
     ).length
-
     const totalSocial = data.filter(
       ({ learning_type }) => learning_type.toLowerCase() === 'social'
     ).length
@@ -62,7 +57,7 @@ const LearningPage = () => {
     const total = totalWork + totalSocial + totalFormal
 
     return [
-      { label: workLabel, percentage: (totalWork / total) * 100, color: 'blue1' },
+      { label: 'On the job', percentage: (totalWork / total) * 100, color: 'blue1' },
       { label: 'Social', percentage: (totalSocial / total) * 100, color: 'white' },
       { label: 'Formal', percentage: (totalFormal / total) * 100, color: 'black' }
     ]
