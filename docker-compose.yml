@@ -22,6 +22,22 @@ services:
     ports:
       - "8002:8002"
 
+  nginx:
+    build:
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: http://localhost:8000/api
+    image: nginx_main
+    depends_on:
+      - api
+    env_file:
+      - ./envs/nginx
+    # volumes:
+    #   - ./:/app/:z
+    ports:
+      - "80:80"
+
   api:
     build:
       context: .
