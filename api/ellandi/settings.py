@@ -51,24 +51,19 @@ else:
 
 HOST_MAP = {
     "http://testserver": "http://testserver",
-    "http://localhost:8000": "http://localhost:3000",
     "http://localhost:8000": "http://localhost:8080",
-    "http://127.0.0.1:8000": "http://127.0.0.1:3000",
     "http://127.0.0.1:8000": "http://127.0.0.1:8080",
     "https://ellandi-api-sandbox.london.cloudapps.digital": "https://ellandi-web-sandbox.london.cloudapps.digital",
     "https://ellandi-api-temp.london.cloudapps.digital": "https://ellandi-web-temp.london.cloudapps.digital",
     "https://ellandi-api-demo.london.cloudapps.digital": "https://ellandi-web-demo.london.cloudapps.digital",
     "https://ellandi-api-develop.london.cloudapps.digital": "https://ellandi-web-develop.london.cloudapps.digital",
     "https://ellandi-api.london.cloudapps.digital": "https://ellandi-web.london.cloudapps.digital",
-    "http://api:8000": "http://web:3000",
     "https://ellandi-sandbox.london.cloudapps.digital": "https://ellandi-sandbox.london.cloudapps.digital",
     "https://ellandi-temp.london.cloudapps.digital": "https://ellandi-temp.london.cloudapps.digital",
     "https://ellandi-demo.london.cloudapps.digital": "https://ellandi-demo.london.cloudapps.digital",
     "https://ellandi-develop.london.cloudapps.digital": "https://ellandi-develop.london.cloudapps.digital",
     "https://ellandi.london.cloudapps.digital": "https://ellandi.london.cloudapps.digital",
-    "http://ellandi:8002": "http://ellandi:8002",
-    "http://localhost:8002": "http://localhost:8002",
-    "http://127.0.0.1:8002": "http://127.0.0.1:8002",
+    "http://api:8000": "http://nginx:8080",
 }
 
 CORS_ALLOWED_ORIGINS = (HOST_URL, HOST_MAP[HOST_URL])
