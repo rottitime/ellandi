@@ -8,7 +8,7 @@ from drf_spectacular.utils import extend_schema
 from rest_framework import decorators, permissions, status
 from rest_framework.response import Response
 
-from ellandi.registration import models, serializers, exceptions
+from ellandi.registration import exceptions, models, serializers
 
 TOKEN_GENERATOR = PasswordResetTokenGenerator()
 
@@ -112,7 +112,6 @@ def password_reset_use_view(request, user_id, token):
     login(request, user)
     user_data = serializers.UserSerializer(user, context={"request": request}).data
     return Response(user_data)
-
 
 
 @extend_schema(
