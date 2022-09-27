@@ -62,3 +62,24 @@ def with_logged_in_client(func):
                 User.objects.filter(id=another_user.id).delete()
 
     return _inner
+
+
+def with_logged_in_admin_client(func):
+    @functools.wraps(func)
+    def _inner(*args, **kwargs):
+        user = User.objects.create_user(**user_data, is_staff=True)
+
+        with httpx.Client(app=wsgi.application, base_url="http://testserver:8000") as client:
+            response = client.post("/login/", json={"email": user_data["email"], "password": user_data["password"]})
+            assert response.status_code == 200
+            token = response.json()["token"]
+            assert token
+
+            headers = {"Authorization": f"Token {token}"}
+            client.headers = headers
+            try:
+                return func(client, str(user.id), *args, **kwargs)
+            finally:
+                User.objects.filter(id=user.id).delete()
+
+    return _inner
