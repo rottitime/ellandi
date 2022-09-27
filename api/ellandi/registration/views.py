@@ -8,11 +8,11 @@ from rest_framework import decorators, permissions, routers, status, viewsets
 from rest_framework.response import Response
 
 from ellandi.registration.recommend import (
-    combined_recommend_api_call,
-    create_embedding_api_call,
-    create_skill_similarity_api_call,
-    job_title_recommend_api_call,
-    skill_recommend_api_call,
+    create_job_title_embeddings,
+    create_skill_similarity_matrix,
+    recommend_relevant_job_skills,
+    recommend_relevant_user_skills,
+    recommend_skill_relevant_skills,
 )
 from ellandi.verification import send_verification_email
 
@@ -574,9 +574,9 @@ def me_suggested_skills(request):
 @decorators.permission_classes(
     (permissions.AllowAny,)
 )  # TODO - what permissions? Suggest only admin users permissions.IsAdminUser
-def create_skill_similarity_matrix(request):
+def generate_skill_similarity(request):
     qs = models.UserSkill.objects.all().values_list("user__id", "id", "name", "user__job_title")
-    create_skill_similarity_api_call(request, qs)
+    create_skill_similarity_matrix(qs)
     return Response(status=status.HTTP_200_OK)
 
 
@@ -585,9 +585,9 @@ def create_skill_similarity_matrix(request):
 @decorators.permission_classes(
     (permissions.AllowAny,)
 )  # TODO - what permissions? Suggest only admin users permissions.IsAdminUser
-def create_job_embedding_matrix(request):
+def create_job_embeddings(request):
     qs = models.UserSkill.objects.all().values_list("user__id", "user__job_title")
-    create_embedding_api_call(request, qs)
+    create_job_title_embeddings(qs)
     return Response(status=status.HTTP_200_OK)
 
 
@@ -599,32 +599,37 @@ def create_job_embedding_matrix(request):
 def skill_recommender(request, skill_name):
     # requires create_skill_similarity_matrix endpoint to have been run first
     qs = models.UserSkill.objects.all().values_list("user__id", "id", "name", "user__job_title")
-    similar_skills = skill_recommend_api_call(request, qs, skill_name)
-    return Response(data=similar_skills, status=status.HTTP_200_OK)
+    similar_skills = recommend_skill_relevant_skills(qs, skill_name)
+    if similar_skills is None:
+        raise MissingJobSimilarityMatrixError
+    else:
+        return Response(data=similar_skills, status=status.HTTP_200_OK)
 
 
 @extend_schema(request=None, responses=None)
 @decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
-def me_job_title_recommender(request):
+def me_recommend_job_relevant_skills(request):
     # requires create_job_embedding_matrix endpoint to have been run first
     user = request.user
     job_title = user.job_title
     qs = models.UserSkill.objects.all().values_list("user__id", "id", "name", "user__job_title")
 
-    similar_title_skills = job_title_recommend_api_call(request, qs, job_title)
+    similar_title_skills = recommend_relevant_job_skills(qs, job_title)
+    if similar_title_skills is None:
+        raise MissingJobSimilarityMatrixError
     return Response(data=similar_title_skills, status=status.HTTP_200_OK)
 
 
 @extend_schema(request=None, responses=None)
 @decorators.api_view(["GET"])
-# @decorators.permission_classes((permissions.IsAuthenticated,))
-def me_combined_skill_recommend(request):
+@decorators.permission_classes((permissions.IsAuthenticated,))
+def me_recommend_most_relevant_skills(request):
     # requires create_job_embedding_matrix endpoint to have been run first
     user = request.user
     job_title = user.job_title
     qs = models.UserSkill.objects.all().values_list("user__id", "id", "name", "user__job_title")
     user_skills_list = list(models.UserSkill.objects.filter(user=user).values_list("name"))
 
-    combined_recommendations = combined_recommend_api_call(request, qs, user_skills_list, job_title)
+    combined_recommendations = recommend_relevant_user_skills(qs, user_skills_list, job_title)
     return Response(data=combined_recommendations, status=status.HTTP_200_OK)

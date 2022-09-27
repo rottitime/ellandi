@@ -29,3 +29,18 @@ class IncorrectDomainError(APIException):
 class PasswordResetError(APIException):
     status_code = 400
     default_detail = "Reset link is invalid. You are unable to reset your password as either the link has already been used or has expired"  # noqa
+
+
+class IncorrectDomainError(APIException):
+    status_code = 400
+    default_detail = "You need a recognised Cabinet Office email address to use this service"
+
+
+class MissingJobSimilarityMatrixError(APIException):
+    status_code = 501
+    default_detail = "A job similarity matrix has not been generated for this request"
+
+
+class MissingSkillMatrixError(APIException):
+    status_code = 501
+    default_detail = "A skill embedding matrix has not been generated for this request"

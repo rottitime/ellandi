@@ -36,11 +36,11 @@ api_urlpatterns = [
     path("one-time-login-token/", views.create_one_time_login_view),
     path("first-time-login/", views.first_log_in_view),
     path("create-error/", views.create_error),
-    path("create-title-embeddings/", views.create_job_embedding_matrix),
-    path("create-skill-similarity/", views.create_skill_similarity_matrix),
+    path("create-title-embeddings/", views.create_job_embeddings),
+    path("create-skill-similarity/", views.generate_skill_similarity),
     path("skill-recommender/<str:skill_name>/", views.skill_recommender),
-    path("me/title-recommender/", views.me_job_title_recommender),
-    path("me/skill-recommender/", views.me_combined_skill_recommend),
+    path("me/title-recommender/", views.me_recommend_job_relevant_skills),
+    path("me/skill-recommender/", views.me_recommend_most_relevant_skills),
     path("debug/", debug_view)
 ]
 

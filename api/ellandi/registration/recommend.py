@@ -55,21 +55,6 @@ def get_job_embeddings(job_titles):
     return embedding_df
 
 
-def get_similar_embedding_jobs(job_title, job_embeddings):
-    """given a series of job embeddings, a new title and optionally top N, returns most similar jobs"""
-
-    skill_return_count = 10
-    model_name = "all-MiniLM-L6-v2"
-
-    model = SentenceTransformer(model_name)
-    job_embedding = model.encode(job_title).reshape((1, 384))
-
-    dist = np.linalg.norm(job_embedding - job_embeddings, axis=1)
-    jobs_by_dist = np.argsort(dist)
-
-    return job_embeddings.index[jobs_by_dist][0:skill_return_count]
-
-
 def return_similar_title_skills(job_title, user_skills, job_embeddings):
     """takes a list of skills per job title, and returns most common skills for similar"""
 
@@ -88,12 +73,23 @@ def return_similar_title_skills(job_title, user_skills, job_embeddings):
         skills_to_dummy = user_skills[["user_id", "skill_name", "rating"]]
         long_skills = skills_to_dummy.copy().rename(columns={"user_id": "user_id"})
 
+    if job_title is None:
+        top_skills = (
+            long_skills.groupby("skill_name")["rating"]
+            .sum()
+            .sort_values(ascending=False)
+            .iloc[0:skill_count]
+            .index.to_list()
+        )
+        return top_skills, None
+
     sparse_df = (
         long_skills.groupby(["user_id", "skill_name"])["rating"].sum().astype("Sparse[int]").unstack(fill_value=0)
     )
 
     model = SentenceTransformer(model_name)
-    job_embedding = model.encode(job_title).reshape((1, 384))
+    embeddings = model.encode(job_title)
+    job_embedding = embeddings.reshape((1, embeddings.shape[0]))
 
     dist = np.linalg.norm(job_embedding - job_embeddings, axis=1)
     jobs_by_dist = np.argsort(dist)
@@ -122,11 +118,11 @@ def return_similar_title_skills(job_title, user_skills, job_embeddings):
     return returned_skills, returned_jobs
 
 
-def create_skill_similarity_api_call(request, user_query):
+def create_skill_similarity_matrix(user_query):
     """takes a django request and generates the skill similarity matrix"""
 
     skill_sample_size = 10000
-    nlp_skill_df = pd.read_pickle("nlp_generated_skills.pkl")[["user_id", "skill_name", "rating"]].iloc[
+    nlp_skill_df = pd.read_json("nlp_generated_skills.json")[["user_id", "skill_name", "rating"]].iloc[
         0:skill_sample_size
     ]
 
@@ -151,12 +147,12 @@ def create_skill_similarity_api_call(request, user_query):
     np.save("similarity_matrix.npy", similarity_matrix)
 
 
-def create_embedding_api_call(request, user_query):
+def create_job_title_embeddings(user_query):
     """given a django query, creates a title embedding matrix and stores as pkl"""
 
     skill_sample_size = 10000
 
-    nlp_jobs_df = pd.read_pickle("nlp_generated_skills.pkl")[["user_id", "job_title"]].iloc[0:skill_sample_size]
+    nlp_jobs_df = pd.read_json("nlp_generated_skills.json")[["user_id", "job_title"]].iloc[0:skill_sample_size]
 
     user_df = pd.DataFrame.from_records(user_query).rename(columns={0: "user_id", 1: "job_title"})
     # todo - fix to uuid
@@ -170,12 +166,12 @@ def create_embedding_api_call(request, user_query):
     embeddings.to_pickle("job_title_embeddings.pkl")
 
 
-def skill_recommend_api_call(request, user_query, skill_name):
+def recommend_skill_relevant_skills(user_query, skill_name):
     """takes a django request, a query of all skills and skill name, and returns a list of recommended skills"""
 
     skill_sample_size = 10000
 
-    nlp_skill_df = pd.read_pickle("nlp_generated_skills.pkl")[["user_id", "skill_name", "rating"]].iloc[
+    nlp_skill_df = pd.read_json("nlp_generated_skills.json")[["user_id", "skill_name", "rating"]].iloc[
         0:skill_sample_size
     ]
 
@@ -194,19 +190,22 @@ def skill_recommend_api_call(request, user_query, skill_name):
 
     combined_df = pd.concat([long_df, nlp_skill_df]).reset_index(drop=True)
 
-    skill_similarity_matrix = np.load("similarity_matrix.npy")
+    try:
+        skill_similarity_matrix = np.load("similarity_matrix.npy")
+    except:
+        return None
 
     skill_outputs = get_similar_skills(combined_df, skill_name, skill_similarity_matrix)
     similar_skills = skill_outputs[0]
     return similar_skills
 
 
-def job_title_recommend_api_call(request, user_query, job_title):
+def recommend_relevant_job_skills(user_query, job_title):
     """takes a django request, a query of all skills and job title, and returns a list of recommended job titles"""
 
     skill_sample_size = 10000
 
-    nlp_jobs_df = pd.read_pickle("nlp_generated_skills.pkl")[["user_id", "skill_name", "job_title", "rating"]].iloc[
+    nlp_jobs_df = pd.read_json("nlp_generated_skills.json")[["user_id", "skill_name", "job_title", "rating"]].iloc[
         0:skill_sample_size
     ]
 
@@ -228,7 +227,7 @@ def job_title_recommend_api_call(request, user_query, job_title):
     return similar_title_skills_returns[0]
 
 
-def combined_recommend_api_call(request, user_query, skills_list, job_title):
+def recommend_relevant_user_skills(user_query, skills_list, job_title):
     """takes a django request, a query of all skills, a list of skills, and a job title, and returns random selection
     of recommendations"""
 
@@ -237,7 +236,7 @@ def combined_recommend_api_call(request, user_query, skills_list, job_title):
     title_recommendation_count = 5
     skill_sample_size = 10000
 
-    nlp_jobs_df = pd.read_pickle("nlp_generated_skills.pkl")[["user_id", "skill_name", "job_title", "rating"]].iloc[
+    nlp_jobs_df = pd.read_json("nlp_generated_skills.json")[["user_id", "skill_name", "job_title", "rating"]].iloc[
         0:skill_sample_size
     ]
 
@@ -253,8 +252,14 @@ def combined_recommend_api_call(request, user_query, skills_list, job_title):
     user_df["job_title"] = user_df["job_title"].astype("string")
 
     df = pd.concat([user_df, nlp_jobs_df]).reset_index(drop=True)
-    skill_similarity_matrix = np.load("similarity_matrix.npy")
-    loaded_embeddings = pd.read_pickle("job_title_embeddings.pkl")
+    try:
+        skill_similarity_matrix = np.load("similarity_matrix.npy")
+    except:
+        return None
+    try:
+        loaded_embeddings = pd.read_pickle("job_title_embeddings.pkl")
+    except:
+        return None
 
     skill_recommended_skills = []
 
