@@ -184,3 +184,26 @@ export const mockTeam = [
     modified_at: '2022-08-25T10:08:32.863561Z'
   }
 ]
+
+export const mockLevels = [
+  {
+    slug: 'average',
+    name: 'Aasic',
+    order: 0
+  },
+  {
+    slug: 'good',
+    name: 'Good',
+    order: 1
+  },
+  {
+    slug: 'dont-know',
+    name: 'Who knows?',
+    order: 3
+  },
+  {
+    slug: 'super',
+    name: 'Super',
+    order: 2
+  }
+]

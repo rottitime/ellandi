@@ -1,7 +1,7 @@
 import { screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react'
 import SkillsList from './SkillsList'
 import fetchMock from 'jest-fetch-mock'
-import { renderWithProviders } from '@/lib/test-utils'
+import { bugfixForTimeout, renderWithProviders } from '@/lib/test-utils'
 import { SkillsType } from '@/service/types'
 import userEvent from '@testing-library/user-event'
 
@@ -12,9 +12,6 @@ const mockSuccess: SkillsType = {
     { id: 'test3', name: 'Skill Something C', level: 'Jaime' }
   ]
 }
-
-const bugfixForTimeout = async () =>
-  await waitFor(() => new Promise((resolve) => setTimeout(resolve, 0)))
 
 describe('SkillsList', () => {
   afterEach(() => {
