@@ -35,7 +35,7 @@ jobs:
         app: [ellandi-api, ellandi-web, organogram, ellandi]
         include:
           - app: ellandi
-            dockerfile: docker/ellandi/Dockerfile
+            dockerfile: docker/nginx/Dockerfile
           - app: ellandi-api
             dockerfile: docker/api/Dockerfile
           - app: ellandi-web
