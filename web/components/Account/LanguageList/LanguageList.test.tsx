@@ -1,7 +1,7 @@
 import { screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react'
 import LanguageList from './LanguageList'
 import fetchMock from 'jest-fetch-mock'
-import { renderWithProviders } from '@/lib/test-utils'
+import { bugfixForTimeout, mockLevels, renderWithProviders } from '@/lib/test-utils'
 import { LanguagesType } from '@/service/types'
 import userEvent from '@testing-library/user-event'
 
@@ -28,16 +28,17 @@ const mockSuccess: LanguagesType = {
   ]
 }
 
-const bugfixForTimeout = async () =>
-  await waitFor(() => new Promise((resolve) => setTimeout(resolve, 0)))
-
 describe('LanguageList', () => {
   afterEach(() => {
     fetchMock.resetMocks()
   })
 
   it('renders with data after loading', async () => {
-    fetchMock.mockResponse(JSON.stringify(mockSuccess), { status: 200 })
+    fetchMock.mockResponses(
+      [JSON.stringify(mockSuccess), { status: 200 }],
+      [JSON.stringify(mockLevels), { status: 200 }]
+    )
+
     renderWithProviders(<LanguageList />)
 
     expect(screen.getByTestId('skelton-table')).toBeInTheDocument()
@@ -61,10 +62,11 @@ describe('LanguageList', () => {
     expect(screen.getByText(mockSuccess.languages[2].writing_level)).toBeInTheDocument()
   })
 
-  it('message for no skills', async () => {
-    fetchMock.mockResponse(JSON.stringify({ ...mockSuccess, languages: [] }), {
-      status: 200
-    })
+  it('message for no languages', async () => {
+    fetchMock.mockResponses(
+      [JSON.stringify({ ...mockSuccess, languages: [] }), { status: 200 }],
+      [JSON.stringify(mockLevels), { status: 200 }]
+    )
     renderWithProviders(<LanguageList />)
 
     await waitForElementToBeRemoved(() => screen.queryByTestId('skelton-table'))
