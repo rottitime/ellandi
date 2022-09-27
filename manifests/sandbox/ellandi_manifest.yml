@@ -1,8 +1,6 @@
 ---
 applications:
 - name: ellandi-sandbox
-  services:
-  - ellandi-postgres-sandbox
   routes:
   - route: ellandi-sandbox.london.cloudapps.digital
     protocol: http1
