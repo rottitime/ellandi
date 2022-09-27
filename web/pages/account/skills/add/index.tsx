@@ -26,7 +26,7 @@ SkillsAddPage.getLayout = (page) => (
     brandColor="brandSkills"
     breadcrumbs={[
       { title: 'Skills', url: '/account/skills' },
-      { title: 'Add a skill or language to your profile' }
+      { title: 'Add a skill or language' }
     ]}
   >
     {page}

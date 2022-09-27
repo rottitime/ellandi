@@ -10,13 +10,20 @@ import SkillsList from '@/components/Account/SkillsList/SkillsList'
 import LanguageList from '@/components/Account/LanguageList/LanguageList'
 import SkillsDevelop from '@/components/Account/SkillsDevelop/SkillsDevelop'
 import RoutedTabs, { RoutedTabItem } from '@/components/UI/Tabs/RoutedTabs'
+import { useRouter } from 'next/router'
 
 const SkillsPage = () => {
   const { authFetch } = useAuth()
   const { data } = useQuery<RegisterUserResponse>(Query.Me, () => authFetch(fetchMe))
+  const router = useRouter()
 
   return (
-    <>
+    <AccountLayout
+      title="Skills"
+      titleIcon="skills"
+      breadcrumbs={breadcrumbs[router?.query?.tab?.[0] || '']}
+      brandColor="brandSkills"
+    >
       <Headline>
         <Typography variant="h1" gutterBottom>
           Hello {data?.first_name}, welcome to the Skills and Learning Service
@@ -31,21 +38,11 @@ const SkillsPage = () => {
       </Button>
 
       <RoutedTabs routedTabItems={tabs} tabsPath="/account/skills" />
-    </>
+    </AccountLayout>
   )
 }
 
 export default SkillsPage
-SkillsPage.getLayout = (page) => (
-  <AccountLayout
-    title="Skills"
-    titleIcon="skills"
-    breadcrumbs={[{ title: 'Skills' }]}
-    brandColor="brandSkills"
-  >
-    {page}
-  </AccountLayout>
-)
 
 export async function getStaticPaths() {
   return {
@@ -79,3 +76,15 @@ const tabs: RoutedTabItem[] = [
     id: 'language-skills'
   }
 ]
+
+const breadcrumbs = {
+  '': [{ title: 'Skills' }],
+  'skills-develop': [
+    { title: 'Skills', url: '/account/skills/' },
+    { title: 'Skills you would like to develop' }
+  ],
+  'language-skills': [
+    { title: 'Skills', url: '/account/skills/' },
+    { title: 'Language skills' }
+  ]
+}
