@@ -124,17 +124,3 @@ services:
       - utils
     volumes:
       - ./:/app/:z
-
-  storybook:
-    build:
-      context: .
-      dockerfile: ./docker/storybook/Dockerfile
-      args:
-        NODE_ENV: development
-    image: ellandi_storybook
-    env_file:
-      - ./envs/web
-    environment:
-      - NODE_ENV
-    ports:
-      - "8080:8080"
