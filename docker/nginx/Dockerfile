@@ -23,9 +23,9 @@ WORKDIR /app/web
 
 RUN npm install
 RUN npm run build:static
+RUN cp -R /app/web/out/* /usr/share/nginx/html/
 
 COPY ./nginx/nginx.conf /etc/nginx/conf.d/default.conf
-COPY ./web/out /usr/share/nginx/html
 
 EXPOSE 80
 
