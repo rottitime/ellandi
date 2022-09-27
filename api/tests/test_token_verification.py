@@ -116,7 +116,8 @@ def test_password_reset_email_bad_token(client):
     token = "B4dT0k3n"
     response = client.post(f"/user/{user.id}/password-reset/{token}/", json={"new_password": new_password})
     assert response.status_code == 400
-    assert response.json()["detail"] == "Invalid token"
+    msg = "Reset link is invalid.\nYou are unable to reset your password as either the link has already been used or has expired" # noqa
+    assert response.json()["detail"] == msg
 
     user = User.objects.get(email=user_data["email"])
     assert not user.check_password(new_password)
