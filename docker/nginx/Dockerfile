@@ -27,7 +27,7 @@ RUN cp -R /app/web/out/* /usr/share/nginx/html/
 
 COPY ./nginx/nginx.conf /etc/nginx/conf.d/default.conf
 
-EXPOSE 80
+# EXPOSE 8080
 
 # ENTRYPOINT ["sh","/entrypoint.sh"]
 # CMD ["sh","/start.sh"]
