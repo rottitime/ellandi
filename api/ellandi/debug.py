@@ -8,7 +8,7 @@ from rest_framework.response import Response
 @decorators.permission_classes((permissions.IsAdminUser,))
 def debug_view(request):
     vars_of_interest = ["DEBUG", "EMAIL_BACKEND_TYPE", "ALLOW_EXAMPLE_EMAILS"]
-    # TODO - add latest Git SHA
+    # TODO - add latest Git SHA
     debug_vars = {}
     for env_var in vars_of_interest:
         debug_vars[env_var] = os.getenv(env_var)
