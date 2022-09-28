@@ -6,7 +6,7 @@ from django.conf import settings
 from django.test import override_settings
 from tests import utils
 
-from api.ellandi.registration.exceptions import PasswordResetError
+from ellandi.registration.exceptions import PasswordResetError
 from ellandi.registration.models import User
 
 
