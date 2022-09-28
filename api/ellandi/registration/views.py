@@ -600,7 +600,7 @@ def skill_recommender(request, skill_name):
     # requires create_skill_similarity_matrix endpoint to have been run first
     qs = models.UserSkill.objects.all().values_list("user__id", "id", "name", "user__job_title")
     similar_skills = recommend_skill_relevant_skills(qs, skill_name)
-    if similar_skills is None:
+    if not similar_skills:
         raise exceptions.MissingJobSimilarityMatrixError
     else:
         return Response(data=similar_skills, status=status.HTTP_200_OK)
@@ -616,7 +616,7 @@ def me_recommend_job_relevant_skills(request):
     qs = models.UserSkill.objects.all().values_list("user__id", "id", "name", "user__job_title")
 
     similar_title_skills = recommend_relevant_job_skills(qs, job_title)
-    if similar_title_skills is None:
+    if not similar_title_skills:
         raise exceptions.MissingJobSimilarityMatrixError
     return Response(data=similar_title_skills, status=status.HTTP_200_OK)
 

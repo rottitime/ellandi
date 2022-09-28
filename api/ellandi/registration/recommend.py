@@ -197,6 +197,7 @@ def recommend_skill_relevant_skills(user_query, skill_name):
     try:
         skill_similarity_matrix = np.load("similarity_matrix.npy")
     except:
+        print("no similarity matrix found, it must be created")
         return None
 
     skill_outputs = get_similar_skills(combined_df, skill_name, skill_similarity_matrix)
@@ -263,10 +264,12 @@ def recommend_relevant_user_skills(user_query, skills_list, job_title):
     try:
         skill_similarity_matrix = np.load("similarity_matrix.npy")
     except:
+        print("no skill similarity matrix found, it must be created")
         return None
     try:
         loaded_embeddings = pd.read_pickle("job_title_embeddings.pkl")
     except:
+        print("no embeddings found, they must be created")
         return None
 
     skill_recommended_skills = []
