@@ -6,6 +6,7 @@ from django.conf import settings
 from django.test import override_settings
 from tests import utils
 
+from ellandi.registration.exceptions import PasswordResetError
 from ellandi.registration.models import User
 
 
@@ -116,7 +117,7 @@ def test_password_reset_email_bad_token(client):
     token = "B4dT0k3n"
     response = client.post(f"/user/{user.id}/password-reset/{token}/", json={"new_password": new_password})
     assert response.status_code == 400
-    assert response.json()["detail"] == "Invalid token"
+    assert response.json()["detail"] == PasswordResetError.default_detail
 
     user = User.objects.get(email=user_data["email"])
     assert not user.check_password(new_password)
