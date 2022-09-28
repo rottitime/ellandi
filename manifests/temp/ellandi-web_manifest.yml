@@ -1,6 +1,8 @@
 ---
 applications:
   - name: ellandi-web-temp
+    services:
+    - scale-ellandi-web-temp
     env:
       NODE_ENV: production
     routes:

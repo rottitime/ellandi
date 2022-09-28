@@ -1,0 +1,55 @@
+---
+name: Configure Autoscaler
+
+on:
+  push:
+    branches:
+      - temp
+    paths:
+      - .github/workflows/autoscale.yml
+      - 'autoscale/**'
+
+jobs:
+  configure_autoscaler:
+
+    runs-on: ubuntu-latest
+
+    env:
+      CF_SPACE: ${{ github.ref_name }}
+
+    strategy:
+      matrix:
+        app: [ellandi-api, ellandi-web, organogram]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Download CF CLI
+        working-directory: ./autoscale
+        run: curl -L "https://packages.cloudfoundry.org/stable?release=linux64-binary&version=v7&source=github" | tar -zx
+
+      - name: CF login
+        working-directory: ./autoscale
+        run: ./cf login -a api.london.cloud.service.gov.uk -u "${{ secrets.CF_USER }}" -p "${{ secrets.CF_PASSWORD }}" -o co-i-ai -s "$CF_SPACE"
+
+      - name: Install Autoscaler Plugin
+        working-directory: ./autoscale
+        run: ./cf install-plugin -r CF-Community app-autoscaler-plugin -f
+
+      - name: Attach Policy to App
+        working-directory: ./autoscale
+        run: ./cf attach-autoscaling-policy ${{ matrix.app }}-${{ github.ref_name }} policy.json
+
+      - uses: actions/checkout@v2
+      - name: Slack Notification
+        continue-on-error: true
+        if: ${{ failure() && github.ref_name == 'prod' || failure() && github.ref_name == 'develop' }}
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_COLOR: '#FF0000'
+          SLACK_ICON: https://avatars0.githubusercontent.com/u/818058?s=200&v=4
+          SLACK_TITLE: '${{ github.ref_name }} deployment ${{ job.status }} :warning:'
+          SLACK_USERNAME: ${{ github.actor }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_MESSAGE: '${{ github.ref_name }} Action ${{ job.status }}'
+

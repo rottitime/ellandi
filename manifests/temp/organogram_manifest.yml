@@ -4,6 +4,7 @@ applications:
   services:
   - i-dot-ai-organogram-temp
   - organogram-postgres-temp
+  - scale-organogram-temp
   routes:
   - route: organogram-temp.london.cloudapps.digital
     protocol: http1
