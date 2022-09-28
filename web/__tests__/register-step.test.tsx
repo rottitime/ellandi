@@ -1,8 +1,12 @@
-import { screen, waitFor } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
 import RegisterStepPage from '@/pages/register/step/[step]'
 import fetchMock from 'jest-fetch-mock'
-import { bugfixForTimeout, mockMe, renderWithProviders } from '@/lib/test-utils'
+import {
+  screen,
+  waitFor,
+  bugfixForTimeout,
+  mockMe,
+  renderWithProviders
+} from '@/lib/test-utils'
 
 jest.mock('@/components/Form/Register/RegisterDetailsForm/RegisterDetailsForm', () => ({
   __esModule: true,
