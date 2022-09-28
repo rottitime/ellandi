@@ -159,7 +159,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 
   return {
     props: {
-      progress: Math.floor((stepInt / (steps.length + 1)) * 100),
+      progress: Math.floor(((stepInt + 1) / (steps.length + 1)) * 100),
       stepInt,
       title,
       backUrl: stepInt ? `/register/step/${stepInt - 1}` : null,
