@@ -266,7 +266,9 @@ def me_view(request):
             try:
                 serializer.save()
             except ValidationError as error:
-                detail = error.args[0].get("detail")
+                print(type(error.args))
+                print(type(error.args[0]))
+                detail = error.args[0]
                 return Response(data={"detail": detail[0]}, status=status.HTTP_400_BAD_REQUEST)
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

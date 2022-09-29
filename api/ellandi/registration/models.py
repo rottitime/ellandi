@@ -188,7 +188,7 @@ class User(AbstractUser, TimeStampedModel, RegistrationAbstractUser):
             raise ValidationError({"detail": "Line manager email cannot be the same as user email"})
 
     def save(self, *args, **kwargs):
-        self.full_clean()
+        self.clean()
         return super().save(*args, **kwargs)
 
 
