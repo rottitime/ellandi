@@ -184,10 +184,6 @@ class User(AbstractUser, TimeStampedModel, RegistrationAbstractUser):
     REQUIRED_FIELDS = []
 
     def clean(self):
-        print("am cleaning now...")
-        print(self.email)
-        print(self.line_manager_email)
-
         if self.line_manager_email and (self.email.lower() == self.line_manager_email.lower()):
             raise ValidationError({"detail": "Line manager email cannot be the same as user email"})
 

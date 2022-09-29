@@ -1,10 +1,12 @@
 import os
 
+
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from drf_spectacular.utils import OpenApiParameter, OpenApiTypes, extend_schema
 from rest_framework import decorators, permissions, routers, status, viewsets
 from rest_framework.response import Response
+from django.core.exceptions import ValidationError
 
 from ellandi.verification import send_verification_email
 
@@ -260,10 +262,14 @@ def me_view(request):
     elif request.method == "PATCH":
         data = request.data
         serializer = serializers.UserSerializer(user, data=data)
-        serializer.is_valid()
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
-        #return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        if serializer.is_valid():
+            try:
+                serializer.save()
+            except ValidationError as error:
+                detail = error.args[0].get("detail")
+                return Response(data={"detail": detail[0]}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 def make_learning_view(serializer_class, learning_type):
