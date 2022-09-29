@@ -89,7 +89,6 @@ MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
-    "spa.middleware.SPAMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -245,4 +244,3 @@ SPECTACULAR_SETTINGS = {
 }
 
 WHITENOISE_USE_FINDERS = False
-STATICFILES_STORAGE = "spa.storage.SPAStaticFilesStorage"
