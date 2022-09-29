@@ -172,7 +172,7 @@ class User(AbstractUser, TimeStampedModel, RegistrationAbstractUser):
     is_self_reported_line_manager = models.CharField(max_length=12, choices=YesNoChoices.choices, blank=True, null=True)
 
     @property
-    def is_line_manager(self):
+    def has_direct_reports(self):
         email = self.email
         has_direct_reports = User.objects.filter(line_manager_email=email).exists()
         return has_direct_reports

@@ -590,14 +590,14 @@ def test_email_field(client, user_id):
 
 
 @utils.with_logged_in_client
-def test_is_line_manager(client, user_id):
+def test_has_direct_reports(client, user_id):
     user_data = client.get("/me/").json()
     email = user_data["email"]
     User.objects.create_user("peter.rabbit@example.com", "P455w0rd", line_manager_email=email)
-    assert user_data["is_line_manager"] is True, user_data
+    assert user_data["has_direct_reports"] is True, user_data
     User.objects.filter(line_manager_email=email).delete()
     user_data = client.get("/me/").json()
-    assert user_data["is_line_manager"] is False, user_data
+    assert user_data["has_direct_reports"] is False, user_data
 
 
 @utils.with_logged_in_client
