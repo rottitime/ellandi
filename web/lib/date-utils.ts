@@ -35,5 +35,6 @@ export const splitMinutes = (
 export const combineDaysMinutesHoursToMinutes = (
   days: number,
   hours: number,
-  minutes: number
-): number => days * 1440 + hours * 60 + minutes
+  minutes: number,
+  hoursPerDay = 24
+): number => (days * hoursPerDay + hours) * 60 + minutes
