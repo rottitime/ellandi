@@ -9,12 +9,9 @@ export default {
   parameters: {
     design: {
       type: 'figma',
-      url: 'https://www.figma.com/file/JEg4GJzDWL4NbiWXShxHiL/Ellandi-Prototype-V3.4?node-id=9818%3A85811'
+      url: 'https://www.figma.com/file/WeQvrqCCo3rxUbQkxT31Q8/Ellandi-Prototype-V4?node-id=9818%3A85811'
     }
   },
-  // args: {
-  //   variant: 'contained'
-  // },
   argTypes: { onClick: { action: 'clicked' } }
 } as ComponentMeta<typeof Button>
 
