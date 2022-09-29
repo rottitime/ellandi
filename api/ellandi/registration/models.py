@@ -15,6 +15,12 @@ def now():
     return datetime.datetime.now(tz=pytz.UTC)
 
 
+class YesNoChoices(models.TextChoices):
+    YES = ("Yes", "Yes")
+    NO = ("No", "No")
+    DONT_KNOW = ("I don't know", "I don't know")
+
+
 class LowercaseEmailField(models.EmailField):
     def pre_save(self, model_instance, add):
         """Return field's value just before saving."""
@@ -150,14 +156,9 @@ class RegistrationAbstractUser(models.Model):
     contract_type = models.CharField(max_length=127, blank=True, null=True)
     contract_type_other = models.CharField(max_length=127, blank=True, null=True)
     contact_preference = models.BooleanField(default=None, blank=True, null=True)
-    is_mentor = models.Choices
 
 
 class User(AbstractUser, TimeStampedModel, RegistrationAbstractUser):
-    class YesNoChoices(models.TextChoices):
-        YES = ("Yes", "Yes")
-        NO = ("No", "No")
-        DONT_KNOW = ("I don't know", "I don't know")
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     username = None
@@ -168,6 +169,7 @@ class User(AbstractUser, TimeStampedModel, RegistrationAbstractUser):
     first_name = models.CharField("first name", max_length=128, blank=True, null=True)
     last_name = models.CharField("last name", max_length=128, blank=True, null=True)
     is_mentor = models.CharField(max_length=12, choices=YesNoChoices.choices, blank=True, null=True)
+    is_self_reported_line_manager = models.CharField(max_length=12, choices=YesNoChoices.choices, blank=True, null=True)
 
     @property
     def is_line_manager(self):
