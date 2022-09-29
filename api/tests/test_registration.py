@@ -549,7 +549,7 @@ def test_created_modified_at(client, user_id):
         "languages": [{"name": "Spanish", "speaking_level": "Proficient", "writing_level": "Basic"}],
         "skills_to_develop": [{"name": "Maths"}],
         "is_mentor": "Yes",
-        "is_self_reported_line_manager": "I don't know"
+        "is_self_reported_line_manager": "I don't know",
     }
     response = client.patch("/me/", json=more_user_data)
     data = response.json()
