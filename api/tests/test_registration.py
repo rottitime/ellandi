@@ -548,11 +548,15 @@ def test_created_modified_at(client, user_id):
         "skills": [{"name": "Python", "level": "Beginner"}],
         "languages": [{"name": "Spanish", "speaking_level": "Proficient", "writing_level": "Basic"}],
         "skills_to_develop": [{"name": "Maths"}],
+        "is_mentor": "Yes",
+        "is_self_reported_line_manager": "I don't know"
     }
     response = client.patch("/me/", json=more_user_data)
     data = response.json()
     assert created_at == data["created_at"], "date object created shouldn't change"
     assert data["modified_at"] >= modified_at, f'{data["modified_at"]} {modified_at}'
+    assert data["is_mentor"] == "Yes", data["is_mentor"]
+    assert data["is_self_reported_line_manager"] == "I don't know", data["is_self_reported_line_manager"]
 
     skill = data["skills"][0]
     skill_id = skill["id"]
