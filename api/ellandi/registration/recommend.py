@@ -69,7 +69,6 @@ def return_similar_title_skills(job_title, user_skills, job_embeddings, existing
     if existing_skills_count == 0:
         dummy_df = pd.DataFrame({"user_id": ["dummy"], "skill_name": ["dummy"], "job_title": ["dummy"], "rating": [0]})
         user_skills = pd.concat([user_skills, dummy_df]).reset_index(drop=True)
-        # user_skills = user_skills.append({"user_id": "dummy", "skill_id": "dummy", "job_title": "dummy", "rating": 0}, ignore_index=True)
 
     unique_job_titles = user_skills.drop_duplicates(subset=["job_title"]).dropna(axis=0)["job_title"].to_numpy()
 
