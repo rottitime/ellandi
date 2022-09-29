@@ -169,7 +169,7 @@ class User(AbstractUser, TimeStampedModel, RegistrationAbstractUser):
     first_name = models.CharField("first name", max_length=128, blank=True, null=True)
     last_name = models.CharField("last name", max_length=128, blank=True, null=True)
     is_mentor = models.CharField(max_length=12, choices=YesNoChoices.choices, blank=True, null=True)
-    is_self_reported_line_manager = models.CharField(max_length=12, choices=YesNoChoices.choices, blank=True, null=True)
+    is_line_manager = models.CharField(max_length=12, choices=YesNoChoices.choices, blank=True, null=True)
 
     @property
     def has_direct_reports(self):
