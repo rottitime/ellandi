@@ -59,12 +59,17 @@ def get_job_embeddings(job_titles):
     return embedding_df
 
 
-def return_similar_title_skills(job_title, user_skills, job_embeddings):
+def return_similar_title_skills(job_title, user_skills, job_embeddings, existing_skills_count):
     """Given a job title, a list of all user skills, and previously generated job embeddings, returns likely skills"""
 
     skill_count = 10
     model_name = "all-MiniLM-L6-v2"
     missing_ratings = False
+
+    if existing_skills_count == 0:
+        dummy_df = pd.DataFrame({"user_id": ["dummy"], "skill_name": ["dummy"], "job_title": ["dummy"], "rating": [0]})
+        user_skills = pd.concat([user_skills, dummy_df]).reset_index(drop=True)
+        # user_skills = user_skills.append({"user_id": "dummy", "skill_id": "dummy", "job_title": "dummy", "rating": 0}, ignore_index=True)
 
     unique_job_titles = user_skills.drop_duplicates(subset=["job_title"]).dropna(axis=0)["job_title"].to_numpy()
 
@@ -101,6 +106,7 @@ def return_similar_title_skills(job_title, user_skills, job_embeddings):
     title_lookup = user_skills[["user_id", "job_title"]].drop_duplicates().set_index("user_id")
 
     dist_df = pd.DataFrame(columns=["distance", "job_title"])
+
     dist_df["distance"] = dist
     dist_df["job_title"] = unique_job_titles
 
@@ -205,7 +211,7 @@ def recommend_skill_relevant_skills(user_query, skill_name):
     return similar_skills
 
 
-def recommend_relevant_job_skills(user_query, job_title):
+def recommend_relevant_job_skills(user_query, job_title, user_id):
     """Given a Django request of user skills and job title, and returns a list of recommended job titles"""
 
     skill_sample_size = 10000
@@ -218,6 +224,8 @@ def recommend_relevant_job_skills(user_query, job_title):
         columns={0: "user_id", 1: "skill_id", 2: "skill_name", 3: "job_title"}
     )[["user_id", "skill_name", "job_title"]]
 
+    existing_user_skills_count = (user_df["user_id"] == user_id).sum()
+
     user_df["rating"] = 1
 
     # todo - fix to uuid
@@ -228,11 +236,13 @@ def recommend_relevant_job_skills(user_query, job_title):
     df = pd.concat([user_df, nlp_jobs_df]).reset_index(drop=True)
 
     loaded_embeddings = pd.read_pickle("job_title_embeddings.pkl")
-    similar_title_skills_returns = return_similar_title_skills(job_title, df, loaded_embeddings)
+    similar_title_skills_returns = return_similar_title_skills(
+        job_title, df, loaded_embeddings, existing_user_skills_count
+    )
     return similar_title_skills_returns[0]
 
 
-def recommend_relevant_user_skills(user_query, skills_list, job_title):
+def recommend_relevant_user_skills(user_query, skills_list, job_title, user_id):
     """Given a Django request of user skills, a list of skills, and a job title, and returns a random selection
     of recommendations
 
@@ -255,6 +265,8 @@ def recommend_relevant_user_skills(user_query, skills_list, job_title):
 
     user_df["rating"] = 1
 
+    user_skills_count = (user_df["user_id"] == user_id).sum()
+
     # todo - fix to uuid
     user_df["user_id"] = user_df["user_id"].astype("string")
     user_df["skill_name"] = user_df["skill_name"].astype("string")
@@ -274,15 +286,17 @@ def recommend_relevant_user_skills(user_query, skills_list, job_title):
 
     skill_recommended_skills = []
 
-    for skill in skills_list:
-        relevant_skills = get_similar_skills(df, skill[0], skill_similarity_matrix)
-        skill_recommended_skills.extend(relevant_skills[0].tolist()[0])
+    if len(skills_list) > 0:
+
+        for skill in skills_list:
+            relevant_skills = get_similar_skills(df, skill[0], skill_similarity_matrix)
+            skill_recommended_skills.extend(relevant_skills[0].tolist()[0])
 
     random.shuffle(skill_recommended_skills)
     if len(skill_recommended_skills) < skill_recommendation_count:
         title_recommendation_count = total_skill_count - len(skill_recommended_skills)
 
-    job_title_skills = return_similar_title_skills(job_title, df, loaded_embeddings)[0]
+    job_title_skills = return_similar_title_skills(job_title, df, loaded_embeddings, user_skills_count)[0]
 
     combined = skill_recommended_skills[0:skill_recommendation_count] + job_title_skills[0:title_recommendation_count]
 
