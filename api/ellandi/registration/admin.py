@@ -55,6 +55,7 @@ class UserAdmin(django.contrib.auth.admin.UserAdmin):
                     "location",
                     "line_manager_email",
                     "is_line_manager",
+                    "is_self_reported_line_manager",
                     "is_mentor",
                     "grade",
                     "grade_other",
