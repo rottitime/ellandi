@@ -11,7 +11,7 @@ services:
       context: .
       dockerfile: ./docker/nginx/Dockerfile
       args:
-        NEXT_PUBLIC_API_URL: http://localhost:80/api
+        NEXT_PUBLIC_API_URL: http://localhost/api
         API_HOST: http://api:8000
     image: nginx_main
     depends_on:
