@@ -104,7 +104,7 @@ const AccountLayout: FC<Props> = ({
             {
               title: 'Your team',
               url: '/account/your-team/',
-              hidden: !data?.is_line_manager
+              hidden: !data?.has_direct_reports
             }
           ]}
           settings={[
