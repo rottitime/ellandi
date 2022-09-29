@@ -216,14 +216,6 @@ class UserSerializer(serializers.ModelSerializer):
     )
     has_direct_reports = serializers.BooleanField(required=False)
 
-
-    # def validate(self, data):
-    #     email = data.get("email")
-    #     line_manager_email = data.get("line_manager_email")
-    #     if line_manager_email and (email.lower() == line_manager_email.lower()):
-    #         raise serializers.ValidationError("Line manager email cannot be the same as user email")
-    #     return data
-
     def update(self, instance, validated_data):
         single_fields_to_update = [
             "privacy_policy_agreement",

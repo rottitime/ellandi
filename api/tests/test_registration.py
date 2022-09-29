@@ -132,12 +132,12 @@ def test_me_patch(client, user_id):
     patch_user(client, user_id, endpoint)
 
 
-# @utils.with_logged_in_client
-# def test_me_patch_lm_email_validation(client, user_id):
-#     endpoint = "/me/"
-#     response = client.patch(endpoint, json={"line_manager_email": "Jane@example.com"})
-#     assert response.status_code == status.HTTP_400_BAD_REQUEST, response.status_code
-#     assert response.json()["detail"] == "Line manager email cannot be the same as user email", response.json()
+@utils.with_logged_in_client
+def test_me_patch_lm_email_validation(client, user_id):
+    endpoint = "/me/"
+    response = client.patch(endpoint, json={"line_manager_email": "Jane@example.com"})
+    assert response.status_code == status.HTTP_400_BAD_REQUEST, response.status_code
+    assert response.json()["detail"] == "Line manager email cannot be the same as user email", response.json()
 
 
 @utils.with_logged_in_client
