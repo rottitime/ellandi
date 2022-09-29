@@ -24,3 +24,8 @@ class LoginIncorrectTokenError(APIException):
 class IncorrectDomainError(APIException):
     status_code = 400
     default_detail = "You need a recognised Cabinet Office email address to use this service"
+
+
+class PasswordResetError(APIException):
+    status_code = 400
+    default_detail = "Reset link is invalid. You are unable to reset your password as either the link has already been used or has expired"  # noqa

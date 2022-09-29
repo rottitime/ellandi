@@ -15,7 +15,7 @@ const OnTheJobPage = () => {
     Error,
     LearningAddType[]
   >(async (data) => authFetch(addLearningSocial, data), {
-    onSuccess: async () => await Router.push('/account/skills/')
+    onSuccess: async () => await Router.push('/account/learning/')
   })
 
   return (

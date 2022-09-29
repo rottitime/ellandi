@@ -32,10 +32,9 @@ export type Colors = {
 
 declare module '@mui/material/Typography' {
   interface TypographyPropsVariantOverrides {
-    // display: true
     small: true
-    h2: false
-    h3: false
+    h2: true
+    h3: true
     h4: false
     h5: false
     h6: false
@@ -43,7 +42,6 @@ declare module '@mui/material/Typography' {
     subtitle2: false
     body2: true
     overline: false
-    // caption: false
   }
 }
 

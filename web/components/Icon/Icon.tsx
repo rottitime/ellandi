@@ -11,7 +11,6 @@ export const icons = {
   'crown-logo': dynamic(() => import('@/components/Icon/Icons/CrownLogo')),
   crest: dynamic(() => import('@/components/Icon/Icons/Crest')),
   skills: dynamic(() => import('@/components/Icon/Icons/Skills')),
-  learning: dynamic(() => import('@/components/Icon/Icons/Learning')),
   mail: dynamic(() => import('@/components/Icon/Icons/Mail')),
   'mortar-hat': dynamic(() => import('@/components/Icon/Icons/MortarHat')),
   pencil: dynamic(() => import('@/components/Icon/Icons/Pencil')),

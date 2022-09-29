@@ -99,14 +99,16 @@ const AccountLayout: FC<Props> = ({
           settingsTip={data?.fullname}
           pages={[
             { title: 'Home', url: urls.landingSignin },
+            { title: 'Skills', url: '/account/skills/', color: 'brandSkills' },
+            { title: 'Learning', url: '/account/learning/', color: 'brandLearning' },
             {
               title: 'Your team',
-              url: '/account/your-team',
+              url: '/account/your-team/',
               hidden: !data?.is_line_manager
             }
           ]}
           settings={[
-            { title: 'Profile', url: '/account/profile' },
+            { title: 'Profile', url: '/account/profile/' },
             { title: 'Sign out', url: urls.signin, onClick: logout }
           ]}
         />

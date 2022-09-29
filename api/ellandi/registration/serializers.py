@@ -156,14 +156,14 @@ class UserSkillDevelopSerializerNested(serializers.ModelSerializer):
         fields = ["id", "name"]
 
 
-class LearningWorkSerializer(serializers.ModelSerializer):
+class LearningOnTheJobSerializer(serializers.ModelSerializer):
     class Meta:
         model = Learning
         fields = ["id", "name", "duration_minutes", "date_completed"]
 
     def create(self, validated_data):
         user = self.context["user"]
-        learning = Learning(user=user, learning_type=Learning.LearningType.WORK, **validated_data)
+        learning = Learning(user=user, learning_type=Learning.LearningType.ON_THE_JOB, **validated_data)
         learning.save()
         return learning
 
@@ -282,6 +282,7 @@ class UserSerializer(serializers.ModelSerializer):
             "location",
             "line_manager_email",
             "is_line_manager",
+            "is_mentor",
             "grade",
             "grade_other",
             "professions",

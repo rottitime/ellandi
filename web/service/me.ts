@@ -1,6 +1,7 @@
 import getConfig from 'next/config'
 const { publicRuntimeConfig } = getConfig()
 import { defaultError } from '@/service/auth'
+import { MeLearningList } from './types'
 
 export const fetchMe = async (token: string) => {
   const res = await fetch(`${publicRuntimeConfig.apiUrl}/me/`, {
@@ -13,14 +14,6 @@ export const fetchMe = async (token: string) => {
       fullname: data?.first_name ? `${data?.first_name} ${data?.last_name}` : ''
     }
   }
-  throw new Error(defaultError)
-}
-
-export const fetchMeSuggestedSkills = async (token: string) => {
-  const res = await fetch(`${publicRuntimeConfig.apiUrl}/me/skills-suggested/`, {
-    headers: { Authorization: `Token ${token}` }
-  })
-  if (res.ok) return res.json()
   throw new Error(defaultError)
 }
 
@@ -52,4 +45,20 @@ export const updatePassword = async (
   } catch (error) {
     throw new Error(defaultError)
   }
+}
+
+export const fetchMeSuggestedSkills = async (token: string) => {
+  const res = await fetch(`${publicRuntimeConfig.apiUrl}/me/skills-suggested/`, {
+    headers: { Authorization: `Token ${token}` }
+  })
+  if (res.ok) return res.json()
+  throw new Error(defaultError)
+}
+
+export const fetchMeLearning = async (token: string) => {
+  const res = await fetch(`${publicRuntimeConfig.apiUrl}/me/learnings/`, {
+    headers: { Authorization: `Token ${token}` }
+  })
+  if (res.ok) return res.json()
+  throw new Error(defaultError)
 }

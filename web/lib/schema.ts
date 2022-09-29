@@ -12,7 +12,6 @@ const emailConfirm = string()
 
 const password = string()
   .min(minPassword, `Password must be ${minPassword} characters or more`)
-  .max(20)
   .required('This is a required field')
 
 const passwordConfirm = string()

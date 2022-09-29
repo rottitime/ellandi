@@ -78,7 +78,7 @@ export const fetchTeam = async (token: string) => {
 }
 
 export const addLearningOnTheJob = async (token: string, data: LearningAddType) => {
-  const res = await api(token, `/me/learning-work/`, {
+  const res = await api(token, `/me/learning-on-the-job/`, {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)
@@ -121,4 +121,11 @@ const api = async (
     if (detail) throw new Error(detail)
   } catch (e) {}
   throw new Error(defaultError)
+}
+
+export const deleteLearning = async (token: string, id: string) => {
+  await api(token, `/me/learnings/${id}/`, {
+    method: 'DELETE'
+  })
+  return id
 }

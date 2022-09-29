@@ -8,7 +8,7 @@ from drf_spectacular.utils import extend_schema
 from rest_framework import decorators, permissions, status
 from rest_framework.response import Response
 
-from ellandi.registration import models, serializers
+from ellandi.registration import exceptions, models, serializers
 
 TOKEN_GENERATOR = PasswordResetTokenGenerator()
 
@@ -56,6 +56,18 @@ def send_password_reset_email(user):
 @extend_schema(
     responses=serializers.UserSerializer,
 )
+@decorators.api_view(["POST"])
+@decorators.permission_classes((permissions.IsAuthenticated,))
+def me_send_verification_email_view(request):
+    user = request.user
+    send_verification_email(user)
+    serializer = serializers.UserSerializer(user)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@extend_schema(
+    responses=serializers.UserSerializer,
+)
 @decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.AllowAny,))
 def verification_view(request, user_id, token):
@@ -73,7 +85,6 @@ def verification_view(request, user_id, token):
 
 @extend_schema(
     request=serializers.PasswordResetAskSerializer,
-    responses=serializers.UserSerializer,
 )
 @decorators.api_view(["POST"])
 @decorators.permission_classes((permissions.AllowAny,))
@@ -94,14 +105,13 @@ def password_reset_use_view(request, user_id, token):
     new_password = request.data.get("new_password")
     user = models.User.objects.get(id=user_id)
     result = TOKEN_GENERATOR.check_token(user, token)
-    if result:
-        user.set_password(new_password)
-        user.save()
-        login(request, user)
-        user_data = serializers.UserSerializer(user, context={"request": request}).data
-        return Response(user_data)
-    else:
-        return Response({"detail": "Invalid token"}, status=status.HTTP_400_BAD_REQUEST)
+    if not result:
+        raise exceptions.PasswordResetError
+    user.set_password(new_password)
+    user.save()
+    login(request, user)
+    user_data = serializers.UserSerializer(user, context={"request": request}).data
+    return Response(user_data)
 
 
 @extend_schema(

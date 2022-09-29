@@ -75,10 +75,13 @@ const AppBar: FC<Props> = ({ pages, logoUrl, settings, settingsTip = '', ...prop
             .filter(({ hidden }) => !hidden)
             .map(({ title, url, color }) => (
               <Button
-                style={{ textDecorationColor: theme.colors[color] }}
+                style={{
+                  textDecorationColor: theme.colors[color],
+                  color: router?.asPath === url ? theme.colors[color] : theme.colors.black
+                }}
                 key={title}
                 href={url}
-                className={` ${router?.pathname === url ? 'active' : ''}`}
+                className={` ${router?.asPath === url ? 'active' : ''}`}
               >
                 {title}
               </Button>
@@ -117,7 +120,9 @@ const AppBar: FC<Props> = ({ pages, logoUrl, settings, settingsTip = '', ...prop
                   if (url) router.push(url)
                 }}
               >
-                <Typography textAlign="center">{title}</Typography>
+                <Typography textAlign="center" variant="body2">
+                  {title}
+                </Typography>
               </MenuItem>
             ))}
           </Menu>

@@ -10,6 +10,7 @@ from .models import (
     JobTitle,
     Language,
     LanguageSkillLevel,
+    Learning,
     Location,
     Organisation,
     Profession,
@@ -41,6 +42,8 @@ class UserAdmin(django.contrib.auth.admin.UserAdmin):
             {
                 "fields": (
                     "id",
+                    "is_staff",
+                    "is_superuser",
                     "email",
                     "privacy_policy_agreement",
                     "first_name",
@@ -52,6 +55,7 @@ class UserAdmin(django.contrib.auth.admin.UserAdmin):
                     "location",
                     "line_manager_email",
                     "is_line_manager",
+                    "is_mentor",
                     "grade",
                     "grade_other",
                     "professions",
@@ -188,3 +192,4 @@ admin.site.register(Function, FunctionAdmin)
 admin.site.register(SkillLevel, SkillLevelAdmin)
 admin.site.register(JobTitle, JobTitleAdmin)
 admin.site.register(EmailSalt)
+admin.site.register(Learning)
