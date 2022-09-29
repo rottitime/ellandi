@@ -1,12 +1,11 @@
 import os
 
-
 from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
 from drf_spectacular.utils import OpenApiParameter, OpenApiTypes, extend_schema
 from rest_framework import decorators, permissions, routers, status, viewsets
 from rest_framework.response import Response
-from django.core.exceptions import ValidationError
 
 from ellandi.verification import send_verification_email
 
