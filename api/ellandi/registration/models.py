@@ -9,6 +9,7 @@ from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.text import slugify
+from django.core.exceptions import ValidationError
 
 
 def now():
@@ -181,6 +182,19 @@ class User(AbstractUser, TimeStampedModel, RegistrationAbstractUser):
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
+
+    def clean(self):
+        print("am cleaning now...")
+        print(self.email)
+        print(self.line_manager_email)
+
+        if self.line_manager_email and (self.email.lower() == self.line_manager_email.lower()):
+            raise ValidationError({"detail": "Line manager email cannot be the same as user email"})
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        return super().save(*args, **kwargs)
+
 
 
 class UserSkill(TimeStampedModel):
