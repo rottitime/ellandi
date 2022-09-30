@@ -6,7 +6,7 @@ applications:
   routes:
   - route: ellandi-api-develop.london.cloudapps.digital
     protocol: http1
-  - route: ellandi-api-sandbox.apps.internal
+  - route: ellandi-api-develop.apps.internal
     protocol: http1
   processes:
   - type: web
