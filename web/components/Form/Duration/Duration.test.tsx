@@ -40,16 +40,16 @@ describe('Duration', () => {
 
       await userEvent.type(days, '2')
       expect(days).toHaveValue(2)
-      expect(mockChange).toHaveBeenLastCalledWith(2880)
+      expect(mockChange).toHaveBeenLastCalledWith(900)
       expect(minutes).toHaveValue(null)
       expect(hours).toHaveValue(null)
 
       await userEvent.type(hours, '1')
-      expect(mockChange).toHaveBeenLastCalledWith(2940)
+      expect(mockChange).toHaveBeenLastCalledWith(960)
       expect(minutes).toHaveValue(null)
 
       await userEvent.type(minutes, '55')
-      expect(mockChange).toHaveBeenLastCalledWith(2995)
+      expect(mockChange).toHaveBeenLastCalledWith(1015)
     })
   })
 })
