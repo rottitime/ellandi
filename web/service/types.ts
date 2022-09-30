@@ -117,7 +117,7 @@ type CustomFieldType = {
 export type RegisterUserResponse = {
   id: string
   email: string
-  is_line_manager: boolean
+  has_direct_reports: boolean
 } & PrivacyAcceptType &
   RegisterDetailsType &
   GradeType &

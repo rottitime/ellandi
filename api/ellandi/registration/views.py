@@ -545,6 +545,7 @@ def create_error(request):
 @decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
 def me_suggested_skills(request):
+    """Look up required skills from DDaT framework based on job title."""
     user = request.user
     job_title = user.job_title
     suggested_skills = initial_data.DDAT_JOB_TO_SKILLS_LOOKUP.get(job_title, [])
