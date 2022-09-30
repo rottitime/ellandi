@@ -6,6 +6,21 @@ volumes:
   minio_data: {}
 
 services:
+  nginx:
+    build:
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: http://localhost/api
+        API_HOST: http://api:8000
+    image: nginx_main
+    depends_on:
+      - api
+    env_file:
+      - ./envs/nginx
+    ports:
+      - "80:80"
+
   api:
     build:
       context: .
@@ -26,7 +41,7 @@ services:
       dockerfile: ./docker/web/Dockerfile
       args:
         NODE_ENV: development
-        NEXT_PUBLIC_API_URL: http://localhost:8000
+        NEXT_PUBLIC_API_URL: http://localhost:8000/api
         NEXT_PUBLIC_GIT_SHA: "_REPLACE_ME_"
     image: ellandi_web
     env_file:
@@ -81,16 +96,6 @@ services:
     ports:
       - "9000:9000"
     command: server /data
-
-  integration:
-    build:
-      context: .
-      dockerfile: ./docker/integration/Dockerfile
-    image: ellandi_integration
-    depends_on:
-      - web
-    profiles:
-      - testing
 
   tests-api:
     build:

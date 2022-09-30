@@ -9,6 +9,7 @@ on:
       - temp
       - develop
       - demo
+      - sandbox
   release:
     types: [published]
 
@@ -26,13 +27,16 @@ jobs:
       IMAGE_TAG: ${{ github.ref_name }}
       DOCKER_REPOSITORY: ghcr.io
       NODE_ENV: development
-      NEXT_PUBLIC_API_URL: https://ellandi-api-${{ github.ref_name }}.london.cloudapps.digital
+      API_HOST: http://ellandi-api-${{ github.ref_name }}.apps.internal:8000
+      NEXT_PUBLIC_API_URL: https://ellandi-api-${{ github.ref_name }}.london.cloudapps.digital/api
       NEXT_PUBLIC_GIT_SHA: ${{ github.sha }}
 
     strategy:
       matrix:
-        app: [ellandi-api, ellandi-web, organogram]
+        app: [ellandi-api, ellandi-web, organogram, ellandi]
         include:
+          - app: ellandi
+            dockerfile: docker/nginx/Dockerfile
           - app: ellandi-api
             dockerfile: docker/api/Dockerfile
           - app: ellandi-web
@@ -43,9 +47,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Setup standalone api url
+        if:  ${{ matrix.app == 'ellandi' &&  github.event_name != 'release' }}
+        run: echo "NEXT_PUBLIC_API_URL=https://ellandi-${{ github.ref_name }}.london.cloudapps.digital/api" >> $GITHUB_ENV
+
       - name: Setup prod api url
         if:  ${{ github.event_name == 'release' }}
-        run: echo "NEXT_PUBLIC_API_URL=https://ellandi-api.london.cloudapps.digital" >> $GITHUB_ENV
+        run: echo "NEXT_PUBLIC_API_URL=https://ellandi-api.london.cloudapps.digital/api" >> $GITHUB_ENV
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v2
@@ -60,7 +68,7 @@ jobs:
           DOCKER_IMAGE: ${{ matrix.app }}
 
         run: |
-          docker build . --file $DOCKER_FILE --tag $DOCKER_REPOSITORY/${{ github.repository_owner }}/$DOCKER_IMAGE:$IMAGE_TAG --build-arg NODE_ENV=$NODE_ENV --build-arg NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL --build-arg NEXT_PUBLIC_GIT_SHA=$NEXT_PUBLIC_GIT_SHA
+          docker build . --file $DOCKER_FILE --tag $DOCKER_REPOSITORY/${{ github.repository_owner }}/$DOCKER_IMAGE:$IMAGE_TAG --build-arg NODE_ENV=$NODE_ENV --build-arg NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL --build-arg NEXT_PUBLIC_GIT_SHA=$NEXT_PUBLIC_GIT_SHA --build-arg API_HOST=$API_HOST
           docker push -a $DOCKER_REPOSITORY/${{ github.repository_owner }}/$DOCKER_IMAGE
 
   deploy_image:
@@ -74,7 +82,7 @@ jobs:
 
     strategy:
       matrix:
-        app: [ellandi-api, ellandi-web, organogram]
+        app: [ellandi-api, ellandi-web, organogram, ellandi]
 
     steps:
       - uses: actions/checkout@v3
@@ -86,6 +94,7 @@ jobs:
           key: "${{github.ref_name}}"
           map: |
             {
+              "sandbox": {"CF_SPACE": "sandbox"},
               "demo": {"CF_SPACE": "demo"},
               "temp": {"CF_SPACE": "temp"},
               "develop": {"CF_SPACE": "develop"},

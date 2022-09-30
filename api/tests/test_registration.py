@@ -9,7 +9,7 @@ TEST_SERVER_URL = "http://testserver:8000/"
 
 @utils.with_logged_in_client
 def test_user_get(client, user_id):
-    response = client.get(f"/users/{user_id}/")
+    response = client.get(f"/api/users/{user_id}/")
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
@@ -25,13 +25,13 @@ def test_user_post(client, user_id):
         "grade": "Grade 6",
         "privacy_policy_agreement": True,
     }
-    response = client.post("/users/", json=data)
+    response = client.post("/api/users/", json=data)
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
 @utils.with_logged_in_client
 def test_delete(client, user_id):
-    response = client.delete(f"/users/{user_id}/")
+    response = client.delete(f"/api/users/{user_id}/")
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
@@ -49,7 +49,7 @@ def test_user_put(client, user_id):
         "profession_other": "A new and exciting profession",
         "function": "Analysis",
     }
-    response = client.put(f"/users/{user_id}/", data=updated_user_data)
+    response = client.put(f"/api/users/{user_id}/", data=updated_user_data)
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
@@ -72,9 +72,9 @@ def patch_user(client, user_id, endpoint):
         "primary_profession": "Data science",
         "function": "Analysis",
     }
-    response = client.post("/user-skills/", json=user_skill_data)
+    response = client.post("/api/user-skills/", json=user_skill_data)
     assert response.status_code == status.HTTP_201_CREATED, response.text
-    response = client.post("/user-languages/", json=user_languages_data)
+    response = client.post("/api/user-languages/", json=user_languages_data)
     assert response.status_code == status.HTTP_201_CREATED
     response = client.patch(endpoint, json=more_user_data)
     data = response.json()
@@ -121,14 +121,14 @@ def patch_user(client, user_id, endpoint):
 
 @utils.with_logged_in_client
 def test_user_patch(client, user_id):
-    endpoint = f"/users/{user_id}/"
+    endpoint = f"/api/users/{user_id}/"
     response = client.patch(endpoint, json={"first_name": "Bob"})
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
 @utils.with_logged_in_client
 def test_me_patch(client, user_id):
-    endpoint = "/me/"
+    endpoint = "/api/me/"
     patch_user(client, user_id, endpoint)
 
 
@@ -140,16 +140,16 @@ def test_get_user_userskills(client, user_id):
         "level": "Proficient",
     }
 
-    response = client.post("/user-skills/", json=user_skill_data)
+    response = client.post("/api/user-skills/", json=user_skill_data)
     assert response.status_code == status.HTTP_201_CREATED
     user_skill_id = response.json()["id"]
     assert response.json()["name"] == "typing"
     assert response.json()["level"] == "Proficient"
 
-    response = client.get(f"/users/{user_id}/skills/")
+    response = client.get(f"/api/users/{user_id}/skills/")
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
-    response = client.delete(f"/user-skills/{user_skill_id}/")
+    response = client.delete(f"/api/user-skills/{user_skill_id}/")
     assert response.status_code == status.HTTP_204_NO_CONTENT
 
 
@@ -162,23 +162,23 @@ def test_get_user_userlanguages(client, user_id):
         "writing_level": "Independent",
     }
 
-    response = client.post("/user-languages/", json=user_languages_data)
+    response = client.post("/api/user-languages/", json=user_languages_data)
     assert response.status_code == status.HTTP_201_CREATED
     user_language_id = response.json()["id"]
     assert response.json()["name"] == "Spanish"
     assert response.json()["speaking_level"] == "Proficient"
     assert response.json()["writing_level"] == "Independent"
 
-    response = client.get(f"/users/{user_id}/languages/")
+    response = client.get(f"/api/users/{user_id}/languages/")
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
-    response = client.delete(f"/user-languages/{user_language_id}/")
+    response = client.delete(f"/api/user-languages/{user_language_id}/")
     assert response.status_code == status.HTTP_204_NO_CONTENT
 
 
 @utils.with_logged_in_client
 def test_post_get_put_delete_user_skill(client, user_id):
-    response = client.get("/user-skills/")
+    response = client.get("/api/user-skills/")
     assert len(response.json()) == 0
 
     user_skill_data = {
@@ -186,7 +186,7 @@ def test_post_get_put_delete_user_skill(client, user_id):
         "name": "maths",
         "level": "Proficient",
     }
-    response = client.post("/user-skills/", json=user_skill_data)
+    response = client.post("/api/user-skills/", json=user_skill_data)
     assert response.status_code == status.HTTP_201_CREATED, response.text
     user_skill_id = response.json()["id"]
     assert response.json()["name"] == "maths"
@@ -194,10 +194,10 @@ def test_post_get_put_delete_user_skill(client, user_id):
     user_skill_obj = UserSkill.objects.get(user__id=user_id, name="maths")
     assert user_skill_obj.level == "Proficient"
 
-    response = client.get("/user-skills/")
+    response = client.get("/api/user-skills/")
     assert len(response.json()) == 1
 
-    response = client.get(f"/user-skills/{user_skill_id}/")
+    response = client.get(f"/api/user-skills/{user_skill_id}/")
     assert response.status_code == status.HTTP_200_OK
     assert response.json()["name"] == "maths"
     assert response.json()["level"] == "Proficient"
@@ -207,23 +207,23 @@ def test_post_get_put_delete_user_skill(client, user_id):
         "name": "maths",
         "level": "Beginner",
     }
-    response = client.put(f"/user-skills/{user_skill_id}/", json=user_skill_data_updated)
+    response = client.put(f"/api/user-skills/{user_skill_id}/", json=user_skill_data_updated)
     assert response.status_code == status.HTTP_405_METHOD_NOT_ALLOWED
 
-    response = client.delete(f"/user-skills/{user_skill_id}/")
+    response = client.delete(f"/api/user-skills/{user_skill_id}/")
     assert response.status_code == status.HTTP_204_NO_CONTENT
 
-    response = client.get("/user-skills/")
+    response = client.get("/api/user-skills/")
     assert len(response.json()) == 0
 
 
 @utils.with_logged_in_client
 def test_post_get_put_delete_user_language(client, user_id):
-    response = client.get("/user-languages/")
+    response = client.get("/api/user-languages/")
     assert len(response.json()) == 0
 
     user_language_data = {"user": user_id, "name": "Latin", "writing_level": "Proficient"}
-    response = client.post("/user-languages/", json=user_language_data)
+    response = client.post("/api/user-languages/", json=user_language_data)
     assert response.status_code == status.HTTP_201_CREATED, response.text
     response_data = response.json()
     user_language_id = response_data["id"]
@@ -231,40 +231,40 @@ def test_post_get_put_delete_user_language(client, user_id):
     assert response_data["writing_level"] == "Proficient"
     assert not response_data["speaking_level"]
 
-    response = client.get("/user-languages/")
+    response = client.get("/api/user-languages/")
     assert len(response.json()) == 1
 
-    response = client.get(f"/user-languages/{user_language_id}/")
+    response = client.get(f"/api/user-languages/{user_language_id}/")
     response_data = response.json()
     assert response.status_code == status.HTTP_200_OK
     assert response_data["name"] == "Latin"
     assert response_data["writing_level"] == "Proficient"
 
     user_language_data_updated = {"user": user_id, "name": "Latin", "speaking_level": "Basic"}
-    response = client.put(f"/user-languages/{user_language_id}/", json=user_language_data_updated)
+    response = client.put(f"/api/user-languages/{user_language_id}/", json=user_language_data_updated)
     assert response.status_code == status.HTTP_405_METHOD_NOT_ALLOWED
 
-    response = client.delete(f"/user-languages/{user_language_id}/")
+    response = client.delete(f"/api/user-languages/{user_language_id}/")
     assert response.status_code == status.HTTP_204_NO_CONTENT
 
-    response = client.get("/user-languages/")
+    response = client.get("/api/user-languages/")
     assert len(response.json()) == 0
 
 
 @utils.with_logged_in_client
 def test_post_get_put_delete_user_skill_develop(client, user_id):
-    response = client.get("/user-skills-develop/")
+    response = client.get("/api/user-skills-develop/")
     assert len(response.json()) == 0
 
-    response = client.post("/user-skills-develop/", json={"user": user_id, "name": "statistics"})
+    response = client.post("/api/user-skills-develop/", json={"user": user_id, "name": "statistics"})
     assert response.status_code == status.HTTP_201_CREATED
     user_skill_develop_id = response.json()["id"]
     assert response.json()["name"] == "statistics"
 
-    response = client.get("/user-skills-develop/")
+    response = client.get("/api/user-skills-develop/")
     assert len(response.json()) == 1, response.json()
 
-    response = client.get(f"/user-skills-develop/{user_skill_develop_id}/")
+    response = client.get(f"/api/user-skills-develop/{user_skill_develop_id}/")
     assert response.status_code == status.HTTP_200_OK
     assert response.json()["name"] == "statistics"
 
@@ -272,13 +272,13 @@ def test_post_get_put_delete_user_skill_develop(client, user_id):
         "user": user_id,
         "name": "advanced statistics",
     }
-    response = client.put(f"/user-skills-develop/{user_skill_develop_id}/", json=user_skill_data_updated)
+    response = client.put(f"/api/user-skills-develop/{user_skill_develop_id}/", json=user_skill_data_updated)
     assert response.status_code == status.HTTP_405_METHOD_NOT_ALLOWED
 
-    response = client.delete(f"/user-skills-develop/{user_skill_develop_id}/")
+    response = client.delete(f"/api/user-skills-develop/{user_skill_develop_id}/")
     assert response.status_code == status.HTTP_204_NO_CONTENT
 
-    response = client.get("/user-skills-develop/")
+    response = client.get("/api/user-skills-develop/")
     assert len(response.json()) == 0
 
 
@@ -309,7 +309,7 @@ def test_dropdown_list(client, user_id):
         assert response.json()
 
     def test_get_item(endpoint, slug):
-        response = client.get(f"{endpoint}{slug}/")
+        response = client.get(f"/api{endpoint}{slug}/")
         assert response.status_code == status.HTTP_200_OK
         assert response.json()
 
@@ -333,8 +333,8 @@ def test_skills_list(client, user_id):
         "name": "new user skill",
         "level": "Proficient",
     }
-    response = client.post("/user-skills/", json=user_skill_data)
-    response = client.get("/skills/")
+    response = client.post("/api/user-skills/", json=user_skill_data)
+    response = client.get("/api/skills/")
     assert response.status_code == status.HTTP_200_OK
     assert len(response.json()) > 0
     assert "new user skill" in response.json()
@@ -352,7 +352,7 @@ def teardown_one_time_login():
 @utils.with_client
 @with_setup(None, teardown_one_time_login)
 def test_post_create_one_time_login(client):
-    response = client.post("/one-time-login-token/", json={"email": "test_login@example.com"})
+    response = client.post("/api/one-time-login-token/", json={"email": "test_login@example.com"})
     one_time_token = response.json()["one_time_token"]
     assert response.status_code == status.HTTP_200_OK
     assert one_time_token
@@ -361,11 +361,11 @@ def test_post_create_one_time_login(client):
 @utils.with_client
 @with_setup(None, teardown_one_time_login)
 def test_post_create_one_time_login_incorrect_email(client):
-    response = client.post("/one-time-login-token/")
+    response = client.post("/api/one-time-login-token/")
     assert response.status_code == status.HTTP_400_BAD_REQUEST
     assert response.json() == {"detail": "You need to provide an email"}, response.json()
     response = client.post(
-        "/one-time-login-token/", json={"email": "mr_wrong_email_domain@example.org", "password": "0th3rP455w0rd"}
+        "/api/one-time-login-token/", json={"email": "mr_wrong_email_domain@example.org", "password": "0th3rP455w0rd"}
     )
     assert response.status_code == status.HTTP_400_BAD_REQUEST
     assert response.json() == {
@@ -377,7 +377,7 @@ def test_post_create_one_time_login_incorrect_email(client):
 @with_setup(setup_one_time_login, teardown_one_time_login)
 def test_post_first_time_login(client):
     tok = EmailSalt.objects.get(email="test_login@example.com").get_one_time_login()
-    response = client.post("/first-time-login/", json={"email": "test_login@Example.com", "one_time_token": tok})
+    response = client.post("/api/first-time-login/", json={"email": "test_login@Example.com", "one_time_token": tok})
     user = User.objects.get(email="test_login@example.com")
     assert response.status_code == status.HTTP_201_CREATED
     assert user
@@ -392,11 +392,11 @@ def test_get_skills(client, user_id):
     }
 
     user_skill_to_develop = {"user": user_id, "name": "A new and exciting skill"}
-    response = client.post("/user-skills/", json=user_skill_data)
+    response = client.post("/api/user-skills/", json=user_skill_data)
     assert response.status_code == status.HTTP_201_CREATED
-    response = client.post("/user-skills/", json=user_skill_to_develop)
+    response = client.post("/api/user-skills/", json=user_skill_to_develop)
     assert response.status_code == status.HTTP_201_CREATED
-    response = client.get("/skills/")
+    response = client.get("/api/skills/")
     data = response.json()
     assert "An existing skill" in data
     assert "A new and exciting skill" in data
@@ -500,46 +500,46 @@ def patch_get_delete_skills_develop(client, endpoint_to_test):
 
 @utils.with_logged_in_client
 def test_user_get_skills(client, user_id):
-    endpoint_to_test = f"/users/{user_id}/skills/"
+    endpoint_to_test = f"/api/users/{user_id}/skills/"
     response = client.get(endpoint_to_test)
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
 @utils.with_logged_in_client
 def test_me_patch_get_delete_skills(client, user_id):
-    endpoint_to_test = "/me/skills/"
+    endpoint_to_test = "/api/me/skills/"
     patch_get_delete_skills(client, endpoint_to_test)
 
 
 @utils.with_logged_in_client
 def test_user_get_languages(client, user_id):
-    endpoint_to_test = f"/users/{user_id}/languages/"
+    endpoint_to_test = f"/api/users/{user_id}/languages/"
     response = client.get(endpoint_to_test)
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
 @utils.with_logged_in_client
 def test_me_patch_get_delete_languages(client, user_id):
-    endpoint_to_test = "/me/languages/"
+    endpoint_to_test = "/api/me/languages/"
     patch_get_delete_languages(client, endpoint_to_test)
 
 
 @utils.with_logged_in_client
 def test_user_get_skills_develop(client, user_id):
-    endpoint_to_test = f"/users/{user_id}/skills-develop/"
+    endpoint_to_test = f"/api/users/{user_id}/skills-develop/"
     response = client.get(endpoint_to_test)
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
 @utils.with_logged_in_client
 def test_me_patch_get_delete_skills_develop(client, user_id):
-    endpoint_to_test = "/me/skills-develop/"
+    endpoint_to_test = "/api/me/skills-develop/"
     patch_get_delete_skills_develop(client, endpoint_to_test)
 
 
 @utils.with_logged_in_client
 def test_created_modified_at(client, user_id):
-    response = client.get("/me/")
+    response = client.get("/api/me/")
     data = response.json()
     created_at = data["created_at"]
     modified_at = data["modified_at"]
@@ -551,7 +551,7 @@ def test_created_modified_at(client, user_id):
         "is_mentor": "Yes",
         "is_line_manager": "I don't know",
     }
-    response = client.patch("/me/", json=more_user_data)
+    response = client.patch("/api/me/", json=more_user_data)
     data = response.json()
     assert created_at == data["created_at"], "date object created shouldn't change"
     assert data["modified_at"] >= modified_at, f'{data["modified_at"]} {modified_at}'
@@ -560,12 +560,12 @@ def test_created_modified_at(client, user_id):
 
     skill = data["skills"][0]
     skill_id = skill["id"]
-    response = client.get(f"/user-skills/{skill_id}/")
+    response = client.get(f"/api/user-skills/{skill_id}/")
     skill_created_at = response.json()["created_at"]
     skill_modified_at = response.json()["modified_at"]
     future_date = "2052-08-16T10:43:56.897248Z"
     response = client.patch(
-        f"/user-skills/{skill_id}/",
+        f"/api/user-skills/{skill_id}/",
         json={"level": "Advanced beginner", "created_at": future_date, "modified_at": future_date},
     )
     data = response.json()
@@ -576,33 +576,33 @@ def test_created_modified_at(client, user_id):
 
 @utils.with_logged_in_client
 def test_email_field(client, user_id):
-    user_data = client.get("/me/").json()
+    user_data = client.get("/api/me/").json()
     email = user_data["email"]
 
-    direct_reports_before = client.get("/me/direct-reports/").json()
+    direct_reports_before = client.get("/api/me/direct-reports/").json()
     assert len(direct_reports_before) == 0
 
     for i in range(3):
         User.objects.create_user(f"user{i}@example.com", "P455w0rd", line_manager_email=email)
 
-    direct_reports_after = client.get("/me/direct-reports/").json()
+    direct_reports_after = client.get("/api/me/direct-reports/").json()
     assert len(direct_reports_after) == 3
 
 
 @utils.with_logged_in_client
 def test_has_direct_reports(client, user_id):
-    user_data = client.get("/me/").json()
+    user_data = client.get("/api/me/").json()
     email = user_data["email"]
     User.objects.create_user("peter.rabbit@example.com", "P455w0rd", line_manager_email=email)
     assert user_data["has_direct_reports"] is True, user_data
     User.objects.filter(line_manager_email=email).delete()
-    user_data = client.get("/me/").json()
+    user_data = client.get("/api/me/").json()
     assert user_data["has_direct_reports"] is False, user_data
 
 
 @utils.with_logged_in_client
 def test_user_skills_other_user(client, user_id):
-    response = client.get("/user-skills/")
+    response = client.get("/api/user-skills/")
     data = response.json()
     different_users_skill = [data[k] for k in data if data[k] == "Cake making"]
     assert len(different_users_skill) == 0, "Should only see skills for logged in user"
@@ -610,7 +610,7 @@ def test_user_skills_other_user(client, user_id):
 
 @utils.with_logged_in_client
 def test_user_languages_other_user(client, user_id):
-    response = client.get("/user-languages/")
+    response = client.get("/api/user-languages/")
     data = response.json()
     different_users_skill = [data[k] for k in data if data[k] == "Dutch"]
     assert len(different_users_skill) == 0, "Should only see languages for logged in user"
@@ -618,7 +618,7 @@ def test_user_languages_other_user(client, user_id):
 
 @utils.with_logged_in_client
 def test_user_skills_develop_other_user(client, user_id):
-    response = client.get("/user-skills-develop/")
+    response = client.get("/api/user-skills-develop/")
     data = response.json()
     different_users_skill = [data[k] for k in data if data[k] == "Biscuit making"]
     assert len(different_users_skill) == 0, "Should only see skills to develop for logged in user"
@@ -626,19 +626,19 @@ def test_user_skills_develop_other_user(client, user_id):
 
 @utils.with_logged_in_client
 def test_all_user_skills_not_admin(client, user_id):
-    response = client.get("/all-user-skills/")
+    response = client.get("/api/all-user-skills/")
     assert response.status_code == status.HTTP_403_FORBIDDEN
 
 
 @utils.with_logged_in_client
 def test_all_user_languages_not_admin(client, user_id):
-    response = client.get("/all-user-languages/")
+    response = client.get("/api/all-user-languages/")
     assert response.status_code == status.HTTP_403_FORBIDDEN
 
 
 @utils.with_logged_in_client
 def test_all_user_skills_develop_not_admin(client, user_id):
-    response = client.get("/all-user-skills-develop/")
+    response = client.get("/api/all-user-skills-develop/")
     assert response.status_code == status.HTTP_403_FORBIDDEN
 
 
@@ -647,7 +647,7 @@ def test_all_user_skills(client, user_id):
     user = User.objects.get(id=user_id)
     user.is_staff = True
     user.save()
-    response = client.get("/all-user-skills/")
+    response = client.get("/api/all-user-skills/")
     assert response.status_code == status.HTTP_200_OK
     data = response.json()
     cake_making = [skill["name"] for skill in data if skill["name"] == "Cake making"]
@@ -659,7 +659,7 @@ def test_all_user_languages(client, user_id):
     user = User.objects.get(id=user_id)
     user.is_staff = True
     user.save()
-    response = client.get("/all-user-languages/")
+    response = client.get("/api/all-user-languages/")
     assert response.status_code == status.HTTP_200_OK
     data = response.json()
     dutch = [lang["name"] for lang in data if lang["name"] == "Dutch"]
@@ -671,7 +671,7 @@ def test_all_user_skills_to_develop(client, user_id):
     user = User.objects.get(id=user_id)
     user.is_staff = True
     user.save()
-    response = client.get("/all-user-skills-develop/")
+    response = client.get("/api/all-user-skills-develop/")
     assert response.status_code == status.HTTP_200_OK
     data = response.json()
     biscuit_making = [lang["name"] for lang in data if lang["name"] == "Biscuit making"]
@@ -693,17 +693,18 @@ def test_endpoints_require_login(client):
         "/user-skills-develop/",
     ]
     for endpoint in endpoints:
+        endpoint = f"/api{endpoint}"
         response = client.get(endpoint)
         assert response.status_code == status.HTTP_401_UNAUTHORIZED, response.status_code
 
 
 @utils.with_logged_in_client
 def test_me_skills_suggested(client, user_id):
-    response = client.get("/me/skills-suggested/")
+    response = client.get("/api/me/skills-suggested/")
     assert response.status_code == status.HTTP_200_OK, response.status_code
     data = response.json()
     assert "Programming and build (software engineering)" in data, data
-    response = client.patch("/me/", json={"job_title": "Made up title"})
-    response = client.get("/me/skills-suggested/")
+    response = client.patch("/api/me/", json={"job_title": "Made up title"})
+    response = client.get("/api/me/skills-suggested/")
     assert response.status_code == status.HTTP_200_OK, response.status_code
     assert response.json() == [], response.json()
