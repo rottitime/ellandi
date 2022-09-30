@@ -11,7 +11,6 @@ export type ColorBrands = {
   brandGov: CSSProperties['color']
   brandSkills: CSSProperties['color']
   brandLearning: CSSProperties['color']
-  brandTeams: CSSProperties['color']
 }
 
 export type Colors = {
