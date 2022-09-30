@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "static": "http-server ./static",
+    "static": "http-server ./out -p 3000",
     "build": "next build",
     "build:static": "next build && next export",
     "start": "next start",

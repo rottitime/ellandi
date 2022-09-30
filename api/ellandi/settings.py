@@ -51,8 +51,7 @@ else:
 
 HOST_MAP = {
     "http://testserver": "http://testserver",
-    "http://localhost:8000": "http://localhost:80",
-    "http://127.0.0.1:8000": "http://127.0.0.1:80",
+    "http://localhost:8000": "http://localhost:3000",
     "https://ellandi-api-sandbox.london.cloudapps.digital": "https://ellandi-web-sandbox.london.cloudapps.digital",
     "https://ellandi-api-temp.london.cloudapps.digital": "https://ellandi-web-temp.london.cloudapps.digital",
     "https://ellandi-api-demo.london.cloudapps.digital": "https://ellandi-web-demo.london.cloudapps.digital",
