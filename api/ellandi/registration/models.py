@@ -185,7 +185,7 @@ class User(AbstractUser, TimeStampedModel, RegistrationAbstractUser):
 
     def clean(self):
         if self.line_manager_email and (self.email.lower() == self.line_manager_email.lower()):
-            raise ValidationError({"detail": "Line manager email cannot be the same as user email"})
+            raise ValidationError("Line manager email cannot be the same as user email")
 
     def save(self, *args, **kwargs):
         self.clean()
