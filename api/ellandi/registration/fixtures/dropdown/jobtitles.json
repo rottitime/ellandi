@@ -81,6 +81,14 @@
 },
 {
   "model": "registration.jobtitle",
+  "pk": "data-ethicist",
+  "fields": {
+    "name": "Data ethicist",
+    "order": null
+  }
+},
+{
+  "model": "registration.jobtitle",
   "pk": "data-scientist",
   "fields": {
     "name": "Data scientist",
@@ -108,6 +116,14 @@
   "pk": "end-user-computing-engineer",
   "fields": {
     "name": "End user computing engineer",
+    "order": null
+  }
+},
+{
+  "model": "registration.jobtitle",
+  "pk": "enterprise-architect",
+  "fields": {
+    "name": "Enterprise architect",
     "order": null
   }
 },
