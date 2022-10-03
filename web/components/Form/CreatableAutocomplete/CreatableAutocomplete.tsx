@@ -86,7 +86,7 @@ const CreatableAutocomplete: FC<Props> = forwardRef<FC, Props>(
                 inputValue,
                 title: `Add "${params.inputValue}"`,
                 helper: (
-                  <ButtonAdd>
+                  <ButtonAdd variant="body2">
                     <Icon icon="circle-plus" />
                     Add "{params.inputValue}"
                   </ButtonAdd>
