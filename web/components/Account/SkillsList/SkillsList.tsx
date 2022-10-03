@@ -120,7 +120,12 @@ const SkillsList: FC = () => {
                 render={({ field, fieldState: { error } }) => (
                   <FormControl error={!!error} size="small">
                     <InputLabel>Select a level</InputLabel>
-                    <Select {...field} label="Select a level" variant="outlined">
+                    <Select
+                      {...field}
+                      label="Select a level"
+                      variant="outlined"
+                      sx={{ width: 200 }}
+                    >
                       {levels.map(({ name }) => (
                         <MenuItem key={name} value={name}>
                           {name}
