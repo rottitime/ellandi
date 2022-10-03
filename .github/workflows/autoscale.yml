@@ -5,6 +5,8 @@ on:
   push:
     branches:
       - temp
+      - develop
+      - prod
     paths:
       - .github/workflows/autoscale.yml
       - 'autoscale/**'
