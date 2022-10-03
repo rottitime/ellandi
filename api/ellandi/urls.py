@@ -7,6 +7,7 @@ from drf_spectacular.views import (
 )
 
 from ellandi import auth, verification
+from ellandi.debug import debug_view
 from ellandi.registration import views
 
 api_urlpatterns = [
@@ -35,6 +36,7 @@ api_urlpatterns = [
     path("one-time-login-token/", views.create_one_time_login_view),
     path("first-time-login/", views.first_log_in_view),
     path("create-error/", views.create_error),
+    path("debug/", debug_view),
 ]
 
 schema_urlpatterns = [

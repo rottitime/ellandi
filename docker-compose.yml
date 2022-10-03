@@ -25,6 +25,8 @@ services:
     build:
       context: .
       dockerfile: ./docker/api/Dockerfile
+      args:
+        GIT_SHA: ""
     image: ellandi_api
     depends_on:
       - ellandi-db
@@ -42,7 +44,7 @@ services:
       args:
         NODE_ENV: development
         NEXT_PUBLIC_API_URL: http://localhost:8000/api
-        NEXT_PUBLIC_GIT_SHA: "_REPLACE_ME_"
+        GIT_SHA: ""
     image: ellandi_web
     env_file:
       - ./envs/web

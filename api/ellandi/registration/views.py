@@ -541,7 +541,6 @@ def user_direct_reports_view(request, user_id):
 @decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.IsAdminUser,))
 def create_error(request):
-    """Endpoint to be used for testing."""
     raise Exception("This is the create error endpoint (for testing)")
 
 
