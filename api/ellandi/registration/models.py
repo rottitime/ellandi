@@ -7,6 +7,7 @@ import pytz
 from django.conf import settings
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.text import slugify
 
@@ -181,6 +182,14 @@ class User(AbstractUser, TimeStampedModel, RegistrationAbstractUser):
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
+
+    def clean(self):
+        if self.line_manager_email and (self.email.lower() == self.line_manager_email.lower()):
+            raise ValidationError("Line manager email cannot be the same as user email")
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        return super().save(*args, **kwargs)
 
 
 class UserSkill(TimeStampedModel):
