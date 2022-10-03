@@ -40,7 +40,6 @@ const theme = createTheme({
     brandGov: colors.black,
     brandSkills: colors.teal,
     brandLearning: '#06f',
-    brandTeams: colors.purple,
     link: colors.blue1,
     success: colors.green
   },

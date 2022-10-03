@@ -20,7 +20,10 @@ type MenuDataType = {
 
 const Content = styled(Box)`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
+  ${({ theme }) => theme.breakpoints.up('md')} {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
   gap: ${(p) => p.theme.spacing(4)};
   > .MuiCard-root {
     grid-column: span 2;
