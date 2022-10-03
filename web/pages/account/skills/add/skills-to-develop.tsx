@@ -64,7 +64,6 @@ SkillsAddDevelopPage.getLayout = (page) => (
 )
 export async function getStaticProps() {
   const queryClient = new QueryClient()
-  await queryClient.prefetchQuery(Query.SkillLevels, fetchSkillLevels)
   await queryClient.prefetchQuery(Query.Skills, fetchSkills)
   return {
     props: {
