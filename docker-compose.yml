@@ -26,7 +26,7 @@ services:
       context: .
       dockerfile: ./docker/api/Dockerfile
       args:
-        GIT_SHA: "`git rev-parse HEAD`"
+        GIT_SHA: ""
     image: ellandi_api
     depends_on:
       - ellandi-db
