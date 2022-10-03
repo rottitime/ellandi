@@ -24,6 +24,15 @@ another_user_data = dict(
     password="P455w0rd",
 )
 
+admin_user_data = dict(
+    email="joe@example.com",
+    first_name="Joe",
+    last_name="Brown",
+    organisation="Cabinet Office",
+    password="P455w0rd",
+    job_title="Policy Analyst",
+)
+
 
 def add_user_skills_etc(user):
     UserSkill(user=user, name="Cake making").save()
@@ -67,10 +76,12 @@ def with_logged_in_client(func):
 def with_logged_in_admin_client(func):
     @functools.wraps(func)
     def _inner(*args, **kwargs):
-        user = User.objects.create_user(**user_data, is_staff=True)
+        user = User.objects.create_user(**admin_user_data, is_staff=True)
 
         with httpx.Client(app=wsgi.application, base_url="http://testserver:8000") as client:
-            response = client.post("/login/", json={"email": user_data["email"], "password": user_data["password"]})
+            response = client.post(
+                "/api/login/", json={"email": admin_user_data["email"], "password": admin_user_data["password"]}
+            )
             assert response.status_code == 200
             token = response.json()["token"]
             assert token

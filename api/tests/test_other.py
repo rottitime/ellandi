@@ -13,7 +13,7 @@ def test_json_only(client, user_id):
 
 @utils.with_logged_in_admin_client
 def test_debug_endpoint(client, user_id):
-    response = client.get("/debug/")
+    response = client.get("/api/debug/")
     assert response.status_code == status.HTTP_200_OK, response.status_code
     data = response.json()
     assert "DEBUG" in data, data
@@ -22,5 +22,5 @@ def test_debug_endpoint(client, user_id):
 
 @utils.with_logged_in_client
 def test_forbidden_debug_endpoint(client, user_id):
-    response = client.get("/debug/")
+    response = client.get("/api/debug/")
     assert response.status_code == status.HTTP_403_FORBIDDEN, response.status_code
