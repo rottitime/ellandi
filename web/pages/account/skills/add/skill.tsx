@@ -5,7 +5,7 @@ import { menu, SectionOne } from './index'
 import BadgeNumber from '@/components/UI/BadgeNumber/BadgeNumber'
 import { dehydrate, QueryClient, useMutation } from 'react-query'
 import {
-  fetchSkillLevels,
+  // fetchSkillLevels,
   fetchSkills,
   Query,
   RegisterUserResponse,

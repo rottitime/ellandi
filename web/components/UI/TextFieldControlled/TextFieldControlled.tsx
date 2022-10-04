@@ -13,14 +13,8 @@ const SubField = styled(Box)`
   position: relative;
 `
 
-const TextFieldControlled: FC<Props> = ({
-  label,
-  subfield,
-  onChange,
-  name,
-  ...props
-}) => {
-  const { control, setValue, trigger, setError } = useFormContext()
+const TextFieldControlled: FC<Props> = ({ label, subfield, name, ...props }) => {
+  const { control, setValue, trigger } = useFormContext()
 
   useEffect(() => {
     return () => {
@@ -52,10 +46,6 @@ const TextFieldControlled: FC<Props> = ({
             fullWidth
             inputProps={{ 'data-testid': `textfield_${name}` }}
             {...props}
-            onChange={(e) => {
-              if (typeof onChange === 'function') onChange(e)
-              field.onChange(e)
-            }}
           />
         )}
       />

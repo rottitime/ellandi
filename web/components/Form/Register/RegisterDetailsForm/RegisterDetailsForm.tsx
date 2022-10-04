@@ -10,12 +10,10 @@ import {
   fetchJobTitles,
   GenericDataList,
   Query,
-  RegisterDetailsType,
-  RegisterUserResponse
+  RegisterDetailsType
 } from '@/service/api'
 import { Field } from '@/components/Form/Field/Field'
 import Form from '@/components/Form/Register/FormRegister/FormRegister'
-import { useProfile } from '@/hooks/useProfile'
 import { useQuery } from 'react-query'
 
 const schema: SchemaOf<RegisterDetailsType> = object().shape({
@@ -44,8 +42,6 @@ const RegisterDetailsForm: FC<StandardRegisterProps<RegisterDetailsType>> = (pro
     resolver: yupResolver(schema)
   })
 
-  const { userProfile } = useProfile<RegisterUserResponse>({})
-
   const { isLoading, data, isSuccess } = useQuery<GenericDataList[], Error>(
     Query.JobTitles,
     fetchJobTitles,
@@ -60,8 +56,6 @@ const RegisterDetailsForm: FC<StandardRegisterProps<RegisterDetailsType>> = (pro
     }
     return false
   }
-
-  console.log({ defaultValues: props.defaultValues, props })
 
   return (
     <FormProvider {...methods}>
@@ -114,33 +108,7 @@ const RegisterDetailsForm: FC<StandardRegisterProps<RegisterDetailsType>> = (pro
         )}
         {showField('line_manager_email') && (
           <Field>
-            email: {userProfile?.email}
-            <TextFieldControlled
-              name="line_manager_email"
-              label="Line manager email"
-              onChange={(e) => {
-                const { email } = userProfile
-                console.log(e.target.value)
-                if (email === e.target.value) {
-                  console.log('Setting error')
-                  methods.setError('line_manager_email', {
-                    type: 'custom',
-                    message: 'custom message'
-                  })
-                } else {
-                  methods.setError('line_manager_email', {
-                    type: 'custom',
-                    message: ''
-                  })
-                }
-
-                // if (e.target.value === props.email)
-                //   methods.setError('line_manager_email', {
-                //     type: 'custom',
-                //     message: 'custom message'
-                //   })
-              }}
-            />
+            <TextFieldControlled name="line_manager_email" label="Line manager email" />
           </Field>
         )}
       </Form>
