@@ -36,11 +36,13 @@ PROD_HOSTS = (
     "ellandi-api-temp.london.cloudapps.digital",
     "ellandi-api-demo.london.cloudapps.digital",
     "ellandi-api-develop.london.cloudapps.digital",
+    "ellandi-api-staging.london.cloudapps.digital",
     "ellandi-api.london.cloudapps.digital",
     "ellandi-sandbox.london.cloudapps.digital",
     "ellandi-temp.london.cloudapps.digital",
     "ellandi-demo.london.cloudapps.digital",
     "ellandi-develop.london.cloudapps.digital",
+    "ellandi-staging.london.cloudapps.digital",
     "ellandi.london.cloudapps.digital",
 )
 
@@ -56,11 +58,13 @@ HOST_MAP = {
     "https://ellandi-api-temp.london.cloudapps.digital": "https://ellandi-web-temp.london.cloudapps.digital",
     "https://ellandi-api-demo.london.cloudapps.digital": "https://ellandi-web-demo.london.cloudapps.digital",
     "https://ellandi-api-develop.london.cloudapps.digital": "https://ellandi-web-develop.london.cloudapps.digital",
+    "https://ellandi-api-staging.london.cloudapps.digital": "https://ellandi-web-staging.london.cloudapps.digital",
     "https://ellandi-api.london.cloudapps.digital": "https://ellandi-web.london.cloudapps.digital",
     "https://ellandi-api-sandbox.apps.internal": "https://ellandi-sandbox.london.cloudapps.digital",
     "https://ellandi-api-temp.apps.internal": "https://ellandi-temp.london.cloudapps.digital",
     "https://ellandi-api-demo.apps.internal": "https://ellandi-demo.london.cloudapps.digital",
     "https://ellandi-api-develop.apps.internal": "https://ellandi-develop.london.cloudapps.digital",
+    "https://ellandi-api-staging.apps.internal": "https://ellandi-staging.london.cloudapps.digital",
     "https://ellandi-api.apps.internal": "https://ellandi.london.cloudapps.digital",
     "http://api:8000": "http://nginx:80",
 }
