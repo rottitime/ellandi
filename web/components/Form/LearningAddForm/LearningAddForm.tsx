@@ -18,7 +18,7 @@ const schema: SchemaOf<LearningAddType> = object().shape({
   duration_minutes: number()
     .typeError('you must specify a number')
     .min(0, 'Min value 0.'),
-  date_completed: string().required('This is a required field')
+  date_completed: string().nullable().required('Enter a date')
 })
 
 const LearningAddForm: FC<Props> = ({ onFormSubmit, loading, error }) => {

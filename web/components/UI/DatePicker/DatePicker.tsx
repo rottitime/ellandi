@@ -23,7 +23,7 @@ const DatePicker = forwardRef<HTMLInputElement, Props>(
     const [value, setValue] = useState<Dayjs | null>(null)
 
     useEffect(() => {
-      const newValue = !!valueFormat ? dayjs(value).format(valueFormat) : value
+      const newValue = !!value && !!valueFormat ? dayjs(value).format(valueFormat) : value
       onChange(newValue)
     }, [onChange, value, valueFormat])
 
