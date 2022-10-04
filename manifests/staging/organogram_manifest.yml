@@ -4,6 +4,7 @@ applications:
   services:
   - i-dot-ai-organogram-staging
   - organogram-postgres-staging
+  - scale-organogram-staging
   routes:
   - route: organogram-staging.london.cloudapps.digital
     protocol: http1

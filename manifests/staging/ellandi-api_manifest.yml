@@ -3,6 +3,7 @@ applications:
 - name: ellandi-api-staging
   services:
   - ellandi-postgres-staging
+  - scale-ellandi-api-staging
   routes:
   - route: ellandi-api-staging.london.cloudapps.digital
     protocol: http1

@@ -1,6 +1,8 @@
 ---
 applications:
   - name: ellandi-web-staging
+    services:
+    - scale-ellandi-web-staging
     env:
       NODE_ENV: production
     routes:

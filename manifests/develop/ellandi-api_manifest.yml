@@ -3,6 +3,7 @@ applications:
 - name: ellandi-api-develop
   services:
   - ellandi-postgres-develop
+  - scale-ellandi-api-develop
   routes:
   - route: ellandi-api-develop.london.cloudapps.digital
     protocol: http1
