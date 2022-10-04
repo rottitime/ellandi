@@ -1,0 +1,14 @@
+---
+applications:
+- name: ellandi-staging
+  services:
+  - ellandi-postgres-staging
+  routes:
+  - route: ellandi-staging.london.cloudapps.digital
+    protocol: http1
+  processes:
+  - type: web
+    instances: 1
+    memory: 64M
+    disk_quota: 2048M
+    health-check-type: port
