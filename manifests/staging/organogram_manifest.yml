@@ -1,0 +1,15 @@
+---
+applications:
+- name: organogram-staging
+  services:
+  - i-dot-ai-organogram-staging
+  - organogram-postgres-staging
+  routes:
+  - route: organogram-staging.london.cloudapps.digital
+    protocol: http1
+  processes:
+  - type: web
+    instances: 1
+    memory: 512M
+    disk_quota: 2048M
+    health-check-type: port

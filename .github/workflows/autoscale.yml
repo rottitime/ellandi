@@ -6,6 +6,7 @@ on:
     branches:
       - temp
       - develop
+      - staging
       - prod
     paths:
       - .github/workflows/autoscale.yml
