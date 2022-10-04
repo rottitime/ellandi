@@ -4,6 +4,7 @@ applications:
   services:
   - i-dot-ai-organogram-develop
   - organogram-postgres-develop
+  - scale-organogram-develop
   routes:
   - route: organogram-develop.london.cloudapps.digital
     protocol: http1

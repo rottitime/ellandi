@@ -2,7 +2,8 @@
 applications:
 - name: ellandi-prod
   services:
-  - ellandi-postgres-prod
+  - ellandi-postgres
+  - scale-ellandi
   routes:
   - route: ellandi-prod.london.cloudapps.digital
     protocol: http1
