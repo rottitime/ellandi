@@ -21,6 +21,7 @@ from .models import (
     UserLanguage,
     UserSkill,
     UserSkillDevelop,
+    BusinessUnit
 )
 
 
@@ -95,6 +96,12 @@ class SkillLevelSerializer(serializers.ModelSerializer):
 class JobTitleSerializer(serializers.ModelSerializer):
     class Meta:
         model = JobTitle
+        fields = ["slug", "name", "order"]
+
+
+class BusinessUnitSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BusinessUnit
         fields = ["slug", "name", "order"]
 
 
