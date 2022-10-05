@@ -312,6 +312,11 @@ def test_dropdown_list(client, user_id):
         {"name": "Analysis", "slug": "analysis", "endpoint": "/functions/"},
         {"name": "Advanced beginner", "slug": "advanced-beginner", "endpoint": "/skill-levels/"},
         {"name": "User researcher", "slug": "user-researcher", "endpoint": "/job-titles/"},
+        {
+            "name": "Chief Digital and Data Office",
+            "slug": "chief-digital-and-data-office",
+            "endpoint": "/business-units/",
+        },
     ]
 
     def test_get(endpoint):
