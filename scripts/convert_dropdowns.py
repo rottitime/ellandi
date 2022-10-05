@@ -5,7 +5,6 @@ Convert JSON data from fixtures to a different structure
 import json
 import pathlib
 
-
 ROOT_DIR = pathlib.Path(__file__).parent.parent
 INPUT_FOLDER = ROOT_DIR.joinpath("api", "ellandi", "registration", "fixtures", "dropdown")
 OUTPUT_FOLDER = ROOT_DIR.joinpath("web", "prefetch")
