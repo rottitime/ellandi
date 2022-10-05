@@ -24,7 +24,6 @@ import {
   Typography
 } from '@mui/material'
 import { addSkills, deleteSkill } from '@/service/account'
-import Link from '@/components/UI/Link'
 import { Controller, useForm } from 'react-hook-form'
 
 const SkillsList: FC = () => {
@@ -82,9 +81,9 @@ const SkillsList: FC = () => {
       <DataGrid
         hideFooterPagination
         noRowContent={
-          <Alert severity="info">
-            <Link href="/account/skills/add/skill">Add a skill</Link>
-          </Alert>
+          <Typography variant="body2" data-testid="empty-rows">
+            No skills have been added. Click the 'Add a skill' button to add some.
+          </Typography>
         }
         autoHeight
         columns={columns}
