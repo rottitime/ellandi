@@ -1,0 +1,27 @@
+[
+  {
+    "slug": "permanent",
+    "name": "Permanent",
+    "order": 0
+  },
+  {
+    "slug": "fixed-term",
+    "name": "Fixed-term",
+    "order": 1
+  },
+  {
+    "slug": "agency",
+    "name": "Agency",
+    "order": 2
+  },
+  {
+    "slug": "other",
+    "name": "Other",
+    "order": 3
+  },
+  {
+    "slug": "i-dont-know",
+    "name": "I don't know",
+    "order": 4
+  }
+]
