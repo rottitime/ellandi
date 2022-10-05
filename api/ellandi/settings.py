@@ -53,20 +53,14 @@ else:
 
 HOST_MAP = {
     "http://testserver": "http://testserver",
-    "http://localhost:8000": "http://localhost:3000",
-    "https://ellandi-api-sandbox.london.cloudapps.digital": "https://ellandi-web-sandbox.london.cloudapps.digital",
-    "https://ellandi-api-temp.london.cloudapps.digital": "https://ellandi-web-temp.london.cloudapps.digital",
-    "https://ellandi-api-demo.london.cloudapps.digital": "https://ellandi-web-demo.london.cloudapps.digital",
-    "https://ellandi-api-develop.london.cloudapps.digital": "https://ellandi-web-develop.london.cloudapps.digital",
-    "https://ellandi-api-staging.london.cloudapps.digital": "https://ellandi-web-staging.london.cloudapps.digital",
-    "https://ellandi-api.london.cloudapps.digital": "https://ellandi-web.london.cloudapps.digital",
-    "https://ellandi-api-sandbox.apps.internal": "https://ellandi-sandbox.london.cloudapps.digital",
-    "https://ellandi-api-temp.apps.internal": "https://ellandi-temp.london.cloudapps.digital",
-    "https://ellandi-api-demo.apps.internal": "https://ellandi-demo.london.cloudapps.digital",
-    "https://ellandi-api-develop.apps.internal": "https://ellandi-develop.london.cloudapps.digital",
-    "https://ellandi-api-staging.apps.internal": "https://ellandi-staging.london.cloudapps.digital",
-    "https://ellandi-api.apps.internal": "https://ellandi.london.cloudapps.digital",
     "http://api:8000": "http://nginx:80",
+    "https://ellandi-api-temp.london.cloudapps.digital": "https://ellandi-temp.london.cloudapps.digital",
+    "https://ellandi-api-sandbox.london.cloudapps.digital": "https://ellandi-sandbox.london.cloudapps.digital",
+    "https://ellandi-api-demo.london.cloudapps.digital": "https://ellandi-demo.london.cloudapps.digital",
+    "https://ellandi-api-develop.london.cloudapps.digital": "https://ellandi-develop.london.cloudapps.digital",
+    "https://ellandi-api-staging.london.cloudapps.digital": "https://ellandi-staging.london.cloudapps.digital",
+    "https://ellandi-api.london.cloudapps.digital": "https://ellandi.london.cloudapps.digital",
+    "http://localhost:8000": "http://localhost:80"
 }
 
 CORS_ALLOWED_ORIGINS = (HOST_URL, HOST_MAP[HOST_URL])
