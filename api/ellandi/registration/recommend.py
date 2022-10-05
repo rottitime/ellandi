@@ -59,7 +59,7 @@ def get_job_embeddings(job_titles):
     return embedding_df
 
 
-def return_similar_title_skills(job_title, user_skills, job_embeddings, existing_skills_count):
+def return_similar_title_skills(job_title, user_skills, job_embeddings):
     """Given a job title, a list of all user skills, and previously generated job embeddings, returns likely skills"""
 
     skill_count = 10
@@ -104,9 +104,6 @@ def return_similar_title_skills(job_title, user_skills, job_embeddings, existing
     title_lookup = user_skills[["user_id", "job_title"]].drop_duplicates().set_index("user_id")
 
     dist_df = pd.DataFrame(columns=["distance", "job_title"])
-    print("does user exist in job titles")
-    print(job_title in unique_job_titles)
-    print(dist_df)
 
     dist_df["distance"] = dist
     dist_df["job_title"] = unique_job_titles
@@ -212,7 +209,7 @@ def recommend_skill_relevant_skills(user_query, skill_name):
     return similar_skills
 
 
-def recommend_relevant_job_skills(user_query, job_title, user_id):
+def recommend_relevant_job_skills(user_query, job_title):
     """Given a Django request of user skills and job title, and returns a list of recommended job titles"""
 
     skill_sample_size = 10000
@@ -225,8 +222,6 @@ def recommend_relevant_job_skills(user_query, job_title, user_id):
         columns={0: "user_id", 1: "skill_id", 2: "skill_name", 3: "job_title"}
     )[["user_id", "skill_name", "job_title"]]
 
-    existing_user_skills_count = (user_df["user_id"] == user_id).sum()
-
     user_df["rating"] = 1
 
     # todo - fix to uuid
@@ -237,13 +232,11 @@ def recommend_relevant_job_skills(user_query, job_title, user_id):
     df = pd.concat([user_df, nlp_jobs_df]).reset_index(drop=True)
 
     loaded_embeddings = pd.read_pickle("job_title_embeddings.pkl")
-    similar_title_skills_returns = return_similar_title_skills(
-        job_title, df, loaded_embeddings, existing_user_skills_count
-    )
+    similar_title_skills_returns = return_similar_title_skills(job_title, df, loaded_embeddings)
     return similar_title_skills_returns[0]
 
 
-def recommend_relevant_user_skills(user_query, skills_list, job_title, user_id):
+def recommend_relevant_user_skills(user_query, skills_list, job_title):
     """Given a Django request of user skills, a list of skills, and a job title, and returns a random selection
     of recommendations
 
@@ -265,8 +258,6 @@ def recommend_relevant_user_skills(user_query, skills_list, job_title, user_id):
     )[["user_id", "skill_name", "job_title"]]
 
     user_df["rating"] = 1
-
-    user_skills_count = (user_df["user_id"] == user_id).sum()
 
     # todo - fix to uuid
     user_df["user_id"] = user_df["user_id"].astype("string")
@@ -297,7 +288,7 @@ def recommend_relevant_user_skills(user_query, skills_list, job_title, user_id):
     if len(skill_recommended_skills) < skill_recommendation_count:
         title_recommendation_count = total_skill_count - len(skill_recommended_skills)
 
-    job_title_skills = return_similar_title_skills(job_title, df, loaded_embeddings, user_skills_count)[0]
+    job_title_skills = return_similar_title_skills(job_title, df, loaded_embeddings)[0]
 
     combined = skill_recommended_skills[0:skill_recommendation_count] + job_title_skills[0:title_recommendation_count]
 

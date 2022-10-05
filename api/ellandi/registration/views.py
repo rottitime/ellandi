@@ -612,11 +612,10 @@ def skill_recommender(request, skill_name):
 def me_recommend_job_relevant_skills(request):
     # requires create_job_embedding_matrix endpoint to have been run first
     user = request.user
-    user_id = request.user.id
     job_title = user.job_title
     qs = models.UserSkill.objects.all().values_list("user__id", "id", "name", "user__job_title")
 
-    similar_title_skills = recommend_relevant_job_skills(qs, job_title, user_id)
+    similar_title_skills = recommend_relevant_job_skills(qs, job_title)
     if not similar_title_skills:
         raise exceptions.MissingJobSimilarityMatrixError
     return Response(data=similar_title_skills, status=status.HTTP_200_OK)
@@ -626,12 +625,10 @@ def me_recommend_job_relevant_skills(request):
 @decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
 def me_recommend_most_relevant_skills(request):
-    # requires create_job_embedding_matrix endpoint to have been run first
     user = request.user
-    user_id = request.user.id
     job_title = user.job_title
     qs = models.UserSkill.objects.all().values_list("user__id", "id", "name", "user__job_title")
     user_skills_list = list(models.UserSkill.objects.filter(user=user).values_list("name"))
 
-    combined_recommendations = recommend_relevant_user_skills(qs, user_skills_list, job_title, user_id)
+    combined_recommendations = recommend_relevant_user_skills(qs, user_skills_list, job_title)
     return Response(data=combined_recommendations, status=status.HTTP_200_OK)
