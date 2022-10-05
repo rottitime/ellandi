@@ -315,4 +315,3 @@ def recommend_relevant_user_skills(user_query, skills_list, job_title):
     combined = skill_recommended_skills[0:skill_recommendation_count] + job_title_skills[0:title_recommendation_count]
 
     return combined
-
