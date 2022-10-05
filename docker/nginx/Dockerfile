@@ -22,8 +22,6 @@ RUN chmod +x /entrypoint.sh
 COPY . /app
 RUN python3 /app/scripts/convert_dropdowns.py
 
-COPY ./web /app/web
-
 WORKDIR /app/web
 
 RUN npm install
