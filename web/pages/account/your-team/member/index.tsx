@@ -41,7 +41,6 @@ const YourTeamPage = () => {
 
   return (
     <AccountLayout
-      brandColor="brandTeams"
       titleIcon="team"
       title="Your team"
       breadcrumbs={[

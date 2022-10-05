@@ -2,6 +2,18 @@ import { FC } from 'react'
 import { LoadingButton as MuiButton } from '@mui/lab'
 import Link from 'next/link'
 import { Props, ButtonOverrides } from './types'
+import { styled } from '@mui/material'
+
+const StyledButton = styled(MuiButton)`
+  &.MuiButton-containedError:hover {
+    background-color: #9d1a1a;
+  }
+
+  &.MuiButton-outlinedTertiary:hover {
+    color: ${(p) => p.theme.colors.white};
+    background-color: ${(p) => p.theme.colors.black};
+  }
+`
 
 const Button: FC<Props> = ({ href, ...rest }) => {
   const routeProps = href ? { component: 'a', to: href } : {}
@@ -9,10 +21,10 @@ const Button: FC<Props> = ({ href, ...rest }) => {
 
   return href ? (
     <Link href={href} passHref>
-      <MuiButton {...props} />
+      <StyledButton {...props} />
     </Link>
   ) : (
-    <MuiButton {...props} />
+    <StyledButton {...props} />
   )
 }
 

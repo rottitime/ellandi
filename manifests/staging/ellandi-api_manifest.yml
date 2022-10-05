@@ -1,0 +1,17 @@
+---
+applications:
+- name: ellandi-api-staging
+  services:
+  - ellandi-postgres-staging
+  - scale-ellandi-api-staging
+  routes:
+  - route: ellandi-api-staging.london.cloudapps.digital
+    protocol: http1
+  - route: ellandi-api-staging.apps.internal
+    protocol: http1
+  processes:
+  - type: web
+    instances: 1
+    memory: 256M
+    disk_quota: 2048M
+    health-check-type: port

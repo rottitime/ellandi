@@ -2,6 +2,8 @@ web/node_modules
 web/__tests__
 web/.env.local
 web/.next
+web/out
+web/storybook-static
 web/**/*.test.ts
 web/**/*.test.tsx
 

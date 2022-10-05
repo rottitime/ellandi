@@ -1,6 +1,8 @@
 ---
 applications:
   - name: ellandi-web
+    services:
+    - scale-ellandi-web
     env:
       NODE_ENV: production
     routes:

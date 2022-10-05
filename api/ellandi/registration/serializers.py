@@ -214,7 +214,7 @@ class UserSerializer(serializers.ModelSerializer):
     professions = serializers.SlugRelatedField(
         many=True, queryset=Profession.objects.all(), read_only=False, slug_field="name", required=False
     )
-    is_line_manager = serializers.BooleanField(required=False)
+    has_direct_reports = serializers.BooleanField(required=False)
 
     def update(self, instance, validated_data):
         single_fields_to_update = [
@@ -227,6 +227,8 @@ class UserSerializer(serializers.ModelSerializer):
             "business_unit",
             "location",
             "line_manager_email",
+            "is_mentor",
+            "is_line_manager",
             "grade",
             "grade_other",
             "profession_other",
@@ -281,6 +283,7 @@ class UserSerializer(serializers.ModelSerializer):
             "business_unit",
             "location",
             "line_manager_email",
+            "has_direct_reports",
             "is_line_manager",
             "is_mentor",
             "grade",

@@ -4,13 +4,7 @@ import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
 import { menu, SectionOne } from './index'
 import BadgeNumber from '@/components/UI/BadgeNumber/BadgeNumber'
 import { dehydrate, QueryClient, useMutation } from 'react-query'
-import {
-  fetchSkillLevels,
-  fetchSkills,
-  Query,
-  RegisterUserResponse,
-  SkillDevelopType
-} from '@/service/api'
+import { fetchSkills, Query, RegisterUserResponse, SkillDevelopType } from '@/service/api'
 import SkillsDevelopAddForm from '@/components/Form/Account/SkillsDevelopAddForm/SkillsDevelopAddForm'
 import useAuth from '@/hooks/useAuth'
 import Router from 'next/router'
@@ -64,7 +58,6 @@ SkillsAddDevelopPage.getLayout = (page) => (
 )
 export async function getStaticProps() {
   const queryClient = new QueryClient()
-  await queryClient.prefetchQuery(Query.SkillLevels, fetchSkillLevels)
   await queryClient.prefetchQuery(Query.Skills, fetchSkills)
   return {
     props: {

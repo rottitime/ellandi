@@ -6,6 +6,8 @@ applications:
   routes:
   - route: ellandi-api-demo.london.cloudapps.digital
     protocol: http1
+  - route: ellandi-api-demo.apps.internal
+    protocol: http1
   processes:
   - type: web
     instances: 1

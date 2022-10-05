@@ -27,7 +27,7 @@ const Info = () => {
           fontWeight: 'bold'
         }}
       >
-        NEXT_PUBLIC_GIT_SHA
+        GIT_SHA
       </span>
       <p>{publicRuntimeConfig.gitSHA}</p>
       <h2>next.js publicRuntimeConfig</h2>

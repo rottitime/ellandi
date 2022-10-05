@@ -25,7 +25,8 @@ const Duration: FC<Props> = forwardRef<HTMLDivElement, Props>(
       combine(
         daysRef.current.valueAsNumber || 0,
         hoursRef.current.valueAsNumber || 0,
-        minutesRef.current.valueAsNumber || 0
+        minutesRef.current.valueAsNumber || 0,
+        7.5
       )
 
     useEffect(() => {

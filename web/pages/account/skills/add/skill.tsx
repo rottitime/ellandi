@@ -5,7 +5,7 @@ import { menu, SectionOne } from './index'
 import BadgeNumber from '@/components/UI/BadgeNumber/BadgeNumber'
 import { dehydrate, QueryClient, useMutation } from 'react-query'
 import {
-  fetchSkillLevels,
+  // fetchSkillLevels,
   fetchSkills,
   Query,
   RegisterUserResponse,
@@ -63,7 +63,7 @@ SkillsAddSkillsPage.getLayout = (page) => (
 )
 export async function getStaticProps() {
   const queryClient = new QueryClient()
-  await queryClient.prefetchQuery(Query.SkillLevels, fetchSkillLevels)
+  // await queryClient.prefetchQuery(Query.SkillLevels, fetchSkillLevels) TODO: to enable on Fix: #559
   await queryClient.prefetchQuery(Query.Skills, fetchSkills)
   return {
     props: {

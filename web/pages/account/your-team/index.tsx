@@ -48,7 +48,6 @@ export default YourTeamPage
 
 YourTeamPage.getLayout = (page) => (
   <AccountLayout
-    brandColor="brandTeams"
     titleIcon="team"
     title="Your team"
     teaserHeadline="View team members skills and profile"

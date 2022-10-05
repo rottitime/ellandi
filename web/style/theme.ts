@@ -40,7 +40,6 @@ const theme = createTheme({
     brandGov: colors.black,
     brandSkills: colors.teal,
     brandLearning: '#06f',
-    brandTeams: colors.purple,
     link: colors.blue1,
     success: colors.green
   },
@@ -48,12 +47,15 @@ const theme = createTheme({
     values: breakpoints
   },
   palette: {
-    primary: createColor(colors.blue1),
+    primary: {
+      main: colors.black,
+      dark: colors.grey3
+    },
     secondary: {
       main: colors.grey3,
       dark: colors.grey2
     },
-    tertiary: createColor(colors.blue1),
+    tertiary: createColor(colors.black),
     background: { default: colors.grey1 }
   },
   typography: {

@@ -1,0 +1,15 @@
+---
+applications:
+- name: ellandi-develop
+  services:
+  - ellandi-postgres-develop
+  - scale-ellandi-develop
+  routes:
+  - route: ellandi-develop.london.cloudapps.digital
+    protocol: http1
+  processes:
+  - type: web
+    instances: 1
+    memory: 64M
+    disk_quota: 2048M
+    health-check-type: port

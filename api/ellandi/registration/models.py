@@ -7,12 +7,19 @@ import pytz
 from django.conf import settings
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.text import slugify
 
 
 def now():
     return datetime.datetime.now(tz=pytz.UTC)
+
+
+class YesNoChoices(models.TextChoices):
+    YES = ("Yes", "Yes")
+    NO = ("No", "No")
+    DONT_KNOW = ("I don't know", "I don't know")
 
 
 class LowercaseEmailField(models.EmailField):
@@ -150,14 +157,9 @@ class RegistrationAbstractUser(models.Model):
     contract_type = models.CharField(max_length=127, blank=True, null=True)
     contract_type_other = models.CharField(max_length=127, blank=True, null=True)
     contact_preference = models.BooleanField(default=None, blank=True, null=True)
-    is_mentor = models.Choices
 
 
 class User(AbstractUser, TimeStampedModel, RegistrationAbstractUser):
-    class YesNoChoices(models.TextChoices):
-        YES = ("Yes", "Yes")
-        NO = ("No", "No")
-        DONT_KNOW = ("I don't know", "I don't know")
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     username = None
@@ -168,9 +170,10 @@ class User(AbstractUser, TimeStampedModel, RegistrationAbstractUser):
     first_name = models.CharField("first name", max_length=128, blank=True, null=True)
     last_name = models.CharField("last name", max_length=128, blank=True, null=True)
     is_mentor = models.CharField(max_length=12, choices=YesNoChoices.choices, blank=True, null=True)
+    is_line_manager = models.CharField(max_length=12, choices=YesNoChoices.choices, blank=True, null=True)
 
     @property
-    def is_line_manager(self):
+    def has_direct_reports(self):
         email = self.email
         has_direct_reports = User.objects.filter(line_manager_email=email).exists()
         return has_direct_reports
@@ -179,6 +182,14 @@ class User(AbstractUser, TimeStampedModel, RegistrationAbstractUser):
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
+
+    def clean(self):
+        if self.line_manager_email and (self.email.lower() == self.line_manager_email.lower()):
+            raise ValidationError("Line manager email cannot be the same as user email")
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        return super().save(*args, **kwargs)
 
 
 class UserSkill(TimeStampedModel):

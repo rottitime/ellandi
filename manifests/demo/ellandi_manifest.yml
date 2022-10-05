@@ -1,0 +1,14 @@
+---
+applications:
+- name: ellandi-demo
+  services:
+  - ellandi-postgres-demo
+  routes:
+  - route: ellandi-demo.london.cloudapps.digital
+    protocol: http1
+  processes:
+  - type: web
+    instances: 1
+    memory: 64M
+    disk_quota: 2048M
+    health-check-type: port

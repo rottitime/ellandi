@@ -119,7 +119,7 @@ psql:
 
 .PHONY: integration ## Run playwright tests
 integration:
-	docker-compose up --build --force-recreate integration
+	docker-compose -f docker-compose.yml -f docker-compose-integration.yml up --build --force-recreate integration
 
 .PHONY: setup
 setup:

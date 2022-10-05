@@ -48,10 +48,7 @@ const SkillsAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
   const { isLoading, data: levels } = useQuery<GenericDataList[], { message?: string }>(
     Query.SkillLevels,
     fetchSkillLevels,
-    {
-      initialData: [],
-      staleTime: Infinity
-    }
+    { initialData: [], staleTime: 0 }
   )
 
   const { isFetched: isFetchedMe, data: dataMe } = useQuery<RegisterUserResponse>(
@@ -62,9 +59,7 @@ const SkillsAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
   const { isLoading: isLoadingSkills, data: skillsList } = useQuery<
     string[],
     { message?: string }
-  >(Query.Skills, fetchSkills, {
-    staleTime: Infinity
-  })
+  >(Query.Skills, fetchSkills, { initialData: [], staleTime: 0 })
 
   const methods = useForm<SkillsType>({
     defaultValues: { skills: [] },

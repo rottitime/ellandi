@@ -11,7 +11,7 @@ const schema: SchemaOf<SignInType> = object().shape({
   email: string()
     .email('Enter an email address in the correct format, like name@example.com')
     .required('This is a required field'),
-  password: string().max(20).required('This is a required field')
+  password: string().required('This is a required field')
 })
 
 const SignInForm: FC<Props> = ({ onFormSubmit, loading }) => {

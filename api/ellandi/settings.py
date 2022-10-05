@@ -36,7 +36,14 @@ PROD_HOSTS = (
     "ellandi-api-temp.london.cloudapps.digital",
     "ellandi-api-demo.london.cloudapps.digital",
     "ellandi-api-develop.london.cloudapps.digital",
+    "ellandi-api-staging.london.cloudapps.digital",
     "ellandi-api.london.cloudapps.digital",
+    "ellandi-sandbox.london.cloudapps.digital",
+    "ellandi-temp.london.cloudapps.digital",
+    "ellandi-demo.london.cloudapps.digital",
+    "ellandi-develop.london.cloudapps.digital",
+    "ellandi-staging.london.cloudapps.digital",
+    "ellandi.london.cloudapps.digital",
 )
 
 if DEBUG:
@@ -47,13 +54,19 @@ else:
 HOST_MAP = {
     "http://testserver": "http://testserver",
     "http://localhost:8000": "http://localhost:3000",
-    "http://127.0.0.1:8000": "http://127.0.0.1:3000",
     "https://ellandi-api-sandbox.london.cloudapps.digital": "https://ellandi-web-sandbox.london.cloudapps.digital",
     "https://ellandi-api-temp.london.cloudapps.digital": "https://ellandi-web-temp.london.cloudapps.digital",
     "https://ellandi-api-demo.london.cloudapps.digital": "https://ellandi-web-demo.london.cloudapps.digital",
     "https://ellandi-api-develop.london.cloudapps.digital": "https://ellandi-web-develop.london.cloudapps.digital",
+    "https://ellandi-api-staging.london.cloudapps.digital": "https://ellandi-web-staging.london.cloudapps.digital",
     "https://ellandi-api.london.cloudapps.digital": "https://ellandi-web.london.cloudapps.digital",
-    "http://api:8000": "http://web:3000",
+    "https://ellandi-api-sandbox.apps.internal": "https://ellandi-sandbox.london.cloudapps.digital",
+    "https://ellandi-api-temp.apps.internal": "https://ellandi-temp.london.cloudapps.digital",
+    "https://ellandi-api-demo.apps.internal": "https://ellandi-demo.london.cloudapps.digital",
+    "https://ellandi-api-develop.apps.internal": "https://ellandi-develop.london.cloudapps.digital",
+    "https://ellandi-api-staging.apps.internal": "https://ellandi-staging.london.cloudapps.digital",
+    "https://ellandi-api.apps.internal": "https://ellandi.london.cloudapps.digital",
+    "http://api:8000": "http://nginx:80",
 }
 
 CORS_ALLOWED_ORIGINS = (HOST_URL, HOST_MAP[HOST_URL])
@@ -61,6 +74,7 @@ CORS_ALLOWED_ORIGINS = (HOST_URL, HOST_MAP[HOST_URL])
 # Application definition
 
 INSTALLED_APPS = [
+    "whitenoise.runserver_nostatic",
     "ellandi.registration",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -231,3 +245,6 @@ else:
 SPECTACULAR_SETTINGS = {
     "ENUM_NAME_OVERRIDES": {"LanguageLevelEnum": "ellandi.registration.models.UserLanguage.LanguageLevel"}
 }
+
+WHITENOISE_USE_FINDERS = False
+GIT_SHA = env.str("GIT_SHA", default="UNKNOWN")

@@ -13,7 +13,6 @@ const minPassword = 8
 const schema: SchemaOf<FormData> = object().shape({
   new_password: string()
     .min(minPassword, `Password must be ${minPassword} characters or more`)
-    .max(20)
     .required('This is a required field'),
   new_password_confirm: string()
     .oneOf([ref('new_password'), null], 'Does not match with password')

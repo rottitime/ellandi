@@ -5,6 +5,9 @@ on:
   push:
     branches:
       - temp
+      - develop
+      - staging
+      - prod
     paths:
       - .github/workflows/autoscale.yml
       - 'autoscale/**'
@@ -19,7 +22,7 @@ jobs:
 
     strategy:
       matrix:
-        app: [ellandi-api, ellandi-web, organogram]
+        app: [ellandi-api, ellandi-web, organogram, ellandi]
 
     steps:
       - uses: actions/checkout@v3
