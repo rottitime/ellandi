@@ -3,10 +3,13 @@ import { createContext, FC, ReactNode, useContext, useEffect, useState } from 'r
 import Link from '@/components/UI/Link'
 
 type Props = {
+  bannerHeight: number
   loading: boolean
   error: string | ReactNode
   setLoading: (p: boolean) => void
   setError: (p: string | ReactNode) => void
+  setBannerHeight: (p: number) => void
+  scroll: (el: HTMLElement, arg?: boolean | ScrollIntoViewOptions) => void
 }
 
 const ecodes = {
@@ -24,6 +27,7 @@ const UIContext = createContext<Props>({} as Props)
 export const UiProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | ReactNode>('')
+  const [bannerHeight, setBannerHeight] = useState<number>(0)
   const router = useRouter()
 
   useEffect(() => {
@@ -33,11 +37,18 @@ export const UiProvider: FC<{ children: ReactNode }> = ({ children }) => {
     setError(!!message ? message : '')
   }, [router])
 
+  const scroll = (el: HTMLElement, arg?: boolean | ScrollIntoViewOptions) => {
+    el.scrollIntoView(arg)
+  }
+
   const context: Props = {
+    bannerHeight,
     loading,
     error,
     setLoading,
-    setError
+    setError,
+    setBannerHeight,
+    scroll
   }
 
   return <UIContext.Provider value={context}>{children}</UIContext.Provider>

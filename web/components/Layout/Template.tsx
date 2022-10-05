@@ -6,7 +6,8 @@ import {
   styled,
   Typography
 } from '@mui/material'
-import { FC, useState } from 'react'
+import { FC } from 'react'
+import { useUiContext } from '@/context/UiContext'
 
 type Props = ContainerProps
 
@@ -25,7 +26,7 @@ const Container = styled(MuiContainer, {
 `
 
 const Template: FC<Props> = ({ children, ...props }) => {
-  const [bannerHeight, setBannerHeight] = useState(0)
+  const { setBannerHeight, bannerHeight } = useUiContext()
 
   return (
     <>
