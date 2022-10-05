@@ -66,9 +66,8 @@ def return_similar_title_skills(job_title, user_skills, job_embeddings, existing
     model_name = "all-MiniLM-L6-v2"
     missing_ratings = False
 
-    if existing_skills_count == 0:
-        dummy_df = pd.DataFrame({"user_id": ["dummy"], "skill_name": ["dummy"], "job_title": ["dummy"], "rating": [0]})
-        user_skills = pd.concat([user_skills, dummy_df]).reset_index(drop=True)
+    if job_title not in job_embeddings.index.to_list():
+        user_skills = user_skills[user_skills["job_title"] != job_title].copy()
 
     unique_job_titles = user_skills.drop_duplicates(subset=["job_title"]).dropna(axis=0)["job_title"].to_numpy()
 
@@ -105,6 +104,9 @@ def return_similar_title_skills(job_title, user_skills, job_embeddings, existing
     title_lookup = user_skills[["user_id", "job_title"]].drop_duplicates().set_index("user_id")
 
     dist_df = pd.DataFrame(columns=["distance", "job_title"])
+    print("does user exist in job titles")
+    print(job_title in unique_job_titles)
+    print(dist_df)
 
     dist_df["distance"] = dist
     dist_df["job_title"] = unique_job_titles
