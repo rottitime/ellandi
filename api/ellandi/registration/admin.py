@@ -2,6 +2,7 @@ import django.contrib.auth.admin
 from django.contrib import admin
 
 from .models import (
+    BusinessUnit,
     ContractType,
     Country,
     EmailSalt,
@@ -19,7 +20,6 @@ from .models import (
     UserLanguage,
     UserSkill,
     UserSkillDevelop,
-    BusinessUnit
 )
 
 

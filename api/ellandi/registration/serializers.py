@@ -4,6 +4,7 @@ from rest_framework import serializers
 
 from .exceptions import IncorrectDomainError
 from .models import (
+    BusinessUnit,
     ContractType,
     Country,
     EmailSalt,
@@ -21,7 +22,6 @@ from .models import (
     UserLanguage,
     UserSkill,
     UserSkillDevelop,
-    BusinessUnit
 )
 
 
