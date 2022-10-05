@@ -34,7 +34,7 @@ const schema: SchemaOf<LearningAddFormalType> = object().shape({
   cost_unknown: boolean().nullable(),
   duration_minutes: number()
     .typeError('you must specify a number')
-    .min(0, 'Min value 0.'),
+    .min(1, 'you must specify a number'),
   date_completed: string().nullable().required('Enter a date')
 })
 
