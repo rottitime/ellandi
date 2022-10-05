@@ -10,6 +10,7 @@ type Props = {
   setError: (p: string | ReactNode) => void
   setBannerHeight: (p: number) => void
   scroll: (el: HTMLElement, arg?: ScrollToOptions, offsetBanner?: boolean) => void
+  isErrorEcode: () => boolean
 }
 
 const ecodes = {
@@ -29,13 +30,15 @@ export const UiProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [error, setError] = useState<string | ReactNode>('')
   const [bannerHeight, setBannerHeight] = useState<number>(0)
   const router = useRouter()
+  const ecode = router?.query?.ecode
 
   useEffect(() => {
-    const ecode = router?.query?.ecode
     const message = ecodes[parseInt(ecode as string)]
 
     setError(!!message ? message : '')
-  }, [router])
+  }, [ecode])
+
+  const isErrorEcode = (): boolean => ecodes[parseInt(ecode as string)] === error
 
   const scroll = (el: HTMLElement, arg?: ScrollToOptions, offsetBanner = true) => {
     const position =
@@ -52,7 +55,8 @@ export const UiProvider: FC<{ children: ReactNode }> = ({ children }) => {
     setLoading,
     setError,
     setBannerHeight,
-    scroll
+    scroll,
+    isErrorEcode
   }
 
   return <UIContext.Provider value={context}>{children}</UIContext.Provider>
