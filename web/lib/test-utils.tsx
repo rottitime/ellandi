@@ -1,7 +1,7 @@
-import { ThemeProvider } from '@mui/material'
 import { render, RenderOptions, waitFor } from '@testing-library/react'
+import ThemeProvider from '@/components/ThemeProvider/ThemeProvider'
+import LocalizationProvider from '@/components/LocalizationProvider/LocalizationProvider'
 import { ReactNode } from 'react'
-import theme from '@/style/theme'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { UiProvider } from '@/context/UiContext'
 
@@ -45,10 +45,12 @@ export const renderWithProviders = async (
   })
   const rendered = await render(
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider theme={theme}>
-        <UiProvider>
-          <>{ui}</>
-        </UiProvider>
+      <ThemeProvider>
+        <LocalizationProvider>
+          <UiProvider>
+            <>{ui}</>
+          </UiProvider>
+        </LocalizationProvider>
       </ThemeProvider>
     </QueryClientProvider>,
     options
