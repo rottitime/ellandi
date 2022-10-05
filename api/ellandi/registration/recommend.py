@@ -271,14 +271,11 @@ def recommend_relevant_user_skills(user_query, skills_list, job_title):
         skill_similarity_matrix = np.load("similarity_matrix.npy")
     except FileNotFoundError:
         Exception("no skill similarity matrix found, it must be created")
-        print("no skill similarity matrix found, it must be created")
         return None
     try:
         loaded_embeddings = pd.read_pickle("job_title_embeddings.pkl")
     except FileNotFoundError:
         Exception("no embeddings found, they must be created")
-        print("no embeddings found, they must be created")
-
         return None
 
     nlp_jobs_df = pd.read_json("nlp_generated_skills.json")[["user_id", "skill_name", "job_title", "rating"]].iloc[
