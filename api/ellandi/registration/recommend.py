@@ -162,12 +162,18 @@ def create_job_title_embeddings(user_query):
 
     nlp_jobs_df = pd.read_json("nlp_generated_skills.json")[["user_id", "job_title"]].iloc[0:skill_sample_size]
 
-    user_df = pd.DataFrame.from_records(user_query).rename(columns={0: "user_id", 1: "job_title"})
-    # todo - fix to uuid
-    user_df["user_id"] = user_df["user_id"].astype("string")
-    user_df["job_title"] = user_df["job_title"].astype("string")
+    if len(user_query) > 0:
 
-    df = pd.concat([user_df, nlp_jobs_df]).reset_index(drop=True)
+        user_df = pd.DataFrame.from_records(user_query).rename(columns={0: "user_id", 1: "job_title"})
+        # todo - fix to uuid
+        user_df["user_id"] = user_df["user_id"].astype("string")
+        user_df["job_title"] = user_df["job_title"].astype("string")
+
+        df = pd.concat([user_df, nlp_jobs_df]).reset_index(drop=True)
+
+    else:
+        df = nlp_jobs_df.copy()
+
     # converts to numpy array for speed
     unique_job_titles = df.drop_duplicates(subset=["job_title"]).dropna(axis=0)["job_title"].to_numpy()
     embeddings = get_job_embeddings(unique_job_titles)
@@ -183,20 +189,25 @@ def recommend_skill_relevant_skills(user_query, skill_name):
         0:skill_sample_size
     ]
 
-    df = pd.DataFrame.from_records(user_query).rename(
-        columns={0: "user_id", 1: "skill_id", 2: "skill_name", 3: "job_title"}
-    )
+    if len(user_query) > 0:
 
-    long_df = df[["user_id", "skill_name"]].copy()
+        df = pd.DataFrame.from_records(user_query).rename(
+            columns={0: "user_id", 1: "skill_id", 2: "skill_name", 3: "job_title"}
+        )
 
-    # currently assuming all users have similar competence (1), though we can iterate on this later
-    long_df["rating"] = 1
-    # todo - fix to uuid
-    long_df["user_id"] = long_df["user_id"].astype("string")
-    long_df["skill_name"] = long_df["skill_name"].astype("string")
-    long_df["rating"] = long_df["rating"].astype("int")
+        long_df = df[["user_id", "skill_name"]].copy()
 
-    combined_df = pd.concat([long_df, nlp_skill_df]).reset_index(drop=True)
+        # currently assuming all users have similar competence (1), though we can iterate on this later
+        long_df["rating"] = 1
+        # todo - fix to uuid
+        long_df["user_id"] = long_df["user_id"].astype("string")
+        long_df["skill_name"] = long_df["skill_name"].astype("string")
+        long_df["rating"] = long_df["rating"].astype("int")
+
+        combined_df = pd.concat([long_df, nlp_skill_df]).reset_index(drop=True)
+
+    else:
+        combined_df = nlp_skill_df.copy()
 
     try:
         skill_similarity_matrix = np.load("similarity_matrix.npy")
@@ -218,20 +229,27 @@ def recommend_relevant_job_skills(user_query, job_title):
         0:skill_sample_size
     ]
 
-    user_df = pd.DataFrame.from_records(user_query).rename(
-        columns={0: "user_id", 1: "skill_id", 2: "skill_name", 3: "job_title"}
-    )[["user_id", "skill_name", "job_title"]]
+    if len(user_query) > 0:
 
-    user_df["rating"] = 1
+        user_df = pd.DataFrame.from_records(user_query).rename(
+            columns={0: "user_id", 1: "skill_id", 2: "skill_name", 3: "job_title"}
+        )[["user_id", "skill_name", "job_title"]]
+        user_df["rating"] = 1
+        # todo - fix to uuid
+        user_df["user_id"] = user_df["user_id"].astype("string")
+        user_df["skill_name"] = user_df["skill_name"].astype("string")
+        user_df["job_title"] = user_df["job_title"].astype("string")
+        df = pd.concat([user_df, nlp_jobs_df]).reset_index(drop=True)
 
-    # todo - fix to uuid
-    user_df["user_id"] = user_df["user_id"].astype("string")
-    user_df["skill_name"] = user_df["skill_name"].astype("string")
-    user_df["job_title"] = user_df["job_title"].astype("string")
+    else:
+        df = nlp_jobs_df.copy()
 
-    df = pd.concat([user_df, nlp_jobs_df]).reset_index(drop=True)
+    try:
+        loaded_embeddings = pd.read_pickle("job_title_embeddings.pkl")
+    except FileNotFoundError:
+        Exception("no embeddings found, they must be created")
+        return None
 
-    loaded_embeddings = pd.read_pickle("job_title_embeddings.pkl")
     similar_title_skills_returns = return_similar_title_skills(job_title, df, loaded_embeddings)
     return similar_title_skills_returns[0]
 
@@ -249,6 +267,20 @@ def recommend_relevant_user_skills(user_query, skills_list, job_title):
     title_recommendation_count = 5
     skill_sample_size = 10000
 
+    try:
+        skill_similarity_matrix = np.load("similarity_matrix.npy")
+    except FileNotFoundError:
+        Exception("no skill similarity matrix found, it must be created")
+        print("no skill similarity matrix found, it must be created")
+        return None
+    try:
+        loaded_embeddings = pd.read_pickle("job_title_embeddings.pkl")
+    except FileNotFoundError:
+        Exception("no embeddings found, they must be created")
+        print("no embeddings found, they must be created")
+
+        return None
+
     nlp_jobs_df = pd.read_json("nlp_generated_skills.json")[["user_id", "skill_name", "job_title", "rating"]].iloc[
         0:skill_sample_size
     ]
@@ -265,16 +297,6 @@ def recommend_relevant_user_skills(user_query, skills_list, job_title):
     user_df["job_title"] = user_df["job_title"].astype("string")
 
     df = pd.concat([user_df, nlp_jobs_df]).reset_index(drop=True)
-    try:
-        skill_similarity_matrix = np.load("similarity_matrix.npy")
-    except FileNotFoundError:
-        Exception("no skill similarity matrix found, it must be created")
-        return None
-    try:
-        loaded_embeddings = pd.read_pickle("job_title_embeddings.pkl")
-    except FileNotFoundError:
-        Exception("no embeddings found, they must be created")
-        return None
 
     skill_recommended_skills = []
 
@@ -293,3 +315,4 @@ def recommend_relevant_user_skills(user_query, skills_list, job_title):
     combined = skill_recommended_skills[0:skill_recommendation_count] + job_title_skills[0:title_recommendation_count]
 
     return combined
+
