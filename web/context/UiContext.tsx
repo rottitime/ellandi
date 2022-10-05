@@ -9,7 +9,7 @@ type Props = {
   setLoading: (p: boolean) => void
   setError: (p: string | ReactNode) => void
   setBannerHeight: (p: number) => void
-  scroll: (el: HTMLElement, arg?: boolean | ScrollIntoViewOptions) => void
+  scroll: (el: HTMLElement, arg?: ScrollToOptions, offsetBanner?: boolean) => void
 }
 
 const ecodes = {
@@ -37,8 +37,12 @@ export const UiProvider: FC<{ children: ReactNode }> = ({ children }) => {
     setError(!!message ? message : '')
   }, [router])
 
-  const scroll = (el: HTMLElement, arg?: boolean | ScrollIntoViewOptions) => {
-    el.scrollIntoView(arg)
+  const scroll = (el: HTMLElement, arg?: ScrollToOptions, offsetBanner = true) => {
+    const position =
+      el.getBoundingClientRect().top +
+      window.scrollY -
+      (offsetBanner ? bannerHeight + 16 : 0)
+    window.scrollTo({ top: position, behavior: 'smooth', ...arg })
   }
 
   const context: Props = {
