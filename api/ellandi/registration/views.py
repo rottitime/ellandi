@@ -172,6 +172,13 @@ class JobTitleViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = (permissions.AllowAny,)
 
 
+@register("business-units")
+class BusinessUnitViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.BusinessUnit.objects.all().order_by("slug")
+    serializer_class = serializers.BusinessUnitSerializer
+    permission_classes = (permissions.AllowAny,)
+
+
 @extend_schema(
     request=serializers.RegisterSerializer,
     responses=serializers.UserSerializer,

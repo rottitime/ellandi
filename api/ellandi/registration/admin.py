@@ -2,6 +2,7 @@ import django.contrib.auth.admin
 from django.contrib import admin
 
 from .models import (
+    BusinessUnit,
     ContractType,
     Country,
     EmailSalt,
@@ -180,6 +181,10 @@ class JobTitleAdmin(DropDownListAdmin):
     pass
 
 
+class BusinessUnitAdmin(DropDownListAdmin):
+    pass
+
+
 admin.site.register(User, UserAdmin)
 admin.site.register(UserSkill, UserSkillAdmin)
 admin.site.register(UserLanguage, UserLanguageAdmin)
@@ -195,5 +200,6 @@ admin.site.register(Country, CountryAdmin)
 admin.site.register(Function, FunctionAdmin)
 admin.site.register(SkillLevel, SkillLevelAdmin)
 admin.site.register(JobTitle, JobTitleAdmin)
+admin.site.register(BusinessUnit, BusinessUnitAdmin)
 admin.site.register(EmailSalt)
 admin.site.register(Learning)

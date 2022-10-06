@@ -95,6 +95,10 @@ class JobTitle(DropDownListModel):
     pass
 
 
+class BusinessUnit(DropDownListModel):
+    pass
+
+
 class UserManager(BaseUserManager):
     use_in_migrations = True
 
