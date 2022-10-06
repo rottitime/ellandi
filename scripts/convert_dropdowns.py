@@ -10,16 +10,11 @@ INPUT_FOLDER = ROOT_DIR.joinpath("api", "ellandi", "registration", "fixtures", "
 OUTPUT_FOLDER = ROOT_DIR.joinpath("web", "prefetch")
 
 ENDPOINT_LOOKUP = {
+    "businessunits.json": "business-units.json",
     "contracttypes.json": "contract-types.json",
-    "countries.json": "countries.json",
-    "functions.json": "functions.json",
-    "grades.json": "grades.json",
     "jobtitles.json": "job-titles.json",
     "languages.json": "languages.json",
     "languageskilllevels.json": "language-skill-levels.json",
-    "locations.json": "locations.json",
-    "organisations.json": "organisations.json",
-    "professions.json": "professions.json",
     "skilllevel.json": "skill-levels.json",
 }
 
