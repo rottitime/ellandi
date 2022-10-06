@@ -192,7 +192,7 @@ def create_job_title_embeddings(user_query):
     unique_job_titles = df.drop_duplicates(subset=["job_title"]).dropna(axis=0)["job_title"].to_numpy()
     embeddings = get_job_embeddings(unique_job_titles)
 
-    #todo - add to database in some way
+    # todo - add to database in some way
     embeddings.to_pickle("job_title_embeddings.pkl")
 
 
@@ -202,8 +202,7 @@ def recommend_skill_relevant_skills(user_query, skill_name):
     User data will be combined with a sample of nlp generated data from nlp_generated_skills.json.
     The sample size is hardcoded (default to 10000), can be reduced to speed up processing time based on load testing
 
-    Returns a list of skills as strings
-"""
+    Returns a list of skills as strings"""
 
     skill_sample_size = 10000
 
