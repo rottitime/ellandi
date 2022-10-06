@@ -41,7 +41,11 @@ const DatePicker = forwardRef<HTMLInputElement, Props>(
         onChange={setValue}
         renderInput={(params) => (
           <>
-            <TextField size="small" {...params} />
+            <TextField
+              size="small"
+              {...params}
+              inputProps={{ 'data-testid': 'datepicker', ...params.inputProps }}
+            />
             {helperText && <FormHelperText error={error}>{helperText}</FormHelperText>}
           </>
         )}
