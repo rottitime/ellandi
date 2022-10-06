@@ -5,6 +5,8 @@ on:
 jobs:
   cron_schedule:
     runs-on: ubuntu-latest
+    env:
+      CF_SPACE: ${{ github.ref_name }}
     steps:
       - uses: actions/checkout@v3
 
