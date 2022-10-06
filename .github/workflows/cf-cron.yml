@@ -1,6 +1,6 @@
 on:
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: '0 */4 * * *'
 
 jobs:
   cron_schedule:
@@ -15,4 +15,4 @@ jobs:
         run: ./cf login -a api.london.cloud.service.gov.uk -u "${{ secrets.CF_USER }}" -p "${{ secrets.CF_PASSWORD }}" -o co-i-ai -s "$CF_SPACE"
 
       - name: Every time
-        run: cf run-task cf-cron --command "curl --head https://ellandi-sandbox.london.cloudapps.digital"
+        run: ./cf run-task cf-cron --command "curl --head https://ellandi-sandbox.london.cloudapps.digital"
