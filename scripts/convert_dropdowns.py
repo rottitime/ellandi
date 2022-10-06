@@ -4,14 +4,13 @@ Convert JSON data from fixtures to a different structure
 """
 import json
 import pathlib
-from re import M
 
 ROOT_DIR = pathlib.Path(__file__).parent.parent
 INPUT_FOLDER = ROOT_DIR.joinpath("api", "ellandi", "registration", "fixtures", "dropdown")
 OUTPUT_FOLDER = ROOT_DIR.joinpath("web", "prefetch")
 
 ENDPOINT_LOOKUP = {
-    "contacttypes.json": "contact-types.json",
+    "contracttypes.json": "contract-types.json",
     "countries.json": "countries.json",
     "functions.json": "functions.json",
     "grades.json": "grades.json",
@@ -21,7 +20,7 @@ ENDPOINT_LOOKUP = {
     "locations.json": "locations.json",
     "organisations.json": "organisations.json",
     "professions.json": "professions.json",
-    "skilllevel.json": "skilllevel.json"
+    "skilllevel.json": "skill-levels.json",
 }
 
 
@@ -52,8 +51,10 @@ def convert_json_file(input_file, output_file):
 def convert_all_files():
     dropdowns = INPUT_FOLDER.iterdir()
     for file in dropdowns:
-        if file.name.endswith(".json"):
-            output_file = OUTPUT_FOLDER.joinpath(file.name)
+        fixture_filename = file.name
+        if fixture_filename.endswith(".json"):
+            output_file_name = ENDPOINT_LOOKUP.get(fixture_filename, fixture_filename)
+            output_file = OUTPUT_FOLDER.joinpath(output_file_name)
             convert_json_file(input_file=file, output_file=output_file)
 
 
