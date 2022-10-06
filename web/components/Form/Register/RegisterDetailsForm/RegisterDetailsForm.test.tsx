@@ -1,6 +1,6 @@
 import { screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { renderWithProviders, bugfixForTimeout } from '@/lib/test-utils'
+import { renderWithProviders } from '@/lib/test-utils'
 import RegisterDetailsForm from './RegisterDetailsForm'
 
 const mockJobs = [
@@ -39,12 +39,12 @@ describe('RegisterDetailsForm', () => {
         onFormSubmit={jest.fn()}
       />
     )
-    await bugfixForTimeout()
+
     expect(screen.getByRole('button', { name: /Continue/i })).toBeInTheDocument()
     expect(screen.getByTestId('textfield_first_name')).toBeInTheDocument()
     expect(screen.getByTestId('textfield_last_name')).toBeInTheDocument()
     expect(screen.getByLabelText('Job title')).toBeInTheDocument()
-    expect(screen.getByTestId('textfield_business_unit')).toBeInTheDocument()
+    expect(screen.getByLabelText('Business unit')).toBeInTheDocument()
     expect(screen.getByTestId('textfield_location')).toBeInTheDocument()
     expect(screen.getByTestId('textfield_line_manager_email')).toBeInTheDocument()
   })
@@ -101,10 +101,7 @@ describe('RegisterDetailsForm', () => {
 
     await userEvent.type(screen.getByLabelText('Job title'), mockData.job_title)
 
-    await userEvent.type(
-      screen.getByTestId('textfield_business_unit'),
-      mockData.business_unit
-    )
+    await userEvent.type(screen.getByLabelText('Business unit'), mockData.business_unit)
     await userEvent.type(screen.getByTestId('textfield_location'), mockData.location)
     await userEvent.type(
       screen.getByTestId('textfield_line_manager_email'),
