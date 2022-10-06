@@ -3,10 +3,14 @@ import { createContext, FC, ReactNode, useContext, useEffect, useState } from 'r
 import Link from '@/components/UI/Link'
 
 type Props = {
+  bannerHeight: number
   loading: boolean
   error: string | ReactNode
   setLoading: (p: boolean) => void
   setError: (p: string | ReactNode) => void
+  setBannerHeight: (p: number) => void
+  scroll: (el: HTMLElement, arg?: ScrollToOptions, offsetBanner?: boolean) => void
+  isErrorEcode: () => boolean
 }
 
 const ecodes = {
@@ -24,20 +28,35 @@ const UIContext = createContext<Props>({} as Props)
 export const UiProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | ReactNode>('')
+  const [bannerHeight, setBannerHeight] = useState<number>(0)
   const router = useRouter()
+  const ecode = router?.query?.ecode
 
   useEffect(() => {
-    const ecode = router?.query?.ecode
     const message = ecodes[parseInt(ecode as string)]
 
     setError(!!message ? message : '')
-  }, [router])
+  }, [ecode])
+
+  const isErrorEcode = (): boolean => ecodes[parseInt(ecode as string)] === error
+
+  const scroll = (el: HTMLElement, arg?: ScrollToOptions, offsetBanner = true) => {
+    const position =
+      el.getBoundingClientRect().top +
+      window.scrollY -
+      (offsetBanner ? bannerHeight + 16 : 0)
+    window.scrollTo({ top: position, behavior: 'smooth', ...arg })
+  }
 
   const context: Props = {
+    bannerHeight,
     loading,
     error,
     setLoading,
-    setError
+    setError,
+    setBannerHeight,
+    scroll,
+    isErrorEcode
   }
 
   return <UIContext.Provider value={context}>{children}</UIContext.Provider>

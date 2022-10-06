@@ -1,7 +1,7 @@
 import Template from '@/components/Layout/Template'
 import { withGovLogoBackground } from '@/style/global'
 import { styled, Alert, Box } from '@mui/material'
-import { FC } from 'react'
+import { FC, useEffect, useRef } from 'react'
 import { useUiContext } from '@/context/UiContext'
 import GovCard from '@/components/UI/Cards/GovCard/GovCard'
 import { Props } from './types'
@@ -28,7 +28,13 @@ const Page = styled(Box)`
 `
 
 const CardLayout: FC<Props> = ({ children, title, footer, progress }) => {
-  const { error, loading } = useUiContext()
+  const { error, loading, isErrorEcode, scroll } = useUiContext()
+  const alertRef = useRef(null)
+
+  useEffect(() => {
+    if (!!error && !isErrorEcode()) scroll(alertRef.current)
+  }, [error, isErrorEcode, scroll])
+
   return (
     <Template disableGutters>
       <style jsx global>
@@ -42,7 +48,12 @@ const CardLayout: FC<Props> = ({ children, title, footer, progress }) => {
           headerTitle="Civil Service Skills and Learning"
         >
           {!!error && (
-            <Alert severity="error" sx={{ mt: 3, mb: 3 }}>
+            <Alert
+              severity="error"
+              sx={{ mt: 3, mb: 3 }}
+              className="template-error"
+              ref={alertRef}
+            >
               <>{error}</>
             </Alert>
           )}
