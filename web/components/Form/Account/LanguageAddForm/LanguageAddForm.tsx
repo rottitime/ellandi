@@ -223,7 +223,7 @@ const LanguageAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
         </Field>
         <Field textAlign="right">
           <Button type="submit" variant="contained" loading={loading}>
-            Add skills
+            Save skills
           </Button>
         </Field>
       </form>
