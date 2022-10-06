@@ -8,24 +8,22 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 
 def make_skill_similarity_matrix(long_skill_df):
-    """Given pandas dataframe list of users (user_id), skills (skill_name) and numeric ratings (rating)
+    """Given pandas dataframe of users (user_id), skills (skill_name) and numeric ratings (rating)
     , returns a matrix of skill similarity"""
 
-    # create a long dataframe with all our users and skills
     sparse_df = (
         long_skill_df.groupby(["user_id", "skill_name"])["rating"].sum().astype("Sparse[int]").unstack(fill_value=0)
     )
     # convert to sparse array to conserve memory
     skills_sparse = scipy.sparse.csr_matrix(sparse_df.values)
 
-    # measure cosine similarity, and highlight most similar skills
     similarity_matrix = cosine_similarity(skills_sparse.T)
     return similarity_matrix
 
 
 def get_similar_skills(long_skill_df, skill_name, similarity_matrix):
-    """given a pandas dataframe of user_id, skill_name, and rating, returns a matrix of skill similarity based on
-    common use
+    """Given a pandas dataframe of user_id, skill_name, and rating, returns a matrix of skill similarity based on
+    other users the data
 
     skill_return_count is a hard coded value (default to 10) to specify number of skill returned."""
 
@@ -45,7 +43,8 @@ def get_similar_skills(long_skill_df, skill_name, similarity_matrix):
 
 
 def get_job_embeddings(job_titles):
-    """Given an array of job titles, returns them as embedding values to be stored
+    """Given an array of job titles, uses a SentenceTransformer model to concert the array to embeddings,
+    and returns the embeddings values to be stored
 
     The model_name (taken from sentence_transformers) is a hard coded value, and can be changed to any of the models"""
 
@@ -60,7 +59,11 @@ def get_job_embeddings(job_titles):
 
 
 def return_similar_title_skills(job_title, user_skills, job_embeddings):
-    """Given a job title, a list of all user skills, and previously generated job embeddings, returns likely skills"""
+    """Given a job title, a list of all user skills, and previously generated job embeddings, returns likely skills
+
+    The number of skills returned is a hard coded value (default to 10), as is the model name.
+    The model assumes no skill ratings are provided (and defaults to each having a score of 1)
+    """
 
     skill_count = 10
     model_name = "all-MiniLM-L6-v2"
@@ -127,9 +130,15 @@ def return_similar_title_skills(job_title, user_skills, job_embeddings):
 
 
 def create_skill_similarity_matrix(user_query):
-    """Given a django request with user skill details, generates a skill similarity matrix and saves as a numpy array"""
+    """Given a django request with user skill details (from views.generate_skill_similarity) generates a skill
+    similarity matrix and saves as a numpy array
+
+    The array is based of the user query as well as a sample of nlp generated skill from nlp_generated_skills.json
+
+    It is stored in the same directory as the script, and is named 'skill_similarity_matrix.npy'"""
 
     skill_sample_size = 10000
+
     nlp_skill_df = pd.read_json("nlp_generated_skills.json")[["user_id", "skill_name", "rating"]].iloc[
         0:skill_sample_size
     ]
@@ -151,12 +160,17 @@ def create_skill_similarity_matrix(user_query):
 
     similarity_matrix = make_skill_similarity_matrix(combined_long_df)
 
-    # currently saving as a numpy array - memory efficient but could be better
+    # todo - add to database in some way
     np.save("similarity_matrix.npy", similarity_matrix)
 
 
 def create_job_title_embeddings(user_query):
-    """Given a django query, creates a title embedding matrix and saves it as a Pickle file"""
+    """Given a django query (from views.create_job_embeddings) produces an embedding matrix of skills and job titles
+
+    User data will be combined with a sample of nlp generated data from nlp_generated_skills.json.
+    The sample size is hardcoded (default to 10000), can be reduced to speed up processing time based on load testing
+
+     The final matrix is stored as a pickle file in the api directory"""
 
     skill_sample_size = 10000
 
@@ -177,11 +191,19 @@ def create_job_title_embeddings(user_query):
     # converts to numpy array for speed
     unique_job_titles = df.drop_duplicates(subset=["job_title"]).dropna(axis=0)["job_title"].to_numpy()
     embeddings = get_job_embeddings(unique_job_titles)
+
+    #todo - add to database in some way
     embeddings.to_pickle("job_title_embeddings.pkl")
 
 
 def recommend_skill_relevant_skills(user_query, skill_name):
-    """Given a Django request of user skills and skill name, and returns a list of recommended skills"""
+    """Given a Django request of user skills and skill name, combines them with nlp skills to return recommended skills
+
+    User data will be combined with a sample of nlp generated data from nlp_generated_skills.json.
+    The sample size is hardcoded (default to 10000), can be reduced to speed up processing time based on load testing
+
+    Returns a list of skills as strings
+"""
 
     skill_sample_size = 10000
 
@@ -221,7 +243,10 @@ def recommend_skill_relevant_skills(user_query, skill_name):
 
 
 def recommend_relevant_job_skills(user_query, job_title):
-    """Given a Django request of user skills and job title, and returns a list of recommended job titles"""
+    """Given a Django request of user skills and job title, and returns a list of recommended skills for that title
+
+    All existing users skill will be combined with a sample from nlp_generated_skills.json
+    """
 
     skill_sample_size = 10000
 
@@ -256,7 +281,7 @@ def recommend_relevant_job_skills(user_query, job_title):
 
 def recommend_relevant_user_skills(user_query, skills_list, job_title):
     """Given a Django request of user skills, a list of skills, and a job title, and returns a random selection
-    of recommendations
+    of recommendations, by comining recommendations based on title and each individual skill into a bundle
 
     Alter hard-coded variables to change the number of recommendations returned, and how many are linked to job title
     or existing skills.  If there are insufficient skills generated by skill similarity, will substitute for job title.
