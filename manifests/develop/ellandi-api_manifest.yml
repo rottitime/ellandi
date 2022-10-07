@@ -13,5 +13,5 @@ applications:
   - type: web
     instances: 1
     memory: 256M
-    disk_quota: 2048M
+    disk_quota: 4092M
     health-check-type: port
