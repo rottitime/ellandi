@@ -1,6 +1,6 @@
 on:
   schedule:
-    - cron: '0 */4 * * *'
+    - cron: '0 */1 * * *'
 
 jobs:
   cron_schedule:
@@ -16,5 +16,8 @@ jobs:
       - name: CF login
         run: ./cf login -a api.london.cloud.service.gov.uk -u "${{ secrets.CF_USER }}" -p "${{ secrets.CF_PASSWORD }}" -o co-i-ai -s "$CF_SPACE"
 
-      - name: Every time
-        run: ./cf run-task cf-cron --command "curl --head https://ellandi-sandbox.london.cloudapps.digital"
+      - name: Trigger 'Create Title Embeddings' api run
+        run: ./cf run-task cf-cron --command "curl -X POST https://ellandi-develop.london.cloudapps.digital/api/create-title-embeddings/"
+
+      - name: Trigger 'Create Skill Similarity' api run
+        run: ./cf run-task cf-cron --command "curl -X POST https://ellandi-develop.london.cloudapps.digital/api/create-skill-similarity/"
