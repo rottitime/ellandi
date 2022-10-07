@@ -74,7 +74,6 @@ def return_similar_title_skills(job_title, user_skills, job_embeddings):
 
     else:
         if len(user_skills[user_skills["job_title"] == job_title]) == 0:
-            print("user in embeddings but has no skills")
             dummy_df = pd.DataFrame(
                 {"user_id": ["dummy"], "job_title": [job_title], "skill_name": ["dummy"], "rating": [0]}
             )
