@@ -2,6 +2,7 @@ export enum Query {
   Countries = 'countries',
   Grades = 'grades',
   JobTitles = 'jobTitles',
+  BusinessUnits = 'businessUnits',
   Professions = 'professions',
   PrimaryProfessions = 'primaryProfessions',
   Functions = 'functions',

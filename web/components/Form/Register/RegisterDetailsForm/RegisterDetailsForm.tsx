@@ -7,6 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Grid } from '@mui/material'
 import { StandardRegisterProps } from '../types'
 import {
+  fetchBusinessUnit,
   fetchJobTitles,
   GenericDataList,
   Query,
@@ -42,75 +43,93 @@ const RegisterDetailsForm: FC<StandardRegisterProps<RegisterDetailsType>> = (pro
     resolver: yupResolver(schema)
   })
 
-  const { isLoading, data, isSuccess } = useQuery<GenericDataList[], Error>(
-    Query.JobTitles,
-    fetchJobTitles,
-    {
-      staleTime: Infinity
-    }
-  )
+  const {
+    isLoading: isLoadingJobtitles,
+    data: jobtitles,
+    isSuccess: isSuccessJobtitles
+  } = useQuery<GenericDataList[], Error>(Query.JobTitles, fetchJobTitles, {
+    staleTime: Infinity
+  })
 
-  const showField = (field: keyof RegisterDetailsType) => {
-    if (!props.pickFields || props.pickFields.includes(field)) {
-      return true
-    }
-    return false
-  }
+  const {
+    isLoading: isLoadingBusinessUnit,
+    data: businessUnits,
+    isSuccess: isSuccessBusinessUnit
+  } = useQuery<GenericDataList[], Error>(Query.BusinessUnits, fetchBusinessUnit, {
+    staleTime: Infinity
+  })
 
   return (
     <FormProvider {...methods}>
       <Form {...props}>
-        {(showField('first_name') || showField('last_name')) && (
-          <Grid container spacing={3}>
-            <Grid item xs={6}>
-              <Field>
-                <TextFieldControlled name="first_name" label="First name" />
-              </Field>
-            </Grid>
-            <Grid item xs={6}>
-              <Field>
-                <TextFieldControlled name="last_name" label="Last name" />
-              </Field>
-            </Grid>
+        <Grid container spacing={3}>
+          <Grid item xs={6}>
+            <Field>
+              <TextFieldControlled name="first_name" label="First name" />
+            </Field>
           </Grid>
-        )}
-        {/* </Grid> */}
+          <Grid item xs={6}>
+            <Field>
+              <TextFieldControlled name="last_name" label="Last name" />
+            </Field>
+          </Grid>
+        </Grid>
 
-        {showField('job_title') && (
-          <Field>
-            <Controller
-              name="job_title"
-              control={methods.control}
-              render={({ field, fieldState: { error } }) => (
-                <CreatableAutocomplete
-                  {...field}
-                  loading={isLoading}
-                  label="Job title"
-                  size="small"
-                  options={isSuccess ? data.map(({ name: title }) => ({ title })) : []}
-                  error={!!error}
-                  helperText={!!error && error.message}
-                />
-              )}
-            />
-          </Field>
-        )}
+        <Field>
+          <Controller
+            name="job_title"
+            control={methods.control}
+            render={({ field, fieldState: { error } }) => (
+              <CreatableAutocomplete
+                {...field}
+                loading={isLoadingJobtitles}
+                label="Job title"
+                size="small"
+                options={
+                  isSuccessJobtitles
+                    ? jobtitles.map(({ name: title }) => ({ title }))
+                    : []
+                }
+                error={!!error}
+                helperText={!!error && error.message}
+              />
+            )}
+          />
+        </Field>
 
-        {showField('business_unit') && (
-          <Field>
-            <TextFieldControlled name="business_unit" label="Business unit" />
-          </Field>
-        )}
-        {showField('location') && (
-          <Field>
-            <TextFieldControlled name="location" label="Work location" />
-          </Field>
-        )}
-        {showField('line_manager_email') && (
-          <Field>
-            <TextFieldControlled name="line_manager_email" label="Line manager email" />
-          </Field>
-        )}
+        <Field>
+          <Controller
+            name="business_unit"
+            control={methods.control}
+            render={({ field, fieldState: { error } }) => (
+              <CreatableAutocomplete
+                {...field}
+                loading={isLoadingBusinessUnit}
+                label="Business unit"
+                size="small"
+                options={
+                  isSuccessBusinessUnit
+                    ? businessUnits.map(({ name: title }) => ({ title }))
+                    : []
+                }
+                error={!!error}
+                helperText={!!error && error.message}
+              />
+            )}
+          />
+        </Field>
+
+        {/* <Field>
+          <TextFieldControlled name="business_unit" label="Business unit" />
+        </Field> */}
+
+        <Field>
+          <TextFieldControlled name="location" label="Work location" />
+        </Field>
+
+        <Field>
+          <TextFieldControlled name="line_manager_email" label="Line manager email" />
+        </Field>
       </Form>
     </FormProvider>
   )
