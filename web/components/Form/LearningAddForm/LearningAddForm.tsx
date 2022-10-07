@@ -95,7 +95,7 @@ const LearningAddForm: FC<Props> = ({ onFormSubmit, loading, error }) => {
 
         <Field>
           <Button type="submit" variant="contained" loading={loading}>
-            Add learning
+            Save learning
           </Button>
         </Field>
       </form>
