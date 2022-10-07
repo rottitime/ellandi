@@ -3,7 +3,7 @@ import { Link, Typography } from '@mui/material'
 
 export default function Custom404() {
   return (
-    <CardLayout title="Page not found">
+    <CardLayout title="Page not found" dark>
       <Typography gutterBottom>
         If you typed the web address, check it is correct.
       </Typography>

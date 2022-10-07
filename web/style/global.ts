@@ -14,3 +14,9 @@ export const withGovLogoBackground = css.global`
     }
   }
 `
+
+export const govBackgroundDark = css.global`
+  body {
+    background-color: #aeaeae;
+  }
+`

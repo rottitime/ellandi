@@ -20,8 +20,10 @@ const Card = styled(MuiCard, {
     align-items: center;
 
     .icon {
-      font-size: ${(p) => (p.headerLogoSize === 'large' ? '50px' : '25px')};
+      font-size: ${(p) => (p.headerLogoSize === 'large' ? '50px' : '30px')};
       margin-right: ${(p) => p.theme.spacing(3)};
+      display: flex;
+      align-items: center;
     }
   }
 

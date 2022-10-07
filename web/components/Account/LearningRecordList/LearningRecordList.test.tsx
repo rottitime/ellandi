@@ -59,7 +59,7 @@ describe('LearningRecordList', () => {
     await bugfixForTimeout()
 
     await waitFor(async () => {
-      expect(screen.getByText('Add learning')).toBeInTheDocument()
+      expect(screen.getByTestId('empty')).toBeInTheDocument()
     })
   })
 })

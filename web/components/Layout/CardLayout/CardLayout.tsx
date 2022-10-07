@@ -1,5 +1,5 @@
 import Template from '@/components/Layout/Template'
-import { withGovLogoBackground } from '@/style/global'
+import { govBackgroundDark, withGovLogoBackground } from '@/style/global'
 import { styled, Alert, Box } from '@mui/material'
 import { FC, useEffect, useRef } from 'react'
 import { useUiContext } from '@/context/UiContext'
@@ -27,7 +27,7 @@ const Page = styled(Box)`
   }
 `
 
-const CardLayout: FC<Props> = ({ children, title, footer, progress }) => {
+const CardLayout: FC<Props> = ({ children, title, footer, progress, dark }) => {
   const { error, loading, isErrorEcode, scroll } = useUiContext()
   const alertRef = useRef(null)
 
@@ -38,7 +38,10 @@ const CardLayout: FC<Props> = ({ children, title, footer, progress }) => {
   return (
     <Template disableGutters>
       <style jsx global>
-        {withGovLogoBackground}
+        {`
+          ${withGovLogoBackground}
+          ${dark && govBackgroundDark}
+        `}
       </style>
       <Page>
         <GovCard

@@ -5,7 +5,6 @@ import { MeLearningList, Query } from '@/service/api'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { fetchMeLearning } from '@/service/me'
 import { Alert, Box, Chip, Typography } from '@mui/material'
-import Link from '@/components/UI/Link'
 import { splitMinutes } from '@/lib/date-utils'
 import dayjs from 'dayjs'
 import { deleteLearning } from '@/service/account'
@@ -49,9 +48,9 @@ const LearningRecordList: FC = () => {
             }
           }}
           noRowContent={
-            <Alert severity="info">
-              <Link href="/account/learning/add">Add learning</Link>
-            </Alert>
+            <Typography variant="body2" data-testid="empty">
+              No learning has been added. Click the 'Add learning' button to add some.
+            </Typography>
           }
           autoHeight
           columns={columns}

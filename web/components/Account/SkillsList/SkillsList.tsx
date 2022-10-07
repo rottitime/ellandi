@@ -183,7 +183,7 @@ export default SkillsList
 const columns: GridColDef[] = [
   {
     field: 'name',
-    headerName: 'Skill name',
+    headerName: 'Skill',
     disableColumnMenu: true,
     resizable: false,
     flex: 1

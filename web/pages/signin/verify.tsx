@@ -54,5 +54,7 @@ const EmailVerifyPage = () => {
 
 export default EmailVerifyPage
 EmailVerifyPage.getLayout = (page) => (
-  <CardLayout title="Email Verify Page">{page}</CardLayout>
+  <CardLayout title="Email Verify Page" dark>
+    {page}
+  </CardLayout>
 )

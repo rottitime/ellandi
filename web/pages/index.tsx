@@ -34,5 +34,7 @@ const IndexPage = () => (
 
 export default IndexPage
 IndexPage.getLayout = (page) => (
-  <CardLayout title="Civil Service Skills and Learning">{page}</CardLayout>
+  <CardLayout title="Civil Service Skills and Learning" dark>
+    {page}
+  </CardLayout>
 )
