@@ -44,9 +44,6 @@ const SigninPage = () => {
           setFetching(false)
         }}
       />
-      <Typography sx={{ mt: 3 }} variant="body2">
-        <Link href="/signin/forgotten-password">Forgotten your password?</Link>
-      </Typography>
     </>
   )
 }
