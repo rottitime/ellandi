@@ -24,4 +24,8 @@ const NextPage = () => (
 )
 
 export default NextPage
-NextPage.getLayout = (page) => <CardLayout title="What next?">{page}</CardLayout>
+NextPage.getLayout = (page) => (
+  <CardLayout title="What next?" dark>
+    {page}
+  </CardLayout>
+)

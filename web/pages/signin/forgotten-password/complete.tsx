@@ -22,5 +22,7 @@ const CompletedPage = () => (
 
 export default CompletedPage
 CompletedPage.getLayout = (page) => (
-  <CardLayout title="Congratulations">{page}</CardLayout>
+  <CardLayout title="Congratulations" dark>
+    {page}
+  </CardLayout>
 )

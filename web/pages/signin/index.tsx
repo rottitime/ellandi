@@ -49,4 +49,8 @@ const SigninPage = () => {
 }
 
 export default SigninPage
-SigninPage.getLayout = (page) => <CardLayout title="Sign in">{page}</CardLayout>
+SigninPage.getLayout = (page) => (
+  <CardLayout title="Sign in" dark>
+    {page}
+  </CardLayout>
+)

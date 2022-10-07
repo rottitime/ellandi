@@ -48,5 +48,7 @@ const FeedbackPage = () => {
 
 export default FeedbackPage
 FeedbackPage.getLayout = (page) => (
-  <CardLayout title="Feedback and support">{page}</CardLayout>
+  <CardLayout title="Feedback and support" dark>
+    {page}
+  </CardLayout>
 )
