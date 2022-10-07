@@ -27,11 +27,7 @@ def convert_dictionary(input_data):
         for field in fields_dict:
             converted[field] = fields_dict[field]
         output_data.append(converted)
-    orders = [x["order"] for x in output_data]
-    if None in orders:
-        output_data = sorted(output_data, key=lambda x: x["slug"])
-    else:
-        output_data = sorted(output_data, key=lambda x: x["order"])
+    output_data = sorted(output_data, key=lambda x: (x["order"], x["slug"]))
     return output_data
 
 
