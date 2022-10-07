@@ -48,7 +48,7 @@ const LearningRecordList: FC = () => {
             }
           }}
           noRowContent={
-            <Typography variant="body2">
+            <Typography variant="body2" data-testid="empty">
               No learning has been added. Click the 'Add learning' button to add some.
             </Typography>
           }
