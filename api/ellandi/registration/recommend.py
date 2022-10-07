@@ -72,14 +72,6 @@ def return_similar_title_skills(job_title, user_skills, job_embeddings):
     if job_title not in job_embeddings.index.to_list():
         user_skills = user_skills[user_skills["job_title"] != job_title].copy()
 
-    else:
-        if len(user_skills[user_skills["job_title"] == job_title]) == 0:
-            dummy_df = pd.DataFrame(
-                {"user_id": ["dummy"], "job_title": [job_title], "skill_name": ["dummy"], "rating": [0]}
-            )
-            user_skills = pd.concat([user_skills, dummy_df], axis=0, ignore_index=True)
-            unique_job_titles = user_skills.drop_duplicates(subset=["job_title"]).dropna(axis=0)["job_title"].to_numpy()
-
     unique_job_titles = user_skills.drop_duplicates(subset=["job_title"]).dropna(axis=0)["job_title"].to_numpy()
 
     if missing_ratings:
@@ -117,7 +109,7 @@ def return_similar_title_skills(job_title, user_skills, job_embeddings):
     dist_df = pd.DataFrame(columns=["distance", "job_title"])
 
     dist_df["distance"] = dist
-    dist_df["job_title"] = unique_job_titles
+    dist_df["job_title"] = job_embeddings.index.to_list()
 
     distance_title_df = (
         title_lookup.reset_index()
