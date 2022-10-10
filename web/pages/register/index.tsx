@@ -4,14 +4,16 @@ import { useUiContext } from '@/context/UiContext'
 import useAuth from '@/hooks/useAuth'
 import { Query } from '@/service/api'
 import { useRouter } from 'next/router'
-import React from 'react'
+import { useEffect } from 'react'
 import { useMutation, useQueryClient } from 'react-query'
 
 const RegisterPage = () => {
   const router = useRouter()
   const queryClient = useQueryClient()
-  const { setError } = useUiContext()
   const { createAndLogin } = useAuth()
+  const { setError } = useUiContext()
+
+  useEffect(() => () => setError(''), [setError])
 
   const { isLoading, ...mutate } = useMutation(createAndLogin, {
     onSuccess: async (data) => {
