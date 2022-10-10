@@ -297,9 +297,12 @@ def make_learning_view(serializer_class, learning_type):
         user = request.user
         queryset = models.Learning.objects.filter(user=user)
         _learning_type = learning_type or request.query_params.get("learning_type", None)
+        sortfield = request.query_params.get("sortfield", None)
         if _learning_type:
             queryset = queryset.filter(learning_type=_learning_type)
         if request.method == "GET":
+            if sortfield:
+                queryset = queryset.order_by(sortfield)
             serializer = serializer_class(queryset, many=True)
             return Response(serializer.data)
         elif request.method == "PATCH":
