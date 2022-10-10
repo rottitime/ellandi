@@ -1,15 +1,6 @@
 import AccountLayout from './AccountLayout'
 import fetchMock from 'jest-fetch-mock'
-import {
-  bugfixForTimeout,
-  renderWithProviders,
-  screen,
-  waitFor,
-  waitForElementToBeRemoved,
-  mockMe
-} from '@/lib/test-utils'
-
-import userEvent from '@testing-library/user-event'
+import { renderWithProviders, screen, waitFor, mockMe } from '@/lib/test-utils'
 import router from 'next/router'
 
 jest.mock('next/router', () => ({
@@ -39,14 +30,30 @@ describe('AccountLayout', () => {
     })
   })
 
-  describe('Unauthorised', () => {
+  describe('API Errors', () => {
     const redirectParams = {
       pathname: 'signin',
       query: { ecode: 3 }
     }
 
-    it('redirects unuathenticated', async () => {
+    it('unuathenticated user', async () => {
       fetchMock.mockResponse(JSON.stringify(mockMe), { status: 401 })
+
+      await renderWithProviders(
+        <AccountLayout>
+          <p>my page</p>
+        </AccountLayout>
+      )
+
+      await waitFor(async () =>
+        expect(router.replace).toHaveBeenCalledWith(redirectParams)
+      )
+    })
+
+    it('renders page on bad request', async () => {
+      fetchMock.mockResponse(JSON.stringify(mockMe), {
+        status: 400
+      })
 
       await renderWithProviders(
         <AccountLayout>
