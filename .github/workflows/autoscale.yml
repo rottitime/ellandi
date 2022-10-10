@@ -22,7 +22,7 @@ jobs:
 
     strategy:
       matrix:
-        app: [ellandi-api, ellandi-web, organogram, ellandi]
+        app: [ellandi-api, organogram, ellandi]
 
     steps:
       - uses: actions/checkout@v3
@@ -40,8 +40,17 @@ jobs:
         run: ./cf install-plugin -r CF-Community app-autoscaler-plugin -f
 
       - name: Attach Policy to App
+        if: ${{ github.ref_name != 'prod' }}
         working-directory: ./autoscale
         run: ./cf attach-autoscaling-policy ${{ matrix.app }}-${{ github.ref_name }} policy.json
+
+      - name: Attach Policy to prod Apps
+        if: ${{ github.ref_name == 'prod' && matrix.app != 'organogram'}}
+        run: ./cf attach-autoscaling-policy ${{ matrix.app }} policy.json
+
+      - name: Attach Policy to prod Apps
+        if: ${{ github.ref_name == 'prod' && matrix.app == 'organogram'}}
+        run: ./cf attach-autoscaling-policy digital-${{ matrix.app }} policy.json
 
       - uses: actions/checkout@v2
       - name: Slack Notification

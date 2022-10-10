@@ -37,22 +37,6 @@ services:
     ports:
       - "8000:8000"
 
-  web:
-    build:
-      context: .
-      dockerfile: ./docker/web/Dockerfile
-      args:
-        NODE_ENV: development
-        NEXT_PUBLIC_API_URL: http://localhost:8000/api
-        GIT_SHA: ""
-    image: ellandi_web
-    env_file:
-      - ./envs/web
-    environment:
-      - NODE_ENV
-    ports:
-      - "3000:3000"
-
   organogram:
     build:
       context: .
