@@ -1,0 +1,5 @@
+# Curl url every noon
+*/1 * * * * curl -X POST https://ellandi-develop.london.cloudapps.digital/api/create-title-embeddings/
+
+# Curl url every noon
+*/1 * * * * curl -X POST https://ellandi-develop.london.cloudapps.digital/api/create-skill-similarity/
