@@ -27,8 +27,7 @@ def convert_dictionary(input_data):
         for field in fields_dict:
             converted[field] = fields_dict[field]
         output_data.append(converted)
-    output_data = sorted(output_data, key=lambda x: x["slug"] or "")
-    output_data = sorted(output_data, key=lambda x: x["order"] or -1)
+    output_data = sorted(output_data, key=lambda x: (x["order"] or -1, x["slug"] or ""))
     return output_data
 
 
