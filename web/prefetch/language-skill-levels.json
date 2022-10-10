@@ -1,0 +1,26 @@
+[
+  {
+    "slug": "basic",
+    "name": "Basic",
+    "order": 0,
+    "description": "You can understand and use basic phrases, introduce yourself and describe in simple terms aspects of your background and environment"
+  },
+  {
+    "slug": "independent",
+    "name": "Independent",
+    "order": 1,
+    "description": "You can deal with most situations likely to arise while travelling in an area where the language is spoken and interact with a degree of fluency"
+  },
+  {
+    "slug": "proficient",
+    "name": "Proficient",
+    "order": 2,
+    "description": "You can express ideas fluently and spontaneously and can use the language flexibly for social, academic and professional purposes"
+  },
+  {
+    "slug": "none",
+    "name": "None",
+    "order": 3,
+    "description": ""
+  }
+]
