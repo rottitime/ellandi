@@ -74,16 +74,15 @@ const AccountLayout: FC<Props> = ({
   const { logout, authFetch, invalidate } = useAuth()
   const { isLoading, data, isError } = useQuery<RegisterUserResponseWithCustomFields>(
     Query.Me,
-    () => authFetch(fetchMe),
-    { retry: 1 }
+    () => authFetch(fetchMe)
   )
 
   useEffect(() => {
     if (!isLoading && !data) {
       invalidate()
       router.replace({
-        pathname: '/signin',
-        query: { ecode: 2 }
+        pathname: urls.signin,
+        query: { ecode: 3 }
       })
     }
   }, [isLoading, data, invalidate])
