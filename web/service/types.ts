@@ -14,7 +14,8 @@ export enum Query {
   Me = 'me',
   TeamMembers = 'teamMembers',
   SuggestedSkills = 'SuggestedSkills',
-  MeLearning = 'meLearning'
+  MeLearning = 'meLearning',
+  LearningTypes = 'LearningTypes'
 }
 
 export type GenericDataList = {
@@ -191,6 +192,4 @@ export type MeLearningList = {
   learning_type: string
 } & LearningAddType
 
-export type MeLearningFormalList = {
-  id: string
-} & LearningAddFormalType
+export type MeLearningFormalList = MeLearningList & LearningAddFormalType

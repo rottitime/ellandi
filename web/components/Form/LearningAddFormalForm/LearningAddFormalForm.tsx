@@ -38,14 +38,20 @@ const schema: SchemaOf<LearningAddFormalType> = object().shape({
   date_completed: string().nullable().required('Enter a date')
 })
 
-const LearningAddFormalForm: FC<Props> = ({ onFormSubmit, error, loading }) => {
+const LearningAddFormalForm: FC<Props> = ({
+  onFormSubmit,
+  error,
+  loading,
+  defaultValues
+}) => {
   const methods = useForm<LearningAddFormalType>({
     defaultValues: {
       name: '',
       cost_pounds: null,
       cost_unknown: null,
       duration_minutes: null,
-      date_completed: ''
+      date_completed: '',
+      ...defaultValues
     },
     resolver: yupResolver(schema)
   })

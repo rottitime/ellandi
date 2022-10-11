@@ -1,7 +1,9 @@
-import { MeLearningList } from '@/service/types'
+import { MeLearningFormalList, MeLearningList } from '@/service/types'
 
 export type RowsType = {
   type: string
-  // duration: string
-  // completed: string
 } & MeLearningList
+
+export type ModalProps = {
+  data: MeLearningFormalList | MeLearningList
+}

@@ -8,6 +8,7 @@ import { Alert, Box, Chip, Typography } from '@mui/material'
 import { splitMinutes } from '@/lib/date-utils'
 import dayjs from 'dayjs'
 import { deleteLearning } from '@/service/account'
+import LearningEditModal from './LearningEditModal'
 
 const LearningRecordList: FC = () => {
   const { authFetch } = useAuth()
@@ -63,6 +64,26 @@ const LearningRecordList: FC = () => {
               Are you sure you want to delete this learning from your learning record?
             </Typography>
           }
+          onEdit={async (cell) => {
+            // const skillIndex = data.skills.findIndex(
+            //     (skill) => skill.id === cell?.row?.id
+            //   ),
+            //   skill = data.skills[skillIndex]
+            // const value = getValues(`skills.${skillIndex}.level`)
+            // try {
+            //   await editMutate([{ ...skill, level: value }])
+            // } catch (err) {
+            //   return false
+            // }
+            // return true
+            console.log({ cell })
+          }}
+          editModalTitle="Edit learning"
+          editModalContent={(cell) => {
+            console.log({ cell })
+            const learning = data.find(({ id }) => id === cell?.row?.id)
+            return <LearningEditModal data={learning} />
+          }}
         />
       </>
     </Box>
