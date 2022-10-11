@@ -41,7 +41,7 @@ api_urlpatterns = [
     path("me/skill-recommender/", views.me_recommend_most_relevant_skills),
 ]
 
-api_urlpatterns_debug = [
+api_debug_urlpatterns = [
     path("one-time-login-token/", views.create_one_time_login_view),
     path("first-time-login/", views.first_log_in_view),
     path("create-error/", views.create_error),
@@ -67,4 +67,6 @@ auth_urlpatterns = [
 urlpatterns = [path("api/", include(api_urlpatterns + auth_urlpatterns))]
 
 if settings.DEBUG:
-    urlpatterns = urlpatterns + [path("api/", include(api_urlpatterns_debug))] + schema_urlpatterns + admin_urlpatterns
+    print(settings.DEBUG)
+    print("i am here")
+    urlpatterns = urlpatterns + [path("api/", include(api_debug_urlpatterns))] + schema_urlpatterns + admin_urlpatterns
