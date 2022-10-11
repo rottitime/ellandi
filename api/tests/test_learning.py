@@ -88,13 +88,13 @@ def test_me_learning_patch_get_delete(client, user_id):
     response = client.patch("/api/me/learnings/", json=more_data)
     assert response.status_code == status.HTTP_200_OK, response
 
-    response = client.get(f"/api/me/learnings/?learning_type=On the job&sortfield=name")
+    response = client.get("/api/me/learnings/?learning_type=On the job&sortfield=name")
     result = response.json()
     assert len(result) == 2
     assert result[0]["name"] == "Did some on the job learning", result
     assert result[1]["learning_type"] == "On the job"
 
-    response = client.get(f"/api/me/learnings/?sortfield=-duration_minutes")
+    response = client.get("/api/me/learnings/?sortfield=-duration_minutes")
     result = response.json()
     assert len(result) == 4
     assert result[3]["duration_minutes"] == 666
