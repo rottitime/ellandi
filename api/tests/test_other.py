@@ -28,7 +28,6 @@ def test_json_only(client, user_id):
 
 @utils.with_logged_in_admin_client
 def test_debug_endpoint(client, user_id):
-    print(f"debug: {settings.DEBUG}")
     response = client.get("/api/debug/")
     assert response.status_code == status.HTTP_200_OK, response.status_code
     data = response.json()

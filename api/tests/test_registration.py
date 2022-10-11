@@ -1,4 +1,3 @@
-from django.test import override_settings
 from nose.tools import with_setup
 from rest_framework import status
 from tests import utils
