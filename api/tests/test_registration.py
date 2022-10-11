@@ -1,3 +1,4 @@
+from django.test import override_settings
 from nose.tools import with_setup
 from rest_framework import status
 from tests import utils
@@ -698,7 +699,6 @@ def test_all_user_skills_to_develop(client, user_id):
 @utils.with_client
 def test_endpoints_require_login(client):
     endpoints = [
-        "/create-error/",
         "/me/",
         "/me/direct-reports/",
         "/me/languages/",
