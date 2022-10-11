@@ -21,7 +21,7 @@ const ecodes = {
       <Link href="/register">create an account</Link> before using this service
     </>
   ),
-  3: 'You need to sign in before using this service'
+  3: 'You are no longer logged in, sign in to continue using the platform'
 }
 
 const UIContext = createContext<Props>({} as Props)
