@@ -65,14 +65,12 @@ def return_similar_title_skills(job_title, user_skills, job_embeddings):
     The model assumes no skill ratings are provided (and defaults to each having a score of 1)
     """
 
-    skill_count = 10
+    skill_count = 60
     model_name = "all-MiniLM-L6-v2"
     missing_ratings = False
 
     if job_title not in job_embeddings.index.to_list():
         user_skills = user_skills[user_skills["job_title"] != job_title].copy()
-
-    unique_job_titles = user_skills.drop_duplicates(subset=["job_title"]).dropna(axis=0)["job_title"].to_numpy()
 
     if missing_ratings:
         skills_to_dummy = user_skills[["user_id", "skill_name"]]
@@ -102,7 +100,6 @@ def return_similar_title_skills(job_title, user_skills, job_embeddings):
     job_embedding = embeddings.reshape((1, embeddings.shape[0]))
 
     dist = np.linalg.norm(job_embedding - job_embeddings, axis=1)
-    jobs_by_dist = np.argsort(dist)
 
     title_lookup = user_skills[["user_id", "job_title"]].drop_duplicates().set_index("user_id")
 
@@ -125,8 +122,7 @@ def return_similar_title_skills(job_title, user_skills, job_embeddings):
     similar_skill_dist = comparison_df.corr()["distance"].sort_values()
 
     returned_skills = list(similar_skill_dist.iloc[0:skill_count].index)
-    returned_jobs = unique_job_titles[jobs_by_dist][0:skill_count]
-    return returned_skills, returned_jobs
+    return returned_skills
 
 
 def create_skill_similarity_matrix(user_query):
@@ -275,7 +271,7 @@ def recommend_relevant_job_skills(user_query, job_title):
         return None
 
     similar_title_skills_returns = return_similar_title_skills(job_title, df, loaded_embeddings)
-    return similar_title_skills_returns[0]
+    return similar_title_skills_returns
 
 
 def recommend_relevant_user_skills(user_query, skills_list, job_title):
@@ -331,7 +327,7 @@ def recommend_relevant_user_skills(user_query, skills_list, job_title):
     if len(skill_recommended_skills) < skill_recommendation_count:
         title_recommendation_count = total_skill_count - len(skill_recommended_skills)
 
-    job_title_skills = return_similar_title_skills(job_title, df, loaded_embeddings)[0]
+    job_title_skills = return_similar_title_skills(job_title, df, loaded_embeddings)
 
     combined = skill_recommended_skills[0:skill_recommendation_count] + job_title_skills[0:title_recommendation_count]
 
