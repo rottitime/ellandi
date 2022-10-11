@@ -21,8 +21,9 @@ const LearningEditModal: FC<ModalProps> = ({ data }) => {
   const formProps = {
     loading: false,
     defaultValues: data,
+    compact: true,
     onFormSubmit: (data) => {
-      console.log({ data })
+      console.log({ data, learning_type: type })
     }
   }
 

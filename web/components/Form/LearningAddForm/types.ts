@@ -6,4 +6,5 @@ export type Props = {
   error?: string
   defaultValues?: LearningAddType
   onFormSubmit: SubmitHandler<LearningAddType>
+  compact?: boolean
 }

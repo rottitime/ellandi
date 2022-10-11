@@ -3,7 +3,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { LearningAddType } from '@/service/types'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
 import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
-import { Alert, Typography } from '@mui/material'
+import { Alert, styled, Typography } from '@mui/material'
 import BadgeNumber from '@/components/UI/BadgeNumber/BadgeNumber'
 import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldControlled'
 import { FC } from 'react'
@@ -21,7 +21,19 @@ const schema: SchemaOf<LearningAddType> = object().shape({
   date_completed: string().nullable().required('Enter a date')
 })
 
-const LearningAddForm: FC<Props> = ({ onFormSubmit, loading, error, defaultValues }) => {
+const Form = styled('form')`
+  &.compact {
+    border: 2px solid green;
+  }
+`
+
+const LearningAddForm: FC<Props> = ({
+  onFormSubmit,
+  loading,
+  error,
+  defaultValues,
+  compact
+}) => {
   const methods = useForm<LearningAddType>({
     defaultValues: {
       name: '',
@@ -32,11 +44,19 @@ const LearningAddForm: FC<Props> = ({ onFormSubmit, loading, error, defaultValue
     resolver: yupResolver(schema)
   })
 
+  const cardProps = { mb: 4, p: null }
+
+  console.log({ compact })
+
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(onFormSubmit)} noValidate>
+      <Form
+        onSubmit={methods.handleSubmit(onFormSubmit)}
+        noValidate
+        className={`${compact ? 'compact' : 'no-compact'}`}
+      >
         <AccountCard
-          sx={{ mb: 4, maxWidth: 565 }}
+          sx={{ mb: 4, maxWidth: 565, p: 0 }}
           header={
             <Typography component="h2">
               <BadgeNumber label="2" sx={{ mr: 2 }} /> Title
@@ -99,7 +119,7 @@ const LearningAddForm: FC<Props> = ({ onFormSubmit, loading, error, defaultValue
             Save learning
           </Button>
         </Field>
-      </form>
+      </Form>
     </FormProvider>
   )
 }
