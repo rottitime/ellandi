@@ -9,6 +9,7 @@ on:
       - 'main'
       - 'feature/**'
       - 'bugfix/**'
+      - 'hotfix/**'
       - 'develop'
 
 jobs:
