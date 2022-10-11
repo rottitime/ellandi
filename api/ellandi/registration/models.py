@@ -189,7 +189,9 @@ class User(AbstractUser, TimeStampedModel, RegistrationAbstractUser):
 
     def clean(self):
         if self.line_manager_email and (self.email.lower() == self.line_manager_email.lower()):
-            raise ValidationError("You have entered an email that matches your own. Enter your line manager's work email address.")
+            raise ValidationError(
+                "You have entered an email that matches your own. Enter your line manager's work email address."
+            )
 
     def save(self, *args, **kwargs):
         self.clean()
