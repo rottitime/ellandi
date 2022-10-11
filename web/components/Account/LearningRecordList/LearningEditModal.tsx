@@ -27,6 +27,8 @@ const LearningEditModal: FC<ModalProps> = ({ data }) => {
     }
   }
 
+  console.log({ data })
+
   return (
     <>
       <Typography component="label" id={labelId} gutterBottom>

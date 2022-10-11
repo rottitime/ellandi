@@ -3,7 +3,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { LearningAddType } from '@/service/types'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
 import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
-import { Alert, styled, Typography } from '@mui/material'
+import { Alert, styled, TextField, Typography } from '@mui/material'
 import BadgeNumber from '@/components/UI/BadgeNumber/BadgeNumber'
 import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldControlled'
 import { FC } from 'react'
@@ -38,9 +38,9 @@ const LearningAddForm: FC<Props> = ({
 }) => {
   const methods = useForm<LearningAddType>({
     defaultValues: {
-      name: '',
+      name: 'dede',
       duration_minutes: null,
-      date_completed: '',
+      date_completed: null,
       ...defaultValues
     },
     resolver: yupResolver(schema)
@@ -51,7 +51,7 @@ const LearningAddForm: FC<Props> = ({
       <Form
         onSubmit={methods.handleSubmit(onFormSubmit)}
         noValidate
-        className={`${compact ? 'compact' : 'no-compact'}`}
+        className={`${compact ? 'compact' : ''}`}
       >
         <AccountCard
           sx={{ mb: 4, maxWidth: 565, p: 0 }}
@@ -63,7 +63,6 @@ const LearningAddForm: FC<Props> = ({
         >
           <TextFieldControlled name="name" label="Enter a title for the learning" />
         </AccountCard>
-
         <AccountCard
           sx={{ mb: 4, maxWidth: 392 }}
           header={
@@ -105,13 +104,11 @@ const LearningAddForm: FC<Props> = ({
             )}
           />
         </AccountCard>
-
         {error && (
           <Alert severity="error" sx={{ mb: 4, maxWidth: 700 }}>
             {error}
           </Alert>
         )}
-
         <Field>
           <Button type="submit" variant="contained" loading={loading}>
             Save learning
