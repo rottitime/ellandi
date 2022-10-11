@@ -1,3 +1,5 @@
+import datetime
+
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
@@ -242,3 +244,7 @@ SPECTACULAR_SETTINGS = {
 
 WHITENOISE_USE_FINDERS = False
 GIT_SHA = env.str("GIT_SHA", default="UNKNOWN")
+
+TOKEN_TTL = datetime.timedelta(hours=3)
+AUTO_REFRESH = True
+MIN_REFRESH_INTERVAL = 60
