@@ -100,7 +100,6 @@ def return_similar_title_skills(job_title, user_skills, job_embeddings):
     job_embedding = embeddings.reshape((1, embeddings.shape[0]))
 
     dist = np.linalg.norm(job_embedding - job_embeddings, axis=1)
-    jobs_by_dist = np.argsort(dist)
 
     title_lookup = user_skills[["user_id", "job_title"]].drop_duplicates().set_index("user_id")
 
