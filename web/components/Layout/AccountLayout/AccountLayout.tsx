@@ -76,6 +76,7 @@ const AccountLayout: FC<Props> = ({
     RegisterUserResponseWithCustomFields,
     Error
   >(Query.Me, () => authFetch(fetchMe), {
+    retry: 0,
     onError: () => {
       invalidate()
       router.replace({
