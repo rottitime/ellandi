@@ -28,10 +28,19 @@
 },
 {
   "model": "registration.languageskilllevel",
+  "pk": "native",
+  "fields": {
+    "name": "Native",
+    "order": 3,
+    "description": "This is the first language you learnt as a child"
+  }
+},
+{
+  "model": "registration.languageskilllevel",
   "pk": "none",
   "fields": {
     "name": "None",
-    "order": 3,
+    "order": 4,
     "description": ""
   }
 }
