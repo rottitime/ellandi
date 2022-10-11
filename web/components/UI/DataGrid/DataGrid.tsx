@@ -2,7 +2,7 @@ import Icon from '@/components/Icon/Icon'
 import Button from '../Button/Button'
 import Dialog from '@/components/UI/Dialogs/Dialog/Dialog'
 import WarningDialog from '@/components/UI/Dialogs/WarningDialog/WarningDialog'
-import { FC, useState } from 'react'
+import { FC, useRef, useState } from 'react'
 import { Props, CellType } from './types'
 import { DataGrid as MuiDataGrid, GridColDef } from '@mui/x-data-grid'
 import { IconButton, styled } from '@mui/material'
@@ -52,6 +52,7 @@ const DataGrid: FC<Props> = ({
   const [editCell, setEditCell] = useState<CellType>(null)
   const enableDelete = typeof onDelete === 'function'
   const enableEdit = typeof onEdit === 'function'
+  // const alertRef = useRef(null)
 
   const onClose = () => {
     setDeleteCell(null)
@@ -131,12 +132,20 @@ const DataGrid: FC<Props> = ({
 
       {enableEdit && (
         <Dialog
+          // ref={alertRef}
           title={editModalTitle}
           open={!!editCell}
           onClose={onClose}
           data-testid="datagrid-edit-modal"
           actions={
             <>
+              <button
+                onClick={() => {
+                  console.log(alertRef.current)
+                }}
+              >
+                test
+              </button>
               <Button color="secondary" onClick={onClose}>
                 Cancel
               </Button>

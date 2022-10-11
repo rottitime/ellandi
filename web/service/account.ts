@@ -106,6 +106,26 @@ export const addLearningFormal = async (token: string, data: LearningAddFormalTy
   return res.json()
 }
 
+export const deleteLearning = async (token: string, id: string) => {
+  await api(token, `/me/learnings/${id}/`, {
+    method: 'DELETE'
+  })
+  return id
+}
+
+export const editLearning = async (
+  token: string,
+  data: LearningAddType | LearningAddFormalType
+) => {
+  const res = await api(token, '/api/me/learnings/', {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  })
+
+  return await res.json()
+}
+
 const api = async (
   token: string,
   input: RequestInfo | URL,
@@ -121,11 +141,4 @@ const api = async (
     if (detail) throw new Error(detail)
   } catch (e) {}
   throw new Error(defaultError)
-}
-
-export const deleteLearning = async (token: string, id: string) => {
-  await api(token, `/me/learnings/${id}/`, {
-    method: 'DELETE'
-  })
-  return id
 }

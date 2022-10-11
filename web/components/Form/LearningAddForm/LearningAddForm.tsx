@@ -3,10 +3,10 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { LearningAddType } from '@/service/types'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
 import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
-import { Alert, styled, TextField, Typography } from '@mui/material'
+import { Alert, styled, Typography } from '@mui/material'
 import BadgeNumber from '@/components/UI/BadgeNumber/BadgeNumber'
 import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldControlled'
-import { FC } from 'react'
+import { FC, forwardRef, useImperativeHandle, useRef } from 'react'
 import { Props } from './types'
 import { Field } from '../Field/Field'
 import Button from '@/components/UI/Button/Button'
@@ -29,94 +29,102 @@ const Form = styled('form')`
   }
 `
 
-const LearningAddForm: FC<Props> = ({
-  onFormSubmit,
-  loading,
-  error,
-  defaultValues,
-  compact
-}) => {
-  const methods = useForm<LearningAddType>({
-    defaultValues: {
-      name: 'dede',
-      duration_minutes: null,
-      date_completed: null,
-      ...defaultValues
-    },
-    resolver: yupResolver(schema)
-  })
-
-  return (
-    <FormProvider {...methods}>
-      <Form
-        onSubmit={methods.handleSubmit(onFormSubmit)}
-        noValidate
-        className={`${compact ? 'compact' : ''}`}
-      >
-        <AccountCard
-          sx={{ mb: 4, maxWidth: 565, p: 0 }}
-          header={
-            <Typography component="h2">
-              <BadgeNumber label="2" sx={{ mr: 2 }} /> Title
-            </Typography>
-          }
-        >
-          <TextFieldControlled name="name" label="Enter a title for the learning" />
-        </AccountCard>
-        <AccountCard
-          sx={{ mb: 4, maxWidth: 392 }}
-          header={
-            <Typography component="h2">
-              <BadgeNumber label="3" sx={{ mr: 2 }} /> Duration
-            </Typography>
-          }
-        >
-          <Controller
-            name="duration_minutes"
-            control={methods.control}
-            render={({ field, fieldState: { error } }) => (
-              <Duration {...field} error={!!error} helperText={error?.message} />
-            )}
-          />
-        </AccountCard>
-
-        <AccountCard
-          sx={{ mb: 4, maxWidth: 260 }}
-          header={
-            <Typography component="h2">
-              <BadgeNumber label="4" sx={{ mr: 2 }} /> Date completed
-            </Typography>
-          }
-        >
-          <Controller
-            name="date_completed"
-            control={methods.control}
-            render={({ field, fieldState: { error } }) => (
-              <DatePicker
-                {...field}
-                error={!!error}
-                helperText={error?.message}
-                disableFuture
-                label="Select date"
-                valueFormat="YYYY-MM-DD"
-                inputFormat="DD/MM/YYYY"
-              />
-            )}
-          />
-        </AccountCard>
-        {error && (
-          <Alert severity="error" sx={{ mb: 4, maxWidth: 700 }}>
-            {error}
-          </Alert>
-        )}
-        <Field>
-          <Button type="submit" variant="contained" loading={loading}>
-            Save learning
-          </Button>
-        </Field>
-      </Form>
-    </FormProvider>
-  )
+type RefHandler = {
+  submitData: () => void
 }
+
+const LearningAddForm = forwardRef<RefHandler, Props>(
+  ({ onFormSubmit, loading, error, defaultValues, compact }, ref) => {
+    const methods = useForm<LearningAddType>({
+      defaultValues: {
+        name: '',
+        duration_minutes: null,
+        date_completed: null,
+        ...defaultValues
+      },
+      resolver: yupResolver(schema)
+    })
+
+    const submitRef = useRef<HTMLButtonElement>()
+
+    useImperativeHandle(ref, () => ({
+      submitData: () => submitRef?.current?.click()
+    }))
+
+    return (
+      <FormProvider {...methods}>
+        <Form
+          onSubmit={methods.handleSubmit(onFormSubmit)}
+          noValidate
+          className={`${compact ? 'compact' : ''}`}
+        >
+          <AccountCard
+            sx={{ mb: 4, maxWidth: 565, p: 0 }}
+            header={
+              <Typography component="h2">
+                <BadgeNumber label="2" sx={{ mr: 2 }} /> Title
+              </Typography>
+            }
+          >
+            <TextFieldControlled name="name" label="Enter a title for the learning" />
+          </AccountCard>
+          <AccountCard
+            sx={{ mb: 4, maxWidth: 392 }}
+            header={
+              <Typography component="h2">
+                <BadgeNumber label="3" sx={{ mr: 2 }} /> Duration
+              </Typography>
+            }
+          >
+            <Controller
+              name="duration_minutes"
+              control={methods.control}
+              render={({ field, fieldState: { error } }) => (
+                <Duration {...field} error={!!error} helperText={error?.message} />
+              )}
+            />
+          </AccountCard>
+
+          <AccountCard
+            sx={{ mb: 4, maxWidth: 260 }}
+            header={
+              <Typography component="h2">
+                <BadgeNumber label="4" sx={{ mr: 2 }} /> Date completed
+              </Typography>
+            }
+          >
+            <Controller
+              name="date_completed"
+              control={methods.control}
+              render={({ field, fieldState: { error } }) => (
+                <DatePicker
+                  {...field}
+                  error={!!error}
+                  helperText={error?.message}
+                  disableFuture
+                  label="Select date"
+                  valueFormat="YYYY-MM-DD"
+                  inputFormat="DD/MM/YYYY"
+                />
+              )}
+            />
+          </AccountCard>
+          {error && (
+            <Alert severity="error" sx={{ mb: 4, maxWidth: 700 }}>
+              {error}
+            </Alert>
+          )}
+          <Field>
+            <Button type="submit" color="primary" loading={loading} ref={submitRef}>
+              Save learning
+            </Button>
+          </Field>
+        </Form>
+      </FormProvider>
+    )
+  }
+)
+
+LearningAddForm.displayName = 'LearningAddForm'
 
 export default LearningAddForm

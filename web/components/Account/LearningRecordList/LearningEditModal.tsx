@@ -4,7 +4,7 @@ import BadgeNumber from '@/components/UI/BadgeNumber/BadgeNumber'
 import { SkeletonRadio } from '@/components/UI/Skeleton/RadioSkeleton.stories'
 import { fetchLearningTypes, GenericDataList, Query } from '@/service/api'
 import { FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material'
-import { FC, useId, useState } from 'react'
+import { FC, useId, useRef, useState } from 'react'
 import { useQuery } from 'react-query'
 import { ModalProps } from './types'
 
@@ -17,6 +17,8 @@ const LearningEditModal: FC<ModalProps> = ({ data }) => {
     fetchLearningTypes,
     { staleTime: Infinity }
   )
+
+  const formRef = useRef(null)
 
   const formProps = {
     loading: false,
@@ -53,7 +55,16 @@ const LearningEditModal: FC<ModalProps> = ({ data }) => {
       {type.toLowerCase() === 'formal' ? (
         <LearningAddFormalForm {...formProps} />
       ) : (
-        <LearningAddForm {...formProps} />
+        <>
+          <button
+            onClick={() => {
+              formRef.current.submitData()
+            }}
+          >
+            TEst
+          </button>
+          <LearningAddForm {...formProps} ref={formRef} />
+        </>
       )}
     </>
   )

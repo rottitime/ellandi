@@ -1,13 +1,19 @@
 import { FC } from 'react'
 import DataGrid, { GridColDef } from '@/components/UI/DataGrid/DataGrid'
 import useAuth from '@/hooks/useAuth'
-import { MeLearningList, Query } from '@/service/api'
+import {
+  LearningAddFormalType,
+  LearningAddType,
+  MeLearningFormalList,
+  MeLearningList,
+  Query
+} from '@/service/api'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { fetchMeLearning } from '@/service/me'
 import { Alert, Box, Chip, Typography } from '@mui/material'
 import { splitMinutes } from '@/lib/date-utils'
 import dayjs from 'dayjs'
-import { deleteLearning } from '@/service/account'
+import { deleteLearning, editLearning } from '@/service/account'
 import LearningEditModal from './LearningEditModal'
 
 const LearningRecordList: FC = () => {
@@ -33,6 +39,19 @@ const LearningRecordList: FC = () => {
           data.filter((learning) => learning.id !== id)
         )
       }
+    }
+  )
+
+  const {
+    mutateAsync: editMutate,
+    error: editError,
+    isError: editIsError,
+    isLoading: editLoading,
+    reset: editReset
+  } = useMutation<MeLearningFormalList[], Error, LearningAddType | LearningAddFormalType>(
+    async (data) => await authFetch(editLearning, data),
+    {
+      onSuccess: async (data) => await queryClient.setQueryData(Query.Me, data)
     }
   )
 
@@ -64,6 +83,7 @@ const LearningRecordList: FC = () => {
               Are you sure you want to delete this learning from your learning record?
             </Typography>
           }
+          onModalClose={async () => await editReset()}
           onEdit={async (cell) => {
             // const skillIndex = data.skills.findIndex(
             //     (skill) => skill.id === cell?.row?.id
@@ -75,15 +95,12 @@ const LearningRecordList: FC = () => {
             // } catch (err) {
             //   return false
             // }
-            // return true
-            console.log({ cell })
+            return true
           }}
           editModalTitle="Edit learning"
-          editModalContent={(cell) => {
-            console.log({ cell })
-            const learning = data.find(({ id }) => id === cell?.row?.id)
-            return <LearningEditModal data={learning} />
-          }}
+          editModalContent={(cell) => (
+            <LearningEditModal data={data.find(({ id }) => id === cell?.row?.id)} />
+          )}
         />
       </>
     </Box>
