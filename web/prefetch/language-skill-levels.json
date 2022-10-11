@@ -18,9 +18,15 @@
     "description": "You can express ideas fluently and spontaneously and can use the language flexibly for social, academic and professional purposes"
   },
   {
+    "slug": "native",
+    "name": "Native",
+    "order": 3,
+    "description": "This is the first language you learnt as a child"
+  },
+  {
     "slug": "none",
     "name": "None",
-    "order": 3,
+    "order": 4,
     "description": ""
   }
 ]
