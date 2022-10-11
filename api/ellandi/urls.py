@@ -67,6 +67,4 @@ auth_urlpatterns = [
 urlpatterns = [path("api/", include(api_urlpatterns + auth_urlpatterns))]
 
 if settings.DEBUG:
-    print(settings.DEBUG)
-    print("i am here")
     urlpatterns = urlpatterns + [path("api/", include(api_debug_urlpatterns))] + schema_urlpatterns + admin_urlpatterns
