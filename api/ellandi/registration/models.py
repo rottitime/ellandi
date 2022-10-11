@@ -226,6 +226,7 @@ class UserLanguage(TimeStampedModel):
         BASIC = ("Basic", "Basic")
         INDEPENDENT = ("Independent", "Independent")
         PROFICIENT = ("Proficient", "Proficient")
+        NATIVE = ("Native", "Native")
         NONE = ("None", "None")
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

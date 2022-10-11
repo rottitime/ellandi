@@ -169,7 +169,7 @@ def test_get_user_userlanguages(client, user_id):
     user_languages_data = {
         "user": user_id,
         "name": "Spanish",
-        "speaking_level": "Proficient",
+        "speaking_level": "Native",
         "writing_level": "Independent",
     }
 
@@ -177,7 +177,7 @@ def test_get_user_userlanguages(client, user_id):
     assert response.status_code == status.HTTP_201_CREATED
     user_language_id = response.json()["id"]
     assert response.json()["name"] == "Spanish"
-    assert response.json()["speaking_level"] == "Proficient"
+    assert response.json()["speaking_level"] == "Native"
     assert response.json()["writing_level"] == "Independent"
 
     response = client.get(f"/api/users/{user_id}/languages/")
