@@ -23,8 +23,9 @@ const RegisterPage = () => {
       <Typography gutterBottom>
         You have successfully signed up for the Civil Service Skills and Learning Service
       </Typography>
-      <Typography gutterBottom>
-        You will now be taken to your dashboard where you can navigate around the service
+      <Typography variant="body2" gutterBottom>
+        To confirm your account and sign in to the service, click on the link in the email
+        we have sent you
       </Typography>
 
       <FooterButtons>

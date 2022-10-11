@@ -26,7 +26,7 @@ const SkillsPage = () => {
     >
       <Headline>
         <Typography variant="h1" gutterBottom>
-          Hello {data?.first_name}, welcome to the Skills and Learning Service
+          Welcome to the skills section
         </Typography>
         <Typography>
           You can manage your skills, language skills and skills you would like to develop
