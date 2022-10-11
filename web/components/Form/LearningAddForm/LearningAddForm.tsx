@@ -23,7 +23,9 @@ const schema: SchemaOf<LearningAddType> = object().shape({
 
 const Form = styled('form')`
   &.compact {
-    border: 2px solid green;
+    .MuiCardContent-root {
+      padding: 0;
+    }
   }
 `
 
@@ -43,10 +45,6 @@ const LearningAddForm: FC<Props> = ({
     },
     resolver: yupResolver(schema)
   })
-
-  const cardProps = { mb: 4, p: null }
-
-  console.log({ compact })
 
   return (
     <FormProvider {...methods}>

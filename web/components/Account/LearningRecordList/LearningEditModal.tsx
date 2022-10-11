@@ -10,6 +10,7 @@ import { ModalProps } from './types'
 
 const LearningEditModal: FC<ModalProps> = ({ data }) => {
   const id = useId()
+  const labelId = `label-learning_type-${id}`
   const [type, setType] = useState<string>(data?.learning_type)
   const { data: types, isLoading: isLoadingTypes } = useQuery<GenericDataList[], Error>(
     Query.LearningTypes,
@@ -17,7 +18,6 @@ const LearningEditModal: FC<ModalProps> = ({ data }) => {
     { staleTime: Infinity }
   )
 
-  const labelId = `label-learning_type-${id}`
   const formProps = {
     loading: false,
     defaultValues: data,
@@ -40,6 +40,7 @@ const LearningEditModal: FC<ModalProps> = ({ data }) => {
           defaultValue={data?.learning_type}
           name="learning_type"
           onChange={(e) => setType(e.currentTarget.value)}
+          sx={{ mb: 4 }}
         >
           {types.map(({ name }) => (
             <FormControlLabel value={name} control={<Radio />} label={name} key={name} />
