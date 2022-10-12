@@ -19,8 +19,7 @@ RUN chmod +x /start.sh
 COPY ./docker/nginx/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-COPY . /app
-RUN python3 /app/scripts/convert_dropdowns.py
+COPY ./web /app/web
 
 WORKDIR /app/web
 
@@ -28,12 +27,12 @@ RUN npm install
 RUN npm run build:static
 RUN cp -R /app/web/out/* /usr/share/nginx/html/
 
+COPY . /app
+RUN python3 /app/scripts/convert_dropdowns.py
+
 EXPOSE 80
 
 COPY ./nginx/nginx-default.conf.template /etc/nginx/conf.d/default.conf.template
 
 ENTRYPOINT ["sh","/entrypoint.sh"]
 CMD ["sh","/start.sh"]
-
-
-
