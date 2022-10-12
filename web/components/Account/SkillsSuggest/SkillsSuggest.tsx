@@ -64,6 +64,7 @@ const SkillsSuggest: FC<Props> = ({
           <Chip
             key={name}
             label={name}
+            brandColor="brandSkills"
             onClick={() => {
               setSelected((p) => [...p, name])
               onSelected(name)
