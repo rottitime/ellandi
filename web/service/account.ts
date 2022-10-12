@@ -117,7 +117,7 @@ export const editLearning = async (
   token: string,
   data: LearningAddType | LearningAddFormalType
 ) => {
-  const res = await api(token, '/api/me/learnings/', {
+  const res = await api(token, '/me/learnings/', {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)

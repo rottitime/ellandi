@@ -50,7 +50,7 @@ const LearningRecordList: FC = () => {
     { staleTime: Infinity }
   )
 
-  const { data, isLoading } = useQuery<MeLearningList[]>(
+  const { data, isLoading, refetch } = useQuery<MeLearningList[]>(
     Query.MeLearning,
     () => authFetch(fetchMeLearning),
     { initialData: [], staleTime: 0 }
@@ -73,18 +73,13 @@ const LearningRecordList: FC = () => {
     }
   )
 
-  const {
-    mutateAsync: editMutate,
-    error: editError,
-    isError: editIsError,
-    isLoading: editLoading,
-    reset: editReset
-  } = useMutation<MeLearningFormalList[], Error, LearningAddType | LearningAddFormalType>(
-    async (data) => await authFetch(editLearning, data),
-    {
-      onSuccess: async (data) => await queryClient.setQueryData(Query.Me, data)
-    }
-  )
+  const { mutateAsync: editMutate, reset: editReset } = useMutation<
+    MeLearningFormalList[],
+    Error,
+    LearningAddType[] | LearningAddFormalType[]
+  >(async (data) => await authFetch(editLearning, data), {
+    onSuccess: async (data) => await queryClient.setQueryData(Query.Me, data)
+  })
 
   return (
     <Box sx={{ height: 'auto', width: '100%' }}>
@@ -115,27 +110,14 @@ const LearningRecordList: FC = () => {
             </Typography>
           }
           onModalClose={async () => await editReset()}
-          onEdit={async (cell) => {
-            // const skillIndex = data.skills.findIndex(
-            //     (skill) => skill.id === cell?.row?.id
-            //   ),
-            //   skill = data.skills[skillIndex]
-            // const value = getValues(`skills.${skillIndex}.level`)
-            // try {
-            //   await editMutate([{ ...skill, level: value }])
-            // } catch (err) {
-            //   return false
-            // }
-            // return true
-            formRef.current.submitForm()
-            console.log('done')
-            return false
+          onEdit={async () => {
+            await formRef.current.submitForm()
+            return true
           }}
           editModalTitle="Edit learning"
           editModalContent={(cell) => {
             const learningData = data.find(({ id }) => id === cell?.row?.id)
-            const defaultValue = learningData?.learning_type
-            setType(defaultValue)
+
             return (
               <Modal>
                 <Typography component="label" id={labelId} gutterBottom>
@@ -167,8 +149,15 @@ const LearningRecordList: FC = () => {
                   loading={false}
                   defaultValues={learningData}
                   compact={true}
-                  onFormSubmit={(data) => {
-                    console.log({ data, type })
+                  onFormSubmit={async (data) => {
+                    try {
+                      await editMutate([
+                        { ...data, ...(!!type ? { learning_type: type } : {}) }
+                      ])
+                      await refetch()
+                    } catch (err) {
+                      return false
+                    }
                   }}
                 />
               </Modal>
