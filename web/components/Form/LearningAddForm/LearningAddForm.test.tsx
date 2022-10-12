@@ -4,6 +4,8 @@ import LearningAddForm from './LearningAddForm'
 import { FormData } from './types'
 
 const mockData: FormData = {
+  id: 'test1',
+  learning_type: 'Holiday',
   name: 'Skill Something A',
   duration_minutes: 122,
   date_completed: '2022-01-23',

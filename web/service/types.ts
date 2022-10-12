@@ -183,6 +183,11 @@ export type LearningFormalType = LearningBaseType & {
   cost_pounds: number
   cost_unknown: boolean
 }
+
+export type LearningConditionalApiFields =
+  | { id?: never; learning_type?: never }
+  | LearningApiFields
+
 type LearningApiFields = {
   id: string
   learning_type: string

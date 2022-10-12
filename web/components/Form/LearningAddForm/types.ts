@@ -1,7 +1,12 @@
-import { LearningFormalType, LearningBaseType } from '@/service/types'
+import {
+  LearningFormalType,
+  LearningBaseType,
+  LearningConditionalApiFields
+} from '@/service/types'
 import { SubmitHandler } from 'react-hook-form'
 
-export type FormData = LearningBaseType | LearningFormalType
+export type FormData = (LearningBaseType | LearningFormalType) &
+  LearningConditionalApiFields
 
 type SubmitType = SubmitHandler<FormData>
 
