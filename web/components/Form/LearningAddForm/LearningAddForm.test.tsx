@@ -17,6 +17,21 @@ describe('LearningAddForm', () => {
     expect(screen.getByTestId('duration-hours')).toBeInTheDocument()
   })
 
+  it('renders formal type', async () => {
+    renderWithProviders(
+      <LearningAddForm loading={false} onFormSubmit={jest.fn()} type="formal" />
+    )
+    expect(screen.getByRole('button', { name: /Save learning/i })).toBeInTheDocument()
+    expect(screen.getByTestId('textfield_name')).toBeInTheDocument()
+    expect(screen.getByTestId('datepicker')).toBeInTheDocument()
+    expect(screen.getByTestId('duration-days')).toBeInTheDocument()
+    expect(screen.getByTestId('duration-minutes')).toBeInTheDocument()
+    expect(screen.getByTestId('duration-hours')).toBeInTheDocument()
+
+    expect(screen.getByTestId('textfield_cost_pounds')).toBeInTheDocument()
+    expect(screen.getByLabelText('Unknown')).toBeInTheDocument()
+  })
+
   describe('Validation error', () => {
     it('for durations as 0', async () => {
       renderWithProviders(<LearningAddForm loading={false} onFormSubmit={jest.fn()} />)
