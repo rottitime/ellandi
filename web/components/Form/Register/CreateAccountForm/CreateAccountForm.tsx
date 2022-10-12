@@ -53,7 +53,13 @@ const CreateAccountForm: FC<StandardRegisterProps<CreateAccountType>> = (props) 
 
   return (
     <FormProvider {...methods}>
-      <Form {...props} defaultValues={defaultValues} submitDisabled>
+      <Form
+        {...props}
+        defaultValues={defaultValues}
+        submitDisabled
+        autoComplete="off"
+        method="POST"
+      >
         <Typography gutterBottom>
           You need to create an account before using this service. Already have an
           account? <Link href={urls.signin}>Sign in</Link>

@@ -25,7 +25,12 @@ const SignInForm: FC<Props> = ({ onFormSubmit, loading }) => {
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(onFormSubmit)} noValidate>
+      <form
+        onSubmit={methods.handleSubmit(onFormSubmit)}
+        noValidate
+        autoComplete="off"
+        method="POST"
+      >
         <Field>
           <TextFieldControlled
             name="email"
