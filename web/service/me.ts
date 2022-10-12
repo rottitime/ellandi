@@ -52,6 +52,14 @@ export const fetchMeSuggestedSkills = async (token: string) => {
   throw new Error(defaultError)
 }
 
+export const fetchMeSuggestedSkillsByRole = async (token: string) => {
+  const res = await fetch(`${publicRuntimeConfig.apiUrl}/me/title-recommender/`, {
+    headers: { Authorization: `Token ${token}` }
+  })
+  if (res.ok) return res.json()
+  throw new Error(defaultError)
+}
+
 export const fetchMeLearningFormal = async (token: string) => {
   const res = await fetch(`${publicRuntimeConfig.apiUrl}/me/learning-formal/`, {
     headers: { Authorization: `Token ${token}` }

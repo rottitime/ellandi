@@ -13,7 +13,11 @@ const SkillsForm: FC<StandardRegisterProps<SkillsType>> = ({
       <Typography gutterBottom>
         Select any skills that you already have. You can change or add to these later
       </Typography>
-      <SkillsAddForm loading={buttonLoading} onFormSubmit={onFormSubmit} />
+      <SkillsAddForm
+        loading={buttonLoading}
+        onFormSubmit={onFormSubmit}
+        suggestionType="job-role"
+      />
     </>
   )
 }

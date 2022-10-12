@@ -1,7 +1,7 @@
 import Chip from '@/components/Chip/Chip'
 import Skeleton from '@/components/UI/Skeleton/Skeleton'
 import useAuth from '@/hooks/useAuth'
-import { fetchMeSuggestedSkills } from '@/service/me'
+import { fetchMeSuggestedSkills, fetchMeSuggestedSkillsByRole } from '@/service/me'
 import { MeSuggestedSkillsResponse, Query } from '@/service/types'
 import { Box, Collapse, styled, Typography } from '@mui/material'
 import { FC, useMemo, useState } from 'react'
@@ -12,18 +12,30 @@ const Wrapper = styled(Box)`
   border: 1px solid ${(p) => p.theme.colors.grey2};
   padding: ${(p) => p.theme.spacing(3)};
   border-radius: 12px;
-  .list {
+  .type {
     display: flex;
     flex-wrap: wrap;
     gap: ${(p) => p.theme.spacing(3)};
   }
 `
 
+const typeData = {
+  default: {
+    fetchFn: fetchMeSuggestedSkills,
+    description: 'Skills you might have, based on your profile:'
+  },
+  'job-role': {
+    fetchFn: fetchMeSuggestedSkillsByRole,
+    description: null
+  }
+}
+
 const SkillsSuggest: FC<Props> = ({
   onSelected,
   max = 15,
   hideOptions,
   onFetched,
+  type,
   ...props
 }) => {
   const { authFetch } = useAuth()
@@ -31,11 +43,11 @@ const SkillsSuggest: FC<Props> = ({
 
   const { isSuccess, data, isLoading } = useQuery<MeSuggestedSkillsResponse>(
     Query.SuggestedSkills,
-    () => authFetch(fetchMeSuggestedSkills),
+    () => authFetch(typeData[type].fetchFn),
     { onSuccess: onFetched }
   )
 
-  const list: MeSuggestedSkillsResponse = useMemo(
+  const suggestions: MeSuggestedSkillsResponse = useMemo(
     () =>
       isSuccess
         ? data.filter((name) => !(hideOptions.includes(name) || selected.includes(name)))
@@ -43,10 +55,10 @@ const SkillsSuggest: FC<Props> = ({
     [selected, isSuccess, data, hideOptions]
   )
 
-  const renderList = () => {
+  const rendertype = () => {
     return isLoading
       ? [...Array(max).keys()].map((i) => <Skeleton key={i} sx={{ mb: 1, width: 100 }} />)
-      : list.map((name) => (
+      : suggestions.map((name) => (
           <Chip
             key={name}
             label={name}
@@ -59,16 +71,18 @@ const SkillsSuggest: FC<Props> = ({
   }
 
   return (
-    <Collapse in={isSuccess && !!list.length}>
+    <Collapse in={isSuccess && !!type.length}>
       <Wrapper
         {...props}
         data-testid="suggestion-box"
-        aria-hidden={!isSuccess || !list.length}
+        aria-hidden={!isSuccess || !type.length}
       >
-        <Typography gutterBottom>
-          Skills you might have, based on your profile:
-        </Typography>
-        <Box className="list">{renderList()}</Box>
+        {!!typeData[type]?.description && (
+          <Typography variant="body2" gutterBottom>
+            {typeData[type].description}
+          </Typography>
+        )}
+        <Box className="type">{rendertype()}</Box>
       </Wrapper>
     </Collapse>
   )
