@@ -13,9 +13,12 @@ const IndexPage = () => (
   <div>
     <Typography>You can use this service to:</Typography>
     <List as="ul">
-      <li>upload and maintain your skills profile</li>
+      <li>upload and maintain your skills and learning profile</li>
       <li>specify any skills you would like to develop in the future</li>
-      <li>support discussions around skills development with your line manager</li>
+      <li>find courses and development opportunities</li>
+      <li>
+        support discussions about skills and career development with your line manager
+      </li>
     </List>
 
     <Box display="flex" justifyContent={'end'}>
