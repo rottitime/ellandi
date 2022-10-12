@@ -83,6 +83,7 @@ check-python-code:
 .PHONY: test-api
 test-api:
 	docker-compose build tests-api && docker-compose run tests-api
+	docker-compose build tests-api-debug && docker-compose run tests-api-debug
 
 .PHONY: test-organogram
 test-organogram:

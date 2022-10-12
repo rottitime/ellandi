@@ -93,7 +93,8 @@ def test_get_endpoints_debug(client, user_id):
     for url in DEBUG_ONLY_URLS_GET:
         response = client.get(url)
         if settings.DEBUG:
-            assert response.status_code == status.HTTP_200_OK, response.json()
+            print(url)
+            assert response.status_code == status.HTTP_200_OK, response
         else:
             assert response.status_code == status.HTTP_404_NOT_FOUND
 
