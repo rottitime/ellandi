@@ -96,6 +96,20 @@ services:
     profiles:
       - testing
 
+  tests-api-alternative:
+    build:
+      context: .
+      dockerfile: ./docker/tests/Dockerfile
+      args:
+        APP: api
+        MODULE: ellandi
+    image: tests_api_alternative
+    env_file:
+      - ./envs/tests-alt
+    profiles:
+      - testing
+
+
   tests-organogram:
     build:
       context: .
