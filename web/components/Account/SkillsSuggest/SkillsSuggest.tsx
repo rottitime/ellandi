@@ -1,4 +1,5 @@
 import Chip from '@/components/Chip/Chip'
+import Skeleton from '@/components/UI/Skeleton/Skeleton'
 import useAuth from '@/hooks/useAuth'
 import { fetchMeSuggestedSkills } from '@/service/me'
 import { MeSuggestedSkillsResponse, Query } from '@/service/types'
@@ -18,11 +19,17 @@ const Wrapper = styled(Box)`
   }
 `
 
-const SkillsSuggest: FC<Props> = ({ onSelected, hideOptions, onFetched, ...props }) => {
+const SkillsSuggest: FC<Props> = ({
+  onSelected,
+  max = 15,
+  hideOptions,
+  onFetched,
+  ...props
+}) => {
   const { authFetch } = useAuth()
   const [selected, setSelected] = useState<string[]>([])
 
-  const { isSuccess, data } = useQuery<MeSuggestedSkillsResponse>(
+  const { isSuccess, data, isLoading } = useQuery<MeSuggestedSkillsResponse>(
     Query.SuggestedSkills,
     () => authFetch(fetchMeSuggestedSkills),
     {
@@ -38,6 +45,21 @@ const SkillsSuggest: FC<Props> = ({ onSelected, hideOptions, onFetched, ...props
     [selected, isSuccess, data, hideOptions]
   )
 
+  const renderList = () => {
+    return isLoading
+      ? [...Array(max).keys()].map((i) => <Skeleton key={i} sx={{ mb: 1, width: 100 }} />)
+      : list.map((name) => (
+          <Chip
+            key={name}
+            label={name}
+            onClick={() => {
+              setSelected((p) => [...p, name])
+              onSelected(name)
+            }}
+          />
+        ))
+  }
+
   return (
     <Collapse in={isSuccess && !!list.length}>
       <Wrapper
@@ -48,18 +70,7 @@ const SkillsSuggest: FC<Props> = ({ onSelected, hideOptions, onFetched, ...props
         <Typography gutterBottom>
           Skills you might have, based on your profile:
         </Typography>
-        <Box className="list">
-          {list.map((name) => (
-            <Chip
-              key={name}
-              label={name}
-              onClick={() => {
-                setSelected((p) => [...p, name])
-                onSelected(name)
-              }}
-            />
-          ))}
-        </Box>
+        <Box className="list">{renderList()}</Box>
       </Wrapper>
     </Collapse>
   )
