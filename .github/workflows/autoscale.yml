@@ -4,11 +4,10 @@ name: Configure Autoscaler
 on:
   push:
     branches:
-      - temp
+      - pentest
       - develop
       - staging
       - prod
-      - pentest
     paths:
       - .github/workflows/autoscale.yml
       - 'autoscale/**'
