@@ -200,7 +200,7 @@ const steps: Steps[] = [
   },
   {
     form: dynamic(() => import('@/components/Form/Register/SkillsForm')),
-    title: 'Current skills',
+    title: 'What skills do you have?',
     nextUrl: '/register/complete'
   }
   // Hidden temporarily

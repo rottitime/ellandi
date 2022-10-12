@@ -32,9 +32,7 @@ const SkillsSuggest: FC<Props> = ({
   const { isSuccess, data, isLoading } = useQuery<MeSuggestedSkillsResponse>(
     Query.SuggestedSkills,
     () => authFetch(fetchMeSuggestedSkills),
-    {
-      onSuccess: onFetched
-    }
+    { onSuccess: onFetched }
   )
 
   const list: MeSuggestedSkillsResponse = useMemo(
