@@ -46,8 +46,6 @@ const SkillsAddForm = forwardRef<RefHandler, Props>(
   ({ onFormSubmit, loading, showAll, suggestionProps, hideSubmit }, ref) => {
     const id = useId()
     const { authFetch } = useAuth()
-
-    const [hasSuggestions, setHasSuggestions] = useState<string[]>()
     const [hasSelected, setHasSelected] = useState(false)
 
     const { isLoading, data: levels } = useQuery<GenericDataList[], { message?: string }>(
@@ -184,7 +182,6 @@ const SkillsAddForm = forwardRef<RefHandler, Props>(
           hideOptions={disableOptions}
           onFetched={(data) => {
             if (!showAll && !data.length) onFormSubmit({ skills: [] })
-            setHasSuggestions(data)
           }}
           onSelected={(name) => {
             const firstRow = getValues('skills.0')
