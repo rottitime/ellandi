@@ -155,6 +155,7 @@ const SkillsAddForm: FC<Props> = ({
             className="button-remove"
             aria-label="Remove"
             title="Remove"
+            disabled={fields.length === 1}
             onClick={() => remove(index)}
           >
             <Icon icon="circle-delete" />
