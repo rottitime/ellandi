@@ -7,7 +7,7 @@ import {
   SkillType
 } from '@/service/types'
 import { fetchSkillLevels, fetchSkills } from '@/service/api'
-import { FC, useEffect, useId, useMemo, useState } from 'react'
+import { FC, useId, useMemo, useState } from 'react'
 import { useQuery } from 'react-query'
 import { Controller, FormProvider, useFieldArray, useForm } from 'react-hook-form'
 import { Field } from '@/components/Form/Field/Field'
@@ -70,7 +70,7 @@ const SkillsAddForm: FC<Props> = ({
   >(Query.Skills, fetchSkills, { initialData: [], staleTime: 0 })
 
   const methods = useForm<SkillsType>({
-    defaultValues: { skills: [] },
+    defaultValues: { skills: [{ name: '', level: '' }] },
     resolver: yupResolver(schema)
   })
 
@@ -78,7 +78,7 @@ const SkillsAddForm: FC<Props> = ({
     control,
     handleSubmit,
     setValue,
-    formState: { errors },
+    formState: { errors, isDirty, isValid },
     getValues
   } = methods
 
@@ -86,11 +86,6 @@ const SkillsAddForm: FC<Props> = ({
     control,
     name: 'skills'
   })
-
-  useEffect(() => {
-    append({ name: '', level: '' })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   const disableOptions = useMemo(
     () => [
