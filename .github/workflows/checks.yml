@@ -11,6 +11,7 @@ on:
       - 'bugfix/**'
       - 'hotfix/**'
       - 'develop'
+      - 'pentest'
 
 jobs:
   check_backend:
