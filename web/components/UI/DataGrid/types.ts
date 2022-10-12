@@ -2,6 +2,7 @@ import { ComponentProps, ReactElement } from 'react'
 import { DataGrid, GridRenderCellParams } from '@mui/x-data-grid'
 
 export type Props = {
+  initialLoading?: boolean
   noRowContent?: ReactElement
   modalLoading?: boolean
   onModalClose?: () => void

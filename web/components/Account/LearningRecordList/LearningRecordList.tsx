@@ -71,18 +71,21 @@ const LearningRecordList: FC = () => {
     }
   )
 
-  const { mutateAsync: editMutate, reset: editReset } = useMutation<
-    MeLearningRecord[],
-    Error,
-    LearningBaseType[] | LearningFormalType[]
-  >(async (data) => await authFetch(editLearning, data))
+  const {
+    mutateAsync: editMutate,
+    reset: editReset,
+    isLoading: editLoading
+  } = useMutation<MeLearningRecord[], Error, LearningBaseType[] | LearningFormalType[]>(
+    async (data) => await authFetch(editLearning, data)
+  )
 
   return (
     <Box sx={{ height: 'auto', width: '100%' }}>
       <>
         {isError && <Alert severity="error">{error.message}</Alert>}
         <DataGrid
-          loading={isLoading}
+          initialLoading={isLoading}
+          loading={deleteLoading || editLoading}
           hideFooterPagination
           initialState={{
             sorting: {
