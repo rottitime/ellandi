@@ -25,7 +25,6 @@ import {
 import { splitMinutes } from '@/lib/date-utils'
 import dayjs from 'dayjs'
 import { deleteLearning, editLearning } from '@/service/account'
-import LearningEditModal from './LearningEditModal'
 import { SkeletonRadio } from '@/components/UI/Skeleton/RadioSkeleton.stories'
 import BadgeNumber from '@/components/UI/BadgeNumber/BadgeNumber'
 import LearningAddForm from '@/components/Form/LearningAddForm/LearningAddForm'

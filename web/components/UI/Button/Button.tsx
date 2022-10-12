@@ -1,4 +1,4 @@
-import { FC, forwardRef } from 'react'
+import { forwardRef } from 'react'
 import { LoadingButton as MuiButton } from '@mui/lab'
 import Link from 'next/link'
 import { Props, ButtonOverrides } from './types'
@@ -16,7 +16,6 @@ const StyledButton = styled(MuiButton)`
 `
 
 const Button = forwardRef<HTMLButtonElement, Props>(({ href, ...rest }, ref) => {
-  // const Button: FC<Props> = ({ href, ...rest }) => {
   const routeProps = href ? { component: 'a', to: href } : {}
   const props = { ...routeProps, ...overrides[rest.color], ref: ref, ...rest }
 
