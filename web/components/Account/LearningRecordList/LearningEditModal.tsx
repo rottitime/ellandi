@@ -3,10 +3,23 @@ import LearningAddFormalForm from '@/components/Form/LearningAddFormalForm/Learn
 import BadgeNumber from '@/components/UI/BadgeNumber/BadgeNumber'
 import { SkeletonRadio } from '@/components/UI/Skeleton/RadioSkeleton.stories'
 import { fetchLearningTypes, GenericDataList, Query } from '@/service/api'
-import { FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material'
+import {
+  Box,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+  styled,
+  Typography
+} from '@mui/material'
 import { FC, useId, useRef, useState } from 'react'
 import { useQuery } from 'react-query'
 import { ModalProps } from './types'
+
+const Modal = styled(Box)`
+  ${({ theme }) => theme.breakpoints.up('md')} {
+    width: 600px;
+  }
+`
 
 const LearningEditModal: FC<ModalProps> = ({ data }) => {
   const id = useId()
@@ -32,7 +45,7 @@ const LearningEditModal: FC<ModalProps> = ({ data }) => {
   console.log({ data })
 
   return (
-    <>
+    <Modal>
       <Typography component="label" id={labelId} gutterBottom>
         <BadgeNumber label="1" /> Edit type of learning
       </Typography>
@@ -66,7 +79,7 @@ const LearningEditModal: FC<ModalProps> = ({ data }) => {
           <LearningAddForm {...formProps} ref={formRef} />
         </>
       )}
-    </>
+    </Modal>
   )
 }
 
