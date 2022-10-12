@@ -1,10 +1,6 @@
 import { boolean, number, object, SchemaOf, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
-import {
-  LearningAddFormalType,
-  LearningBaseType,
-  MeLearningRecord
-} from '@/service/types'
+import { LearningFormalType, LearningBaseType, MeLearningRecord } from '@/service/types'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
 import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
 import {
@@ -33,7 +29,7 @@ const schema: SchemaOf<LearningBaseType> = object().shape({
   date_completed: string().nullable().required('Enter a date')
 })
 
-const schemaFormal: SchemaOf<LearningAddFormalType> = schema.shape({
+const schemaFormal: SchemaOf<LearningFormalType> = schema.shape({
   cost_pounds: number()
     .nullable()
     .when('cost_unknown', (costUnknown) => {

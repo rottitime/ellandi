@@ -4,7 +4,7 @@ import useAuth from '@/hooks/useAuth'
 import {
   fetchLearningTypes,
   GenericDataList,
-  LearningAddFormalType,
+  LearningFormalType,
   LearningBaseType,
   MeLearningRecord,
   Query
@@ -74,7 +74,7 @@ const LearningRecordList: FC = () => {
   const { mutateAsync: editMutate, reset: editReset } = useMutation<
     MeLearningRecord[],
     Error,
-    LearningBaseType[] | LearningAddFormalType[]
+    LearningBaseType[] | LearningFormalType[]
   >(async (data) => await authFetch(editLearning, data))
 
   return (

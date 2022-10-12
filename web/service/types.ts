@@ -179,7 +179,7 @@ export type LearningBaseType = {
   date_completed: string
 }
 
-export type LearningAddFormalType = LearningBaseType & {
+export type LearningFormalType = LearningBaseType & {
   cost_pounds: number
   cost_unknown: boolean
 }
@@ -188,6 +188,4 @@ type LearningApiFields = {
   learning_type: string
 }
 
-export type MeLearningRecord = LearningBaseType &
-  LearningAddFormalType &
-  LearningApiFields
+export type MeLearningRecord = LearningBaseType & LearningFormalType & LearningApiFields

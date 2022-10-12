@@ -1,12 +1,14 @@
-import { LearningAddFormalType, LearningBaseType } from '@/service/types'
+import { LearningFormalType, LearningBaseType } from '@/service/types'
 import { SubmitHandler } from 'react-hook-form'
 
-type SubmitType = SubmitHandler<LearningBaseType | LearningAddFormalType>
+export type FormData = LearningBaseType | LearningFormalType
+
+type SubmitType = SubmitHandler<FormData>
 
 export type Props = {
   loading: boolean
   error?: string
-  defaultValues?: LearningBaseType
+  defaultValues?: FormData
   onFormSubmit: SubmitType
   compact?: boolean
   type?: 'generic' | 'formal'

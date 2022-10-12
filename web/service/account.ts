@@ -1,7 +1,7 @@
 import getConfig from 'next/config'
 import {
   LanguageType,
-  LearningAddFormalType,
+  LearningFormalType,
   LearningBaseType,
   SkillDevelopType,
   SkillType
@@ -97,7 +97,7 @@ export const addLearningSocial = async (token: string, data: LearningBaseType) =
   return res.json()
 }
 
-export const addLearningFormal = async (token: string, data: LearningAddFormalType) => {
+export const addLearningFormal = async (token: string, data: LearningFormalType) => {
   const res = await api(token, `/me/learning-formal/`, {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
@@ -115,7 +115,7 @@ export const deleteLearning = async (token: string, id: string) => {
 
 export const editLearning = async (
   token: string,
-  data: LearningBaseType | LearningAddFormalType
+  data: LearningBaseType | LearningFormalType
 ) => {
   const res = await api(token, '/me/learnings/', {
     method: 'PATCH',
