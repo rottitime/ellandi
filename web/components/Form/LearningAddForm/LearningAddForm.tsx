@@ -108,11 +108,14 @@ const LearningAddForm = forwardRef<RefHandler, Props>(
               {error}
             </Alert>
           )}
-          <Field>
-            <Button type="submit" color="primary" loading={loading}>
-              Save learning
-            </Button>
-          </Field>
+
+          {!compact && (
+            <Field>
+              <Button type="submit" color="primary" loading={loading}>
+                Save learning
+              </Button>
+            </Field>
+          )}
         </Form>
       </FormProvider>
     )
