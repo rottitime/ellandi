@@ -1,18 +1,54 @@
-import { FC } from 'react'
+import { FC, useId, useRef, useState } from 'react'
 import DataGrid, { GridColDef } from '@/components/UI/DataGrid/DataGrid'
 import useAuth from '@/hooks/useAuth'
-import { MeLearningList, Query } from '@/service/api'
+import {
+  fetchLearningTypes,
+  GenericDataList,
+  LearningFormalType,
+  LearningBaseType,
+  MeLearningRecord,
+  Query
+} from '@/service/api'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { fetchMeLearning } from '@/service/me'
-import { Alert, Box, Chip, Typography } from '@mui/material'
+import {
+  Alert,
+  Box,
+  Chip,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+  styled,
+  Typography
+} from '@mui/material'
 import { splitMinutes } from '@/lib/date-utils'
 import dayjs from 'dayjs'
-import { deleteLearning } from '@/service/account'
+import { deleteLearning, editLearning } from '@/service/account'
+import { SkeletonRadio } from '@/components/UI/Skeleton/RadioSkeleton.stories'
+import BadgeNumber from '@/components/UI/BadgeNumber/BadgeNumber'
+import LearningAddForm from '@/components/Form/LearningAddForm/LearningAddForm'
+
+const Modal = styled(Box)`
+  ${({ theme }) => theme.breakpoints.up('md')} {
+    width: 600px;
+  }
+`
 
 const LearningRecordList: FC = () => {
   const { authFetch } = useAuth()
+  const id = useId()
+  const labelId = `label-learning_type-${id}`
   const queryClient = useQueryClient()
-  const { data, isLoading } = useQuery<MeLearningList[]>(
+  const [type, setType] = useState<string>()
+  const formRef = useRef(null)
+
+  const { data: types, isLoading: isLoadingTypes } = useQuery<GenericDataList[], Error>(
+    Query.LearningTypes,
+    fetchLearningTypes,
+    { staleTime: Infinity }
+  )
+
+  const { data, isLoading, refetch } = useQuery<MeLearningRecord[]>(
     Query.MeLearning,
     () => authFetch(fetchMeLearning),
     { initialData: [], staleTime: 0 }
@@ -35,12 +71,21 @@ const LearningRecordList: FC = () => {
     }
   )
 
+  const {
+    mutateAsync: editMutate,
+    reset: editReset,
+    isLoading: editLoading
+  } = useMutation<MeLearningRecord[], Error, LearningBaseType[] | LearningFormalType[]>(
+    async (data) => await authFetch(editLearning, data)
+  )
+
   return (
     <Box sx={{ height: 'auto', width: '100%' }}>
       <>
         {isError && <Alert severity="error">{error.message}</Alert>}
         <DataGrid
-          loading={isLoading}
+          initialLoading={isLoading}
+          loading={deleteLoading || editLoading}
           hideFooterPagination
           initialState={{
             sorting: {
@@ -63,6 +108,61 @@ const LearningRecordList: FC = () => {
               Are you sure you want to delete this learning from your learning record?
             </Typography>
           }
+          onModalClose={async () => await editReset()}
+          onEdit={async () => {
+            await formRef.current.submitForm()
+            return true
+          }}
+          editModalTitle="Edit learning"
+          editModalContent={(cell) => {
+            const learningData = data.find(({ id }) => id === cell?.row?.id)
+            const defaultValue = learningData?.learning_type
+            const learning_type = !!type ? type : defaultValue
+
+            return (
+              <Modal>
+                <Typography component="label" id={labelId} gutterBottom>
+                  <BadgeNumber label="1" /> Edit type of learning
+                </Typography>
+                {isLoadingTypes ? (
+                  [...Array(3).keys()].map((i) => <SkeletonRadio key={i} />)
+                ) : (
+                  <RadioGroup
+                    aria-labelledby={labelId}
+                    defaultValue={defaultValue}
+                    name="learning_type"
+                    onChange={(e) => setType(e.currentTarget.value)}
+                    sx={{ mb: 4 }}
+                  >
+                    {types.map(({ name }) => (
+                      <FormControlLabel
+                        value={name}
+                        control={<Radio />}
+                        label={name}
+                        key={name}
+                      />
+                    ))}
+                  </RadioGroup>
+                )}
+
+                <LearningAddForm
+                  ref={formRef}
+                  loading={false}
+                  defaultValues={learningData}
+                  compact={true}
+                  type={learning_type?.toLowerCase() === 'formal' ? 'formal' : 'generic'}
+                  onFormSubmit={async (data) => {
+                    try {
+                      await editMutate([{ ...data, ...{ learning_type } }])
+                      await refetch()
+                    } catch (err) {
+                      return false
+                    }
+                  }}
+                />
+              </Modal>
+            )
+          }}
         />
       </>
     </Box>

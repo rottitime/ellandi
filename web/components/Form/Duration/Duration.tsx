@@ -9,7 +9,7 @@ import { OnKeyDownType, Props } from './types'
 
 const invalidKeys = ['e', '-', '.']
 
-const Duration: FC<Props> = forwardRef<HTMLDivElement, Props>(
+const Duration: FC<Props> = forwardRef<HTMLButtonElement, Props>(
   ({ value, onChange, error, helperText }, ref) => {
     const daysRef = useRef<HTMLInputElement>()
     const hoursRef = useRef<HTMLInputElement>()

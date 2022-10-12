@@ -6,6 +6,7 @@ import { FC, useState } from 'react'
 import { Props, CellType } from './types'
 import { DataGrid as MuiDataGrid, GridColDef } from '@mui/x-data-grid'
 import { IconButton, styled } from '@mui/material'
+import { SkeletonTable } from '../Skeleton/TableSkeleton.stories'
 
 const StyledGrid = styled(MuiDataGrid)`
   border: none;
@@ -46,12 +47,14 @@ const DataGrid: FC<Props> = ({
   noRowContent,
   modalLoading,
   onModalClose,
+  initialLoading,
   ...props
 }) => {
   const [deleteCell, setDeleteCell] = useState<CellType>(null)
   const [editCell, setEditCell] = useState<CellType>(null)
   const enableDelete = typeof onDelete === 'function'
   const enableEdit = typeof onEdit === 'function'
+  // const alertRef = useRef(null)
 
   const onClose = () => {
     setDeleteCell(null)
@@ -111,7 +114,8 @@ const DataGrid: FC<Props> = ({
 
   return (
     <>
-      <StyledGrid {...gridProps} />
+      {!!initialLoading ? <SkeletonTable /> : <StyledGrid {...gridProps} />}
+
       {enableDelete && (
         <WarningDialog
           data-testid="datagrid-delete-modal"
@@ -131,6 +135,7 @@ const DataGrid: FC<Props> = ({
 
       {enableEdit && (
         <Dialog
+          // ref={alertRef}
           title={editModalTitle}
           open={!!editCell}
           onClose={onClose}
