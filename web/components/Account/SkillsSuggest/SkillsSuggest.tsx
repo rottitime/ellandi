@@ -32,7 +32,7 @@ const typeData = {
 
 const SkillsSuggest: FC<Props> = ({
   onSelected,
-  max = 15,
+  max = 10,
   hideOptions,
   onFetched,
   type,
@@ -50,7 +50,9 @@ const SkillsSuggest: FC<Props> = ({
   const suggestions: MeSuggestedSkillsResponse = useMemo(
     () =>
       isSuccess
-        ? data.filter((name) => !(hideOptions.includes(name) || selected.includes(name)))
+        ? data
+            .filter((name) => !(hideOptions.includes(name) || selected.includes(name)))
+            .slice(0, max)
         : [],
     [selected, isSuccess, data, hideOptions]
   )

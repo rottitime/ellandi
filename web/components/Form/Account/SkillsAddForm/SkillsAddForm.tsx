@@ -42,7 +42,12 @@ const schema: SchemaOf<SkillsType> = object().shape({
   skills: array().of(skillSchema).optional()
 })
 
-const SkillsAddForm: FC<Props> = ({ onFormSubmit, loading, showAll, suggestionType }) => {
+const SkillsAddForm: FC<Props> = ({
+  onFormSubmit,
+  loading,
+  showAll,
+  suggestionProps
+}) => {
   const id = useId()
   const { authFetch } = useAuth()
 
@@ -174,9 +179,8 @@ const SkillsAddForm: FC<Props> = ({ onFormSubmit, loading, showAll, suggestionTy
   return (
     <FormProvider {...methods}>
       <SkillsSuggest
-        type={suggestionType}
         sx={{ mb: 4 }}
-        max={9}
+        type="default"
         hideOptions={disableOptions}
         onFetched={(data) => {
           if (!showAll && !data.length) onFormSubmit({ skills: [] })
@@ -188,6 +192,7 @@ const SkillsAddForm: FC<Props> = ({ onFormSubmit, loading, showAll, suggestionTy
             ? setValue('skills.0.name', name)
             : append({ name, level: '' })
         }}
+        {...suggestionProps}
       />
 
       {(showAll || !!hasSuggestions?.length) && (

@@ -38,7 +38,6 @@ const SkillsAddSkillsPage = () => {
         }
       >
         <SkillsAddForm
-          suggestionType="default"
           loading={isLoading}
           onFormSubmit={({ skills }) => mutate.mutate(skills)}
           showAll

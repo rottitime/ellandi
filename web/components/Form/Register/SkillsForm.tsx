@@ -16,7 +16,7 @@ const SkillsForm: FC<StandardRegisterProps<SkillsType>> = ({
       <SkillsAddForm
         loading={buttonLoading}
         onFormSubmit={onFormSubmit}
-        suggestionType="job-role"
+        suggestionProps={{ type: 'job-role', max: 10 }}
       />
     </>
   )
