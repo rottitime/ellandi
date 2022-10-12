@@ -8,6 +8,7 @@ on:
       - develop
       - staging
       - prod
+      - pentest
     paths:
       - .github/workflows/autoscale.yml
       - 'autoscale/**'

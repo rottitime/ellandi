@@ -39,12 +39,14 @@ PROD_HOSTS = (
     "ellandi-api-demo.london.cloudapps.digital",
     "ellandi-api-develop.london.cloudapps.digital",
     "ellandi-api-staging.london.cloudapps.digital",
+    "ellandi-api-pentest.london.cloudapps.digital",
     "ellandi-api.london.cloudapps.digital",
     "ellandi-sandbox.london.cloudapps.digital",
     "ellandi-temp.london.cloudapps.digital",
     "ellandi-demo.london.cloudapps.digital",
     "ellandi-develop.london.cloudapps.digital",
     "ellandi-staging.london.cloudapps.digital",
+    "ellandi-pentest.london.cloudapps.digital",
     "ellandi.london.cloudapps.digital",
 )
 
@@ -61,6 +63,7 @@ HOST_MAP = {
     "https://ellandi-api-demo.london.cloudapps.digital": "https://ellandi-demo.london.cloudapps.digital",
     "https://ellandi-api-develop.london.cloudapps.digital": "https://ellandi-develop.london.cloudapps.digital",
     "https://ellandi-api-staging.london.cloudapps.digital": "https://ellandi-staging.london.cloudapps.digital",
+    "https://ellandi-api-pentest.london.cloudapps.digital": "https://ellandi-pentest.london.cloudapps.digital",
     "https://ellandi-api.london.cloudapps.digital": "https://ellandi.london.cloudapps.digital",
     "http://localhost:8000": "http://localhost:3000",
 }

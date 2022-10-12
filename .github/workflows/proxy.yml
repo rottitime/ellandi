@@ -8,6 +8,7 @@ on:
       - staging
       - prod
       - sandbox
+      - pentest
     paths:
       - .github/workflows/proxy.yml
       - 'proxy/**'
