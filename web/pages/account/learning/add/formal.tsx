@@ -24,7 +24,7 @@ const FormalPage = () => {
       <LearningAddForm
         type="formal"
         error={error?.message}
-        onFormSubmit={(data) => mutate.mutate([data])}
+        onFormSubmit={(data) => mutate.mutate([data] as LearningAddFormalType[])}
         loading={isLoading}
       />
     </>
