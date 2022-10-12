@@ -28,6 +28,7 @@ import {
 import useAuth from '@/hooks/useAuth'
 import { fetchMe } from '@/service/me'
 import { StandardRegisterProps } from '@/components/Form/Register/types'
+import { Box } from '@mui/material'
 
 type Props = {
   stepInt: number
@@ -36,6 +37,7 @@ type Props = {
   nextUrl: string
   progress: number
   skip: boolean
+  large?: boolean
 }
 
 type Steps = {
@@ -44,10 +46,11 @@ type Steps = {
   prevUrl?: string
   nextUrl?: string
   skip?: boolean
+  large?: boolean
   isHidden?: (data: RegisterUserResponse) => boolean
 }
 
-const RegisterPage = ({ stepInt, nextUrl, skip, ...props }: Props) => {
+const RegisterPage = ({ stepInt, nextUrl, skip, large, ...props }: Props) => {
   const { setLoading, setError } = useUiContext()
   const { authFetch, hasToken } = useAuth()
   const router = useRouter()
@@ -113,14 +116,18 @@ const RegisterPage = ({ stepInt, nextUrl, skip, ...props }: Props) => {
     }
   }, [stepInt, router, isLoadingMe, hasToken, queryClient, data])
 
+  console.log({ large })
+
   return (
-    <FormComponent
-      backUrl={backUrl}
-      buttonLoading={isMutateLoading}
-      defaultValues={data}
-      skipUrl={skip && getNextUrl(data)}
-      onFormSubmit={(data) => mutate.mutate(data)}
-    />
+    <Box sx={{ maxWidth: !!large ? 1320 : 540 }}>
+      <FormComponent
+        backUrl={backUrl}
+        buttonLoading={isMutateLoading}
+        defaultValues={data}
+        skipUrl={skip && getNextUrl(data)}
+        onFormSubmit={(data) => mutate.mutate(data)}
+      />
+    </Box>
   )
 }
 
@@ -129,7 +136,7 @@ export default RegisterPage
 RegisterPage.getLayout = (page) => {
   const { props } = page
   return (
-    <CardLayout title={props.title} progress={props.progress}>
+    <CardLayout title={props.title} progress={props.progress} widthAuto>
       {page}
     </CardLayout>
   )
@@ -145,7 +152,7 @@ export async function getStaticPaths() {
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { step } = context.params
   const stepInt = parseInt(step as string)
-  const { title, nextUrl, skip } = steps[stepInt]
+  const { title, nextUrl, skip, large = false } = steps[stepInt]
 
   const queryClient = new QueryClient()
   await queryClient.prefetchQuery(Query.Grades, fetchGrades)
@@ -162,6 +169,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
       progress: Math.floor(((stepInt + 1) / (steps.length + 1)) * 100),
       stepInt,
       title,
+      large,
       backUrl: stepInt ? `/register/step/${stepInt - 1}` : null,
       nextUrl: nextUrl || `/register/step/${stepInt + 1}`,
       skip: !!skip,
@@ -201,7 +209,8 @@ const steps: Steps[] = [
   {
     form: dynamic(() => import('@/components/Form/Register/SkillsForm')),
     title: 'What skills do you have?',
-    nextUrl: '/register/complete'
+    nextUrl: '/register/complete',
+    large: true
   }
   // Hidden temporarily
   // {

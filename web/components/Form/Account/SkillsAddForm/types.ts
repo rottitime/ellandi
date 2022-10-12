@@ -2,9 +2,16 @@ import { Props as SuggesttionProps } from '@/components/Account/SkillsSuggest/ty
 import { SkillsType } from '@/service/types'
 import { SubmitHandler } from 'react-hook-form'
 
+type SubmitType = SubmitHandler<SkillsType>
+
 export type Props = {
   loading: boolean
   showAll?: boolean
-  onFormSubmit: SubmitHandler<SkillsType>
+  onFormSubmit: SubmitType
   suggestionProps?: Partial<SuggesttionProps>
+  hideSubmit?: boolean
+}
+
+export type RefHandler = {
+  submitForm: SubmitType
 }

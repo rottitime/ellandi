@@ -7,13 +7,13 @@ import {
   SkillType
 } from '@/service/types'
 import { fetchSkillLevels, fetchSkills } from '@/service/api'
-import { FC, useId, useMemo, useState } from 'react'
+import { forwardRef, useId, useImperativeHandle, useMemo, useState } from 'react'
 import { useQuery } from 'react-query'
 import { Controller, FormProvider, useFieldArray, useForm } from 'react-hook-form'
 import { Field } from '@/components/Form/Field/Field'
 import { array, object, SchemaOf, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Props } from './types'
+import { Props, RefHandler } from './types'
 import CreatableAutocomplete from '../../CreatableAutocomplete/CreatableAutocomplete'
 import SkillsSuggest from '@/components/Account/SkillsSuggest/SkillsSuggest'
 import Icon from '@/components/Icon/Icon'
@@ -42,197 +42,205 @@ const schema: SchemaOf<SkillsType> = object().shape({
   skills: array().of(skillSchema).optional()
 })
 
-const SkillsAddForm: FC<Props> = ({
-  onFormSubmit,
-  loading,
-  showAll,
-  suggestionProps
-}) => {
-  const id = useId()
-  const { authFetch } = useAuth()
+const SkillsAddForm = forwardRef<RefHandler, Props>(
+  ({ onFormSubmit, loading, showAll, suggestionProps, hideSubmit }, ref) => {
+    const id = useId()
+    const { authFetch } = useAuth()
 
-  const [hasSuggestions, setHasSuggestions] = useState<string[]>()
+    const [hasSuggestions, setHasSuggestions] = useState<string[]>()
 
-  const { isLoading, data: levels } = useQuery<GenericDataList[], { message?: string }>(
-    Query.SkillLevels,
-    fetchSkillLevels,
-    { initialData: [], staleTime: 0 }
-  )
+    const { isLoading, data: levels } = useQuery<GenericDataList[], { message?: string }>(
+      Query.SkillLevels,
+      fetchSkillLevels,
+      { initialData: [], staleTime: 0 }
+    )
 
-  const { isFetched: isFetchedMe, data: dataMe } = useQuery<RegisterUserResponse>(
-    Query.Me,
-    () => authFetch(fetchMe)
-  )
+    const { isFetched: isFetchedMe, data: dataMe } = useQuery<RegisterUserResponse>(
+      Query.Me,
+      () => authFetch(fetchMe)
+    )
 
-  const { isLoading: isLoadingSkills, data: skillsList } = useQuery<
-    string[],
-    { message?: string }
-  >(Query.Skills, fetchSkills, { initialData: [], staleTime: 0 })
+    const { isLoading: isLoadingSkills, data: skillsList } = useQuery<
+      string[],
+      { message?: string }
+    >(Query.Skills, fetchSkills, { initialData: [], staleTime: 0 })
 
-  const methods = useForm<SkillsType>({
-    defaultValues: { skills: [{ name: '', level: '' }] },
-    resolver: yupResolver(schema)
-  })
+    const methods = useForm<SkillsType>({
+      defaultValues: { skills: [{ name: '', level: '' }] },
+      resolver: yupResolver(schema)
+    })
 
-  const {
-    control,
-    handleSubmit,
-    setValue,
-    formState: { errors, isDirty, isValid },
-    getValues
-  } = methods
+    const {
+      control,
+      handleSubmit,
+      setValue,
+      formState: { errors },
+      getValues
+    } = methods
 
-  const { fields, append, remove } = useFieldArray<SkillsType, 'skills', 'name'>({
-    control,
-    name: 'skills'
-  })
+    const { fields, append, remove } = useFieldArray<SkillsType, 'skills', 'name'>({
+      control,
+      name: 'skills'
+    })
 
-  const disableOptions = useMemo(
-    () => [
-      ...fields.map(({ name }) => name),
-      ...(isFetchedMe ? dataMe.skills.map(({ name }) => name) : [])
-    ],
-    [fields, isFetchedMe, dataMe]
-  )
+    const disableOptions = useMemo(
+      () => [
+        ...fields.map(({ name }) => name),
+        ...(isFetchedMe ? dataMe.skills.map(({ name }) => name) : [])
+      ],
+      [fields, isFetchedMe, dataMe]
+    )
 
-  const tableData: SimpleTableProps['list'] = useMemo(() => {
-    if (!fields?.length) return []
+    const tableData: SimpleTableProps['list'] = useMemo(() => {
+      if (!fields?.length) return []
 
-    const rows = fields.map((_item, index) => [
-      {
-        children: (
-          <>
+      const rows = fields.map((_item, index) => [
+        {
+          children: (
+            <>
+              <Controller
+                name={`skills.${index}.name`}
+                control={control}
+                render={({ field, fieldState: { error } }) => (
+                  <CreatableAutocomplete
+                    {...field}
+                    loading={isLoadingSkills}
+                    disableOptions={disableOptions}
+                    label="Enter a skill"
+                    options={(skillsList || []).map((skill) => ({ title: skill }))}
+                    size="small"
+                    error={!!error}
+                    helperText={error?.message}
+                  />
+                )}
+              />
+
+              {errors?.['skills']?.[index]?.['level'] && (
+                <FormHelperText error>
+                  {errors?.['skills']?.[index]?.['level']?.message}
+                </FormHelperText>
+              )}
+            </>
+          )
+        },
+        ...levels.map(({ name, slug }) => ({
+          children: (
             <Controller
-              name={`skills.${index}.name`}
+              name={`skills.${index}.level` as `skills.${number}.level`}
               control={control}
-              render={({ field, fieldState: { error } }) => (
-                <CreatableAutocomplete
+              render={({ field }) => (
+                <Radio
                   {...field}
-                  loading={isLoadingSkills}
-                  disableOptions={disableOptions}
-                  label="Enter a skill"
-                  options={(skillsList || []).map((skill) => ({ title: skill }))}
-                  size="small"
-                  error={!!error}
-                  helperText={error?.message}
+                  value={name}
+                  inputProps={{
+                    'aria-labelledby': `${id}-th-${slug}`,
+                    'aria-label': name
+                  }}
+                  checked={field.value === name}
                 />
               )}
             />
+          )
+        })),
 
-            {errors?.['skills']?.[index]?.['level'] && (
-              <FormHelperText error>
-                {errors?.['skills']?.[index]?.['level']?.message}
-              </FormHelperText>
-            )}
-          </>
-        )
-      },
-      ...levels.map(({ name, slug }) => ({
-        children: (
-          <Controller
-            name={`skills.${index}.level` as `skills.${number}.level`}
-            control={control}
-            render={({ field }) => (
-              <Radio
-                {...field}
-                value={name}
-                inputProps={{ 'aria-labelledby': `${id}-th-${slug}`, 'aria-label': name }}
-                checked={field.value === name}
-              />
-            )}
-          />
-        )
-      })),
+        {
+          children: (
+            <IconButton
+              className="button-remove"
+              aria-label="Remove"
+              title="Remove"
+              disabled={fields.length === 1}
+              onClick={() => remove(index)}
+            >
+              <Icon icon="circle-delete" />
+            </IconButton>
+          )
+        }
+      ])
 
-      {
-        children: (
-          <IconButton
-            className="button-remove"
-            aria-label="Remove"
-            title="Remove"
-            disabled={fields.length === 1}
-            onClick={() => remove(index)}
-          >
-            <Icon icon="circle-delete" />
-          </IconButton>
-        )
-      }
+      return [...rows]
+    }, [
+      control,
+      disableOptions,
+      fields,
+      isLoadingSkills,
+      levels,
+      remove,
+      skillsList,
+      errors,
+      id
     ])
 
-    return [...rows]
-  }, [
-    control,
-    disableOptions,
-    fields,
-    isLoadingSkills,
-    levels,
-    remove,
-    skillsList,
-    errors,
-    id
-  ])
+    useImperativeHandle(ref, () => ({
+      submitForm: () => handleSubmit(onFormSubmit)()
+    }))
 
-  return (
-    <FormProvider {...methods}>
-      <SkillsSuggest
-        sx={{ mb: 4 }}
-        type="default"
-        hideOptions={disableOptions}
-        onFetched={(data) => {
-          if (!showAll && !data.length) onFormSubmit({ skills: [] })
-          setHasSuggestions(data)
-        }}
-        onSelected={(name) => {
-          const firstRow = getValues('skills.0')
-          return !firstRow.name && !firstRow.level
-            ? setValue('skills.0.name', name)
-            : append({ name, level: '' })
-        }}
-        {...suggestionProps}
-      />
+    return (
+      <FormProvider {...methods}>
+        <SkillsSuggest
+          sx={{ mb: 4 }}
+          type="default"
+          hideOptions={disableOptions}
+          onFetched={(data) => {
+            if (!showAll && !data.length) onFormSubmit({ skills: [] })
+            setHasSuggestions(data)
+          }}
+          onSelected={(name) => {
+            const firstRow = getValues('skills.0')
+            return !firstRow.name && !firstRow.level
+              ? setValue('skills.0.name', name)
+              : append({ name, level: '' })
+          }}
+          {...suggestionProps}
+        />
 
-      {(showAll || !!hasSuggestions?.length) && (
-        <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
-          <Table
-            loading={isLoading}
-            list={tableData}
-            headers={[
-              { children: <>&nbsp;</>, width: 227 },
-              ...levels.map(({ slug, name, description }) => ({
-                children: (
-                  <span id={`${id}-th-${slug}`}>
-                    {name}{' '}
-                    {description && (
-                      <Tooltip brandColor="brandSkills" title={description} />
-                    )}
-                  </span>
-                )
-              })),
-              { children: <>&nbsp;</> }
-            ]}
-          />
+        {(showAll || !!hasSuggestions?.length) && (
+          <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
+            <Table
+              loading={isLoading}
+              list={tableData}
+              headers={[
+                { children: <>&nbsp;</>, width: 227 },
+                ...levels.map(({ slug, name, description }) => ({
+                  children: (
+                    <span id={`${id}-th-${slug}`}>
+                      {name}{' '}
+                      {description && (
+                        <Tooltip brandColor="brandSkills" title={description} />
+                      )}
+                    </span>
+                  )
+                })),
+                { children: <>&nbsp;</> }
+              ]}
+            />
 
-          <Field>
-            <Button
-              sx={{ color: 'text.primary' }}
-              variant="text"
-              startIcon={<Icon icon="circle-plus" />}
-              onClick={() => {
-                append({ name: '', level: '' })
-              }}
-            >
-              Add another skill
-            </Button>
-          </Field>
-          <Field textAlign="right">
-            <Button type="submit" variant="contained" loading={loading}>
-              Save skills
-            </Button>
-          </Field>
-        </form>
-      )}
-    </FormProvider>
-  )
-}
+            <Field>
+              <Button
+                sx={{ color: 'text.primary' }}
+                variant="text"
+                startIcon={<Icon icon="circle-plus" />}
+                onClick={() => {
+                  append({ name: '', level: '' })
+                }}
+              >
+                Add another skill
+              </Button>
+            </Field>
+            {!hideSubmit && (
+              <Field textAlign="right">
+                <Button type="submit" variant="contained" loading={loading}>
+                  Save skills
+                </Button>
+              </Field>
+            )}
+          </form>
+        )}
+      </FormProvider>
+    )
+  }
+)
+
+SkillsAddForm.displayName = 'SkillsAddForm'
 
 export default SkillsAddForm

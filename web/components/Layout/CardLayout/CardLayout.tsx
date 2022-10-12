@@ -25,9 +25,25 @@ const Page = styled(Box)`
       margin: ${(p) => p.theme.spacing(2)};
     }
   }
+
+  &.auto-width {
+    > .MuiPaper-root {
+      ${({ theme }) => theme.breakpoints.up('md')} {
+        max-width: 100%;
+        width: auto;
+      }
+    }
+  }
 `
 
-const CardLayout: FC<Props> = ({ children, title, footer, progress, dark }) => {
+const CardLayout: FC<Props> = ({
+  children,
+  title,
+  footer,
+  progress,
+  dark,
+  widthAuto
+}) => {
   const { error, loading, isErrorEcode, scroll } = useUiContext()
   const alertRef = useRef(null)
 
@@ -43,7 +59,7 @@ const CardLayout: FC<Props> = ({ children, title, footer, progress, dark }) => {
           ${dark && govBackgroundDark}
         `}
       </style>
-      <Page>
+      <Page className={`${!!widthAuto ? 'auto-width' : ''}`}>
         <GovCard
           title={title}
           progress={progress}
