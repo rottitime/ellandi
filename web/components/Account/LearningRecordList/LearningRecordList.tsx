@@ -111,11 +111,13 @@ const LearningRecordList: FC = () => {
           onModalClose={async () => await editReset()}
           onEdit={async () => {
             await formRef.current.submitForm()
-            return true
+            return false
           }}
           editModalTitle="Edit learning"
           editModalContent={(cell) => {
             const learningData = data.find(({ id }) => id === cell?.row?.id)
+            const defaultValue = learningData?.learning_type
+            const learning_type = !!type ? type : defaultValue
 
             return (
               <Modal>
@@ -127,7 +129,7 @@ const LearningRecordList: FC = () => {
                 ) : (
                   <RadioGroup
                     aria-labelledby={labelId}
-                    defaultValue={learningData?.learning_type}
+                    defaultValue={defaultValue}
                     name="learning_type"
                     onChange={(e) => setType(e.currentTarget.value)}
                     sx={{ mb: 4 }}
@@ -148,11 +150,11 @@ const LearningRecordList: FC = () => {
                   loading={false}
                   defaultValues={learningData}
                   compact={true}
+                  type={learning_type?.toLowerCase() === 'formal' ? 'formal' : 'generic'}
                   onFormSubmit={async (data) => {
+                    alert(1)
                     try {
-                      await editMutate([
-                        { ...data, ...(!!type ? { learning_type: type } : {}) }
-                      ])
+                      await editMutate([{ ...data, ...{ learning_type } }])
                       await refetch()
                     } catch (err) {
                       return false

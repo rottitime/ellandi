@@ -9,6 +9,7 @@ export type Props = {
   defaultValues?: LearningAddType
   onFormSubmit: SubmitType
   compact?: boolean
+  type?: 'generic' | 'formal'
 }
 
 export type RefHandler = {

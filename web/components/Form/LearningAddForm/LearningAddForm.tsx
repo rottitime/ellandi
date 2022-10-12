@@ -1,9 +1,17 @@
-import { number, object, SchemaOf, string } from 'yup'
+import { boolean, number, object, SchemaOf, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { LearningAddType } from '@/service/types'
+import { LearningAddFormalType, LearningAddType, MeLearningRecord } from '@/service/types'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
 import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
-import { Alert, styled, Typography } from '@mui/material'
+import {
+  Alert,
+  Checkbox,
+  FormControlLabel,
+  FormHelperText,
+  InputAdornment,
+  styled,
+  Typography
+} from '@mui/material'
 import BadgeNumber from '@/components/UI/BadgeNumber/BadgeNumber'
 import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldControlled'
 import { forwardRef, useImperativeHandle } from 'react'
@@ -21,6 +29,19 @@ const schema: SchemaOf<LearningAddType> = object().shape({
   date_completed: string().nullable().required('Enter a date')
 })
 
+const schemaFormal: SchemaOf<LearningAddFormalType> = schema.shape({
+  cost_pounds: number()
+    .nullable()
+    .when('cost_unknown', (costUnknown) => {
+      if (!costUnknown)
+        return number()
+          .min(0, 'Min value 0.')
+          .required('This is a required field')
+          .typeError('you must specify a number')
+    }),
+  cost_unknown: boolean().nullable()
+})
+
 const Form = styled('form')`
   &.compact {
     .MuiCardContent-root {
@@ -30,25 +51,28 @@ const Form = styled('form')`
 `
 
 const LearningAddForm = forwardRef<RefHandler, Props>(
-  ({ onFormSubmit, loading, error, defaultValues, compact }, ref) => {
-    const methods = useForm<LearningAddType>({
+  ({ onFormSubmit, loading, error, defaultValues, compact, type = 'generic' }, ref) => {
+    const methods = useForm<Partial<MeLearningRecord>>({
       defaultValues: {
         name: '',
         duration_minutes: null,
+        cost_pounds: null,
+        cost_unknown: null,
         date_completed: null,
         ...defaultValues
       },
-      resolver: yupResolver(schema)
+      resolver: yupResolver(type === 'generic' ? schema : schemaFormal)
     })
+    const { control, handleSubmit, setValue } = methods
 
     useImperativeHandle(ref, () => ({
-      submitForm: () => methods.handleSubmit(onFormSubmit)()
+      submitForm: () => handleSubmit(onFormSubmit)()
     }))
 
     return (
       <FormProvider {...methods}>
         <Form
-          onSubmit={methods.handleSubmit(onFormSubmit)}
+          onSubmit={handleSubmit(onFormSubmit)}
           noValidate
           className={`${compact ? 'compact' : ''}`}
         >
@@ -62,6 +86,62 @@ const LearningAddForm = forwardRef<RefHandler, Props>(
           >
             <TextFieldControlled name="name" label="Enter a title for the learning" />
           </AccountCard>
+
+          {type === 'formal' && (
+            <>
+              {' '}
+              <AccountCard
+                sx={{ mb: 4, maxWidth: 392 }}
+                header={
+                  <Typography component="h2">
+                    <BadgeNumber label="3" sx={{ mr: 2 }} /> Course cost
+                  </Typography>
+                }
+              >
+                <TextFieldControlled
+                  type="number"
+                  name="cost_pounds"
+                  label="Cost"
+                  onKeyDown={(e) =>
+                    (e.key === 'e' || e.key === '-') && e.preventDefault()
+                  }
+                  onChange={(e) => {
+                    setValue('cost_unknown', null)
+                    setValue('cost_pounds', (e.target as HTMLInputElement).valueAsNumber)
+                  }}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">&pound;</InputAdornment>
+                    )
+                  }}
+                />
+                <Controller
+                  name="cost_unknown"
+                  control={control}
+                  render={({ field, fieldState: { error } }) => (
+                    <>
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            {...field}
+                            checked={!!field.value}
+                            value={!!field.value}
+                            onChange={(e) => {
+                              setValue('cost_pounds', null)
+                              setValue(field.name, (e.target as HTMLInputElement).checked)
+                            }}
+                          />
+                        }
+                        label="Unknown"
+                      />
+                      {error && <FormHelperText error>{error.message}</FormHelperText>}
+                    </>
+                  )}
+                />
+              </AccountCard>
+            </>
+          )}
+
           <AccountCard
             sx={{ mb: 4, maxWidth: 392 }}
             header={
@@ -72,7 +152,7 @@ const LearningAddForm = forwardRef<RefHandler, Props>(
           >
             <Controller
               name="duration_minutes"
-              control={methods.control}
+              control={control}
               render={({ field, fieldState: { error } }) => (
                 <Duration {...field} error={!!error} helperText={error?.message} />
               )}
@@ -89,7 +169,7 @@ const LearningAddForm = forwardRef<RefHandler, Props>(
           >
             <Controller
               name="date_completed"
-              control={methods.control}
+              control={control}
               render={({ field, fieldState: { error } }) => (
                 <DatePicker
                   {...field}
