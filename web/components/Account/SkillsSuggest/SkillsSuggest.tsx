@@ -18,13 +18,16 @@ const Wrapper = styled(Box)`
   }
 `
 
-const SkillsSuggest: FC<Props> = ({ onSelected, hideOptions, ...props }) => {
+const SkillsSuggest: FC<Props> = ({ onSelected, hideOptions, onFetched, ...props }) => {
   const { authFetch } = useAuth()
   const [selected, setSelected] = useState<string[]>([])
 
   const { isSuccess, data } = useQuery<MeSuggestedSkillsResponse>(
     Query.SuggestedSkills,
-    () => authFetch(fetchMeSuggestedSkills)
+    () => authFetch(fetchMeSuggestedSkills),
+    {
+      onSuccess: onFetched
+    }
   )
 
   const list: MeSuggestedSkillsResponse = useMemo(

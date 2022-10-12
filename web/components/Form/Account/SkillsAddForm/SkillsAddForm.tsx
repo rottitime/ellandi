@@ -173,6 +173,7 @@ const SkillsAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
       <SkillsSuggest
         sx={{ mb: 4 }}
         hideOptions={disableOptions}
+        onFetched={(data) => console.log({ data })}
         onSelected={(name) => {
           const firstRow = getValues('skills.0')
           return !firstRow.name && !firstRow.level
