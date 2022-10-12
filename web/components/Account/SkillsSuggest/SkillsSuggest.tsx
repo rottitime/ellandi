@@ -54,7 +54,7 @@ const SkillsSuggest: FC<Props> = ({
             .filter((name) => !(hideOptions.includes(name) || selected.includes(name)))
             .slice(0, max)
         : [],
-    [selected, isSuccess, data, hideOptions]
+    [isSuccess, data, max, hideOptions, selected]
   )
 
   const rendertype = () => {

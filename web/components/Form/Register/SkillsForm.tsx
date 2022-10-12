@@ -1,4 +1,4 @@
-import { Box, styled, Typography } from '@mui/material'
+import { Typography } from '@mui/material'
 import { FC, useRef } from 'react'
 import { StandardRegisterProps } from './types'
 import { SkillsType } from '@/service/types'

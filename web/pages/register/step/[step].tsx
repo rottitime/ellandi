@@ -116,8 +116,6 @@ const RegisterPage = ({ stepInt, nextUrl, skip, large, ...props }: Props) => {
     }
   }, [stepInt, router, isLoadingMe, hasToken, queryClient, data])
 
-  console.log({ large })
-
   return (
     <Box sx={{ maxWidth: !!large ? 1320 : 540 }}>
       <FormComponent
