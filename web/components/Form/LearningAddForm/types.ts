@@ -8,3 +8,7 @@ export type Props = {
   onFormSubmit: SubmitHandler<LearningAddType>
   compact?: boolean
 }
+
+export type RefHandler = {
+  submitForm: SubmitHandler<LearningAddType>
+}

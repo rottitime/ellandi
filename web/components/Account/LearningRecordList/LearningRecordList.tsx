@@ -1,7 +1,9 @@
-import { FC } from 'react'
+import { FC, useId, useRef, useState } from 'react'
 import DataGrid, { GridColDef } from '@/components/UI/DataGrid/DataGrid'
 import useAuth from '@/hooks/useAuth'
 import {
+  fetchLearningTypes,
+  GenericDataList,
   LearningAddFormalType,
   LearningAddType,
   MeLearningFormalList,
@@ -10,15 +12,44 @@ import {
 } from '@/service/api'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { fetchMeLearning } from '@/service/me'
-import { Alert, Box, Chip, Typography } from '@mui/material'
+import {
+  Alert,
+  Box,
+  Chip,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+  styled,
+  Typography
+} from '@mui/material'
 import { splitMinutes } from '@/lib/date-utils'
 import dayjs from 'dayjs'
 import { deleteLearning, editLearning } from '@/service/account'
 import LearningEditModal from './LearningEditModal'
+import { SkeletonRadio } from '@/components/UI/Skeleton/RadioSkeleton.stories'
+import BadgeNumber from '@/components/UI/BadgeNumber/BadgeNumber'
+import LearningAddForm from '@/components/Form/LearningAddForm/LearningAddForm'
+
+const Modal = styled(Box)`
+  ${({ theme }) => theme.breakpoints.up('md')} {
+    width: 600px;
+  }
+`
 
 const LearningRecordList: FC = () => {
   const { authFetch } = useAuth()
+  const id = useId()
+  const labelId = `label-learning_type-${id}`
   const queryClient = useQueryClient()
+  const [type, setType] = useState<string>()
+  const formRef = useRef(null)
+
+  const { data: types, isLoading: isLoadingTypes } = useQuery<GenericDataList[], Error>(
+    Query.LearningTypes,
+    fetchLearningTypes,
+    { staleTime: Infinity }
+  )
+
   const { data, isLoading } = useQuery<MeLearningList[]>(
     Query.MeLearning,
     () => authFetch(fetchMeLearning),
@@ -95,12 +126,54 @@ const LearningRecordList: FC = () => {
             // } catch (err) {
             //   return false
             // }
-            return true
+            // return true
+            formRef.current.submitForm()
+            console.log('done')
+            return false
           }}
           editModalTitle="Edit learning"
-          editModalContent={(cell) => (
-            <LearningEditModal data={data.find(({ id }) => id === cell?.row?.id)} />
-          )}
+          editModalContent={(cell) => {
+            const learningData = data.find(({ id }) => id === cell?.row?.id)
+            const defaultValue = learningData?.learning_type
+            setType(defaultValue)
+            return (
+              <Modal>
+                <Typography component="label" id={labelId} gutterBottom>
+                  <BadgeNumber label="1" /> Edit type of learning
+                </Typography>
+                {isLoadingTypes ? (
+                  [...Array(3).keys()].map((i) => <SkeletonRadio key={i} />)
+                ) : (
+                  <RadioGroup
+                    aria-labelledby={labelId}
+                    defaultValue={learningData?.learning_type}
+                    name="learning_type"
+                    onChange={(e) => setType(e.currentTarget.value)}
+                    sx={{ mb: 4 }}
+                  >
+                    {types.map(({ name }) => (
+                      <FormControlLabel
+                        value={name}
+                        control={<Radio />}
+                        label={name}
+                        key={name}
+                      />
+                    ))}
+                  </RadioGroup>
+                )}
+
+                <LearningAddForm
+                  ref={formRef}
+                  loading={false}
+                  defaultValues={learningData}
+                  compact={true}
+                  onFormSubmit={(data) => {
+                    console.log({ data, type })
+                  }}
+                />
+              </Modal>
+            )
+          }}
         />
       </>
     </Box>

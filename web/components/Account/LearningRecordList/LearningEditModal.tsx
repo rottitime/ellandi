@@ -68,16 +68,7 @@ const LearningEditModal: FC<ModalProps> = ({ data }) => {
       {type.toLowerCase() === 'formal' ? (
         <LearningAddFormalForm {...formProps} />
       ) : (
-        <>
-          <button
-            onClick={() => {
-              formRef.current.submitData()
-            }}
-          >
-            TEst
-          </button>
-          <LearningAddForm {...formProps} ref={formRef} />
-        </>
+        <LearningAddForm {...formProps} ref={formRef} />
       )}
     </Modal>
   )

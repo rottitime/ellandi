@@ -6,8 +6,8 @@ import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
 import { Alert, styled, Typography } from '@mui/material'
 import BadgeNumber from '@/components/UI/BadgeNumber/BadgeNumber'
 import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldControlled'
-import { FC, forwardRef, useImperativeHandle, useRef } from 'react'
-import { Props } from './types'
+import { forwardRef, useImperativeHandle } from 'react'
+import { Props, RefHandler } from './types'
 import { Field } from '../Field/Field'
 import Button from '@/components/UI/Button/Button'
 import DatePicker from '@/components/UI/DatePicker/DatePicker'
@@ -29,10 +29,6 @@ const Form = styled('form')`
   }
 `
 
-type RefHandler = {
-  submitData: () => void
-}
-
 const LearningAddForm = forwardRef<RefHandler, Props>(
   ({ onFormSubmit, loading, error, defaultValues, compact }, ref) => {
     const methods = useForm<LearningAddType>({
@@ -45,10 +41,8 @@ const LearningAddForm = forwardRef<RefHandler, Props>(
       resolver: yupResolver(schema)
     })
 
-    const submitRef = useRef<HTMLButtonElement>()
-
     useImperativeHandle(ref, () => ({
-      submitData: () => submitRef?.current?.click()
+      submitForm: () => methods.handleSubmit(onFormSubmit)()
     }))
 
     return (
@@ -115,7 +109,7 @@ const LearningAddForm = forwardRef<RefHandler, Props>(
             </Alert>
           )}
           <Field>
-            <Button type="submit" color="primary" loading={loading} ref={submitRef}>
+            <Button type="submit" color="primary" loading={loading}>
               Save learning
             </Button>
           </Field>
