@@ -3,7 +3,7 @@ from rest_framework.exceptions import APIException
 
 class RegistrationError(APIException):
     status_code = 400
-    default_detail = "User already exists"
+    default_detail = "We're unable to create your account. If you already have an account, try to sign in"
 
 
 class LoginMissingEmailError(APIException):
