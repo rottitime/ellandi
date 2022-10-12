@@ -1,7 +1,7 @@
-import { LearningAddType } from '@/service/types'
+import { LearningAddType, MeLearningRecord } from '@/service/types'
 import { SubmitHandler } from 'react-hook-form'
 
-type SubmitType = SubmitHandler<LearningAddType>
+type SubmitType = SubmitHandler<Partial<MeLearningRecord>>
 
 export type Props = {
   loading: boolean

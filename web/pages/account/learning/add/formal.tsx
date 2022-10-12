@@ -5,7 +5,7 @@ import { LearningAddFormalType, RegisterUserResponse } from '@/service/api'
 import useAuth from '@/hooks/useAuth'
 import Router from 'next/router'
 import { addLearningFormal } from '@/service/account'
-import LearningAddFormalForm from '@/components/Form/LearningAddFormalForm/LearningAddFormalForm'
+import LearningAddForm from '@/components/Form/LearningAddForm/LearningAddForm'
 
 const FormalPage = () => {
   const { authFetch } = useAuth()
@@ -21,7 +21,8 @@ const FormalPage = () => {
   return (
     <>
       <SectionOne active={menu[2].title} />
-      <LearningAddFormalForm
+      <LearningAddForm
+        type="formal"
         error={error?.message}
         onFormSubmit={(data) => mutate.mutate([data])}
         loading={isLoading}
