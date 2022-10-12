@@ -20,13 +20,13 @@ const PrivacyPage = () => (
 
       <Typography>Your job details, including:</Typography>
       <ul>
-        <li> business unit</li>
-        <li> contract type</li>
-        <li> function</li>
-        <li> grade</li>
-        <li> job title</li>
-        <li> profession</li>
-        <li> work location</li>
+        <li>business unit</li>
+        <li>contract type</li>
+        <li>function</li>
+        <li>grade</li>
+        <li>job title</li>
+        <li>profession</li>
+        <li>work location</li>
       </ul>
 
       <Typography gutterBottom>
@@ -74,10 +74,10 @@ const PrivacyPage = () => (
         on issues affecting the Civil Service in general using:
       </Typography>
       <ul>
-        <li> name</li>
-        <li> email address</li>
-        <li> organisation</li>
-        <li> grade data </li>
+        <li>name</li>
+        <li>email address</li>
+        <li>organisation</li>
+        <li>grade data </li>
       </ul>
     </Section>
 
@@ -102,8 +102,8 @@ const PrivacyPage = () => (
 
       <Typography>We also process your data so that we can:</Typography>
       <ul>
-        <li> monitor your personal development</li>
-        <li> manage your performance as part of your employment contract</li>
+        <li>monitor your personal development</li>
+        <li>manage your performance as part of your employment contract</li>
       </ul>
     </Section>
 
@@ -155,7 +155,7 @@ const PrivacyPage = () => (
 
       <Typography>You have the right to request:</Typography>
       <ul>
-        <li> information about how your personal data is processed. </li>
+        <li>information about how your personal data is processed. </li>
         <li>any inaccuracies in your personal data are rectified without delay</li>
         <li>
           completion of any incomplete personal data. Including by means of a
@@ -243,11 +243,11 @@ const PrivacyPage = () => (
 
       <Typography>The Cabinet Office is the data controller for your:</Typography>
       <ul>
-        <li> profile</li>
-        <li> email services</li>
-        <li> evaluations</li>
-        <li> feedback</li>
-        <li> coaching and mentoring </li>
+        <li>profile</li>
+        <li>email services</li>
+        <li>evaluations</li>
+        <li>feedback</li>
+        <li>coaching and mentoring </li>
       </ul>
 
       <Typography gutterBottom>
@@ -256,9 +256,9 @@ const PrivacyPage = () => (
       </Typography>
 
       <ul>
-        <li> your learning record</li>
-        <li> your learning and development plans</li>
-        <li> bookings and management information</li>
+        <li>your learning record</li>
+        <li>your learning and development plans</li>
+        <li>bookings and management information</li>
       </ul>
 
       <Typography gutterBottom>
