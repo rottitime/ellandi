@@ -40,6 +40,7 @@ const SkillsAddSkillsPage = () => {
         <SkillsAddForm
           loading={isLoading}
           onFormSubmit={({ skills }) => mutate.mutate(skills)}
+          showAll
         />
       </AccountCard>
     </>

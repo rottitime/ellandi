@@ -7,7 +7,7 @@ import {
   SkillType
 } from '@/service/types'
 import { fetchSkillLevels, fetchSkills } from '@/service/api'
-import { FC, useEffect, useId, useMemo } from 'react'
+import { FC, useEffect, useId, useMemo, useState } from 'react'
 import { useQuery } from 'react-query'
 import { Controller, FormProvider, useFieldArray, useForm } from 'react-hook-form'
 import { Field } from '@/components/Form/Field/Field'
@@ -42,9 +42,12 @@ const schema: SchemaOf<SkillsType> = object().shape({
   skills: array().of(skillSchema).optional()
 })
 
-const SkillsAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
+const SkillsAddForm: FC<Props> = ({ onFormSubmit, loading, showAll }) => {
   const id = useId()
   const { authFetch } = useAuth()
+
+  const [hasSuggestions, setHasSuggestions] = useState<string[]>()
+
   const { isLoading, data: levels } = useQuery<GenericDataList[], { message?: string }>(
     Query.SkillLevels,
     fetchSkillLevels,
@@ -173,7 +176,10 @@ const SkillsAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
       <SkillsSuggest
         sx={{ mb: 4 }}
         hideOptions={disableOptions}
-        onFetched={(data) => console.log({ data })}
+        onFetched={(data) => {
+          if (!showAll && !data.length) onFormSubmit({ skills: [] })
+          setHasSuggestions(data)
+        }}
         onSelected={(name) => {
           const firstRow = getValues('skills.0')
           return !firstRow.name && !firstRow.level
@@ -181,44 +187,47 @@ const SkillsAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
             : append({ name, level: '' })
         }}
       />
-      <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
-        <Table
-          loading={isLoading}
-          list={tableData}
-          headers={[
-            { children: <>&nbsp;</>, width: 227 },
-            ...levels.map(({ slug, name, description }) => ({
-              children: (
-                <span id={`${id}-th-${slug}`}>
-                  {name}{' '}
-                  {description && (
-                    <Tooltip brandColor="brandSkills" title={description} />
-                  )}
-                </span>
-              )
-            })),
-            { children: <>&nbsp;</> }
-          ]}
-        />
 
-        <Field>
-          <Button
-            sx={{ color: 'text.primary' }}
-            variant="text"
-            startIcon={<Icon icon="circle-plus" />}
-            onClick={() => {
-              append({ name: '', level: '' })
-            }}
-          >
-            Add another skill
-          </Button>
-        </Field>
-        <Field textAlign="right">
-          <Button type="submit" variant="contained" loading={loading}>
-            Save skills
-          </Button>
-        </Field>
-      </form>
+      {(showAll || !!hasSuggestions?.length) && (
+        <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
+          <Table
+            loading={isLoading}
+            list={tableData}
+            headers={[
+              { children: <>&nbsp;</>, width: 227 },
+              ...levels.map(({ slug, name, description }) => ({
+                children: (
+                  <span id={`${id}-th-${slug}`}>
+                    {name}{' '}
+                    {description && (
+                      <Tooltip brandColor="brandSkills" title={description} />
+                    )}
+                  </span>
+                )
+              })),
+              { children: <>&nbsp;</> }
+            ]}
+          />
+
+          <Field>
+            <Button
+              sx={{ color: 'text.primary' }}
+              variant="text"
+              startIcon={<Icon icon="circle-plus" />}
+              onClick={() => {
+                append({ name: '', level: '' })
+              }}
+            >
+              Add another skill
+            </Button>
+          </Field>
+          <Field textAlign="right">
+            <Button type="submit" variant="contained" loading={loading}>
+              Save skills
+            </Button>
+          </Field>
+        </form>
+      )}
     </FormProvider>
   )
 }
