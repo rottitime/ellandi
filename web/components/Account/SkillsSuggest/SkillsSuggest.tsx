@@ -74,11 +74,11 @@ const SkillsSuggest: FC<Props> = ({
   }
 
   return (
-    <Collapse in={isSuccess && !!type.length}>
+    <Collapse in={isSuccess && !!suggestions.length}>
       <Wrapper
         {...props}
         data-testid="suggestion-box"
-        aria-hidden={!isSuccess || !type.length}
+        aria-hidden={!isSuccess || !suggestions.length}
       >
         {!!typeData[type]?.description && (
           <Typography variant="body2" gutterBottom>

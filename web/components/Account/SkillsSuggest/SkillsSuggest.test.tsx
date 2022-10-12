@@ -63,7 +63,7 @@ describe('SkillsSuggest', () => {
     expect(screen.queryByText(mockSuggestions[1])).not.toBeInTheDocument()
   })
 
-  it.skip('on empty fetch', async () => {
+  it('on empty fetch', async () => {
     fetchMock.mockResponseOnce(JSON.stringify([]), { status: 200 })
     const mockClick = jest.fn()
     renderWithProviders(
