@@ -217,7 +217,7 @@ else:
 
 SEND_VERIFICATION_EMAIL = env.bool("SEND_VERIFICATION_EMAIL", default=False)
 
-ALLOW_EXAMPLE_EMAILS = env.bool("ALLOW_EXAMPLE_EMAILS", default=False)
+ALLOW_EXAMPLE_EMAILS = env.bool("ALLOW_EXAMPLE_EMAILS", default=True)
 
 DEFAULT_ALLOWED_DOMAINS = frozenset(
     [
