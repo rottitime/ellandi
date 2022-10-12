@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react'
+import { FC } from 'react'
 import {
   Breadcrumbs,
   Typography,
@@ -72,85 +72,85 @@ const AccountLayout: FC<Props> = ({
   teaserContent
 }) => {
   const { logout, authFetch, invalidate } = useAuth()
-  const { isLoading, data, isError } = useQuery<RegisterUserResponseWithCustomFields>(
-    Query.Me,
-    () => authFetch(fetchMe),
-    { retry: 1 }
-  )
-
-  useEffect(() => {
-    if (!isLoading && !data) {
+  const { isLoading, data, isError } = useQuery<
+    RegisterUserResponseWithCustomFields,
+    Error
+  >(Query.Me, () => authFetch(fetchMe), {
+    retry: 0,
+    onError: () => {
       invalidate()
       router.replace({
-        pathname: '/signin',
-        query: { ecode: 2 }
+        pathname: urls.signin,
+        query: { ecode: 3 }
       })
     }
-  }, [isLoading, data, invalidate])
+  })
 
   if (isError) return null
 
   return (
     <Layout>
       <Template>
-        <AppBar
-          sx={{ mt: 4 }}
-          logoUrl={urls.landingSignin}
-          settingsTip={data?.fullname}
-          pages={[
-            { title: 'Home', url: urls.landingSignin },
-            { title: 'Skills', url: '/account/skills/', color: 'brandSkills' },
-            { title: 'Learning', url: '/account/learning/', color: 'brandLearning' },
-            {
-              title: 'Your team',
-              url: '/account/your-team/',
-              hidden: !data?.has_direct_reports
-            }
-          ]}
-          settings={[
-            { title: 'Profile', url: '/account/profile/' },
-            { title: 'Sign out', url: urls.signin, onClick: logout }
-          ]}
-        />
-        <Breadcrumbs aria-label="breadcrumb">
-          <Link underline="hover" color="inherit" href={urls.landingSignin}>
-            Home
-          </Link>
-
-          {breadcrumbs.map((item) =>
-            item.url ? (
-              <Link underline="hover" href={item.url} key={item.title}>
-                {item.title}
-              </Link>
-            ) : (
-              <Typography key={item.title} variant="body2">
-                {item.title}
-              </Typography>
-            )
-          )}
-        </Breadcrumbs>
-
-        {title && (
-          <Headline textColor={brandColor}>
-            <Typography variant="h1" gutterBottom>
-              {titleIcon && <Icon icon={titleIcon} />}
-              {title}
-            </Typography>
-            {teaserHeadline && (
-              <Typography variant="h1" component="p" gutterBottom>
-                {teaserHeadline}
-              </Typography>
-            )}
-            {teaserContent && <Typography gutterBottom>{teaserContent}</Typography>}
-          </Headline>
-        )}
-
         {isLoading ? (
           <Box className="page-loading">
             <CircularProgress />
           </Box>
         ) : (
-          children
+          <>
+            <AppBar
+              sx={{ mt: 4 }}
+              logoUrl={urls.landingSignin}
+              settingsTip={data?.fullname}
+              pages={[
+                { title: 'Home', url: urls.landingSignin },
+                { title: 'Skills', url: '/account/skills/', color: 'brandSkills' },
+                { title: 'Learning', url: '/account/learning/', color: 'brandLearning' },
+                {
+                  title: 'Your team',
+                  url: '/account/your-team/',
+                  hidden: !data?.has_direct_reports
+                }
+              ]}
+              settings={[
+                { title: 'Profile', url: '/account/profile/' },
+                { title: 'Sign out', url: urls.signin, onClick: logout }
+              ]}
+            />
+            <Breadcrumbs aria-label="breadcrumb">
+              <Link underline="hover" color="inherit" href={urls.landingSignin}>
+                Home
+              </Link>
+
+              {breadcrumbs.map((item) =>
+                item.url ? (
+                  <Link underline="hover" href={item.url} key={item.title}>
+                    {item.title}
+                  </Link>
+                ) : (
+                  <Typography key={item.title} variant="body2">
+                    {item.title}
+                  </Typography>
+                )
+              )}
+            </Breadcrumbs>
+
+            {title && (
+              <Headline textColor={brandColor}>
+                <Typography variant="h1" gutterBottom>
+                  {titleIcon && <Icon icon={titleIcon} />}
+                  {title}
+                </Typography>
+                {teaserHeadline && (
+                  <Typography variant="h1" component="p" gutterBottom>
+                    {teaserHeadline}
+                  </Typography>
+                )}
+                {teaserContent && <Typography gutterBottom>{teaserContent}</Typography>}
+              </Headline>
+            )}
+
+            {children}
+          </>
         )}
       </Template>
 

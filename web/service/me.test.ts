@@ -15,11 +15,17 @@ describe('Service: me', () => {
       expect(res).toMatchObject(mockMe)
     })
 
-    it('additional variables', async () => {
+    it('adds a fullname', async () => {
       fetchMock.mockResponseOnce(JSON.stringify(mockMe), { status: 200 })
 
       const res = await fetchMe('my-token')
       expect(res.fullname).toEqual('James Bond')
+    })
+
+    it('empty data', async () => {
+      fetchMock.mockResponseOnce(JSON.stringify({}), { status: 200 })
+      const res = await fetchMe('my-token')
+      expect(res).toEqual({})
     })
   })
 })
