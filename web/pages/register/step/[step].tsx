@@ -196,7 +196,11 @@ const steps: Steps[] = [
   },
   {
     form: dynamic(() => import('@/components/Form/Register/ContractTypeForm')),
-    title: 'Contract type',
+    title: 'Contract type'
+  },
+  {
+    form: dynamic(() => import('@/components/Form/Register/SkillsForm')),
+    title: 'Current skills',
     nextUrl: '/register/complete'
   }
   // Hidden temporarily
