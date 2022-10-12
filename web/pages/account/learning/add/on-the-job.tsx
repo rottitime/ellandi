@@ -1,7 +1,7 @@
 import AccountLayout from '@/components/Layout/AccountLayout/AccountLayout'
 import { menu, SectionOne } from './index'
 import { useMutation } from 'react-query'
-import { LearningAddType, RegisterUserResponse } from '@/service/api'
+import { LearningBaseType, RegisterUserResponse } from '@/service/api'
 import useAuth from '@/hooks/useAuth'
 import Router from 'next/router'
 import { addLearningOnTheJob } from '@/service/account'
@@ -13,7 +13,7 @@ const OnTheJobPage = () => {
   const { isLoading, error, ...mutate } = useMutation<
     RegisterUserResponse,
     Error,
-    LearningAddType[]
+    LearningBaseType[]
   >(async (data) => authFetch(addLearningOnTheJob, data), {
     onSuccess: async () => await Router.push('/account/learning/')
   })

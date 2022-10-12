@@ -173,33 +173,21 @@ export type ResetUpdatePasswordType = {
 
 export type MeSuggestedSkillsResponse = string[]
 
-export type MeLearningRecord = {
-  id: string
-  learning_type: string
+export type LearningBaseType = {
   name: string
   duration_minutes: number
   date_completed: string
+}
+
+export type LearningAddFormalType = LearningBaseType & {
   cost_pounds: number
   cost_unknown: boolean
 }
-
-export type LearningAddType = {
-  name: string
-  duration_minutes: number
-  date_completed: string
-}
-
-export type LearningAddFormalType = {
-  name: string
-  duration_minutes: number
-  date_completed: string
-  cost_pounds: number
-  cost_unknown: boolean
-}
-
-export type MeLearningList = {
+type LearningApiFields = {
   id: string
   learning_type: string
-} & LearningAddType
+}
 
-export type MeLearningFormalList = MeLearningList & LearningAddFormalType
+export type MeLearningRecord = LearningBaseType &
+  LearningAddFormalType &
+  LearningApiFields

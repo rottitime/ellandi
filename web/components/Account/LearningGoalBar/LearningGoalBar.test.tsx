@@ -3,15 +3,17 @@ import LearningGoalBar from './LearningGoalBar'
 import fetchMock from 'jest-fetch-mock'
 import { bugfixForTimeout, renderWithProviders } from '@/lib/test-utils'
 import { Props } from '@/components/UI/PercentageBar/types'
-import { MeLearningList } from '@/service/types'
+import { MeLearningRecord } from '@/service/types'
 
-const mockData: MeLearningList[] = [
+const mockData: MeLearningRecord[] = [
   {
     id: '1',
     learning_type: 'Cateogory a',
     name: 'Kicking a football',
     duration_minutes: 0,
-    date_completed: '2022-09-01'
+    date_completed: '2022-09-01',
+    cost_pounds: null,
+    cost_unknown: null
   }
 ]
 
@@ -34,7 +36,7 @@ describe('LearningGoalBar', () => {
 
     it('50% fill', async () => {
       fetchMock.mockResponse(
-        JSON.stringify([{ ...mockData[0], duration_minutes: 2250 }] as MeLearningList[]),
+        JSON.stringify([{ ...mockData[0], duration_minutes: 2250 }]),
         {
           status: 200
         }
@@ -47,7 +49,7 @@ describe('LearningGoalBar', () => {
 
     it('full fill', async () => {
       fetchMock.mockResponse(
-        JSON.stringify([{ ...mockData[0], duration_minutes: 4500 }] as MeLearningList[]),
+        JSON.stringify([{ ...mockData[0], duration_minutes: 4500 }]),
         {
           status: 200
         }
@@ -60,9 +62,7 @@ describe('LearningGoalBar', () => {
 
     it('full fill when duration too long', async () => {
       fetchMock.mockResponse(
-        JSON.stringify([
-          { ...mockData[0], duration_minutes: 4500111 }
-        ] as MeLearningList[]),
+        JSON.stringify([{ ...mockData[0], duration_minutes: 4500111 }]),
         {
           status: 200
         }

@@ -1,6 +1,10 @@
 import { boolean, number, object, SchemaOf, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { LearningAddFormalType, LearningAddType, MeLearningRecord } from '@/service/types'
+import {
+  LearningAddFormalType,
+  LearningBaseType,
+  MeLearningRecord
+} from '@/service/types'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
 import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
 import {
@@ -21,7 +25,7 @@ import Button from '@/components/UI/Button/Button'
 import DatePicker from '@/components/UI/DatePicker/DatePicker'
 import Duration from '@/components/Form/Duration/Duration'
 
-const schema: SchemaOf<LearningAddType> = object().shape({
+const schema: SchemaOf<LearningBaseType> = object().shape({
   name: string().required('This is a required field'),
   duration_minutes: number()
     .typeError('you must specify a number')

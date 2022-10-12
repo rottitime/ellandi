@@ -2,29 +2,35 @@ import { screen, waitFor } from '@testing-library/react'
 import LearningRecordList from './LearningRecordList'
 import fetchMock from 'jest-fetch-mock'
 import { bugfixForTimeout, renderWithProviders } from '@/lib/test-utils'
-import { MeLearningList } from '@/service/types'
+import { MeLearningRecord } from '@/service/types'
 
-const mockSuccess: MeLearningList[] = [
+const mockSuccess: MeLearningRecord[] = [
   {
     id: 'test1',
     name: 'Skill Something A',
     learning_type: 'Holiday',
     duration_minutes: 122,
-    date_completed: '2022-01-23'
+    date_completed: '2022-01-23',
+    cost_pounds: null,
+    cost_unknown: null
   },
   {
     id: 'test2',
     name: 'Skill Something B',
     learning_type: 'Food making',
     duration_minutes: 122,
-    date_completed: '2022-01-24'
+    date_completed: '2022-01-24',
+    cost_pounds: null,
+    cost_unknown: null
   },
   {
     id: 'test3',
     name: 'Skill Something C',
     learning_type: 'Review',
     duration_minutes: 122,
-    date_completed: '2022-01-25'
+    date_completed: '2022-01-25',
+    cost_pounds: null,
+    cost_unknown: null
   }
 ]
 

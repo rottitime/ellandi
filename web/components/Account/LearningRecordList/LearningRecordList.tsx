@@ -5,9 +5,8 @@ import {
   fetchLearningTypes,
   GenericDataList,
   LearningAddFormalType,
-  LearningAddType,
-  MeLearningFormalList,
-  MeLearningList,
+  LearningBaseType,
+  MeLearningRecord,
   Query
 } from '@/service/api'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
@@ -49,7 +48,7 @@ const LearningRecordList: FC = () => {
     { staleTime: Infinity }
   )
 
-  const { data, isLoading, refetch } = useQuery<MeLearningList[]>(
+  const { data, isLoading, refetch } = useQuery<MeLearningRecord[]>(
     Query.MeLearning,
     () => authFetch(fetchMeLearning),
     { initialData: [], staleTime: 0 }
@@ -73,12 +72,10 @@ const LearningRecordList: FC = () => {
   )
 
   const { mutateAsync: editMutate, reset: editReset } = useMutation<
-    MeLearningFormalList[],
+    MeLearningRecord[],
     Error,
-    LearningAddType[] | LearningAddFormalType[]
-  >(async (data) => await authFetch(editLearning, data), {
-    onSuccess: async (data) => await queryClient.setQueryData(Query.Me, data)
-  })
+    LearningBaseType[] | LearningAddFormalType[]
+  >(async (data) => await authFetch(editLearning, data))
 
   return (
     <Box sx={{ height: 'auto', width: '100%' }}>
@@ -111,7 +108,7 @@ const LearningRecordList: FC = () => {
           onModalClose={async () => await editReset()}
           onEdit={async () => {
             await formRef.current.submitForm()
-            return false
+            return true
           }}
           editModalTitle="Edit learning"
           editModalContent={(cell) => {
@@ -152,7 +149,6 @@ const LearningRecordList: FC = () => {
                   compact={true}
                   type={learning_type?.toLowerCase() === 'formal' ? 'formal' : 'generic'}
                   onFormSubmit={async (data) => {
-                    alert(1)
                     try {
                       await editMutate([{ ...data, ...{ learning_type } }])
                       await refetch()

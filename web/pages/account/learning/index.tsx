@@ -4,7 +4,7 @@ import { Box, Grid, styled, Typography, useTheme } from '@mui/material'
 import Button from '@/components/UI/Button/Button'
 import useAuth from '@/hooks/useAuth'
 import { useQuery } from 'react-query'
-import { MeLearningList, Query } from '@/service/api'
+import { MeLearningRecord, Query } from '@/service/api'
 import Headline from '@/components/Account/Headline/Headline'
 import Tabs from '@/components/UI/Tabs/Tabs'
 import LearningRecordList from '@/components/Account/LearningRecordList/LearningRecordList'
@@ -38,7 +38,7 @@ const LearningPage = () => {
   const { authFetch } = useAuth()
   const { colors } = useTheme()
 
-  const { data } = useQuery<MeLearningList[]>(
+  const { data } = useQuery<MeLearningRecord[]>(
     Query.MeLearning,
     () => authFetch(fetchMeLearning),
     { initialData: [], staleTime: 0 }
