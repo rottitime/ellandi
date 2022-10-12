@@ -1,9 +1,7 @@
-from django.conf import settings
-from nose.tools import with_setup
 from rest_framework import status
 from tests import utils
 
-from ellandi.registration.models import EmailSalt, User, UserSkill
+from ellandi.registration.models import User, UserSkill
 
 TEST_SERVER_URL = "http://testserver:8000/"
 
