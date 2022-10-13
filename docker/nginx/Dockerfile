@@ -1,3 +1,37 @@
+FROM python:3.8-buster as api
+
+COPY ./api/ellandi/registration/fixtures/dropdown /app/api/ellandi/registration/fixtures/dropdown
+COPY ./web/prefetch /app/web/prefetch
+COPY ./scripts /app/scripts
+RUN python3 /app/scripts/convert_dropdowns.py
+
+################
+
+FROM node:16 as web
+
+ARG NEXT_PUBLIC_API_URL
+ARG NODE_ENV
+
+ENV TZ=UTC
+ENV API_HOST=${API_HOST}
+
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+WORKDIR /app/web
+
+ENV PATH /app/web/node_modules/.bin:$PATH
+
+COPY ./web /app/web
+
+WORKDIR /app/web
+
+COPY --from=api /app/api/ellandi/registration/fixtures/dropdown /app/web/prefetch
+
+RUN npm install
+RUN npm run build
+
+################
+
 FROM nginx:latest
 
 ARG NEXT_PUBLIC_API_URL
@@ -8,27 +42,13 @@ ENV API_HOST=${API_HOST}
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-RUN apt-get update && \
-    apt-get install -y curl wget gpg && \
-    curl -sL https://deb.nodesource.com/setup_16.x | bash - && \
-    apt-get install -y nodejs
-
 COPY ./docker/nginx/start.sh /start.sh
 RUN chmod +x /start.sh
 
 COPY ./docker/nginx/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-COPY ./web /app/web
-
-WORKDIR /app/web
-
-RUN npm install
-RUN npm run build:static
-RUN cp -R /app/web/out/* /usr/share/nginx/html/
-
-COPY . /app
-RUN python3 /app/scripts/convert_dropdowns.py
+COPY --from=web /app/web/out /usr/share/nginx/html
 
 EXPOSE 80
 
