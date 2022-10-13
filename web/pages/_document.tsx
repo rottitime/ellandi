@@ -10,7 +10,6 @@ export default class MyDocument extends Document {
         <Head>
           <meta name="theme-color" content={theme.palette.primary.main} />
           <meta charSet="UTF-8" />
-          <link rel="shortcut icon" href="/static/favicon.ico" />
           <link
             href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;0,700;1,500;1,700&display=swap"
             rel="stylesheet"
