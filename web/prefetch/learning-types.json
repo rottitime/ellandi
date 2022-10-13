@@ -1,0 +1,20 @@
+[
+  {
+    "slug": "on-the-job",
+    "name": "On the job",
+    "order": 0,
+    "description": "Self-taught learning by doing, for example, reading policies and guidance, using tools and software to do your job"
+  },
+  {
+    "slug": "social",
+    "name": "Social",
+    "order": 1,
+    "description": "Learning from colleagues, job shadowing, mentoring, coaching, networks and communities"
+  },
+  {
+    "slug": "formal",
+    "name": "Formal",
+    "order": 2,
+    "description": "Completing a course on Civil Service Learning, external training, professional qualifications"
+  }
+]
