@@ -99,7 +99,7 @@ class BusinessUnit(DropDownListModel):
     pass
 
 
-class LearningTypes(DropDownListModel):
+class LearningType(DropDownListModel):
     description = models.CharField(max_length=255, blank=True, null=True, default="")
 
 
