@@ -42,7 +42,7 @@ RUN chmod +x /start.sh
 COPY ./docker/nginx/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-COPY --from=web /app/web/out/* /usr/share/nginx/html/
+COPY --from=web /app/web/out /usr/share/nginx/html
 
 EXPOSE 80
 
