@@ -12,6 +12,7 @@ from .models import (
     Language,
     LanguageSkillLevel,
     Learning,
+    LearningType,
     Location,
     Organisation,
     Profession,
@@ -20,7 +21,6 @@ from .models import (
     UserLanguage,
     UserSkill,
     UserSkillDevelop,
-    LearningType
 )
 
 
