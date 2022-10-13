@@ -179,6 +179,8 @@ REST_FRAMEWORK = {
     "DEFAULT_PARSER_CLASSES": ("rest_framework.parsers.JSONParser",),
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
 }
+if not DEBUG:
+    REST_FRAMEWORK["DEFAULT_RENDERER_CLASSES"] = ("rest_framework.renderers.JSONRenderer",)
 
 
 SENTRY_DSN = env.str("SENTRY_DSN", default="")
@@ -248,3 +250,5 @@ GIT_SHA = env.str("GIT_SHA", default="UNKNOWN")
 TOKEN_TTL = datetime.timedelta(hours=3)
 AUTO_REFRESH = True
 MIN_REFRESH_INTERVAL = 60
+
+CSRF_COOKIE_HTTPONLY = True
