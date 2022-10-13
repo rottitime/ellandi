@@ -36,56 +36,81 @@ const SkillsSuggest: FC<Props> = ({
   hideOptions,
   onFetched,
   type,
+  data,
+  description,
+  loading,
+  hidden,
   ...props
 }) => {
   const { authFetch } = useAuth()
   const [selected, setSelected] = useState<string[]>([])
 
-  const { isSuccess, data, isLoading } = useQuery<MeSuggestedSkillsResponse>(
-    Query.SuggestedSkills,
-    () => authFetch(typeData[type].fetchFn),
-    { onSuccess: onFetched }
-  )
+  // const { isSuccess, data, isLoading } = useQuery<MeSuggestedSkillsResponse>(
+  //   Query.SuggestedSkills,
+  //   () => authFetch(typeData[type].fetchFn),
+  //   { onSuccess: onFetched }
+  // )
 
   const suggestions: MeSuggestedSkillsResponse = useMemo(
     () =>
-      isSuccess
+      !!data
         ? data
             .filter((name) => !(hideOptions.includes(name) || selected.includes(name)))
             .slice(0, max)
         : [],
-    [isSuccess, data, max, hideOptions, selected]
+    [data, max, hideOptions, selected]
   )
 
-  const rendertype = () => {
-    return isLoading
-      ? [...Array(max).keys()].map((i) => <Skeleton key={i} sx={{ mb: 1, width: 100 }} />)
-      : suggestions.map((name) => (
-          <Chip
-            key={name}
-            label={name}
-            brandColor="brandSkills"
-            onClick={() => {
-              setSelected((p) => [...p, name])
-              onSelected(name)
-            }}
-          />
-        ))
-  }
+  const isHidden = !hidden && !!suggestions.length
+
+  // const rendertype = () => {
+  //   return isLoading
+  //     ? [...Array(max).keys()].map((i) => <Skeleton key={i} sx={{ mb: 1, width: 100 }} />)
+  //     : suggestions.map((name) => (
+  //         <Chip
+  //           key={name}
+  //           label={name}
+  //           brandColor="brandSkills"
+  //           onClick={() => {
+  //             setSelected((p) => [...p, name])
+  //             onSelected(name)
+  //           }}
+  //         />
+  //       ))
+  // }
 
   return (
-    <Collapse in={isSuccess && !!suggestions.length}>
-      <Wrapper
-        {...props}
-        data-testid="suggestion-box"
-        aria-hidden={!isSuccess || !suggestions.length}
-      >
-        {!!typeData[type]?.description && (
+    <Collapse in={isHidden}>
+      <Wrapper {...props} data-testid="suggestion-box" aria-hidden={isHidden}>
+        {description && (
+          <Typography variant="body2" gutterBottom>
+            {description}
+          </Typography>
+        )}
+
+        {/* {!!typeData[type]?.description && (
           <Typography variant="body2" gutterBottom>
             {typeData[type].description}
           </Typography>
-        )}
-        <Box className="type">{rendertype()}</Box>
+        )} */}
+
+        <Box className="type">
+          {loading
+            ? [...Array(max).keys()].map((i) => (
+                <Skeleton key={i} sx={{ mb: 1, width: 100 }} />
+              ))
+            : suggestions.map((name) => (
+                <Chip
+                  key={name}
+                  label={name}
+                  brandColor="brandSkills"
+                  onClick={() => {
+                    setSelected((p) => [...p, name])
+                    onSelected(name)
+                  }}
+                />
+              ))}
+        </Box>
       </Wrapper>
     </Collapse>
   )
