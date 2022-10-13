@@ -20,6 +20,7 @@ from .models import (
     UserLanguage,
     UserSkill,
     UserSkillDevelop,
+    LearningType
 )
 
 
