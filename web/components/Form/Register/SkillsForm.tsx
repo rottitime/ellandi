@@ -35,7 +35,7 @@ const SkillsForm: FC<StandardRegisterProps<SkillsType>> = ({
         ref={formRef}
         loading={buttonLoading}
         onFormSubmit={onFormSubmit}
-        suggestionProps={{ type: 'job-role', max: 10, data, loading: isLoading }}
+        suggestionProps={{ max: 10, data, loading: isLoading }}
         hideSubmit
       />
       <FormFooter

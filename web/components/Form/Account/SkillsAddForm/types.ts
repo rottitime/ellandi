@@ -8,7 +8,7 @@ export type Props = {
   loading: boolean
   showAll?: boolean
   onFormSubmit: SubmitType
-  suggestionProps?: Partial<SuggesttionProps>
+  suggestionProps?: SuggesttionProps
   hideSubmit?: boolean
 }
 

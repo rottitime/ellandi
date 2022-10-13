@@ -1,11 +1,8 @@
 import Chip from '@/components/Chip/Chip'
 import Skeleton from '@/components/UI/Skeleton/Skeleton'
-import useAuth from '@/hooks/useAuth'
-import { fetchMeSuggestedSkills, fetchMeSuggestedSkillsByRole } from '@/service/me'
-import { MeSuggestedSkillsResponse, Query } from '@/service/types'
+import { MeSuggestedSkillsResponse } from '@/service/types'
 import { Box, Collapse, styled, Typography } from '@mui/material'
 import { FC, useMemo, useState } from 'react'
-import { useQuery } from 'react-query'
 import { Props } from './types'
 
 const Wrapper = styled(Box)`
@@ -19,37 +16,17 @@ const Wrapper = styled(Box)`
   }
 `
 
-const typeData = {
-  default: {
-    fetchFn: fetchMeSuggestedSkills,
-    description: 'Skills you might have, based on your profile:'
-  },
-  'job-role': {
-    fetchFn: fetchMeSuggestedSkillsByRole,
-    description: null
-  }
-}
-
 const SkillsSuggest: FC<Props> = ({
   onSelected,
   max = 10,
-  hideOptions,
-  onFetched,
-  type,
+  hideOptions = [],
   data,
   description,
   loading,
   hidden,
   ...props
 }) => {
-  const { authFetch } = useAuth()
   const [selected, setSelected] = useState<string[]>([])
-
-  // const { isSuccess, data, isLoading } = useQuery<MeSuggestedSkillsResponse>(
-  //   Query.SuggestedSkills,
-  //   () => authFetch(typeData[type].fetchFn),
-  //   { onSuccess: onFetched }
-  // )
 
   const suggestions: MeSuggestedSkillsResponse = useMemo(
     () =>
@@ -63,22 +40,6 @@ const SkillsSuggest: FC<Props> = ({
 
   const isHidden = !hidden && !!suggestions.length
 
-  // const rendertype = () => {
-  //   return isLoading
-  //     ? [...Array(max).keys()].map((i) => <Skeleton key={i} sx={{ mb: 1, width: 100 }} />)
-  //     : suggestions.map((name) => (
-  //         <Chip
-  //           key={name}
-  //           label={name}
-  //           brandColor="brandSkills"
-  //           onClick={() => {
-  //             setSelected((p) => [...p, name])
-  //             onSelected(name)
-  //           }}
-  //         />
-  //       ))
-  // }
-
   return (
     <Collapse in={isHidden}>
       <Wrapper {...props} data-testid="suggestion-box" aria-hidden={isHidden}>
@@ -87,12 +48,6 @@ const SkillsSuggest: FC<Props> = ({
             {description}
           </Typography>
         )}
-
-        {/* {!!typeData[type]?.description && (
-          <Typography variant="body2" gutterBottom>
-            {typeData[type].description}
-          </Typography>
-        )} */}
 
         <Box className="type">
           {loading

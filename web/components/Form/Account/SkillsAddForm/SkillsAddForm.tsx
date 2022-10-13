@@ -96,11 +96,8 @@ const SkillsAddForm = forwardRef<RefHandler, Props>(
       <FormProvider {...methods}>
         <SkillsSuggest
           sx={{ mb: 4 }}
-          type="default"
+          {...suggestionProps}
           hideOptions={disableOptions}
-          onFetched={(data) => {
-            if (!showAll && !data.length) onFormSubmit({ skills: [] })
-          }}
           onSelected={(name) => {
             const firstRow = getValues('skills.0')
             setHasSelected(true)
@@ -108,7 +105,6 @@ const SkillsAddForm = forwardRef<RefHandler, Props>(
               ? setValue('skills.0.name', name)
               : append({ name, level: '' })
           }}
-          {...suggestionProps}
         />
 
         {(showAll || !!hasSelected) && (
