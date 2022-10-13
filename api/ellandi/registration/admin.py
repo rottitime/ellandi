@@ -185,6 +185,10 @@ class BusinessUnitAdmin(DropDownListAdmin):
     pass
 
 
+class LearningTypeAdmin(DropDownListAdmin):
+    readonly_fields = ("name", "slug", "order", "description")
+
+
 admin.site.register(User, UserAdmin)
 admin.site.register(UserSkill, UserSkillAdmin)
 admin.site.register(UserLanguage, UserLanguageAdmin)
@@ -201,5 +205,6 @@ admin.site.register(Function, FunctionAdmin)
 admin.site.register(SkillLevel, SkillLevelAdmin)
 admin.site.register(JobTitle, JobTitleAdmin)
 admin.site.register(BusinessUnit, BusinessUnitAdmin)
+admin.site.register(LearningType, LearningTypeAdmin)
 admin.site.register(EmailSalt)
 admin.site.register(Learning)
