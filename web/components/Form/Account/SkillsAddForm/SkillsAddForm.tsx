@@ -20,9 +20,7 @@ import Icon from '@/components/Icon/Icon'
 import Button from '@/components/UI/Button/Button'
 import { fetchMe } from '@/service/me'
 import useAuth from '@/hooks/useAuth'
-import SimpleTable, {
-  Props as SimpleTableProps
-} from '@/components/UI/SimpleTable/SimpleTable'
+import SimpleTable from '@/components/UI/SimpleTable/SimpleTable'
 import Tooltip from '@/components/UI/Tooltip/Tooltip'
 
 const Table = styled(SimpleTable)`
@@ -90,90 +88,6 @@ const SkillsAddForm = forwardRef<RefHandler, Props>(
       [fields, isFetchedMe, dataMe]
     )
 
-    const tableData: SimpleTableProps['list'] = useMemo(() => {
-      if (!fields?.length) return []
-
-      const rows = fields.map((_item, index) => [
-        {
-          children: (
-            <>
-              <Controller
-                name={`skills.${index}.name`}
-                control={control}
-                render={({ field, fieldState: { error } }) => (
-                  <CreatableAutocomplete
-                    {...field}
-                    loading={isLoadingSkills}
-                    disableOptions={disableOptions}
-                    label="Enter a skill"
-                    options={(skillsList || []).map((skill) => ({ title: skill }))}
-                    size="small"
-                    error={!!error}
-                    helperText={error?.message}
-                  />
-                )}
-              />
-
-              {errors?.['skills']?.[index]?.['level'] && (
-                <FormHelperText error>
-                  {errors?.['skills']?.[index]?.['level']?.message}
-                </FormHelperText>
-              )}
-            </>
-          )
-        },
-        ...levels.map(({ name, slug }) => ({
-          children: (
-            <Controller
-              name={`skills.${index}.level`}
-              control={control}
-              render={({ field }) => (
-                <Radio
-                  {...field}
-                  value={name}
-                  inputProps={{
-                    'aria-labelledby': `${id}-th-${slug}`,
-                    'aria-label': name
-                  }}
-                  checked={field.value === name}
-                />
-              )}
-            />
-          )
-        })),
-
-        {
-          children: (
-            <IconButton
-              className="button-remove"
-              aria-label="Remove"
-              title="Remove"
-              disabled={fields.length === 1}
-              onClick={() => {
-                console.log({ index })
-                // debugger
-                remove(index)
-              }}
-            >
-              <Icon icon="circle-delete" />
-            </IconButton>
-          )
-        }
-      ])
-
-      return [...rows]
-    }, [
-      control,
-      disableOptions,
-      fields,
-      isLoadingSkills,
-      levels,
-      remove,
-      skillsList,
-      errors,
-      id
-    ])
-
     useImperativeHandle(ref, () => ({
       submitForm: () => handleSubmit(onFormSubmit)()
     }))
@@ -216,90 +130,67 @@ const SkillsAddForm = forwardRef<RefHandler, Props>(
                 })),
                 { children: <>&nbsp;</> }
               ]}
-              body={fields.map(
-                (item, index) => (
-                  <tr key={item.id}>
-                    <td>
+              body={fields.map((item, index) => (
+                <tr key={item.id}>
+                  <td>
+                    <Controller
+                      name={`skills.${index}.name`}
+                      control={control}
+                      render={({ field, fieldState: { error } }) => (
+                        <CreatableAutocomplete
+                          {...field}
+                          loading={isLoadingSkills}
+                          disableOptions={disableOptions}
+                          label="Enter a skill"
+                          options={(skillsList || []).map((skill) => ({
+                            title: skill
+                          }))}
+                          size="small"
+                          error={!!error}
+                          helperText={error?.message}
+                        />
+                      )}
+                    />
+                    {errors?.['skills']?.[index]?.['level'] && (
+                      <FormHelperText error>
+                        {errors?.['skills']?.[index]?.['level']?.message}
+                      </FormHelperText>
+                    )}
+                  </td>
+
+                  {levels.map(({ name, slug }) => (
+                    <td key={slug}>
                       <Controller
-                        name={`skills.${index}.name`}
+                        name={`skills.${index}.level`}
                         control={control}
-                        render={({ field, fieldState: { error } }) => (
-                          <CreatableAutocomplete
+                        render={({ field }) => (
+                          <Radio
                             {...field}
-                            loading={isLoadingSkills}
-                            disableOptions={disableOptions}
-                            label="Enter a skill"
-                            options={(skillsList || []).map((skill) => ({
-                              title: skill
-                            }))}
-                            size="small"
-                            error={!!error}
-                            helperText={error?.message}
+                            value={name}
+                            inputProps={{
+                              'aria-labelledby': `${id}-th-${slug}`,
+                              'aria-label': name
+                            }}
+                            checked={field.value === name}
                           />
                         )}
                       />
-                      {errors?.['skills']?.[index]?.['level'] && (
-                        <FormHelperText error>
-                          {errors?.['skills']?.[index]?.['level']?.message}
-                        </FormHelperText>
-                      )}
                     </td>
-                    <td>
-                      <IconButton
-                        className="button-remove"
-                        aria-label="Remove"
-                        title="Remove"
-                        disabled={fields.length === 1}
-                        onClick={() => remove(index)}
-                      >
-                        <Icon icon="circle-delete" />
-                      </IconButton>
-                    </td>
-                  </tr>
-                )
+                  ))}
 
-                //   [
-                //   {
-
-                //   ...levels.map(({ name, slug }) => ({
-                //     children: (
-                //       <Controller
-                //         name={`skills.${index}.level`}
-                //         control={control}
-                //         render={({ field }) => (
-                //           <Radio
-                //             {...field}
-                //             value={name}
-                //             inputProps={{
-                //               'aria-labelledby': `${id}-th-${slug}`,
-                //               'aria-label': name
-                //             }}
-                //             checked={field.value === name}
-                //           />
-                //         )}
-                //       />
-                //     )
-                //   })),
-
-                //   {
-                //     children: (
-                //       <IconButton
-                //         className="button-remove"
-                //         aria-label="Remove"
-                //         title="Remove"
-                //         disabled={fields.length === 1}
-                //         onClick={() => {
-                //           console.log({ index })
-                //           // debugger
-                //           remove(index)
-                //         }}
-                //       >
-                //         <Icon icon="circle-delete" />
-                //       </IconButton>
-                //     )
-                //   }
-                // ]
-              )}
+                  <td>
+                    <IconButton
+                      className="button-remove"
+                      aria-label="Remove"
+                      title="Remove"
+                      disabled={fields.length === 1}
+                      onClick={() => remove(index)}
+                    >
+                      <Icon icon="circle-delete" />
+                    </IconButton>
+                  </td>
+                </tr>
+              ))}
             />
 
             <Field>
