@@ -96,19 +96,6 @@ services:
     profiles:
       - testing
 
-  tests-api-debug:
-    build:
-      context: .
-      dockerfile: ./docker/tests/Dockerfile
-      args:
-        APP: api
-        MODULE: ellandi
-    image: tests_api_debug
-    env_file:
-      - ./envs/tests-debug
-    profiles:
-      - testing
-
   tests-organogram:
     build:
       context: .
