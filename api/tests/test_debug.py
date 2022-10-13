@@ -10,7 +10,7 @@ DEBUG_ONLY_URLS_GET = [
     "/api/schema/swagger-ui/",
     "/api/schema/redoc/",
     "/api/debug/",
-    "/admin/",
+    "/admin/login/",
 ]
 
 
