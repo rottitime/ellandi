@@ -1,6 +1,5 @@
 import { screen, waitFor } from '@testing-library/react'
 import SkillsSuggest from './SkillsSuggest'
-import fetchMock from 'jest-fetch-mock'
 import { renderWithProviders } from '@/lib/test-utils'
 import { MeSuggestedSkillsResponse } from '@/service/types'
 import userEvent from '@testing-library/user-event'
@@ -20,10 +19,6 @@ const mockData: MeSuggestedSkillsResponse = [
 ]
 
 describe('SkillsSuggest', () => {
-  afterEach(() => {
-    fetchMock.resetMocks()
-  })
-
   it('renders', async () => {
     const description = 'some random text for description'
     renderWithProviders(
@@ -39,7 +34,6 @@ describe('SkillsSuggest', () => {
   })
 
   it('on selected', async () => {
-    fetchMock.mockResponseOnce(JSON.stringify(mockData), { status: 200 })
     const mockClick = jest.fn()
     renderWithProviders(
       <SkillsSuggest hideOptions={[]} onSelected={mockClick} data={mockData} />
