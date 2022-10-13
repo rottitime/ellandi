@@ -38,10 +38,10 @@ const SkillsSuggest: FC<Props> = ({
     [data, max, hideOptions, selected]
   )
 
-  const isHidden = !hidden && !suggestions.length
+  const isHidden = !!hidden || !suggestions.length
 
   return (
-    <Collapse in={isHidden}>
+    <Collapse in={!isHidden}>
       <Wrapper {...props} data-testid="suggestion-box" aria-hidden={isHidden}>
         {description && (
           <Typography variant="body2" gutterBottom>

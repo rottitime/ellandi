@@ -35,7 +35,7 @@ describe('SkillsSuggest', () => {
     expect(screen.getByText(mockData[2])).toBeInTheDocument()
     expect(screen.getByText(description)).toBeInTheDocument()
     expect(screen.getByTestId('suggestion-box')).toHaveAttribute('aria-hidden', 'false')
-    expect(screen.getByTestId('suggestion-box')).toBeInTheDocument()
+    expect(screen.getByTestId('suggestion-box')).toBeVisible()
   })
 
   it('on selected', async () => {
@@ -73,7 +73,6 @@ describe('SkillsSuggest', () => {
     )
 
     expect(screen.getByTestId('suggestion-box')).toBeInTheDocument()
-
     expect(screen.getByTestId('suggestion-box')).toHaveAttribute('aria-hidden', 'true')
   })
 
