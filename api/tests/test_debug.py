@@ -96,3 +96,8 @@ def test_get_endpoints_debug(client, user_id):
             assert response.status_code == status.HTTP_200_OK, response
         else:
             assert response.status_code == status.HTTP_404_NOT_FOUND
+
+
+if settings.DEBUG:
+    def test_debug_is_true():
+        pass
