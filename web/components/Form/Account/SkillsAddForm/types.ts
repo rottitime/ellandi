@@ -1,4 +1,4 @@
-import { Props as SuggesttionProps } from '@/components/Account/SkillsSuggest/types'
+import { Props as SuggesttionProps } from '@/components/UI/SkillsSuggest/types'
 import { SkillsType } from '@/service/types'
 import { SubmitHandler } from 'react-hook-form'
 
