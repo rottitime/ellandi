@@ -1,11 +1,11 @@
 import { screen, waitFor } from '@testing-library/react'
 import SkillsSuggest from './SkillsSuggest'
 import fetchMock from 'jest-fetch-mock'
-import { bugfixForTimeout, renderWithProviders } from '@/lib/test-utils'
+import { renderWithProviders } from '@/lib/test-utils'
 import { MeSuggestedSkillsResponse } from '@/service/types'
 import userEvent from '@testing-library/user-event'
 
-const data: MeSuggestedSkillsResponse = [
+const mockData: MeSuggestedSkillsResponse = [
   'Flying',
   'Acrobats',
   'Train spotting',
@@ -25,59 +25,55 @@ describe('SkillsSuggest', () => {
   })
 
   it('renders', async () => {
-    renderWithProviders(<SkillsSuggest onSelected={jest.fn()} />)
+    const description = 'some random text for description'
+    renderWithProviders(
+      <SkillsSuggest data={mockData} description={description} onSelected={jest.fn()} />
+    )
 
-    await waitFor(() => {
-      expect(screen.getByText(mockSuggestions[0])).toBeInTheDocument()
-    })
-    expect(screen.getByText(mockSuggestions[1])).toBeInTheDocument()
-    expect(screen.getByText(mockSuggestions[2])).toBeInTheDocument()
-    expect(screen.getByTestId('suggestion-box')).toBeVisible()
+    expect(screen.getByText(mockData[0])).toBeInTheDocument()
+    expect(screen.getByText(mockData[1])).toBeInTheDocument()
+    expect(screen.getByText(mockData[2])).toBeInTheDocument()
+    expect(screen.getByText(description)).toBeInTheDocument()
+    expect(screen.getByTestId('suggestion-box')).toHaveAttribute('aria-hidden', 'false')
+    expect(screen.getByTestId('suggestion-box')).toBeInTheDocument()
   })
 
-  // it('on selected', async () => {
-  //   fetchMock.mockResponseOnce(JSON.stringify(mockSuggestions), { status: 200 })
-  //   const mockClick = jest.fn()
-  //   renderWithProviders(
-  //     <SkillsSuggest type="default" hideOptions={[]} onSelected={mockClick} />
-  //   )
+  it('on selected', async () => {
+    fetchMock.mockResponseOnce(JSON.stringify(mockData), { status: 200 })
+    const mockClick = jest.fn()
+    renderWithProviders(
+      <SkillsSuggest hideOptions={[]} onSelected={mockClick} data={mockData} />
+    )
 
-  //   await waitFor(() => {
-  //     expect(screen.getByText(mockSuggestions[0])).toBeInTheDocument()
-  //   })
+    await waitFor(() => {
+      expect(screen.getByText(mockData[0])).toBeInTheDocument()
+    })
 
-  //   await userEvent.click(screen.getByText(mockSuggestions[1]))
+    await userEvent.click(screen.getByText(mockData[1]))
 
-  //   expect(mockClick).toHaveBeenLastCalledWith('Acrobats')
-  // })
+    expect(mockClick).toHaveBeenLastCalledWith('Acrobats')
+  })
 
-  // it('hides options', async () => {
-  //   fetchMock.mockResponseOnce(JSON.stringify(mockSuggestions), { status: 200 })
-  //   const mockClick = jest.fn()
-  //   renderWithProviders(
-  //     <SkillsSuggest
-  //       type="default"
-  //       hideOptions={[mockSuggestions[1]]}
-  //       onSelected={mockClick}
-  //     />
-  //   )
+  it('hides options', async () => {
+    const mockClick = jest.fn()
+    renderWithProviders(
+      <SkillsSuggest hideOptions={[mockData[1]]} data={mockData} onSelected={mockClick} />
+    )
 
-  //   await waitFor(() => {
-  //     expect(screen.getByText(mockSuggestions[0])).toBeInTheDocument()
-  //   })
-  //   expect(screen.queryByText(mockSuggestions[1])).not.toBeInTheDocument()
-  // })
+    await waitFor(() => {
+      expect(screen.getByText(mockData[0])).toBeInTheDocument()
+    })
+    expect(screen.queryByText(mockData[1])).not.toBeInTheDocument()
+  })
 
-  // it('on empty fetch', async () => {
-  //   fetchMock.mockResponseOnce(JSON.stringify([]), { status: 200 })
-  //   const mockClick = jest.fn()
-  //   renderWithProviders(
-  //     <SkillsSuggest type="default" hideOptions={[]} onSelected={mockClick} />
-  //   )
+  it('on empty fetch', async () => {
+    const mockClick = jest.fn()
+    renderWithProviders(
+      <SkillsSuggest hideOptions={[]} onSelected={mockClick} data={[]} />
+    )
 
-  //   await bugfixForTimeout()
-  //   await waitFor(() => expect(fetch).toBeCalled())
+    expect(screen.getByTestId('suggestion-box')).toBeInTheDocument()
 
-  //   expect(screen.getByTestId('suggestion-box')).toHaveAttribute('aria-hidden', 'true')
-  // })
+    expect(screen.getByTestId('suggestion-box')).toHaveAttribute('aria-hidden', 'true')
+  })
 })

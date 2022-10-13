@@ -38,7 +38,7 @@ const SkillsSuggest: FC<Props> = ({
     [data, max, hideOptions, selected]
   )
 
-  const isHidden = !hidden && !!suggestions.length
+  const isHidden = !hidden && !suggestions.length
 
   return (
     <Collapse in={isHidden}>
