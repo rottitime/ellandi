@@ -125,7 +125,7 @@ const SkillsAddForm = forwardRef<RefHandler, Props>(
         ...levels.map(({ name, slug }) => ({
           children: (
             <Controller
-              name={`skills.${index}.level` as `skills.${number}.level`}
+              name={`skills.${index}.level`}
               control={control}
               render={({ field }) => (
                 <Radio
@@ -149,7 +149,11 @@ const SkillsAddForm = forwardRef<RefHandler, Props>(
               aria-label="Remove"
               title="Remove"
               disabled={fields.length === 1}
-              onClick={() => remove(index)}
+              onClick={() => {
+                console.log({ index })
+                // debugger
+                remove(index)
+              }}
             >
               <Icon icon="circle-delete" />
             </IconButton>
@@ -197,7 +201,7 @@ const SkillsAddForm = forwardRef<RefHandler, Props>(
           <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
             <Table
               loading={isLoading}
-              list={tableData}
+              list={[]}
               headers={[
                 { children: <>&nbsp;</>, width: 227 },
                 ...levels.map(({ slug, name, description }) => ({
@@ -212,6 +216,90 @@ const SkillsAddForm = forwardRef<RefHandler, Props>(
                 })),
                 { children: <>&nbsp;</> }
               ]}
+              body={fields.map(
+                (item, index) => (
+                  <tr key={item.id}>
+                    <td>
+                      <Controller
+                        name={`skills.${index}.name`}
+                        control={control}
+                        render={({ field, fieldState: { error } }) => (
+                          <CreatableAutocomplete
+                            {...field}
+                            loading={isLoadingSkills}
+                            disableOptions={disableOptions}
+                            label="Enter a skill"
+                            options={(skillsList || []).map((skill) => ({
+                              title: skill
+                            }))}
+                            size="small"
+                            error={!!error}
+                            helperText={error?.message}
+                          />
+                        )}
+                      />
+                      {errors?.['skills']?.[index]?.['level'] && (
+                        <FormHelperText error>
+                          {errors?.['skills']?.[index]?.['level']?.message}
+                        </FormHelperText>
+                      )}
+                    </td>
+                    <td>
+                      <IconButton
+                        className="button-remove"
+                        aria-label="Remove"
+                        title="Remove"
+                        disabled={fields.length === 1}
+                        onClick={() => remove(index)}
+                      >
+                        <Icon icon="circle-delete" />
+                      </IconButton>
+                    </td>
+                  </tr>
+                )
+
+                //   [
+                //   {
+
+                //   ...levels.map(({ name, slug }) => ({
+                //     children: (
+                //       <Controller
+                //         name={`skills.${index}.level`}
+                //         control={control}
+                //         render={({ field }) => (
+                //           <Radio
+                //             {...field}
+                //             value={name}
+                //             inputProps={{
+                //               'aria-labelledby': `${id}-th-${slug}`,
+                //               'aria-label': name
+                //             }}
+                //             checked={field.value === name}
+                //           />
+                //         )}
+                //       />
+                //     )
+                //   })),
+
+                //   {
+                //     children: (
+                //       <IconButton
+                //         className="button-remove"
+                //         aria-label="Remove"
+                //         title="Remove"
+                //         disabled={fields.length === 1}
+                //         onClick={() => {
+                //           console.log({ index })
+                //           // debugger
+                //           remove(index)
+                //         }}
+                //       >
+                //         <Icon icon="circle-delete" />
+                //       </IconButton>
+                //     )
+                //   }
+                // ]
+              )}
             />
 
             <Field>
