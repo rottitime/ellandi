@@ -39,10 +39,6 @@ jobs:
       run: |
         make test-api
 
-    - name: Run Organogram Tests
-      run: |
-        make test-organogram
-
     - uses: actions/checkout@v2
     - name: Slack Notification
       continue-on-error: true

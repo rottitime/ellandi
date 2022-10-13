@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib import admin
 from django.urls import include, path
 from drf_spectacular.views import (
@@ -33,14 +34,17 @@ api_urlpatterns = [
     path("user/<uuid:user_id>/password-reset/<str:token>/", verification.password_reset_use_view),
     path("register/", views.register_view),
     path("skills/", views.skills_list_view),
-    path("one-time-login-token/", views.create_one_time_login_view),
-    path("first-time-login/", views.first_log_in_view),
-    path("create-error/", views.create_error),
     path("create-title-embeddings/", views.create_job_embeddings),
     path("create-skill-similarity/", views.generate_skill_similarity),
     path("skill-recommender/<str:skill_name>/", views.skill_recommender),
     path("me/title-recommender/", views.me_recommend_job_relevant_skills),
     path("me/skill-recommender/", views.me_recommend_most_relevant_skills),
+]
+
+api_debug_urlpatterns = [
+    path("one-time-login-token/", views.create_one_time_login_view),
+    path("first-time-login/", views.first_log_in_view),
+    path("create-error/", views.create_error),
     path("debug/", debug_view),
 ]
 
@@ -60,4 +64,7 @@ auth_urlpatterns = [
     path(r"logoutall/", auth.LogoutAllView.as_view()),
 ]
 
-urlpatterns = [path("api/", include(api_urlpatterns + auth_urlpatterns))] + admin_urlpatterns + schema_urlpatterns
+urlpatterns = [path("api/", include(api_urlpatterns + auth_urlpatterns))]
+
+if settings.DEBUG:
+    urlpatterns = urlpatterns + [path("api/", include(api_debug_urlpatterns))] + schema_urlpatterns + admin_urlpatterns

@@ -5,3 +5,4 @@ VCAP_APPLICATION='{"application_uris": ["http://testserver"]}'
 EMAIL_BACKEND_TYPE=FILE
 EMAIL_FILE_PATH='/app/mail'
 ALLOW_EXAMPLE_EMAILS=True
+DEBUG=False
