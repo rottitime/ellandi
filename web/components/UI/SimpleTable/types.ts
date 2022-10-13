@@ -1,5 +1,5 @@
 import { TableCell } from '@mui/material'
-import { ComponentProps, ReactElement, ReactNode } from 'react'
+import { ComponentProps, ReactNode } from 'react'
 
 type DataRow = ComponentProps<typeof TableCell>
 
