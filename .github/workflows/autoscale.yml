@@ -42,15 +42,17 @@ jobs:
       - name: Attach Policy to App
         if: ${{ github.ref_name != 'prod' }}
         working-directory: ./autoscale
-        run: ./cf attach-autoscaling-policy ${{ matrix.app }}-${{ github.ref_name }} policy.json
+        run: ./cf attach-autoscaling-policy ${{ matrix.app }}-${{ github.ref_name }} non_prod_policy.json
 
       - name: Attach Policy to prod Apps
         if: ${{ github.ref_name == 'prod' && matrix.app != 'organogram'}}
-        run: ./cf attach-autoscaling-policy ${{ matrix.app }} policy.json
+        working-directory: ./autoscale
+        run: ./cf attach-autoscaling-policy ${{ matrix.app }} prod_policy.json
 
       - name: Attach Policy to prod Apps
         if: ${{ github.ref_name == 'prod' && matrix.app == 'organogram'}}
-        run: ./cf attach-autoscaling-policy digital-${{ matrix.app }} policy.json
+        working-directory: ./autoscale
+        run: ./cf attach-autoscaling-policy digital-${{ matrix.app }} prod_policy.json
 
       - uses: actions/checkout@v2
       - name: Slack Notification
