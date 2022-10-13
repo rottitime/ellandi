@@ -192,7 +192,8 @@ const PrivacyPage = () => (
         is the case it will be subject to equivalent legal protection through the use of
         Model Contract Clauses.
       </Typography>
-
+    </Section>
+    <Section>
       <Typography variant="h2" gutterBottom>
         Complaints
       </Typography>
