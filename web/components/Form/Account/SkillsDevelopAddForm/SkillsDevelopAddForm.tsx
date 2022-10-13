@@ -136,7 +136,7 @@ const SkillsDevelopAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
         </Field>
         <Field textAlign="right">
           <Button type="submit" color="primary" loading={loading}>
-            Add skills
+            Save skills
           </Button>
         </Field>
       </form>

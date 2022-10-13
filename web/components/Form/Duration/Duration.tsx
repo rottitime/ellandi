@@ -9,16 +9,16 @@ import { OnKeyDownType, Props } from './types'
 
 const invalidKeys = ['e', '-', '.']
 
-const Duration: FC<Props> = forwardRef<HTMLDivElement, Props>(
+const Duration: FC<Props> = forwardRef<HTMLButtonElement, Props>(
   ({ value, onChange, error, helperText }, ref) => {
     const daysRef = useRef<HTMLInputElement>()
     const hoursRef = useRef<HTMLInputElement>()
     const minutesRef = useRef<HTMLInputElement>()
 
     const reset = () => {
-      daysRef.current.value = null
-      hoursRef.current.value = null
-      minutesRef.current.value = null
+      daysRef.current.value = ''
+      hoursRef.current.value = ''
+      minutesRef.current.value = ''
     }
 
     const getTotal = () =>
@@ -71,7 +71,11 @@ const Duration: FC<Props> = forwardRef<HTMLDivElement, Props>(
             </Grid>
           ))}
         </Grid>
-        {helperText && <FormHelperText error={error}>{helperText}</FormHelperText>}
+        {helperText && (
+          <FormHelperText data-testid="datepicker-helper" error={error}>
+            {helperText}
+          </FormHelperText>
+        )}
       </Box>
     )
   }

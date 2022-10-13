@@ -3,7 +3,7 @@ from rest_framework.exceptions import APIException
 
 class RegistrationError(APIException):
     status_code = 400
-    default_detail = "User already exists"
+    default_detail = "We're unable to create your account. If you already have an account, try to sign in"
 
 
 class LoginMissingEmailError(APIException):
@@ -29,3 +29,13 @@ class IncorrectDomainError(APIException):
 class PasswordResetError(APIException):
     status_code = 400
     default_detail = "Reset link is invalid. You are unable to reset your password as either the link has already been used or has expired"  # noqa
+
+
+class MissingJobSimilarityMatrixError(APIException):
+    status_code = 501
+    default_detail = "A job similarity matrix has not been generated for this request"
+
+
+class MissingSkillMatrixError(APIException):
+    status_code = 501
+    default_detail = "A skill embedding matrix has not been generated for this request"

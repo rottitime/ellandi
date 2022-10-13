@@ -7,6 +7,5 @@ export type StandardRegisterProps<T, I = any> = {
   skipUrl?: string
   buttonLoading?: boolean
   defaultValues?: T & I
-  pickFields?: string[]
   onCancel?: () => void
 }

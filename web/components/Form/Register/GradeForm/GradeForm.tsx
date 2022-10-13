@@ -48,6 +48,10 @@ const GradeForm: FC<StandardRegisterProps<GradeType>> = (props) => {
       <Form {...props} submitDisabled>
         <Typography gutterBottom>Select your grade. You may only choose one</Typography>
 
+        <Typography variant="body2" gutterBottom>
+          Grades are the levels at which civil servants work and are paid
+        </Typography>
+
         <Controller
           name="grade"
           control={control}

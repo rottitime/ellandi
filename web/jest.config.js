@@ -24,7 +24,8 @@ const customJestConfig = {
     '^@/(.*)$': '<rootDir>/$1'
   },
   resolver: '<rootDir>/.jest/resolver.js',
-  clearMocks: true
+  clearMocks: true,
+  testTimeout: 20000
   // automock: false,
   // resetMocks: false
 }

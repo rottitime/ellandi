@@ -2,7 +2,7 @@ import PercentageBar from '@/components/UI/PercentageBar/PercentageBar'
 import Skeleton from '@/components/UI/Skeleton/Skeleton'
 import useAuth from '@/hooks/useAuth'
 import { fetchMeLearning } from '@/service/me'
-import { MeLearningList, Query } from '@/service/types'
+import { MeLearningRecord, Query } from '@/service/types'
 import { Box } from '@mui/material'
 import { FC } from 'react'
 import { useQuery } from 'react-query'
@@ -11,7 +11,7 @@ import { Props } from './types'
 const LearningGoalBar: FC<Props> = (props) => {
   const { authFetch } = useAuth()
 
-  const { isLoading, data } = useQuery<MeLearningList[]>(
+  const { isLoading, data } = useQuery<MeLearningRecord[]>(
     Query.MeLearning,
     () => authFetch(fetchMeLearning),
     { initialData: [], staleTime: 0 }

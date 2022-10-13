@@ -1,0 +1,67 @@
+[
+  {
+    "slug": "administrative-assistant-aa-equivalent",
+    "name": "Administrative Assistant (AA) Equivalent",
+    "order": 0
+  },
+  {
+    "slug": "administrative-officer-ao-equivalent",
+    "name": "Administrative Officer (AO) Equivalent",
+    "order": 1
+  },
+  {
+    "slug": "executive-officer-eo-equivalent",
+    "name": "Executive Officer (EO) Equivalent",
+    "order": 2
+  },
+  {
+    "slug": "higher-executive-officer-heo-equivalent",
+    "name": "Higher Executive Officer (HEO) Equivalent",
+    "order": 3
+  },
+  {
+    "slug": "senior-executive-officer-seo-equivalent",
+    "name": "Senior Executive Officer (SEO) Equivalent",
+    "order": 4
+  },
+  {
+    "slug": "grade-7-equivalent",
+    "name": "Grade 7 Equivalent",
+    "order": 5
+  },
+  {
+    "slug": "grade-6-equivalent",
+    "name": "Grade 6 Equivalent",
+    "order": 6
+  },
+  {
+    "slug": "senior-civil-servant-deputy-director-pb11a",
+    "name": "Senior Civil Servant - Deputy Director (PB1/1A)",
+    "order": 7
+  },
+  {
+    "slug": "senior-civil-servant-director-pb2",
+    "name": "Senior Civil Servant - Director (PB2)",
+    "order": 8
+  },
+  {
+    "slug": "senior-civil-servant-director-general-pb3",
+    "name": "Senior Civil Servant - Director General (PB3)",
+    "order": 9
+  },
+  {
+    "slug": "senior-civil-servant-permanent-secretary",
+    "name": "Senior Civil Servant - Permanent Secretary",
+    "order": 10
+  },
+  {
+    "slug": "other",
+    "name": "Other",
+    "order": 11
+  },
+  {
+    "slug": "i-dont-know",
+    "name": "I don't know",
+    "order": 12
+  }
+]

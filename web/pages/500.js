@@ -3,7 +3,7 @@ import { Link, Typography } from '@mui/material'
 
 export default function Custom500() {
   return (
-    <CardLayout title="Sorry, there is a problem with the service">
+    <CardLayout title="Sorry, there is a problem with the service" dark>
       <Typography gutterBottom>Try again later.</Typography>
 
       <Typography gutterBottom>

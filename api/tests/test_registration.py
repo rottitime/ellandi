@@ -137,7 +137,8 @@ def test_me_patch_lm_email_validation(client, user_id):
     endpoint = "/api/me/"
     response = client.patch(endpoint, json={"line_manager_email": "Jane@example.com"})
     assert response.status_code == status.HTTP_400_BAD_REQUEST, response.status_code
-    assert response.json()["detail"] == "Line manager email cannot be the same as user email", response.json()
+    msg = response.json()["detail"]
+    assert msg.startswith("You have entered an email that matches your own"), response.json()
     response = client.patch(endpoint, json={"line_manager_email": "new_lm_email@example.com"})
     assert response.status_code == status.HTTP_200_OK, response.status_code
     assert response.json()["line_manager_email"] == "new_lm_email@example.com", response.json()
@@ -169,7 +170,7 @@ def test_get_user_userlanguages(client, user_id):
     user_languages_data = {
         "user": user_id,
         "name": "Spanish",
-        "speaking_level": "Proficient",
+        "speaking_level": "Native",
         "writing_level": "Independent",
     }
 
@@ -177,7 +178,7 @@ def test_get_user_userlanguages(client, user_id):
     assert response.status_code == status.HTTP_201_CREATED
     user_language_id = response.json()["id"]
     assert response.json()["name"] == "Spanish"
-    assert response.json()["speaking_level"] == "Proficient"
+    assert response.json()["speaking_level"] == "Native"
     assert response.json()["writing_level"] == "Independent"
 
     response = client.get(f"/api/users/{user_id}/languages/")
@@ -312,6 +313,11 @@ def test_dropdown_list(client, user_id):
         {"name": "Analysis", "slug": "analysis", "endpoint": "/functions/"},
         {"name": "Advanced beginner", "slug": "advanced-beginner", "endpoint": "/skill-levels/"},
         {"name": "User researcher", "slug": "user-researcher", "endpoint": "/job-titles/"},
+        {
+            "name": "Chief Digital and Data Office",
+            "slug": "chief-digital-and-data-office",
+            "endpoint": "/business-units/",
+        },
     ]
 
     def test_get(endpoint):

@@ -20,7 +20,9 @@ const StyledDatePicker = styled(MuiDatePicker)<Props>`
 
 const DatePicker = forwardRef<HTMLInputElement, Props>(
   ({ onChange, valueFormat, error, helperText, ...props }, ref) => {
-    const [value, setValue] = useState<Dayjs | null>(null)
+    const [value, setValue] = useState<Dayjs | null>(
+      !!props?.value ? dayjs(props?.value) : null
+    )
 
     useEffect(() => {
       const newValue = !!value && !!valueFormat ? dayjs(value).format(valueFormat) : value
@@ -41,7 +43,11 @@ const DatePicker = forwardRef<HTMLInputElement, Props>(
         onChange={setValue}
         renderInput={(params) => (
           <>
-            <TextField size="small" {...params} />
+            <TextField
+              size="small"
+              {...params}
+              inputProps={{ 'data-testid': 'datepicker', ...params.inputProps }}
+            />
             {helperText && <FormHelperText error={error}>{helperText}</FormHelperText>}
           </>
         )}

@@ -1,3 +1,5 @@
+import datetime
+
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
@@ -60,7 +62,7 @@ HOST_MAP = {
     "https://ellandi-api-develop.london.cloudapps.digital": "https://ellandi-develop.london.cloudapps.digital",
     "https://ellandi-api-staging.london.cloudapps.digital": "https://ellandi-staging.london.cloudapps.digital",
     "https://ellandi-api.london.cloudapps.digital": "https://ellandi.london.cloudapps.digital",
-    "http://localhost:8000": "http://localhost:3000"
+    "http://localhost:8000": "http://localhost:3000",
 }
 
 CORS_ALLOWED_ORIGINS = (HOST_URL, HOST_MAP[HOST_URL])
@@ -242,3 +244,7 @@ SPECTACULAR_SETTINGS = {
 
 WHITENOISE_USE_FINDERS = False
 GIT_SHA = env.str("GIT_SHA", default="UNKNOWN")
+
+TOKEN_TTL = datetime.timedelta(hours=3)
+AUTO_REFRESH = True
+MIN_REFRESH_INTERVAL = 60

@@ -52,7 +52,7 @@ export const SectionOne: FC<SectionOneProps> = ({ active }) => (
   <>
     <Headline>
       <Typography variant="h1" gutterBottom>
-        Add a skill or language to your profile
+        Add a skill or language
       </Typography>
     </Headline>
 

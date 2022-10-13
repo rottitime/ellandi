@@ -40,5 +40,7 @@ const ForgottenPasswordPage = () => {
 
 export default ForgottenPasswordPage
 ForgottenPasswordPage.getLayout = (page) => (
-  <CardLayout title="Reset your password">{page}</CardLayout>
+  <CardLayout title="Reset your password" dark>
+    {page}
+  </CardLayout>
 )

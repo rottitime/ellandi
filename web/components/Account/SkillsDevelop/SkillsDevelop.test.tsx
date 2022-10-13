@@ -49,7 +49,7 @@ describe('SkillsDevelop', () => {
     await bugfixForTimeout()
 
     await waitFor(async () => {
-      expect(screen.getByText('Add a skill to develop')).toBeInTheDocument()
+      expect(screen.getByTestId('empty-rows')).toBeInTheDocument()
     })
   })
 

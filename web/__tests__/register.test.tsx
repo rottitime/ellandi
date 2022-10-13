@@ -7,6 +7,16 @@ jest.mock('next/router', () => ({
   push: jest.fn()
 }))
 
+const mockError = jest.fn()
+jest.mock('@/context/UiContext', () => ({
+  ...jest.requireActual('@/context/UiContext'),
+  useUiContext() {
+    return {
+      setError: mockError
+    }
+  }
+}))
+
 describe('Page: Registration', () => {
   afterEach(() => {
     fetchMock.resetMocks()
@@ -18,6 +28,12 @@ describe('Page: Registration', () => {
     await waitFor(async () => {
       expect(screen.getByText('Create password')).toBeInTheDocument()
     })
+  })
+
+  it('clears error on unmount', async () => {
+    const view = renderWithProviders(<RegisterPage />)
+    ;(await view).unmount()
+    await waitFor(async () => expect(mockError).toHaveBeenCalledWith(''))
   })
 
   it('clears user token', async () => {

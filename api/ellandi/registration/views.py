@@ -7,6 +7,13 @@ from drf_spectacular.utils import OpenApiParameter, OpenApiTypes, extend_schema
 from rest_framework import decorators, permissions, routers, status, viewsets
 from rest_framework.response import Response
 
+from ellandi.registration.recommend import (
+    create_job_title_embeddings,
+    create_skill_similarity_matrix,
+    recommend_relevant_job_skills,
+    recommend_relevant_user_skills,
+    recommend_skill_relevant_skills,
+)
 from ellandi.verification import send_verification_email
 
 from . import exceptions, initial_data, models, serializers
@@ -172,6 +179,13 @@ class JobTitleViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = (permissions.AllowAny,)
 
 
+@register("business-units")
+class BusinessUnitViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.BusinessUnit.objects.all().order_by("slug")
+    serializer_class = serializers.BusinessUnitSerializer
+    permission_classes = (permissions.AllowAny,)
+
+
 @extend_schema(
     request=serializers.RegisterSerializer,
     responses=serializers.UserSerializer,
@@ -283,9 +297,12 @@ def make_learning_view(serializer_class, learning_type):
         user = request.user
         queryset = models.Learning.objects.filter(user=user)
         _learning_type = learning_type or request.query_params.get("learning_type", None)
+        sortfield = request.query_params.get("sortfield", None)
         if _learning_type:
             queryset = queryset.filter(learning_type=_learning_type)
         if request.method == "GET":
+            if sortfield:
+                queryset = queryset.order_by(sortfield)
             serializer = serializer_class(queryset, many=True)
             return Response(serializer.data)
         elif request.method == "PATCH":
@@ -553,3 +570,68 @@ def me_suggested_skills(request):
     job_title = user.job_title
     suggested_skills = initial_data.DDAT_JOB_TO_SKILLS_LOOKUP.get(job_title, [])
     return Response(data=suggested_skills, status=status.HTTP_200_OK)
+
+
+@extend_schema(request=None, responses=None)
+@decorators.api_view(["POST"])
+@decorators.permission_classes(
+    (permissions.AllowAny,)
+)  # TODO - what permissions? Suggest only admin users permissions.IsAdminUser
+def generate_skill_similarity(request):
+    qs = models.UserSkill.objects.all().values_list("user__id", "id", "name", "user__job_title")
+    create_skill_similarity_matrix(qs)
+    return Response(status=status.HTTP_200_OK)
+
+
+@extend_schema(request=None, responses=None)
+@decorators.api_view(["POST"])
+@decorators.permission_classes(
+    (permissions.AllowAny,)
+)  # TODO - what permissions? Suggest only admin users permissions.IsAdminUser
+def create_job_embeddings(request):
+    qs = models.UserSkill.objects.all().values_list("user__id", "user__job_title")
+    create_job_title_embeddings(qs)
+    return Response(status=status.HTTP_200_OK)
+
+
+@extend_schema(methods=["GET"], request=serializers.SkillTitleSerializer())
+@decorators.api_view(["GET"])
+@decorators.permission_classes(
+    (permissions.AllowAny,)
+)  # TODO - I think this is fine for permissions - anyone can see recommendation?
+def skill_recommender(request, skill_name):
+    # requires create_skill_similarity_matrix endpoint to have been run first
+    qs = models.UserSkill.objects.all().values_list("user__id", "id", "name", "user__job_title")
+    similar_skills = recommend_skill_relevant_skills(qs, skill_name)
+    if similar_skills is None:
+        raise exceptions.MissingJobSimilarityMatrixError
+    else:
+        return Response(data=similar_skills, status=status.HTTP_200_OK)
+
+
+@extend_schema(request=None, responses=None)
+@decorators.api_view(["GET"])
+@decorators.permission_classes((permissions.IsAuthenticated,))
+def me_recommend_job_relevant_skills(request):
+    # requires create_job_embedding_matrix endpoint to have been run first
+    user = request.user
+    job_title = user.job_title
+    qs = models.UserSkill.objects.all().values_list("user__id", "id", "name", "user__job_title")
+
+    similar_title_skills = recommend_relevant_job_skills(qs, job_title)
+    if not similar_title_skills:
+        raise exceptions.MissingJobSimilarityMatrixError
+    return Response(data=similar_title_skills, status=status.HTTP_200_OK)
+
+
+@extend_schema(request=None, responses=None)
+@decorators.api_view(["GET"])
+@decorators.permission_classes((permissions.IsAuthenticated,))
+def me_recommend_most_relevant_skills(request):
+    user = request.user
+    job_title = user.job_title
+    qs = models.UserSkill.objects.all().values_list("user__id", "id", "name", "user__job_title")
+    user_skills_list = list(models.UserSkill.objects.filter(user=user).values_list("name"))
+
+    combined_recommendations = recommend_relevant_user_skills(qs, user_skills_list, job_title)
+    return Response(data=combined_recommendations, status=status.HTTP_200_OK)

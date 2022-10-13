@@ -31,6 +31,7 @@ const SkillsAddDevelopPage = () => {
             <BadgeNumber label="2" sx={{ mr: 2 }} /> Skill you would like to develop
           </Typography>
         }
+        sx={{ width: 450 }}
       >
         <SkillsDevelopAddForm
           loading={isLoading}

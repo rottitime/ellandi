@@ -7,13 +7,13 @@ type Props = {
   columns?: number
 } & ComponentProps<typeof Table>
 
-const TableSkeleton: FC<Props> = ({ rows = 4, columns = 3, ...props }) => (
+const TableSkeleton: FC<Props> = ({ rows = 4, columns = 5, ...props }) => (
   <Table {...props}>
     <TableHead>
       <TableRow>
         {[...Array(columns).keys()].map((i) => (
-          <TableCell key={i}>
-            <Skeleton animation="wave" />
+          <TableCell key={i} sx={{ textAlign: 'center' }}>
+            <Skeleton animation="wave" sx={{ maxWidth: '20%' }} />
           </TableCell>
         ))}
       </TableRow>
@@ -23,7 +23,7 @@ const TableSkeleton: FC<Props> = ({ rows = 4, columns = 3, ...props }) => (
         <TableRow key={i}>
           {[...Array(columns).keys()].map((i) => (
             <TableCell key={i}>
-              <Skeleton />
+              <Skeleton sx={{ maxWidth: `${Math.floor(Math.random() * 101)}%` }} />
             </TableCell>
           ))}
         </TableRow>

@@ -48,6 +48,10 @@ const FunctionTypeForm: FC<StandardRegisterProps<FunctionType>> = (props) => {
           one
         </Typography>
 
+        <Typography variant="body2" gutterBottom>
+          Functions are groupings of particular types of work across government
+        </Typography>
+
         <Controller
           name="function"
           control={control}

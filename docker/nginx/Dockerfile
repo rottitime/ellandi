@@ -19,7 +19,8 @@ RUN chmod +x /start.sh
 COPY ./docker/nginx/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-COPY ./web /app/web
+COPY . /app
+RUN python3 /app/scripts/convert_dropdowns.py
 
 WORKDIR /app/web
 

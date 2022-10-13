@@ -74,7 +74,7 @@ describe('LanguageList', () => {
     await bugfixForTimeout()
 
     await waitFor(async () => {
-      expect(screen.getByText('Add a language skill')).toBeInTheDocument()
+      expect(screen.getByTestId('empty-rows')).toBeInTheDocument()
     })
   })
 

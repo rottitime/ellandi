@@ -2,6 +2,7 @@ export enum Query {
   Countries = 'countries',
   Grades = 'grades',
   JobTitles = 'jobTitles',
+  BusinessUnits = 'businessUnits',
   Professions = 'professions',
   PrimaryProfessions = 'primaryProfessions',
   Functions = 'functions',
@@ -13,7 +14,8 @@ export enum Query {
   Me = 'me',
   TeamMembers = 'teamMembers',
   SuggestedSkills = 'SuggestedSkills',
-  MeLearning = 'meLearning'
+  MeLearning = 'meLearning',
+  LearningTypes = 'LearningTypes'
 }
 
 export type GenericDataList = {
@@ -171,25 +173,24 @@ export type ResetUpdatePasswordType = {
 
 export type MeSuggestedSkillsResponse = string[]
 
-export type LearningAddType = {
+export type LearningBaseType = {
   name: string
   duration_minutes: number
   date_completed: string
 }
 
-export type LearningAddFormalType = {
-  name: string
-  duration_minutes: number
-  date_completed: string
+export type LearningFormalType = LearningBaseType & {
   cost_pounds: number
   cost_unknown: boolean
 }
 
-export type MeLearningList = {
+export type LearningConditionalApiFields =
+  | { id?: never; learning_type?: never }
+  | LearningApiFields
+
+type LearningApiFields = {
   id: string
   learning_type: string
-} & LearningAddType
+}
 
-export type MeLearningFormalList = {
-  id: string
-} & LearningAddFormalType
+export type MeLearningRecord = LearningBaseType & LearningFormalType & LearningApiFields

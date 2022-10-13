@@ -1,8 +1,8 @@
 import getConfig from 'next/config'
 import {
   LanguageType,
-  LearningAddFormalType,
-  LearningAddType,
+  LearningFormalType,
+  LearningBaseType,
   SkillDevelopType,
   SkillType
 } from './types'
@@ -77,7 +77,7 @@ export const fetchTeam = async (token: string) => {
   return res.json()
 }
 
-export const addLearningOnTheJob = async (token: string, data: LearningAddType) => {
+export const addLearningOnTheJob = async (token: string, data: LearningBaseType) => {
   const res = await api(token, `/me/learning-on-the-job/`, {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
@@ -87,7 +87,7 @@ export const addLearningOnTheJob = async (token: string, data: LearningAddType) 
   return res.json()
 }
 
-export const addLearningSocial = async (token: string, data: LearningAddType) => {
+export const addLearningSocial = async (token: string, data: LearningBaseType) => {
   const res = await api(token, `/me/learning-social/`, {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
@@ -97,13 +97,33 @@ export const addLearningSocial = async (token: string, data: LearningAddType) =>
   return res.json()
 }
 
-export const addLearningFormal = async (token: string, data: LearningAddFormalType) => {
+export const addLearningFormal = async (token: string, data: LearningFormalType) => {
   const res = await api(token, `/me/learning-formal/`, {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)
   })
   return res.json()
+}
+
+export const deleteLearning = async (token: string, id: string) => {
+  await api(token, `/me/learnings/${id}/`, {
+    method: 'DELETE'
+  })
+  return id
+}
+
+export const editLearning = async (
+  token: string,
+  data: LearningBaseType | LearningFormalType
+) => {
+  const res = await api(token, '/me/learnings/', {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  })
+
+  return await res.json()
 }
 
 const api = async (
@@ -121,11 +141,4 @@ const api = async (
     if (detail) throw new Error(detail)
   } catch (e) {}
   throw new Error(defaultError)
-}
-
-export const deleteLearning = async (token: string, id: string) => {
-  await api(token, `/me/learnings/${id}/`, {
-    method: 'DELETE'
-  })
-  return id
 }

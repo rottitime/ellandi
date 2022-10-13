@@ -95,6 +95,10 @@ class JobTitle(DropDownListModel):
     pass
 
 
+class BusinessUnit(DropDownListModel):
+    pass
+
+
 class UserManager(BaseUserManager):
     use_in_migrations = True
 
@@ -185,7 +189,9 @@ class User(AbstractUser, TimeStampedModel, RegistrationAbstractUser):
 
     def clean(self):
         if self.line_manager_email and (self.email.lower() == self.line_manager_email.lower()):
-            raise ValidationError("Line manager email cannot be the same as user email")
+            raise ValidationError(
+                "You have entered an email that matches your own. Enter your line manager's work email address."
+            )
 
     def save(self, *args, **kwargs):
         self.clean()
@@ -222,6 +228,7 @@ class UserLanguage(TimeStampedModel):
         BASIC = ("Basic", "Basic")
         INDEPENDENT = ("Independent", "Independent")
         PROFICIENT = ("Proficient", "Proficient")
+        NATIVE = ("Native", "Native")
         NONE = ("None", "None")
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

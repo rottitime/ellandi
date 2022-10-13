@@ -48,44 +48,54 @@ const SkillsAddSkillsPage = () => {
         </Grid>
         <Grid item xs={12} md={6}>
           <AccountCard>
-            <Typography component="h3" gutterBottom>
+            <Typography variant="h2" gutterBottom>
               Speaking
             </Typography>
-            <Typography fontWeight="bold">Basic</Typography>
-            <Typography gutterBottom>
+            <Typography variant="h3">Basic</Typography>
+            <Typography variant="body2" gutterBottom>
               You can understand and use basic phrases, introduce yourself and describe in
               simple terms aspects of your background and environment
             </Typography>
-            <Typography fontWeight="bold">Independent</Typography>
-            <Typography gutterBottom>
+            <Typography variant="h3">Independent</Typography>
+            <Typography variant="body2" gutterBottom>
               You can deal with most situations likely to arise while travelling in an
               area where the language is spoken and interact with a degree of fluency
             </Typography>
 
-            <Typography fontWeight="bold">Proficient</Typography>
-            <Typography gutterBottom>
+            <Typography variant="h3">Proficient</Typography>
+            <Typography variant="body2" gutterBottom>
               You can express ideas fluently and spontaneously and can use the language
               flexibly for social, academic and professional purposes
             </Typography>
 
-            <Typography component="h3" gutterBottom>
+            <Typography variant="h3">Native</Typography>
+            <Typography variant="body2" gutterBottom>
+              This is the first language you learnt as a child
+            </Typography>
+
+            <Typography variant="h2" gutterBottom>
               Writing
             </Typography>
-            <Typography fontWeight="bold">Basic</Typography>
-            <Typography gutterBottom>
+            <Typography variant="h3">Basic</Typography>
+            <Typography variant="body2" gutterBottom>
               You can understand and use basic phrases, introduce yourself and describe in
               simple terms aspects of your background and environment
             </Typography>
-            <Typography fontWeight="bold">Independent</Typography>
-            <Typography gutterBottom>
+            <Typography variant="h3">Independent</Typography>
+            <Typography variant="body2" gutterBottom>
               You can produce clear, detailed text on a wide range of subjects and explain
               the advantages and disadvantages of a topical issue
             </Typography>
 
-            <Typography fontWeight="bold">Proficient</Typography>
-            <Typography gutterBottom>
+            <Typography variant="h3">Proficient</Typography>
+            <Typography variant="body2" gutterBottom>
               You can produce clear, well-structured, detailed text on complex subjects
               and can express yourself fluently and precisely
+            </Typography>
+
+            <Typography variant="h3">Native</Typography>
+            <Typography variant="body2" gutterBottom>
+              This is the first language you learnt as a child
             </Typography>
           </AccountCard>
         </Grid>

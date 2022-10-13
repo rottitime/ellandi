@@ -23,7 +23,8 @@ def test_create_user_already_exists(client):
     response = client.post("/api/register/", json={"email": user_data["email"], "password": user_data["password"]})
     assert response.status_code == 400
     error = response.json()
-    assert error == {"detail": "User already exists"}
+    expected_error = "We're unable to create your account. If you already have an account, try to sign in"
+    assert error == {"detail": expected_error}
 
 
 @utils.with_client

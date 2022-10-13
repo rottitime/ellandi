@@ -16,7 +16,7 @@ const NextPage = () => (
     <Typography gutterBottom>The link will expire in 24 hours.</Typography>
 
     <FooterButtons>
-      <Button color="tertiary" size="small" href={urls.signin}>
+      <Button color="primary" href={urls.signin} sx={{ ml: 'auto' }} size="large">
         Sign in
       </Button>
     </FooterButtons>
@@ -24,4 +24,8 @@ const NextPage = () => (
 )
 
 export default NextPage
-NextPage.getLayout = (page) => <CardLayout title="What next?">{page}</CardLayout>
+NextPage.getLayout = (page) => (
+  <CardLayout title="What next?" dark>
+    {page}
+  </CardLayout>
+)

@@ -50,7 +50,7 @@ describe('SkillsList', () => {
     await bugfixForTimeout()
 
     await waitFor(async () => {
-      expect(screen.getByText('Add a skill')).toBeInTheDocument()
+      expect(screen.getByTestId('empty-rows')).toBeInTheDocument()
     })
   })
 
