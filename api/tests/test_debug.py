@@ -99,5 +99,6 @@ def test_get_endpoints_debug(client, user_id):
 
 
 if settings.DEBUG:
+
     def test_debug_is_true():
         pass
