@@ -8,9 +8,8 @@ const TOKEN_KEY = 'token'
 const useAuth = () => {
   const hasToken = (): boolean => !!sessionStorage.getItem(TOKEN_KEY)
 
-  const authFetch = async (callback, data = {}) => {
-    return await callback(sessionStorage.getItem(TOKEN_KEY), data)
-  }
+  const authFetch = async (callback, data = {}) =>
+    await callback(sessionStorage.getItem(TOKEN_KEY), data)
 
   const login = async (data: SignInType): Promise<AuthUser> => {
     try {

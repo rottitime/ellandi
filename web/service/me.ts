@@ -76,10 +76,13 @@ export const fetchMeLearningWork = async (token: string) => {
   throw new Error(defaultError)
 }
 
-export const fetchMeLearning = async (token: string) => {
-  const res = await fetch(`${publicRuntimeConfig.apiUrl}/me/learnings/`, {
-    headers: { Authorization: `Token ${token}` }
-  })
+export const fetchMeLearning = async (token: string, params) => {
+  const res = await fetch(
+    `${publicRuntimeConfig.apiUrl}/me/learnings/?` + new URLSearchParams(params),
+    {
+      headers: { Authorization: `Token ${token}` }
+    }
+  )
   if (res.ok) return res.json()
   throw new Error(defaultError)
 }

@@ -41,6 +41,7 @@ const LearningRecordList: FC = () => {
   const queryClient = useQueryClient()
   const [type, setType] = useState<string>()
   const formRef = useRef(null)
+  const params = { sortfield: 'name' }
 
   const { data: types, isLoading: isLoadingTypes } = useQuery<GenericDataList[], Error>(
     Query.LearningTypes,
@@ -49,8 +50,8 @@ const LearningRecordList: FC = () => {
   )
 
   const { data, isLoading, refetch } = useQuery<MeLearningRecord[]>(
-    Query.MeLearning,
-    () => authFetch(fetchMeLearning),
+    [Query.MeLearning, params],
+    () => authFetch(fetchMeLearning, params),
     { initialData: [], staleTime: 0 }
   )
 
