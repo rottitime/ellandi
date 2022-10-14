@@ -144,6 +144,7 @@ const SkillsAddForm = forwardRef<RefHandler, Props>(
                           size="small"
                           error={!!error}
                           helperText={error?.message}
+                          testid={`skillname-${index}`}
                         />
                       )}
                     />
@@ -179,6 +180,7 @@ const SkillsAddForm = forwardRef<RefHandler, Props>(
                       className="button-remove"
                       aria-label="Remove"
                       title="Remove"
+                      data-testid={`delete-${index}`}
                       disabled={fields.length === 1}
                       onClick={() => remove(index)}
                     >
@@ -194,6 +196,7 @@ const SkillsAddForm = forwardRef<RefHandler, Props>(
                 sx={{ color: 'text.primary' }}
                 variant="text"
                 startIcon={<Icon icon="circle-plus" />}
+                data-testid="append"
                 onClick={() => {
                   append({ name: '', level: '' })
                 }}

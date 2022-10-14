@@ -43,6 +43,7 @@ const CreatableAutocomplete: FC<Props> = forwardRef<FC, Props>(
       size = 'medium',
       onChange,
       error,
+      testid = '',
       ...props
     },
     ref
@@ -55,6 +56,7 @@ const CreatableAutocomplete: FC<Props> = forwardRef<FC, Props>(
           {...props}
           loading={loading}
           fullWidth
+          data-testid={testid}
           open={open}
           onOpen={() => setOpen(true)}
           onClose={() => setOpen(false)}
@@ -120,6 +122,7 @@ const CreatableAutocomplete: FC<Props> = forwardRef<FC, Props>(
               inputRef={ref}
               InputProps={{
                 ...params.InputProps,
+                inputProps: { ...params?.inputProps, 'data-testid': `input_${testid}` },
                 endAdornment: (
                   <>
                     {loading && open ? (
