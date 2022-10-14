@@ -1,0 +1,29 @@
+[
+{
+  "model": "registration.learningtype",
+  "pk": "on-the-job",
+  "fields": {
+    "name": "On the job",
+    "order": 0,
+    "description": "Self-taught learning by doing, for example, reading policies and guidance, using tools and software to do your job"
+  }
+},
+{
+  "model": "registration.learningtype",
+  "pk": "social",
+  "fields": {
+    "name": "Social",
+    "order": 1,
+    "description": "Learning from colleagues, job shadowing, mentoring, coaching, networks and communities"
+  }
+},
+{
+  "model": "registration.learningtype",
+  "pk": "formal",
+  "fields": {
+    "name": "Formal",
+    "order": 2,
+    "description": "Completing a course on Civil Service Learning, external training, professional qualifications"
+  }
+}
+]

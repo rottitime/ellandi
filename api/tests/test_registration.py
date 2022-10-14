@@ -317,6 +317,7 @@ def test_dropdown_list(client, user_id):
             "slug": "chief-digital-and-data-office",
             "endpoint": "/business-units/",
         },
+        {"name": "On the job", "slug": "on-the-job", "endpoint": "/language-types/"},
     ]
 
     def test_get(endpoint):
