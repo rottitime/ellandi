@@ -180,7 +180,7 @@ const ProfilePage = () => {
           { name: 'Business unit', value: data.business_unit },
           { name: 'Work location', value: data.location },
           {
-            name: 'Line manager email',
+            name: 'Line manager email address',
             value: data.line_manager_email
           }
         ])}
