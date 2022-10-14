@@ -213,11 +213,17 @@ class LearningSerializer(serializers.ModelSerializer):
         model = Learning
         fields = ["id", "learning_type", "name", "duration_minutes", "date_completed", "cost_pounds", "cost_unknown"]
 
+
     def create(self, validated_data):
         user = self.context["user"]
-        learning = Learning(user=user, **validated_data)
+        learning = Learning(user=user, learning_type=Learning.LearningType.SOCIAL, **validated_data)
         learning.save()
         return learning
+
+    def update(self, instance, validated_data):
+        instance.update(**validated_data)
+        instance.save()
+        return instance
 
 
 class UserSerializer(serializers.ModelSerializer):
