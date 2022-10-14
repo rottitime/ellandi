@@ -99,6 +99,10 @@ class BusinessUnit(DropDownListModel):
     pass
 
 
+class LearningType(DropDownListModel):
+    description = models.CharField(max_length=255, blank=True, null=True, default="")
+
+
 class UserManager(BaseUserManager):
     use_in_migrations = True
 

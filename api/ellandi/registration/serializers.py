@@ -14,6 +14,7 @@ from .models import (
     Language,
     LanguageSkillLevel,
     Learning,
+    LearningType,
     Location,
     Organisation,
     Profession,
@@ -103,6 +104,12 @@ class BusinessUnitSerializer(serializers.ModelSerializer):
     class Meta:
         model = BusinessUnit
         fields = ["slug", "name", "order"]
+
+
+class LearningTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LearningType
+        fields = ["slug", "name", "order", "description"]
 
 
 class UserSkillSerializer(serializers.ModelSerializer):

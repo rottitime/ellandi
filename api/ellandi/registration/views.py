@@ -186,6 +186,13 @@ class BusinessUnitViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = (permissions.AllowAny,)
 
 
+@register("learning-types")
+class LearningTypeViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.LearningType.objects.all().order_by("order")
+    serializer_class = serializers.LearningTypeSerializer
+    permission_classes = (permissions.AllowAny,)
+
+
 @extend_schema(
     request=serializers.RegisterSerializer,
     responses=serializers.UserSerializer,
