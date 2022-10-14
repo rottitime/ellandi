@@ -7,7 +7,8 @@ import {
   mockLevels,
   mockMe,
   mockSkills,
-  mockSuggested
+  mockSuggested,
+  bugfixForTimeout
 } from '@/lib/test-utils'
 import userEvent from '@testing-library/user-event'
 
@@ -44,6 +45,27 @@ describe('SkillsAddForm', () => {
       expect(screen.getByText(mockSuggested[0])).toBeInTheDocument()
       expect(screen.getByText(mockSuggested[1])).toBeInTheDocument()
       expect(screen.getByText(mockSuggested[2])).toBeInTheDocument()
+    })
+
+    it('renders step by step', async () => {
+      renderWithProviders(
+        <SkillsAddForm
+          loading={false}
+          onFormSubmit={jest.fn()}
+          suggestionProps={{ data: mockSuggested }}
+        />
+      )
+
+      await bugfixForTimeout()
+      await waitFor(() => {
+        expect(screen.getByText(mockSuggested[0])).toBeInTheDocument()
+      })
+      expect(screen.queryByText(mockLevels[0].name)).not.toBeInTheDocument()
+      expect(screen.queryByTestId('input_skillname-0')).not.toBeInTheDocument()
+
+      await userEvent.click(screen.getByText(mockSuggested[0]))
+
+      expect(screen.getByTestId('input_skillname-0')).toBeInTheDocument()
     })
 
     it('Adding suggested skills to field', async () => {
