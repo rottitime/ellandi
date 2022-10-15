@@ -7,6 +7,7 @@ limit_conn_status 429;
 
 server {
   listen 80;
+  resolver 127.0.0.11;
 
   index index.html index.htm Default.htm;
   limit_req zone=limitbyaddrglb burst=50 nodelay;
@@ -30,11 +31,12 @@ server {
     add_header Strict-Transport-Security "max-age=86400; includeSubDomains";
   }
 
-  location /api {
+  location /api/ {
     proxy_set_header X-Real-IP $remote_addr;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header X-NginX-Proxy true;
-    proxy_pass ${API_HOST}/api;
+    set $upstream ${API_HOST};
+    proxy_pass $upstream$request_uri;
     proxy_ssl_session_reuse off;
     proxy_set_header Host $http_host;
     proxy_cache_bypass $http_upgrade;
@@ -47,7 +49,8 @@ server {
     proxy_set_header X-Real-IP $remote_addr;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header X-NginX-Proxy true;
-    proxy_pass ${API_HOST}/api/create-title-embeddings/;
+    set $upstream ${API_HOST}/api/create-title-embeddings/;
+    proxy_pass $upstream;
     proxy_ssl_session_reuse off;
     proxy_set_header Host $http_host;
     proxy_cache_bypass $http_upgrade;
@@ -60,7 +63,8 @@ server {
     proxy_set_header X-Real-IP $remote_addr;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header X-NginX-Proxy true;
-    proxy_pass ${API_HOST}/api/create-skill-similarity/;
+    set $upstream ${API_HOST}/api/create-skill-similarity/;
+    proxy_pass $upstream;
     proxy_ssl_session_reuse off;
     proxy_set_header Host $http_host;
     proxy_cache_bypass $http_upgrade;
