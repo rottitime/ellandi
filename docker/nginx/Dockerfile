@@ -30,9 +30,11 @@ FROM nginx:latest
 
 ARG NEXT_PUBLIC_API_URL
 ARG API_HOST
+ARG RESOLVER
 
 ENV TZ=UTC
 ENV API_HOST=${API_HOST}
+ENV RESOLVER=${RESOLVER}
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
@@ -47,6 +49,7 @@ COPY --from=web /app/web/out /usr/share/nginx/html
 EXPOSE 80
 
 COPY ./nginx/nginx-default.conf.template /etc/nginx/conf.d/default.conf.template
+RUN envsubst '${API_HOST},${RESOLVER}' < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf
 
 ENTRYPOINT ["sh","/entrypoint.sh"]
 CMD ["sh","/start.sh"]
