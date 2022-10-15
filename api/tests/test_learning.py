@@ -77,6 +77,9 @@ def test_me_learning_patch_get_delete(client, user_id):
             assert result[0][key] == value, result
             assert all_result[i][key] == value, all_result
 
+    response = client.get(f"/api/me/learnings/?learning_type=Formal")
+    formal_learning_id = response.json()["id"]
+
     more_data = [
         {
             "name": "OTJ learning",
@@ -84,6 +87,11 @@ def test_me_learning_patch_get_delete(client, user_id):
             "date_completed": "2022-09-20",
             "learning_type": "On the job",
         },
+        {
+            "id": formal_learning_id,
+            "name": "Updated formal learning",
+            "duration": 34
+        }
     ]
     response = client.patch("/api/me/learnings/", json=more_data)
     assert response.status_code == status.HTTP_200_OK, response
@@ -94,12 +102,15 @@ def test_me_learning_patch_get_delete(client, user_id):
     assert result[0]["name"] == "Did some on the job learning", result
     assert result[1]["learning_type"] == "On the job"
 
+    response = client.get("/api/me/learnings/?learning_type=Formal")
+    result = response.json()
+    assert result["duration"] == 34
+    assert result["cost_pounds"] == 35
+
     response = client.get("/api/me/learnings/?sortfield=-duration_minutes")
     result = response.json()
     assert len(result) == 4
     assert result[3]["duration_minutes"] == 666
 
-    formal_learning = [learning for learning in all_result if learning["name"] == "Did some formal learning"][0]
-    id_to_delete = formal_learning["id"]
-    response = client.delete(f"/api/me/learnings/{id_to_delete}/")
+    response = client.delete(f"/api/me/learnings/{formal_learning_id}/")
     assert response.status_code == status.HTTP_200_OK, response.status_code
