@@ -115,3 +115,15 @@ services:
       - utils
     volumes:
       - ./:/app/:z
+
+
+  loadtest:
+    build:
+      context: .
+      dockerfile: ./docker/loadtest/Dockerfile
+      args:
+        APP: web
+        MODULE: web
+    image: loadtest
+    profiles:
+      - loadtest
