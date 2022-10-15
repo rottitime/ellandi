@@ -179,7 +179,6 @@ class LearningListSerializer(serializers.ListSerializer):
                 id = item.id
             else:
                 id = None
-            print(valid_data)
             learning, _ = Learning.objects.update_or_create(user=user, id=id, defaults=valid_data)
             updated_items.append(learning)
         return updated_items
