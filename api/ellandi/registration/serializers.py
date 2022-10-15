@@ -170,42 +170,6 @@ class UserSkillDevelopSerializerNested(serializers.ModelSerializer):
         fields = ["id", "name"]
 
 
-# class LearningOnTheJobSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Learning
-#         fields = ["id", "name", "duration_minutes", "date_completed"]
-
-#     def create(self, validated_data):
-#         user = self.context["user"]
-#         learning = Learning(user=user, learning_type=Learning.LearningType.ON_THE_JOB, **validated_data)
-#         learning.save()
-#         return learning
-
-
-# class LearningSocialSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Learning
-#         fields = ["id", "name", "duration_minutes", "date_completed"]
-
-#     def create(self, validated_data):
-#         user = self.context["user"]
-#         learning = Learning(user=user, learning_type=Learning.LearningType.SOCIAL, **validated_data)
-#         learning.save()
-#         return learning
-
-
-# class LearningFormalSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Learning
-#         fields = ["id", "name", "duration_minutes", "date_completed", "cost_pounds", "cost_unknown"]
-
-#     def create(self, validated_data):
-#         user = self.context["user"]
-#         learning = Learning(user=user, learning_type=Learning.LearningType.FORMAL, **validated_data)
-#         learning.save()
-#         return learning
-
-
 class LearningListSerializer(serializers.ListSerializer):
     def update(self, instance, validated_data):
         user = self.context["user"]
@@ -215,6 +179,7 @@ class LearningListSerializer(serializers.ListSerializer):
                 id = item.id
             else:
                 id = None
+            print(valid_data)
             learning, _ = Learning.objects.update_or_create(user=user, id=id, defaults=valid_data)
             updated_items.append(learning)
         return updated_items
