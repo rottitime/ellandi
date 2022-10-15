@@ -207,7 +207,6 @@ class UserSkillDevelopSerializerNested(serializers.ModelSerializer):
 
 
 class LearningListSerializer(serializers.ListSerializer):
-
     def update(self, instance, validated_data):
         user = self.context["user"]
         updated_items = []

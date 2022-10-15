@@ -321,8 +321,8 @@ def make_learning_view(serializer_class, learning_type):
                 id = item.get("id", None)
 
                 try:
-                    learning = models.Learning.objects.get(user=user, id=id) # TODO - handle errors?
-                except: #TODO - which error?
+                    learning = models.Learning.objects.get(user=user, id=id)  # TODO - handle errors?
+                except:  # TODO - which error?
                     learning = None
                 instances.append(learning)
             serializer = serializer_class(instances, data=data, many=True, context={"user": user})

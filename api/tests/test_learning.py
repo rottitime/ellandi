@@ -88,11 +88,7 @@ def test_me_learning_patch_get_delete(client, user_id):
             "date_completed": "2022-09-20",
             "learning_type": "On the job",
         },
-        {
-            "id": formal_learning_id,
-            "name": "Updated formal learning",
-            "duration": 34
-        }
+        {"id": formal_learning_id, "name": "Updated formal learning", "duration": 34},
     ]
     response = client.patch("/api/me/learnings/", json=more_data)
     assert response.status_code == status.HTTP_200_OK, response
