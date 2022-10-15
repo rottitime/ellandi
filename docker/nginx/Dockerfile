@@ -30,9 +30,11 @@ FROM nginx:latest
 
 ARG NEXT_PUBLIC_API_URL
 ARG API_HOST
+ARG RESOLVER
 
 ENV TZ=UTC
 ENV API_HOST=${API_HOST}
+ENV RESOLVER=${RESOLVER}
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 

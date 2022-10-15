@@ -7,7 +7,7 @@ limit_conn_status 429;
 
 server {
   listen 80;
-  resolver 169.254.0.2;
+  resolver ${RESOLVER};
 
   index index.html index.htm Default.htm;
   limit_req zone=limitbyaddrglb burst=50 nodelay;
