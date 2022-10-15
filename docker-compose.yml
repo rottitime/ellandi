@@ -13,6 +13,7 @@ services:
       args:
         NEXT_PUBLIC_API_URL: http://localhost/api
         API_HOST: http://api:8000
+        RESOLVER: 127.0.0.11
     image: nginx_main
     depends_on:
       - api
@@ -115,3 +116,15 @@ services:
       - utils
     volumes:
       - ./:/app/:z
+
+
+  loadtest:
+    build:
+      context: .
+      dockerfile: ./docker/loadtest/Dockerfile
+      args:
+        APP: web
+        MODULE: web
+    image: loadtest
+    profiles:
+      - loadtest

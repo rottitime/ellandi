@@ -39,12 +39,14 @@ PROD_HOSTS = (
     "ellandi-api-demo.london.cloudapps.digital",
     "ellandi-api-develop.london.cloudapps.digital",
     "ellandi-api-staging.london.cloudapps.digital",
+    "ellandi-api-pentest.london.cloudapps.digital",
     "ellandi-api.london.cloudapps.digital",
     "ellandi-sandbox.london.cloudapps.digital",
     "ellandi-temp.london.cloudapps.digital",
     "ellandi-demo.london.cloudapps.digital",
     "ellandi-develop.london.cloudapps.digital",
     "ellandi-staging.london.cloudapps.digital",
+    "ellandi-pentest.london.cloudapps.digital",
     "ellandi.london.cloudapps.digital",
 )
 
@@ -61,6 +63,7 @@ HOST_MAP = {
     "https://ellandi-api-demo.london.cloudapps.digital": "https://ellandi-demo.london.cloudapps.digital",
     "https://ellandi-api-develop.london.cloudapps.digital": "https://ellandi-develop.london.cloudapps.digital",
     "https://ellandi-api-staging.london.cloudapps.digital": "https://ellandi-staging.london.cloudapps.digital",
+    "https://ellandi-api-pentest.london.cloudapps.digital": "https://ellandi-pentest.london.cloudapps.digital",
     "https://ellandi-api.london.cloudapps.digital": "https://ellandi.london.cloudapps.digital",
     "http://localhost:8000": "http://localhost:3000",
 }
@@ -214,7 +217,7 @@ else:
 
 SEND_VERIFICATION_EMAIL = env.bool("SEND_VERIFICATION_EMAIL", default=False)
 
-ALLOW_EXAMPLE_EMAILS = env.bool("ALLOW_EXAMPLE_EMAILS", default=False)
+ALLOW_EXAMPLE_EMAILS = env.bool("ALLOW_EXAMPLE_EMAILS", default=True)
 
 DEFAULT_ALLOWED_DOMAINS = frozenset(
     [

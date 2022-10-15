@@ -11,6 +11,7 @@ on:
       - staging
       - demo
       - sandbox
+      - pentest
   release:
     types: [published]
 
@@ -31,6 +32,7 @@ jobs:
       API_HOST: http://ellandi-api-${{ github.ref_name }}.apps.internal:8000
       NEXT_PUBLIC_API_URL: https://ellandi-${{ github.ref_name }}.london.cloudapps.digital/api
       GIT_SHA: ${{ github.sha }}
+      RESOLVER: 169.254.0.2
 
     strategy:
       matrix:
@@ -67,7 +69,7 @@ jobs:
           DOCKER_IMAGE: ${{ matrix.app }}
 
         run: |
-          docker build . --file $DOCKER_FILE --tag $DOCKER_REPOSITORY/${{ github.repository_owner }}/$DOCKER_IMAGE:$IMAGE_TAG --build-arg NODE_ENV=$NODE_ENV --build-arg NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL --build-arg GIT_SHA=$GIT_SHA --build-arg API_HOST=$API_HOST
+          docker build . --file $DOCKER_FILE --tag $DOCKER_REPOSITORY/${{ github.repository_owner }}/$DOCKER_IMAGE:$IMAGE_TAG --build-arg NODE_ENV=$NODE_ENV --build-arg NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL --build-arg GIT_SHA=$GIT_SHA --build-arg API_HOST=$API_HOST --build-arg RESOLVER=$RESOLVER
           docker push -a $DOCKER_REPOSITORY/${{ github.repository_owner }}/$DOCKER_IMAGE
 
   deploy_image:
@@ -98,6 +100,7 @@ jobs:
               "temp": {"CF_SPACE": "temp"},
               "develop": {"CF_SPACE": "develop"},
               "staging": {"CF_SPACE": "staging"},
+              "pentest": {"CF_SPACE": "pentest"},
               "feature/deploy-from-main": {"CF_SPACE": "flibble"}
             }
 
