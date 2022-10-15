@@ -206,24 +206,35 @@ class LearningFormalSerializer(serializers.ModelSerializer):
         return learning
 
 
-class LearningSerializer(serializers.ModelSerializer):
-    learning_type = serializers.ChoiceField(choices=Learning.LearningType.choices, required=True)
-
-    class Meta:
-        model = Learning
-        fields = ["id", "learning_type", "name", "duration_minutes", "date_completed", "cost_pounds", "cost_unknown"]
-
-
-    def create(self, validated_data):
-        user = self.context["user"]
-        learning = Learning(user=user, learning_type=Learning.LearningType.SOCIAL, **validated_data)
-        learning.save()
-        return learning
+class LearningListSerializer(serializers.ListSerializer):
 
     def update(self, instance, validated_data):
-        instance.update(**validated_data)
-        instance.save()
-        return instance
+        user = self.context["user"]
+        updated_items = []
+        for i in range(len(instance)):
+            item = instance[i]
+            valid_data = validated_data[i]
+
+            if item:
+                id = item.id
+            else:
+                id = None
+            learning, _ = Learning.objects.update_or_create(user=user, id=id, defaults=valid_data)
+            updated_items.append(learning)
+        return updated_items
+
+
+class LearningSerializer(serializers.Serializer):
+    id = serializers.UUIDField(format="hex_verbose", required=False)
+    learning_type = serializers.ChoiceField(choices=Learning.LearningType.choices, required=True)
+    name = serializers.CharField(max_length=255, required=False)
+    duration_minutes = serializers.IntegerField(max_value=32767, min_value=0, required=False) #
+    date_completed = serializers.DateField(required=False)
+    cost_pounds = serializers.IntegerField(max_value=32767, min_value=0, required=False)
+    cost_unknown = serializers.BooleanField(required=False)
+
+    class Meta:
+        list_serializer_class = LearningListSerializer
 
 
 class UserSerializer(serializers.ModelSerializer):

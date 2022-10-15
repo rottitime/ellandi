@@ -314,7 +314,15 @@ def make_learning_view(serializer_class, learning_type):
             return Response(serializer.data)
         elif request.method == "PATCH":
             data = [dict(**item) for item in request.data]
-            serializer = serializer_class(data=data, many=True, context={"user": user})
+            instances = []
+            for item in data:
+                id = item.get("id", None)
+                try:
+                    learning = models.Learning.objects.get(user=user, id=id) # TODO - handle errors?
+                except: #TODO - which error?
+                    learning = None
+                instances.append(learning)
+            serializer = serializer_class(instances, data=data, many=True, context={"user": user})
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_200_OK)
