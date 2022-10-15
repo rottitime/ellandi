@@ -170,28 +170,28 @@ class UserSkillDevelopSerializerNested(serializers.ModelSerializer):
         fields = ["id", "name"]
 
 
-class LearningOnTheJobSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Learning
-        fields = ["id", "name", "duration_minutes", "date_completed"]
+# class LearningOnTheJobSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Learning
+#         fields = ["id", "name", "duration_minutes", "date_completed"]
 
-    def create(self, validated_data):
-        user = self.context["user"]
-        learning = Learning(user=user, learning_type=Learning.LearningType.ON_THE_JOB, **validated_data)
-        learning.save()
-        return learning
+#     def create(self, validated_data):
+#         user = self.context["user"]
+#         learning = Learning(user=user, learning_type=Learning.LearningType.ON_THE_JOB, **validated_data)
+#         learning.save()
+#         return learning
 
 
-class LearningSocialSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Learning
-        fields = ["id", "name", "duration_minutes", "date_completed"]
+# class LearningSocialSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Learning
+#         fields = ["id", "name", "duration_minutes", "date_completed"]
 
-    def create(self, validated_data):
-        user = self.context["user"]
-        learning = Learning(user=user, learning_type=Learning.LearningType.SOCIAL, **validated_data)
-        learning.save()
-        return learning
+#     def create(self, validated_data):
+#         user = self.context["user"]
+#         learning = Learning(user=user, learning_type=Learning.LearningType.SOCIAL, **validated_data)
+#         learning.save()
+#         return learning
 
 
 # class LearningFormalSerializer(serializers.ModelSerializer):
@@ -223,7 +223,7 @@ class LearningListSerializer(serializers.ListSerializer):
 
 class LearningSerializer(serializers.Serializer):
     id = serializers.UUIDField(format="hex_verbose", required=False)
-    learning_type = serializers.ChoiceField(choices=Learning.LearningType.choices, required=True)
+    learning_type = serializers.ChoiceField(choices=Learning.LearningType.choices, required=False)
     name = serializers.CharField(max_length=255, required=False)
     duration_minutes = serializers.IntegerField(max_value=32767, min_value=0, required=False)
     date_completed = serializers.DateField(required=False)
@@ -236,6 +236,14 @@ class LearningSerializer(serializers.Serializer):
 
 class LearningFormalSerializer(LearningSerializer):
     learning_type = serializers.ChoiceField(choices=[("Formal", "Formal")], default="Formal")
+
+
+class LearningSocialSerializer(LearningSerializer):
+    learning_type = serializers.ChoiceField(choices=[("Social", "Social")], default="Social")
+
+
+class LearningOnTheJobSerializer(LearningSerializer):
+    learning_type = serializers.ChoiceField(choices=[("On the job", "On the job")], default="On the job")
 
 
 class UserSerializer(serializers.ModelSerializer):
