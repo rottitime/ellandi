@@ -194,16 +194,16 @@ class LearningSocialSerializer(serializers.ModelSerializer):
         return learning
 
 
-class LearningFormalSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Learning
-        fields = ["id", "name", "duration_minutes", "date_completed", "cost_pounds", "cost_unknown"]
+# class LearningFormalSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Learning
+#         fields = ["id", "name", "duration_minutes", "date_completed", "cost_pounds", "cost_unknown"]
 
-    def create(self, validated_data):
-        user = self.context["user"]
-        learning = Learning(user=user, learning_type=Learning.LearningType.FORMAL, **validated_data)
-        learning.save()
-        return learning
+#     def create(self, validated_data):
+#         user = self.context["user"]
+#         learning = Learning(user=user, learning_type=Learning.LearningType.FORMAL, **validated_data)
+#         learning.save()
+#         return learning
 
 
 class LearningListSerializer(serializers.ListSerializer):
@@ -211,10 +211,7 @@ class LearningListSerializer(serializers.ListSerializer):
     def update(self, instance, validated_data):
         user = self.context["user"]
         updated_items = []
-        for i in range(len(instance)):
-            item = instance[i]
-            valid_data = validated_data[i]
-
+        for item, valid_data in zip(instance, validated_data):
             if item:
                 id = item.id
             else:
@@ -228,13 +225,17 @@ class LearningSerializer(serializers.Serializer):
     id = serializers.UUIDField(format="hex_verbose", required=False)
     learning_type = serializers.ChoiceField(choices=Learning.LearningType.choices, required=True)
     name = serializers.CharField(max_length=255, required=False)
-    duration_minutes = serializers.IntegerField(max_value=32767, min_value=0, required=False) #
+    duration_minutes = serializers.IntegerField(max_value=32767, min_value=0, required=False)
     date_completed = serializers.DateField(required=False)
     cost_pounds = serializers.IntegerField(max_value=32767, min_value=0, required=False)
     cost_unknown = serializers.BooleanField(required=False)
 
     class Meta:
         list_serializer_class = LearningListSerializer
+
+
+class LearningFormalSerializer(LearningSerializer):
+    learning_type = serializers.ChoiceField(choices=[("Formal", "Formal")], default="Formal")
 
 
 class UserSerializer(serializers.ModelSerializer):

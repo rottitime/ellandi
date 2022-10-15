@@ -314,9 +314,12 @@ def make_learning_view(serializer_class, learning_type):
             return Response(serializer.data)
         elif request.method == "PATCH":
             data = [dict(**item) for item in request.data]
+            # if _learning_type:
+            #     data = [item["learning_type"] = _learning_type for item in data]
             instances = []
             for item in data:
                 id = item.get("id", None)
+
                 try:
                     learning = models.Learning.objects.get(user=user, id=id) # TODO - handle errors?
                 except: #TODO - which error?
