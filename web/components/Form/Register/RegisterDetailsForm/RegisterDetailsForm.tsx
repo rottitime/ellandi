@@ -128,7 +128,10 @@ const RegisterDetailsForm: FC<StandardRegisterProps<RegisterDetailsType>> = (pro
         </Field>
 
         <Field>
-          <TextFieldControlled name="line_manager_email" label="Line manager email" />
+          <TextFieldControlled
+            name="line_manager_email"
+            label="Line manager email address"
+          />
         </Field>
       </Form>
     </FormProvider>

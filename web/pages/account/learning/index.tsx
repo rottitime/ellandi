@@ -58,7 +58,7 @@ const LearningPage = () => {
 
     return [
       { label: 'On the job', percentage: (totalWork / total) * 100, color: 'blue1' },
-      { label: 'Social', percentage: (totalSocial / total) * 100, color: 'white' },
+      { label: 'Social', percentage: (totalSocial / total) * 100, color: 'grey2' },
       { label: 'Formal', percentage: (totalFormal / total) * 100, color: 'black' }
     ]
   }, [data])

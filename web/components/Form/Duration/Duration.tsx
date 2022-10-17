@@ -64,7 +64,8 @@ const Duration: FC<Props> = forwardRef<HTMLButtonElement, Props>(
                 fullWidth
                 onKeyDown={onKeyDown}
                 inputProps={{
-                  'data-testid': `duration-${name.toLowerCase()}`
+                  'data-testid': `duration-${name.toLowerCase()}`,
+                  min: 0
                 }}
                 onChange={() => onChange(getTotal())}
               />
