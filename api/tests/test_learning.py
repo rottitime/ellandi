@@ -12,7 +12,7 @@ def test_me_learning_work(client, user_id):
 
     result = response.json()
     for key, value in data[0].items():
-        assert result[0][key] == value, result
+        assert result[0][key] == value
 
 
 @utils.with_logged_in_client
@@ -25,7 +25,7 @@ def test_me_learning_social(client, user_id):
 
     result = response.json()
     for key, value in data[0].items():
-        assert result[0][key] == value, result
+        assert result[0][key] == value
 
 
 @utils.with_logged_in_client
@@ -38,7 +38,7 @@ def test_me_learning_formal(client, user_id):
 
     result = response.json()
     for key, value in data[0].items():
-        assert result[0][key] == value, result
+        assert result[0][key] == value
 
 
 @utils.with_logged_in_client
