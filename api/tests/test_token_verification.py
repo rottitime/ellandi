@@ -123,6 +123,13 @@ def test_password_reset_email_bad_token(client):
     assert not user.check_password(new_password)
 
 
+@utils.with_client
+@override_settings(send_verification_email=True)
+def test_password_reset_non_existent_user(client):
+    response = client.post("/api/password-reset/", json={"email": "non_existent@example.com"})
+    assert response.status_code == 200
+
+
 @utils.with_logged_in_client
 def test_password_change(client, user_id):
     user_data = utils.user_data

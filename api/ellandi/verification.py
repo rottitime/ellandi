@@ -7,6 +7,7 @@ from django.template.loader import render_to_string
 from drf_spectacular.utils import extend_schema
 from rest_framework import decorators, permissions, status
 from rest_framework.response import Response
+from django.core.exceptions import ObjectDoesNotExist
 
 from ellandi.registration import exceptions, models, serializers
 
@@ -90,8 +91,11 @@ def verification_view(request, user_id, token):
 @decorators.permission_classes((permissions.AllowAny,))
 def password_reset_ask_view(request):
     email = request.data.get("email")
-    user = models.User.objects.get(email=email)
-    send_password_reset_email(user)
+    try:
+        user = models.User.objects.get(email=email)
+        send_password_reset_email(user)
+    except ObjectDoesNotExist:
+        pass
     return Response()
 
 
