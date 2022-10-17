@@ -196,7 +196,7 @@ class BaseLearningSerializer(serializers.Serializer):
         list_serializer_class = LearningListSerializer
 
 
-class LearningSerializer(serializers.Serializer):
+class LearningSerializer(BaseLearningSerializer):
     learning_type = serializers.ChoiceField(choices=Learning.LearningType.choices, required=False)
 
 

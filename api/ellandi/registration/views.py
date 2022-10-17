@@ -314,8 +314,10 @@ def make_learning_view(serializer_class, learning_type):
             return Response(serializer.data)
         elif request.method == "PATCH":
             data = [dict(**item) for item in request.data]
-            if _learning_type:
-                data = [dict(item, **{"learning_type": _learning_type}) for item in data]
+            if learning_type:
+                print(learning_type)
+                data = [dict(item, **{"learning_type": learning_type}) for item in data]
+                print(data)
             instances = []
             for item in data:
                 id = item.get("id", None)
