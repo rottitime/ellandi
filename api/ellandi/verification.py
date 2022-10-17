@@ -10,6 +10,7 @@ from rest_framework import decorators, permissions, status
 from rest_framework.response import Response
 
 from ellandi.registration import exceptions, models, serializers
+
 from . import auth
 
 TOKEN_GENERATOR = PasswordResetTokenGenerator()
