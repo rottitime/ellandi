@@ -4,7 +4,7 @@ import LocalizationProvider from '@/components/LocalizationProvider/Localization
 import { ReactNode } from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { UiProvider } from '@/context/UiContext'
-import { MeSuggestedSkillsResponse } from '@/service/types'
+import { MeSuggestedSkillsResponse, RegisterUserResponse } from '@/service/types'
 
 beforeAll(() => {
   Object.defineProperty(global, 'sessionStorage', { value: mockStorage })
@@ -70,16 +70,15 @@ export * from '@testing-library/react'
 export { renderWithProviders as render }
 
 // Mock data
-export const mockMe = {
+export const mockMe: RegisterUserResponse = {
   id: 'myownid-123',
   email: 'myself@test.com',
   privacy_policy_agreement: true,
   first_name: 'James',
   last_name: 'Bond',
-  department: null,
-  organisation: null,
   job_title: 'Admin',
   business_unit: 'Testing unit',
+  department: null,
   location: null,
   line_manager_email: 'manager@test.com',
   has_direct_reports: false,
@@ -93,6 +92,7 @@ export const mockMe = {
   contract_type: 'full time',
   contract_type_other: null,
   contact_preference: null,
+  verified: true,
   skills: [],
   languages: [],
   skills_develop: [],

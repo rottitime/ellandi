@@ -121,6 +121,10 @@ export type RegisterUserResponse = {
   id: string
   email: string
   has_direct_reports: boolean
+  verified: boolean
+  department: string
+  created_at: string
+  modified_at: string
 } & PrivacyAcceptType &
   RegisterDetailsType &
   GradeType &

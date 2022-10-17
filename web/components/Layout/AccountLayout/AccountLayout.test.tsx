@@ -2,6 +2,7 @@ import AccountLayout from './AccountLayout'
 import fetchMock from 'jest-fetch-mock'
 import { renderWithProviders, screen, waitFor, mockMe } from '@/lib/test-utils'
 import router from 'next/router'
+import { verify } from 'crypto'
 
 jest.mock('next/router', () => ({
   ...jest.requireActual('next/router'),
@@ -28,6 +29,18 @@ describe('AccountLayout', () => {
     await waitFor(async () => {
       expect(screen.getByText('my page')).toBeInTheDocument()
     })
+  })
+
+  it('email verification checks', async () => {
+    fetchMock.mockResponse(JSON.stringify({ ...mockMe, verified: false }), {
+      status: 200
+    })
+    await renderWithProviders(
+      <AccountLayout>
+        <p>my page</p>
+      </AccountLayout>
+    )
+    await waitFor(async () => expect(router.replace).toHaveBeenCalledWith('email-verify'))
   })
 
   describe('API Errors', () => {

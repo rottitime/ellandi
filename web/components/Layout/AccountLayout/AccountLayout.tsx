@@ -17,7 +17,7 @@ import Headline from '@/components/Account/Headline/Headline'
 import { useQuery } from 'react-query'
 import { fetchMe } from '@/service/me'
 import { Query, RegisterUserResponseWithCustomFields } from '@/service/api'
-import router from 'next/router'
+import Router from 'next/router'
 import getConfig from 'next/config'
 import { Props } from './types'
 
@@ -72,6 +72,7 @@ const AccountLayout: FC<Props> = ({
   teaserContent
 }) => {
   const { logout, authFetch, invalidate } = useAuth()
+
   const { isLoading, data, isError } = useQuery<
     RegisterUserResponseWithCustomFields,
     Error
@@ -79,20 +80,28 @@ const AccountLayout: FC<Props> = ({
     retry: 0,
     onError: () => {
       invalidate()
-      router.replace({
+      Router.replace({
         pathname: urls.signin,
         query: { ecode: 3 }
       })
+    },
+    onSuccess: ({ verified }) => {
+      //check email is verified
+      if (!verified) Router.replace(urls.emailVerify)
     }
   })
+
+  // useEffect(() => {
+  //   if (isSuccess)
+  // }, [isSuccess, data?.verified])
 
   if (isError) return null
 
   return (
     <Layout>
       <Template>
-        {isLoading ? (
-          <Box className="page-loading">
+        {isLoading || !data.verified ? (
+          <Box className="page-loading" data-testid="layout-loading">
             <CircularProgress />
           </Box>
         ) : (
