@@ -295,7 +295,7 @@ def make_learning_view(serializer_class, learning_type):
     @extend_schema(
         methods=["PATCH"],
         request=serializer_class(many=True),
-        responses=serializer_class(many=True),
+        responses=serializers.LearningSerializer(many=True),
     )
     @extend_schema(methods=["GET"], responses=serializer_class(many=True))
     @decorators.api_view(["GET", "PATCH"])
@@ -310,14 +310,12 @@ def make_learning_view(serializer_class, learning_type):
         if request.method == "GET":
             if sortfield:
                 queryset = queryset.order_by(sortfield)
-            serializer = serializer_class(queryset, many=True)
+            serializer = serializers.LearningSerializer(queryset, many=True)
             return Response(serializer.data)
         elif request.method == "PATCH":
             data = [dict(**item) for item in request.data]
             if learning_type:
-                print(learning_type)
                 data = [dict(item, **{"learning_type": learning_type}) for item in data]
-                print(data)
             instances = []
             for item in data:
                 id = item.get("id", None)
@@ -326,7 +324,7 @@ def make_learning_view(serializer_class, learning_type):
                 except ObjectDoesNotExist:
                     learning = None
                 instances.append(learning)
-            serializer = serializer_class(instances, data=data, many=True, context={"user": user})
+            serializer = serializers.LearningSerializer(instances, data=data, many=True, context={"user": user})
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_200_OK)
