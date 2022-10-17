@@ -2,6 +2,7 @@ import furl
 from django.conf import settings
 from django.contrib.auth import login
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from drf_spectacular.utils import extend_schema
@@ -90,8 +91,11 @@ def verification_view(request, user_id, token):
 @decorators.permission_classes((permissions.AllowAny,))
 def password_reset_ask_view(request):
     email = request.data.get("email")
-    user = models.User.objects.get(email=email)
-    send_password_reset_email(user)
+    try:
+        user = models.User.objects.get(email=email)
+        send_password_reset_email(user)
+    except ObjectDoesNotExist:
+        pass
     return Response()
 
 
