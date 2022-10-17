@@ -184,9 +184,8 @@ class LearningListSerializer(serializers.ListSerializer):
         return updated_items
 
 
-class LearningSerializer(serializers.Serializer):
+class BaseLearningSerializer(serializers.Serializer):
     id = serializers.UUIDField(format="hex_verbose", required=False)
-    learning_type = serializers.ChoiceField(choices=Learning.LearningType.choices, required=False)
     name = serializers.CharField(max_length=255, required=False)
     duration_minutes = serializers.IntegerField(max_value=32767, min_value=0, required=False)
     date_completed = serializers.DateField(required=False)
@@ -197,16 +196,8 @@ class LearningSerializer(serializers.Serializer):
         list_serializer_class = LearningListSerializer
 
 
-class LearningFormalSerializer(LearningSerializer):
-    learning_type = serializers.ChoiceField(choices=[("Formal", "Formal")], default="Formal")
-
-
-class LearningSocialSerializer(LearningSerializer):
-    learning_type = serializers.ChoiceField(choices=[("Social", "Social")], default="Social")
-
-
-class LearningOnTheJobSerializer(LearningSerializer):
-    learning_type = serializers.ChoiceField(choices=[("On the job", "On the job")], default="On the job")
+class LearningSerializer(serializers.Serializer):
+    learning_type = serializers.ChoiceField(choices=Learning.LearningType.choices, required=False)
 
 
 class UserSerializer(serializers.ModelSerializer):

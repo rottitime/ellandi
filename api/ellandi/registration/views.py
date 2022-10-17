@@ -314,6 +314,8 @@ def make_learning_view(serializer_class, learning_type):
             return Response(serializer.data)
         elif request.method == "PATCH":
             data = [dict(**item) for item in request.data]
+            if _learning_type:
+                data = [dict(item, **{"learning_type": _learning_type}) for item in data]
             instances = []
             for item in data:
                 id = item.get("id", None)
@@ -332,15 +334,15 @@ def make_learning_view(serializer_class, learning_type):
 
 
 me_learning_on_the_job_view = make_learning_view(
-    serializer_class=serializers.LearningOnTheJobSerializer, learning_type=models.Learning.LearningType.ON_THE_JOB
+    serializer_class=serializers.BaseLearningSerializer, learning_type=models.Learning.LearningType.ON_THE_JOB
 )
 
 me_learning_social_view = make_learning_view(
-    serializer_class=serializers.LearningSocialSerializer, learning_type=models.Learning.LearningType.SOCIAL
+    serializer_class=serializers.BaseLearningSerializer, learning_type=models.Learning.LearningType.SOCIAL
 )
 
 me_learning_formal_view = make_learning_view(
-    serializer_class=serializers.LearningFormalSerializer, learning_type=models.Learning.LearningType.FORMAL
+    serializer_class=serializers.BaseLearningSerializer, learning_type=models.Learning.LearningType.FORMAL
 )
 
 me_learning_view = make_learning_view(serializer_class=serializers.LearningSerializer, learning_type=None)
