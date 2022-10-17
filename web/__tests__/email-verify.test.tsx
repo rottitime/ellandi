@@ -1,13 +1,15 @@
 import { screen, waitFor } from '@testing-library/react'
 import EmailVerifyPage from '@/pages/signin/verify'
 import fetchMock from 'jest-fetch-mock'
-import { renderWithProviders, bugfixForTimeout } from '@/lib/test-utils'
+import { renderWithProviders, mockMe } from '@/lib/test-utils'
+import router from 'next/router'
 
 const mockRouter = jest.fn(() => ({ query: { code: 'mycode', user_id: 'abc123' } }))
 
 jest.mock('next/router', () => ({
   ...jest.requireActual('next/router'),
-  useRouter: () => mockRouter()
+  useRouter: () => mockRouter(),
+  replace: jest.fn()
 }))
 
 describe('Page: Email Verify page', () => {
@@ -19,18 +21,8 @@ describe('Page: Email Verify page', () => {
     fetchMock.resetMocks()
   })
 
-  it('loading state', async () => {
-    fetchMock.mockResponseOnce(JSON.stringify({}), {
-      status: 200
-    })
-    renderWithProviders(<EmailVerifyPage />)
-
-    await bugfixForTimeout()
-    expect(screen.getByTestId('page-loading')).toBeInTheDocument()
-  })
-
   it('success', async () => {
-    fetchMock.mockResponseOnce(JSON.stringify({}), {
+    fetchMock.mockResponseOnce(JSON.stringify(mockMe), {
       status: 200
     })
     renderWithProviders(<EmailVerifyPage />)
@@ -38,32 +30,23 @@ describe('Page: Email Verify page', () => {
     await waitFor(async () => {
       expect(screen.getByTestId('page-success')).toBeInTheDocument()
     })
+
+    expect(router.replace).toHaveBeenCalledWith('signin')
   })
 
   it('shows server error', async () => {
-    const error = 'message from server'
-    const errorMessage = `Error: ${error}`
-    fetchMock.mockResponseOnce(JSON.stringify({ detail: error }), {
-      status: 400
-    })
-    renderWithProviders(<EmailVerifyPage />)
-
-    await bugfixForTimeout()
-
-    await waitFor(async () => {
-      expect(screen.getByText(errorMessage)).toBeInTheDocument()
-    })
-  })
-
-  it('shows default error', async () => {
-    const error = 'Error: Sorry, there is a problem with the service. Try again later.'
-    fetchMock.mockResponseOnce(JSON.stringify('broken message'), {
+    fetchMock.mockResponseOnce(JSON.stringify({ detail: 'broken' }), {
       status: 400
     })
     renderWithProviders(<EmailVerifyPage />)
 
     await waitFor(async () => {
-      expect(screen.getByText(error)).toBeInTheDocument()
+      expect(screen.getByTestId('page-error')).toBeInTheDocument()
+    })
+
+    expect(router.replace).toHaveBeenCalledWith({
+      pathname: 'signin',
+      query: { ecode: 4 }
     })
   })
 })

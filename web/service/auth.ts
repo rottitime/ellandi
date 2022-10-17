@@ -137,7 +137,7 @@ export const verifyEmail = async (user_id: string, token: string) => {
   const res: Response = await fetch(
     `${publicRuntimeConfig.apiUrl}/user/${user_id}/verify/${token}/`
   )
-  if (res.ok) return true
+  if (res.ok) return res.json()
 
   try {
     const { detail } = await res.json()
