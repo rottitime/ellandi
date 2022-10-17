@@ -43,7 +43,8 @@ def test_verify_email(client):
     url = _get_latest_email_url("verify")
     response = client.get(url)
     assert response.status_code == 200
-    assert response.json()["email"] == user_data["email"]
+    token = response.json()["token"]
+    assert token
 
     user = User.objects.get(email=user_data["email"])
     assert user.verified
@@ -60,9 +61,10 @@ def test_resend_verify_email(client, user_id):
     url = _get_latest_email_url("verify")
     response = client.get(url)
     assert response.status_code == 200
-    assert response.json()["email"] == user.email
+    token = response.json()["token"]
+    assert token
 
-    user = User.objects.get(email=user.email)
+    user = User.objects.get(id=user_id)
     assert user.verified
 
 
