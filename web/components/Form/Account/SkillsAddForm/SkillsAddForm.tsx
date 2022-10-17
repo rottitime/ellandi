@@ -7,22 +7,20 @@ import {
   SkillType
 } from '@/service/types'
 import { fetchSkillLevels, fetchSkills } from '@/service/api'
-import { FC, useEffect, useId, useMemo } from 'react'
+import { forwardRef, useId, useImperativeHandle, useMemo, useState } from 'react'
 import { useQuery } from 'react-query'
 import { Controller, FormProvider, useFieldArray, useForm } from 'react-hook-form'
 import { Field } from '@/components/Form/Field/Field'
 import { array, object, SchemaOf, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Props } from './types'
+import { Props, RefHandler } from './types'
 import CreatableAutocomplete from '../../CreatableAutocomplete/CreatableAutocomplete'
-import SkillsSuggest from '@/components/Account/SkillsSuggest/SkillsSuggest'
+import SkillsSuggest from '@/components/UI/SkillsSuggest/SkillsSuggest'
 import Icon from '@/components/Icon/Icon'
 import Button from '@/components/UI/Button/Button'
 import { fetchMe } from '@/service/me'
 import useAuth from '@/hooks/useAuth'
-import SimpleTable, {
-  Props as SimpleTableProps
-} from '@/components/UI/SimpleTable/SimpleTable'
+import SimpleTable from '@/components/UI/SimpleTable/SimpleTable'
 import Tooltip from '@/components/UI/Tooltip/Tooltip'
 
 const Table = styled(SimpleTable)`
@@ -42,184 +40,184 @@ const schema: SchemaOf<SkillsType> = object().shape({
   skills: array().of(skillSchema).optional()
 })
 
-const SkillsAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
-  const id = useId()
-  const { authFetch } = useAuth()
-  const { isLoading, data: levels } = useQuery<GenericDataList[], { message?: string }>(
-    Query.SkillLevels,
-    fetchSkillLevels,
-    { initialData: [], staleTime: 0 }
-  )
+const SkillsAddForm = forwardRef<RefHandler, Props>(
+  ({ onFormSubmit, loading, showAll, suggestionProps, hideSubmit }, ref) => {
+    const id = useId()
+    const { authFetch } = useAuth()
+    const [hasSelected, setHasSelected] = useState(false)
 
-  const { isFetched: isFetchedMe, data: dataMe } = useQuery<RegisterUserResponse>(
-    Query.Me,
-    () => authFetch(fetchMe)
-  )
+    const { isLoading, data: levels } = useQuery<GenericDataList[], { message?: string }>(
+      Query.SkillLevels,
+      fetchSkillLevels,
+      { initialData: [], staleTime: 0 }
+    )
 
-  const { isLoading: isLoadingSkills, data: skillsList } = useQuery<
-    string[],
-    { message?: string }
-  >(Query.Skills, fetchSkills, { initialData: [], staleTime: 0 })
+    const { isFetched: isFetchedMe, data: dataMe } = useQuery<RegisterUserResponse>(
+      Query.Me,
+      () => authFetch(fetchMe)
+    )
 
-  const methods = useForm<SkillsType>({
-    defaultValues: { skills: [] },
-    resolver: yupResolver(schema)
-  })
+    const { isLoading: isLoadingSkills, data: skillsList } = useQuery<
+      string[],
+      { message?: string }
+    >(Query.Skills, fetchSkills, { initialData: [], staleTime: 0 })
 
-  const {
-    control,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-    getValues
-  } = methods
+    const methods = useForm<SkillsType>({
+      defaultValues: { skills: [{ name: '', level: '' }] },
+      resolver: yupResolver(schema)
+    })
 
-  const { fields, append, remove } = useFieldArray<SkillsType, 'skills', 'name'>({
-    control,
-    name: 'skills'
-  })
+    const {
+      control,
+      handleSubmit,
+      setValue,
+      formState: { errors },
+      getValues
+    } = methods
 
-  useEffect(() => {
-    append({ name: '', level: '' })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+    const { fields, append, remove } = useFieldArray<SkillsType, 'skills', 'name'>({
+      control,
+      name: 'skills'
+    })
 
-  const disableOptions = useMemo(
-    () => [
-      ...fields.map(({ name }) => name),
-      ...(isFetchedMe ? dataMe.skills.map(({ name }) => name) : [])
-    ],
-    [fields, isFetchedMe, dataMe]
-  )
+    const disableOptions = useMemo(
+      () => [
+        ...fields.map(({ name }) => name),
+        ...(isFetchedMe ? dataMe.skills.map(({ name }) => name) : [])
+      ],
+      [fields, isFetchedMe, dataMe]
+    )
 
-  const tableData: SimpleTableProps['list'] = useMemo(() => {
-    if (!fields?.length) return []
+    useImperativeHandle(ref, () => ({
+      submitForm: () => handleSubmit(onFormSubmit)()
+    }))
 
-    const rows = fields.map((_item, index) => [
-      {
-        children: (
-          <>
-            <Controller
-              name={`skills.${index}.name`}
-              control={control}
-              render={({ field, fieldState: { error } }) => (
-                <CreatableAutocomplete
-                  {...field}
-                  loading={isLoadingSkills}
-                  disableOptions={disableOptions}
-                  label="Enter a skill"
-                  options={(skillsList || []).map((skill) => ({ title: skill }))}
-                  size="small"
-                  error={!!error}
-                  helperText={error?.message}
-                />
-              )}
-            />
-
-            {errors?.['skills']?.[index]?.['level'] && (
-              <FormHelperText error>
-                {errors?.['skills']?.[index]?.['level']?.message}
-              </FormHelperText>
-            )}
-          </>
-        )
-      },
-      ...levels.map(({ name, slug }) => ({
-        children: (
-          <Controller
-            name={`skills.${index}.level` as `skills.${number}.level`}
-            control={control}
-            render={({ field }) => (
-              <Radio
-                {...field}
-                value={name}
-                inputProps={{ 'aria-labelledby': `${id}-th-${slug}`, 'aria-label': name }}
-                checked={field.value === name}
-              />
-            )}
-          />
-        )
-      })),
-
-      {
-        children: (
-          <IconButton
-            className="button-remove"
-            aria-label="Remove"
-            title="Remove"
-            onClick={() => remove(index)}
-          >
-            <Icon icon="circle-delete" />
-          </IconButton>
-        )
-      }
-    ])
-
-    return [...rows]
-  }, [
-    control,
-    disableOptions,
-    fields,
-    isLoadingSkills,
-    levels,
-    remove,
-    skillsList,
-    errors,
-    id
-  ])
-
-  return (
-    <FormProvider {...methods}>
-      <SkillsSuggest
-        sx={{ mb: 4 }}
-        hideOptions={disableOptions}
-        onSelected={(name) => {
-          const firstRow = getValues('skills.0')
-          return !firstRow.name && !firstRow.level
-            ? setValue('skills.0.name', name)
-            : append({ name, level: '' })
-        }}
-      />
-      <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
-        <Table
-          loading={isLoading}
-          list={tableData}
-          headers={[
-            { children: <>&nbsp;</>, width: 227 },
-            ...levels.map(({ slug, name, description }) => ({
-              children: (
-                <span id={`${id}-th-${slug}`}>
-                  {name}{' '}
-                  {description && (
-                    <Tooltip brandColor="brandSkills" title={description} />
-                  )}
-                </span>
-              )
-            })),
-            { children: <>&nbsp;</> }
-          ]}
+    return (
+      <FormProvider {...methods}>
+        <SkillsSuggest
+          sx={{ mb: 4 }}
+          {...suggestionProps}
+          hideOptions={disableOptions}
+          onSelected={(name) => {
+            const firstRow = getValues('skills.0')
+            setHasSelected(true)
+            return !firstRow.name && !firstRow.level
+              ? setValue('skills.0.name', name)
+              : append({ name, level: '' })
+          }}
         />
 
-        <Field>
-          <Button
-            sx={{ color: 'text.primary' }}
-            variant="text"
-            startIcon={<Icon icon="circle-plus" />}
-            onClick={() => {
-              append({ name: '', level: '' })
-            }}
-          >
-            Add another skill
-          </Button>
-        </Field>
-        <Field textAlign="right">
-          <Button type="submit" variant="contained" loading={loading}>
-            Save skills
-          </Button>
-        </Field>
-      </form>
-    </FormProvider>
-  )
-}
+        {(showAll || !!hasSelected) && (
+          <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
+            <Table
+              loading={isLoading}
+              list={[]}
+              headers={[
+                { children: <>&nbsp;</>, width: 227 },
+                ...levels.map(({ slug, name, description }) => ({
+                  children: (
+                    <span id={`${id}-th-${slug}`}>
+                      {name}{' '}
+                      {description && (
+                        <Tooltip brandColor="brandSkills" title={description} />
+                      )}
+                    </span>
+                  )
+                })),
+                { children: <>&nbsp;</> }
+              ]}
+              body={fields.map((item, index) => (
+                <tr key={item.id}>
+                  <td>
+                    <Controller
+                      name={`skills.${index}.name`}
+                      control={control}
+                      render={({ field, fieldState: { error } }) => (
+                        <CreatableAutocomplete
+                          {...field}
+                          loading={isLoadingSkills}
+                          disableOptions={disableOptions}
+                          label="Enter a skill"
+                          options={(skillsList || []).map((skill) => ({
+                            title: skill
+                          }))}
+                          size="small"
+                          error={!!error}
+                          helperText={error?.message}
+                          testid={`skillname-${index}`}
+                        />
+                      )}
+                    />
+                    {errors?.['skills']?.[index]?.['level'] && (
+                      <FormHelperText error>
+                        {errors?.['skills']?.[index]?.['level']?.message}
+                      </FormHelperText>
+                    )}
+                  </td>
+
+                  {levels.map(({ name, slug }) => (
+                    <td key={slug}>
+                      <Controller
+                        name={`skills.${index}.level`}
+                        control={control}
+                        render={({ field }) => (
+                          <Radio
+                            {...field}
+                            value={name}
+                            inputProps={{
+                              'aria-labelledby': `${id}-th-${slug}`,
+                              'aria-label': name
+                            }}
+                            checked={field.value === name}
+                          />
+                        )}
+                      />
+                    </td>
+                  ))}
+
+                  <td>
+                    <IconButton
+                      className="button-remove"
+                      aria-label="Remove"
+                      title="Remove"
+                      data-testid={`delete-${index}`}
+                      disabled={fields.length === 1}
+                      onClick={() => remove(index)}
+                    >
+                      <Icon icon="circle-delete" />
+                    </IconButton>
+                  </td>
+                </tr>
+              ))}
+            />
+
+            <Field>
+              <Button
+                sx={{ color: 'text.primary' }}
+                variant="text"
+                startIcon={<Icon icon="circle-plus" />}
+                data-testid="append"
+                onClick={() => {
+                  append({ name: '', level: '' })
+                }}
+              >
+                Add another skill
+              </Button>
+            </Field>
+            {!hideSubmit && (
+              <Field textAlign="right">
+                <Button type="submit" variant="contained" loading={loading}>
+                  Save skills
+                </Button>
+              </Field>
+            )}
+          </form>
+        )}
+      </FormProvider>
+    )
+  }
+)
+
+SkillsAddForm.displayName = 'SkillsAddForm'
 
 export default SkillsAddForm

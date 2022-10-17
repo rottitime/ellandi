@@ -4,6 +4,7 @@ import LocalizationProvider from '@/components/LocalizationProvider/Localization
 import { ReactNode } from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { UiProvider } from '@/context/UiContext'
+import { MeSuggestedSkillsResponse } from '@/service/types'
 
 beforeAll(() => {
   Object.defineProperty(global, 'sessionStorage', { value: mockStorage })
@@ -207,5 +208,26 @@ export const mockLevels = [
     slug: 'super',
     name: 'Super',
     order: 2
+  },
+  {
+    slug: 'the-best',
+    name: 'The best',
+    order: 4
   }
+]
+
+export const mockSkills = ['Analysis', 'Communication', 'Leading teams']
+
+export const mockSuggested: MeSuggestedSkillsResponse = [
+  'Flying',
+  'Acrobats',
+  'Train spotting',
+  'Pizza',
+  'Todu',
+  'Onions',
+  'Apples',
+  'Nuts',
+  'Seitan',
+  'Noodles',
+  'Orange'
 ]
