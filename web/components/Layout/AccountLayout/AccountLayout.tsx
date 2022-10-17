@@ -87,7 +87,7 @@ const AccountLayout: FC<Props> = ({
     },
     onSuccess: ({ verified }) => {
       //check email is verified
-      if (!verified) Router.replace(urls.emailVerify)
+      if (!verified) Router.replace(urls.emailConfirm)
     }
   })
 

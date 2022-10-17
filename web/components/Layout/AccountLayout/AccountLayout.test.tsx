@@ -39,7 +39,9 @@ describe('AccountLayout', () => {
         <p>my page</p>
       </AccountLayout>
     )
-    await waitFor(async () => expect(router.replace).toHaveBeenCalledWith('email-verify'))
+    await waitFor(async () =>
+      expect(router.replace).toHaveBeenCalledWith('email-confirm')
+    )
   })
 
   describe('API Errors', () => {

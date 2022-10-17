@@ -6,7 +6,7 @@ module.exports = {
     urls: {
       landingSignin: '/account/',
       signin: '/signin/',
-      emailVerify: '/signin/email/confirm/'
+      emailConfirm: '/signin/email/confirm/'
     }
   }
 }

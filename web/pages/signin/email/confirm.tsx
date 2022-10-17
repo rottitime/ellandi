@@ -11,7 +11,7 @@ const {
   publicRuntimeConfig: { urls }
 } = getConfig()
 
-const EmailVerifyPage = () => {
+const EmailConfirmPage = () => {
   const { sendEmailVerification } = useAuth()
   const [loading, setLoading] = useState(false)
   return (
@@ -45,8 +45,8 @@ const EmailVerifyPage = () => {
   )
 }
 
-export default EmailVerifyPage
-EmailVerifyPage.getLayout = (page) => (
+export default EmailConfirmPage
+EmailConfirmPage.getLayout = (page) => (
   <CardLayout title="Confirm your email address" dark>
     {page}
   </CardLayout>

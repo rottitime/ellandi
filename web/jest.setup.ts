@@ -19,7 +19,7 @@ jest.mock('next/config', () => () => ({
     urls: {
       landingSignin: 'landingSignin',
       signin: 'signin',
-      emailVerify: 'email-verify'
+      emailConfirm: 'email-confirm'
     }
   }
 }))
