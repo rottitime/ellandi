@@ -10,6 +10,7 @@ from rest_framework import decorators, permissions, status
 from rest_framework.response import Response
 
 from ellandi.registration import exceptions, models, serializers
+from . import auth
 
 TOKEN_GENERATOR = PasswordResetTokenGenerator()
 
@@ -67,7 +68,7 @@ def me_send_verification_email_view(request):
 
 
 @extend_schema(
-    responses=serializers.UserSerializer,
+    responses=auth.TokenSerializer,
 )
 @decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.AllowAny,))
@@ -78,8 +79,7 @@ def verification_view(request, user_id, token):
         user.verified = True
         user.save()
         login(request, user)
-        user_data = serializers.UserSerializer(user, context={"request": request}).data
-        return Response(user_data)
+        return auth.LoginView().post(request._request, format=None)
     else:
         return Response({"detail": "Invalid token"}, status=status.HTTP_400_BAD_REQUEST)
 
