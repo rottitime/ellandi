@@ -2,12 +2,12 @@ import furl
 from django.conf import settings
 from django.contrib.auth import login
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from drf_spectacular.utils import extend_schema
 from rest_framework import decorators, permissions, status
 from rest_framework.response import Response
-from django.core.exceptions import ObjectDoesNotExist
 
 from ellandi.registration import exceptions, models, serializers
 
