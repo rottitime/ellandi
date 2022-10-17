@@ -2,7 +2,6 @@ import AccountLayout from './AccountLayout'
 import fetchMock from 'jest-fetch-mock'
 import { renderWithProviders, screen, waitFor, mockMe } from '@/lib/test-utils'
 import router from 'next/router'
-import { verify } from 'crypto'
 
 jest.mock('next/router', () => ({
   ...jest.requireActual('next/router'),

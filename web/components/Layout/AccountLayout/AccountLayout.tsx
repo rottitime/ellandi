@@ -91,10 +91,6 @@ const AccountLayout: FC<Props> = ({
     }
   })
 
-  // useEffect(() => {
-  //   if (isSuccess)
-  // }, [isSuccess, data?.verified])
-
   if (isError) return null
 
   return (
