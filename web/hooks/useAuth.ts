@@ -1,5 +1,10 @@
 import { SignInType } from '@/components/Form/SignInForm/types'
-import { createUser, loginWithEmailAndPassword, logoutUser } from '@/service/auth'
+import {
+  createUser,
+  loginWithEmailAndPassword,
+  logoutUser,
+  sendVerificationEmail
+} from '@/service/auth'
 import { AuthUser, RegisterUser } from '@/service/types'
 import { defaultError } from '@/service/auth'
 
@@ -10,6 +15,8 @@ const useAuth = () => {
 
   const authFetch = async (callback, data = {}) =>
     await callback(sessionStorage.getItem(TOKEN_KEY), data)
+
+  const sendEmailVerification = async () => await authFetch(sendVerificationEmail)
 
   const login = async (data: SignInType): Promise<AuthUser> => {
     try {
@@ -29,7 +36,9 @@ const useAuth = () => {
 
   const createAndLogin = async (data: RegisterUser): Promise<AuthUser> => {
     await createUser(data)
-    return await login(data)
+    const userData = await login(data)
+    sendEmailVerification()
+    return userData
   }
 
   const invalidate = () => {
@@ -43,7 +52,15 @@ const useAuth = () => {
     return true
   }
 
-  return { login, logout, createAndLogin, authFetch, hasToken, invalidate }
+  return {
+    login,
+    logout,
+    createAndLogin,
+    authFetch,
+    hasToken,
+    invalidate,
+    sendEmailVerification
+  }
 }
 
 export default useAuth

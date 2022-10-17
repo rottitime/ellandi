@@ -114,6 +114,25 @@ export const resetUpdatePassword = async (
   throw new Error(defaultError)
 }
 
+export const sendVerificationEmail = async (token: string) => {
+  const res: Response = await fetch(
+    `${publicRuntimeConfig.apiUrl}/me/send-verification-email/`,
+    {
+      method: 'POST',
+      headers: { Authorization: `Token ${token}` }
+    }
+  )
+
+  if (res.ok) return true
+
+  try {
+    const { detail } = await res.json()
+    if (detail) return Promise.reject(new Error(detail))
+  } catch (e) {}
+
+  throw new Error(defaultError)
+}
+
 export const verifyEmail = async (user_id: string, token: string) => {
   const res: Response = await fetch(
     `${publicRuntimeConfig.apiUrl}/user/${user_id}/verify/${token}/`
