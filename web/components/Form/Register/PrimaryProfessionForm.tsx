@@ -1,10 +1,23 @@
-import { FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material'
-import { FC, useEffect, useMemo } from 'react'
+import {
+  Box,
+  FormControl,
+  FormControlLabel,
+  InputLabel,
+  MenuItem,
+  Radio,
+  RadioGroup,
+  Select,
+  TextField,
+  Typography
+} from '@mui/material'
+import { FC, useEffect, useId, useMemo } from 'react'
 import { StandardRegisterProps } from './types'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { object, SchemaOf, string } from 'yup'
 import {
+  fetchProfessions,
+  GenericDataList,
   PrimaryProfessionType,
   ProfessionType,
   Query,
@@ -14,7 +27,13 @@ import { useQuery } from 'react-query'
 import useAuth from '@/hooks/useAuth'
 import { fetchMe } from '@/service/me'
 import Form from '@/components/Form/Register/FormRegister/FormRegister'
+import CreatableAutocomplete from '@/components/Form/CreatableAutocomplete/CreatableAutocomplete'
 import router from 'next/router'
+import { Field } from '../Field/Field'
+import RadioSkeleton from '@/components/UI/Skeleton/RadioSkeleton'
+import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldControlled'
+
+// import { Autocomplete } from '@mui/material'
 
 const schema: SchemaOf<PrimaryProfessionType> = object().shape({
   primary_profession: string().required('This is a required field')
@@ -23,59 +42,57 @@ const schema: SchemaOf<PrimaryProfessionType> = object().shape({
 const PrimaryProfessionForm: FC<
   StandardRegisterProps<PrimaryProfessionType, ProfessionType>
 > = (props) => {
-  const { authFetch } = useAuth()
+  const id = useId()
+  const labelId = `label-${id}`
+
+  const { data } = useQuery<GenericDataList[], { message?: string }>(
+    Query.Professions,
+    fetchProfessions,
+    { staleTime: Infinity }
+  )
 
   const methods = useForm<PrimaryProfessionType>({
-    defaultValues: { primary_profession: '' },
+    defaultValues: { primary_profession: null },
     resolver: yupResolver(schema)
   })
   const { control } = methods
-
-  const { isLoading, data } = useQuery<RegisterUserResponse>(Query.Me, () =>
-    authFetch(fetchMe)
-  )
-
-  const professions = useMemo(() => {
-    return (
-      data?.professions.map((profession) => {
-        if (profession.toLowerCase() === 'other') {
-          return data.profession_other
-        }
-        return profession
-      }) || []
-    )
-  }, [data])
-
-  useEffect(() => {
-    if (!isLoading && professions.length < 2) router.push(props.backUrl, undefined)
-  }, [professions, isLoading, props.backUrl])
 
   return (
     <FormProvider {...methods}>
       <Form {...props} submitDisabled>
         <Typography gutterBottom>
-          Select your main profession. You may only choose one
+          Select your main profession. You may only choose one but can add other
+          professions you belong to on the next page
         </Typography>
 
-        {!isLoading && !!professions.length && (
+        <Typography variant="body2" sx={{ mb: 3 }}>
+          Professions are made up of civil servants with particular skills, knowledge or
+          expertise to support government functions
+        </Typography>
+
+        <Field>
           <Controller
             name="primary_profession"
             control={control}
             render={({ field }) => (
-              <RadioGroup aria-live="polite" name="primary_profession" {...field}>
-                {professions.map((name) => (
-                  <FormControlLabel
-                    key={name}
-                    control={<Radio />}
-                    label={name}
-                    value={name}
-                    disabled={professions.length === 1}
-                  />
-                ))}
-              </RadioGroup>
+              <FormControl fullWidth size="small">
+                <InputLabel id={labelId}>Primary profession</InputLabel>
+                <Select
+                  {...field}
+                  labelId={labelId}
+                  id="demo-simple-select"
+                  label="Primary profession"
+                >
+                  {data.map(({ name }) => (
+                    <MenuItem value={name} key={name}>
+                      {name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
             )}
           />
-        )}
+        </Field>
       </Form>
     </FormProvider>
   )
