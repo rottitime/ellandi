@@ -170,54 +170,34 @@ class UserSkillDevelopSerializerNested(serializers.ModelSerializer):
         fields = ["id", "name"]
 
 
-class LearningOnTheJobSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Learning
-        fields = ["id", "name", "duration_minutes", "date_completed"]
-
-    def create(self, validated_data):
+class LearningListSerializer(serializers.ListSerializer):
+    def update(self, instance, validated_data):
         user = self.context["user"]
-        learning = Learning(user=user, learning_type=Learning.LearningType.ON_THE_JOB, **validated_data)
-        learning.save()
-        return learning
+        updated_items = []
+        for item, valid_data in zip(instance, validated_data):
+            if item:
+                id = item.id
+            else:
+                id = None
+            learning, _ = Learning.objects.update_or_create(user=user, id=id, defaults=valid_data)
+            updated_items.append(learning)
+        return updated_items
 
 
-class LearningSocialSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Learning
-        fields = ["id", "name", "duration_minutes", "date_completed"]
-
-    def create(self, validated_data):
-        user = self.context["user"]
-        learning = Learning(user=user, learning_type=Learning.LearningType.SOCIAL, **validated_data)
-        learning.save()
-        return learning
-
-
-class LearningFormalSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Learning
-        fields = ["id", "name", "duration_minutes", "date_completed", "cost_pounds", "cost_unknown"]
-
-    def create(self, validated_data):
-        user = self.context["user"]
-        learning = Learning(user=user, learning_type=Learning.LearningType.FORMAL, **validated_data)
-        learning.save()
-        return learning
-
-
-class LearningSerializer(serializers.ModelSerializer):
-    learning_type = serializers.ChoiceField(choices=Learning.LearningType.choices, required=True)
+class BaseLearningSerializer(serializers.Serializer):
+    id = serializers.UUIDField(format="hex_verbose", required=False)
+    name = serializers.CharField(max_length=255, required=False)
+    duration_minutes = serializers.IntegerField(max_value=32767, min_value=0, required=False)
+    date_completed = serializers.DateField(required=False)
+    cost_pounds = serializers.IntegerField(max_value=32767, min_value=0, required=False)
+    cost_unknown = serializers.BooleanField(required=False)
 
     class Meta:
-        model = Learning
-        fields = ["id", "learning_type", "name", "duration_minutes", "date_completed", "cost_pounds", "cost_unknown"]
+        list_serializer_class = LearningListSerializer
 
-    def create(self, validated_data):
-        user = self.context["user"]
-        learning = Learning(user=user, **validated_data)
-        learning.save()
-        return learning
+
+class LearningSerializer(BaseLearningSerializer):
+    learning_type = serializers.ChoiceField(choices=Learning.LearningType.choices, required=False)
 
 
 class UserSerializer(serializers.ModelSerializer):

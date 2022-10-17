@@ -2,7 +2,7 @@ import os
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from drf_spectacular.utils import OpenApiParameter, OpenApiTypes, extend_schema
 from rest_framework import decorators, permissions, routers, status, viewsets
 from rest_framework.response import Response
@@ -295,7 +295,7 @@ def make_learning_view(serializer_class, learning_type):
     @extend_schema(
         methods=["PATCH"],
         request=serializer_class(many=True),
-        responses=serializer_class(many=True),
+        responses=serializers.LearningSerializer(many=True),
     )
     @extend_schema(methods=["GET"], responses=serializer_class(many=True))
     @decorators.api_view(["GET", "PATCH"])
@@ -310,11 +310,21 @@ def make_learning_view(serializer_class, learning_type):
         if request.method == "GET":
             if sortfield:
                 queryset = queryset.order_by(sortfield)
-            serializer = serializer_class(queryset, many=True)
+            serializer = serializers.LearningSerializer(queryset, many=True)
             return Response(serializer.data)
         elif request.method == "PATCH":
             data = [dict(**item) for item in request.data]
-            serializer = serializer_class(data=data, many=True, context={"user": user})
+            if learning_type:
+                data = [dict(item, **{"learning_type": learning_type}) for item in data]
+            instances = []
+            for item in data:
+                id = item.get("id", None)
+                try:
+                    learning = models.Learning.objects.get(user=user, id=id)
+                except ObjectDoesNotExist:
+                    learning = None
+                instances.append(learning)
+            serializer = serializers.LearningSerializer(instances, data=data, many=True, context={"user": user})
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_200_OK)
@@ -324,15 +334,15 @@ def make_learning_view(serializer_class, learning_type):
 
 
 me_learning_on_the_job_view = make_learning_view(
-    serializer_class=serializers.LearningOnTheJobSerializer, learning_type=models.Learning.LearningType.ON_THE_JOB
+    serializer_class=serializers.BaseLearningSerializer, learning_type=models.Learning.LearningType.ON_THE_JOB
 )
 
 me_learning_social_view = make_learning_view(
-    serializer_class=serializers.LearningSocialSerializer, learning_type=models.Learning.LearningType.SOCIAL
+    serializer_class=serializers.BaseLearningSerializer, learning_type=models.Learning.LearningType.SOCIAL
 )
 
 me_learning_formal_view = make_learning_view(
-    serializer_class=serializers.LearningFormalSerializer, learning_type=models.Learning.LearningType.FORMAL
+    serializer_class=serializers.BaseLearningSerializer, learning_type=models.Learning.LearningType.FORMAL
 )
 
 me_learning_view = make_learning_view(serializer_class=serializers.LearningSerializer, learning_type=None)
