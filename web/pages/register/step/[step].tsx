@@ -190,6 +190,10 @@ const steps: Steps[] = [
     title: 'Contract type'
   },
   {
+    form: dynamic(() => import('@/components/Form/Register/IsLineManagerForm')),
+    title: 'Are you a line manager?'
+  },
+  {
     form: dynamic(() => import('@/components/Form/Register/SkillsForm')),
     title: 'What skills do you have?',
     nextUrl: '/register/complete',

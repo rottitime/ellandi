@@ -86,6 +86,7 @@ export const mockMe: RegisterUserResponse = {
   first_name: 'James',
   last_name: 'Bond',
   job_title: 'Admin',
+  is_line_manager: 'Yes',
   business_unit: 'Testing unit',
   department: null,
   location: 'Neverland',
