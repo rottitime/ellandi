@@ -20,7 +20,7 @@ EMAIL_MAPPING = {
         "from_address": "support-ellandi@cabinetoffice.gov.uk",
         "subject": "Civil Service Skills and Learning: account created",
         "template_name": "email/verification.txt",
-        "url_path": "/signin/verify",
+        "url_path": "/signin/email/verify",
     },
     "password-reset": {
         "from_address": "support-ellandi@cabinetoffice.gov.uk",
