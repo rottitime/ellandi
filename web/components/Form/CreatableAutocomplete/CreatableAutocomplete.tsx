@@ -44,6 +44,7 @@ const CreatableAutocomplete: FC<Props> = forwardRef<FC, Props>(
       onChange,
       error,
       testid = '',
+      freeSolo = true,
       ...props
     },
     ref
@@ -83,7 +84,7 @@ const CreatableAutocomplete: FC<Props> = forwardRef<FC, Props>(
             const { inputValue } = params
             // Suggest the creation of a new value
             const isExisting = options.some((option) => inputValue === option.title)
-            if (inputValue !== '' && !isExisting) {
+            if (inputValue !== '' && !isExisting && freeSolo) {
               filtered.push({
                 inputValue,
                 title: `Add "${params.inputValue}"`,
@@ -112,7 +113,7 @@ const CreatableAutocomplete: FC<Props> = forwardRef<FC, Props>(
           renderOption={(props, { helper, title }) => (
             <li {...props}>{helper || title}</li>
           )}
-          freeSolo
+          freeSolo={freeSolo}
           renderInput={(params) => (
             <TextField
               {...params}
