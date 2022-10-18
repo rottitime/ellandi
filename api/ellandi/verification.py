@@ -1,5 +1,4 @@
 import furl
-import requests
 from django.conf import settings
 from django.contrib.auth import login
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
@@ -47,7 +46,7 @@ def _send_token_email(user, subject, template_name, from_address, url_path):
             recipient_list=[user.email],
         )
     # FIXME: Remove me after pentest
-    except requests.RequestException:
+    except:  # noqa
         response = {}
     return response
 
