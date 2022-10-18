@@ -1,5 +1,4 @@
 import furl
-import requests
 from django.conf import settings
 from django.contrib.auth import login
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
