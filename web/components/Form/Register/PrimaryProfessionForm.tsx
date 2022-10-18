@@ -44,6 +44,7 @@ const PrimaryProfessionForm: FC<
 > = (props) => {
   const id = useId()
   const labelId = `label-${id}`
+  const label = 'Primary profession'
 
   const { data } = useQuery<GenericDataList[], { message?: string }>(
     Query.Professions,
@@ -76,13 +77,8 @@ const PrimaryProfessionForm: FC<
             control={control}
             render={({ field }) => (
               <FormControl fullWidth size="small">
-                <InputLabel id={labelId}>Primary profession</InputLabel>
-                <Select
-                  {...field}
-                  labelId={labelId}
-                  id="demo-simple-select"
-                  label="Primary profession"
-                >
+                <InputLabel id={labelId}>{label}</InputLabel>
+                <Select {...field} labelId={labelId} label={label} autoFocus>
                   {data.map(({ name }) => (
                     <MenuItem value={name} key={name}>
                       {name}
