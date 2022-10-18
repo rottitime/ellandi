@@ -5,8 +5,7 @@ import {
   FormHelperText,
   Paper,
   CircularProgress,
-  Typography,
-  Box
+  Typography
 } from '@mui/material'
 import TextField from '@/components/Form/TextField/TextField'
 import { createFilterOptions } from '@mui/material/Autocomplete'
