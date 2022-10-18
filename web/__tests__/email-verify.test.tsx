@@ -1,10 +1,10 @@
 import { screen, waitFor } from '@testing-library/react'
 import EmailVerifyPage from '@/pages/signin/verify'
 import fetchMock from 'jest-fetch-mock'
-import { renderWithProviders, mockMe } from '@/lib/test-utils'
+import { renderWithProviders, mockMe, mockAuthToken, mockSkills } from '@/lib/test-utils'
 import router from 'next/router'
 
-const mockRouter = jest.fn(() => ({ query: { code: 'mycode', user_id: 'abc123' } }))
+const mockRouter = jest.fn(() => ({ query: { code: 'mycode', user_id: 'user#1' } }))
 
 jest.mock('next/router', () => ({
   ...jest.requireActual('next/router'),
@@ -21,21 +21,52 @@ describe('Page: Email Verify page', () => {
     fetchMock.resetMocks()
   })
 
-  it('success', async () => {
-    fetchMock.mockResponseOnce(JSON.stringify(mockMe), {
-      status: 200
-    })
+  it('Success', async () => {
+    fetchMock.mockResponses(
+      [JSON.stringify(mockAuthToken), { status: 200 }],
+      [JSON.stringify({ ...mockMe, skills: mockSkills }), { status: 200 }]
+    )
     renderWithProviders(<EmailVerifyPage />)
 
     await waitFor(async () => {
-      expect(screen.getByTestId('page-success')).toBeInTheDocument()
+      expect(router.replace).toHaveBeenCalledWith('landingSignin')
     })
-
-    expect(router.replace).toHaveBeenCalledWith('signin')
+    expect(screen.getByTestId('page-loading')).toBeInTheDocument()
   })
 
-  it('shows server error', async () => {
-    fetchMock.mockResponseOnce(JSON.stringify({ detail: 'broken' }), {
+  it('Incomplete profile', async () => {
+    fetchMock.mockResponses(
+      [JSON.stringify(mockAuthToken), { status: 200 }],
+      [JSON.stringify({ ...mockMe, first_name: null }), { status: 200 }]
+    )
+    renderWithProviders(<EmailVerifyPage />)
+
+    await waitFor(async () => {
+      expect(router.replace).toHaveBeenCalledWith('/register/step/0/')
+    })
+  })
+
+  it('verification invalid', async () => {
+    fetchMock.mockResponses([
+      JSON.stringify({ detail: 'Invalid token' }),
+      { status: 400 }
+    ])
+    renderWithProviders(<EmailVerifyPage />)
+
+    await waitFor(async () => {
+      expect(router.replace).toHaveBeenCalledWith({
+        pathname: 'signin',
+        query: { ecode: 4 }
+      })
+    })
+
+    expect(screen.getByTestId('page-loading')).toBeInTheDocument()
+    expect(screen.queryByTestId('page-error')).not.toBeInTheDocument()
+  })
+
+  it('all other errors', async () => {
+    const detail = 'some random message from the server'
+    fetchMock.mockResponseOnce(JSON.stringify({ detail }), {
       status: 400
     })
     renderWithProviders(<EmailVerifyPage />)
@@ -44,9 +75,7 @@ describe('Page: Email Verify page', () => {
       expect(screen.getByTestId('page-error')).toBeInTheDocument()
     })
 
-    expect(router.replace).toHaveBeenCalledWith({
-      pathname: 'signin',
-      query: { ecode: 4 }
-    })
+    expect(router.replace).not.toHaveBeenCalled()
+    expect(screen.queryByTestId('page-loading')).not.toBeInTheDocument()
   })
 })

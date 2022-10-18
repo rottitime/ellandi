@@ -1,13 +1,15 @@
 import CardLayout from '@/components/Layout/CardLayout/CardLayout'
-import { Alert, Box, CircularProgress, Typography, styled } from '@mui/material'
+import { Alert, Typography } from '@mui/material'
 import { useUiContext } from '@/context/UiContext'
 import { useRouter } from 'next/router'
 import { useQuery } from 'react-query'
 import { verifyEmail } from '@/service/auth'
-import { Query, RegisterUserResponse } from '@/service/types'
+import { AuthUser, Query, RegisterUserResponse } from '@/service/types'
 import Router from 'next/router'
 import getConfig from 'next/config'
 import { useEffect } from 'react'
+import useAuth from '@/hooks/useAuth'
+import { fetchMe } from '@/service/me'
 
 const {
   publicRuntimeConfig: { urls }
@@ -24,15 +26,17 @@ const isRegisterComplete = (d: RegisterUserResponse): boolean =>
   !!(d.function || d.function_other) &&
   !!(d.contract_type || d.contract_type_other) &&
   !!d.primary_profession &&
-  !!(typeof d.contact_preference === 'boolean')
+  typeof d.contact_preference === 'boolean' &&
+  !!d.skills.length
+
+const isTokenInvalid = (message: string) => message.toLowerCase() === 'invalid token'
 
 const EmailVerifyPage = () => {
   const router = useRouter()
+  const { setToken, authFetch } = useAuth()
   const { setLoading } = useUiContext()
   const { code, user_id } = router.query
   const enabled = !!code && !!user_id
-
-  setLoading(true)
 
   useEffect(() => {
     setLoading(true)
@@ -40,32 +44,43 @@ const EmailVerifyPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const { isLoading, data, error } = useQuery<RegisterUserResponse, Error>(
-    Query.Me,
+  const { refetch } = useQuery<RegisterUserResponse>(Query.Me, () => authFetch(fetchMe), {
+    enabled: false,
+    onSuccess: (data) => {
+      isRegisterComplete(data)
+        ? Router.replace(urls.landingSignin)
+        : Router.replace('/register/step/0/')
+    }
+  })
+
+  const { error } = useQuery<AuthUser, Error>(
+    'verify-email',
     () => verifyEmail((user_id || '').toString(), (code || '').toString()),
     {
       retry: false,
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
       enabled,
-      onError: () => {
+      onError: ({ message }) =>
+        isTokenInvalid(message) &&
         Router.replace({
           pathname: urls.signin,
           query: { ecode: 4 }
-        })
-      },
-      onSuccess: (data) => {
-        Router.replace(urls.signin)
+        }),
+      onSuccess: async ({ token }) => {
+        setToken(token)
+        await refetch()
       }
     }
   )
 
-  return (
-    <>
-      {error && <Box data-testid="page-error" />}
-      {!!data?.id && <Box data-testid="page-success" />}
-    </>
-  )
+  if (error?.message && !isTokenInvalid(error.message))
+    return (
+      <Alert severity="error" sx={{ mt: 3, mb: 3 }} data-testid="page-error">
+        {error.message}
+      </Alert>
+    )
+  return <Typography data-testid="page-loading">Please wait</Typography>
 }
 
 export default EmailVerifyPage
