@@ -99,7 +99,6 @@ const CreatableAutocomplete: FC<Props> = forwardRef<FC, Props>(
 
             return filtered
           }}
-          noOptionsText={<Typography variant="body2">No options</Typography>}
           selectOnFocus
           handleHomeEndKeys
           PaperComponent={DropDown}
