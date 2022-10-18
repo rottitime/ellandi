@@ -17,7 +17,7 @@ import { updateUser } from '@/service/auth'
 import { GetStaticPropsContext } from 'next'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
-import { useEffect, useMemo, ComponentType } from 'react'
+import { useEffect, ComponentType } from 'react'
 import {
   dehydrate,
   QueryClient,
@@ -47,10 +47,9 @@ type Steps = {
   nextUrl?: string
   skip?: boolean
   large?: boolean
-  isHidden?: (data: RegisterUserResponse) => boolean
 }
 
-const RegisterPage = ({ stepInt, nextUrl, skip, large, ...props }: Props) => {
+const RegisterPage = ({ stepInt, nextUrl, backUrl, skip, large }: Props) => {
   const { setLoading, setError } = useUiContext()
   const { authFetch, hasToken } = useAuth()
   const router = useRouter()
@@ -63,19 +62,6 @@ const RegisterPage = ({ stepInt, nextUrl, skip, large, ...props }: Props) => {
     { enabled: !!stepInt }
   )
 
-  const isFormHidden = (step, data): boolean => !!step?.isHidden && step.isHidden(data)
-
-  const getNextUrl = (data): string =>
-    isFormHidden(steps[stepInt + 1], data) ? `/register/step/${stepInt + 2}` : nextUrl
-
-  const backUrl = useMemo(
-    () =>
-      !!stepInt && isFormHidden(steps[stepInt - 1], data)
-        ? `/register/step/${stepInt - 2}`
-        : props.backUrl,
-    [stepInt, data, props.backUrl]
-  )
-
   const { isLoading: isMutateLoading, ...mutate } = useMutation<
     RegisterUserResponse,
     Error,
@@ -83,7 +69,7 @@ const RegisterPage = ({ stepInt, nextUrl, skip, large, ...props }: Props) => {
   >(async (data) => authFetch(updateUser, data), {
     onSuccess: async (data) => {
       if (!!stepInt) queryClient.setQueryData(Query.Me, data)
-      router.push(getNextUrl(data))
+      router.push(nextUrl)
     },
     onError: ({ message }) => setError(message)
   })
@@ -122,7 +108,7 @@ const RegisterPage = ({ stepInt, nextUrl, skip, large, ...props }: Props) => {
         backUrl={backUrl}
         buttonLoading={isMutateLoading}
         defaultValues={data}
-        skipUrl={skip && getNextUrl(data)}
+        skipUrl={skip && nextUrl}
         onFormSubmit={(data) => mutate.mutate(data)}
       />
     </Box>
@@ -190,16 +176,10 @@ const steps: Steps[] = [
   {
     form: dynamic(() => import('@/components/Form/Register/PrimaryProfessionForm')),
     title: 'Primary profession'
-    // isHidden: (data) => (data?.professions || []).length < 2
   },
   {
     form: dynamic(() => import('@/components/Form/Register/ProfessionForm')),
     title: 'Profession'
-  },
-  {
-    form: dynamic(() => import('@/components/Form/Register/PrimaryProfessionForm')),
-    title: 'Primary profession'
-    // isHidden: (data) => (data?.professions || []).length < 2
   },
   {
     form: dynamic(() => import('@/components/Form/Register/FunctionTypeForm')),
@@ -224,10 +204,6 @@ const steps: Steps[] = [
   // {
   //   form: dynamic(() => import('@/components/Form/Register/LanguageForm/LanguageForm')),
   //   title: 'Language skills'
-  // },
-  // {
-  //   form: dynamic(() => import('@/components/Form/Register/SkillsForm')),
-  //   title: 'Current skills'
   // },
   // {
   //   form: dynamic(() => import('@/components/Form/Register/SkillsDevelopForm')),

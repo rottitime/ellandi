@@ -1,15 +1,20 @@
-import { Alert, AlertTitle, Box, Skeleton, Typography } from '@mui/material'
-import Chip from '@/components/Chip/Chip'
+import { Box, Checkbox, FormControlLabel, Typography } from '@mui/material'
 import { fetchProfessions } from '@/service/api'
-import { GenericDataList, ProfessionType, Query } from '@/service/types'
+import {
+  GenericDataList,
+  ProfessionType,
+  Query,
+  RegisterUserResponse
+} from '@/service/types'
 import { useQuery } from 'react-query'
 import { FC, useEffect } from 'react'
 import { StandardRegisterProps } from './types'
-import { FormProvider, useForm } from 'react-hook-form'
+import { Controller, FormProvider, useForm } from 'react-hook-form'
 import { array, object, SchemaOf, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldControlled'
 import Form from '@/components/Form/Register/FormRegister/FormRegister'
+import { useProfile } from '@/hooks/useProfile'
 
 const fieldName: keyof ProfessionType = 'professions'
 
@@ -24,6 +29,8 @@ const schema: SchemaOf<ProfessionType> = object().shape({
 })
 
 const ProfessionForm: FC<StandardRegisterProps<ProfessionType>> = (props) => {
+  const { userProfile } = useProfile<RegisterUserResponse>({})
+
   const methods = useForm<ProfessionType>({
     defaultValues: {
       professions: [],
@@ -32,9 +39,9 @@ const ProfessionForm: FC<StandardRegisterProps<ProfessionType>> = (props) => {
     resolver: yupResolver(schema)
   })
 
-  const { getValues, setValue, register, trigger, watch } = methods
+  const { getValues, setValue, register, trigger, watch, control } = methods
 
-  const { isLoading, isError, data } = useQuery<GenericDataList[], { message?: string }>(
+  const { data, isSuccess } = useQuery<GenericDataList[], { message?: string }>(
     Query.Professions,
     fetchProfessions,
     { staleTime: Infinity }
@@ -50,14 +57,6 @@ const ProfessionForm: FC<StandardRegisterProps<ProfessionType>> = (props) => {
 
   register(fieldName)
 
-  if (isError)
-    return (
-      <Alert severity="error">
-        <AlertTitle>Service Unavailable</AlertTitle>
-        Please try again later.
-      </Alert>
-    )
-
   return (
     <FormProvider {...methods}>
       <Form {...props} submitDisabled>
@@ -65,31 +64,37 @@ const ProfessionForm: FC<StandardRegisterProps<ProfessionType>> = (props) => {
           Select any other profession(s) that you belong to. You may choose more than one
         </Typography>
 
-        {isLoading
-          ? [...Array(22).keys()].map((i) => (
-              <Skeleton key={i} width={100} sx={{ m: 1 }} />
-            ))
-          : [...data].map(({ name, slug }) => (
+        {isSuccess &&
+          data
+            .filter(({ name }) => name !== userProfile?.primary_profession)
+            .map(({ name }) => (
               <Box sx={{ mb: 1 }} key={name}>
-                <Chip
-                  avatarText={slug === 'i-dont-know' ? '?' : name.charAt(0).toUpperCase()}
-                  active={getValues(fieldName).includes(name)}
-                  label={name}
-                  onToggle={async () => {
-                    const data = getValues(fieldName)
+                <Controller
+                  name={fieldName}
+                  control={control}
+                  render={({ field }) => (
+                    <FormControlLabel
+                      label={name}
+                      control={
+                        <Checkbox
+                          checked={field.value.includes(name)}
+                          onChange={async () => {
+                            const data = getValues(fieldName)
 
-                    setValue(
-                      fieldName,
-                      data?.includes(name)
-                        ? data.filter((item) => item !== name)
-                        : [...data, name]
-                    )
+                            setValue(
+                              fieldName,
+                              data?.includes(name)
+                                ? data.filter((item) => item !== name)
+                                : [...data, name]
+                            )
 
-                    await trigger(fieldName)
-                  }}
-                  toggle
+                            await trigger(fieldName)
+                          }}
+                        />
+                      }
+                    />
+                  )}
                 />
-
                 {name === 'Other' && watchFields.professions.includes('Other') && (
                   <Box sx={{ my: 3 }}>
                     <TextFieldControlled
