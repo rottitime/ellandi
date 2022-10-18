@@ -1,5 +1,5 @@
 import furl
-import notifications_python_client.errors
+
 from django.conf import settings
 from django.contrib.auth import login
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
@@ -9,6 +9,7 @@ from django.template.loader import render_to_string
 from drf_spectacular.utils import extend_schema
 from rest_framework import decorators, permissions, status
 from rest_framework.response import Response
+import requests
 
 from ellandi.registration import exceptions, models, serializers
 
@@ -47,7 +48,7 @@ def _send_token_email(user, subject, template_name, from_address, url_path):
             recipient_list=[user.email],
         )
     # FIXME: Remove me after pentest
-    except notifications_python_client.errors.ApiError:
+    except requests.RequestException:
         response = {}
     return response
 
