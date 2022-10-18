@@ -188,18 +188,13 @@ const steps: Steps[] = [
     title: 'Grade'
   },
   {
-    form: dynamic(() => import('@/components/Form/Register/PrimaryProfessionForm')),
-    title: 'Primary profession'
-    // isHidden: (data) => (data?.professions || []).length < 2
-  },
-  {
     form: dynamic(() => import('@/components/Form/Register/ProfessionForm')),
     title: 'Profession'
   },
   {
     form: dynamic(() => import('@/components/Form/Register/PrimaryProfessionForm')),
-    title: 'Primary profession'
-    // isHidden: (data) => (data?.professions || []).length < 2
+    title: 'Primary profession',
+    isHidden: (data) => (data?.professions || []).length < 2
   },
   {
     form: dynamic(() => import('@/components/Form/Register/FunctionTypeForm')),

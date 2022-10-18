@@ -1,5 +1,5 @@
 import { screen, waitFor } from '@testing-library/react'
-import EmailVerifyPage from '@/pages/signin/verify'
+import EmailVerifyPage from '@/pages/signin/email/verify'
 import fetchMock from 'jest-fetch-mock'
 import { renderWithProviders, mockMe, mockAuthToken, mockSkills } from '@/lib/test-utils'
 import router from 'next/router'

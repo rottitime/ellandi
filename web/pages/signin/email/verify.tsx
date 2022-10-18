@@ -1,5 +1,5 @@
 import CardLayout from '@/components/Layout/CardLayout/CardLayout'
-import { Alert, Typography } from '@mui/material'
+import { Alert, Box, Typography } from '@mui/material'
 import { useUiContext } from '@/context/UiContext'
 import { useRouter } from 'next/router'
 import { useQuery } from 'react-query'
@@ -74,12 +74,16 @@ const EmailVerifyPage = () => {
     }
   )
 
-  if (error?.message && !isTokenInvalid(error.message))
+  if (error?.message && !isTokenInvalid(error.message)) {
+    setLoading(false)
     return (
-      <Alert severity="error" sx={{ mt: 3, mb: 3 }} data-testid="page-error">
-        {error.message}
-      </Alert>
+      <Box data-testid="page-error">
+        <Alert severity="error" sx={{ mt: 3, mb: 3 }}>
+          {error.message}
+        </Alert>
+      </Box>
     )
+  }
   return <Typography data-testid="page-loading">Please wait</Typography>
 }
 
