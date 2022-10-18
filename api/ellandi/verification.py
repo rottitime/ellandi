@@ -1,5 +1,5 @@
 import furl
-
+import requests
 from django.conf import settings
 from django.contrib.auth import login
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
@@ -9,7 +9,6 @@ from django.template.loader import render_to_string
 from drf_spectacular.utils import extend_schema
 from rest_framework import decorators, permissions, status
 from rest_framework.response import Response
-import requests
 
 from ellandi.registration import exceptions, models, serializers
 
