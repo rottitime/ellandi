@@ -5,7 +5,8 @@ module.exports = {
     gitSHA: process.env.GIT_SHA || 'development',
     urls: {
       landingSignin: '/account/',
-      signin: '/signin/'
+      signin: '/signin/',
+      emailConfirm: '/signin/email/confirm/'
     }
   }
 }
