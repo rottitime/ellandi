@@ -179,7 +179,7 @@ const steps: Steps[] = [
   },
   {
     form: dynamic(() => import('@/components/Form/Register/ProfessionForm')),
-    title: 'Profession'
+    title: 'Other professions'
   },
   {
     form: dynamic(() => import('@/components/Form/Register/FunctionTypeForm')),
