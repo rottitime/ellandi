@@ -39,7 +39,7 @@ describe('LearningAddForm', () => {
     expect(screen.getByTestId('duration-minutes')).toBeInTheDocument()
     expect(screen.getByTestId('duration-hours')).toBeInTheDocument()
 
-    expect(screen.getByTestId('textfield_cost_pounds')).toBeInTheDocument()
+    expect(screen.getByTestId('cost-field')).toBeInTheDocument()
     expect(screen.getByLabelText('Unknown')).toBeInTheDocument()
   })
 
@@ -58,7 +58,58 @@ describe('LearningAddForm', () => {
     expect(screen.getByTestId('duration-days')).toHaveValue(0)
     expect(screen.getByTestId('duration-minutes')).toHaveValue(2)
     expect(screen.getByTestId('duration-hours')).toHaveValue(2)
-    expect(screen.getByTestId('textfield_cost_pounds')).toHaveValue(101)
+    expect(screen.getByTestId('cost-field')).toHaveValue(101)
+  })
+
+  it('submits generic', async () => {
+    const mockSubmit = jest.fn()
+    renderWithProviders(
+      <LearningAddForm loading={false} onFormSubmit={(data) => mockSubmit(data)} />
+    )
+
+    await userEvent.type(screen.getByTestId('textfield_name'), mockData.name)
+    await userEvent.type(screen.getByTestId('datepicker'), '23/01/2022')
+    await userEvent.type(screen.getByTestId('duration-days'), '1')
+    await userEvent.type(screen.getByTestId('duration-minutes'), '0')
+    await userEvent.type(screen.getByTestId('duration-hours'), '0')
+    await userEvent.click(screen.getByRole('button', { name: /Save learning/i }))
+
+    expect(mockSubmit).toHaveBeenCalled()
+
+    expect(mockSubmit).toHaveBeenCalledWith({
+      date_completed: '2022-01-23',
+      duration_minutes: 450,
+      name: 'Skill Something A'
+    })
+  })
+
+  it('submits formal', async () => {
+    const mockSubmit = jest.fn()
+    renderWithProviders(
+      <LearningAddForm
+        loading={false}
+        onFormSubmit={(data) => mockSubmit(data)}
+        type="formal"
+      />
+    )
+
+    await userEvent.type(screen.getByTestId('textfield_name'), mockData.name)
+    await userEvent.type(screen.getByTestId('datepicker'), '23/01/2022')
+    await userEvent.type(screen.getByTestId('duration-days'), '1')
+    await userEvent.type(screen.getByTestId('duration-minutes'), '0')
+    await userEvent.type(screen.getByTestId('duration-hours'), '0')
+    await userEvent.type(screen.getByTestId('cost-field'), '101')
+    await userEvent.click(screen.getByRole('button', { name: /Save learning/i }))
+
+    expect(mockSubmit).toHaveBeenCalled()
+
+    expect(mockSubmit).toHaveBeenCalledWith({
+      cost_pounds: 101,
+      cost_unknown: false,
+      date_completed: '2022-01-23',
+      duration_minutes: 450,
+      name: 'Skill Something A'
+    })
   })
 
   describe('Validation error', () => {
