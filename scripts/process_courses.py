@@ -22,8 +22,9 @@ class Stub(dict):
     def __bool__(self):
         return bool(self._data)
 
+
 def gather(seq, name):
-    return tuple(set([subitem for item in seq for subitem in item.get(name, []) ]))
+    return tuple(set([subitem for item in seq for subitem in item.get(name, [])]))
 
 
 def process_courses(data):
@@ -31,7 +32,7 @@ def process_courses(data):
         course = Stub(course)
         yield {
             "profession": course.owner.profession or None,
-            "grades": gather(course.audiences, 'grades'),
+            "grades": gather(course.audiences, "grades"),
         }
 
 
@@ -41,7 +42,7 @@ def main():
 
     data = list(process_courses(data))
 
-    with OUTPUT_FILE.open('w') as f:
+    with OUTPUT_FILE.open("w") as f:
         json.dump(data, f, indent=2)
 
     return data
