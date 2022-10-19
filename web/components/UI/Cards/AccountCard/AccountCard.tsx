@@ -1,5 +1,5 @@
 import Icon from '@/components/Icon/Icon'
-import { Card as MuiCard, styled, CardContent, Box } from '@mui/material'
+import { Card as MuiCard, styled, CardContent, Box, CardActions } from '@mui/material'
 import { FC } from 'react'
 import TableSkeleton from '@/components/UI/Skeleton/TableSkeleton'
 import Skeleton from '@/components/UI/Skeleton/Skeleton'
@@ -11,6 +11,17 @@ const Card = styled(MuiCard, {
   position: relative;
   word-wrap: break-word;
   border-radius: 12px;
+
+  ${({ theme }) => theme.breakpoints.up('md')} {
+    display: flex;
+    flex-flow: column;
+  }
+
+  .MuiCardActions-root {
+    margin-top: auto;
+    padding: 0 ${({ theme: { spacing } }) => `${spacing(3)}`};
+    margin-bottom: ${(p) => p.theme.spacing(3)};
+  }
 
   .card-header {
     margin-bottom: ${(p) => p.theme.spacing(4)};
@@ -37,11 +48,18 @@ const Card = styled(MuiCard, {
   .MuiCardContent-root {
     padding: 0 ${({ theme: { spacing } }) => `${spacing(3)}`};
     margin-top: ${(p) => p.theme.spacing(3)};
-    margin-bottom: ${(p) => p.theme.spacing(4)};
+    margin-bottom: ${(p) => p.theme.spacing(3)};
   }
 `
 
-const AccountCard: FC<Props> = ({ children, header, headerLogo, loading, ...props }) => (
+const AccountCard: FC<Props> = ({
+  action,
+  children,
+  header,
+  headerLogo,
+  loading,
+  ...props
+}) => (
   <Card {...props}>
     <CardContent>
       {loading ? (
@@ -67,6 +85,7 @@ const AccountCard: FC<Props> = ({ children, header, headerLogo, loading, ...prop
         </>
       )}
     </CardContent>
+    {action && <CardActions>{action}</CardActions>}
   </Card>
 )
 

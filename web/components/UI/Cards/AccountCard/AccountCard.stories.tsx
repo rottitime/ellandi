@@ -9,6 +9,9 @@ export default {
     design: {
       type: 'figma',
       url: 'https://www.figma.com/file/JEg4GJzDWL4NbiWXShxHiL/Ellandi-Prototype-V3.4?node-id=9324%3A78304'
+    },
+    backgrounds: {
+      default: 'Ellandi light'
     }
   }
 } as ComponentMeta<typeof AccountCard>
@@ -36,4 +39,15 @@ export const Loading = Template.bind({})
 Loading.args = {
   ...Default.args,
   loading: true
+}
+
+export const ActionButtons = Template.bind({})
+ActionButtons.args = {
+  ...Default.args,
+  action: (
+    <>
+      <button>Button 1</button>
+      <button>Button 2</button>
+    </>
+  )
 }
