@@ -125,6 +125,7 @@ export type RegisterUserResponse = {
   department: string
   created_at: string
   modified_at: string
+  is_line_manager: string
 } & PrivacyAcceptType &
   RegisterDetailsType &
   GradeType &

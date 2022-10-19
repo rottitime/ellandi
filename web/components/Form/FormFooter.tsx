@@ -17,37 +17,39 @@ const FormFooter: FC<Props> = ({
   submitText = 'Continue',
   skipUrl,
   onCancel
-}) => (
-  <FooterButtons>
-    <Box>
-      {backUrl && (
-        <Button href={backUrl} color="tertiary" size="small" sx={{ mr: 2 }}>
-          Back
-        </Button>
-      )}
-      {skipUrl && (
-        <Button href={skipUrl} size="small">
-          Skip
-        </Button>
-      )}
-    </Box>
-    <div>
-      {!!onCancel && (
-        <Button onClick={onCancel} variant="contained" color="secondary" sx={{ mr: 2 }}>
-          Cancel
-        </Button>
-      )}
+}) => {
+  return (
+    <FooterButtons>
+      <Box>
+        {backUrl && (
+          <Button href={backUrl} color="tertiary" size="small" sx={{ mr: 2 }}>
+            Back
+          </Button>
+        )}
+        {skipUrl && (
+          <Button href={skipUrl} size="small">
+            Skip
+          </Button>
+        )}
+      </Box>
+      <div>
+        {!!onCancel && (
+          <Button onClick={onCancel} variant="contained" color="secondary" sx={{ mr: 2 }}>
+            Cancel
+          </Button>
+        )}
 
-      <Button
-        variant="contained"
-        type="submit"
-        {...buttonProps}
-        data-testid={`submit-button`}
-      >
-        {submitText}
-      </Button>
-    </div>
-  </FooterButtons>
-)
+        <Button
+          variant="contained"
+          type="submit"
+          {...buttonProps}
+          data-testid={`submit-button`}
+        >
+          {submitText}
+        </Button>
+      </div>
+    </FooterButtons>
+  )
+}
 
 export default FormFooter
