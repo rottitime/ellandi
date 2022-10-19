@@ -1,5 +1,6 @@
 import Skeleton from '@/components/UI/Skeleton/Skeleton'
 import useAuth from '@/hooks/useAuth'
+import { isBetweenBusinessDates } from '@/lib/date-utils'
 import { fetchMeLearning } from '@/service/me'
 import { MeLearningRecord, Query } from '@/service/types'
 import { Box, styled, Typography } from '@mui/material'
@@ -25,7 +26,12 @@ const LearningGoalBar: FC<Props> = (props) => {
     { initialData: [], staleTime: 0 }
   )
 
-  const totalMinutes = data.reduce((p, { duration_minutes }) => p + duration_minutes, 0)
+  const totalMinutes = data
+    .filter(({ date_completed }) =>
+      //finanical year as  01April to 31March
+      isBetweenBusinessDates(date_completed, '0000-04-01', '0000-03-31')
+    )
+    .reduce((p, { duration_minutes }) => p + duration_minutes, 0)
   const totalDays = Math.trunc(totalMinutes / 450)
   const percentage = Math.trunc((totalMinutes / 450 / 10) * 100)
 
