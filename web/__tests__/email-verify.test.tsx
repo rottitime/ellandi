@@ -13,10 +13,6 @@ jest.mock('next/router', () => ({
 }))
 
 describe('Page: Email Verify page', () => {
-  beforeEach(() => {
-    jest.spyOn(console, 'error').mockImplementation(jest.fn())
-  })
-
   afterEach(() => {
     fetchMock.resetMocks()
   })

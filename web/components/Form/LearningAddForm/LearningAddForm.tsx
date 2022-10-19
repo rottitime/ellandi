@@ -50,15 +50,21 @@ const Form = styled('form')`
   }
 `
 
+const initialValues = {
+  name: '',
+  duration_minutes: null,
+  date_completed: null
+}
+
 const LearningAddForm = forwardRef<RefHandler, Props>(
   ({ onFormSubmit, loading, error, defaultValues, compact, type = 'generic' }, ref) => {
+    const formalValues =
+      type === 'formal' ? { cost_pounds: null, cost_unknown: false } : {}
+
     const methods = useForm<Partial<MeLearningRecord>>({
       defaultValues: {
-        name: '',
-        duration_minutes: null,
-        cost_pounds: null,
-        cost_unknown: null,
-        date_completed: null,
+        ...initialValues,
+        ...formalValues,
         ...defaultValues
       },
       resolver: yupResolver(type === 'generic' ? schema : schemaFormal)
@@ -106,9 +112,10 @@ const LearningAddForm = forwardRef<RefHandler, Props>(
                     (e.key === 'e' || e.key === '-') && e.preventDefault()
                   }
                   onChange={(e) => {
-                    setValue('cost_unknown', null)
+                    setValue('cost_unknown', false)
                     setValue('cost_pounds', (e.target as HTMLInputElement).valueAsNumber)
                   }}
+                  inputProps={{ min: 0, 'data-testid': 'cost-field' }}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">&pound;</InputAdornment>

@@ -13,6 +13,7 @@ import {
 beforeAll(() => {
   Object.defineProperty(global, 'sessionStorage', { value: mockStorage })
   Object.defineProperty(global, 'localStorage', { value: mockStorage })
+  jest.spyOn(console, 'error').mockImplementation(jest.fn())
 })
 
 afterEach(() => {

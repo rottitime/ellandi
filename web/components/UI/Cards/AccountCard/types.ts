@@ -11,4 +11,5 @@ export type Props = {
   header?: ReactNode
   headerColorInherit?: boolean
   loading?: boolean
+  action?: ReactNode
 } & ComponentProps<typeof Card>

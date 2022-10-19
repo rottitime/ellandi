@@ -9,10 +9,6 @@ jest.mock('next/router', () => ({
 }))
 
 describe('AccountLayout', () => {
-  beforeEach(() => {
-    jest.spyOn(console, 'error').mockImplementation(jest.fn())
-  })
-
   afterEach(() => {
     fetchMock.resetMocks()
   })
