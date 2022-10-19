@@ -554,13 +554,13 @@ def test_email_field(client, user_id):
     email = user_data["email"]
 
     direct_reports_before = client.get("/api/me/direct-reports/").json()
-    assert len(direct_reports_before) == 0
+    assert len(direct_reports_before) == 1
 
     for i in range(3):
         User.objects.create_user(f"user{i}@example.com", "P455w0rd", line_manager_email=email)
 
     direct_reports_after = client.get("/api/me/direct-reports/").json()
-    assert len(direct_reports_after) == 3
+    assert len(direct_reports_after) == 4
 
 
 @utils.with_logged_in_client
