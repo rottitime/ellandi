@@ -20,7 +20,10 @@ const SkillsForm: FC<StandardRegisterProps<SkillsType>> = ({
 
   const { data, isLoading } = useQuery<MeSuggestedSkillsResponse>(
     Query.SuggestedSkillsbyRole,
-    () => authFetch(fetchMeSuggestedSkillsByRole)
+    () => authFetch(fetchMeSuggestedSkillsByRole),
+    {
+      onError: () => onFormSubmit({ skills: [] })
+    }
   )
 
   setLoading(isLoading)
