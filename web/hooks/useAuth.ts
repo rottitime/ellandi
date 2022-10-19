@@ -7,13 +7,19 @@ import {
 } from '@/service/auth'
 import { AuthUser, RegisterUser } from '@/service/types'
 import { defaultError } from '@/service/auth'
+import getConfig from 'next/config'
+
+const {
+  publicRuntimeConfig: { enableEmailVerify }
+} = getConfig()
 
 const TOKEN_KEY = 'token'
 
 const useAuth = () => {
   const hasToken = (): boolean => !!sessionStorage.getItem(TOKEN_KEY)
   const setToken = (token: string) => sessionStorage.setItem(TOKEN_KEY, token)
-  const sendEmailVerification = async () => await authFetch(sendVerificationEmail)
+  const sendEmailVerification = async () =>
+    enableEmailVerify && (await authFetch(sendVerificationEmail))
   const authFetch = async (callback, data = {}) =>
     await callback(sessionStorage.getItem(TOKEN_KEY), data)
 

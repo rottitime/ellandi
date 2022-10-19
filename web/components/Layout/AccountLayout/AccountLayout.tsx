@@ -22,7 +22,7 @@ import getConfig from 'next/config'
 import { Props } from './types'
 
 const {
-  publicRuntimeConfig: { urls }
+  publicRuntimeConfig: { urls, enableEmailVerify }
 } = getConfig()
 
 const Layout = styled(Box)`
@@ -87,16 +87,18 @@ const AccountLayout: FC<Props> = ({
     },
     onSuccess: ({ verified }) => {
       //check email is verified
-      if (!verified) Router.replace(urls.emailConfirm)
+      if (!verified && enableEmailVerify) Router.replace(urls.emailConfirm)
     }
   })
 
   if (isError) return null
 
+  const requiresVerification = !!enableEmailVerify && !data.verified
+
   return (
     <Layout>
       <Template>
-        {isLoading || !data.verified ? (
+        {isLoading || requiresVerification ? (
           <Box className="page-loading" data-testid="layout-loading">
             <CircularProgress />
           </Box>
