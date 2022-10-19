@@ -93,12 +93,10 @@ const AccountLayout: FC<Props> = ({
 
   if (isError) return null
 
-  const requiresVerification = !!enableEmailVerify && !data.verified
-
   return (
     <Layout>
       <Template>
-        {isLoading || requiresVerification ? (
+        {isLoading || (!!enableEmailVerify && !data.verified) ? (
           <Box className="page-loading" data-testid="layout-loading">
             <CircularProgress />
           </Box>
