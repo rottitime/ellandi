@@ -2,6 +2,7 @@ import furl
 from django.conf import settings
 from django.contrib.auth import login
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from drf_spectacular.utils import extend_schema
@@ -10,6 +11,8 @@ from rest_framework.response import Response
 
 from ellandi.registration import exceptions, models, serializers
 
+from . import auth
+
 TOKEN_GENERATOR = PasswordResetTokenGenerator()
 
 EMAIL_MAPPING = {
@@ -17,7 +20,7 @@ EMAIL_MAPPING = {
         "from_address": "support-ellandi@cabinetoffice.gov.uk",
         "subject": "Civil Service Skills and Learning: account created",
         "template_name": "email/verification.txt",
-        "url_path": "/signin/verify",
+        "url_path": "/signin/email/verify",
     },
     "password-reset": {
         "from_address": "support-ellandi@cabinetoffice.gov.uk",
@@ -35,12 +38,17 @@ def _send_token_email(user, subject, template_name, from_address, url_path):
     url = str(furl.furl(url=web_host_url, path=url_path, query_params={"code": token, "user_id": str(user.id)}))
     context = dict(user=user, url=url)
     body = render_to_string(template_name, context)
-    return send_mail(
-        subject=subject,
-        message=body,
-        from_email=from_address,
-        recipient_list=[user.email],
-    )
+    try:
+        response = send_mail(
+            subject=subject,
+            message=body,
+            from_email=from_address,
+            recipient_list=[user.email],
+        )
+    # FIXME: Remove me after pentest
+    except:  # noqa
+        response = {}
+    return response
 
 
 def send_verification_email(user):
@@ -66,19 +74,22 @@ def me_send_verification_email_view(request):
 
 
 @extend_schema(
-    responses=serializers.UserSerializer,
+    responses=auth.TokenSerializer,
 )
 @decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.AllowAny,))
 def verification_view(request, user_id, token):
-    user = models.User.objects.get(id=user_id)
-    result = TOKEN_GENERATOR.check_token(user, token)
+    try:
+        user = models.User.objects.get(id=user_id)
+        result = TOKEN_GENERATOR.check_token(user, token)
+    except ObjectDoesNotExist:
+        result = False
+
     if result:
         user.verified = True
         user.save()
         login(request, user)
-        user_data = serializers.UserSerializer(user, context={"request": request}).data
-        return Response(user_data)
+        return auth.LoginView().post(request._request, format=None)
     else:
         return Response({"detail": "Invalid token"}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -90,8 +101,11 @@ def verification_view(request, user_id, token):
 @decorators.permission_classes((permissions.AllowAny,))
 def password_reset_ask_view(request):
     email = request.data.get("email")
-    user = models.User.objects.get(email=email)
-    send_password_reset_email(user)
+    try:
+        user = models.User.objects.get(email=email)
+        send_password_reset_email(user)
+    except ObjectDoesNotExist:
+        pass
     return Response()
 
 

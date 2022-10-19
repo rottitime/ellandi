@@ -4,7 +4,7 @@ from django.urls import reverse
 
 
 def environment(**options):
-    extra_options = {}
+    extra_options = {"autoescape": True}
     env = jinja2.Environment(
         **{
             **options,

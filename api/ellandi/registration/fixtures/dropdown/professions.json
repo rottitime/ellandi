@@ -238,13 +238,5 @@
     "name": "Other",
     "order": 29
   }
-},
-{
-  "model": "registration.profession",
-  "pk": "i-dont-know",
-  "fields": {
-    "name": "I don't know",
-    "order": 30
-  }
 }
 ]

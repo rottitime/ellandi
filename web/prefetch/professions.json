@@ -148,10 +148,5 @@
     "slug": "other",
     "name": "Other",
     "order": 29
-  },
-  {
-    "slug": "i-dont-know",
-    "name": "I don't know",
-    "order": 30
   }
 ]

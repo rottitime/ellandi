@@ -77,6 +77,10 @@ const YourTeamPage = () => {
                   { name: 'Job title', value: member.job_title },
                   { name: 'Business unit', value: member.business_unit },
                   { name: 'Work location', value: member.location },
+                  {
+                    name: 'Line manager email address',
+                    value: member.line_manager_email
+                  },
                   { name: 'Grade', value: member.grade_other || member.grade },
                   { name: 'Profession(s)', value: professions.join(', ') },
                   {

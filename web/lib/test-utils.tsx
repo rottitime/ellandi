@@ -4,6 +4,11 @@ import LocalizationProvider from '@/components/LocalizationProvider/Localization
 import { ReactNode } from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { UiProvider } from '@/context/UiContext'
+import {
+  AuthUser,
+  MeSuggestedSkillsResponse,
+  RegisterUserResponse
+} from '@/service/types'
 
 beforeAll(() => {
   Object.defineProperty(global, 'sessionStorage', { value: mockStorage })
@@ -68,30 +73,35 @@ export const bugfixForTimeout = async () =>
 export * from '@testing-library/react'
 export { renderWithProviders as render }
 
+export const mockAuthToken: AuthUser = {
+  expiry: '2022-10-18T20:01:26.485002Z',
+  token: 'token-abc123'
+}
+
 // Mock data
-export const mockMe = {
+export const mockMe: RegisterUserResponse = {
   id: 'myownid-123',
   email: 'myself@test.com',
   privacy_policy_agreement: true,
   first_name: 'James',
   last_name: 'Bond',
-  department: null,
-  organisation: null,
   job_title: 'Admin',
   business_unit: 'Testing unit',
-  location: null,
+  department: null,
+  location: 'Neverland',
   line_manager_email: 'manager@test.com',
   has_direct_reports: false,
   grade: 'Senior Officer',
   grade_other: null,
   professions: ['Audit', 'Management'],
   profession_other: null,
-  primary_profession: null,
+  primary_profession: 'Train spotting',
   function: 'Finance',
   function_other: null,
   contract_type: 'full time',
   contract_type_other: null,
-  contact_preference: null,
+  contact_preference: true,
+  verified: true,
   skills: [],
   languages: [],
   skills_develop: [],
@@ -207,5 +217,26 @@ export const mockLevels = [
     slug: 'super',
     name: 'Super',
     order: 2
+  },
+  {
+    slug: 'the-best',
+    name: 'The best',
+    order: 4
   }
+]
+
+export const mockSkills = ['Analysis', 'Communication', 'Leading teams']
+
+export const mockSuggested: MeSuggestedSkillsResponse = [
+  'Flying',
+  'Acrobats',
+  'Train spotting',
+  'Pizza',
+  'Todu',
+  'Onions',
+  'Apples',
+  'Nuts',
+  'Seitan',
+  'Noodles',
+  'Orange'
 ]

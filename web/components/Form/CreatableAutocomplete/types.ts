@@ -20,6 +20,7 @@ export type Props = {
   disableOptions?: string[]
   size?: 'medium' | 'small'
   error?: boolean
+  testid?: string
 } & Omit<ComponentProps<typeof Autocomplete>, 'renderInput'>
 
 export type OnChangeValue = ListType | string

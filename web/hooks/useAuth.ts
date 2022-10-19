@@ -1,5 +1,10 @@
 import { SignInType } from '@/components/Form/SignInForm/types'
-import { createUser, loginWithEmailAndPassword, logoutUser } from '@/service/auth'
+import {
+  createUser,
+  loginWithEmailAndPassword,
+  logoutUser,
+  sendVerificationEmail
+} from '@/service/auth'
 import { AuthUser, RegisterUser } from '@/service/types'
 import { defaultError } from '@/service/auth'
 
@@ -7,16 +12,16 @@ const TOKEN_KEY = 'token'
 
 const useAuth = () => {
   const hasToken = (): boolean => !!sessionStorage.getItem(TOKEN_KEY)
-
-  const authFetch = async (callback, data = {}) => {
-    return await callback(sessionStorage.getItem(TOKEN_KEY), data)
-  }
+  const setToken = (token: string) => sessionStorage.setItem(TOKEN_KEY, token)
+  const sendEmailVerification = async () => await authFetch(sendVerificationEmail)
+  const authFetch = async (callback, data = {}) =>
+    await callback(sessionStorage.getItem(TOKEN_KEY), data)
 
   const login = async (data: SignInType): Promise<AuthUser> => {
     try {
       const res = await loginWithEmailAndPassword(data)
       if (res.token) {
-        sessionStorage.setItem(TOKEN_KEY, res.token)
+        setToken(res.token)
         return res
       }
     } catch (err) {
@@ -30,7 +35,9 @@ const useAuth = () => {
 
   const createAndLogin = async (data: RegisterUser): Promise<AuthUser> => {
     await createUser(data)
-    return await login(data)
+    const userData = await login(data)
+    sendEmailVerification()
+    return userData
   }
 
   const invalidate = () => {
@@ -44,7 +51,16 @@ const useAuth = () => {
     return true
   }
 
-  return { login, logout, createAndLogin, authFetch, hasToken, invalidate }
+  return {
+    login,
+    logout,
+    createAndLogin,
+    authFetch,
+    hasToken,
+    invalidate,
+    sendEmailVerification,
+    setToken
+  }
 }
 
 export default useAuth

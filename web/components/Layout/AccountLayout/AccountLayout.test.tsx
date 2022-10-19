@@ -30,6 +30,20 @@ describe('AccountLayout', () => {
     })
   })
 
+  it('email verification checks', async () => {
+    fetchMock.mockResponse(JSON.stringify({ ...mockMe, verified: false }), {
+      status: 200
+    })
+    await renderWithProviders(
+      <AccountLayout>
+        <p>my page</p>
+      </AccountLayout>
+    )
+    await waitFor(async () =>
+      expect(router.replace).toHaveBeenCalledWith('email-confirm')
+    )
+  })
+
   describe('API Errors', () => {
     const redirectParams = {
       pathname: 'signin',

@@ -100,23 +100,25 @@ export const UpdateAccountPasswordForm = ({
         </Typography>
 
         <Field>
-          <TextFieldControlled name="password" label="New password" type="password" />
-        </Field>
-        <Field>
-          <TextFieldControlled
-            name="newPasswordConfirm"
-            label="Confirm your new password"
-            type="password"
-          />
-        </Field>
-
-        <Field>
           <TextFieldControlled
             name="currentPassword"
             label="Current password"
             type="password"
           />
         </Field>
+
+        <Field>
+          <TextFieldControlled name="password" label="New Password" type="password" />
+        </Field>
+        <Field>
+          <TextFieldControlled
+            name="newPasswordConfirm"
+            label="Confirm new password"
+            type="password"
+          />
+        </Field>
+
+        
       </Form>
     </FormProvider>
   )

@@ -43,7 +43,8 @@ def test_verify_email(client):
     url = _get_latest_email_url("verify")
     response = client.get(url)
     assert response.status_code == 200
-    assert response.json()["email"] == user_data["email"]
+    token = response.json()["token"]
+    assert token
 
     user = User.objects.get(email=user_data["email"])
     assert user.verified
@@ -60,9 +61,10 @@ def test_resend_verify_email(client, user_id):
     url = _get_latest_email_url("verify")
     response = client.get(url)
     assert response.status_code == 200
-    assert response.json()["email"] == user.email
+    token = response.json()["token"]
+    assert token
 
-    user = User.objects.get(email=user.email)
+    user = User.objects.get(id=user_id)
     assert user.verified
 
 
@@ -121,6 +123,13 @@ def test_password_reset_email_bad_token(client):
 
     user = User.objects.get(email=user_data["email"])
     assert not user.check_password(new_password)
+
+
+@utils.with_client
+@override_settings(send_verification_email=True)
+def test_password_reset_non_existent_user(client):
+    response = client.post("/api/password-reset/", json={"email": "non_existent@example.com"})
+    assert response.status_code == 200
 
 
 @utils.with_logged_in_client

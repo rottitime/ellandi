@@ -17,7 +17,7 @@ import { updateUser } from '@/service/auth'
 import { GetStaticPropsContext } from 'next'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
-import { useEffect, useMemo, ComponentType } from 'react'
+import { useEffect, ComponentType } from 'react'
 import {
   dehydrate,
   QueryClient,
@@ -28,6 +28,7 @@ import {
 import useAuth from '@/hooks/useAuth'
 import { fetchMe } from '@/service/me'
 import { StandardRegisterProps } from '@/components/Form/Register/types'
+import { Box } from '@mui/material'
 
 type Props = {
   stepInt: number
@@ -36,6 +37,7 @@ type Props = {
   nextUrl: string
   progress: number
   skip: boolean
+  large?: boolean
 }
 
 type Steps = {
@@ -44,10 +46,10 @@ type Steps = {
   prevUrl?: string
   nextUrl?: string
   skip?: boolean
-  isHidden?: (data: RegisterUserResponse) => boolean
+  large?: boolean
 }
 
-const RegisterPage = ({ stepInt, nextUrl, skip, ...props }: Props) => {
+const RegisterPage = ({ stepInt, nextUrl, backUrl, skip, large }: Props) => {
   const { setLoading, setError } = useUiContext()
   const { authFetch, hasToken } = useAuth()
   const router = useRouter()
@@ -60,19 +62,6 @@ const RegisterPage = ({ stepInt, nextUrl, skip, ...props }: Props) => {
     { enabled: !!stepInt }
   )
 
-  const isFormHidden = (step, data): boolean => !!step?.isHidden && step.isHidden(data)
-
-  const getNextUrl = (data): string =>
-    isFormHidden(steps[stepInt + 1], data) ? `/register/step/${stepInt + 2}` : nextUrl
-
-  const backUrl = useMemo(
-    () =>
-      !!stepInt && isFormHidden(steps[stepInt - 1], data)
-        ? `/register/step/${stepInt - 2}`
-        : props.backUrl,
-    [stepInt, data, props.backUrl]
-  )
-
   const { isLoading: isMutateLoading, ...mutate } = useMutation<
     RegisterUserResponse,
     Error,
@@ -80,7 +69,7 @@ const RegisterPage = ({ stepInt, nextUrl, skip, ...props }: Props) => {
   >(async (data) => authFetch(updateUser, data), {
     onSuccess: async (data) => {
       if (!!stepInt) queryClient.setQueryData(Query.Me, data)
-      router.push(getNextUrl(data))
+      router.push(nextUrl)
     },
     onError: ({ message }) => setError(message)
   })
@@ -114,13 +103,15 @@ const RegisterPage = ({ stepInt, nextUrl, skip, ...props }: Props) => {
   }, [stepInt, router, isLoadingMe, hasToken, queryClient, data])
 
   return (
-    <FormComponent
-      backUrl={backUrl}
-      buttonLoading={isMutateLoading}
-      defaultValues={data}
-      skipUrl={skip && getNextUrl(data)}
-      onFormSubmit={(data) => mutate.mutate(data)}
-    />
+    <Box sx={{ maxWidth: !!large ? 1320 : 540 }}>
+      <FormComponent
+        backUrl={backUrl}
+        buttonLoading={isMutateLoading}
+        defaultValues={data}
+        skipUrl={skip && nextUrl}
+        onFormSubmit={(data) => mutate.mutate(data)}
+      />
+    </Box>
   )
 }
 
@@ -129,7 +120,7 @@ export default RegisterPage
 RegisterPage.getLayout = (page) => {
   const { props } = page
   return (
-    <CardLayout title={props.title} progress={props.progress}>
+    <CardLayout title={props.title} progress={props.progress} widthAuto>
       {page}
     </CardLayout>
   )
@@ -145,7 +136,7 @@ export async function getStaticPaths() {
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { step } = context.params
   const stepInt = parseInt(step as string)
-  const { title, nextUrl, skip } = steps[stepInt]
+  const { title, nextUrl, skip, large = false } = steps[stepInt]
 
   const queryClient = new QueryClient()
   await queryClient.prefetchQuery(Query.Grades, fetchGrades)
@@ -162,6 +153,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
       progress: Math.floor(((stepInt + 1) / (steps.length + 1)) * 100),
       stepInt,
       title,
+      large,
       backUrl: stepInt ? `/register/step/${stepInt - 1}` : null,
       nextUrl: nextUrl || `/register/step/${stepInt + 1}`,
       skip: !!skip,
@@ -182,13 +174,12 @@ const steps: Steps[] = [
     title: 'Grade'
   },
   {
-    form: dynamic(() => import('@/components/Form/Register/ProfessionForm')),
-    title: 'Profession'
+    form: dynamic(() => import('@/components/Form/Register/PrimaryProfessionForm')),
+    title: 'Primary profession'
   },
   {
-    form: dynamic(() => import('@/components/Form/Register/PrimaryProfessionForm')),
-    title: 'Primary profession',
-    isHidden: (data) => (data?.professions || []).length < 2
+    form: dynamic(() => import('@/components/Form/Register/ProfessionForm')),
+    title: 'Other professions'
   },
   {
     form: dynamic(() => import('@/components/Form/Register/FunctionTypeForm')),
@@ -196,8 +187,13 @@ const steps: Steps[] = [
   },
   {
     form: dynamic(() => import('@/components/Form/Register/ContractTypeForm')),
-    title: 'Contract type',
-    nextUrl: '/register/complete'
+    title: 'Contract type'
+  },
+  {
+    form: dynamic(() => import('@/components/Form/Register/SkillsForm')),
+    title: 'What skills do you have?',
+    nextUrl: '/register/complete',
+    large: true
   }
   // Hidden temporarily
   // {
@@ -208,10 +204,6 @@ const steps: Steps[] = [
   // {
   //   form: dynamic(() => import('@/components/Form/Register/LanguageForm/LanguageForm')),
   //   title: 'Language skills'
-  // },
-  // {
-  //   form: dynamic(() => import('@/components/Form/Register/SkillsForm')),
-  //   title: 'Current skills'
   // },
   // {
   //   form: dynamic(() => import('@/components/Form/Register/SkillsDevelopForm')),

@@ -43,6 +43,8 @@ const CreatableAutocomplete: FC<Props> = forwardRef<FC, Props>(
       size = 'medium',
       onChange,
       error,
+      testid = '',
+      freeSolo = true,
       ...props
     },
     ref
@@ -55,6 +57,7 @@ const CreatableAutocomplete: FC<Props> = forwardRef<FC, Props>(
           {...props}
           loading={loading}
           fullWidth
+          data-testid={testid}
           open={open}
           onOpen={() => setOpen(true)}
           onClose={() => setOpen(false)}
@@ -81,7 +84,7 @@ const CreatableAutocomplete: FC<Props> = forwardRef<FC, Props>(
             const { inputValue } = params
             // Suggest the creation of a new value
             const isExisting = options.some((option) => inputValue === option.title)
-            if (inputValue !== '' && !isExisting) {
+            if (inputValue !== '' && !isExisting && freeSolo) {
               filtered.push({
                 inputValue,
                 title: `Add "${params.inputValue}"`,
@@ -110,7 +113,7 @@ const CreatableAutocomplete: FC<Props> = forwardRef<FC, Props>(
           renderOption={(props, { helper, title }) => (
             <li {...props}>{helper || title}</li>
           )}
-          freeSolo
+          freeSolo={freeSolo}
           renderInput={(params) => (
             <TextField
               {...params}
@@ -120,6 +123,7 @@ const CreatableAutocomplete: FC<Props> = forwardRef<FC, Props>(
               inputRef={ref}
               InputProps={{
                 ...params.InputProps,
+                inputProps: { ...params?.inputProps, 'data-testid': `input_${testid}` },
                 endAdornment: (
                   <>
                     {loading && open ? (
