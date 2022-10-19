@@ -135,7 +135,7 @@ const LearningPage = () => {
                 Learning goal
               </Typography>
               <GraphDescription variant="body2" gutterBottom>
-                You are expected to complete 10 days learning each year
+                You should aim to complete 10 days learning each financial year
               </GraphDescription>
 
               <LearningGoalBar />
