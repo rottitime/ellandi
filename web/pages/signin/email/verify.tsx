@@ -26,8 +26,7 @@ const isRegisterComplete = (d: RegisterUserResponse): boolean =>
   !!(d.function || d.function_other) &&
   !!(d.contract_type || d.contract_type_other) &&
   !!d.primary_profession &&
-  typeof d.contact_preference === 'boolean' &&
-  !!d.skills.length
+  typeof d.contact_preference === 'boolean'
 
 const isTokenInvalid = (message: string) => message.toLowerCase() === 'invalid token'
 
