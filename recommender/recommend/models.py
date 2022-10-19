@@ -1,12 +1,7 @@
 
-import pandas as pd
 from sqlalchemy.orm import declarative_base
 from sqlalchemy import Column, Integer, String, Float, DateTime, LargeBinary
 from sqlalchemy import create_engine
-from datetime import datetime
-import pickle
-import numpy as np
-from sqlalchemy import Index
 from settings_base import DB_URL
 
 
