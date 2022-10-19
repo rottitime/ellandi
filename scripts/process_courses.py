@@ -7,12 +7,12 @@ COURSES_FILE = __here__ / ".." / "courses.json"
 OUTPUT_FILE = __here__ / ".." / "output.json"
 
 
-class Stub(dict):
+class Stub:
     def __init__(self, data):
         self._data = data
 
     def __getattr__(self, name):
-        if name.startswith("__"):
+        if (name == "items") or name.startswith("__"):
             return super().__getattr__(name)
         result = self._data.get(name, {})
         if isinstance(result, dict):
@@ -22,17 +22,40 @@ class Stub(dict):
     def __bool__(self):
         return bool(self._data)
 
+    def items(self):
+        return self._data.items()
+
+    @property
+    def __class__(self):
+        if not self._data:
+            return type(None)
+        else:
+            return type(self._data)
+
 
 def gather(seq, name):
-    return tuple(set([subitem for item in seq for subitem in item.get(name, [])]))
+    return tuple(item.get(name, ()) for item in seq if item.get(name))
+
+
+def flatten(seq):
+    return tuple(set([subitem for item in seq for subitem in item]))
 
 
 def process_courses(data):
     for course in data:
         course = Stub(course)
         yield {
-            "profession": course.owner.profession or None,
-            "grades": gather(course.audiences, "grades"),
+            "profession": course.owner.profession,
+            "grades": flatten(gather(course.audiences, "grades")),
+            "title": course.title,
+            "short_description": course.shortDescription,
+            "long_description": course.description,
+            "learning_outcomes": course.learningOutcomes,
+            "visibility": course.visibility,
+            "status": course.status,
+            "cost": sum(gather(course.modules, "cost")),
+            "duration": sum(gather(course.modules, "duration")),
+            "types": tuple(set(gather(course.modules, "moduleType"))),
         }
 
 
