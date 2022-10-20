@@ -9,7 +9,7 @@ import {
   MeLearningRecord,
   Query
 } from '@/service/api'
-import { useMutation, useQuery } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { fetchMeLearning } from '@/service/me'
 import {
   Alert,
@@ -35,6 +35,7 @@ const Modal = styled(Box)`
 `
 
 const LearningRecordList: FC = () => {
+  const queryClient = useQueryClient()
   const { authFetch } = useAuth()
   const id = useId()
   const labelId = `label-learning_type-${id}`
@@ -51,7 +52,11 @@ const LearningRecordList: FC = () => {
   const { data, isLoading, refetch } = useQuery<MeLearningRecord[]>(
     [Query.MeLearning, params],
     () => authFetch(fetchMeLearning, params),
-    { initialData: [], staleTime: 0 }
+    {
+      initialData: [],
+      staleTime: 0,
+      onSuccess: (data) => queryClient.setQueryData(Query.MeLearning, data)
+    }
   )
 
   const {
@@ -61,9 +66,7 @@ const LearningRecordList: FC = () => {
     isLoading: deleteLoading
   } = useMutation<string, Error, string>(
     async (id) => await authFetch(deleteLearning, id),
-    {
-      onSuccess: async () => await refetch()
-    }
+    { onSuccess: async () => await refetch() }
   )
 
   const {
@@ -71,7 +74,8 @@ const LearningRecordList: FC = () => {
     reset: editReset,
     isLoading: editLoading
   } = useMutation<MeLearningRecord[], Error, LearningBaseType[] | LearningFormalType[]>(
-    async (data) => await authFetch(editLearning, data)
+    async (data) => await authFetch(editLearning, data),
+    { onSuccess: async () => await refetch() }
   )
 
   return (
@@ -149,7 +153,6 @@ const LearningRecordList: FC = () => {
                   onFormSubmit={async (data) => {
                     try {
                       await editMutate([{ ...data, ...{ learning_type } }])
-                      await refetch()
                     } catch (err) {
                       return false
                     }
