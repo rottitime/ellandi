@@ -102,7 +102,7 @@ export const mockMe: RegisterUserResponse = {
   function_other: null,
   contract_type: 'full time',
   contract_type_other: null,
-  contact_preference: true,
+  contact_preference: null,
   verified: true,
   skills: [],
   languages: [],
