@@ -1,7 +1,7 @@
 import { screen, waitFor } from '@testing-library/react'
 import EmailVerifyPage from '@/pages/signin/email/verify'
 import fetchMock from 'jest-fetch-mock'
-import { renderWithProviders, mockMe, mockAuthToken, mockSkills } from '@/lib/test-utils'
+import { renderWithProviders, mockMe, mockAuthToken } from '@/lib/test-utils'
 import router from 'next/router'
 
 const mockRouter = jest.fn(() => ({ query: { code: 'mycode', user_id: 'user#1' } }))
@@ -20,7 +20,7 @@ describe('Page: Email Verify page', () => {
   it('Success', async () => {
     fetchMock.mockResponses(
       [JSON.stringify(mockAuthToken), { status: 200 }],
-      [JSON.stringify({ ...mockMe, skills: mockSkills }), { status: 200 }]
+      [JSON.stringify({ ...mockMe, skills: [] }), { status: 200 }]
     )
     renderWithProviders(<EmailVerifyPage />)
 
