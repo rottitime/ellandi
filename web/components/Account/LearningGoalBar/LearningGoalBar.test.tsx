@@ -31,7 +31,19 @@ describe('LearningGoalBar', () => {
       fetchMock.mockResponse(JSON.stringify(mockData), { status: 200 })
       renderWithProviders(<LearningGoalBar />)
       await bugfixForTimeout()
-      expect(screen.getByTestId('stat')).toHaveTextContent('0 (0%)')
+      expect(screen.getByTestId('stat')).toHaveTextContent('0 days (0%)')
+    })
+
+    it("text says 'day' instead of days", async () => {
+      fetchMock.mockResponse(
+        JSON.stringify([{ ...mockData[0], duration_minutes: 450 }]),
+        {
+          status: 200
+        }
+      )
+      renderWithProviders(<LearningGoalBar />)
+      await bugfixForTimeout()
+      expect(screen.getByTestId('stat')).toHaveTextContent('1 day (10%)')
     })
 
     it('50% fill', async () => {
@@ -43,7 +55,7 @@ describe('LearningGoalBar', () => {
       )
       renderWithProviders(<LearningGoalBar />)
       await waitFor(async () =>
-        expect(screen.getByTestId('stat')).toHaveTextContent('5 (50%)')
+        expect(screen.getByTestId('stat')).toHaveTextContent('5 days (50%)')
       )
     })
 
@@ -56,7 +68,7 @@ describe('LearningGoalBar', () => {
       )
       renderWithProviders(<LearningGoalBar />)
       await waitFor(async () =>
-        expect(screen.getByTestId('stat')).toHaveTextContent('10 (100%)')
+        expect(screen.getByTestId('stat')).toHaveTextContent('10 days (100%)')
       )
     })
 
@@ -69,7 +81,7 @@ describe('LearningGoalBar', () => {
       )
       renderWithProviders(<LearningGoalBar />)
       await waitFor(async () =>
-        expect(screen.getByTestId('stat')).toHaveTextContent('10000 (100002%)')
+        expect(screen.getByTestId('stat')).toHaveTextContent('10000 days (100002%)')
       )
     })
   })
