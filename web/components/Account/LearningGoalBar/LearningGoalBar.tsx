@@ -46,7 +46,7 @@ const LearningGoalBar: FC<Props> = (props) => {
               className={`stat ${percentage >= 100 ? 'completed' : ''}`}
               data-testid="stat"
             >
-              {totalDays} ({percentage}%)
+              {totalDays} {totalDays === 1 ? 'day' : 'days'} ({percentage}%)
             </span>{' '}
             completed
           </Typography>
