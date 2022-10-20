@@ -11,6 +11,9 @@ jest.mock('next/router', () => ({
 }))
 
 describe('Page: Team member with ID', () => {
+  beforeEach(() => {
+    jest.spyOn(console, 'error').mockImplementation(jest.fn())
+  })
   afterEach(() => {
     fetchMock.resetMocks()
   })

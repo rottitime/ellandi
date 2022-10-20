@@ -13,6 +13,7 @@ import {
 beforeAll(() => {
   Object.defineProperty(global, 'sessionStorage', { value: mockStorage })
   Object.defineProperty(global, 'localStorage', { value: mockStorage })
+  jest.spyOn(console, 'error').mockImplementation(jest.fn())
 })
 
 afterEach(() => {
@@ -86,6 +87,7 @@ export const mockMe: RegisterUserResponse = {
   first_name: 'James',
   last_name: 'Bond',
   job_title: 'Admin',
+  is_line_manager: 'Yes',
   business_unit: 'Testing unit',
   department: null,
   location: 'Neverland',

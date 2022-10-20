@@ -66,7 +66,14 @@ const IndexPage = () => {
       </Headline>
 
       <Content>
-        <AccountCard color="brandSkills">
+        <AccountCard
+          color="brandSkills"
+          action={
+            <Button variant="contained" href="/account/skills/add">
+              Add skills
+            </Button>
+          }
+        >
           {isLoading ? (
             [...Array(4).keys()].map((i) => (
               <Skeleton key={i} sx={{ mb: 3, maxWidth: i % 2 ? 100 : 50 }} />
@@ -89,9 +96,6 @@ const IndexPage = () => {
                   {data?.languages.length}
                 </Typography>
               </Link>
-              <Button variant="contained" href="/account/skills/add">
-                Add skills
-              </Button>
             </>
           )}
         </AccountCard>
@@ -103,14 +107,16 @@ const IndexPage = () => {
               Learning goal
             </Typography>
           }
+          action={
+            <Button variant="contained" href="/account/learning/add/">
+              Add learning
+            </Button>
+          }
         >
           <Typography variant="body2" gutterBottom>
-            You are expected to complete 10 days learning each year
+            You should aim to complete 10 days learning each financial year
           </Typography>
           <LearningGoalBar sx={{ mb: 5 }} />
-          <Button variant="contained" href="/account/learning/add/">
-            Add learning
-          </Button>
         </AccountCard>
 
         {profiles.map((profile) => (
@@ -121,11 +127,13 @@ const IndexPage = () => {
             headerLogo={profile.logo}
             header={<Typography variant="h2">{profile.title}</Typography>}
             headerColorInherit
+            action={
+              <Button variant="contained" href={profile.url}>
+                Review {profile.title.toLowerCase()}
+              </Button>
+            }
           >
             <Typography gutterBottom>{profile.content}</Typography>
-            <Button variant="contained" href={profile.url}>
-              Review {profile.title.toLowerCase()}
-            </Button>
           </AccountCard>
         ))}
       </Content>

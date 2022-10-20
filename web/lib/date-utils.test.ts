@@ -2,7 +2,8 @@ import {
   splitDays,
   combineDaysMinutesHoursToDays,
   splitMinutes,
-  combineDaysMinutesHoursToMinutes
+  combineDaysMinutesHoursToMinutes,
+  isBetweenBusinessDates
 } from './date-utils'
 
 describe('splitDays()', () => {
@@ -52,5 +53,17 @@ describe('combineDaysMinutesHoursToMinutes()', () => {
     expect(combineDaysMinutesHoursToMinutes(2, 0, 0, hoursPerDay)).toEqual(900)
     expect(combineDaysMinutesHoursToMinutes(0, 1, 10, hoursPerDay)).toEqual(70)
     expect(combineDaysMinutesHoursToMinutes(7, 18, 48, hoursPerDay)).toEqual(4278)
+  })
+})
+
+describe('isBetweenBusinessDates()', () => {
+  jest.useFakeTimers().setSystemTime(new Date('2022-10-19'))
+  it('returns correct value', () => {
+    expect(isBetweenBusinessDates('2022-10-03', '2022-04-01', '2023-03-31')).toBeTruthy()
+    expect(isBetweenBusinessDates('2022-10-03', '2020-04-01', '2020-03-31')).toBeTruthy()
+
+    expect(isBetweenBusinessDates('2022-02-03', '2022-04-01', '2023-03-31')).toBeFalsy()
+    expect(isBetweenBusinessDates('2023-11-09', '2022-04-01', '2022-11-30')).toBeFalsy()
+    expect(isBetweenBusinessDates('2024-02-03', '2022-04-01', '2023-03-31')).toBeFalsy()
   })
 })

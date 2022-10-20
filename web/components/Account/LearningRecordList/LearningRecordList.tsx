@@ -9,7 +9,7 @@ import {
   MeLearningRecord,
   Query
 } from '@/service/api'
-import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import { fetchMeLearning } from '@/service/me'
 import {
   Alert,
@@ -38,7 +38,6 @@ const LearningRecordList: FC = () => {
   const { authFetch } = useAuth()
   const id = useId()
   const labelId = `label-learning_type-${id}`
-  const queryClient = useQueryClient()
   const [type, setType] = useState<string>()
   const formRef = useRef(null)
   const params = { sortfield: 'name' }
@@ -63,12 +62,7 @@ const LearningRecordList: FC = () => {
   } = useMutation<string, Error, string>(
     async (id) => await authFetch(deleteLearning, id),
     {
-      onSuccess: async (id) => {
-        queryClient.setQueryData(
-          Query.MeLearning,
-          data.filter((learning) => learning.id !== id)
-        )
-      }
+      onSuccess: async () => await refetch()
     }
   )
 

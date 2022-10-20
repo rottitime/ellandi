@@ -14,6 +14,7 @@ import ContractTypeForm from '@/components/Form/Register/ContractTypeForm'
 import GradeForm from '@/components/Form/Register/GradeForm/GradeForm'
 import ProfessionForm from '@/components/Form/Register/ProfessionForm'
 import PrimaryProfessionForm from '@/components/Form/Register/PrimaryProfessionForm'
+import IsLineManagerForm from '@/components/Form/Register/IsLineManagerForm'
 import FunctionTypeForm from '@/components/Form/Register/FunctionTypeForm'
 import RegisterDetailsForm from '@/components/Form/Register/RegisterDetailsForm/RegisterDetailsForm'
 import { UpdateAccountPasswordForm } from '@/components/Form/UpdateAccountPasswordForm/UpdateAccountPasswordForm'
@@ -33,6 +34,8 @@ type AccountProfileModalsType =
   | 'primaryProfession'
   | 'functionType'
   | 'password'
+  | 'isLineManager'
+  | 'isMentor'
 
 const ProfilePage = () => {
   const { authFetch } = useAuth()
@@ -220,6 +223,15 @@ const ProfilePage = () => {
             form: 'contractType',
             name: 'Contract type',
             value: data.contract_type_other || data.contract_type
+          },
+          {
+            form: 'isLineManager',
+            name: 'Line manager',
+            value: data.is_line_manager
+          },
+          {
+            name: 'Mentor',
+            value: data.has_direct_reports ? 'Yes' : 'No'
           }
         ])}
       </AccountCard>
@@ -252,6 +264,7 @@ const ProfilePage = () => {
           {activeModal?.form === 'personalDetails' && (
             <RegisterDetailsForm {...formProps} />
           )}
+          {activeModal?.form === 'isLineManager' && <IsLineManagerForm {...formProps} />}
         </>
       </Dialog>
     </div>
