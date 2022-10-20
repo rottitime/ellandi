@@ -291,12 +291,22 @@ def me_view(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-def get_direct_report(user, direct_report_id):
-    try:
-        direct_report = models.User.objects.get(line_manager_email=user.email, id=direct_report_id)
-    except ObjectDoesNotExist:
-        direct_report = None
-    return direct_report
+def get_learning(request, learning_type, direct_report_id=None):
+    user = request.user
+    if direct_report_id:
+        try:
+            user = models.User.objects.get(line_manager_email=user.email, id=direct_report_id)
+        except ObjectDoesNotExist:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+    queryset = models.Learning.objects.filter(user=user)
+    _learning_type = learning_type or request.query_params.get("learning_type", None)
+    sortfield = request.query_params.get("sortfield", None)
+    if _learning_type:
+        queryset = queryset.filter(learning_type=_learning_type)
+    if sortfield:
+        queryset = queryset.order_by(sortfield)
+    serializer = serializers.LearningSerializer(queryset, many=True)
+    return Response(serializer.data)
 
 
 def make_learning_view(serializer_class, learning_type):
@@ -310,23 +320,26 @@ def make_learning_view(serializer_class, learning_type):
     @decorators.permission_classes((permissions.IsAuthenticated,))
     def _learning_view(request, direct_report_id=None):
         user = request.user
-        if direct_report_id:
-            try:
-                user = models.User.objects.get(line_manager_email=user.email, id=direct_report_id)
-            except ObjectDoesNotExist:
-                return Response(status=status.HTTP_400_BAD_REQUEST)
+        # if direct_report_id:
+        #     try:
+        #         user = models.User.objects.get(line_manager_email=user.email, id=direct_report_id)
+        #     except ObjectDoesNotExist:
+        #         return Response(status=status.HTTP_400_BAD_REQUEST)
 
-        queryset = models.Learning.objects.filter(user=user)
-        _learning_type = learning_type or request.query_params.get("learning_type", None)
-        sortfield = request.query_params.get("sortfield", None)
-        if _learning_type:
-            queryset = queryset.filter(learning_type=_learning_type)
+        # queryset = models.Learning.objects.filter(user=user)
+        # _learning_type = learning_type or request.query_params.get("learning_type", None)
+        # sortfield = request.query_params.get("sortfield", None)
+        # if _learning_type:
+        #     queryset = queryset.filter(learning_type=_learning_type)
+        # if request.method == "GET":
+        #     if sortfield:
+        #         queryset = queryset.order_by(sortfield)
+        #     serializer = serializers.LearningSerializer(queryset, many=True)
         if request.method == "GET":
-            if sortfield:
-                queryset = queryset.order_by(sortfield)
-            serializer = serializers.LearningSerializer(queryset, many=True)
-            return Response(serializer.data)
+            return get_learning(request, learning_type, direct_report_id)
+           # return Response(serializer.data)
         elif request.method == "PATCH":
+            user = request.user
             data = [dict(**item) for item in request.data]
             if learning_type:
                 data = [dict(item, **{"learning_type": learning_type}) for item in data]
@@ -361,7 +374,17 @@ me_learning_formal_view = make_learning_view(
 
 me_learning_view = make_learning_view(serializer_class=serializers.LearningSerializer, learning_type=None)
 
-me_direct_report_learning_view = make_learning_view(serializer_class=serializers.LearningSerializer, learning_type=None)
+
+
+@extend_schema(methods=["GET"], responses=serializers.LearningSerializer(many=True))
+@decorators.api_view(["GET"])
+@decorators.permission_classes((permissions.IsAuthenticated,))
+def me_direct_report_learning_view(request, direct_report_id):
+    response = get_learning(request=request, learning_type=None, direct_report_id=direct_report_id)
+    return response
+
+
+#me_direct_report_learning_view = make_learning_view(serializer_class=serializers.LearningSerializer, learning_type=None)
 
 
 def list_skills_langs(request, user, model_name, field_name):
