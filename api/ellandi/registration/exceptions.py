@@ -39,3 +39,8 @@ class MissingJobSimilarityMatrixError(APIException):
 class MissingSkillMatrixError(APIException):
     status_code = 501
     default_detail = "A skill embedding matrix has not been generated for this request"
+
+
+class DirectReportError(APIException):
+    status_code = 400
+    default_detail = "There is no such direct report for the current user"
