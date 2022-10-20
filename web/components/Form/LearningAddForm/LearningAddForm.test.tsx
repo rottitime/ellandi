@@ -61,25 +61,47 @@ describe('LearningAddForm', () => {
     expect(screen.getByTestId('cost-field')).toHaveValue(101)
   })
 
-  it('submits generic', async () => {
-    const mockSubmit = jest.fn()
-    renderWithProviders(
-      <LearningAddForm loading={false} onFormSubmit={(data) => mockSubmit(data)} />
-    )
+  describe("type 'generic'", () => {
+    it('submits generic', async () => {
+      const mockSubmit = jest.fn()
+      renderWithProviders(
+        <LearningAddForm loading={false} onFormSubmit={(data) => mockSubmit(data)} />
+      )
 
-    await userEvent.type(screen.getByTestId('textfield_name'), mockData.name)
-    await userEvent.type(screen.getByTestId('datepicker'), '23/01/2022')
-    await userEvent.type(screen.getByTestId('duration-days'), '1')
-    await userEvent.type(screen.getByTestId('duration-minutes'), '0')
-    await userEvent.type(screen.getByTestId('duration-hours'), '0')
-    await userEvent.click(screen.getByRole('button', { name: /Save learning/i }))
+      await userEvent.type(screen.getByTestId('textfield_name'), mockData.name)
+      await userEvent.type(screen.getByTestId('datepicker'), '23/01/2022')
+      await userEvent.type(screen.getByTestId('duration-days'), '1')
+      await userEvent.type(screen.getByTestId('duration-minutes'), '0')
+      await userEvent.type(screen.getByTestId('duration-hours'), '0')
+      await userEvent.click(screen.getByRole('button', { name: /Save learning/i }))
 
-    expect(mockSubmit).toHaveBeenCalled()
+      expect(mockSubmit).toHaveBeenCalled()
 
-    expect(mockSubmit).toHaveBeenCalledWith({
-      date_completed: '2022-01-23',
-      duration_minutes: 450,
-      name: 'Skill Something A'
+      expect(mockSubmit).toHaveBeenCalledWith({
+        date_completed: '2022-01-23',
+        duration_minutes: 450,
+        name: 'Skill Something A'
+      })
+    })
+
+    it("removes any 'formal' type values on submit", async () => {
+      const data = mockData
+      const mockSubmit = jest.fn()
+      renderWithProviders(
+        <LearningAddForm
+          defaultValues={data}
+          loading={false}
+          onFormSubmit={(data) => mockSubmit(data)}
+        />
+      )
+      await userEvent.click(screen.getByRole('button', { name: /Save learning/i }))
+
+      expect(mockSubmit).toHaveBeenCalled()
+
+      delete data.cost_pounds
+      delete data.cost_unknown
+
+      expect(mockSubmit).toHaveBeenCalledWith(data)
     })
   })
 
