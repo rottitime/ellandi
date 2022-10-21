@@ -44,3 +44,8 @@ class MissingSkillMatrixError(APIException):
 class DirectReportError(APIException):
     status_code = 400
     default_detail = "There is no such direct report for the current user"
+
+
+class LearningIdError(APIException):
+    status_code = 400
+    default_detail = "The learning for this ID belongs to a different user"
