@@ -309,21 +309,23 @@ def get_learning(request, learning_type=None, direct_report_id=None):
     return Response(serializer.data)
 
 
+def _get_learning_instance(item, user):
+    id = item.get("id", None)
+    try:
+        learning = models.Learning.objects.get(id=id)
+        if learning.user != user:
+            raise exceptions.LearningIdError
+    except ObjectDoesNotExist:
+        learning = None
+    return learning
+
+
 def patch_learning(request, learning_type=None):
     user = request.user
     data = [dict(**item) for item in request.data]
     if learning_type:
         data = [dict(item, **{"learning_type": learning_type}) for item in data]
-    instances = []
-    for item in data:
-        id = item.get("id", None)
-        try:
-            learning = models.Learning.objects.get(id=id)
-            if learning.user != user:
-                raise exceptions.LearningIdError
-        except ObjectDoesNotExist:
-            learning = None
-        instances.append(learning)
+    instances = [_get_learning_instance(item, user) for item in data]
     serializer = serializers.LearningSerializer(instances, data=data, many=True, context={"user": user})
     if serializer.is_valid():
         serializer.save()
