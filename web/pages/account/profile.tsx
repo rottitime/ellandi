@@ -205,15 +205,16 @@ const ProfilePage = () => {
             value: data.grade_other || data.grade
           },
           {
-            form: 'profession',
-            name: 'Profession(s)',
-            value: professions.join(', ')
-          },
-          {
             form: 'primaryProfession',
             name: 'Primary profession',
             value: professions.length > 1 && data.primary_profession
           },
+          {
+            form: 'profession',
+            name: 'Profession(s)',
+            value: professions.join(', ')
+          },
+
           {
             form: 'functionType',
             name: 'Function',
