@@ -86,6 +86,7 @@ export type SkillsDevelopType = {
 
 export type PrimaryProfessionType = {
   primary_profession: string
+  profession_other: string
 }
 
 export type ContactType = {
