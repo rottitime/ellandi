@@ -90,6 +90,6 @@ def return_db_user_title_skills():
 def return_nlp_user_skills():
     """ returns a pandas dataframe of nlp based user skills"""
 
-    nlp_skill_df = pd.read_json("nlp_generated_skills.json")[["user_id", "skill_name", "rating"]]
+    nlp_skill_df = pd.read_json("nlp_generated_skills.json")[["user_id", "job_title","skill_name", "rating"]]
     return nlp_skill_df
 

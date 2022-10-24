@@ -16,8 +16,8 @@ from settings_base import DB_URL
 
 
 def make_skill_similarity_matrix():
-    nlp_skill_df = return_nlp_user_skills()
-    db_user_skills = return_db_user_skills()
+    nlp_skill_df = return_nlp_user_skills()[["user_id", "skill_name", "rating"]]
+    db_user_skills = return_db_user_skills()[["user_id","skill_name", "rating"]]
 
     if len(db_user_skills) > 0:
         skill_compare_df = pd.concat([nlp_skill_df, db_user_skills]).reset_index(drop=True)
