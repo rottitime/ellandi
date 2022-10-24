@@ -5,9 +5,7 @@ import { FC, useEffect, useRef } from 'react'
 import { useUiContext } from '@/context/UiContext'
 import GovCard from '@/components/UI/Cards/GovCard/GovCard'
 import { Props } from './types'
-import getConfig from 'next/config'
-
-const { publicRuntimeConfig } = getConfig()
+import { title } from '@/content'
 
 const Page = styled(Box)`
   flex-direction: column;
@@ -41,11 +39,11 @@ const Page = styled(Box)`
 
 const CardLayout: FC<Props> = ({
   children,
-  title,
   footer,
   progress,
   dark,
-  widthAuto
+  widthAuto,
+  ...props
 }) => {
   const { error, loading, isErrorEcode, scroll } = useUiContext()
   const alertRef = useRef(null)
@@ -64,10 +62,10 @@ const CardLayout: FC<Props> = ({
       </style>
       <Page className={`${!!widthAuto ? 'auto-width' : ''}`}>
         <GovCard
-          title={title}
+          title={props.title}
           progress={progress}
           loading={loading}
-          headerTitle={publicRuntimeConfig.title}
+          headerTitle={title}
         >
           {!!error && (
             <Alert

@@ -1,8 +1,6 @@
 import CardLayout from '@/components/Layout/CardLayout/CardLayout'
 import { Link, Typography } from '@mui/material'
-import getConfig from 'next/config'
-
-const { publicRuntimeConfig } = getConfig()
+import { title } from '@/content'
 
 export default function Custom404() {
   return (
@@ -16,7 +14,7 @@ export default function Custom404() {
       <Typography gutterBottom>
         If the web address is correct, or you selected a link or button,{' '}
         <Link href="mailto:paul.harmer@cabinetoffice.gov.uk" target="_blank">
-          contact the {publicRuntimeConfig.title} team
+          contact the {title} team
         </Link>
         .
       </Typography>

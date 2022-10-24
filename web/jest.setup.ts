@@ -16,7 +16,6 @@ require('jest-fetch-mock').enableMocks()
 
 jest.mock('next/config', () => () => ({
   publicRuntimeConfig: {
-    title: 'Title of application',
     enableEmailVerify: true,
     urls: {
       landingSignin: 'landingSignin',
