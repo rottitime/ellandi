@@ -1,18 +1,12 @@
-
 from sqlalchemy.orm import declarative_base
 from sqlalchemy import Column, Integer, String, Float, DateTime, LargeBinary
 from sqlalchemy import create_engine
 import os
+import pandas as pd
 
 Base = declarative_base()
 
-
-
-DB_URL = os.getenv('DATABASE_URL')
-
-
-import pandas as pd
-
+DB_URL = os.getenv("DATABASE_URL")
 
 
 class TitleEmbeddingArray(Base):
@@ -22,17 +16,20 @@ class TitleEmbeddingArray(Base):
     variable = Column(Integer)
     value = Column(Float)
 
+
 class SkillSimilarityArray(Base):
     __tablename__ = "tblSkillArray"
     id = Column(Integer, primary_key=True, autoincrement=True)
     createdAt = Column(DateTime)
     array = Column(LargeBinary)
 
+
 class UserSkills(Base):
     __tablename__ = "registration_userskill"
     id = Column(Integer, primary_key=True, autoincrement=True)
     createdAt = Column(DateTime)
     array = Column(LargeBinary)
+
 
 class SkillRecommendations(Base):
     __tablename__ = "tblSkillRecommendations"
@@ -41,6 +38,7 @@ class SkillRecommendations(Base):
     currentSkill = Column(String)
     recommendedSkill = Column(String)
 
+
 class TitleRecommendations(Base):
     __tablename__ = "tblTitleRecommendations"
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -48,21 +46,22 @@ class TitleRecommendations(Base):
     jobTitle = Column(String)
     recommendedSkill = Column(String)
 
-def create_db_objects():
-    """ declares and creates all our db objects"""
 
-    DB_URL = os.getenv('DATABASE_URL')
+def create_db_objects():
+    """declares and creates all our db objects"""
+
+    DB_URL = os.getenv("DATABASE_URL")
     print("url")
     print(DB_URL)
 
     Base = declarative_base()
     engine = create_engine(DB_URL)
-    #create all dbs
+    # create all dbs
     Base.metadata.create_all(engine)
 
 
 def return_db_user_skills():
-    """ returns a pandas dataframe with all user skills"""
+    """returns a pandas dataframe with all user skills"""
 
     query = """
     SELECT user_id,
@@ -73,13 +72,14 @@ def return_db_user_skills():
     engine = create_engine(DB_URL)
 
     all_user_skills = pd.read_sql(query, engine)
-    all_user_skills['rating'] = 1
+    all_user_skills["rating"] = 1
     all_user_skills.columns = ["user_id", "skill_name", "rating"]
 
     return all_user_skills
 
+
 def return_db_user_title_skills():
-    """ returns a pandas dataframe with all user skills"""
+    """returns a pandas dataframe with all user skills"""
 
     query = """
     SELECT id,
@@ -93,14 +93,14 @@ def return_db_user_title_skills():
     engine = create_engine(DB_URL)
 
     all_user_skills = pd.read_sql(query, engine)
-    all_user_skills['rating'] = 1
-    all_user_skills.columns = ["user_id", "job_title","skill_name", "rating"]
+    all_user_skills["rating"] = 1
+    all_user_skills.columns = ["user_id", "job_title", "skill_name", "rating"]
 
     return all_user_skills
 
+
 def return_nlp_user_skills():
-    """ returns a pandas dataframe of nlp based user skills"""
+    """returns a pandas dataframe of nlp based user skills"""
 
-    nlp_skill_df = pd.read_json("nlp_generated_skills.json")[["user_id", "job_title","skill_name", "rating"]]
+    nlp_skill_df = pd.read_json("nlp_generated_skills.json")[["user_id", "job_title", "skill_name", "rating"]]
     return nlp_skill_df
-
