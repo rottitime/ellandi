@@ -21,7 +21,6 @@ const Page = styled(Box)`
 
   > .MuiPaper-root {
     ${({ theme }) => theme.breakpoints.up('md')} {
-      max-width: 540px;
       width: 100%;
       margin: ${(p) => p.theme.spacing(2)};
     }
@@ -42,7 +41,7 @@ const CardLayout: FC<Props> = ({
   footer,
   progress,
   dark,
-  widthAuto,
+  maxWidth = 540,
   ...props
 }) => {
   const { error, loading, isErrorEcode, scroll } = useUiContext()
@@ -60,12 +59,13 @@ const CardLayout: FC<Props> = ({
           ${dark && govBackgroundDark}
         `}
       </style>
-      <Page className={`${!!widthAuto ? 'auto-width' : ''}`}>
+      <Page>
         <GovCard
-          title={props.title}
+          title={props.title as string}
           progress={progress}
           loading={loading}
           headerTitle={title}
+          sx={{ maxWidth }}
         >
           {!!error && (
             <Alert

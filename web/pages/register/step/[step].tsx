@@ -28,7 +28,6 @@ import {
 import useAuth from '@/hooks/useAuth'
 import { fetchMe } from '@/service/me'
 import { StandardRegisterProps } from '@/components/Form/Register/types'
-import { Box } from '@mui/material'
 
 type Props = {
   stepInt: number
@@ -37,7 +36,6 @@ type Props = {
   nextUrl: string
   progress: number
   skip: boolean
-  large?: boolean
 }
 
 type Steps = {
@@ -49,7 +47,7 @@ type Steps = {
   large?: boolean
 }
 
-const RegisterPage = ({ stepInt, nextUrl, backUrl, skip, large }: Props) => {
+const RegisterPage = ({ stepInt, nextUrl, backUrl, skip }: Props) => {
   const { setLoading, setError } = useUiContext()
   const { authFetch, hasToken } = useAuth()
   const router = useRouter()
@@ -97,21 +95,17 @@ const RegisterPage = ({ stepInt, nextUrl, backUrl, skip, large }: Props) => {
       })
     }
 
-    if (!hasToken()) {
-      redirect()
-    }
+    if (!hasToken()) redirect()
   }, [stepInt, router, isLoadingMe, hasToken, queryClient, data])
 
   return (
-    <Box sx={{ maxWidth: !!large ? 1320 : 540 }}>
-      <FormComponent
-        backUrl={backUrl}
-        buttonLoading={isMutateLoading}
-        defaultValues={data}
-        skipUrl={skip && nextUrl}
-        onFormSubmit={(data) => mutate.mutate(data)}
-      />
-    </Box>
+    <FormComponent
+      backUrl={backUrl}
+      buttonLoading={isMutateLoading}
+      defaultValues={data}
+      skipUrl={skip && nextUrl}
+      onFormSubmit={(data) => mutate.mutate(data)}
+    />
   )
 }
 
@@ -120,7 +114,11 @@ export default RegisterPage
 RegisterPage.getLayout = (page) => {
   const { props } = page
   return (
-    <CardLayout title={props.title} progress={props.progress} widthAuto>
+    <CardLayout
+      title={props.title}
+      progress={props.progress}
+      maxWidth={!!props.large ? 1320 : 540}
+    >
       {page}
     </CardLayout>
   )

@@ -6,5 +6,5 @@ export type Props = {
   title?: string | ReactNode
   progress?: number
   dark?: boolean
-  widthAuto?: boolean
+  maxWidth?: number
 }
