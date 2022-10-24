@@ -16,6 +16,6 @@ sentence_transformers
 numpy
 scipy
 pandas
-sqlalchemy
+SQLAlchemy
 psycopg2
 django-environ

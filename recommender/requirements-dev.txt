@@ -7,7 +7,7 @@ black
 nose
 httpx
 testino==0.3.9
-sqlalchemy
+SQLAlchemy
 psycopg2
 django-environ
 

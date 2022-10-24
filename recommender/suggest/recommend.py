@@ -1,5 +1,4 @@
 
-from api.ellandi.registration import exceptions, initial_data, models, serializers
 import scipy
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
@@ -11,8 +10,8 @@ import pickle
 from sqlalchemy.orm import sessionmaker
 import numpy as np
 
-from models import TitleEmbeddingArray, SkillSimilarityArray, create_db_objects, return_db_user_skills, return_nlp_user_skills, return_db_user_title_skills
-from settings_base import DB_URL
+from suggest.models import TitleEmbeddingArray, SkillSimilarityArray, create_db_objects, return_db_user_skills, return_nlp_user_skills, return_db_user_title_skills
+from suggest.settings_base import DB_URL
 
 
 def make_skill_similarity_matrix():

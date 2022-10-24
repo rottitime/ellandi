@@ -2,7 +2,15 @@
 from sqlalchemy.orm import declarative_base
 from sqlalchemy import Column, Integer, String, Float, DateTime, LargeBinary
 from sqlalchemy import create_engine
-from settings_base import DB_URL
+import os
+
+Base = declarative_base()
+
+
+
+DB_URL = os.getenv('DATABASE_URL')
+
+
 import pandas as pd
 
 
@@ -43,6 +51,9 @@ class TitleRecommendations(Base):
 def create_db_objects():
     """ declares and creates all our db objects"""
 
+    DB_URL = os.getenv('DATABASE_URL')
+    print("url")
+    print(DB_URL)
 
     Base = declarative_base()
     engine = create_engine(DB_URL)

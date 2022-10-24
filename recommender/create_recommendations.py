@@ -1,12 +1,14 @@
 import pandas as pd
-from recommend.models import return_db_user_title_skills, return_nlp_user_skills,create_db_objects
-from recommend.recommend import create_job_embedding_matrix, make_skill_similarity_matrix, get_similar_skills, return_similar_title_skills
-from recommend.settings_base import DB_URL
+from suggest.models import return_db_user_title_skills, return_nlp_user_skills,create_db_objects
+from suggest.recommend import create_job_embedding_matrix, make_skill_similarity_matrix, get_similar_skills, return_similar_title_skills
+from suggest.settings_base import DB_URL
+from suggest.create_db import create_db_items
 from datetime import datetime
 from sqlalchemy import create_engine
 from tqdm import tqdm
 
 create_db_objects()
+'create_db_items()'
 
 job_embedding_matrix = create_job_embedding_matrix()
 skill_similarity_matrix = make_skill_similarity_matrix()
