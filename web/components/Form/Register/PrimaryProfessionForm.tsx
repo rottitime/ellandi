@@ -40,7 +40,7 @@ const PrimaryProfessionForm: FC<
   )
 
   const methods = useForm<PrimaryProfessionType>({
-    defaultValues: { primary_profession: null, profession_other: '' },
+    defaultValues: { primary_profession: '', profession_other: '' },
     resolver: yupResolver(schema)
   })
 
@@ -64,11 +64,12 @@ const PrimaryProfessionForm: FC<
           <Controller
             name="primary_profession"
             control={control}
+            defaultValue=""
             render={({ field }) => (
               <>
                 <FormControl fullWidth size="small">
                   <InputLabel id={labelId}>{label}</InputLabel>
-                  <Select {...field} labelId={labelId} label={label} autoFocus>
+                  <Select {...field} labelId={labelId} label={label}>
                     {isSuccess &&
                       [...data, { order: data.length, name: "I don't know" }].map(
                         ({ name }) => (
