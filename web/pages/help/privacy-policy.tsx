@@ -263,7 +263,7 @@ const PrivacyPage = () => (
       </ul>
 
       <Typography gutterBottom>
-        Civil Service Skills and Learning
+        Cabinet Office Skills and Learning
         <br />
         Cabinet Office
         <br />

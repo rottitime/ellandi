@@ -1,5 +1,8 @@
 import CardLayout from '@/components/Layout/CardLayout/CardLayout'
 import { Link, Typography } from '@mui/material'
+import getConfig from 'next/config'
+
+const { publicRuntimeConfig } = getConfig()
 
 export default function Custom500() {
   return (
@@ -9,7 +12,7 @@ export default function Custom500() {
       <Typography gutterBottom>
         If the problem persists,{' '}
         <Link href="mailto:paul.harmer@cabinetoffice.gov.uk" target="_blank">
-          contact the Civil Service Skills and Learning team
+          contact the {publicRuntimeConfig.title} team
         </Link>
         .
       </Typography>

@@ -1,5 +1,8 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import GovCard from './GovCard'
+import getConfig from 'next/config'
+
+const { publicRuntimeConfig } = getConfig()
 
 export default {
   title: 'Ellandi/Cards/GovCard',
@@ -27,7 +30,7 @@ const Template: ComponentStory<typeof GovCard> = (args) => <GovCard {...args} />
 export const Default = Template.bind({})
 Default.args = {
   title: 'My title',
-  headerTitle: 'Civil Service Skills and Learning',
+  headerTitle: publicRuntimeConfig.title,
   children:
     'Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi quo quod perspiciatis nam repellat? Assumenda quasi minus illo, reiciendis ad suscipit quibusdam officia omnis, amet delectus cumque ut ea? Vel?'
 }

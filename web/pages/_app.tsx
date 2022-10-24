@@ -9,6 +9,9 @@ import { UiProvider } from '@/context/UiContext'
 import { AppProps } from 'next/app'
 import { NextPage } from 'next'
 import LocalizationProvider from '@/components/LocalizationProvider/LocalizationProvider'
+import getConfig from 'next/config'
+
+const { publicRuntimeConfig } = getConfig()
 
 interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache
@@ -34,7 +37,7 @@ export default function MyApp({
   return (
     <CacheProvider value={emotionCache}>
       <Head>
-        <title>Civil Service Skills and Learning</title>
+        <title>{publicRuntimeConfig.title}</title>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}

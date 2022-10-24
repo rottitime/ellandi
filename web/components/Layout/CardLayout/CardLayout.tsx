@@ -5,6 +5,9 @@ import { FC, useEffect, useRef } from 'react'
 import { useUiContext } from '@/context/UiContext'
 import GovCard from '@/components/UI/Cards/GovCard/GovCard'
 import { Props } from './types'
+import getConfig from 'next/config'
+
+const { publicRuntimeConfig } = getConfig()
 
 const Page = styled(Box)`
   flex-direction: column;
@@ -64,7 +67,7 @@ const CardLayout: FC<Props> = ({
           title={title}
           progress={progress}
           loading={loading}
-          headerTitle="Civil Service Skills and Learning"
+          headerTitle={publicRuntimeConfig.title}
         >
           {!!error && (
             <Alert

@@ -21,7 +21,7 @@ const RegisterPage = () => {
   return (
     <>
       <Typography gutterBottom>
-        You have successfully signed up for the Civil Service Skills and Learning Service
+        You have successfully signed up for the Cabinet Office Skills and Learning Service
       </Typography>
       <Typography variant="body2" gutterBottom>
         To confirm your account and sign in to the service, click on the link in the email
