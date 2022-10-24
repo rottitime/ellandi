@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { Typography, styled, alpha, Box, CircularProgress } from '@mui/material'
+import { Typography, styled, Box, CircularProgress } from '@mui/material'
 import AppBar from '@/components/UI/AppBar/AppBar'
 import Template from '@/components/Layout/Template'
 import useAuth from '@/hooks/useAuth'
