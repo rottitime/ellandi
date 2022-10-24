@@ -60,22 +60,4 @@ describe('Page: Profile', () => {
       screen.getByText('Chosen profession, Custom other profession')
     ).toBeInTheDocument()
   })
-
-  it('hide primary profession', async () => {
-    const data: RegisterUserResponse = {
-      ...mockMe,
-      professions: ['Bunch of professions'],
-      primary_profession: 'my primary profession'
-    }
-
-    fetchMock.mockResponses([JSON.stringify(data), { status: 200 }])
-
-    renderWithProviders(<ProfilePage />)
-
-    await waitFor(async () => {
-      expect(screen.getByText(data.professions[0])).toBeInTheDocument()
-    })
-
-    expect(screen.queryByText(data.primary_profession)).not.toBeInTheDocument()
-  })
 })

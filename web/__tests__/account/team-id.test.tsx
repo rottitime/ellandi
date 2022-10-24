@@ -66,25 +66,4 @@ describe('Page: Team member with ID', () => {
     expect(screen.getByText(data.profession_other)).toBeInTheDocument()
     expect(screen.getByText(data.contract_type_other)).toBeInTheDocument()
   })
-
-  it('hide primary profession', async () => {
-    const data = {
-      ...mockTeam[1],
-      professions: ['Bunch of professions'],
-      primary_profession: 'my primary profession'
-    }
-
-    mockRouter.mockImplementation(() => ({ query: { id: data.id } }))
-    fetchMock.mockResponses(
-      [JSON.stringify(mockMe), { status: 200 }],
-      [JSON.stringify([data]), { status: 200 }]
-    )
-
-    renderWithProviders(<TeamMemberPage />)
-
-    await waitFor(async () => {
-      expect(screen.getByText(data.professions[0])).toBeInTheDocument()
-    })
-    expect(screen.queryByText(data.primary_profession)).not.toBeInTheDocument()
-  })
 })

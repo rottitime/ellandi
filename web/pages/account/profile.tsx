@@ -207,12 +207,12 @@ const ProfilePage = () => {
           {
             form: 'primaryProfession',
             name: 'Primary profession',
-            value: professions.length > 1 && data.primary_profession
+            value: data?.primary_profession
           },
           {
             form: 'profession',
             name: 'Profession(s)',
-            value: professions.join(', ')
+            value: !!professions.length && professions.join(', ')
           },
 
           {
