@@ -24,7 +24,6 @@ COPY . /app
 
 WORKDIR /app/recommender
 
-RUN python3 create_recommendations.py
-
 ENTRYPOINT ["sh","/entrypoint.sh"]
+CMD ["sh","/start.sh"]
 

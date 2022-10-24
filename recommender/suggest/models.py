@@ -65,7 +65,7 @@ def return_db_user_skills():
 
     query = """
     SELECT user_id,
-     name,
+     name
      FROM registration_userskill
     """
 
@@ -74,6 +74,8 @@ def return_db_user_skills():
     all_user_skills = pd.read_sql(query, engine)
     all_user_skills["rating"] = 1
     all_user_skills.columns = ["user_id", "skill_name", "rating"]
+    all_user_skills['user_id'] = all_user_skills['user_id'].astype("string")
+
 
     return all_user_skills
 
@@ -82,9 +84,9 @@ def return_db_user_title_skills():
     """returns a pandas dataframe with all user skills"""
 
     query = """
-    SELECT id,
+    SELECT registration_user.id as user_id,
     job_title,
-    registration_userskill.name
+    registration_userskill.name as skill_name
     FROM registration_user
     INNER JOIN registration_userskill
     ON registration_user.id = registration_userskill.user_id
@@ -94,6 +96,7 @@ def return_db_user_title_skills():
 
     all_user_skills = pd.read_sql(query, engine)
     all_user_skills["rating"] = 1
+    all_user_skills['user_id'] = all_user_skills['user_id'].astype("string")
     all_user_skills.columns = ["user_id", "job_title", "skill_name", "rating"]
 
     return all_user_skills
@@ -102,5 +105,5 @@ def return_db_user_title_skills():
 def return_nlp_user_skills():
     """returns a pandas dataframe of nlp based user skills"""
 
-    nlp_skill_df = pd.read_json("nlp_generated_skills.json")[["user_id", "job_title", "skill_name", "rating"]]
+    nlp_skill_df = pd.read_json("suggest/nlp_generated_skills.json")[["user_id", "job_title", "skill_name", "rating"]]
     return nlp_skill_df
