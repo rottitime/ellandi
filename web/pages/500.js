@@ -1,5 +1,6 @@
 import CardLayout from '@/components/Layout/CardLayout/CardLayout'
 import { Link, Typography } from '@mui/material'
+import { title } from '@/content'
 
 export default function Custom500() {
   return (
@@ -9,7 +10,7 @@ export default function Custom500() {
       <Typography gutterBottom>
         If the problem persists,{' '}
         <Link href="mailto:paul.harmer@cabinetoffice.gov.uk" target="_blank">
-          contact the Civil Service Skills and Learning team
+          contact the {title} team
         </Link>
         .
       </Typography>

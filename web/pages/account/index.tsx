@@ -114,7 +114,7 @@ const IndexPage = () => {
           }
         >
           <Typography variant="body2" gutterBottom>
-            You should aim to complete 10 days learning each financial year
+            You should aim to complete 10 days learning each year
           </Typography>
           <LearningGoalBar sx={{ mb: 5 }} />
         </AccountCard>

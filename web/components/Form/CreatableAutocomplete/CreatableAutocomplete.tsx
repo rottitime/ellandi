@@ -123,6 +123,7 @@ const CreatableAutocomplete: FC<Props> = forwardRef<FC, Props>(
               inputRef={ref}
               InputProps={{
                 ...params.InputProps,
+                name: props?.name,
                 inputProps: { ...params?.inputProps, 'data-testid': `input_${testid}` },
                 endAdornment: (
                   <>

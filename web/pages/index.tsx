@@ -2,6 +2,7 @@ import CardLayout from '@/components/Layout/CardLayout/CardLayout'
 import Button from '@/components/UI/Button/Button'
 import { styled, Typography } from '@mui/material'
 import { Box } from '@mui/system'
+import { title } from '@/content'
 
 const List = styled(Box)`
   li {
@@ -37,7 +38,7 @@ const IndexPage = () => (
 
 export default IndexPage
 IndexPage.getLayout = (page) => (
-  <CardLayout title="Civil Service Skills and Learning" dark>
+  <CardLayout title={title} dark>
     {page}
   </CardLayout>
 )

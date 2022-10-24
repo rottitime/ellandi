@@ -82,11 +82,11 @@ const YourTeamPage = () => {
                     value: member.line_manager_email
                   },
                   { name: 'Grade', value: member.grade_other || member.grade },
-                  { name: 'Profession(s)', value: professions.join(', ') },
                   {
                     name: 'Primary profession',
                     value: professions.length > 1 && member.primary_profession
                   },
+                  { name: 'Profession(s)', value: professions.join(', ') },
                   { name: 'Function', value: member.function_other || member.function },
                   {
                     name: 'Contract type',

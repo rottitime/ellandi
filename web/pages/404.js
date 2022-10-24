@@ -1,5 +1,6 @@
 import CardLayout from '@/components/Layout/CardLayout/CardLayout'
 import { Link, Typography } from '@mui/material'
+import { title } from '@/content'
 
 export default function Custom404() {
   return (
@@ -13,7 +14,7 @@ export default function Custom404() {
       <Typography gutterBottom>
         If the web address is correct, or you selected a link or button,{' '}
         <Link href="mailto:paul.harmer@cabinetoffice.gov.uk" target="_blank">
-          contact the Civil Service Skills and Learning team
+          contact the {title} team
         </Link>
         .
       </Typography>
