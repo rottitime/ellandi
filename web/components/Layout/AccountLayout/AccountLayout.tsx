@@ -1,14 +1,6 @@
 import { FC } from 'react'
-import {
-  Breadcrumbs,
-  Typography,
-  styled,
-  alpha,
-  Box,
-  CircularProgress
-} from '@mui/material'
+import { Typography, styled, alpha, Box, CircularProgress } from '@mui/material'
 import AppBar from '@/components/UI/AppBar/AppBar'
-import Link from '@/components/UI/Link'
 import Template from '@/components/Layout/Template'
 import useAuth from '@/hooks/useAuth'
 import Footer from '@/components/Footer/Footer'
@@ -28,6 +20,12 @@ const {
 const Layout = styled(Box)`
   --footer-height: 60px;
 
+  .navigation-section {
+    border-bottom: 3px solid #000;
+    margin-bottom: ${(p) => p.theme.spacing(4)};
+    padding-bottom: ${(p) => p.theme.spacing(4)};
+  }
+
   > .MuiContainer-root {
     padding-bottom: ${(p) => p.theme.spacing(5)};
     ${({ theme }) => theme.breakpoints.up('md')} {
@@ -38,22 +36,6 @@ const Layout = styled(Box)`
   .main-footer {
     height: var(--footer-height);
   }
-  .MuiBreadcrumbs-root {
-    margin-top: ${(p) => p.theme.spacing(4)};
-    border-bottom: 3px solid #000;
-    color: ${(p) => alpha(p.theme.colors.black, 0.6)};
-    margin-bottom: ${(p) => p.theme.spacing(4)};
-    font-size: 16px;
-    li {
-      margin-bottom: 10px;
-    }
-    a {
-      color: inherit;
-    }
-    p {
-      font-weight: 700;
-    }
-  }
 
   .page-loading {
     display: flex;
@@ -63,7 +45,6 @@ const Layout = styled(Box)`
 `
 
 const AccountLayout: FC<Props> = ({
-  breadcrumbs = [],
   title,
   titleIcon,
   children,
@@ -102,42 +83,31 @@ const AccountLayout: FC<Props> = ({
           </Box>
         ) : (
           <>
-            <AppBar
-              sx={{ mt: 4 }}
-              logoUrl={urls.landingSignin}
-              settingsTip={data?.fullname}
-              pages={[
-                { title: 'Home', url: urls.landingSignin },
-                { title: 'Skills', url: '/account/skills/', color: 'brandSkills' },
-                { title: 'Learning', url: '/account/learning/', color: 'brandLearning' },
-                {
-                  title: 'Your team',
-                  url: '/account/your-team/',
-                  hidden: !data?.has_direct_reports
-                }
-              ]}
-              settings={[
-                { title: 'Profile', url: '/account/profile/' },
-                { title: 'Sign out', url: urls.signin, onClick: logout }
-              ]}
-            />
-            <Breadcrumbs aria-label="breadcrumb">
-              <Link underline="hover" color="inherit" href={urls.landingSignin}>
-                Home
-              </Link>
-
-              {breadcrumbs.map((item) =>
-                item.url ? (
-                  <Link underline="hover" href={item.url} key={item.title}>
-                    {item.title}
-                  </Link>
-                ) : (
-                  <Typography key={item.title} variant="body2">
-                    {item.title}
-                  </Typography>
-                )
-              )}
-            </Breadcrumbs>
+            <Box className="navigation-section">
+              <AppBar
+                sx={{ mt: 4 }}
+                logoUrl={urls.landingSignin}
+                settingsTip={data?.fullname}
+                pages={[
+                  { title: 'Home', url: urls.landingSignin },
+                  { title: 'Skills', url: '/account/skills/', color: 'brandSkills' },
+                  {
+                    title: 'Learning',
+                    url: '/account/learning/',
+                    color: 'brandLearning'
+                  },
+                  {
+                    title: 'Your team',
+                    url: '/account/your-team/',
+                    hidden: !data?.has_direct_reports
+                  }
+                ]}
+                settings={[
+                  { title: 'Profile', url: '/account/profile/' },
+                  { title: 'Sign out', url: urls.signin, onClick: logout }
+                ]}
+              />
+            </Box>
 
             {title && (
               <Headline textColor={brandColor}>
