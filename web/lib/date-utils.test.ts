@@ -5,11 +5,37 @@ import {
 } from './date-utils'
 
 describe('splitMinutes()', () => {
-  it('returns correct value', () => {
+  it('based on 24 hours a day', () => {
     expect(splitMinutes(0)).toMatchObject({ days: 0, hours: 0, minutes: 0 })
     expect(splitMinutes(25)).toMatchObject({ days: 0, hours: 0, minutes: 25 })
     expect(splitMinutes(70)).toMatchObject({ days: 0, hours: 1, minutes: 10 })
+    expect(splitMinutes(1440)).toMatchObject({ days: 1, hours: 0, minutes: 0 })
     expect(splitMinutes(11208)).toMatchObject({ days: 7, hours: 18, minutes: 48 })
+  })
+
+  it('based on 7.24 hours a day', () => {
+    const hoursPerDay = 7.24
+    expect(splitMinutes(0, hoursPerDay)).toMatchObject({ days: 0, hours: 0, minutes: 0 })
+    expect(splitMinutes(25, hoursPerDay)).toMatchObject({
+      days: 0,
+      hours: 0,
+      minutes: 25
+    })
+    expect(splitMinutes(434.4, hoursPerDay)).toMatchObject({
+      days: 1,
+      hours: 0,
+      minutes: 0
+    })
+    // expect(splitMinutes(1440, hoursPerDay)).toMatchObject({
+    //   days: 1,
+    //   hours: 0,
+    //   minutes: 0
+    // })
+    // expect(splitMinutes(11208, hoursPerDay)).toMatchObject({
+    //   days: 7,
+    //   hours: 18,
+    //   minutes: 48
+    // })
   })
 })
 

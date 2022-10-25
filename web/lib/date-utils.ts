@@ -3,7 +3,8 @@ import isBetween from 'dayjs/plugin/isBetween'
 dayjs.extend(isBetween)
 
 export const splitMinutes = (
-  totalMinutes: number
+  totalMinutes: number,
+  hoursPerDay = 24
 ): { days: number; hours: number; minutes: number } => ({
   days: Math.floor(totalMinutes / 24 / 60),
   hours: Math.floor((totalMinutes / 60) % 24),
