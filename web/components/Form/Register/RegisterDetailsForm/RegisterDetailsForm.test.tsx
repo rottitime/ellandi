@@ -61,8 +61,15 @@ describe('RegisterDetailsForm', () => {
     await userEvent.click(button)
 
     await waitFor(async () => {
-      expect(screen.getAllByText('This is a required field')).toHaveLength(6)
+      expect(screen.getByText('Enter your first name')).toBeInTheDocument()
     })
+
+    expect(screen.getByText('Select your job title')).toBeInTheDocument()
+    expect(
+      screen.getByText("Enter your line manager's email address")
+    ).toBeInTheDocument()
+    expect(screen.getByText('Enter your work location')).toBeInTheDocument()
+    expect(screen.getByText('Select your business unit')).toBeInTheDocument()
   })
 
   it('fields are prepopulated', async () => {

@@ -8,15 +8,15 @@ const email = string()
 
 const emailConfirm = string()
   .oneOf([ref('email'), null], 'Does not match with email')
-  .required('This is a required field')
+  .required('Enter your email address again to confirm')
 
 const password = string()
   .min(minPassword, `Password must be ${minPassword} characters or more`)
-  .required('This is a required field')
+  .required('Enter your password')
 
 const passwordConfirm = string()
-  .oneOf([ref('password'), null], 'Does not match with password')
-  .required('This is a required field')
+  .oneOf([ref('password'), null], 'Passwords do not match')
+  .required('Enter your new password again to confirm')
 
 const privacyPolicyAgreement = boolean()
   .required()

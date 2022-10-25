@@ -17,7 +17,7 @@ import { Field } from '../Field/Field'
 import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldControlled'
 
 const schema: SchemaOf<PrimaryProfessionType> = object().shape({
-  primary_profession: string().required('This is a required field'),
+  primary_profession: string().required('Enter your profession'),
   profession_other: string()
     .nullable()
     .when('primary_profession', (value) => {
