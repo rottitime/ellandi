@@ -353,10 +353,8 @@ class IsValidSerializer(serializers.Serializer):
 
 
 class CourseSerializer(serializers.ModelSerializer):
-    status = serializers.ChoiceField(
-        choices=Course.Status.choices, allow_blank=True, allow_null=True, required=False
-    )
+    status = serializers.ChoiceField(choices=Course.Status.choices, allow_blank=True, allow_null=True, required=False)
 
     class Meta:
         model = Course
-        fields = '__all__'
+        fields = "__all__"
