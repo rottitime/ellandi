@@ -5,26 +5,18 @@ dayjs.extend(isBetween)
 export const splitMinutes = (
   totalMinutes: number,
   minutesPerDay = 1440 //24 hours per day
-): { days: number; hours: number; minutes: number } => {
-  return {
-    days: Math.floor(totalMinutes / minutesPerDay),
-    hours: Math.floor((totalMinutes % minutesPerDay) / 60),
-    minutes: Math.round(totalMinutes % 60)
-  }
-}
-
-export const minutesToHours = (minutes: number): number =>
-  Math.round((minutes / 60) * 100) / 100
+): { days: number; hours: number; minutes: number } => ({
+  days: Math.floor(totalMinutes / minutesPerDay),
+  hours: Math.floor((totalMinutes % minutesPerDay) / 60),
+  minutes: Math.round(totalMinutes % 60)
+})
 
 export const combineDaysMinutesHoursToMinutes = (
   days: number,
   hours: number,
   minutes: number,
   minutesPerDay = 1440 //24 hours per day
-): number => {
-  return days * minutesPerDay + hours * 60 + minutes
-  //Math.round((days * minutesPerDay + hours) * 60 + minutes)
-}
+): number => days * minutesPerDay + hours * 60 + minutes
 
 export const isBetweenBusinessDates = (
   date: string,

@@ -1,18 +1,8 @@
 import {
   splitMinutes,
   combineDaysMinutesHoursToMinutes,
-  isBetweenBusinessDates,
-  minutesToHours
+  isBetweenBusinessDates
 } from './date-utils'
-
-describe('minutesToHours()', () => {
-  it('based on 24 hours a day', () => {
-    expect(minutesToHours(0)).toEqual(0)
-    expect(minutesToHours(30)).toEqual(0.5)
-    expect(minutesToHours(60)).toEqual(1)
-    expect(minutesToHours(14.399999999999977)).toEqual(0.24)
-  })
-})
 
 describe('splitMinutes()', () => {
   it('based on 24 hours a day', () => {
