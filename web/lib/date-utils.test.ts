@@ -54,6 +54,19 @@ describe('combineDaysMinutesHoursToMinutes()', () => {
     expect(combineDaysMinutesHoursToMinutes(0, 1, 10, hoursPerDay)).toEqual(70)
     expect(combineDaysMinutesHoursToMinutes(7, 18, 48, hoursPerDay)).toEqual(4278)
   })
+
+  it('based on 7.24 hours a day', () => {
+    const hoursPerDay = 7.24
+    expect(combineDaysMinutesHoursToMinutes(0, 0, 0, hoursPerDay)).toEqual(0)
+    expect(combineDaysMinutesHoursToMinutes(0, 0, 25, hoursPerDay)).toEqual(25)
+    expect(combineDaysMinutesHoursToMinutes(0, 0, 450, hoursPerDay)).toEqual(450)
+    expect(combineDaysMinutesHoursToMinutes(0, 7.5, 0, hoursPerDay)).toEqual(450)
+
+    expect(combineDaysMinutesHoursToMinutes(1, 0, 0, hoursPerDay)).toEqual(434)
+    expect(combineDaysMinutesHoursToMinutes(2, 0, 0, hoursPerDay)).toEqual(869)
+    expect(combineDaysMinutesHoursToMinutes(0, 1, 10, hoursPerDay)).toEqual(70)
+    expect(combineDaysMinutesHoursToMinutes(7, 18, 48, hoursPerDay)).toEqual(4169)
+  })
 })
 
 describe('isBetweenBusinessDates()', () => {

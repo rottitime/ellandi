@@ -41,7 +41,7 @@ export const combineDaysMinutesHoursToMinutes = (
   hours: number,
   minutes: number,
   hoursPerDay = 24
-): number => (days * hoursPerDay + hours) * 60 + minutes
+): number => Math.round((days * hoursPerDay + hours) * 60 + minutes)
 
 export const isBetweenBusinessDates = (
   date: string,
