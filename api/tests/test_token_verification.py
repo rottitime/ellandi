@@ -6,7 +6,7 @@ from django.conf import settings
 from django.test import override_settings
 from tests import utils
 
-from ellandi.registration.exceptions import PasswordResetError
+from ellandi.registration import exceptions
 from ellandi.registration.models import User
 
 
@@ -41,13 +41,17 @@ def test_verify_email(client):
     assert response.status_code == 200
 
     url = _get_latest_email_url("verify")
+    user_id, _, token = url.strip("/").split("/")[-3:]
+    response = client.get(f"/api/user/{user_id}/token/{token}/valid/")
+    assert response.json()['valid']
+
     response = client.get(url)
     assert response.status_code == 200
-    token = response.json()["token"]
-    assert token
+    assert response.json()["token"]
 
     user = User.objects.get(email=user_data["email"])
     assert user.verified
+
 
 
 @utils.with_logged_in_client
@@ -100,11 +104,34 @@ def test_password_reset(client):
     url = _get_latest_email_url("password-reset")
 
     response = client.post(url, json={"new_password": new_password})
+    print(response)
+    print(response.json())
     assert response.status_code == 200
     assert response.json()["email"] == user_data["email"]
 
     user = User.objects.get(email=user_data["email"])
     assert user.check_password(new_password)
+
+
+@utils.with_client
+def test_password_reset_twice(client):
+    user_data = {
+        "email": "very-forgetful-bobby@example.com",
+        "password": "foo",
+    }
+    new_password = "N3wP455w0rd"
+
+    response = client.post("/api/password-reset/", json={"email": user_data["email"]})
+    assert response.status_code == 200
+
+    url = _get_latest_email_url("password-reset")
+
+    response = client.post("/api/password-reset/", json={"email": user_data["email"]})
+    assert response.status_code == 200
+
+    response = client.post(url, json={"new_password": new_password})
+    assert response.status_code == 400
+    assert response.json()['detail'] ==  exceptions.PasswordResetError.default_detail
 
 
 @utils.with_client
@@ -119,7 +146,7 @@ def test_password_reset_email_bad_token(client):
     token = "B4dT0k3n"
     response = client.post(f"/api/user/{user.id}/password-reset/{token}/", json={"new_password": new_password})
     assert response.status_code == 400
-    assert response.json()["detail"] == PasswordResetError.default_detail
+    assert response.json()["detail"] == exceptions.PasswordResetError.default_detail
 
     user = User.objects.get(email=user_data["email"])
     assert not user.check_password(new_password)
