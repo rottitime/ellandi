@@ -150,6 +150,7 @@ def password_change_view(request):
         return Response({"detail": "Incorrect password"}, status=status.HTTP_400_BAD_REQUEST)
 
 
+@extend_schema(responses=serializers.IsValidSerializer,)
 @decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.AllowAny,))
 def check_token(request, user_id, token):
