@@ -1,21 +1,22 @@
+import pickle
+from datetime import datetime
+
+import numpy as np
+import pandas as pd
+from tqdm import tqdm
 import scipy
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
-import pandas as pd
-from sqlalchemy import Column, Integer, String, Float, DateTime, LargeBinary
-from sqlalchemy import create_engine
-from datetime import datetime
-import pickle
+from sqlalchemy import Float, Integer, create_engine
 from sqlalchemy.orm import sessionmaker
-import numpy as np
-
 from suggest.models import (
-    TitleEmbeddingArray,
     SkillSimilarityArray,
+    TitleEmbeddingArray,
     create_db_objects,
+    return_common_jobs,
     return_db_user_skills,
-    return_nlp_user_skills,
     return_db_user_title_skills,
+    return_nlp_user_skills,
 )
 from suggest.settings_base import DB_URL
 
@@ -84,7 +85,7 @@ def store_matrices(skill_similarity_matrix, job_embeddings_matrix):
         dtype={"jobTitle": Integer(), "variable": Integer(), "value": Float()},
     )
 
-    # adapted from https://stackoverflow.com/questions/60278766/best-way-to-insert-python-numpy-array-into-postgresql-database
+    # https://stackoverflow.com/questions/60278766/best-way-to-insert-python-numpy-array-into-postgresql-database
     current_array = SkillSimilarityArray(createdAt=datetime.now(), array=pickle.dumps(skill_similarity_matrix))
 
     Session = sessionmaker(bind=engine)
@@ -101,41 +102,23 @@ def return_similar_title_skills(job_title, user_skills, job_embeddings):
     The model assumes no skill ratings are provided (and defaults to each having a score of 1)
     """
 
-    skill_count = 60
-    model_name = "all-MiniLM-L6-v2"
-    missing_ratings = False
-
     if job_title not in job_embeddings.index.to_list():
-        user_skills = user_skills[user_skills["job_title"] != job_title].copy()
+        return None
 
-    if missing_ratings:
-        skills_to_dummy = user_skills[["user_id", "skill_name"]]
-        long_skills = skills_to_dummy.copy().rename(columns={"user_id": "user_id"})
-        long_skills["rating"] = 1
+    skill_count = 5
 
-    else:
-        skills_to_dummy = user_skills[["user_id", "skill_name", "rating"]]
-        long_skills = skills_to_dummy.copy().rename(columns={"user_id": "user_id"})
-
-    if job_title is None:
-        top_skills = (
-            long_skills.groupby("skill_name")["rating"]
-            .sum()
-            .sort_values(ascending=False)
-            .iloc[0:skill_count]
-            .index.to_list()
-        )
-        return top_skills, None
+    long_skills = user_skills[["user_id", "skill_name", "rating"]]
 
     sparse_df = (
         long_skills.groupby(["user_id", "skill_name"])["rating"].sum().astype("Sparse[int]").unstack(fill_value=0)
     )
 
-    model = SentenceTransformer(model_name)
-    embeddings = model.encode(job_title)
-    job_embedding = embeddings.reshape((1, embeddings.shape[0]))
+    current_title_index = job_embeddings.index.to_list().index(job_title)
 
-    dist = np.linalg.norm(job_embedding - job_embeddings, axis=1)
+    job_embedding_row = job_embeddings.iloc[current_title_index].to_numpy()
+    current_job_embedding = job_embedding_row.reshape((1, job_embedding_row.shape[0]))
+
+    dist = np.linalg.norm(current_job_embedding - job_embeddings, axis=1)
 
     title_lookup = user_skills[["user_id", "job_title"]].drop_duplicates().set_index("user_id")
 
@@ -158,64 +141,9 @@ def return_similar_title_skills(job_title, user_skills, job_embeddings):
     similar_skill_dist = comparison_df.corr()["distance"].sort_values()
 
     returned_skills = list(similar_skill_dist.iloc[0:skill_count].index)
+
     return returned_skills
 
-
-def return_all_title_recommendations(user_skills, job_embeddings):
-    """Given  a list of all user skills, and previously generated job embeddings, returns likely skills
-
-    The number of skills returned is a hard coded value (default to 10), as is the model name.
-    The model assumes no skill ratings are provided (and defaults to each having a score of 1)
-    """
-
-    skill_count = 5
-
-
-    long_skills = user_skills[["user_id", "skill_name", "rating"]]
-
-    sparse_df = (
-        long_skills.groupby(["user_id", "skill_name"])["rating"].sum().astype("Sparse[int]").unstack(fill_value=0)
-    )
-
-    all_df = []
-
-    for index, row in job_embeddings.iterrows():
-        current_title = index
-        job_embedding_row = row.to_numpy()
-        current_job_embedding = job_embedding_row.reshape((1, job_embedding_row.shape[0]))
-
-
-        dist = np.linalg.norm(current_job_embedding - job_embeddings, axis=1)
-
-        title_lookup = user_skills[["user_id", "job_title"]].drop_duplicates().set_index("user_id")
-
-        dist_df = pd.DataFrame(columns=["distance", "job_title"])
-
-        dist_df["distance"] = dist
-        dist_df["job_title"] = job_embeddings.index.to_list()
-
-        distance_title_df = (
-            title_lookup.reset_index()
-            .merge(dist_df, right_on="job_title", left_on="job_title", how="left")
-            .set_index("user_id")
-        )
-        comparison_df = (
-            distance_title_df.merge(sparse_df, left_index=True, right_index=True)
-            .fillna(0)
-            .copy()
-            .drop(columns=["job_title", "job_title"])
-        )
-        similar_skill_dist = comparison_df.corr()["distance"].sort_values()
-
-        returned_skills = list(similar_skill_dist.iloc[0:skill_count].index)
-        print(returned_skills)
-        skill_df = pd.DataFrame(returned_skills)
-        skill_df.columns = ['recommendedSkill']
-        skill_df['job_title'] = current_title
-        all_df.append(skill_df)
-
-    all_recommendations = pd.concat(all_df)
-    return all_recommendations
 
 def get_similar_skills(long_skill_df, skill_name, similarity_matrix):
     """Given a pandas dataframe of user_id, skill_name, and rating, returns a matrix of skill similarity based on
@@ -232,7 +160,7 @@ def get_similar_skills(long_skill_df, skill_name, similarity_matrix):
     cosine_sim = similarity_matrix
     risk_index = np.where(sparse_df.columns == skill_name)
     similar_skills = cosine_sim[risk_index]
-    top_skill = np.flip(sparse_df.columns[np.argsort(similar_skills, axis=1)][:, -(skill_return_count + 1) : -1])
+    top_skill = np.flip(sparse_df.columns[np.argsort(similar_skills, axis=1)][:, -(skill_return_count + 1): -1])
     return top_skill[0]
 
 
@@ -275,3 +203,76 @@ def store_title_recommendations(job_embeddings):
         recommended_skills.jobTitle = job_title
 
         recommended_skills.to_sql("tblTitleRecommendations", engine, if_exists="append")
+
+
+def return_all_title_recommendations(user_skills, job_embeddings):
+    """Given  a list of all user skills, and previously generated job embeddings, returns likely skills
+
+    The number of skills returned is a hard coded value (default to 10), as is the model name.
+    The model assumes no skill ratings are provided (and defaults to each having a score of 1)
+    """
+
+    skill_count = 5
+
+    job_in_db = list(return_common_jobs())
+    print(job_in_db)
+    nlp_jobs = return_nlp_user_skills()
+    job_count = nlp_jobs[["user_id", "job_title"]].drop_duplicates().groupby("job_title").count().reset_index()
+    unique_nlp_jobs = list(job_count[job_count["user_id"] >= 2]["job_title"].unique())
+    print(nlp_jobs)
+
+    if len(job_in_db) > 0:
+        combined_meaningful_job_list = job_in_db + unique_nlp_jobs
+    else:
+        combined_meaningful_job_list = unique_nlp_jobs
+
+    job_embeddings = job_embeddings[job_embeddings.index.isin(combined_meaningful_job_list)].copy()
+
+    long_skills = user_skills[["user_id", "skill_name", "rating"]]
+
+    sparse_df = (
+        long_skills.groupby(["user_id", "skill_name"])["rating"].sum().astype("Sparse[int]").unstack(fill_value=0)
+    )
+
+    all_df = []
+
+    print("remaining jobs")
+    print(job_embeddings.shape[0])
+
+    for index, row in tqdm(job_embeddings.iterrows()):
+        print(index)
+        current_title = index
+        job_embedding_row = row.to_numpy()
+        current_job_embedding = job_embedding_row.reshape((1, job_embedding_row.shape[0]))
+
+        dist = np.linalg.norm(current_job_embedding - job_embeddings, axis=1)
+
+        title_lookup = user_skills[["user_id", "job_title"]].drop_duplicates().set_index("user_id")
+
+        dist_df = pd.DataFrame(columns=["distance", "job_title"])
+
+        dist_df["distance"] = dist
+        dist_df["job_title"] = job_embeddings.index.to_list()
+
+        distance_title_df = (
+            title_lookup.reset_index()
+            .merge(dist_df, right_on="job_title", left_on="job_title", how="left")
+            .set_index("user_id")
+        )
+        comparison_df = (
+            distance_title_df.merge(sparse_df, left_index=True, right_index=True)
+            .fillna(0)
+            .copy()
+            .drop(columns=["job_title", "job_title"])
+        )
+        similar_skill_dist = comparison_df.corr()["distance"].sort_values()
+
+        returned_skills = list(similar_skill_dist.iloc[0:skill_count].index)
+        print(returned_skills)
+        skill_df = pd.DataFrame(returned_skills)
+        skill_df.columns = ["recommendedSkill"]
+        skill_df["job_title"] = current_title
+        all_df.append(skill_df)
+
+    all_recommendations = pd.concat(all_df)
+    return all_recommendations

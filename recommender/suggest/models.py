@@ -1,8 +1,16 @@
-from sqlalchemy.orm import declarative_base
-from sqlalchemy import Column, Integer, String, Float, DateTime, LargeBinary
-from sqlalchemy import create_engine
 import os
+
 import pandas as pd
+from sqlalchemy import (
+    Column,
+    DateTime,
+    Float,
+    Integer,
+    LargeBinary,
+    String,
+    create_engine,
+)
+from sqlalchemy.orm import declarative_base
 
 Base = declarative_base()
 
@@ -24,26 +32,11 @@ class SkillSimilarityArray(Base):
     array = Column(LargeBinary)
 
 
-class UserSkills(Base):
-    __tablename__ = "registration_userskill"
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    createdAt = Column(DateTime)
-    array = Column(LargeBinary)
-
-
 class SkillRecommendations(Base):
     __tablename__ = "tblSkillRecommendations"
     id = Column(Integer, primary_key=True, autoincrement=True)
     createdAt = Column(DateTime)
     currentSkill = Column(String)
-    recommendedSkill = Column(String)
-
-
-class TitleRecommendations(Base):
-    __tablename__ = "tblTitleRecommendations"
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    createdAt = Column(DateTime)
-    jobTitle = Column(String)
     recommendedSkill = Column(String)
 
 
@@ -74,8 +67,7 @@ def return_db_user_skills():
     all_user_skills = pd.read_sql(query, engine)
     all_user_skills["rating"] = 1
     all_user_skills.columns = ["user_id", "skill_name", "rating"]
-    all_user_skills['user_id'] = all_user_skills['user_id'].astype("string")
-
+    all_user_skills["user_id"] = all_user_skills["user_id"].astype("string")
 
     return all_user_skills
 
@@ -96,10 +88,31 @@ def return_db_user_title_skills():
 
     all_user_skills = pd.read_sql(query, engine)
     all_user_skills["rating"] = 1
-    all_user_skills['user_id'] = all_user_skills['user_id'].astype("string")
+    all_user_skills["user_id"] = all_user_skills["user_id"].astype("string")
     all_user_skills.columns = ["user_id", "job_title", "skill_name", "rating"]
 
     return all_user_skills
+
+
+def return_common_jobs():
+    """returns a pandas dataframe with all user skills"""
+
+    query = """
+    SELECT job_count,
+    job_title
+    FROM (SELECT COUNT(id) as job_count,
+    job_title
+    FROM registration_user
+    GROUP BY job_title) AS tblJobCount
+    WHERE job_count > 2
+    """
+
+    engine = create_engine(DB_URL)
+
+    jobs_df = pd.read_sql(query, engine)
+    common_jobs = jobs_df["job_title"].unique()
+
+    return common_jobs
 
 
 def return_nlp_user_skills():

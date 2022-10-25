@@ -1,9 +1,19 @@
-
-from suggest.models import return_db_user_title_skills,  create_db_objects, return_nlp_user_skills
-from suggest.recommend import *
-from suggest.settings_base import DB_URL
 from datetime import datetime
+
+import pandas as pd
 from sqlalchemy import create_engine
+from suggest.models import (
+    create_db_objects,
+    return_db_user_title_skills,
+    return_nlp_user_skills,
+)
+from suggest.recommend import (
+    create_job_embedding_matrix,
+    get_similar_skills,
+    make_skill_similarity_matrix,
+    return_all_title_recommendations,
+)
+from suggest.settings_base import DB_URL
 from tqdm import tqdm
 
 create_db_objects()
@@ -36,10 +46,8 @@ for unique_skill in tqdm(combined_user_skills["skill_name"].unique()):
     print(recommended_skills)
 
     recommended_skills = pd.DataFrame(recommended_skills)
-    recommended_skills.columns = ['recommendedSkill']
+    recommended_skills.columns = ["recommendedSkill"]
     recommended_skills.createdAt = datetime.now()
     recommended_skills.currentSkill = unique_skill
 
     recommended_skills.to_sql("tblSkillRecommendations", engine, if_exists="append")
-
-
