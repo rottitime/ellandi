@@ -193,6 +193,13 @@ class LearningTypeViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = (permissions.AllowAny,)
 
 
+@register("courses")
+class CourseViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.ContractType.objects.all()
+    serializer_class = serializers.CourseSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+
 @extend_schema(
     request=serializers.RegisterSerializer,
     responses=serializers.UserSerializer,
