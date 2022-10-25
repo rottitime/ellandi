@@ -26,14 +26,14 @@ const Duration: FC<Props> = forwardRef<HTMLButtonElement, Props>(
         daysRef.current.valueAsNumber || 0,
         hoursRef.current.valueAsNumber || 0,
         minutesRef.current.valueAsNumber || 0,
-        7.5
+        444
       )
 
     useEffect(() => {
       if (!value) {
         reset()
       } else if (!!value && getTotal() !== value) {
-        const { days, minutes, hours } = splitMinutes(value)
+        const { days, minutes, hours } = splitMinutes(value, 444)
         daysRef.current.value = days.toString()
         hoursRef.current.value = hours.toString()
         minutesRef.current.value = minutes.toString()
