@@ -148,3 +148,14 @@ def password_change_view(request):
         return Response(user_data)
     else:
         return Response({"detail": "Incorrect password"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@decorators.api_view(["GET"])
+@decorators.permission_classes((permissions.AllowAny,))
+def check_token(request, user_id, token):
+    try:
+        user = models.User.objects.get(id=user_id)
+    except ObjectDoesNotExist:
+        return Response({'valid': False})
+    result = bool(TOKEN_GENERATOR.check_token(user, token))
+    return Response({'valid': result})
