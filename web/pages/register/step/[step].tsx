@@ -54,10 +54,8 @@ const RegisterPage = ({ stepInt, nextUrl, backUrl, skip }: Props) => {
   const queryClient = useQueryClient()
   const FormComponent = steps[stepInt].form
 
-  const { isLoading: isLoadingMe, data } = useQuery<RegisterUserResponse>(
-    Query.Me,
-    () => authFetch(fetchMe),
-    { enabled: !!stepInt }
+  const { isLoading: isLoadingMe, data } = useQuery<RegisterUserResponse>(Query.Me, () =>
+    authFetch(fetchMe)
   )
 
   const { isLoading: isMutateLoading, ...mutate } = useMutation<
