@@ -1,3 +1,6 @@
+import datetime
+import pytz
+
 import furl
 from django.conf import settings
 from django.contrib.auth import login
@@ -47,6 +50,8 @@ EMAIL_MAPPING = {
 
 
 def _send_token_email(user, subject, template_name, from_address, url_path):
+    user.last_token_sent_at = datetime.datetime.now(tz=pytz.UTC)
+    user.save()
     token = TOKEN_GENERATOR.make_token(user)
     api_host_url = settings.HOST_URL.strip("/")
     web_host_url = settings.HOST_MAP[api_host_url]
