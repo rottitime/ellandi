@@ -43,7 +43,7 @@ def test_verify_email(client):
     url = _get_latest_email_url("verify")
     user_id, _, token = url.strip("/").split("/")[-3:]
     response = client.get(f"/api/user/{user_id}/token/{token}/valid/")
-    assert response.json()['valid']
+    assert response.json()["valid"]
 
     response = client.get(url)
     assert response.status_code == 200
@@ -51,7 +51,6 @@ def test_verify_email(client):
 
     user = User.objects.get(email=user_data["email"])
     assert user.verified
-
 
 
 @utils.with_logged_in_client
@@ -104,8 +103,6 @@ def test_password_reset(client):
     url = _get_latest_email_url("password-reset")
 
     response = client.post(url, json={"new_password": new_password})
-    print(response)
-    print(response.json())
     assert response.status_code == 200
     assert response.json()["email"] == user_data["email"]
 
@@ -131,7 +128,7 @@ def test_password_reset_twice(client):
 
     response = client.post(url, json={"new_password": new_password})
     assert response.status_code == 400
-    assert response.json()['detail'] ==  exceptions.PasswordResetError.default_detail
+    assert response.json()["detail"] == exceptions.PasswordResetError.default_detail
 
 
 @utils.with_client

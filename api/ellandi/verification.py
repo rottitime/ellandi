@@ -1,7 +1,7 @@
 import datetime
-import pytz
 
 import furl
+import pytz
 from django.conf import settings
 from django.contrib.auth import login
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
@@ -19,7 +19,7 @@ from . import auth
 
 def _strip_microseconds(dt):
     if not dt:
-        return ''
+        return ""
     return dt.replace(microsecond=0, tzinfo=None)
 
 
@@ -170,13 +170,15 @@ def password_change_view(request):
         return Response({"detail": "Incorrect password"}, status=status.HTTP_400_BAD_REQUEST)
 
 
-@extend_schema(responses=serializers.IsValidSerializer,)
+@extend_schema(
+    responses=serializers.IsValidSerializer,
+)
 @decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.AllowAny,))
 def check_token(request, user_id, token):
     try:
         user = models.User.objects.get(id=user_id)
     except ObjectDoesNotExist:
-        return Response({'valid': False})
+        return Response({"valid": False})
     result = bool(TOKEN_GENERATOR.check_token(user, token))
-    return Response({'valid': result})
+    return Response({"valid": result})
