@@ -13,7 +13,22 @@ from ellandi.registration import exceptions, models, serializers
 
 from . import auth
 
-TOKEN_GENERATOR = PasswordResetTokenGenerator()
+
+def _strip_microseconds(dt):
+    if not dt:
+        return ''
+    return dt.replace(microsecond=0, tzinfo=None)
+
+
+class TokenGenerator(PasswordResetTokenGenerator):
+    def _make_hash_value(self, user, timestamp):
+        login_timestamp = _strip_microseconds(user.last_login)
+        email = user.email or ""
+        token_timestamp = _strip_microseconds(user.last_token_sent_at)
+        return f"{user.pk}{user.password}{login_timestamp}{timestamp}{email}{token_timestamp}"
+
+
+TOKEN_GENERATOR = TokenGenerator()
 
 EMAIL_MAPPING = {
     "verification": {
