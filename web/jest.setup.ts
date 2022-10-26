@@ -17,6 +17,7 @@ require('jest-fetch-mock').enableMocks()
 jest.mock('next/config', () => () => ({
   publicRuntimeConfig: {
     enableEmailVerify: true,
+    minutesPerDay: 444,
     urls: {
       landingSignin: 'landingSignin',
       signin: 'signin',

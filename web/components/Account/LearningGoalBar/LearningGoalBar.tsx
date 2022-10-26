@@ -7,8 +7,11 @@ import { Box, styled, Typography } from '@mui/material'
 import { FC } from 'react'
 import { useQuery } from 'react-query'
 import { Props } from './types'
+import getConfig from 'next/config'
 
-const minutesPerDay = 444
+const {
+  publicRuntimeConfig: { minutesPerDay }
+} = getConfig()
 
 const GoalBar = styled(Box)`
   .stat {
