@@ -1,4 +1,5 @@
-import { ReactNode } from 'react'
+import { ComponentProps, ReactNode } from 'react'
+import { Card } from '@mui/material'
 
 export type Props = {
   children: ReactNode
@@ -6,4 +7,4 @@ export type Props = {
   title: string | ReactNode
   headerTitle?: string
   loading: boolean
-}
+} & ComponentProps<typeof Card>

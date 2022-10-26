@@ -32,12 +32,7 @@ const SignInForm: FC<Props> = ({ onFormSubmit, loading }) => {
         method="POST"
       >
         <Field>
-          <TextFieldControlled
-            name="email"
-            type="email"
-            label="Email address"
-            placeholder="e.g. Joe.Bloggs@gmail.com"
-          />
+          <TextFieldControlled name="email" type="email" label="Email address" />
         </Field>
         <Field>
           <TextFieldControlled name="password" type="password" label="Password" />
