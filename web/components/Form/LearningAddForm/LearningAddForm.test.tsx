@@ -105,6 +105,16 @@ describe('LearningAddForm', () => {
     })
   })
 
+  it('cost with 0 value', async () => {
+    renderWithProviders(
+      <LearningAddForm loading={false} type="formal" onFormSubmit={jest.fn()} />
+    )
+    const costField = screen.getByTestId('cost-field')
+    expect(costField).toBeInTheDocument()
+    await userEvent.type(costField, '0')
+    expect(costField).toHaveValue(0)
+  })
+
   it('submits formal', async () => {
     const mockSubmit = jest.fn()
     renderWithProviders(
