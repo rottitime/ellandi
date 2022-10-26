@@ -6,6 +6,11 @@ import {
   combineDaysMinutesHoursToMinutes as combine
 } from '@/lib/date-utils'
 import { OnKeyDownType, Props } from './types'
+import getConfig from 'next/config'
+
+const {
+  publicRuntimeConfig: { minutesPerDay }
+} = getConfig()
 
 const invalidKeys = ['e', '-', '.']
 
@@ -26,14 +31,14 @@ const Duration: FC<Props> = forwardRef<HTMLButtonElement, Props>(
         daysRef.current.valueAsNumber || 0,
         hoursRef.current.valueAsNumber || 0,
         minutesRef.current.valueAsNumber || 0,
-        7.5
+        minutesPerDay
       )
 
     useEffect(() => {
       if (!value) {
         reset()
       } else if (!!value && getTotal() !== value) {
-        const { days, minutes, hours } = splitMinutes(value)
+        const { days, minutes, hours } = splitMinutes(value, minutesPerDay)
         daysRef.current.value = days.toString()
         hoursRef.current.value = hours.toString()
         minutesRef.current.value = minutes.toString()

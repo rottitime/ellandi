@@ -1,37 +1,75 @@
 import {
-  splitDays,
-  combineDaysMinutesHoursToDays,
   splitMinutes,
   combineDaysMinutesHoursToMinutes,
   isBetweenBusinessDates
 } from './date-utils'
 
-describe('splitDays()', () => {
-  it('returns correct value', () => {
-    expect(splitDays(0)).toMatchObject({ days: 0, hours: 0, minutes: 0 })
-    expect(splitDays(2.5)).toMatchObject({ days: 2, hours: 12, minutes: 0 })
-    expect(splitDays(2.6)).toMatchObject({ days: 2, hours: 14, minutes: 24 })
-    expect(splitDays(2.08)).toMatchObject({ days: 2, hours: 1, minutes: 55 })
-    expect(splitDays(2.04)).toMatchObject({ days: 2, hours: 0, minutes: 57 })
-  })
-})
-
-describe('combineDaysMinutesHoursToDays()', () => {
-  it('returns correct value', () => {
-    expect(combineDaysMinutesHoursToDays(0, 0, 0)).toEqual(0)
-    expect(combineDaysMinutesHoursToDays(2, 12, 0)).toEqual(2.5)
-    expect(combineDaysMinutesHoursToDays(2, 14, 24)).toEqual(2.6)
-    expect(combineDaysMinutesHoursToDays(2, 1, 55)).toEqual(2.08)
-    expect(combineDaysMinutesHoursToDays(2, 0, 57)).toEqual(2.04)
-  })
-})
-
 describe('splitMinutes()', () => {
-  it('returns correct value', () => {
+  it('based on 24 hours a day', () => {
     expect(splitMinutes(0)).toMatchObject({ days: 0, hours: 0, minutes: 0 })
     expect(splitMinutes(25)).toMatchObject({ days: 0, hours: 0, minutes: 25 })
     expect(splitMinutes(70)).toMatchObject({ days: 0, hours: 1, minutes: 10 })
+    expect(splitMinutes(1439)).toMatchObject({ days: 0, hours: 23, minutes: 59 })
+    expect(splitMinutes(1440)).toMatchObject({ days: 1, hours: 0, minutes: 0 })
+    expect(splitMinutes(1441)).toMatchObject({ days: 1, hours: 0, minutes: 1 })
+    expect(splitMinutes(1501)).toMatchObject({ days: 1, hours: 1, minutes: 1 })
     expect(splitMinutes(11208)).toMatchObject({ days: 7, hours: 18, minutes: 48 })
+  })
+
+  it('based on 7.24 hours a day', () => {
+    const minutesPerDay = 444
+    expect(splitMinutes(0, minutesPerDay)).toMatchObject({
+      days: 0,
+      hours: 0,
+      minutes: 0
+    })
+    expect(splitMinutes(25, minutesPerDay)).toMatchObject({
+      days: 0,
+      hours: 0,
+      minutes: 25
+    })
+
+    expect(splitMinutes(61, minutesPerDay)).toMatchObject({
+      days: 0,
+      hours: 1,
+      minutes: 1
+    })
+
+    expect(splitMinutes(443, minutesPerDay)).toMatchObject({
+      days: 0,
+      hours: 7,
+      minutes: 23
+    })
+
+    expect(splitMinutes(444, minutesPerDay)).toMatchObject({
+      days: 1,
+      hours: 0,
+      minutes: 0 //24
+    })
+
+    expect(splitMinutes(445, minutesPerDay)).toMatchObject({
+      days: 1,
+      hours: 0,
+      minutes: 1
+    })
+
+    expect(splitMinutes(505, minutesPerDay)).toMatchObject({
+      days: 1,
+      hours: 1,
+      minutes: 1
+    })
+
+    expect(splitMinutes(888, minutesPerDay)).toMatchObject({
+      days: 2,
+      hours: 0,
+      minutes: 0
+    })
+
+    expect(splitMinutes(11208, minutesPerDay)).toMatchObject({
+      days: 25,
+      hours: 1,
+      minutes: 48
+    })
   })
 })
 
@@ -44,15 +82,29 @@ describe('combineDaysMinutesHoursToMinutes()', () => {
   })
 
   it('based on 7.5 hours a day', () => {
-    const hoursPerDay = 7.5
-    expect(combineDaysMinutesHoursToMinutes(0, 0, 0, hoursPerDay)).toEqual(0)
-    expect(combineDaysMinutesHoursToMinutes(0, 0, 25, hoursPerDay)).toEqual(25)
-    expect(combineDaysMinutesHoursToMinutes(0, 0, 450, hoursPerDay)).toEqual(450)
-    expect(combineDaysMinutesHoursToMinutes(0, 7.5, 0, hoursPerDay)).toEqual(450)
-    expect(combineDaysMinutesHoursToMinutes(1, 0, 0, hoursPerDay)).toEqual(450)
-    expect(combineDaysMinutesHoursToMinutes(2, 0, 0, hoursPerDay)).toEqual(900)
-    expect(combineDaysMinutesHoursToMinutes(0, 1, 10, hoursPerDay)).toEqual(70)
-    expect(combineDaysMinutesHoursToMinutes(7, 18, 48, hoursPerDay)).toEqual(4278)
+    const minutesPerDay = 450
+    expect(combineDaysMinutesHoursToMinutes(0, 0, 0, minutesPerDay)).toEqual(0)
+    expect(combineDaysMinutesHoursToMinutes(0, 0, 25, minutesPerDay)).toEqual(25)
+    expect(combineDaysMinutesHoursToMinutes(0, 0, 450, minutesPerDay)).toEqual(450)
+    expect(combineDaysMinutesHoursToMinutes(0, 7.5, 0, minutesPerDay)).toEqual(450)
+    expect(combineDaysMinutesHoursToMinutes(1, 0, 0, minutesPerDay)).toEqual(450)
+    expect(combineDaysMinutesHoursToMinutes(2, 0, 0, minutesPerDay)).toEqual(900)
+    expect(combineDaysMinutesHoursToMinutes(0, 1, 10, minutesPerDay)).toEqual(70)
+    expect(combineDaysMinutesHoursToMinutes(7, 18, 48, minutesPerDay)).toEqual(4278)
+  })
+
+  it('based on 7.24 hours a day', () => {
+    const minutesPerDay = 444
+    expect(combineDaysMinutesHoursToMinutes(0, 0, 0, minutesPerDay)).toEqual(0)
+    expect(combineDaysMinutesHoursToMinutes(0, 0, 25, minutesPerDay)).toEqual(25)
+    expect(combineDaysMinutesHoursToMinutes(0, 0, 450, minutesPerDay)).toEqual(450)
+    expect(combineDaysMinutesHoursToMinutes(0, 7.5, 0, minutesPerDay)).toEqual(450)
+    expect(combineDaysMinutesHoursToMinutes(0, 7, 24, minutesPerDay)).toEqual(444)
+
+    expect(combineDaysMinutesHoursToMinutes(1, 0, 0, minutesPerDay)).toEqual(444)
+    expect(combineDaysMinutesHoursToMinutes(2, 0, 0, minutesPerDay)).toEqual(888)
+    expect(combineDaysMinutesHoursToMinutes(0, 1, 10, minutesPerDay)).toEqual(70)
+    expect(combineDaysMinutesHoursToMinutes(7, 18, 48, minutesPerDay)).toEqual(4236)
   })
 })
 

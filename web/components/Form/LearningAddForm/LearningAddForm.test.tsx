@@ -79,7 +79,7 @@ describe('LearningAddForm', () => {
 
       expect(mockSubmit).toHaveBeenCalledWith({
         date_completed: '2022-01-23',
-        duration_minutes: 450,
+        duration_minutes: 444,
         name: 'Skill Something A'
       })
     })
@@ -139,7 +139,7 @@ describe('LearningAddForm', () => {
       cost_pounds: 101,
       cost_unknown: false,
       date_completed: '2022-01-23',
-      duration_minutes: 450,
+      duration_minutes: 444,
       name: 'Skill Something A'
     })
   })

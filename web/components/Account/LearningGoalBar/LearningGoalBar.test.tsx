@@ -68,7 +68,7 @@ describe('LearningGoalBar', () => {
       )
       renderWithProviders(<LearningGoalBar />)
       await waitFor(async () =>
-        expect(screen.getByTestId('stat')).toHaveTextContent('10 days (100%)')
+        expect(screen.getByTestId('stat')).toHaveTextContent('10 days (101%)')
       )
     })
 
@@ -81,7 +81,7 @@ describe('LearningGoalBar', () => {
       )
       renderWithProviders(<LearningGoalBar />)
       await waitFor(async () =>
-        expect(screen.getByTestId('stat')).toHaveTextContent('10000 days (100002%)')
+        expect(screen.getByTestId('stat')).toHaveTextContent('10135 days (101353%)')
       )
     })
   })

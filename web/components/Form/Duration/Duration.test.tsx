@@ -24,9 +24,9 @@ describe('Duration', () => {
 
   it('renders duration with minutes', async () => {
     renderWithProviders(<Duration value={12127} onChange={jest.fn()} />)
-    expect(screen.getByTestId('duration-days')).toHaveValue(8)
-    expect(screen.getByTestId('duration-hours')).toHaveValue(10)
-    expect(screen.getByTestId('duration-minutes')).toHaveValue(7)
+    expect(screen.getByTestId('duration-days')).toHaveValue(27)
+    expect(screen.getByTestId('duration-hours')).toHaveValue(2)
+    expect(screen.getByTestId('duration-minutes')).toHaveValue(19)
   })
 
   describe('onChange', () => {
@@ -38,18 +38,18 @@ describe('Duration', () => {
       const minutes = screen.getByTestId('duration-minutes')
       const hours = screen.getByTestId('duration-hours')
 
-      await userEvent.type(days, '2')
-      expect(days).toHaveValue(2)
-      expect(mockChange).toHaveBeenLastCalledWith(900)
+      await userEvent.type(days, '10')
+      expect(days).toHaveValue(10)
+      expect(mockChange).toHaveBeenLastCalledWith(4440)
       expect(minutes).toHaveValue(null)
       expect(hours).toHaveValue(null)
 
       await userEvent.type(hours, '1')
-      expect(mockChange).toHaveBeenLastCalledWith(960)
+      expect(mockChange).toHaveBeenLastCalledWith(4500)
       expect(minutes).toHaveValue(null)
 
       await userEvent.type(minutes, '55')
-      expect(mockChange).toHaveBeenLastCalledWith(1015)
+      expect(mockChange).toHaveBeenLastCalledWith(4555)
     })
   })
 })

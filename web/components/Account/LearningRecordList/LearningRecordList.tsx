@@ -27,6 +27,11 @@ import { deleteLearning, editLearning } from '@/service/account'
 import { SkeletonRadio } from '@/components/UI/Skeleton/RadioSkeleton.stories'
 import BadgeNumber from '@/components/UI/BadgeNumber/BadgeNumber'
 import LearningAddForm from '@/components/Form/LearningAddForm/LearningAddForm'
+import getConfig from 'next/config'
+
+const {
+  publicRuntimeConfig: { minutesPerDay }
+} = getConfig()
 
 const Modal = styled(Box)`
   ${({ theme }) => theme.breakpoints.up('md')} {
@@ -172,7 +177,7 @@ export default LearningRecordList
 const formatDate = (dateValue: string): string => dayjs(dateValue).format('DD.MM.YYYY')
 
 const formatDuration = (duration: number): string => {
-  const { days, minutes, hours } = splitMinutes(duration)
+  const { days, minutes, hours } = splitMinutes(duration, minutesPerDay)
   return `${!!days ? `${days}d` : ''} ${!!hours ? `${hours}hr` : ''} ${
     !!minutes ? `${minutes}m` : ''
   }`
