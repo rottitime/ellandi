@@ -39,15 +39,16 @@ all_recommendations.to_sql("tblTitleRecommendations", engine, if_exists="append"
 
 
 print("creating recommendations by skills")
+all_skill_recommendations_list = []
 for unique_skill in tqdm(combined_user_skills["skill_name"].unique()):
-    print("for skill")
-    print(unique_skill)
     recommended_skills = get_similar_skills(skill_df, unique_skill, skill_similarity_matrix)
-    print(recommended_skills)
 
     recommended_skills = pd.DataFrame(recommended_skills)
     recommended_skills.columns = ["recommendedSkill"]
-    recommended_skills.createdAt = datetime.now()
-    recommended_skills.currentSkill = unique_skill
+    recommended_skills['createdAt'] = datetime.now()
+    recommended_skills['currentSkill'] = unique_skill
+    all_skill_recommendations_list.append(recommended_skills)
 
-    recommended_skills.to_sql("tblSkillRecommendations", engine, if_exists="append")
+combined_recommendations = pd.concat(all_skill_recommendations_list).reset_index(drop=True)
+print(combined_recommendations)
+combined_recommendations.to_sql("tblSkillRecommendations", engine, if_exists="append")

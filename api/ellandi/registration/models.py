@@ -303,6 +303,26 @@ class EmailSalt(models.Model):
         self.email = self.email.lower()
         super(EmailSalt, self).save(*args, **kwargs)
 
+class Tblskillrecommendations(models.Model):
+    index = models.BigIntegerField(blank=True, null=False, primary_key=True)
+    recommendedskill = models.TextField(db_column='recommendedSkill', blank=True, null=True)  # Field name made lowercase.
+    createdat = models.DateTimeField(db_column='createdAt', blank=True, null=True)  # Field name made lowercase.
+    currentskill = models.TextField(db_column='currentSkill', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'tblSkillRecommendations'
+
+
+class Tbltitlerecommendations(models.Model):
+    index = models.BigIntegerField(blank=True, null=False, primary_key=True)
+    recommendedskill = models.TextField(db_column='recommendedSkill', blank=True, null=True)  # Field name made lowercase.
+    job_title = models.TextField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'tblTitleRecommendations'
+
 
 class Course(models.Model):
     class Status(models.TextChoices):

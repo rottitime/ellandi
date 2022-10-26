@@ -118,5 +118,5 @@ def return_common_jobs():
 def return_nlp_user_skills():
     """returns a pandas dataframe of nlp based user skills"""
 
-    nlp_skill_df = pd.read_json("suggest/nlp_generated_skills.json")[["user_id", "job_title", "skill_name", "rating"]]
+    nlp_skill_df = pd.read_json("suggest/nlp_generated_skills.json")[["user_id", "job_title", "skill_name", "rating"]].iloc[0:1000]
     return nlp_skill_df

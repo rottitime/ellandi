@@ -8,12 +8,10 @@ from rest_framework import decorators, permissions, routers, status, viewsets
 from rest_framework.response import Response
 
 from ellandi.registration.recommend import (
-    create_job_title_embeddings,
-    create_skill_similarity_matrix,
-    recommend_relevant_job_skills,
-    recommend_relevant_user_skills,
-    recommend_skill_relevant_skills,
+    recommend_skill_from_db,
+    recommend_title_from_db
 )
+
 from ellandi.verification import send_verification_email
 
 from . import exceptions, initial_data, models, serializers
@@ -656,25 +654,18 @@ def create_job_embeddings(request):
     (permissions.AllowAny,)
 )  # TODO - I think this is fine for permissions - anyone can see recommendation?
 def skill_recommender(request, skill_name):
-    # requires create_skill_similarity_matrix endpoint to have been run first
-    qs = models.UserSkill.objects.all().values_list("user__id", "id", "name", "user__job_title")
-    similar_skills = recommend_skill_relevant_skills(qs, skill_name)
-    if similar_skills is None:
+    recommended_skills = recommend_skill_from_db(skill_name)
+    if recommended_skills is None:
         raise exceptions.MissingJobSimilarityMatrixError
     else:
-        return Response(data=similar_skills, status=status.HTTP_200_OK)
+        return Response(data=recommended_skills, status=status.HTTP_200_OK)
 
 
 @extend_schema(request=None, responses=None)
 @decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
 def me_recommend_job_relevant_skills(request):
-    # requires create_job_embedding_matrix endpoint to have been run first
-    user = request.user
-    job_title = user.job_title
-    qs = models.UserSkill.objects.all().values_list("user__id", "id", "name", "user__job_title")
-
-    similar_title_skills = recommend_relevant_job_skills(qs, job_title)
+    similar_title_skills = recommend_title_from_db(request.user.job_title)
     if not similar_title_skills:
         raise exceptions.MissingJobSimilarityMatrixError
     return Response(data=similar_title_skills, status=status.HTTP_200_OK)
