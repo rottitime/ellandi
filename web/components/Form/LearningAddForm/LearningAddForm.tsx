@@ -112,10 +112,7 @@ const LearningAddForm = forwardRef<RefHandler, Props>(
                   onKeyDown={(e) =>
                     (e.key === 'e' || e.key === '-') && e.preventDefault()
                   }
-                  onChange={(e) => {
-                    setValue('cost_unknown', false)
-                    setValue('cost_pounds', (e.target as HTMLInputElement).valueAsNumber)
-                  }}
+                  onChange={() => setValue('cost_unknown', false)}
                   inputProps={{ min: 0, 'data-testid': 'cost-field' }}
                   InputProps={{
                     startAdornment: (
