@@ -1,7 +1,7 @@
 Hi {{user.first_name}},
 
 Use the following link to confirm your email address:
-{{url}}
+{{url|safe}}
 
 You can then start using the Civil Service Skills and Learning Service.
 
