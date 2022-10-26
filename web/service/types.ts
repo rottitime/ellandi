@@ -65,11 +65,18 @@ export type ProfessionType = {
   profession_other: string
 }
 
-export type SkillType = {
-  id?: string
-  name: string
-  level: string
-}
+export type SkillType =
+  | {
+      id?: never
+      name: string
+      level: string
+    }
+  | {
+      id: string
+      name: string
+      level: string
+      pending: boolean
+    }
 
 export type SkillDevelopType = {
   id?: string

@@ -7,7 +7,8 @@ import { UiProvider } from '@/context/UiContext'
 import {
   AuthUser,
   MeSuggestedSkillsResponse,
-  RegisterUserResponse
+  RegisterUserResponse,
+  SkillType
 } from '@/service/types'
 
 beforeAll(() => {
@@ -80,6 +81,28 @@ export const mockAuthToken: AuthUser = {
 }
 
 // Mock data
+
+export const mockMeSkills: SkillType[] = [
+  {
+    id: 'test1',
+    name: 'Skill Something A',
+    level: 'Jon',
+    pending: false
+  },
+  {
+    id: 'test2',
+    name: 'Skill Something B',
+    level: 'Cersei',
+    pending: false
+  },
+  {
+    id: 'test3',
+    name: 'Skill Something C',
+    level: 'Jaime',
+    pending: false
+  }
+]
+
 export const mockMe: RegisterUserResponse = {
   id: 'myownid-123',
   email: 'myself@test.com',
