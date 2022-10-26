@@ -21,10 +21,21 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  styled,
   Typography
 } from '@mui/material'
 import { addSkills, deleteSkill } from '@/service/account'
 import { Controller, useForm } from 'react-hook-form'
+import Tooltip from '@/components/UI/Tooltip/Tooltip'
+
+const Status = styled('span')`
+  &.pending {
+    color: ${(p) => p.theme.colors.grey3};
+  }
+  svg {
+    color: ${(p) => p.theme.colors.grey3};
+  }
+`
 
 const SkillsList: FC = () => {
   const { authFetch } = useAuth()
@@ -186,6 +197,18 @@ const columns: GridColDef[] = [
     headerName: 'Skill',
     disableColumnMenu: true,
     resizable: false,
+    renderCell: ({ formattedValue, row: { pending } }) =>
+      formattedValue && (
+        <Status
+          className={`${pending ? 'pending' : ''}`}
+          data-testid={pending && 'status-pending'}
+        >
+          {formattedValue}
+          {pending && (
+            <Tooltip brandColor="brandSkills" title="Pending line manager approval" />
+          )}
+        </Status>
+      ),
     flex: 1
   },
   {

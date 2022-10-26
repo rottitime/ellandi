@@ -39,6 +39,29 @@ describe('SkillsList', () => {
     expect(screen.getByText(mockSuccess.skills[2].level)).toBeInTheDocument()
   })
 
+  it('pending skill', async () => {
+    fetchMock.mockResponse(
+      JSON.stringify({
+        skills: [
+          ...mockMeSkills,
+          {
+            id: '1232s',
+            name: 'Pending skill',
+            level: 'super',
+            pending: true
+          }
+        ]
+      }),
+      { status: 200 }
+    )
+    renderWithProviders(<SkillsList />)
+
+    await waitFor(async () => {
+      expect(screen.getByText(mockSuccess.skills[0].name)).toBeInTheDocument()
+    })
+    expect(screen.getByTestId('status-pending')).toBeInTheDocument()
+  })
+
   it('message for no skills', async () => {
     fetchMock.mockResponse(JSON.stringify({ ...mockSuccess, skills: [] }), {
       status: 200
