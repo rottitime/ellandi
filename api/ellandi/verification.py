@@ -36,7 +36,7 @@ TOKEN_GENERATOR = TokenGenerator()
 EMAIL_MAPPING = {
     "verification": {
         "from_address": "support-ellandi@cabinetoffice.gov.uk",
-        "subject": "Civil Service Skills and Learning: account created",
+        "subject": "Civil Service Skills and Learning: confirm your email address",
         "template_name": "email/verification.txt",
         "url_path": "/register/email-verify",
     },
