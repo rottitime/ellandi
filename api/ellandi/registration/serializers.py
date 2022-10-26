@@ -345,3 +345,7 @@ class SkillTitleSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserSkill
         fields = ["name"]
+
+
+class IsValidSerializer(serializers.Serializer):
+    valid = serializers.BooleanField(required=True)

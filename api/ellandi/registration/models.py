@@ -179,6 +179,7 @@ class User(AbstractUser, TimeStampedModel, RegistrationAbstractUser):
     last_name = models.CharField("last name", max_length=128, blank=True, null=True)
     is_mentor = models.CharField(max_length=12, choices=YesNoChoices.choices, blank=True, null=True)
     is_line_manager = models.CharField(max_length=12, choices=YesNoChoices.choices, blank=True, null=True)
+    last_token_sent_at = models.DateTimeField(editable=False, blank=True, null=True)
 
     @property
     def has_direct_reports(self):

@@ -33,6 +33,7 @@ api_urlpatterns = [
     path("user/<uuid:user_id>/verify/<str:token>/", verification.verification_view),
     path("password-reset/", verification.password_reset_ask_view),
     path("user/<uuid:user_id>/password-reset/<str:token>/", verification.password_reset_use_view),
+    path("user/<uuid:user_id>/token/<str:token>/valid/", verification.check_token),
     path("register/", views.register_view),
     path("skills/", views.skills_list_view),
     path("create-title-embeddings/", views.create_job_embeddings),
