@@ -11,7 +11,9 @@ export const splitMinutes = (
   const returnValue = {
     days: Math.floor(totalMinutes / minutesPerDay),
     hours: Math.floor((totalMinutes % minutesPerDay) / 60),
-    minutes: totalMinutes % 60
+    // hours: Math.floor((totalMinutes / 60) % minutesPerDay),
+    minutes: (totalMinutes % minutesPerDay) % 60
+    // minutes: totalMinutes % 60
   }
   console.log(
     'after',
