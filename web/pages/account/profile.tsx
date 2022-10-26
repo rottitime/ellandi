@@ -15,6 +15,7 @@ import GradeForm from '@/components/Form/Register/GradeForm/GradeForm'
 import ProfessionForm from '@/components/Form/Register/ProfessionForm'
 import PrimaryProfessionForm from '@/components/Form/Register/PrimaryProfessionForm'
 import IsLineManagerForm from '@/components/Form/Register/IsLineManagerForm'
+import IsMentorForm from '@/components/Form/Register/IsMentorForm'
 import FunctionTypeForm from '@/components/Form/Register/FunctionTypeForm'
 import RegisterDetailsForm from '@/components/Form/Register/RegisterDetailsForm/RegisterDetailsForm'
 import { UpdateAccountPasswordForm } from '@/components/Form/UpdateAccountPasswordForm/UpdateAccountPasswordForm'
@@ -231,8 +232,9 @@ const ProfilePage = () => {
             value: data.is_line_manager
           },
           {
+            form: 'isMentor',
             name: 'Mentor',
-            value: data.has_direct_reports ? 'Yes' : 'No'
+            value: data.is_mentor
           }
         ])}
       </AccountCard>
@@ -266,6 +268,7 @@ const ProfilePage = () => {
             <RegisterDetailsForm {...formProps} />
           )}
           {activeModal?.form === 'isLineManager' && <IsLineManagerForm {...formProps} />}
+          {activeModal?.form === 'isMentor' && <IsMentorForm {...formProps} />}
         </>
       </Dialog>
     </div>

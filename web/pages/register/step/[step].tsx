@@ -191,6 +191,10 @@ const steps: Steps[] = [
     title: 'Are you a line manager?'
   },
   {
+    form: dynamic(() => import('@/components/Form/Register/IsMentorForm')),
+    title: 'Are you a mentor?'
+  },
+  {
     form: dynamic(() => import('@/components/Form/Register/SkillsForm')),
     title: 'What skills do you have?',
     nextUrl: '/register/complete',

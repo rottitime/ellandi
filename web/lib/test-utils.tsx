@@ -92,6 +92,7 @@ export const mockMe: RegisterUserResponse = {
   department: null,
   location: 'Neverland',
   line_manager_email: 'manager@test.com',
+  is_mentor: 'Yes',
   has_direct_reports: false,
   grade: 'Senior Officer',
   grade_other: null,
