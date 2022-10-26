@@ -12,6 +12,7 @@ services:
       dockerfile: ./docker/nginx/Dockerfile
       args:
         NEXT_PUBLIC_API_URL: http://localhost/api
+        NEXT_PUBLIC_ENABLE_EMAIL_VERIFY: 'false'
         API_HOST: http://api:8000
         RESOLVER: 127.0.0.11
     image: nginx_main
