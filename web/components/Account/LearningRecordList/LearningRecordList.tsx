@@ -172,7 +172,7 @@ export default LearningRecordList
 const formatDate = (dateValue: string): string => dayjs(dateValue).format('DD.MM.YYYY')
 
 const formatDuration = (duration: number): string => {
-  const { days, minutes, hours } = splitMinutes(duration)
+  const { days, minutes, hours } = splitMinutes(duration, 444)
   return `${!!days ? `${days}d` : ''} ${!!hours ? `${hours}hr` : ''} ${
     !!minutes ? `${minutes}m` : ''
   }`
