@@ -348,4 +348,4 @@ class SkillTitleSerializer(serializers.ModelSerializer):
 
 
 class IsValidSerializer(serializers.Serializer):
-    valid = serializers.BoolField(required=True)
+    valid = serializers.BooleanField(required=True)
