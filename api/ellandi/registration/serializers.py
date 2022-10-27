@@ -7,6 +7,7 @@ from .models import (
     BusinessUnit,
     ContractType,
     Country,
+    Course,
     EmailSalt,
     Function,
     Grade,
@@ -349,3 +350,11 @@ class SkillTitleSerializer(serializers.ModelSerializer):
 
 class IsValidSerializer(serializers.Serializer):
     valid = serializers.BooleanField(required=True)
+
+
+class CourseSerializer(serializers.ModelSerializer):
+    status = serializers.ChoiceField(choices=Course.Status.choices, allow_blank=True, allow_null=True, required=False)
+
+    class Meta:
+        model = Course
+        fields = "__all__"

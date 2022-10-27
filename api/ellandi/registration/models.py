@@ -298,3 +298,28 @@ class EmailSalt(models.Model):
     def save(self, *args, **kwargs):
         self.email = self.email.lower()
         super(EmailSalt, self).save(*args, **kwargs)
+
+
+class Course(models.Model):
+    class Status(models.TextChoices):
+        ARCHIVED = ("Archived", "Archived")
+        DRAFT = ("Draft", "Draft")
+        PUBLISHED = ("Published", "Published")
+
+    class CourseType(models.TextChoices):
+        ELEARNING = ("Elearning", "Elearning")
+        FACE_TO_FACE = ("Face-to-face", "Face-to-face")
+        FILE = ("File", "File")
+        LINK = ("Link", "Link")
+        VIDEO = ("Video", "Video")
+        MIXED = ("Mixed", "Mixed")
+
+    title = models.CharField(max_length=256, blank=True, null=True)
+    short_description = models.CharField(max_length=1024, blank=True, null=True)
+    long_description = models.TextField(blank=True, null=True)
+    visibility = models.CharField(max_length=256, blank=True, null=True)
+    status = models.CharField(max_length=128, choices=Status.choices, blank=True, null=True)
+    cost_pounds = models.PositiveSmallIntegerField(blank=True, null=True)
+    duration_minutes = models.PositiveSmallIntegerField(blank=True, null=True)
+    private = models.BooleanField(blank=True, null=True)
+    course_type = models.CharField(max_length=256, choices=CourseType.choices, blank=True, null=True)
