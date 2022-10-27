@@ -123,4 +123,5 @@ integration:
 
 .PHONY: setup
 setup:
+	docker-compose run api python manage.py add_courses
 	docker-compose run organogram python manage.py create_minio_bucket
