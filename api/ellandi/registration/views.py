@@ -195,7 +195,7 @@ class LearningTypeViewSet(viewsets.ReadOnlyModelViewSet):
 
 @register("courses")
 class CourseViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = models.ContractType.objects.all()
+    queryset = models.Course.objects.all()
     serializer_class = serializers.CourseSerializer
     permission_classes = (permissions.IsAuthenticated,)
 
