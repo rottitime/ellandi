@@ -8,6 +8,7 @@ import {
 } from './types'
 const { publicRuntimeConfig } = getConfig()
 import { defaultError } from '@/service/auth'
+import { ReviewFields } from '@/components/Form/SkillsReview/types'
 
 export const deleteSkill = async (token: string, id: string) => {
   await api(token, `/user-skills/${id}/`, {
@@ -124,6 +125,16 @@ export const editLearning = async (
   })
 
   return await res.json()
+}
+
+export const reviewSkill = async (token: string, data: ReviewFields[]) => {
+  await api(token, '/me/skill/review', {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  })
+
+  return true
 }
 
 const api = async (

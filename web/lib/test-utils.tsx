@@ -8,7 +8,8 @@ import {
   AuthUser,
   MeSuggestedSkillsResponse,
   RegisterUserResponse,
-  SkillType
+  SkillType,
+  TeamMember
 } from '@/service/types'
 
 beforeAll(() => {
@@ -136,7 +137,7 @@ export const mockMe: RegisterUserResponse = {
   modified_at: '2022-08-25T10:07:11.814344Z'
 }
 
-export const mockTeam = [
+export const mockTeam: TeamMember[] = [
   {
     id: 'teamember-id-1',
     email: 'team1@test.com',
@@ -172,19 +173,21 @@ export const mockTeam = [
         id: 'skillid-1',
         name: 'Analysis',
         level: 'Advanced beginner',
-        validated: false
+
+        pending: false
       },
       {
         id: 'skillid-2',
         name: 'Analysis and synthesis',
         level: 'Competent',
-        validated: false
+
+        pending: false
       },
       {
         id: 'skillid-3',
         name: 'Agile working',
         level: 'Expert',
-        validated: false
+        pending: true
       }
     ],
     languages: [],
