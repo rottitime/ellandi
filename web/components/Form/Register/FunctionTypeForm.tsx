@@ -16,7 +16,7 @@ const schema: SchemaOf<FunctionType> = object().shape({
     .nullable()
     .when('function', (functionType) => {
       if (functionType === 'Other')
-        return string().nullable().required('This is a required field')
+        return string().nullable().required('Enter your function')
     })
 })
 

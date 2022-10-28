@@ -19,12 +19,12 @@ import { useProfile } from '@/hooks/useProfile'
 const fieldName: keyof ProfessionType = 'professions'
 
 const schema: SchemaOf<ProfessionType> = object().shape({
-  professions: array().of(string()),
+  professions: array().of(string()).min(1, 'Enter your profession'),
   profession_other: string()
     .nullable()
     .when('professions', (value) => {
       if (value.includes('Other'))
-        return string().nullable().required('This is a required field')
+        return string().nullable().required('Enter your profession')
     })
 })
 
