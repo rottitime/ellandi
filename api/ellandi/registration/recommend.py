@@ -6,7 +6,7 @@ import scipy
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 
-from ellandi.registration.models import Tblskillrecommendations, Tbltitlerecommendations
+from ellandi.registration.models import SkillRecommendation, TitleRecommendation
 
 def make_skill_similarity_matrix(long_skill_df):
     """Given pandas dataframe of users (user_id), skills (skill_name) and numeric ratings (rating)

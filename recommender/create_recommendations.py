@@ -38,7 +38,7 @@ def main():
     print("creating recommendations by job title")
     all_recommendations = return_all_title_recommendations(combined_user_skills, job_embedding_matrix)
     all_recommendations.createdAt = datetime.now()
-    all_recommendations.to_sql("tblTitleRecommendations", engine, if_exists="append")
+    all_recommendations.to_sql("registration_titlerecommendation", engine, if_exists="append")
 
     print("creating recommendations by skills")
     all_skill_recommendations_list = []

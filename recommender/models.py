@@ -12,9 +12,9 @@ from sqlalchemy import (
 )
 from sqlalchemy.orm import declarative_base
 
-Base = declarative_base()
+from settings_base import DB_URL
 
-DB_URL = os.getenv("DATABASE_URL")
+Base = declarative_base()
 
 
 class TitleEmbeddingArray(Base):
@@ -33,11 +33,11 @@ class SkillSimilarityArray(Base):
 
 
 class SkillRecommendations(Base):
-    __tablename__ = "tblSkillRecommendations"
+    __tablename__ = "registration_skillrecommendation"
     id = Column(Integer, primary_key=True, autoincrement=True)
-    createdAt = Column(DateTime)
-    currentSkill = Column(String)
-    recommendedSkill = Column(String)
+    created_at = Column(DateTime)
+    current_skill = Column(String)
+    recommended_skill = Column(String)
 
 
 def create_db_objects():
