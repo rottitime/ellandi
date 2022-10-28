@@ -303,20 +303,17 @@ class EmailSalt(models.Model):
         self.email = self.email.lower()
         super(EmailSalt, self).save(*args, **kwargs)
 
-class Tblskillrecommendations(models.Model):
+
+class SkillRecommendation(models.Model):
     index = models.BigIntegerField(blank=True, null=False, primary_key=True)
-    recommendedskill = models.TextField(db_column='recommendedSkill', blank=True, null=True)  # Field name made lowercase.
-    createdat = models.DateTimeField(db_column='createdAt', blank=True, null=True)  # Field name made lowercase.
-    currentskill = models.TextField(db_column='currentSkill', blank=True, null=True)  # Field name made lowercase.
-
-    class Meta:
-        managed = False
-        db_table = 'tblSkillRecommendations'
+    recommended_skill = models.TextField(db_column='recommendedSkill', blank=True, null=True)  # Field name made lowercase.
+    created_at = models.DateTimeField(db_column='createdAt', blank=True, null=True)  # Field name made lowercase.
+    current_skill = models.TextField(db_column='currentSkill', blank=True, null=True)  # Field name made lowercase.
 
 
-class Tbltitlerecommendations(models.Model):
+class TitleRecommendation(models.Model):
     index = models.BigIntegerField(blank=True, null=False, primary_key=True)
-    recommendedskill = models.TextField(db_column='recommendedSkill', blank=True, null=True)  # Field name made lowercase.
+    recommended_skill = models.TextField(db_column='recommendedSkill', blank=True, null=True)  # Field name made lowercase.
     job_title = models.TextField(blank=True, null=True)
 
     class Meta:
