@@ -18,6 +18,10 @@ describe('SkillsReview', () => {
     expect(screen.getByTestId('radio-0-yes')).toBeInTheDocument()
     expect(screen.getByTestId('radio-0-no')).toBeInTheDocument()
 
+    expect(screen.getByTestId('review-count')).toHaveTextContent(
+      'You have 2 skills to review'
+    )
+
     expect(screen.getByText(data[1].name)).toBeInTheDocument()
     expect(screen.getByTestId('textfield_reviewed.1.comment')).toHaveValue('')
     expect(screen.getByTestId('textfield_reviewed.1.comment')).not.toBeVisible()

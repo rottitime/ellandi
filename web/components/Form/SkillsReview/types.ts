@@ -11,6 +11,7 @@ export type ReviewFields = {
 export type Props = {
   data: SkillType[]
   onFormSubmit: SubmitHandler<ReviewFields[]>
+  buttonLoading?: boolean
 }
 
 export type SchemaType = { reviewed: ReviewFields[] }

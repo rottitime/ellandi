@@ -23,7 +23,7 @@ const schema: SchemaOf<SchemaType> = object().shape({
 
 const options = ['Yes', 'No']
 
-const SkillsReview: FC<Props> = ({ data, onFormSubmit }) => {
+const SkillsReview: FC<Props> = ({ data, onFormSubmit, buttonLoading }) => {
   const id = useId()
   const labelId = `label-${id}-`
   const methods = useForm<SchemaType>({
@@ -52,6 +52,9 @@ const SkillsReview: FC<Props> = ({ data, onFormSubmit }) => {
       headerColorInherit
       data-testid="review-skills"
     >
+      <Typography data-testid="review-count">
+        You have {data.length} skills to review
+      </Typography>
       <FormProvider {...methods}>
         <form
           onSubmit={methods.handleSubmit(({ reviewed }) => onFormSubmit(reviewed))}
@@ -111,7 +114,10 @@ const SkillsReview: FC<Props> = ({ data, onFormSubmit }) => {
             })}
           </SimpleTable>
 
-          <FormFooter buttonProps={{ fullWidth: true }} submitText="Submit" />
+          <FormFooter
+            buttonProps={{ fullWidth: true, loading: buttonLoading }}
+            submitText="Submit"
+          />
         </form>
       </FormProvider>
     </AccountCard>
