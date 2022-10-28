@@ -127,7 +127,8 @@ const SkillsAddForm = forwardRef<RefHandler, Props>(
                 })),
                 { children: <>&nbsp;</> }
               ]}
-              body={fields.map((item, index) => (
+            >
+              {fields.map((item, index) => (
                 <tr key={item.id}>
                   <td>
                     <Controller
@@ -190,7 +191,7 @@ const SkillsAddForm = forwardRef<RefHandler, Props>(
                   </td>
                 </tr>
               ))}
-            />
+            </Table>
 
             <Field>
               <Button

@@ -21,7 +21,7 @@ const Table = styled(MuiTable)`
   }
 `
 
-const SimpleTable: FC<Props> = ({ list = [], headers, loading, body, ...props }) =>
+const SimpleTable: FC<Props> = ({ list = [], headers, loading, children, ...props }) =>
   loading ? (
     <TableSkeleton />
   ) : (
@@ -37,7 +37,7 @@ const SimpleTable: FC<Props> = ({ list = [], headers, loading, body, ...props })
       )}
 
       <TableBody>
-        {body}
+        {children}
         {Array.isArray(list) &&
           list.map((item, i) => (
             <TableRow key={i}>
