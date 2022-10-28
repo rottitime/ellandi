@@ -68,6 +68,7 @@ const Duration: FC<Props> = forwardRef<HTMLButtonElement, Props>(
                 error={error}
                 fullWidth
                 onKeyDown={onKeyDown}
+                onWheel={() => (document.activeElement as HTMLInputElement).blur()}
                 inputProps={{
                   'data-testid': `duration-${name.toLowerCase()}`,
                   min: 0

@@ -113,6 +113,7 @@ const LearningAddForm = forwardRef<RefHandler, Props>(
                     (e.key === 'e' || e.key === '-') && e.preventDefault()
                   }
                   onChange={() => setValue('cost_unknown', false)}
+                  onWheel={() => (document.activeElement as HTMLInputElement).blur()}
                   inputProps={{ min: 0, 'data-testid': 'cost-field' }}
                   InputProps={{
                     startAdornment: (

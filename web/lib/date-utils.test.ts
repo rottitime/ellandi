@@ -29,10 +29,22 @@ describe('splitMinutes()', () => {
       minutes: 25
     })
 
+    expect(splitMinutes(60, minutesPerDay)).toMatchObject({
+      days: 0,
+      hours: 1,
+      minutes: 0
+    })
+
     expect(splitMinutes(61, minutesPerDay)).toMatchObject({
       days: 0,
       hours: 1,
       minutes: 1
+    })
+
+    expect(splitMinutes(120, minutesPerDay)).toMatchObject({
+      days: 0,
+      hours: 2,
+      minutes: 0
     })
 
     expect(splitMinutes(443, minutesPerDay)).toMatchObject({
