@@ -317,7 +317,6 @@ class Course(models.Model):
     title = models.CharField(max_length=256, blank=True, null=True)
     short_description = models.CharField(max_length=1024, blank=True, null=True)
     long_description = models.TextField(blank=True, null=True)
-    visibility = models.CharField(max_length=256, blank=True, null=True)
     status = models.CharField(max_length=128, choices=Status.choices, blank=True, null=True)
     cost_pounds = models.PositiveSmallIntegerField(blank=True, null=True)
     duration_minutes = models.PositiveSmallIntegerField(blank=True, null=True)
