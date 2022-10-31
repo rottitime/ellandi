@@ -24,30 +24,4 @@ describe('Page: Your Team', () => {
       screen.getByText(`${mockTeam[1].first_name} ${mockTeam[1].last_name}`)
     ).toBeInTheDocument()
   })
-
-  describe('Pending skills component', () => {
-    it('shows', async () => {
-      renderWithProviders(<YourTeamPage />)
-
-      await waitFor(async () => {
-        expect(screen.getByTestId('review-skills')).toBeInTheDocument()
-      })
-    })
-
-    it('hidden', async () => {
-      fetchMock.mockResponse(JSON.stringify([{ ...mockTeam[0], skills: [] }]), {
-        status: 200
-      })
-
-      renderWithProviders(<YourTeamPage />)
-
-      await waitFor(async () => {
-        expect(
-          screen.getByText(`${mockTeam[0].first_name} ${mockTeam[0].last_name}`)
-        ).toBeInTheDocument()
-      })
-
-      expect(screen.queryByTestId('review-skills')).not.toBeInTheDocument()
-    })
-  })
 })
