@@ -219,7 +219,7 @@ class UserSkill(TimeStampedModel):
     level = models.CharField(max_length=64, choices=SkillLevel.choices, blank=True, null=True)
     validated = models.BooleanField(default=False, blank=False)
     # TODO - will need to change this as pending status is per skill, not user skill
-    pending = models.BooleanField(default=True, blank=False)
+    pending = models.BooleanField(default=False, blank=False)
 
     def __str__(self):
         return f"{self.name} ({self.id})"
