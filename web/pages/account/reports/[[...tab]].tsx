@@ -1,10 +1,6 @@
 import AccountLayout from '@/components/Layout/AccountLayout/AccountLayout'
-import { Typography, RadioGroup, FormControlLabel, Radio } from '@mui/material'
-import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
+import { Typography } from '@mui/material'
 import Headline from '@/components/Account/Headline/Headline'
-import BadgeNumber from '@/components/UI/BadgeNumber/BadgeNumber'
-import Router from 'next/router'
-import { FC } from 'react'
 import { RoutedTabItem, RoutedTabs } from '@/components/UI/Tabs/Tabs'
 
 const ReportsPage = () => (
