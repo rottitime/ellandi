@@ -226,7 +226,7 @@ def register_view(request):
 @decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.AllowAny,))
 def skills_list_view(request):
-    existing_skills = set(models.UserSkill.objects.all().values_list("name", flat=True))
+    existing_skills = set(models.UserSkill.objects.filter(pending=False).values_list("name", flat=True))
     skills_to_develop = set(models.UserSkillDevelop.objects.all().values_list("name", flat=True))
     initial_skills = initial_data.INITIAL_SKILLS.union(initial_data.NLP_DERIVED_SKILLS).union(
         initial_data.DDAT_SKILLS_TO_JOB_LOOKUP.keys()
