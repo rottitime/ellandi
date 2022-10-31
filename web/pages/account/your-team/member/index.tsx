@@ -162,7 +162,7 @@ const YourTeamPage = () => {
                           <Tooltip
                             brandColor="brandSkills"
                             sx={{ svg: { color: 'inherit' } }}
-                            title="Pending line manager approval"
+                            title="Pending approval"
                           />
                         )}
                       </Typography>

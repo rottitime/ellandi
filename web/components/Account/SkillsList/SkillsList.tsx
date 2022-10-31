@@ -198,7 +198,7 @@ const columns: GridColDef[] = [
           {pending && (
             <Tooltip
               brandColor="brandSkills"
-              title="Pending line manager approval"
+              title="Pending approval"
               sx={{ svg: { color: 'inherit' } }}
             />
           )}
