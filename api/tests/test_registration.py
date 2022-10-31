@@ -154,10 +154,11 @@ def test_get_user_userskills(client, user_id):
 
     response = client.post("/api/user-skills/", json=user_skill_data)
     assert response.status_code == status.HTTP_201_CREATED
-    user_skill_id = response.json()["id"]
-    assert response.json()["name"] == "typing"
-    assert response.json()["level"] == "Proficient"
-    assert response.json()["pending"] == False
+    result = response.json()
+    user_skill_id = result["id"]
+    assert result["name"] == "typing"
+    assert result["level"] == "Proficient"
+    assert not result["pending"]
 
     response = client.get(f"/api/users/{user_id}/skills/")
     assert response.status_code == status.HTTP_404_NOT_FOUND
@@ -497,7 +498,7 @@ def test_me_get_skills_params(client, user_id):
     assert response.status_code == status.HTTP_200_OK
     result = response.json()
     assert result[0]["name"] == "Maths"
-    assert result[0]["pending"] == True
+    assert result[0]["pending"]
     response = client.get(f"{endpoint_to_test}?pending=False")
     assert response.status_code == status.HTTP_200_OK
     result = response.json()
