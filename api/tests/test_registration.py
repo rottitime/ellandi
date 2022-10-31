@@ -347,12 +347,7 @@ def test_dropdown_list(client, user_id):
 
 @utils.with_logged_in_client
 def test_skills_list(client, user_id):
-    user_skill_data = {
-        "user": user_id,
-        "name": "new user skill",
-        "level": "Proficient",
-        "pending": False
-    }
+    user_skill_data = {"user": user_id, "name": "new user skill", "level": "Proficient", "pending": False}
     response = client.post("/api/user-skills/", json=user_skill_data)
     response = client.get("/api/skills/")
     assert response.status_code == status.HTTP_200_OK
@@ -382,9 +377,9 @@ def test_get_skills(client, user_id):
 
 def patch_get_delete_skills(client, endpoint_to_test):
     skills_data = [
-        {"name": "Maths", "level": "Competent", "validated": False},
-        {"name": "Project management", "level": "Beginner", "validated": False},
-        {"name": "Written communication", "level": "Advanced beginner"},
+        {"name": "Maths", "level": "Competent", "validated": False, "pending": True},
+        {"name": "Project management", "level": "Beginner", "validated": False, "pending": False},
+        {"name": "Written communication", "level": "Advanced beginner", "pending": False},
     ]
     response = client.get(endpoint_to_test)
     assert response.status_code == status.HTTP_200_OK
@@ -486,6 +481,27 @@ def test_user_get_skills(client, user_id):
 def test_me_patch_get_delete_skills(client, user_id):
     endpoint_to_test = "/api/me/skills/"
     patch_get_delete_skills(client, endpoint_to_test)
+
+
+@utils.with_logged_in_client
+def test_me_get_skills_params(client, user_id):
+    skills_data = [
+        {"name": "Maths", "level": "Competent", "validated": False, "pending": True},
+        {"name": "Project management", "level": "Beginner", "validated": False, "pending": False},
+        {"name": "Written communication", "level": "Advanced beginner", "pending": False},
+    ]
+    endpoint_to_test = "/api/me/skills/"
+    response = client.patch(endpoint_to_test, json=skills_data)
+    assert response.status_code == status.HTTP_200_OK
+    response = client.get(f"{endpoint_to_test}?pending=True")
+    assert response.status_code == status.HTTP_200_OK
+    result = response.json()
+    assert result[0]["name"] == "Maths"
+    assert result[0]["pending"] == True
+    response = client.get(f"{endpoint_to_test}?pending=False")
+    assert response.status_code == status.HTTP_200_OK
+    result = response.json()
+    assert len(result) == 2, result
 
 
 @utils.with_logged_in_client

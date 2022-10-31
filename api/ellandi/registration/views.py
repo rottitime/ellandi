@@ -392,6 +392,9 @@ def list_skills_langs(request, user, model_name, field_name):
     serializer = getattr(serializers, f"{model_name}Serializer")
     if request.method == "GET":
         qs = model.objects.filter(user=user)
+        pending = request.query_params.get("pending")
+        if (model_name == "UserSkill") and (pending is not None):
+            qs = qs.filter(pending=pending)
         serializer = serializer(qs, many=True)
         return Response(data=serializer.data, status=status.HTTP_200_OK)
     elif request.method == "PATCH":

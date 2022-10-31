@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('registration', '0027_remove_course_visibility'),
+        ("registration", "0027_remove_course_visibility"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='userskill',
-            name='pending',
+            model_name="userskill",
+            name="pending",
             field=models.BooleanField(default=False),
         ),
     ]
