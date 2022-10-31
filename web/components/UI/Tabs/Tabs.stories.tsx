@@ -29,6 +29,9 @@ export default {
     design: {
       type: 'figma',
       url: 'https://www.figma.com/file/JEg4GJzDWL4NbiWXShxHiL/Ellandi-Prototype-V3.4?node-id=9202%3A77709'
+    },
+    backgrounds: {
+      default: 'Ellandi light'
     }
   }
 } as ComponentMeta<typeof Tabs>
@@ -37,5 +40,10 @@ const Template: ComponentStory<typeof Tabs> = (args) => <Tabs {...args} />
 
 export const Default = Template.bind({})
 Default.args = {
+  tabItems: mockData
+}
+
+export const MultiColouredTabs = Template.bind({})
+MultiColouredTabs.args = {
   tabItems: mockData
 }

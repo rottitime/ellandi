@@ -21,3 +21,12 @@ export type Props = {
   BrandColor
 
 export type StyleProps = BrandColor
+
+export type RoutedTabsProps = {
+  routedTabItems: RoutedTabItem[]
+  tabsPath: string
+} & BrandColor
+
+export type RoutedTabItem = Omit<TabItem, 'href'> & {
+  id: string
+}

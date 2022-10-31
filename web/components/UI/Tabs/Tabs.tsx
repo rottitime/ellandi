@@ -3,6 +3,7 @@ import { FC, useState, SyntheticEvent, useEffect, useId, ReactNode } from 'react
 import { Box, styled, Tab, Tabs as MuiTabs } from '@mui/material'
 import { Props, StyleProps } from './types'
 import { useRouter } from 'next/router'
+import RoutedTabs from './RoutedTabs'
 
 const Wrapper = styled(Box, {
   shouldForwardProp: (p) => p !== 'brandColor'
@@ -24,7 +25,7 @@ const Wrapper = styled(Box, {
 
     &.active {
       background-color: ${({ theme, brandColor }) =>
-        brandColor ? theme.colors[brandColor] : theme.colors.teal};
+        brandColor ? theme.colors[brandColor] : theme.colors.black};
       color: ${(p) => p.theme.colors.white};
     }
   }
@@ -106,3 +107,4 @@ const Tabs: FC<Props> = ({
 
 export default Tabs
 export * from './types'
+export { RoutedTabs }
