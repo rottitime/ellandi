@@ -27,10 +27,7 @@ const YourTeamPage = () => {
   const { data, isLoading, isSuccess, refetch } = useQuery<TeamMember[]>(
     Query.TeamMembers,
     () => authFetch(fetchTeam)
-    // { initialData: mockTeam, staleTime: Infinity }
   )
-
-  console.log({ data })
 
   const { isLoading: isMutateLoading, mutate } = useMutation<
     boolean,

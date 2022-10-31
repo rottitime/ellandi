@@ -201,7 +201,7 @@ export const mockTeam: TeamMember[] = [
     email: 'team2@test.com',
     privacy_policy_agreement: true,
     first_name: 'Sherlock',
-    last_name: 'Holmes ',
+    last_name: 'Holmes',
     department: null,
     organisation: null,
     job_title: 'Admin',

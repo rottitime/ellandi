@@ -20,22 +20,12 @@ import {
   FormHelperText,
   InputLabel,
   MenuItem,
-  Select,
-  styled,
-  Typography
+  Select
 } from '@mui/material'
 import { addSkills, deleteSkill } from '@/service/account'
 import { Controller, useForm } from 'react-hook-form'
 import Tooltip from '@/components/UI/Tooltip/Tooltip'
-
-const Status = styled('span')`
-  &.pending {
-    color: ${(p) => p.theme.colors.grey3};
-  }
-  svg {
-    color: ${(p) => p.theme.colors.grey3};
-  }
-`
+import Typography from '@/components/UI/Typography/Typography'
 
 const SkillsList: FC = () => {
   const { authFetch } = useAuth()
@@ -199,15 +189,20 @@ const columns: GridColDef[] = [
     resizable: false,
     renderCell: ({ formattedValue, row: { pending } }) =>
       formattedValue && (
-        <Status
-          className={`${pending ? 'pending' : ''}`}
+        <Typography
+          variant="body2"
+          pending={pending}
           data-testid={pending && 'status-pending'}
         >
           {formattedValue}
           {pending && (
-            <Tooltip brandColor="brandSkills" title="Pending line manager approval" />
+            <Tooltip
+              brandColor="brandSkills"
+              title="Pending line manager approval"
+              sx={{ svg: { color: 'inherit' } }}
+            />
           )}
-        </Status>
+        </Typography>
       ),
     flex: 1
   },
