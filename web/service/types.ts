@@ -128,6 +128,7 @@ export type RegisterUserResponse = {
   modified_at: string
   is_line_manager: string
   is_mentor: string
+  has_reports_access: boolean
 } & PrivacyAcceptType &
   RegisterDetailsType &
   GradeType &

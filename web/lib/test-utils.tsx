@@ -94,6 +94,7 @@ export const mockMe: RegisterUserResponse = {
   line_manager_email: 'manager@test.com',
   is_mentor: 'Yes',
   has_direct_reports: false,
+  has_reports_access: true,
   grade: 'Senior Officer',
   grade_other: null,
   professions: ['Audit', 'Management'],

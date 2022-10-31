@@ -1,18 +1,8 @@
 import { useMemo } from 'react'
 import { useRouter } from 'next/router'
-import Tabs, { TabItem } from '@/components/UI/Tabs/Tabs'
+import Tabs, { RoutedTabItem, RoutedTabsProps, TabItem } from '@/components/UI/Tabs/Tabs'
 
-export type RoutedTabItem = Omit<TabItem, 'href'> & {
-  id: string
-}
-
-const RoutedTabs = ({
-  routedTabItems,
-  tabsPath
-}: {
-  routedTabItems: RoutedTabItem[]
-  tabsPath: string
-}) => {
+const RoutedTabs = ({ routedTabItems, tabsPath, ...props }: RoutedTabsProps) => {
   const router = useRouter()
 
   const activeIndex = useMemo(() => {
@@ -31,7 +21,7 @@ const RoutedTabs = ({
     })
   }, [routedTabItems, tabsPath])
 
-  return <Tabs tabItems={tabItems} activeIndex={activeIndex} />
+  return <Tabs tabItems={tabItems} activeIndex={activeIndex} {...props} />
 }
 
 export default RoutedTabs

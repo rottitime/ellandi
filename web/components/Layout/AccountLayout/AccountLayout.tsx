@@ -100,6 +100,11 @@ const AccountLayout: FC<Props> = ({
                     title: 'Your team',
                     url: '/account/your-team/',
                     hidden: !data?.has_direct_reports
+                  },
+                  {
+                    title: 'Reports',
+                    url: '/account/reports/',
+                    hidden: !data?.has_reports_access
                   }
                 ]}
                 settings={[
