@@ -475,8 +475,6 @@ def patch_get_delete_skills_develop(client, endpoint_to_test):
 def get_skills_params(client, skills_data, endpoint_to_test):
     response = client.patch(endpoint_to_test, json=skills_data)
     assert response.status_code == status.HTTP_200_OK
-    assert False, response.json()
-    print(response.json())
     response = client.get(f"{endpoint_to_test}?pending=True")
     assert response.status_code == status.HTTP_200_OK
     result = response.json()
@@ -510,17 +508,7 @@ def test_me_get_skills_params(client, user_id):
     ]
     endpoint_to_test = "/api/me/skills/"
     get_skills_params(client, skills_data, endpoint_to_test)
-    # response = client.patch(endpoint_to_test, json=skills_data)
-    # assert response.status_code == status.HTTP_200_OK
-    # response = client.get(f"{endpoint_to_test}?pending=True")
-    # assert response.status_code == status.HTTP_200_OK
-    # result = response.json()
-    # assert result[0]["name"] == "Maths"
-    # assert result[0]["pending"]
-    # response = client.get(f"{endpoint_to_test}?pending=False")
-    # assert response.status_code == status.HTTP_200_OK
-    # result = response.json()
-    # assert len(result) == 2, result
+
 
 @utils.with_logged_in_client
 def test_me_get_skills_develop_params(client, user_id):
@@ -531,7 +519,6 @@ def test_me_get_skills_develop_params(client, user_id):
     ]
     endpoint_to_test = "/api/me/skills-develop/"
     get_skills_params(client, skills_data, endpoint_to_test)
-
 
 
 @utils.with_logged_in_client
