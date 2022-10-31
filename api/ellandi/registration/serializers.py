@@ -139,7 +139,7 @@ class UserLanguageSerializer(serializers.ModelSerializer):
 class UserSkillDevelopSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserSkillDevelop
-        fields = ["id", "user", "name", "created_at", "modified_at"]
+        fields = ["id", "user", "name", "pending", "created_at", "modified_at"]
 
 
 class UserSkillSerializerNested(serializers.ModelSerializer):
@@ -168,7 +168,7 @@ class UserLanguageSerializerNested(serializers.ModelSerializer):
 class UserSkillDevelopSerializerNested(serializers.ModelSerializer):
     class Meta:
         model = UserSkillDevelop
-        fields = ["id", "name"]
+        fields = ["id", "name", "pending"]
 
 
 class LearningListSerializer(serializers.ListSerializer):
