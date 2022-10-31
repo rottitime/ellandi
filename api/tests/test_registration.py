@@ -270,10 +270,11 @@ def test_post_get_put_delete_user_skill_develop(client, user_id):
     response = client.get("/api/user-skills-develop/")
     assert len(response.json()) == 0
 
-    response = client.post("/api/user-skills-develop/", json={"user": user_id, "name": "statistics"})
+    response = client.post("/api/user-skills-develop/", json={"user": user_id, "name": "statistics", "pending": True})
     assert response.status_code == status.HTTP_201_CREATED
     user_skill_develop_id = response.json()["id"]
     assert response.json()["name"] == "statistics"
+    assert response.json()["pending"]
 
     response = client.get("/api/user-skills-develop/")
     assert len(response.json()) == 1, response.json()
