@@ -149,6 +149,7 @@ def test_get_user_userskills(client, user_id):
         "user": user_id,
         "name": "typing",
         "level": "Proficient",
+        "pending": False,
     }
 
     response = client.post("/api/user-skills/", json=user_skill_data)
@@ -156,6 +157,7 @@ def test_get_user_userskills(client, user_id):
     user_skill_id = response.json()["id"]
     assert response.json()["name"] == "typing"
     assert response.json()["level"] == "Proficient"
+    assert response.json()["pending"] == False
 
     response = client.get(f"/api/users/{user_id}/skills/")
     assert response.status_code == status.HTTP_404_NOT_FOUND
@@ -349,6 +351,7 @@ def test_skills_list(client, user_id):
         "user": user_id,
         "name": "new user skill",
         "level": "Proficient",
+        "pending": False
     }
     response = client.post("/api/user-skills/", json=user_skill_data)
     response = client.get("/api/skills/")
