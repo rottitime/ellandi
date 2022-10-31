@@ -48,12 +48,14 @@ const tabs: RoutedTabItem[] = [
   {
     title: 'Skills',
     content: <>Skills</>,
-    id: ''
+    id: '',
+    brandColor: 'brandSkills'
   },
   {
     title: 'Learning',
     content: <>Learning</>,
-    id: 'learning'
+    id: 'learning',
+    brandColor: 'brandLearning'
   },
   {
     title: 'Staff overview',
