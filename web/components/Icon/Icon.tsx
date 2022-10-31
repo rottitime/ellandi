@@ -16,6 +16,7 @@ export const icons = {
   pencil: dynamic(() => import('@/components/Icon/Icons/Pencil')),
   profile: dynamic(() => import('@/components/Icon/Icons/Profile')),
   question: dynamic(() => import('@/components/Icon/Icons/Question')),
+  report: dynamic(() => import('@/components/Icon/Icons/Report')),
   team: dynamic(() => import('@/components/Icon/Icons/Team')),
   world: dynamic(() => import('@/components/Icon/Icons/World')),
   tick: dynamic(() => import('@/components/Icon/Icons/Tick'))
