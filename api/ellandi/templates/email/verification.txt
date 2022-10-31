@@ -1,4 +1,4 @@
-Hi {{user.first_name}},
+Hi,
 
 Use the following link to confirm your email address:
 {{url|safe}}
