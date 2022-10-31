@@ -45,5 +45,21 @@ Default.args = {
 
 export const MultiColouredTabs = Template.bind({})
 MultiColouredTabs.args = {
-  tabItems: mockData
+  tabItems: [
+    {
+      title: 'Tab1',
+      content: <div>Color one</div>,
+      brandColor: 'brandSkills'
+    },
+    {
+      title: 'Tab2',
+      content: <div>Color two</div>,
+      brandColor: 'brandLearning'
+    },
+    {
+      title: 'Tab3',
+      content: <div>Color three</div>,
+      brandColor: 'brandGov'
+    }
+  ]
 }

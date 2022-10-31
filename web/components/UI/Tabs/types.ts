@@ -8,7 +8,7 @@ export type TabItem = {
   content: ReactNode
   disabled?: boolean
   href?: string
-}
+} & BrandColor
 
 type BrandColor = { brandColor?: keyof ColorBrands }
 

@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { FC, useState, SyntheticEvent, useEffect, useId, ReactNode } from 'react'
-import { Box, styled, Tab, Tabs as MuiTabs } from '@mui/material'
+import { Box, styled, Tab, Tabs as MuiTabs, useTheme } from '@mui/material'
 import { Props, StyleProps } from './types'
 import { useRouter } from 'next/router'
 import RoutedTabs from './RoutedTabs'
@@ -24,9 +24,11 @@ const Wrapper = styled(Box, {
     }
 
     &.active {
-      background-color: ${({ theme, brandColor }) =>
-        brandColor ? theme.colors[brandColor] : theme.colors.black};
       color: ${(p) => p.theme.colors.white};
+      &.default-color {
+        background-color: ${({ theme, brandColor }) =>
+          brandColor ? theme.colors[brandColor] : theme.colors.black};
+      }
     }
   }
 
@@ -51,6 +53,7 @@ const Tabs: FC<Props> = ({
 }) => {
   const [currentActiveTab, setCurrentActiveTab] = useState<number>(activeIndex)
   const router = useRouter()
+  const { colors } = useTheme()
   const id = useId()
 
   useEffect(() => {
@@ -86,7 +89,9 @@ const Tabs: FC<Props> = ({
         {tabItems.map((item, index) => (
           <Tab
             key={index}
-            className={currentActiveTab === index ? 'active' : ''}
+            className={`${currentActiveTab === index ? 'active' : ''} ${
+              !!item.brandColor ? 'has-color' : 'default-color'
+            }`}
             label={item.title}
             disabled={item.disabled}
             id={`${id}-tab-${index}`}
@@ -94,6 +99,7 @@ const Tabs: FC<Props> = ({
             onClick={() => {
               item.href && router.push(item.href)
             }}
+            sx={{ '&.active': { backgroundColor: colors[item.brandColor] } }}
           />
         ))}
       </MuiTabs>
