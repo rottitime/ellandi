@@ -36,13 +36,13 @@ TOKEN_GENERATOR = TokenGenerator()
 EMAIL_MAPPING = {
     "verification": {
         "from_address": "support-ellandi@cabinetoffice.gov.uk",
-        "subject": "Civil Service Skills and Learning: confirm your email address",
+        "subject": "Cabinet Office Skills and Learning: confirm your email address",
         "template_name": "email/verification.txt",
         "url_path": "/signin/email/verify",
     },
     "password-reset": {
         "from_address": "support-ellandi@cabinetoffice.gov.uk",
-        "subject": "Civil Service Skills and Learning: password reset",
+        "subject": "Cabinet Office Skills and Learning: password reset",
         "template_name": "email/password-reset.txt",
         "url_path": "/signin/forgotten-password/reset",
     },

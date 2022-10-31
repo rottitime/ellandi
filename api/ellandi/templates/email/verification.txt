@@ -1,9 +1,9 @@
-Hi {{user.first_name}},
+Hi,
 
 Use the following link to confirm your email address:
 {{url|safe}}
 
-You can then start using the Civil Service Skills and Learning Service.
+You can then start using the Cabinet Office Skills and Learning Service.
 
 The link is valid for 24 hours. If you use the link more than once, it will expire.
 
@@ -11,4 +11,4 @@ If you have a query about this notification, please email the support team: supp
 
 Regards
 
-Civil Service Skills and Learning
+Cabinet Office Skills and Learning
