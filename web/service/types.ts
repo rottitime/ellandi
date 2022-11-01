@@ -16,7 +16,9 @@ export enum Query {
   SuggestedSkills = 'SuggestedSkills',
   SuggestedSkillsbyRole = 'SuggestedSkillsbyRole',
   MeLearning = 'meLearning',
-  LearningTypes = 'LearningTypes'
+  LearningTypes = 'LearningTypes',
+  ReportSkills = 'ReportSkills',
+  ReportLanguages = 'ReportLanguages'
 }
 
 export type GenericDataList = {
