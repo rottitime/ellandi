@@ -102,7 +102,7 @@ def get_skill_data_for_users(users, user_skills, user_skills_develop, skill_name
         number = number_at_each_level[i]
         percentage = percentage_at_each_level[i]
         label = format_perc_label(number, percentage)
-        slug = slugify(level).replace("_", "-")
+        slug = slugify(level).replace("-", "_")
         data[f"{slug}_value_total"] = number
         data[f"{slug}_value_percentage"] = round(percentage, 0)
         data[f"{slug}_label"] = label
