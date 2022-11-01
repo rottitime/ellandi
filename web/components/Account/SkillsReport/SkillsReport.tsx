@@ -1,18 +1,19 @@
+import Chip from '@/components/Chip/Chip'
 import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
+import DataGrid, { GridColDef } from '@/components/UI/DataGrid/DataGrid'
 import SkeletonTable from '@/components/UI/Skeleton/TableSkeleton'
 import useAuth from '@/hooks/useAuth'
-import { fetchReportSkills, MeReportSkills, Query } from '@/service/api'
-import { Pagination } from '@mui/material'
-import { FC, useState } from 'react'
+import { fetchReportSkills, MeReportSkills, Query, ReportSkillsData } from '@/service/api'
+import { useState } from 'react'
 import { useQuery } from 'react-query'
-import { Props } from './types'
 
-const SkillsReport: FC<Props> = () => {
+const SkillsReport = () => {
   const { authFetch } = useAuth()
-  const [page, setPage] = useState(1)
-  const { isLoading, data } = useQuery<MeReportSkills>([Query.ReportSkills, page], () =>
+  const { isLoading, data } = useQuery<MeReportSkills>([Query.ReportSkills], () =>
     authFetch(fetchReportSkills)
   )
+
+  console.log({ data })
 
   return (
     <AccountCard>
@@ -21,10 +22,14 @@ const SkillsReport: FC<Props> = () => {
       ) : (
         <>
           <p>SkillsReport</p>
-          <Pagination
-            count={data.total_pages}
-            defaultPage={page}
-            onChange={(_e, page) => setPage(page)}
+
+          <DataGrid
+            pageSize={10}
+            rowsPerPageOptions={[10, 25, 50, 100]}
+            columns={columns}
+            rows={data.data}
+            getRowId={(row) => row.name}
+            autoHeight
           />
         </>
       )}
@@ -33,3 +38,32 @@ const SkillsReport: FC<Props> = () => {
 }
 
 export default SkillsReport
+
+const columns: GridColDef<ReportSkillsData>[] = [
+  {
+    field: 'name',
+    headerName: 'Skill',
+    disableColumnMenu: true,
+    resizable: false,
+    renderCell: ({ formattedValue }) => formattedValue,
+    flex: 1
+  },
+  {
+    field: 'skill_value_percentage',
+    headerName: 'Total with skill (%)',
+    disableColumnMenu: true,
+    resizable: false,
+    renderCell: ({ formattedValue, row }) =>
+      formattedValue && <Chip label={row.skill_label} />,
+    flex: 1
+  },
+  {
+    field: 'skills_develop_value_percentage',
+    headerName: 'Total with skill they would like to develop (%)',
+    disableColumnMenu: true,
+    resizable: false,
+    renderCell: ({ formattedValue, row }) =>
+      formattedValue && <Chip label={row.skills_develop_label} />,
+    flex: 1
+  }
+]
