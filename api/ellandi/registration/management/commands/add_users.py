@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 
-from ellandi.registration import fakers, models
+from ellandi.registration import fakers
 
 
 class Command(BaseCommand):
@@ -13,4 +13,4 @@ class Command(BaseCommand):
         number = kwargs["number"]
 
         for user in fakers.add_users(number):
-            print(f"Added: {user}")
+            print(f"Added: {user}")  # noqa: T201

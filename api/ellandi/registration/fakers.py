@@ -28,13 +28,12 @@ def make_bool(true=1, false=1):
 
 def make_user_skill(develop=False):
     data = dict(
-    name = fake.sentence(),
-    pending = make_bool(),
+        name=fake.sentence(),
+        pending=make_bool(),
     )
     if not develop:
-        data['level']= random.choice(models.UserSkill.SkillLevel.values)
+        data["level"] = random.choice(models.UserSkill.SkillLevel.values)
     return data
-
 
 
 def make_fake_user():
@@ -46,9 +45,9 @@ def make_fake_user():
         last_name=last_name,
         email=f"{first_name}.{last_name}@example.com".lower(),
         privacy_policy_agreement=True,
-        verified=make_bool(2,1),
-        is_mentor=make_bool(1,3),
-        is_line_manager=make_bool(1,5),
+        verified=make_bool(2, 1),
+        is_mentor=make_bool(1, 3),
+        is_line_manager=make_bool(1, 5),
     )
     return data
 
@@ -56,7 +55,7 @@ def make_fake_user():
 def add_users(number):
     for i in range(number):
         user_data = make_fake_user()
-        while models.User.objects.filter(email=user_data['email']).exists():
+        while models.User.objects.filter(email=user_data["email"]).exists():
             user_data = make_fake_user()
         user = models.User(**user_data)
         user.save()
