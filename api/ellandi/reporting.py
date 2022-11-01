@@ -3,10 +3,10 @@ from rest_framework import decorators, permissions, status
 from rest_framework.response import Response
 
 from ellandi.registration.models import (
+    Profession,
     User,
     UserSkill,
     UserSkillDevelop,
-    Profession
 )
 
 
@@ -40,7 +40,7 @@ def get_filtered_users(request):
             try:
                 profession_obj = Profession.objects.get(name=profession)
                 professions_objs.append[profession_obj]
-            except: # TODO - find the right exception
+            except:  # TODO - find the right exception
                 pass
                 # error!
     return users_qs
@@ -113,7 +113,7 @@ def get_skill_data_for_users(users, user_skills, user_skills_develop, skill_name
 def report_skills_view(request):  # user_id
     # TODO - get skills from query params
     skills = request.query_params.get("skills", None)
-    if not skills: # TODO - in this case, I think actually return error
+    if not skills:  # TODO - in this case, I think actually return error
         skills = UserSkill.objects.all().values_list("name", flat=True)
     else:
         skills = skills.strip(",")
