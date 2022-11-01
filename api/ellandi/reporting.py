@@ -4,31 +4,46 @@ from rest_framework.response import Response
 
 from ellandi.registration.models import (
     User,
-    UserLanguage,
     UserSkill,
     UserSkillDevelop,
+    Profession
 )
 
 
-# TODO - OBVIOUSLY make this neater!
-def get_filtered_users(
-    is_line_manager=None, is_mentor=None, professions=None, functions=None, grades=None, business_units=None
-):
-    users = User.objects.all()
-    if is_line_manager:
-        users = users.filter(is_line_manager="Yes")
-    if is_mentor:
-        users = users.filter(is_mentor="Yes")
-    # if type(professions, list):
-    #     users = users.filter(profession)
-    # elif type(professions, string):
+def get_filtered_users(request):
+    users_qs = User.objects.all()
+    user_type = request.query_params.get("users")
+    assert user_type in ["all", "line_managers", "mentors", None]
+    if user_type == "line_managers":
+        users_qs = users_qs.filter(is_line_manager="Yes")
+    elif user_type == "mentors":
+        users_qs = users_qs.filter(is_mentor="Yes")
+
+    functions = request.query_params.get("functions")
+    grades = request.query_params.get("grades")
+    business_units = request.query_params.get("business_units")
     if functions:
-        users = users.filter(function__in=functions)
+        functions = functions.strip(",")
+        users_qs = users_qs.filter(function__in=functions)
     if grades:
-        users = users.filter(grade__in=grades)
+        grades = grades.strip(",")
+        users_qs = users_qs.filter(grade__in=grades)
     if business_units:
-        users = users.filter(business_unit__in=business_units)
-    return users
+        business_units = business_units.strip(",")
+        users_qs = users_qs.filter(business_unit__in=business_units)
+    # Professions handled differently as a many-to-many field
+    professions = request.query_params.get("professions")
+    if professions:
+        professions = professions.strip(",")
+        professions_objs = []
+        for profession in professions:
+            try:
+                profession_obj = Profession.objects.get(name=profession)
+                professions_objs.append[profession_obj]
+            except: # TODO - find the right exception
+                pass
+                # error!
+    return users_qs
 
 
 def format_perc_label(number, percentage):
@@ -97,9 +112,13 @@ def get_skill_data_for_users(users, user_skills, user_skills_develop, skill_name
 @decorators.permission_classes((permissions.AllowAny,))  # TODO - change after testing!
 def report_skills_view(request):  # user_id
     # TODO - get skills from query params
-    skills = ["Python", "Maths", "Quacking"]
-    # TODO - add filtering for users
-    users = get_filtered_users()
+    skills = request.query_params.get("skills", None)
+    if not skills: # TODO - in this case, I think actually return error
+        skills = UserSkill.objects.all().values_list("name", flat=True)
+    else:
+        skills = skills.strip(",")
+
+    users = get_filtered_users(request)
     user_skills = UserSkill.objects.filter(user__in=users).filter(name__in=skills)
     user_skills_develop = UserSkillDevelop.objects.filter(user__in=users).filter(name__in=skills)
 
@@ -111,7 +130,8 @@ def report_skills_view(request):  # user_id
         skill_data_list.append(skill_data)
 
     output_data = {
-        #  "page":"number", //e.g. 1
+        # TODO - add pagination?
+        # "page":"number", //e.g. 1
         # "per_page":"number", //e.g. 10
         "total": total_users,
         "total_pages": total_skills,
