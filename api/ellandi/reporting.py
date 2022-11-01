@@ -35,6 +35,7 @@ def filter_users_professions(request, users_qs):
                 professions_objs.append[profession_obj]
             except ObjectDoesNotExist:
                 raise NoSuchProfessionError
+    # TODO - actually filter!
     return users_qs
 
 

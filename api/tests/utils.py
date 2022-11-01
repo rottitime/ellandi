@@ -10,6 +10,8 @@ from ellandi.registration.models import (
     UserSkillDevelop,
 )
 
+TEST_SERVER_URL = "http://testserver:8000/"
+
 user_data = dict(
     email="jane@example.com",
     first_name="Jane",
