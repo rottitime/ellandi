@@ -35,7 +35,7 @@ def filter_users_professions(request, users_qs):
                 professions_objs.append[profession_obj]
             except ObjectDoesNotExist:
                 raise NoSuchProfessionError
-    # TODO - actually filter!
+        users_qs = users_qs.filter(professions__in=professions_objs)
     return users_qs
 
 
@@ -125,7 +125,9 @@ def report_skills_view(request):
     if skills:
         skills = skills.strip(",")
     else:
-        skills = UserSkill.objects.all().values_list("name", flat=True)
+        skills_existing = set(UserSkill.objects.all().values_list("name", flat=True))
+        skills_dev = set(UserSkillDevelop.objects.all().values_list("name", flat=True))
+        skills = list(skills_existing.union(skills_dev))
 
     users = get_filtered_users(request)
     user_skills = UserSkill.objects.filter(user__in=users).filter(name__in=skills)
