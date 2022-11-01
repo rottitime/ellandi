@@ -7,7 +7,7 @@ from drf_spectacular.views import (
     SpectacularSwaggerView,
 )
 
-from ellandi import auth, verification, reporting
+from ellandi import auth, reporting, verification
 from ellandi.debug import debug_view
 from ellandi.registration import views
 

@@ -1,9 +1,13 @@
-from rest_framework import decorators, status, permissions
-from rest_framework.response import Response
 from drf_spectacular.utils import extend_schema
+from rest_framework import decorators, permissions, status
+from rest_framework.response import Response
 
-
-from ellandi.registration.models import User, UserSkill, UserSkillDevelop, UserLanguage
+from ellandi.registration.models import (
+    User,
+    UserLanguage,
+    UserSkill,
+    UserSkillDevelop,
+)
 
 
 # TODO - OBVIOUSLY make this neater!
