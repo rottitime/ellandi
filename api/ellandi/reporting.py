@@ -1,12 +1,9 @@
-import csv
-
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils.text import slugify
 from drf_spectacular.utils import extend_schema
-from rest_framework import decorators, permissions, status
+from rest_framework import decorators, permissions, renderers, status
 from rest_framework.response import Response
 from rest_framework_csv.renderers import CSVRenderer
-from django.conf import settings
 
 from ellandi.registration.exceptions import NoSuchProfessionError
 from ellandi.registration.models import (
@@ -116,8 +113,12 @@ def get_skill_data_for_users(users, user_skills, user_skills_develop, skill_name
 @extend_schema(request=None, responses=None)
 @decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.AllowAny,))  # TODO - change after testing!
-#@decorators.renderer_classes((CSVRenderer, settings.REST_FRAMEWORK["DEFAULT_RENDERER_CLASSES"]))
-@decorators.renderer_classes((CSVRenderer,))
+@decorators.renderer_classes(
+    (
+        CSVRenderer,
+        renderers.JSONRenderer,
+    )
+)
 def report_skills_view(request):
     skills = request.query_params.get("skills", None)
     if skills:
@@ -134,11 +135,9 @@ def report_skills_view(request):
         skill_data = get_skill_data_for_users(users, user_skills, user_skills_develop, skill_name)
         skill_data_list.append(skill_data)
 
-    format = request.query_params.get("format")
-
-    # if format == "csv":
-    #     return Response(data=skill_data_list, status=status.HTTP_200_OK)
-
+    format = request.query_params.get("format", "json")
+    if format == "csv":
+        return Response(data=skill_data_list, status=status.HTTP_200_OK)
 
     output_data = {
         # TODO - add pagination?
@@ -148,6 +147,4 @@ def report_skills_view(request):
         # "total_pages": total_skills,
         "data": skill_data_list,
     }
-
-    # return Response(data=output_data, status=status.HTTP_200_OK)
-    return Response(data=skill_data_list, status=status.HTTP_200_OK)
+    return Response(data=output_data, status=status.HTTP_200_OK)
