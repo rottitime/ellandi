@@ -11,7 +11,7 @@ import { forwardRef, useId, useImperativeHandle, useMemo, useState } from 'react
 import { useQuery } from 'react-query'
 import { Controller, FormProvider, useFieldArray, useForm } from 'react-hook-form'
 import { Field } from '@/components/Form/Field/Field'
-import { array, object, SchemaOf, string } from 'yup'
+import { array, boolean, object, SchemaOf, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Props, RefHandler } from './types'
 import CreatableAutocomplete from '../../CreatableAutocomplete/CreatableAutocomplete'
@@ -32,6 +32,7 @@ const Table = styled(SimpleTable)`
 
 const skillSchema: SchemaOf<SkillType> = object({
   id: string().nullable(),
+  pending: boolean().nullable(),
   name: string().required('Enter a skill name'),
   level: string().required('Select a skill level')
 })
@@ -126,7 +127,8 @@ const SkillsAddForm = forwardRef<RefHandler, Props>(
                 })),
                 { children: <>&nbsp;</> }
               ]}
-              body={fields.map((item, index) => (
+            >
+              {fields.map((item, index) => (
                 <tr key={item.id}>
                   <td>
                     <Controller
@@ -189,7 +191,7 @@ const SkillsAddForm = forwardRef<RefHandler, Props>(
                   </td>
                 </tr>
               ))}
-            />
+            </Table>
 
             <Field>
               <Button

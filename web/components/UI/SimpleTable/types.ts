@@ -7,5 +7,5 @@ export type Props = {
   loading?: boolean
   headers?: DataRow[]
   list: DataRow[][]
-  body?: ReactNode
+  children?: ReactNode
 }

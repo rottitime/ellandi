@@ -3,7 +3,8 @@ import TeamMemberPage from '@/pages/account/your-team/member'
 import fetchMock from 'jest-fetch-mock'
 import { renderWithProviders, mockMe, mockTeam } from '@/lib/test-utils'
 
-const mockRouter = jest.fn(() => ({ query: { id: mockTeam[0].id } }))
+const data = mockTeam[0]
+const mockRouter = jest.fn(() => ({ query: { id: data.id } }))
 
 jest.mock('next/router', () => ({
   ...jest.requireActual('next/router'),
@@ -11,9 +12,6 @@ jest.mock('next/router', () => ({
 }))
 
 describe('Page: Team member with ID', () => {
-  beforeEach(() => {
-    jest.spyOn(console, 'error').mockImplementation(jest.fn())
-  })
   afterEach(() => {
     fetchMock.resetMocks()
   })
@@ -27,7 +25,6 @@ describe('Page: Team member with ID', () => {
     })
 
     it('renders', async () => {
-      const data = mockTeam[0]
       renderWithProviders(<TeamMemberPage />)
 
       await waitFor(async () => {
@@ -45,6 +42,20 @@ describe('Page: Team member with ID', () => {
           'Legal, Medical, Occupational psychology, Operational delivery, Operational research, Another profession'
         )
       ).toBeInTheDocument()
+
+      expect(screen.getByText(data.skills[0].name)).toBeInTheDocument()
+      expect(screen.getByText(data.skills[1].name)).toBeInTheDocument()
+      expect(screen.getByText(data.skills[2].name)).toBeInTheDocument()
+    })
+
+    it('pending skill', async () => {
+      renderWithProviders(<TeamMemberPage />)
+
+      await waitFor(async () => {
+        expect(screen.getByTestId('status-pending')).toHaveTextContent(
+          data.skills[2].name
+        )
+      })
     })
   })
 

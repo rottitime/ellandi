@@ -1,7 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ComponentStory, ComponentMeta } from '@storybook/react'
-import { Box, Typography, styled } from '@mui/material'
+import { Box, styled } from '@mui/material'
+import { Props } from './types'
 import theme from '@/style/theme'
+import Typography from './Typography'
 
 const Row = styled(Box)`
   padding: 10px 0;
@@ -10,8 +11,6 @@ const Row = styled(Box)`
 const variants = Object.entries(theme.typography)
   .filter(([_key, value]) => typeof value === 'object')
   .map(([key]) => key)
-
-// type Variants = typeof variants[number]
 
 export default {
   title: 'Ellandi/Typography',
@@ -28,7 +27,7 @@ const TemplateAll: ComponentStory<typeof Typography> = ({ children, ...args }) =
   <>
     {variants.map((variant) => (
       <Row key={variant}>
-        <Typography variant={variant as any} {...args}>
+        <Typography variant={variant as Props['variant']} {...args}>
           {children || variant}
         </Typography>
       </Row>
@@ -44,10 +43,15 @@ export const All = TemplateAll.bind({})
 All.args = {
   children: ''
 }
-// All.parameters = { controls: { exclude: ['Typography'] } }
 
 export const Single = TemplateSingle.bind({})
 Single.args = {
   variant: 'display',
   children: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Natus, quasi.'
+}
+
+export const Pending = TemplateSingle.bind({})
+Pending.args = {
+  ...Single.args,
+  pending: true
 }
