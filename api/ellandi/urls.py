@@ -7,7 +7,7 @@ from drf_spectacular.views import (
     SpectacularSwaggerView,
 )
 
-from ellandi import auth, verification
+from ellandi import auth, verification, reporting
 from ellandi.debug import debug_view
 from ellandi.registration import views
 
@@ -41,6 +41,7 @@ api_urlpatterns = [
     path("skill-recommender/<str:skill_name>/", views.skill_recommender),
     path("me/title-recommender/", views.me_recommend_job_relevant_skills),
     path("me/skill-recommender/", views.me_recommend_most_relevant_skills),
+    path("me/reports/skills/", reporting.report_skills_view)
 ]
 
 api_debug_urlpatterns = [
