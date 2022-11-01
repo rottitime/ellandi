@@ -1,4 +1,5 @@
 import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
+import SkeletonTable from '@/components/UI/Skeleton/TableSkeleton'
 import useAuth from '@/hooks/useAuth'
 import { fetchReportSkills, MeReportSkills, Query } from '@/service/api'
 import { Pagination } from '@mui/material'
@@ -13,18 +14,20 @@ const SkillsReport: FC<Props> = () => {
     authFetch(fetchReportSkills)
   )
 
-  console.log({ data })
-
-  if (isLoading) return
-
   return (
     <AccountCard>
-      <p>SkillsReport</p>
-      <Pagination
-        count={data.total_pages}
-        defaultPage={page}
-        onChange={(_e, page) => setPage(page)}
-      />
+      {isLoading ? (
+        <SkeletonTable columns={3} rows={10} />
+      ) : (
+        <>
+          <p>SkillsReport</p>
+          <Pagination
+            count={data.total_pages}
+            defaultPage={page}
+            onChange={(_e, page) => setPage(page)}
+          />
+        </>
+      )}
     </AccountCard>
   )
 }
