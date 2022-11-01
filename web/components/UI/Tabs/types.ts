@@ -26,6 +26,7 @@ export type StyleProps = BrandColor
 export type RoutedTabsProps = {
   routedTabItems: RoutedTabItem[]
   tabsPath: string
+  disableCard?: boolean
 } & BrandColor
 
 export type RoutedTabItem = Omit<TabItem, 'href'> & {

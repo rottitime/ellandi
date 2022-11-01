@@ -205,3 +205,44 @@ type LearningApiFields = {
 }
 
 export type MeLearningRecord = LearningBaseType & LearningFormalType & LearningApiFields
+
+type ReportPagination = {
+  page: number
+  per_page: number
+  total: number
+  total_pages: number
+}
+export type MeReportSkills = {
+  data: {
+    name: string
+    skill_label: string
+    skill_value_total: number
+    skill_value_percentage: number
+    skills_develop_label: string
+    skills_develop_value_total: number
+    skills_develop_value_percentage: number
+    beginner_label: string
+    advanced_beginner_label: string
+    competent_label: string
+    proficient_label: string
+    expert_label: string
+  }[]
+} & ReportPagination
+
+export type MeReportLanguages = {
+  data: {
+    name: string
+    basic_label: string
+    basic_value_total: number
+    basic_value_percentage: number
+    independent_label: string
+    independent_value_total: number
+    independent_value_percentage: number
+    proficient_label: string
+    proficient_value_total: number
+    proficient_value_percentage: number
+    native_label: string
+    native_value_total: number
+    native_value_percentage: number
+  }[]
+} & ReportPagination
