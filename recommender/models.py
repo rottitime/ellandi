@@ -14,6 +14,8 @@ from sqlalchemy.orm import declarative_base
 
 from settings_base import DB_URL
 
+print(DB_URL)
+
 Base = declarative_base()
 
 
@@ -53,24 +55,34 @@ def create_db_objects():
     Base.metadata.create_all(engine)
 
 
+from sqlalchemy.sql import select
+
+from sqlalchemy import Table, Column, Integer, String
+
+engine = create_engine(DB_URL)
+
+class UserSkills(Base):
+    __table__ = Table('registration_userskill', Base.metadata, autoload=True, autoload_with=engine)
+class User(Base):
+    __table__ = Table('registration_user', Base.metadata, autoload=True, autoload_with=engine)
+
+
+
 def return_db_user_skills():
     """returns a pandas dataframe with all user skills"""
 
-    query = """
-    SELECT user_id,
-     name
-     FROM registration_userskill
-    """
-
     engine = create_engine(DB_URL)
 
-    all_user_skills = pd.read_sql(query, engine)
+    s = select(UserSkills.user_id, UserSkills.name)
+
+    all_user_skills = pd.read_sql(s, engine)
     all_user_skills["rating"] = 1
     all_user_skills.columns = ["user_id", "skill_name", "rating"]
     all_user_skills["user_id"] = all_user_skills["user_id"].astype("string")
 
     return all_user_skills
 
+from sqlalchemy.sql.expression import join
 
 def return_db_user_title_skills():
     """returns a pandas dataframe with all user skills"""
@@ -83,6 +95,9 @@ def return_db_user_title_skills():
     INNER JOIN registration_userskill
     ON registration_user.id = registration_userskill.user_id
     """
+    joined_tbl = join(User, UserSkills, User.id == UserSkills.user_id)
+
+    query = select(User.id, User.job_title, UserSkills.name).select_from(joined_tbl)
 
     engine = create_engine(DB_URL)
 
@@ -97,20 +112,15 @@ def return_db_user_title_skills():
 def return_common_jobs():
     """returns a pandas dataframe with all user skills"""
 
-    query = """
-    SELECT job_count,
-    job_title
-    FROM (SELECT COUNT(id) as job_count,
-    job_title
-    FROM registration_user
-    GROUP BY job_title) AS tblJobCount
-    WHERE job_count > 2
-    """
+    job_query = select(User.id, User.job_title).select_from(User)
 
     engine = create_engine(DB_URL)
 
-    jobs_df = pd.read_sql(query, engine)
-    common_jobs = jobs_df["job_title"].unique()
+    jobs_df = pd.read_sql(job_query, engine).reset_index()
+    jobs_df.columns = ['id','job_title']
+
+    job_count_df = jobs_df.groupby('id').count().reset_index()
+    common_jobs = job_count_df[job_count_df['job_title'] > 2].unique()
 
     return common_jobs
 

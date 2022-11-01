@@ -9,7 +9,7 @@ from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 from sqlalchemy import Float, Integer, create_engine
 from sqlalchemy.orm import sessionmaker
-from suggest.models import (
+from models import (
     SkillSimilarityArray,
     TitleEmbeddingArray,
     create_db_objects,
@@ -18,7 +18,7 @@ from suggest.models import (
     return_db_user_title_skills,
     return_nlp_user_skills,
 )
-from suggest.settings_base import DB_URL
+from settings_base import DB_URL
 
 
 def make_skill_similarity_matrix():
