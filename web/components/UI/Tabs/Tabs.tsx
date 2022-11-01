@@ -4,6 +4,8 @@ import { Box, styled, Tab, Tabs as MuiTabs, useTheme } from '@mui/material'
 import { Props, StyleProps } from './types'
 import { useRouter } from 'next/router'
 import RoutedTabs from './RoutedTabs'
+import AccountCard from '../Cards/AccountCard/AccountCard'
+import ConditionalWrapper from '@/components/ConditionalWrapper/ConditionalWrapper'
 
 const Wrapper = styled(Box, {
   shouldForwardProp: (p) => p !== 'brandColor'
@@ -33,9 +35,9 @@ const Wrapper = styled(Box, {
   }
 
   [role='tabpanel'] {
-    background-color: ${(p) => p.theme.colors.white};
-    padding: ${(p) => p.theme.spacing(4)};
-    border-radius: 0 0 12px 12px;
+    background-color: ${(p) => p.theme.colors.grey4};
+    padding: ${(p) => p.theme.spacing(3)};
+    border-radius: 0 12px 12px 12px;
   }
 
   .MuiTabs-indicator {
@@ -49,6 +51,7 @@ const Tabs: FC<Props> = ({
   tabItems,
   tabPanel,
   brandColor,
+  disableCard,
   ...props
 }) => {
   const [currentActiveTab, setCurrentActiveTab] = useState<number>(activeIndex)
@@ -78,7 +81,14 @@ const Tabs: FC<Props> = ({
         id={`${id}-tabpanel-${index}`}
         aria-controls={`${id}-tab-${index}`}
       >
-        {isActive && content}
+        {isActive && (
+          <ConditionalWrapper
+            condition={!disableCard}
+            wrapper={(children) => <AccountCard>{children}</AccountCard>}
+          >
+            <>{content}</>
+          </ConditionalWrapper>
+        )}
       </Box>
     )
   }

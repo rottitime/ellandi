@@ -17,6 +17,7 @@ export type Props = {
   tabPanel?: ReactNode
   activeIndex?: number
   activeOnUrl?: boolean
+  disableCard?: boolean
 } & TabsProps &
   BrandColor
 
