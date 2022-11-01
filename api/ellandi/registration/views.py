@@ -226,8 +226,8 @@ def register_view(request):
 @decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.AllowAny,))
 def skills_list_view(request):
-    existing_skills = set(models.UserSkill.objects.all().values_list("name", flat=True))
-    skills_to_develop = set(models.UserSkillDevelop.objects.all().values_list("name", flat=True))
+    existing_skills = set(models.UserSkill.objects.filter(pending=False).values_list("name", flat=True))
+    skills_to_develop = set(models.UserSkillDevelop.objects.filter(pending=False).values_list("name", flat=True))
     initial_skills = initial_data.INITIAL_SKILLS.union(initial_data.NLP_DERIVED_SKILLS).union(
         initial_data.DDAT_SKILLS_TO_JOB_LOOKUP.keys()
     )
@@ -392,6 +392,10 @@ def list_skills_langs(request, user, model_name, field_name):
     serializer = getattr(serializers, f"{model_name}Serializer")
     if request.method == "GET":
         qs = model.objects.filter(user=user)
+        is_skill_model = model_name in ["UserSkill", "UserSkillDevelop"]
+        pending = request.query_params.get("pending")
+        if is_skill_model and (pending is not None):
+            qs = qs.filter(pending=pending)
         serializer = serializer(qs, many=True)
         return Response(data=serializer.data, status=status.HTTP_200_OK)
     elif request.method == "PATCH":

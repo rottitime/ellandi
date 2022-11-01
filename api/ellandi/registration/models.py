@@ -218,6 +218,8 @@ class UserSkill(TimeStampedModel):
     name = models.CharField(max_length=256)
     level = models.CharField(max_length=64, choices=SkillLevel.choices, blank=True, null=True)
     validated = models.BooleanField(default=False, blank=False)
+    # TODO - will need to change this as pending status is per skill, not user skill
+    pending = models.BooleanField(default=False, blank=False)
 
     def __str__(self):
         return f"{self.name} ({self.id})"
@@ -255,6 +257,8 @@ class UserSkillDevelop(TimeStampedModel):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, related_name="skills_develop", on_delete=models.CASCADE)
     name = models.CharField(max_length=127, blank=True, null=True)
+    # TODO - will need to change this as pending status is per skill, not user skill
+    pending = models.BooleanField(default=False, blank=False)
 
     def __str__(self):
         return f"{self.name} ({self.id})"

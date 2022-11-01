@@ -120,7 +120,7 @@ class UserSkillSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserSkill
-        fields = ["id", "user", "name", "level", "validated", "created_at", "modified_at"]
+        fields = ["id", "user", "name", "level", "validated", "pending", "created_at", "modified_at"]
 
 
 class UserLanguageSerializer(serializers.ModelSerializer):
@@ -139,7 +139,7 @@ class UserLanguageSerializer(serializers.ModelSerializer):
 class UserSkillDevelopSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserSkillDevelop
-        fields = ["id", "user", "name", "created_at", "modified_at"]
+        fields = ["id", "user", "name", "pending", "created_at", "modified_at"]
 
 
 class UserSkillSerializerNested(serializers.ModelSerializer):
@@ -149,7 +149,7 @@ class UserSkillSerializerNested(serializers.ModelSerializer):
 
     class Meta:
         model = UserSkill
-        fields = ["id", "name", "level", "validated"]
+        fields = ["id", "name", "level", "validated", "pending"]
 
 
 class UserLanguageSerializerNested(serializers.ModelSerializer):
@@ -168,7 +168,7 @@ class UserLanguageSerializerNested(serializers.ModelSerializer):
 class UserSkillDevelopSerializerNested(serializers.ModelSerializer):
     class Meta:
         model = UserSkillDevelop
-        fields = ["id", "name"]
+        fields = ["id", "name", "pending"]
 
 
 class LearningListSerializer(serializers.ListSerializer):
@@ -244,7 +244,7 @@ class UserSerializer(serializers.ModelSerializer):
         if "professions" in validated_data:
             instance.professions.set(validated_data["professions"])
 
-        # For skills and languages - append to exisiting lists of skills/langs
+        # For skills and languages - append to existing lists of skills/langs
         if "skills" in validated_data:
             for skill_data in validated_data["skills"]:
                 name = skill_data["name"]
