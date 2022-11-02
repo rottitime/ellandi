@@ -36,27 +36,18 @@ const userOptions = ['All', 'Line managers', 'Mentors']
 
 const SkillsReport = () => {
   const { authFetch } = useAuth()
-  const skillInput = useRef<HTMLInputElement>()
-  const professionInput = useRef<HTMLInputElement>()
-
   const [filters, setFilters] = useState<FiltersType>({})
 
-  const params: FiltersType = {
-    skills: skillInput?.current?.value,
-    professions: professionInput?.current?.value?.join(',')
-  }
   const { isLoading, data } = useQuery<MeReportSkills>(
     [Query.ReportSkills, filters],
-    () => authFetch(fetchReportSkills, filters)
+    () => authFetch(fetchReportSkills, filters),
+    { keepPreviousData: true }
   )
 
   const skills: string[] = useMemo(
     () => (!data?.data ? [] : data.data.map(({ name }) => name).sort()),
     [data?.data]
   )
-
-  // console.log(skillInput, skillInput?.current?.value)
-  // console.log(professionInput, professionInput?.current?.value)
 
   return (
     <Card>
@@ -102,48 +93,52 @@ const SkillsReport = () => {
           <div className="filters">
             <Select
               label="Select profession(s)"
-              defaultValue={filters?.professions || []}
+              defaultValue={filters?.professions?.split(',') || []}
               data={asStringList(professions)}
-              // ref={professionInput}
               onChange={(e) => {
-                console.log('CHANGEDCHANGEDCHANGEDCHANGEDCHANGED')
-                const value = e.target.value
                 setFilters((p) => ({
                   ...p,
-                  professions: value
+                  professions: (e.target.value as string[]).join(',')
                 }))
-                // setFilters((p) => ({
-                //   ...p,
-                //   professions: ''
-                // }))
               }}
               checkboxes
             />
-            {/* <Select
+            <Select
               label="Select function(s)"
-              defaultValue={(filters?.functions && 'dededede,dede') || ''}
+              defaultValue={filters?.functions?.split(',') || []}
               data={asStringList(functions)}
               onChange={(e) => {
                 setFilters((p) => ({
                   ...p,
-                  functions: e.target.value as string
+                  functions: (e.target.value as string[]).join(',')
                 }))
               }}
               checkboxes
             />
-            <Select label="Select grade(s)" data={asStringList(grades)} checkboxes />
+            <Select
+              label="Select grade(s)"
+              defaultValue={filters?.grades?.split(',') || []}
+              data={asStringList(grades)}
+              onChange={(e) =>
+                setFilters((p) => ({
+                  ...p,
+                  grades: (e.target.value as string[]).join(',')
+                }))
+              }
+              checkboxes
+            />
             <Select
               label="Select business unit(s)"
-              defaultValue=""
+              defaultValue={filters?.business_unit?.split(',') || []}
               data={asStringList(businessUnits)}
               onChange={(e) =>
                 setFilters((p) => ({
                   ...p,
-                  business_unit: e.target.value as string
+                  business_unit: (e.target.value as string[]).join(',')
                 }))
               }
               checkboxes
-            /> */}
+            />
           </div>
 
           <DataGrid

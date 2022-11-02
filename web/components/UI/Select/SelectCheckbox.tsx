@@ -14,8 +14,6 @@ const SelectCheckbox: FC<Props> = forwardRef<FC, Props>(
       defaultValue as CheckBoxValue
     )
 
-    console.log(props.label, selectValue)
-
     const handleChange = (
       event: SelectChangeEvent<typeof selectValue>,
       child: ReactNode
@@ -37,9 +35,6 @@ const SelectCheckbox: FC<Props> = forwardRef<FC, Props>(
         multiple
         renderValue={(selected: CheckBoxValue) => selected.join(', ')}
         onChange={handleChange}
-        onSelect={() => {
-          console.log('SELECTDEDSELECTDEDSELECTDEDSELECTDEDSELECTDEDSELECTDED')
-        }}
         ref={ref}
       >
         {data.map((label) => (
