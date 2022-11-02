@@ -4,6 +4,7 @@ from drf_spectacular.utils import extend_schema
 from rest_framework import decorators, permissions, renderers, status
 from rest_framework.response import Response
 from rest_framework_csv.renderers import CSVRenderer
+from drf_spectacular.utils import OpenApiParameter, OpenApiTypes
 
 from ellandi.registration.exceptions import NoSuchProfessionError
 from ellandi.registration.models import (
@@ -24,6 +25,7 @@ def filter_users_type(request, users_qs):
     return users_qs
 
 
+# TODO - will need to update after Ed's changes
 def filter_users_professions(request, users_qs):
     professions = request.query_params.get("professions")
     if professions:
@@ -45,7 +47,11 @@ def filter_users_other_params(request, users_qs):
     business_units = request.query_params.get("business_units")
     if functions:
         functions = functions.strip(",")
+        print(users_qs.count())
+        print(functions)
         users_qs = users_qs.filter(function__in=functions)
+        print(users_qs.count())
+        print(functions)
     if grades:
         grades = grades.strip(",")
         users_qs = users_qs.filter(grade__in=grades)
@@ -74,8 +80,12 @@ def get_skill_data_for_users(users, user_skills, user_skills_develop, skill_name
 
     number_with_skill = user_skills_particular.count()
     number_wanting_to_develop = user_skills_dev_particular.count()
-    percentage_with_skill = (number_with_skill / total_users) * 100
-    percentage_wanting_to_develop = (number_wanting_to_develop / total_users) * 100
+    if total_users:
+        percentage_with_skill = (number_with_skill / total_users) * 100
+        percentage_wanting_to_develop = (number_wanting_to_develop / total_users) * 100
+    else:
+        percentage_with_skill = 0
+        percentage_wanting_to_develop = 0
 
     data = {
         "name": skill_name,
@@ -111,7 +121,11 @@ def get_skill_data_for_users(users, user_skills, user_skills_develop, skill_name
     return data
 
 
-@extend_schema(request=None, responses=None)
+@extend_schema(
+    parameters=[
+        OpenApiParameter(name="skills", location=OpenApiParameter.QUERY, required=False, type=str),
+        OpenApiParameter(name="grade", location=OpenApiParameter.QUERY, required=False, type=str)
+    ], responses=None)
 @decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.AllowAny,))  # TODO - change after testing!
 @decorators.renderer_classes(

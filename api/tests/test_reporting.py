@@ -70,7 +70,7 @@ def test_get_report_skills(client, user_id):
 @utils.with_logged_in_client
 @with_setup(setup_users_skills, teardown_users_skills)
 def test_get_report_skills_query(client, user_id):
-    endpoint = f"{SKILLS_ENDPOINT}?skills=Economics,AWS,Zoology&?functions=Digital,Analysis"
+    endpoint = f"{SKILLS_ENDPOINT}?skills='Economics,AWS,Zoology'&?functions='Digital,Analysis'"
     response = client.get(endpoint)
     assert response.status_code == status.HTTP_200_OK
     result = response.json()
