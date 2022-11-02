@@ -30,7 +30,7 @@ def filter_users_professions(request, users_qs):
     # for prof in professions:
     #     prof_users_qs = users_qs.filter(professions__contains=[prof])
     #     output_users_qs = output_users_qs | prof_users_qs
-    output_users_qs = users_qs.filter(professions__contained_by=professions)
+    output_users_qs = users_qs.filter(professions__contained_by=professions).exclude(professions=[])
     print("output_users_qs")
     print(output_users_qs)
     return output_users_qs

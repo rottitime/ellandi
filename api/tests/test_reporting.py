@@ -60,9 +60,8 @@ def teardown_users_skills():
         email = f"test{i}@example.com"
         User.objects.get(email=email).delete()
 
+
 # def test_filter_users_professions():
-
-
 
 
 @utils.with_logged_in_client
