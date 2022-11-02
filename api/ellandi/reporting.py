@@ -1,15 +1,10 @@
 from django.utils.text import slugify
-from drf_spectacular.utils import extend_schema
+from drf_spectacular.utils import OpenApiParameter, extend_schema
 from rest_framework import decorators, permissions, renderers, status
 from rest_framework.response import Response
 from rest_framework_csv.renderers import CSVRenderer
-from drf_spectacular.utils import OpenApiParameter
 
-from ellandi.registration.models import (
-    User,
-    UserSkill,
-    UserSkillDevelop,
-)
+from ellandi.registration.models import User, UserSkill, UserSkillDevelop
 
 
 def filter_users_type(request, users_qs):
