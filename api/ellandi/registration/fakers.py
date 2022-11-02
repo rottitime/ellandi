@@ -51,6 +51,10 @@ _DROP_DOWN_KEYS = (
 )
 
 
+def rand_range(num):
+    return range(int(random.uniform(0, num)))
+
+
 def make_fake_user():
     first_name = fake.first_name()
     last_name = fake.last_name()
@@ -78,11 +82,11 @@ def add_users(number):
             user_data = make_fake_user()
         user = models.User(**user_data)
         user.save()
-        for i in range(int(random.uniform(0, 10))):
+        for _ in rand_range(10):
             skill_data = make_user_skill()
             user_skill = models.UserSkill(user=user, **skill_data)
             user_skill.save()
-        for i in range(int(random.uniform(0, 10))):
+        for _ in rand_range(10):
             skill_data = make_user_skill(develop=True)
             user_skill = models.UserSkillDevelop(user=user, **skill_data)
             user_skill.save()
