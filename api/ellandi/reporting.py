@@ -116,14 +116,15 @@ def get_skill_data_for_users(users, user_skills, user_skills_develop, skill_name
 @decorators.permission_classes((permissions.AllowAny,))  # TODO - change after testing!
 @decorators.renderer_classes(
     (
-        CSVRenderer,
+
         renderers.JSONRenderer,
+   #     CSVRenderer, # TODO - sort out CSV
     )
 )
 def report_skills_view(request):
     skills = request.query_params.get("skills", None)
     if skills:
-        skills = skills.strip(",")
+        skills = skills.split(",")
     else:
         skills_existing = set(UserSkill.objects.all().values_list("name", flat=True))
         skills_dev = set(UserSkillDevelop.objects.all().values_list("name", flat=True))
