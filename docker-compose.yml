@@ -49,6 +49,7 @@ services:
     image: ellandi_recommender
     depends_on:
       - ellandi-db
+      - api
     env_file:
       - ./envs/recommender
     volumes:

@@ -46,8 +46,6 @@ def create_db_objects():
     """declares and creates all our db objects"""
 
     DB_URL = os.getenv("DATABASE_URL")
-    print("url")
-    print(DB_URL)
 
     Base = declarative_base()
     engine = create_engine(DB_URL)
@@ -87,14 +85,6 @@ from sqlalchemy.sql.expression import join
 def return_db_user_title_skills():
     """returns a pandas dataframe with all user skills"""
 
-    query = """
-    SELECT registration_user.id as user_id,
-    job_title,
-    registration_userskill.name as skill_name
-    FROM registration_user
-    INNER JOIN registration_userskill
-    ON registration_user.id = registration_userskill.user_id
-    """
     joined_tbl = join(User, UserSkills, User.id == UserSkills.user_id)
 
     query = select(User.id, User.job_title, UserSkills.name).select_from(joined_tbl)
@@ -102,9 +92,9 @@ def return_db_user_title_skills():
     engine = create_engine(DB_URL)
 
     all_user_skills = pd.read_sql(query, engine)
+    all_user_skills.columns = ["user_id", "job_title", "skill_name"]
     all_user_skills["rating"] = 1
     all_user_skills["user_id"] = all_user_skills["user_id"].astype("string")
-    all_user_skills.columns = ["user_id", "job_title", "skill_name", "rating"]
 
     return all_user_skills
 
@@ -116,11 +106,11 @@ def return_common_jobs():
 
     engine = create_engine(DB_URL)
 
-    jobs_df = pd.read_sql(job_query, engine).reset_index()
+    jobs_df = pd.read_sql(job_query, engine)
     jobs_df.columns = ['id','job_title']
 
     job_count_df = jobs_df.groupby('id').count().reset_index()
-    common_jobs = job_count_df[job_count_df['job_title'] > 2].unique()
+    common_jobs = job_count_df[job_count_df['job_title'] > 2]['job_title'].unique()
 
     return common_jobs
 
@@ -128,5 +118,5 @@ def return_common_jobs():
 def return_nlp_user_skills():
     """returns a pandas dataframe of nlp based user skills"""
 
-    nlp_skill_df = pd.read_json("suggest/nlp_generated_skills.json")[["user_id", "job_title", "skill_name", "rating"]].iloc[0:1000]
+    nlp_skill_df = pd.read_json("nlp_generated_skills.json")[["user_id", "job_title", "skill_name", "rating"]].iloc[0:1000]
     return nlp_skill_df

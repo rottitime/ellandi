@@ -17,13 +17,14 @@ RUN python3 -m pip install -U pip setuptools wheel
 COPY ./recommender/requirements.lock /app/recommender/requirements.lock
 RUN python3 -m pip install -r /app/recommender/requirements.lock --no-cache-dir
 
-COPY ./docker/recommender/entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+COPY ./docker/api/start.sh /start.sh
+RUN chmod +x /start.sh
+
 
 COPY . /app
 
 WORKDIR /app/recommender
 
-ENTRYPOINT ["sh","/entrypoint.sh"]
 CMD ["sh","/start.sh"]
 
+#RUN python create_recommendations.py
