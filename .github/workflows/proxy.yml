@@ -45,7 +45,7 @@ jobs:
       - name: Get IPs
         id: get_ips
         working-directory: ./proxy
-        run: echo "::set-output name=ips::$(tr '\n' ' ' <whitelisted_ips.txt)"
+        run: echo "::set-output name=ips::$(grep -o '^[^#]*' whitelisted_ips.txt | tr '\n' ' ')"
 
       - name: CF push proxy apps non-prod
         if: ${{ github.ref_name != 'prod' }}
