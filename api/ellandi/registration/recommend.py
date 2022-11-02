@@ -57,6 +57,5 @@ def recommend_title_from_db(current_title):
     """Given an existing job title, queries the pre-baked recommendations from the database"""
 
     all_entries = TitleRecommendation.objects.filter(job_title=current_title).order_by("-index").values()
-    print(pd.DataFrame(list(all_entries)))
     df = pd.DataFrame(list(all_entries)).drop_duplicates(subset=["recommended_skill"])
     return df["recommended_skill"].tolist()
