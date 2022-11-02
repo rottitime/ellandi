@@ -2,11 +2,7 @@ from nose.tools import with_setup
 from rest_framework import status
 from tests import utils
 
-from ellandi.registration.models import (
-    User,
-    UserSkill,
-    UserSkillDevelop,
-)
+from ellandi.registration.models import User, UserSkill, UserSkillDevelop
 
 SKILLS_ENDPOINT = "/api/me/reports/skills/"
 
@@ -51,9 +47,9 @@ def setup_users_skills():
         else:
             user.grade = "Grade 6"
         if i % 3 == 0:
-            user.is_line_manager == "Yes"
+            user.is_line_manager = "Yes"
         if i % 4 == 0:
-            user.is_mentor == "Yes"
+            user.is_mentor = "Yes"
         user.save()
         add_skills(user, i)
         add_professions(user, i)
@@ -84,20 +80,20 @@ def test_get_report_skills_query(client, user_id):
     econ_data = [d for d in data if d["name"] == "Economics"][0]
     assert econ_data["total_users"] == 10, econ_data
     assert econ_data["skill_value_percentage"] == 100
-    assert econ_data["skills_develop_value_total"] == 0
+    assert econ_data["skill_develop_value_total"] == 0
     assert econ_data["advanced_beginner_value_total"] == 2
     assert econ_data["competent_value_percentage"] == 20
     assert econ_data["proficient_label"] == "2 (20%)", econ_data["proficient_label"]
     aws_data = [d for d in data if d["name"] == "AWS"][0]
     assert aws_data["name"] == "AWS"
     assert aws_data["skill_label"] == "7 (70%)"
-    assert aws_data["skills_develop_value_total"] == 3
+    assert aws_data["skill_develop_value_total"] == 3
     assert aws_data["beginner_value_total"] == 7
     assert aws_data["expert_value_percentage"] == 0
     zoo_data = [d for d in data if d["name"] == "Zoology"][0]
     assert zoo_data["total_users"] == 10
     assert zoo_data["skill_value_percentage"] == 0
-    assert zoo_data["skills_develop_value_total"] == 0
+    assert zoo_data["skill_develop_value_total"] == 0
     assert zoo_data["beginner_value_total"] == 0
 
 
@@ -110,28 +106,34 @@ def test_get_report_skills_users(client, user_id):
     assert response.status_code == status.HTTP_200_OK
     result = response.json()
     assert result["total"] == 4
-    endpoint = f"{SKILLS_ENDPOINT}?skills=Science,Maths,Writing,AWS&users=mentors"
+    endpoint = f"{SKILLS_ENDPOINT}?skills=Science,Maths,Writing,AWS&users=mentors&business_units=i.AI"
     response = client.get(endpoint)
     assert response.status_code == status.HTTP_200_OK
     result = response.json()
-
+    assert result["total"] == 4
+    assert result["data"][0]["total_users"] == 3
     endpoint = f"{SKILLS_ENDPOINT}?skills=Science,Maths,Writing,AWS&users=line_managers"
     response = client.get(endpoint)
     assert response.status_code == status.HTTP_200_OK
     result = response.json()
-
-    endpoint = f"{SKILLS_ENDPOINT}?skills=Writing&function=Analysis,Digital"
-    response = client.get(endpoint)
-    assert response.status_code == status.HTTP_200_OK
-    result = response.json()
-
-    endpoint = f"{SKILLS_ENDPOINT}?skills=Science&function=Digital"
-
-    endpoint = f"{SKILLS_ENDPOINT}?skills=Science&function=Digital?users=mentors"
+    assert result["total"] == 4
+    assert result["data"][0]["total_users"] == 4
+    endpoint = f"{SKILLS_ENDPOINT}?skills=AWS&functions=Analysis,Digital"
     response = client.get(endpoint)
     assert response.status_code == status.HTTP_200_OK
     result = response.json()
     assert result["total"] == 1
+    data0 = result["data"][0]
+    assert data0["total_users"] == 10
+    assert data0["beginner_value_total"] == 7
+    assert data0["competent_value_total"] == 0
+    assert data0["skill_develop_value_total"] == 3
+    endpoint = f"{SKILLS_ENDPOINT}?skills=Science&functions=Digital?users=mentors"
+    response = client.get(endpoint)
+    assert response.status_code == status.HTTP_200_OK
+    result = response.json()
+    assert result["total"] == 1
+    assert result["data"][0]["total_users"] == 2
 
 
 @utils.with_logged_in_client
@@ -145,7 +147,7 @@ def test_get_report_skills_business_unit(client, user_id):
     assert len(result["data"]) == 2
     assert result["data"][0]["total_users"] == 10
     assert result["data"][1]["total_users"] == 10
-    endpoint = f"{SKILLS_ENDPOINT}?functions=Analysis&grades=Grade%206&business_units=i.AI"
+    endpoint = f"{SKILLS_ENDPOINT}?functions=Analysis&grades=Grade%206&business_units=i.AI,CDIO"
     response = client.get(endpoint)
     assert response.status_code == status.HTTP_200_OK
     result = response.json()

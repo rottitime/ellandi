@@ -78,9 +78,9 @@ def get_skill_data_for_users(users, user_skills, user_skills_develop, skill_name
         "skill_value_total": number_with_skill,
         "skill_value_percentage": int(percentage_with_skill),
         "skill_label": format_perc_label(number_with_skill, percentage_with_skill),
-        "skills_develop_value_total": number_wanting_to_develop,
-        "skills_develop_value_percentage": int(percentage_wanting_to_develop),
-        "skills_develop_label": format_perc_label(number_wanting_to_develop, percentage_wanting_to_develop),
+        "skill_develop_value_total": number_wanting_to_develop,
+        "skill_develop_value_percentage": int(percentage_wanting_to_develop),
+        "skill_develop_label": format_perc_label(number_wanting_to_develop, percentage_wanting_to_develop),
     }
 
     number_at_each_level = []
@@ -109,6 +109,7 @@ def get_skill_data_for_users(users, user_skills, user_skills_develop, skill_name
 @extend_schema(
     parameters=[
         OpenApiParameter(name="skills", location=OpenApiParameter.QUERY, required=False, type=str),
+        # TODO - is it possible to have options here? "all", "line_managers", "mentors"
         OpenApiParameter(name="users", location=OpenApiParameter.QUERY, required=False, type=str),
         OpenApiParameter(name="professions", location=OpenApiParameter.QUERY, required=False, type=str),
         OpenApiParameter(name="functions", location=OpenApiParameter.QUERY, required=False, type=str),
@@ -146,6 +147,7 @@ def report_skills_view(request):
 
     format = request.query_params.get("format", "json")
     # TODO - can we reorder the columns in the CSV?
+    # TODO - do we want to rename the columns or only select some of them?
     if format == "csv":
         return Response(data=skill_data_list, status=status.HTTP_200_OK, content_type="text/csv")
 
