@@ -6,6 +6,7 @@ from ellandi.registration.models import User, UserSkill, UserLanguage, UserSkill
 
 SKILLS_ENDPOINT = "/api/me/reports/skills/"
 
+
 def add_skills(user, i):
     skill_levels = ["Beginner", "Advanced beginner", "Competent", "Proficient", "Expert"]
     remainder = i % 5
@@ -112,4 +113,3 @@ def test_get_report_skills_query(client, user_id):
 #     endpoint = f"{SKILLS_ENDPOINT}?skills=Science?function=Digital?users=mentors"
 
 #     endpoint = f"{SKILLS_ENDPOINT}?skills=Writing?function=Analysis?"
-

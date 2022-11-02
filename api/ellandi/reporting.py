@@ -124,15 +124,20 @@ def get_skill_data_for_users(users, user_skills, user_skills_develop, skill_name
 @extend_schema(
     parameters=[
         OpenApiParameter(name="skills", location=OpenApiParameter.QUERY, required=False, type=str),
-        OpenApiParameter(name="grade", location=OpenApiParameter.QUERY, required=False, type=str)
-    ], responses=None)
+        OpenApiParameter(name="users", location=OpenApiParameter.QUERY, required=False, type=str),
+        OpenApiParameter(name="professions", location=OpenApiParameter.QUERY, required=False, type=str),
+        OpenApiParameter(name="functions", location=OpenApiParameter.QUERY, required=False, type=str),
+        OpenApiParameter(name="grades", location=OpenApiParameter.QUERY, required=False, type=str),
+        OpenApiParameter(name="business_units", location=OpenApiParameter.QUERY, required=False, type=str),
+    ],
+    responses=None,
+)
 @decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.AllowAny,))  # TODO - change after testing!
 @decorators.renderer_classes(
     (
-
         renderers.JSONRenderer,
-   #     CSVRenderer, # TODO - sort out CSV
+        #     CSVRenderer, # TODO - sort out CSV
     )
 )
 def report_skills_view(request):
