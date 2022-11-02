@@ -93,8 +93,8 @@ def store_matrices(skill_similarity_matrix, job_embeddings_matrix):
     # https://stackoverflow.com/questions/60278766/best-way-to-insert-python-numpy-array-into-postgresql-database
     current_array = SkillSimilarityArray(createdAt=datetime.now(), array=pickle.dumps(skill_similarity_matrix))
 
-    Session = sessionmaker(bind=engine)
-    session = Session()
+    session_object = sessionmaker(bind=engine)
+    session = session_object()
 
     session.add(current_array)
     session.commit()
@@ -267,7 +267,6 @@ def return_all_title_recommendations(user_skills, job_embeddings):
         similar_skill_dist = comparison_df.corr()["distance"].sort_values()
 
         returned_skills = list(similar_skill_dist.iloc[0:skill_count].index)
-        print(returned_skills)
         skill_df = pd.DataFrame(returned_skills)
         skill_df.columns = ["recommendedSkill"]
         skill_df["job_title"] = current_title

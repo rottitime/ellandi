@@ -1,3 +1,3 @@
 import os
 
-DB_URL = os.getenv("DATABASE_URL")
+db_url = os.getenv("DATABASE_URL")

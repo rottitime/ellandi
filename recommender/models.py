@@ -1,7 +1,5 @@
-import os
-
 import pandas as pd
-from settings_base import DB_URL
+from settings_base import db_url
 from sqlalchemy import (
     Column,
     DateTime,
@@ -16,12 +14,12 @@ from sqlalchemy.orm import declarative_base
 from sqlalchemy.sql import select
 from sqlalchemy.sql.expression import join
 
-engine = create_engine(DB_URL)
+engine = create_engine(db_url)
 
-Base = declarative_base()
+base_object = declarative_base()
 
 
-class TitleEmbeddingArray(Base):
+class TitleEmbeddingArray(base_object):
     __tablename__ = "recommend_titleembeddings"
     id = Column(Integer, primary_key=True, autoincrement=True)
     jobTitle = Column(String)
@@ -29,14 +27,14 @@ class TitleEmbeddingArray(Base):
     value = Column(Float)
 
 
-class SkillSimilarityArray(Base):
+class SkillSimilarityArray(base_object):
     __tablename__ = "recommend_skillsimilarity"
     id = Column(Integer, primary_key=True, autoincrement=True)
     createdAt = Column(DateTime)
     array = Column(LargeBinary)
 
 
-class SkillRecommendations(Base):
+class SkillRecommendations(base_object):
     __tablename__ = "registration_skillrecommendation"
     id = Column(Integer, primary_key=True, autoincrement=True)
     created_at = Column(DateTime)
@@ -44,29 +42,27 @@ class SkillRecommendations(Base):
     recommended_skill = Column(String)
 
 
-class UserSkills(Base):
-    __table__ = Table("registration_userskill", Base.metadata, autoload=True, autoload_with=engine)
+class UserSkills(base_object):
+    __table__ = Table("registration_userskill", base_object.metadata, autoload=True, autoload_with=engine)
 
 
-class User(Base):
-    __table__ = Table("registration_user", Base.metadata, autoload=True, autoload_with=engine)
+class User(base_object):
+    __table__ = Table("registration_user", base_object.metadata, autoload=True, autoload_with=engine)
 
 
 def create_db_objects():
     """Declares and creates any database objectes if not previously created as part of API"""
 
-    DB_URL = os.getenv("DATABASE_URL")
-
-    Base = declarative_base()
-    engine = create_engine(DB_URL)
+    base_object = declarative_base()
+    engine = create_engine(db_url)
     # create all dbs
-    Base.metadata.create_all(engine)
+    base_object.metadata.create_all(engine)
 
 
 def return_db_user_skills():
     """Queries the database and returns a pandas dataframe with all user skills"""
 
-    engine = create_engine(DB_URL)
+    engine = create_engine(db_url)
 
     s = select(UserSkills.user_id, UserSkills.name)
 
@@ -85,7 +81,7 @@ def return_db_user_title_skills():
 
     query = select(User.id, User.job_title, UserSkills.name).select_from(joined_tbl)
 
-    engine = create_engine(DB_URL)
+    engine = create_engine(db_url)
 
     all_user_skills = pd.read_sql(query, engine)
     all_user_skills.columns = ["user_id", "job_title", "skill_name"]
@@ -104,7 +100,7 @@ def return_common_jobs():
 
     job_query = select(User.id, User.job_title).select_from(User)
 
-    engine = create_engine(DB_URL)
+    engine = create_engine(db_url)
 
     jobs_df = pd.read_sql(job_query, engine)
     jobs_df.columns = ["id", "job_title"]
