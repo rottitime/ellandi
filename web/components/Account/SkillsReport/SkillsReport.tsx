@@ -6,7 +6,7 @@ import SkeletonTable from '@/components/UI/Skeleton/TableSkeleton'
 import useAuth from '@/hooks/useAuth'
 import { fetchReportSkills, MeReportSkills, Query, ReportSkillsData } from '@/service/api'
 import { FormControlLabel, Radio, RadioGroup, styled, Typography } from '@mui/material'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { useQuery } from 'react-query'
 import functions from '@/prefetch/functions.json'
 import professions from '@/prefetch/professions.json'
@@ -14,6 +14,7 @@ import grades from '@/prefetch/grades.json'
 import businessUnits from '@/prefetch/business-units.json'
 import { asStringList } from '@/lib/data-utils'
 import SplitButton from '@/components/UI/SplitButton/SplitButton'
+import { FiltersType } from './types'
 
 const Card = styled(AccountCard)`
   .main-filters {
@@ -35,8 +36,10 @@ const userOptions = ['All', 'Line managers', 'Mentors']
 
 const SkillsReport = () => {
   const { authFetch } = useAuth()
-  const { isLoading, data } = useQuery<MeReportSkills>([Query.ReportSkills], () =>
-    authFetch(fetchReportSkills)
+  const [filters, setFilters] = useState<FiltersType>({})
+  const { isLoading, data } = useQuery<MeReportSkills>(
+    [Query.ReportSkills, filters],
+    () => authFetch(fetchReportSkills, filters)
   )
 
   const skills: string[] = useMemo(
@@ -55,9 +58,16 @@ const SkillsReport = () => {
         <>
           <div className="main-filters">
             <Select
+              defaultValue={filters?.skills || ''}
               label="Select skill(s)"
               data={skills}
               sx={{ width: 314 }}
+              onChange={(e) =>
+                setFilters((p) => ({
+                  ...p,
+                  skills: e.target.value as string
+                }))
+              }
               fullWidth={false}
             />
 
@@ -81,18 +91,43 @@ const SkillsReport = () => {
           <div className="filters">
             <Select
               label="Select profession(s)"
+              defaultValue={filters?.professions || ''}
               data={asStringList(professions)}
+              onChange={(e) => {
+                setFilters((p) => ({
+                  ...p,
+                  professions: e.target.value as string[]
+                }))
+                // setFilters((p) => ({
+                //   ...p,
+                //   professions: e.target.value as string
+                // }))
+              }}
               checkboxes
             />
             <Select
               label="Select function(s)"
+              defaultValue={(filters?.functions && 'dededede,dede') || ''}
               data={asStringList(functions)}
+              onChange={(e) => {
+                setFilters((p) => ({
+                  ...p,
+                  functions: e.target.value as string
+                }))
+              }}
               checkboxes
             />
             <Select label="Select grade(s)" data={asStringList(grades)} checkboxes />
             <Select
               label="Select business unit(s)"
+              defaultValue=""
               data={asStringList(businessUnits)}
+              onChange={(e) =>
+                setFilters((p) => ({
+                  ...p,
+                  business_unit: e.target.value as string
+                }))
+              }
               checkboxes
             />
           </div>

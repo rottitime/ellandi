@@ -12,6 +12,8 @@ const SelectCheckbox: FC<Props> = forwardRef<FC, Props>(
   ({ data = [], onChange, ...props }, ref) => {
     const [selectValue, setSelectValue] = useState<CheckBoxValue>([])
 
+    console.log({ selectValue })
+
     const handleChange = (
       event: SelectChangeEvent<typeof selectValue>,
       child: ReactNode

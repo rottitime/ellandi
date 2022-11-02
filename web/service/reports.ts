@@ -3,10 +3,11 @@ import { MeReportSkills } from './types'
 const { publicRuntimeConfig } = getConfig()
 import { defaultError } from '@/service/auth'
 
-export const fetchReportSkills = async (token: string) => {
-  // const res = await api(token, `/me/reports/skills/`)
+export const fetchReportSkills = async (token: string, params) => {
+  // const res = await api(token, `/me/reports/skills/`, null, params)
   // return res.json()
   //TODO: change to fetch
+  console.log({ token, params })
   return Promise.resolve(skillsData)
 }
 
@@ -18,9 +19,11 @@ export const fetchReportLanguages = async (token: string) => {
 const api = async (
   token: string,
   input: RequestInfo | URL,
-  init?: RequestInit
+  init?: RequestInit,
+  params?: URLSearchParams
 ): Promise<Response> => {
-  const res: Response = await fetch(`${publicRuntimeConfig.apiUrl}${input}`, {
+  params = new URLSearchParams(params)
+  const res: Response = await fetch(`${publicRuntimeConfig.apiUrl}${input}?${params}`, {
     ...init,
     headers: { ...init.headers, Authorization: `Token ${token}` }
   })

@@ -1,17 +1,33 @@
-import { FormControl, InputLabel, MenuItem, Select as BasicSelect } from '@mui/material'
+import {
+  FormControl,
+  FormHelperText,
+  InputLabel,
+  MenuItem,
+  Select as BasicSelect
+} from '@mui/material'
 import { FC, forwardRef, useId } from 'react'
 import SelectCheckbox from './SelectCheckbox'
 import { Props } from './types'
 
 //const Select: FC<Props> = ({ checkboxes, label, fullWidth, ...props }) => {
 const Select: FC<Props> = forwardRef<FC, Props>(
-  ({ checkboxes, label, data = [], fullWidth = true, children, ...props }, ref) => {
+  (
+    { checkboxes, label, data = [], fullWidth = true, children, error, ...props },
+    ref
+  ) => {
     const id = useId()
     const labelId = `label-${id}`
-    const newProps = { ...props, label, labelId, ref, data }
+
+    const newProps = {
+      ...props,
+      label,
+      labelId,
+      ref,
+      data
+    }
 
     return (
-      <FormControl fullWidth={fullWidth} size="small">
+      <FormControl error={!!error} fullWidth={fullWidth} size="small">
         <InputLabel id={labelId}>{label}</InputLabel>
 
         {checkboxes ? (
@@ -26,6 +42,7 @@ const Select: FC<Props> = forwardRef<FC, Props>(
             {children}
           </BasicSelect>
         )}
+        {!!error && <FormHelperText error>{error}</FormHelperText>}
       </FormControl>
     )
   }
