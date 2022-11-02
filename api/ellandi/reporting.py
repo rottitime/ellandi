@@ -17,16 +17,22 @@ def filter_users_type(request, users_qs):
     return users_qs
 
 
+# TODO - fix this
 def filter_users_professions(request, users_qs):
     professions = request.query_params.get("professions")
     if not professions:
         return users_qs
     professions = professions.strip(",")
+    print("professions")
+    print(professions)
     # Have to find users which have any profession in the query
-    output_users_qs = User.objects.none()
-    for profession in professions:
-        prof_users_qs = users_qs.filter(profession__contains=profession)
-        output_users_qs = output_users_qs | prof_users_qs
+    # output_users_qs = User.objects.none()
+    # for prof in professions:
+    #     prof_users_qs = users_qs.filter(professions__contains=[prof])
+    #     output_users_qs = output_users_qs | prof_users_qs
+    output_users_qs = users_qs.filter(professions__contained_by=professions)
+    print("output_users_qs")
+    print(output_users_qs)
     return output_users_qs
 
 
@@ -55,7 +61,7 @@ def get_filtered_users(request):
 
 
 def format_perc_label(number, percentage):
-    return f"{number} ({int(percentage)}%)"
+    return f"{number} ({round(percentage)}%)"
 
 
 def get_skill_data_for_users(users, user_skills, user_skills_develop, skill_name):
@@ -76,10 +82,10 @@ def get_skill_data_for_users(users, user_skills, user_skills_develop, skill_name
         "name": skill_name,
         "total_users": total_users,
         "skill_value_total": number_with_skill,
-        "skill_value_percentage": int(percentage_with_skill),
+        "skill_value_percentage": round(percentage_with_skill),
         "skill_label": format_perc_label(number_with_skill, percentage_with_skill),
         "skill_develop_value_total": number_wanting_to_develop,
-        "skill_develop_value_percentage": int(percentage_wanting_to_develop),
+        "skill_develop_value_percentage": round(percentage_wanting_to_develop),
         "skill_develop_label": format_perc_label(number_wanting_to_develop, percentage_wanting_to_develop),
     }
 
@@ -101,7 +107,7 @@ def get_skill_data_for_users(users, user_skills, user_skills_develop, skill_name
         label = format_perc_label(number, percentage)
         slug = slugify(level).replace("-", "_")
         data[f"{slug}_value_total"] = number
-        data[f"{slug}_value_percentage"] = int(percentage)
+        data[f"{slug}_value_percentage"] = round(percentage)
         data[f"{slug}_label"] = label
     return data
 

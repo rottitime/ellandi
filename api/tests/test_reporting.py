@@ -28,7 +28,7 @@ def add_professions(user, i):
     if i % 2 == 0:
         user.professions = ["Policy", "Economics"]
     else:
-        user.professions = ["Policy"]
+        user.professions = ["Economics"]
     if i > 8:
         user.professions = ["Operational research"]
     user.save()
@@ -59,6 +59,10 @@ def teardown_users_skills():
     for i in range(0, 10):
         email = f"test{i}@example.com"
         User.objects.get(email=email).delete()
+
+# def test_filter_users_professions():
+
+
 
 
 @utils.with_logged_in_client
@@ -156,13 +160,38 @@ def test_get_report_skills_business_unit(client, user_id):
     assert data[0]["total_users"] == 3, result
 
 
-# TODO - finish testing all query params
+@utils.with_logged_in_client
+@with_setup(setup_users_skills, teardown_users_skills)
+def test_get_report_skills_professions(client, user_id):
+    endpoint = f"{SKILLS_ENDPOINT}?skills=Economics,AWS&business_units=i.AI&professions=Economics"
+    response = client.get(endpoint)
+    assert response.status_code == status.HTTP_200_OK
+    result = response.json()
+    data = result["data"]
+    assert result["total"] == 2
+    assert data[0]["total_users"] == 8, data[0]
+    econ_data = [d for d in data if d["name"] == "Economics"][0]
+    aws_data = [d for d in data if d["name"] == "AWS"][0]
+    assert econ_data["skill_value_percentage"] == 100
+    assert econ_data["beginner_value_total"] == 2
+    assert econ_data["expert_value_percentage"] == 12
+    assert aws_data["skill_value_percentage"] == 70
+    assert aws_data["skill_develop_value_total"] == 3
+    endpoint = f"{SKILLS_ENDPOINT}?skills=Economics,AWS,Science&functions=Analysis&professions=Economics,Policy"
+    response = client.get(endpoint)
+    assert response.status_code == status.HTTP_200_OK
+    result = response.json()
+    data = result["data"]
+    assert result["total"] == 3
+    assert data[0]["total_users"] == 6
 
-# @utils.with_logged_in_client
-# @with_setup(setup_users_skills, teardown_users_skills)
-# def test_get_report_skills_professions(client, user_id):
 
-
-# @utils.with_logged_in_client
-# @with_setup(setup_users_skills, teardown_users_skills)
-# def test_get_report_skills_grades(client, user_id):
+@utils.with_logged_in_client
+@with_setup(setup_users_skills, teardown_users_skills)
+def test_get_report_skills_grades(client, user_id):
+    endpoint = f"{SKILLS_ENDPOINT}?skills=Science,Maths,Writing,AWS&grades=Grade%206,Grade%207&business_units=i.AI"
+    response = client.get(endpoint)
+    assert response.status_code == status.HTTP_200_OK
+    result = response.json()
+    assert result["total"] == 4
+    assert result["data"][0]["total_users"] == 10
