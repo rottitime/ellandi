@@ -124,6 +124,6 @@ integration:
 .PHONY: setup
 setup:
 	docker-compose build nginx api organogram
-	docker-compose run api python manage.py add_courses
+	docker-compose run api python manage.py add_courses -n 128
 	docker-compose run api python manage.py add_users -n 1024
 	docker-compose run organogram python manage.py create_minio_bucket
