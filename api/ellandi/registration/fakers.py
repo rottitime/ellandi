@@ -38,7 +38,7 @@ def make_user_skill(develop=False):
 
 def _get_random_object_name(model_name):
     model = getattr(models, model_name)
-    return model.objects.order_by("?").first()
+    return model.objects.order_by("?").first().name
 
 
 _DROP_DOWN_KEYS = (
