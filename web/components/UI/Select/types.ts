@@ -1,6 +1,5 @@
 import { Select } from '@mui/material'
 import { ComponentProps } from 'react'
-import { FieldError } from 'react-hook-form'
 
 type SelectProps =
   | {

@@ -4,7 +4,13 @@ import DataGrid, { GridColDef } from '@/components/UI/DataGrid/DataGrid'
 import Select from '@/components/UI/Select/Select'
 import SkeletonTable from '@/components/UI/Skeleton/TableSkeleton'
 import useAuth from '@/hooks/useAuth'
-import { fetchReportSkills, MeReportSkills, Query, ReportSkillsData } from '@/service/api'
+import {
+  exportReportSkills,
+  fetchReportSkills,
+  MeReportSkills,
+  Query,
+  ReportSkillsData
+} from '@/service/api'
 import { FormControlLabel, Radio, RadioGroup, styled, Typography } from '@mui/material'
 import { useMemo, useRef, useState } from 'react'
 import { useQuery } from 'react-query'
@@ -87,7 +93,13 @@ const SkillsReport = () => {
             <SplitButton
               label="Export"
               options={['CSV', 'Excel', 'PDF']}
-              onSelected={null}
+              onSelected={(_, option) => {
+                const url = exportReportSkills({
+                  ...filters,
+                  format: option.toLowerCase()
+                })
+                window.open(url)
+              }}
             />
           </div>
           <div className="filters">

@@ -1,29 +1,34 @@
-import getConfig from 'next/config'
 import { MeReportSkills } from './types'
-const { publicRuntimeConfig } = getConfig()
 import { defaultError } from '@/service/auth'
+import { createUrl } from '@/lib/url-utils'
+
+const urls = { skills: '/me/reports/skills/', languages: '/me/reports/languages/' }
 
 export const fetchReportSkills = async (token: string, params) => {
-  // const res = await api(token, `/me/reports/skills/`, null, params)
+  // const res = await api(token, urls.skills, null, params)
   // return res.json()
   //TODO: change to fetch
   console.log('fetch', { token, params })
   return Promise.resolve(skillsData)
 }
 
+export const exportReportSkills = (params): string => createUrl(urls.skills, params)
+
 export const fetchReportLanguages = async (token: string) => {
-  const res = await api(token, `/me/reports/languages/`)
+  const res = await api(token, urls.languages)
   return res.json()
 }
 
+export const exportReportLanguages = (params): string => createUrl(urls.languages, params)
+
 const api = async (
   token: string,
-  input: RequestInfo | URL,
+  url: RequestInfo | URL,
   init?: RequestInit,
   params?: URLSearchParams
 ): Promise<Response> => {
-  params = new URLSearchParams(params)
-  const res: Response = await fetch(`${publicRuntimeConfig.apiUrl}${input}?${params}`, {
+  const apiUrl = createUrl(url, params)
+  const res: Response = await fetch(createUrl(apiUrl, params), {
     ...init,
     headers: { ...init.headers, Authorization: `Token ${token}` }
   })
