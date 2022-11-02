@@ -9,10 +9,12 @@ import { FC, forwardRef, ReactNode, useState } from 'react'
 import { CheckBoxValue, Props } from './types'
 
 const SelectCheckbox: FC<Props> = forwardRef<FC, Props>(
-  ({ data = [], onChange, ...props }, ref) => {
-    const [selectValue, setSelectValue] = useState<CheckBoxValue>([])
+  ({ data = [], onChange, defaultValue = [], ...props }, ref) => {
+    const [selectValue, setSelectValue] = useState<CheckBoxValue>(
+      defaultValue as CheckBoxValue
+    )
 
-    console.log({ selectValue })
+    console.log(props.label, selectValue)
 
     const handleChange = (
       event: SelectChangeEvent<typeof selectValue>,
@@ -30,11 +32,14 @@ const SelectCheckbox: FC<Props> = forwardRef<FC, Props>(
 
     return (
       <MuiSelect
+        {...props}
         value={selectValue}
         multiple
-        onChange={handleChange}
         renderValue={(selected: CheckBoxValue) => selected.join(', ')}
-        {...props}
+        onChange={handleChange}
+        onSelect={() => {
+          console.log('SELECTDEDSELECTDEDSELECTDEDSELECTDEDSELECTDEDSELECTDED')
+        }}
         ref={ref}
       >
         {data.map((label) => (

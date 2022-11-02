@@ -6,7 +6,7 @@ import SkeletonTable from '@/components/UI/Skeleton/TableSkeleton'
 import useAuth from '@/hooks/useAuth'
 import { fetchReportSkills, MeReportSkills, Query, ReportSkillsData } from '@/service/api'
 import { FormControlLabel, Radio, RadioGroup, styled, Typography } from '@mui/material'
-import { useMemo, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { useQuery } from 'react-query'
 import functions from '@/prefetch/functions.json'
 import professions from '@/prefetch/professions.json'
@@ -36,7 +36,15 @@ const userOptions = ['All', 'Line managers', 'Mentors']
 
 const SkillsReport = () => {
   const { authFetch } = useAuth()
+  const skillInput = useRef<HTMLInputElement>()
+  const professionInput = useRef<HTMLInputElement>()
+
   const [filters, setFilters] = useState<FiltersType>({})
+
+  const params: FiltersType = {
+    skills: skillInput?.current?.value,
+    professions: professionInput?.current?.value?.join(',')
+  }
   const { isLoading, data } = useQuery<MeReportSkills>(
     [Query.ReportSkills, filters],
     () => authFetch(fetchReportSkills, filters)
@@ -46,6 +54,9 @@ const SkillsReport = () => {
     () => (!data?.data ? [] : data.data.map(({ name }) => name).sort()),
     [data?.data]
   )
+
+  // console.log(skillInput, skillInput?.current?.value)
+  // console.log(professionInput, professionInput?.current?.value)
 
   return (
     <Card>
@@ -62,12 +73,12 @@ const SkillsReport = () => {
               label="Select skill(s)"
               data={skills}
               sx={{ width: 314 }}
-              onChange={(e) =>
+              onChange={(e) => {
                 setFilters((p) => ({
                   ...p,
                   skills: e.target.value as string
                 }))
-              }
+              }}
               fullWidth={false}
             />
 
@@ -91,21 +102,24 @@ const SkillsReport = () => {
           <div className="filters">
             <Select
               label="Select profession(s)"
-              defaultValue={filters?.professions || ''}
+              defaultValue={filters?.professions || []}
               data={asStringList(professions)}
+              // ref={professionInput}
               onChange={(e) => {
+                console.log('CHANGEDCHANGEDCHANGEDCHANGEDCHANGED')
+                const value = e.target.value
                 setFilters((p) => ({
                   ...p,
-                  professions: e.target.value as string[]
+                  professions: value
                 }))
                 // setFilters((p) => ({
                 //   ...p,
-                //   professions: e.target.value as string
+                //   professions: ''
                 // }))
               }}
               checkboxes
             />
-            <Select
+            {/* <Select
               label="Select function(s)"
               defaultValue={(filters?.functions && 'dededede,dede') || ''}
               data={asStringList(functions)}
@@ -129,7 +143,7 @@ const SkillsReport = () => {
                 }))
               }
               checkboxes
-            />
+            /> */}
           </div>
 
           <DataGrid

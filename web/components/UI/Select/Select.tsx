@@ -22,8 +22,8 @@ const Select: FC<Props> = forwardRef<FC, Props>(
       ...props,
       label,
       labelId,
-      ref,
-      data
+      data,
+      ref
     }
 
     return (

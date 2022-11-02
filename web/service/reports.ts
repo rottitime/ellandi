@@ -7,7 +7,7 @@ export const fetchReportSkills = async (token: string, params) => {
   // const res = await api(token, `/me/reports/skills/`, null, params)
   // return res.json()
   //TODO: change to fetch
-  console.log({ token, params })
+  console.log('fetch', { token, params })
   return Promise.resolve(skillsData)
 }
 
