@@ -4,31 +4,34 @@ import DataGrid, { GridColDef } from '@/components/UI/DataGrid/DataGrid'
 import Select from '@/components/UI/Select/Select'
 import SkeletonTable from '@/components/UI/Skeleton/TableSkeleton'
 import useAuth from '@/hooks/useAuth'
-import {
-  fetchReportSkills,
-  GenericDataList,
-  MeReportSkills,
-  Query,
-  ReportSkillsData
-} from '@/service/api'
-import { styled, Typography } from '@mui/material'
-import { useState } from 'react'
+import { fetchReportSkills, MeReportSkills, Query, ReportSkillsData } from '@/service/api'
+import { FormControlLabel, Radio, RadioGroup, styled, Typography } from '@mui/material'
+import { useMemo } from 'react'
 import { useQuery } from 'react-query'
 import functions from '@/prefetch/functions.json'
 import professions from '@/prefetch/professions.json'
 import grades from '@/prefetch/grades.json'
 import businessUnits from '@/prefetch/business-units.json'
 import { asStringList } from '@/lib/data-utils'
+import SplitButton from '@/components/UI/SplitButton/SplitButton'
 
 const Card = styled(AccountCard)`
   .main-filters {
+    display: flex;
+    margin-bottom: ${(p) => p.theme.spacing(4)};
+    gap: ${(p) => p.theme.spacing(3)};
+    .splitbutton {
+      margin-left: auto;
+    }
   }
   .filters {
     display: flex;
     margin-bottom: ${(p) => p.theme.spacing(3)};
-    gap: ${(p) => p.theme.spacing(3)};
+    gap: ${(p) => p.theme.spacing(4)};
   }
 `
+
+const userOptions = ['All', 'Line managers', 'Mentors']
 
 const SkillsReport = () => {
   const { authFetch } = useAuth()
@@ -36,7 +39,10 @@ const SkillsReport = () => {
     authFetch(fetchReportSkills)
   )
 
-  console.log({ data })
+  const skills: string[] = useMemo(
+    () => (!data?.data ? [] : data.data.map(({ name }) => name).sort()),
+    [data?.data]
+  )
 
   return (
     <Card>
@@ -48,7 +54,29 @@ const SkillsReport = () => {
       ) : (
         <>
           <div className="main-filters">
-            <Select label="Select skill(s)" data={['1dede', '2dede', '3dedede']} />
+            <Select
+              label="Select skill(s)"
+              data={skills}
+              sx={{ width: 314 }}
+              fullWidth={false}
+            />
+
+            <RadioGroup row>
+              {userOptions.map((user) => (
+                <FormControlLabel
+                  value={user}
+                  control={<Radio />}
+                  label={user}
+                  key={user}
+                />
+              ))}
+            </RadioGroup>
+
+            <SplitButton
+              label="Export"
+              options={['CSV', 'Excel', 'PDF']}
+              onSelected={null}
+            />
           </div>
           <div className="filters">
             <Select
