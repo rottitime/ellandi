@@ -14,6 +14,7 @@ from sqlalchemy import (
 )
 from sqlalchemy.orm import declarative_base
 from sqlalchemy.sql import select
+from sqlalchemy.sql.expression import join
 
 engine = create_engine(DB_URL)
 
@@ -21,7 +22,7 @@ Base = declarative_base()
 
 
 class TitleEmbeddingArray(Base):
-    __tablename__ = "tblTitleEmbeddings"
+    __tablename__ = "recommend_titleembeddings"
     id = Column(Integer, primary_key=True, autoincrement=True)
     jobTitle = Column(String)
     variable = Column(Integer)
@@ -29,7 +30,7 @@ class TitleEmbeddingArray(Base):
 
 
 class SkillSimilarityArray(Base):
-    __tablename__ = "tblSkillArray"
+    __tablename__ = "recommend_skillsimilarity"
     id = Column(Integer, primary_key=True, autoincrement=True)
     createdAt = Column(DateTime)
     array = Column(LargeBinary)
@@ -77,9 +78,6 @@ def return_db_user_skills():
     return all_user_skills
 
 
-from sqlalchemy.sql.expression import join
-
-
 def return_db_user_title_skills():
     """returns a pandas dataframe with all user skills"""
 
@@ -117,6 +115,6 @@ def return_nlp_user_skills():
     """returns a pandas dataframe of nlp based user skills"""
 
     nlp_skill_df = pd.read_json("nlp_generated_skills.json")[["user_id", "job_title", "skill_name", "rating"]].iloc[
-        0:1000
+        0:10000
     ]
     return nlp_skill_df

@@ -212,15 +212,13 @@ def return_all_title_recommendations(user_skills, job_embeddings):
     The number of skills returned is a hard coded value (default to 10), as is the model name.
     The model assumes no skill ratings are provided (and defaults to each having a score of 1)
     """
-
+    min_unique_job_count = 3
     skill_count = 5
 
     job_in_db = list(return_common_jobs())
-    print(job_in_db)
     nlp_jobs = return_nlp_user_skills()
     job_count = nlp_jobs[["user_id", "job_title"]].drop_duplicates().groupby("job_title").count().reset_index()
-    unique_nlp_jobs = list(job_count[job_count["user_id"] >= 2]["job_title"].unique())
-    print(nlp_jobs)
+    unique_nlp_jobs = list(job_count[job_count["user_id"] >= min_unique_job_count]["job_title"].unique())
 
     if len(job_in_db) > 0:
         combined_meaningful_job_list = job_in_db + unique_nlp_jobs
@@ -237,11 +235,7 @@ def return_all_title_recommendations(user_skills, job_embeddings):
 
     all_df = []
 
-    print("remaining jobs")
-    print(job_embeddings.shape[0])
-
     for index, row in tqdm(job_embeddings.iterrows()):
-        print(index)
         current_title = index
         job_embedding_row = row.to_numpy()
         current_job_embedding = job_embedding_row.reshape((1, job_embedding_row.shape[0]))
@@ -287,7 +281,7 @@ def main():
     job_embedding_matrix = create_job_embedding_matrix()
     skill_similarity_matrix = make_skill_similarity_matrix()
 
-    engine = create_engine(DB_URL, echo=True)
+    engine = create_engine(DB_URL)
 
     current_db_skills = return_db_user_title_skills()
 
@@ -297,12 +291,10 @@ def main():
 
     skill_df = combined_user_skills[["user_id", "skill_name", "rating"]].drop_duplicates().reset_index(drop=True)
 
-    print("creating recommendations by job title")
     all_recommendations = return_all_title_recommendations(combined_user_skills, job_embedding_matrix)
     all_recommendations.createdAt = datetime.now()
     all_recommendations.to_sql("registration_titlerecommendation", engine, if_exists="append")
 
-    print("creating recommendations by skills")
     all_skill_recommendations_list = []
     for unique_skill in tqdm(combined_user_skills["skill_name"].unique()):
         recommended_skills = get_similar_skills(skill_df, unique_skill, skill_similarity_matrix)
@@ -314,5 +306,4 @@ def main():
         all_skill_recommendations_list.append(recommended_skills)
 
     combined_recommendations = pd.concat(all_skill_recommendations_list).reset_index(drop=True)
-    print(combined_recommendations)
-    combined_recommendations.to_sql("tblSkillRecommendations", engine, if_exists="append")
+    combined_recommendations.to_sql("registration_skillrecommendation", engine, if_exists="append")

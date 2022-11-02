@@ -7,11 +7,8 @@ from drf_spectacular.utils import OpenApiParameter, OpenApiTypes, extend_schema
 from rest_framework import decorators, permissions, routers, status, viewsets
 from rest_framework.response import Response
 
-from ellandi.registration.models import (
-    SkillRecommendation,
-    TitleRecommendation,
-)
 from ellandi.registration.recommend import (
+    recommend_relevant_user_skills,
     recommend_skill_from_db,
     recommend_title_from_db,
 )
@@ -629,35 +626,6 @@ def me_suggested_skills(request):
     return Response(data=suggested_skills, status=status.HTTP_200_OK)
 
 
-@extend_schema(request=None, responses=None)
-@decorators.api_view(["POST"])
-@decorators.permission_classes(
-    (permissions.AllowAny,)
-)  # TODO - what permissions? Suggest only admin users permissions.IsAdminUser
-def generate_skill_similarity(request):
-    print("skill recommendation table")
-    print(SkillRecommendation._meta.db_table)
-    print("fields")
-    print(SkillRecommendation._meta.get_fields(include_parents=True, include_hidden=False))
-    print("title recommendation table")
-    print(TitleRecommendation._meta.db_table)
-    print(TitleRecommendation._meta.get_fields(include_parents=True, include_hidden=False))
-    qs = models.UserSkill.objects.all().values_list("user__id", "id", "name", "user__job_title")
-    create_skill_similarity_matrix(qs)
-    return Response(status=status.HTTP_200_OK)
-
-
-@extend_schema(request=None, responses=None)
-@decorators.api_view(["POST"])
-@decorators.permission_classes(
-    (permissions.AllowAny,)
-)  # TODO - what permissions? Suggest only admin users permissions.IsAdminUser
-def create_job_embeddings(request):
-    qs = models.UserSkill.objects.all().values_list("user__id", "user__job_title")
-    create_job_title_embeddings(qs)
-    return Response(status=status.HTTP_200_OK)
-
-
 @extend_schema(methods=["GET"], request=serializers.SkillTitleSerializer())
 @decorators.api_view(["GET"])
 @decorators.permission_classes(
@@ -687,8 +655,7 @@ def me_recommend_job_relevant_skills(request):
 def me_recommend_most_relevant_skills(request):
     user = request.user
     job_title = user.job_title
-    qs = models.UserSkill.objects.all().values_list("user__id", "id", "name", "user__job_title")
     user_skills_list = list(models.UserSkill.objects.filter(user=user).values_list("name"))
 
-    combined_recommendations = recommend_relevant_user_skills(qs, user_skills_list, job_title)
+    combined_recommendations = recommend_relevant_user_skills(user_skills_list, job_title)
     return Response(data=combined_recommendations, status=status.HTTP_200_OK)

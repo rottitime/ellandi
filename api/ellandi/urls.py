@@ -36,8 +36,6 @@ api_urlpatterns = [
     path("user/<uuid:user_id>/token/<str:token>/valid/", verification.check_token),
     path("register/", views.register_view),
     path("skills/", views.skills_list_view),
-    path("create-title-embeddings/", views.create_job_embeddings),
-    path("create-skill-similarity/", views.generate_skill_similarity),
     path("skill-recommender/<str:skill_name>/", views.skill_recommender),
     path("me/title-recommender/", views.me_recommend_job_relevant_skills),
     path("me/skill-recommender/", views.me_recommend_most_relevant_skills),
