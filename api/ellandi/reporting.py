@@ -22,17 +22,12 @@ def filter_users_professions(request, users_qs):
     professions = request.query_params.get("professions")
     if not professions:
         return users_qs
-    professions = professions.strip(",")
-    print("professions")
-    print(professions)
+    professions = professions.split(",")
     # Have to find users which have any profession in the query
-    # output_users_qs = User.objects.none()
-    # for prof in professions:
-    #     prof_users_qs = users_qs.filter(professions__contains=[prof])
-    #     output_users_qs = output_users_qs | prof_users_qs
-    output_users_qs = users_qs.filter(professions__contained_by=professions).exclude(professions=[])
-    print("output_users_qs")
-    print(output_users_qs)
+    output_users_qs = User.objects.none()
+    for prof in professions:
+        prof_users_qs = users_qs.filter(professions__contains=prof)
+        output_users_qs = output_users_qs | prof_users_qs
     return output_users_qs
 
 
