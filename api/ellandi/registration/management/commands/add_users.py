@@ -7,7 +7,7 @@ class Command(BaseCommand):
     help = "Add some fake users"
 
     def add_arguments(self, parser):
-        parser.add_argument("-n", "--number", type=int, default=32, help="How many to add")
+        parser.add_argument("-n", "--number", type=int, default=128, help="How many to add")
 
     def handle(self, *args, **kwargs):
         number = kwargs["number"]
