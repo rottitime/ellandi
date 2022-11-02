@@ -1,14 +1,11 @@
-from django.core.exceptions import ObjectDoesNotExist
 from django.utils.text import slugify
 from drf_spectacular.utils import extend_schema
 from rest_framework import decorators, permissions, renderers, status
 from rest_framework.response import Response
 from rest_framework_csv.renderers import CSVRenderer
-from drf_spectacular.utils import OpenApiParameter, OpenApiTypes
+from drf_spectacular.utils import OpenApiParameter
 
-from ellandi.registration.exceptions import NoSuchProfessionError
 from ellandi.registration.models import (
-    Profession,
     User,
     UserSkill,
     UserSkillDevelop,
@@ -25,20 +22,17 @@ def filter_users_type(request, users_qs):
     return users_qs
 
 
-# TODO - will need to update after Ed's changes
 def filter_users_professions(request, users_qs):
     professions = request.query_params.get("professions")
-    if professions:
-        professions = professions.strip(",")
-    #     professions_objs = []
-    #     for profession in professions:
-    #         try:
-    #             profession_obj = Profession.objects.get(name=profession)
-    #             professions_objs.append[profession_obj]
-    #         except ObjectDoesNotExist:
-    #             raise NoSuchProfessionError
-    #     users_qs = users_qs.filter(professions__in=professions_objs)
-    return users_qs
+    if not professions:
+        return users_qs
+    professions = professions.strip(",")
+    # Have to find users which have any profession in the query
+    output_users_qs = User.objects.none()
+    for profession in professions:
+        prof_users_qs = users_qs.filter(profession__contains=profession)
+        output_users_qs = output_users_qs | prof_users_qs
+    return output_users_qs
 
 
 def filter_users_other_params(request, users_qs):

@@ -49,8 +49,3 @@ class DirectReportError(APIException):
 class LearningIdError(APIException):
     status_code = 400
     default_detail = "The learning for this ID belongs to a different user"
-
-
-class NoSuchProfessionError(APIException):
-    status_code = 400
-    default_detail = "You have entered a non-existent profession"

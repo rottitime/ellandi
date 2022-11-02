@@ -25,12 +25,12 @@ def add_skills(user, i):
 
 
 def add_professions(user, i):
-    # policy = Profession.objects.get(name="Policy")
-    # security = Profession.objects.get(name="Security")
-    # if i % 2 == 0:
-    #     user.professions.add(policy)
-    # if i % 3 == 0:
-    #     user.professions.add(security)
+    if i % 2 == 0:
+        user.professions = ["Policy", "Economics"]
+    else:
+        user.professions = ["Policy"]
+    if i > 8:
+        user.professions = ["Operational research"]
     user.save()
 
 
@@ -98,19 +98,71 @@ def test_get_report_skills_query(client, user_id):
     assert zoo_data["beginner_value_total"] == 0
 
 
+# TODO - add more checks here
+@utils.with_logged_in_client
+@with_setup(setup_users_skills, teardown_users_skills)
+def test_get_report_skills_users(client, user_id):
+    endpoint = f"{SKILLS_ENDPOINT}?skills=Science,Maths,Writing,AWS&users=all"
+    response = client.get(endpoint)
+    assert response.status_code == status.HTTP_200_OK
+    result = response.json()
+    assert result["total"] == 4
+    endpoint = f"{SKILLS_ENDPOINT}?skills=Science,Maths,Writing,AWS&users=mentors"
+    response = client.get(endpoint)
+    assert response.status_code == status.HTTP_200_OK
+    result = response.json()
+
+
+    endpoint = f"{SKILLS_ENDPOINT}?skills=Science,Maths,Writing,AWS&users=line_managers"
+    response = client.get(endpoint)
+    assert response.status_code == status.HTTP_200_OK
+    result = response.json()
+
+
+    endpoint = f"{SKILLS_ENDPOINT}?skills=Writing&function=Analysis,Digital"
+    response = client.get(endpoint)
+    assert response.status_code == status.HTTP_200_OK
+    result = response.json()
+
+
+    endpoint = f"{SKILLS_ENDPOINT}?skills=Science&function=Digital"
+
+    endpoint = f"{SKILLS_ENDPOINT}?skills=Science&function=Digital?users=mentors"
+    response = client.get(endpoint)
+    assert response.status_code == status.HTTP_200_OK
+    result = response.json()
+    assert result["total"] == 1
+
+
+@utils.with_logged_in_client
+@with_setup(setup_users_skills, teardown_users_skills)
+def test_get_report_skills_business_unit(client, user_id):
+    endpoint = f"{SKILLS_ENDPOINT}?skills=Economics,Science&business_units=i.AI"
+    response = client.get(endpoint)
+    assert response.status_code == status.HTTP_200_OK
+    result = response.json()
+    assert result["total"] == 2
+    assert len(result["data"]) == 2
+    assert result["data"][0]["total_users"] == 10
+    assert result["data"][1]["total_users"] == 10
+    endpoint = f"{SKILLS_ENDPOINT}?functions=Analysis&grades=Grade%206&business_units=i.AI"
+    response = client.get(endpoint)
+    assert response.status_code == status.HTTP_200_OK
+    result = response.json()
+    assert result["total"] > 5
+    data = result["data"]
+    assert data[0]["total_users"] == 3, result
+
+
+
+# TODO - finish testing all query params
+
 # @utils.with_logged_in_client
 # @with_setup(setup_users_skills, teardown_users_skills)
-# def test_get_report_skills_functions(client, user_id):
-#     endpoint = f"{SKILLS_ENDPOINT}?skills=Science,Maths,Writing,AWS?users=all"
+# def test_get_report_skills_professions(client, user_id):
 
-#     endpoint = f"{SKILLS_ENDPOINT}?skills=Science,Maths,Writing,AWS?users=mentors"
 
-#     endpoint = f"{SKILLS_ENDPOINT}?skills=Science,Maths,Writing,AWS?users=line_managers"
 
-#     endpoint = f"{SKILLS_ENDPOINT}?skills=Writing?function=Analysis,Digital"
-
-#     endpoint = f"{SKILLS_ENDPOINT}?skills=Science?function=Digital"
-
-#     endpoint = f"{SKILLS_ENDPOINT}?skills=Science?function=Digital?users=mentors"
-
-#     endpoint = f"{SKILLS_ENDPOINT}?skills=Writing?function=Analysis?"
+# @utils.with_logged_in_client
+# @with_setup(setup_users_skills, teardown_users_skills)
+# def test_get_report_skills_grades(client, user_id):
