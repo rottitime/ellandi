@@ -1,6 +1,7 @@
 import Chip from '@/components/Chip/Chip'
 import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
 import DataGrid, { GridColDef } from '@/components/UI/DataGrid/DataGrid'
+import Select from '@/components/UI/Select/Select'
 import SkeletonTable from '@/components/UI/Skeleton/TableSkeleton'
 import useAuth from '@/hooks/useAuth'
 import { fetchReportSkills, MeReportSkills, Query, ReportSkillsData } from '@/service/api'
@@ -23,9 +24,21 @@ const SkillsReport = () => {
         <>
           <p>SkillsReport</p>
 
+          <Select
+            label="Select skill(s)"
+            data={['1dede', '2dede', '3dedede']}
+            fullWidth
+          />
+
+          <Select
+            label="Select skill(s)"
+            data={['1dede', '2dede', '3dedede']}
+            fullWidth
+            checkboxes
+          />
+
           <DataGrid
             pageSize={10}
-            rowsPerPageOptions={[10, 25, 50, 100]}
             columns={columns}
             rows={data.data}
             getRowId={(row) => row.name}
