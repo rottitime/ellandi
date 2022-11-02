@@ -112,18 +112,15 @@ def test_get_report_skills_users(client, user_id):
     assert response.status_code == status.HTTP_200_OK
     result = response.json()
 
-
     endpoint = f"{SKILLS_ENDPOINT}?skills=Science,Maths,Writing,AWS&users=line_managers"
     response = client.get(endpoint)
     assert response.status_code == status.HTTP_200_OK
     result = response.json()
 
-
     endpoint = f"{SKILLS_ENDPOINT}?skills=Writing&function=Analysis,Digital"
     response = client.get(endpoint)
     assert response.status_code == status.HTTP_200_OK
     result = response.json()
-
 
     endpoint = f"{SKILLS_ENDPOINT}?skills=Science&function=Digital"
 
@@ -154,13 +151,11 @@ def test_get_report_skills_business_unit(client, user_id):
     assert data[0]["total_users"] == 3, result
 
 
-
 # TODO - finish testing all query params
 
 # @utils.with_logged_in_client
 # @with_setup(setup_users_skills, teardown_users_skills)
 # def test_get_report_skills_professions(client, user_id):
-
 
 
 # @utils.with_logged_in_client

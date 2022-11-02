@@ -123,11 +123,12 @@ def get_skill_data_for_users(users, user_skills, user_skills_develop, skill_name
     responses=None,
 )
 @decorators.api_view(["GET"])
-@decorators.permission_classes((permissions.AllowAny,))  # TODO - change after testing!
+# TODO - needs to be changed to "reporting permissions" - details TBC
+@decorators.permission_classes((permissions.AllowAny,))  # TODO - change to admin user after testing!
 @decorators.renderer_classes(
     (
         renderers.JSONRenderer,
-        #     CSVRenderer, # TODO - sort out CSV
+        CSVRenderer,
     )
 )
 def report_skills_view(request):
@@ -149,8 +150,9 @@ def report_skills_view(request):
         skill_data_list.append(skill_data)
 
     format = request.query_params.get("format", "json")
+    # TODO - can we reorder the columns in the CSV?
     if format == "csv":
-        return Response(data=skill_data_list, status=status.HTTP_200_OK)
+        return Response(data=skill_data_list, status=status.HTTP_200_OK, content_type="text/csv")
 
     output_data = {
         # TODO - add pagination?
@@ -160,4 +162,4 @@ def report_skills_view(request):
         # "total_pages": total_skills,
         "data": skill_data_list,
     }
-    return Response(data=output_data, status=status.HTTP_200_OK)
+    return Response(data=output_data, status=status.HTTP_200_OK, content_type="application/json")
