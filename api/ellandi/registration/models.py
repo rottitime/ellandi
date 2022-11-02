@@ -157,7 +157,7 @@ class RegistrationAbstractUser(models.Model):
     line_manager_email = LowercaseEmailField(max_length=128, blank=True, null=True)
     grade = models.CharField(max_length=127, blank=True, null=True)
     grade_other = models.CharField(max_length=127, blank=True, null=True)
-    professions = models.ManyToManyField(Profession, blank=True)
+    professions = models.JSONField(default=list)
     profession_other = models.CharField(max_length=127, blank=True, null=True)
     primary_profession = models.CharField(max_length=127, blank=True, null=True)
     function = models.CharField(max_length=127, blank=True, null=True)
