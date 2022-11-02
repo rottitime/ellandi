@@ -4,7 +4,13 @@ env:
   DOCKER_BUILDKIT: 1
 
 on:
-  workflow_dispatch
+  workflow_dispatch:
+    branches:
+      - temp
+      - demo
+      - sandbox
+      - pentest
+      - develop
 
 jobs:
   add_environment_vars:
