@@ -71,7 +71,8 @@ def make_fake_user():
     )
 
     drop_down_data = {k:_get_random_object_name(v) for (k,v) in _DROP_DOWN_KEYS}
-    data = {**data, **drop_down_data}
+    professions_data = {'professions': [_get_random_object_name("Profession") for _ in rand_range(3)]}
+    data = {**professions_data, **drop_down_data, **data}
     return data
 
 
