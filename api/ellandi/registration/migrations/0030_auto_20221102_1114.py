@@ -6,17 +6,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('registration', '0029_userskilldevelop_pending'),
+        ("registration", "0029_userskilldevelop_pending"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='user',
-            name='professions',
+            model_name="user",
+            name="professions",
         ),
         migrations.AddField(
-            model_name='user',
-            name='professions',
+            model_name="user",
+            name="professions",
             field=models.JSONField(default=list),
         ),
     ]
