@@ -48,6 +48,7 @@ def make_fake_user():
         verified=make_bool(2, 1),
         is_mentor=make_bool(1, 3),
         is_line_manager=make_bool(1, 5),
+        job_title=fake.job(),
     )
     return data
 
