@@ -36,6 +36,21 @@ def make_user_skill(develop=False):
     return data
 
 
+def _get_random_object_name(model_name):
+    model = getattr(models, model_name)
+    return model.objects.order_by("?").first()
+
+
+_DROP_DOWN_KEYS = (
+    ("organisation", "Organisation"),
+    ("location", "Location"),
+    ("grade", "Grade"),
+    ("primary_profession", "Profession"),
+    ("function", "Function"),
+    ("contract_type", "ContractType"),
+)
+
+
 def make_fake_user():
     first_name = fake.first_name()
     last_name = fake.last_name()
@@ -50,6 +65,9 @@ def make_fake_user():
         is_line_manager=make_bool(1, 5),
         job_title=fake.job(),
     )
+
+    drop_down_data = {k:_get_random_object_name(v) for (k,v) in _DROP_DOWN_KEYS}
+    data = {**data, **drop_down_data}
     return data
 
 
