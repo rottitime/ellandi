@@ -13,7 +13,7 @@ from models import (
     return_nlp_user_skills,
 )
 from sentence_transformers import SentenceTransformer
-from settings_base import DB_URL
+from settings_base import db_url
 from sklearn.metrics.pairwise import cosine_similarity
 from sqlalchemy import Float, Integer, create_engine
 from sqlalchemy.orm import sessionmaker
@@ -80,7 +80,7 @@ def store_matrices(skill_similarity_matrix, job_embeddings_matrix):
 
     create_db_objects()
 
-    engine = create_engine(DB_URL, echo=True)
+    engine = create_engine(db_url, echo=True)
 
     long_titles.to_sql(
         "tblTitleEmbeddings",
@@ -172,7 +172,7 @@ def get_similar_skills(long_skill_df, skill_name, similarity_matrix):
 def store_skill_recommendations(skill_similarity_matrix):
     """Creates pre-baked recommended skills for all skills, and stores in each in the database"""
 
-    engine = create_engine(DB_URL, echo=True)
+    engine = create_engine(db_url, echo=True)
 
     nlp_skill_df = return_nlp_user_skills()
     db_user_skills = return_db_user_skills()
@@ -191,7 +191,7 @@ def store_skill_recommendations(skill_similarity_matrix):
 def store_title_recommendations(job_embeddings):
     """Creates pre-baked recommended skills for all job_titles, and stores in the database"""
 
-    engine = create_engine(DB_URL, echo=True)
+    engine = create_engine(db_url, echo=True)
 
     qs = return_db_user_title_skills()[["user_id", "job_title"]]
     nlp_jobs_df = return_nlp_user_skills()[["user_id", "job_title"]]
@@ -284,7 +284,7 @@ def main():
     job_embedding_matrix = create_job_embedding_matrix()
     skill_similarity_matrix = make_skill_similarity_matrix()
 
-    engine = create_engine(DB_URL)
+    engine = create_engine(db_url)
 
     current_db_skills = return_db_user_title_skills()
 

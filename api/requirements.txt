@@ -12,7 +12,6 @@ sentry-sdk
 django-gov-notify
 furl
 scikit-learn
-sentence_transformers
 numpy
 scipy
 pandas
