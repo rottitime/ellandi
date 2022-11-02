@@ -1,9 +1,6 @@
 name: Depatch Test
 
 on:
-  push:
-    branches:
-      - sandbox
   workflow_dispatch:
     inputs:
       logLevel:
