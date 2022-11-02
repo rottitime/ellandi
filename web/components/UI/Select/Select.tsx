@@ -5,7 +5,7 @@ import { Props } from './types'
 
 //const Select: FC<Props> = ({ checkboxes, label, fullWidth, ...props }) => {
 const Select: FC<Props> = forwardRef<FC, Props>(
-  ({ checkboxes, label, data = [], fullWidth, children, ...props }, ref) => {
+  ({ checkboxes, label, data = [], fullWidth = true, children, ...props }, ref) => {
     const id = useId()
     const labelId = `label-${id}`
     const newProps = { ...props, label, labelId, ref, data }
