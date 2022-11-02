@@ -21,6 +21,9 @@ from tqdm import tqdm
 
 
 def make_skill_similarity_matrix():
+    """Queries skills from NLP and the database, and creates a skill similarity matrix that is returned as a sparse
+    matrix"""
+
     nlp_skill_df = return_nlp_user_skills()[["user_id", "skill_name", "rating"]]
     db_user_skills = return_db_user_skills()[["user_id", "skill_name", "rating"]]
 
@@ -42,11 +45,12 @@ def make_skill_similarity_matrix():
 
 
 def create_job_embedding_matrix():
-    """creates job embeddings from existing list"""
+    """Obtains user skills and NLP generated jobs, and uses a hard_coded sentence transformer models (hard coded but
+    can be changed) to product a list of embeddings.
+
+    Returns a pandas dataframe with a row per job"""
 
     model_name = "all-MiniLM-L6-v2"
-
-    qs = return_db_user_title_skills()[["user_id", "job_title"]]
 
     qs = return_db_user_title_skills()[["user_id", "job_title"]]
     nlp_jobs_df = return_nlp_user_skills()[["user_id", "job_title"]]
@@ -70,7 +74,7 @@ def create_job_embedding_matrix():
 
 
 def store_matrices(skill_similarity_matrix, job_embeddings_matrix):
-    """given a job and skill matrix, stores both in database for future use"""
+    """Takes a given a job and skill matrix, stores both in database for future use"""
 
     long_titles = job_embeddings_matrix.reset_index().rename(columns={"index": "jobTitle"}).melt(id_vars=["jobTitle"])
 
@@ -166,7 +170,7 @@ def get_similar_skills(long_skill_df, skill_name, similarity_matrix):
 
 
 def store_skill_recommendations(skill_similarity_matrix):
-    """creates recommended skills for all skills, and stores in db"""
+    """Creates pre-baked recommended skills for all skills, and stores in each in the database"""
 
     engine = create_engine(DB_URL, echo=True)
 
@@ -185,7 +189,7 @@ def store_skill_recommendations(skill_similarity_matrix):
 
 
 def store_title_recommendations(job_embeddings):
-    """creates recommended skills for all job_titles, and stores in db"""
+    """Creates pre-baked recommended skills for all job_titles, and stores in the database"""
 
     engine = create_engine(DB_URL, echo=True)
 
@@ -274,7 +278,7 @@ def return_all_title_recommendations(user_skills, job_embeddings):
 
 
 def main():
-    """runs the recommendation process"""
+    """Runs the recommendation process"""
 
     create_db_objects()
 

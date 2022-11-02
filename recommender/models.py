@@ -44,8 +44,16 @@ class SkillRecommendations(Base):
     recommended_skill = Column(String)
 
 
+class UserSkills(Base):
+    __table__ = Table("registration_userskill", Base.metadata, autoload=True, autoload_with=engine)
+
+
+class User(Base):
+    __table__ = Table("registration_user", Base.metadata, autoload=True, autoload_with=engine)
+
+
 def create_db_objects():
-    """declares and creates all our db objects"""
+    """Declares and creates any database objectes if not previously created as part of API"""
 
     DB_URL = os.getenv("DATABASE_URL")
 
@@ -55,16 +63,8 @@ def create_db_objects():
     Base.metadata.create_all(engine)
 
 
-class UserSkills(Base):
-    __table__ = Table("registration_userskill", Base.metadata, autoload=True, autoload_with=engine)
-
-
-class User(Base):
-    __table__ = Table("registration_user", Base.metadata, autoload=True, autoload_with=engine)
-
-
 def return_db_user_skills():
-    """returns a pandas dataframe with all user skills"""
+    """Queries the database and returns a pandas dataframe with all user skills"""
 
     engine = create_engine(DB_URL)
 
@@ -79,7 +79,7 @@ def return_db_user_skills():
 
 
 def return_db_user_title_skills():
-    """returns a pandas dataframe with all user skills"""
+    """Queries the database and returns a pandas dataframe with all user skills and titles"""
 
     joined_tbl = join(User, UserSkills, User.id == UserSkills.user_id)
 
@@ -96,7 +96,11 @@ def return_db_user_title_skills():
 
 
 def return_common_jobs():
-    """returns a pandas dataframe with all user skills"""
+    """Queries the database and returns a list of job titles that appear over a specific number of times
+
+    The default count for minimum_job_count is hardcoded to 3 as default
+    """
+    mininum_job_count = 3
 
     job_query = select(User.id, User.job_title).select_from(User)
 
@@ -106,13 +110,13 @@ def return_common_jobs():
     jobs_df.columns = ["id", "job_title"]
 
     job_count_df = jobs_df.groupby("id").count().reset_index()
-    common_jobs = job_count_df[job_count_df["job_title"] > 2]["job_title"].unique()
+    common_jobs = job_count_df[job_count_df["job_title"] > mininum_job_count]["job_title"].unique()
 
     return common_jobs
 
 
 def return_nlp_user_skills():
-    """returns a pandas dataframe of nlp based user skills"""
+    """Reads the local json file with generated user jobs, and returns a dataframe for processing"""
 
     nlp_skill_df = pd.read_json("nlp_generated_skills.json")[["user_id", "job_title", "skill_name", "rating"]].iloc[
         0:10000
