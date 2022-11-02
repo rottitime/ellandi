@@ -128,12 +128,12 @@ def test_get_report_skills_users(client, user_id):
     assert data0["beginner_value_total"] == 7
     assert data0["competent_value_total"] == 0
     assert data0["skill_develop_value_total"] == 3
-    endpoint = f"{SKILLS_ENDPOINT}?skills=Science&functions=Digital?users=mentors"
+    endpoint = f"{SKILLS_ENDPOINT}?skills=Science&functions=Digital&users=mentors"
     response = client.get(endpoint)
     assert response.status_code == status.HTTP_200_OK
     result = response.json()
     assert result["total"] == 1
-    assert result["data"][0]["total_users"] == 2
+    assert result["data"][0]["total_users"] == 1, result["data"]
 
 
 @utils.with_logged_in_client
