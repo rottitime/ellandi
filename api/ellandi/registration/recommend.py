@@ -6,7 +6,6 @@ import scipy
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 
-from ellandi.registration.models import SkillRecommendation, TitleRecommendation
 
 def make_skill_similarity_matrix(long_skill_df):
     """Given pandas dataframe of users (user_id), skills (skill_name) and numeric ratings (rating)
@@ -334,18 +333,18 @@ def recommend_relevant_user_skills(user_query, skills_list, job_title):
 
     return combined
 
-def recommend_skill_from_db(existing_skill):
-    """Given an existing skill, queries the pre-baked recommendations from the database
-    """
 
-    all_entries = Tblskillrecommendations.objects.filter(currentskill=existing_skill).order_by('-createdat').values()
-    df = pd.DataFrame(list(all_entries)).drop_duplicates(subset=['recommendedskill'])
-    return df['recommendedskill'].tolist()
+def recommend_skill_from_db(existing_skill):
+    """Given an existing skill, queries the pre-baked recommendations from the database"""
+
+    all_entries = Tblskillrecommendations.objects.filter(currentskill=existing_skill).order_by("-createdat").values()
+    df = pd.DataFrame(list(all_entries)).drop_duplicates(subset=["recommendedskill"])
+    return df["recommendedskill"].tolist()
+
 
 def recommend_title_from_db(current_title):
-    """Given an existing job title, queries the pre-baked recommendations from the database
-    """
+    """Given an existing job title, queries the pre-baked recommendations from the database"""
 
-    all_entries = Tbltitlerecommendations.objects.filter(job_title=current_title).order_by('-index').values()
-    df = pd.DataFrame(list(all_entries)).drop_duplicates(subset=['recommendedskill'])
-    return df['recommendedskill'].tolist()
+    all_entries = Tbltitlerecommendations.objects.filter(job_title=current_title).order_by("-index").values()
+    df = pd.DataFrame(list(all_entries)).drop_duplicates(subset=["recommendedskill"])
+    return df["recommendedskill"].tolist()

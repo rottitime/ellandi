@@ -3,22 +3,21 @@ from datetime import datetime
 
 import numpy as np
 import pandas as pd
-from tqdm import tqdm
 import scipy
-from sentence_transformers import SentenceTransformer
-from sklearn.metrics.pairwise import cosine_similarity
-from sqlalchemy import Float, Integer, create_engine
-from sqlalchemy.orm import sessionmaker
 from models import (
     SkillSimilarityArray,
-    TitleEmbeddingArray,
     create_db_objects,
     return_common_jobs,
     return_db_user_skills,
     return_db_user_title_skills,
     return_nlp_user_skills,
 )
+from sentence_transformers import SentenceTransformer
 from settings_base import DB_URL
+from sklearn.metrics.pairwise import cosine_similarity
+from sqlalchemy import Float, Integer, create_engine
+from sqlalchemy.orm import sessionmaker
+from tqdm import tqdm
 
 
 def make_skill_similarity_matrix():
@@ -48,7 +47,6 @@ def create_job_embedding_matrix():
     model_name = "all-MiniLM-L6-v2"
 
     qs = return_db_user_title_skills()[["user_id", "job_title"]]
-
 
     qs = return_db_user_title_skills()[["user_id", "job_title"]]
     nlp_jobs_df = return_nlp_user_skills()[["user_id", "job_title"]]
@@ -163,7 +161,7 @@ def get_similar_skills(long_skill_df, skill_name, similarity_matrix):
     cosine_sim = similarity_matrix
     risk_index = np.where(sparse_df.columns == skill_name)
     similar_skills = cosine_sim[risk_index]
-    top_skill = np.flip(sparse_df.columns[np.argsort(similar_skills, axis=1)][:, -(skill_return_count + 1): -1])
+    top_skill = np.flip(sparse_df.columns[np.argsort(similar_skills, axis=1)][:, -(skill_return_count + 1) : -1])
     return top_skill[0]
 
 
@@ -280,8 +278,9 @@ def return_all_title_recommendations(user_skills, job_embeddings):
     all_recommendations = pd.concat(all_df)
     return all_recommendations
 
+
 def main():
-    """ runs the recommendation process"""
+    """runs the recommendation process"""
 
     create_db_objects()
 
@@ -310,8 +309,8 @@ def main():
 
         recommended_skills = pd.DataFrame(recommended_skills)
         recommended_skills.columns = ["recommendedSkill"]
-        recommended_skills['createdAt'] = datetime.now()
-        recommended_skills['currentSkill'] = unique_skill
+        recommended_skills["createdAt"] = datetime.now()
+        recommended_skills["currentSkill"] = unique_skill
         all_skill_recommendations_list.append(recommended_skills)
 
     combined_recommendations = pd.concat(all_skill_recommendations_list).reset_index(drop=True)

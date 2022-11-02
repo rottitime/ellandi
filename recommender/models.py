@@ -1,6 +1,7 @@
 import os
 
 import pandas as pd
+from settings_base import DB_URL
 from sqlalchemy import (
     Column,
     DateTime,
@@ -8,13 +9,13 @@ from sqlalchemy import (
     Integer,
     LargeBinary,
     String,
+    Table,
     create_engine,
 )
 from sqlalchemy.orm import declarative_base
+from sqlalchemy.sql import select
 
-from settings_base import DB_URL
-
-print(DB_URL)
+engine = create_engine(DB_URL)
 
 Base = declarative_base()
 
@@ -53,17 +54,12 @@ def create_db_objects():
     Base.metadata.create_all(engine)
 
 
-from sqlalchemy.sql import select
-
-from sqlalchemy import Table, Column, Integer, String
-
-engine = create_engine(DB_URL)
-
 class UserSkills(Base):
-    __table__ = Table('registration_userskill', Base.metadata, autoload=True, autoload_with=engine)
-class User(Base):
-    __table__ = Table('registration_user', Base.metadata, autoload=True, autoload_with=engine)
+    __table__ = Table("registration_userskill", Base.metadata, autoload=True, autoload_with=engine)
 
+
+class User(Base):
+    __table__ = Table("registration_user", Base.metadata, autoload=True, autoload_with=engine)
 
 
 def return_db_user_skills():
@@ -80,7 +76,9 @@ def return_db_user_skills():
 
     return all_user_skills
 
+
 from sqlalchemy.sql.expression import join
+
 
 def return_db_user_title_skills():
     """returns a pandas dataframe with all user skills"""
@@ -107,10 +105,10 @@ def return_common_jobs():
     engine = create_engine(DB_URL)
 
     jobs_df = pd.read_sql(job_query, engine)
-    jobs_df.columns = ['id','job_title']
+    jobs_df.columns = ["id", "job_title"]
 
-    job_count_df = jobs_df.groupby('id').count().reset_index()
-    common_jobs = job_count_df[job_count_df['job_title'] > 2]['job_title'].unique()
+    job_count_df = jobs_df.groupby("id").count().reset_index()
+    common_jobs = job_count_df[job_count_df["job_title"] > 2]["job_title"].unique()
 
     return common_jobs
 
@@ -118,5 +116,7 @@ def return_common_jobs():
 def return_nlp_user_skills():
     """returns a pandas dataframe of nlp based user skills"""
 
-    nlp_skill_df = pd.read_json("nlp_generated_skills.json")[["user_id", "job_title", "skill_name", "rating"]].iloc[0:1000]
+    nlp_skill_df = pd.read_json("nlp_generated_skills.json")[["user_id", "job_title", "skill_name", "rating"]].iloc[
+        0:1000
+    ]
     return nlp_skill_df

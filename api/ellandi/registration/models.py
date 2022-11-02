@@ -306,14 +306,18 @@ class EmailSalt(models.Model):
 
 class SkillRecommendation(models.Model):
     index = models.BigIntegerField(blank=True, null=False, primary_key=True)
-    recommended_skill = models.TextField(db_column='recommendedSkill', blank=True, null=True)  # Field name made lowercase.
-    created_at = models.DateTimeField(db_column='createdAt', blank=True, null=True)  # Field name made lowercase.
-    current_skill = models.TextField(db_column='currentSkill', blank=True, null=True)  # Field name made lowercase.
+    recommended_skill = models.TextField(
+        db_column="recommendedSkill", blank=True, null=True
+    )  # Field name made lowercase.
+    created_at = models.DateTimeField(db_column="createdAt", blank=True, null=True)  # Field name made lowercase.
+    current_skill = models.TextField(db_column="currentSkill", blank=True, null=True)  # Field name made lowercase.
 
 
 class TitleRecommendation(models.Model):
     index = models.BigIntegerField(blank=True, null=False, primary_key=True)
-    recommended_skill = models.TextField(db_column='recommendedSkill', blank=True, null=True)  # Field name made lowercase.
+    recommended_skill = models.TextField(
+        db_column="recommendedSkill", blank=True, null=True
+    )  # Field name made lowercase.
     job_title = models.TextField(blank=True, null=True)
 
     class Meta:

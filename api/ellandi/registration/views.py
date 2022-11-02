@@ -7,17 +7,17 @@ from drf_spectacular.utils import OpenApiParameter, OpenApiTypes, extend_schema
 from rest_framework import decorators, permissions, routers, status, viewsets
 from rest_framework.response import Response
 
+from ellandi.registration.models import (
+    SkillRecommendation,
+    TitleRecommendation,
+)
 from ellandi.registration.recommend import (
     recommend_skill_from_db,
-    recommend_title_from_db
+    recommend_title_from_db,
 )
-
 from ellandi.verification import send_verification_email
 
 from . import exceptions, initial_data, models, serializers
-
-from ellandi.registration.models import SkillRecommendation, TitleRecommendation
-
 
 registration_router = routers.DefaultRouter()
 
@@ -635,11 +635,11 @@ def me_suggested_skills(request):
     (permissions.AllowAny,)
 )  # TODO - what permissions? Suggest only admin users permissions.IsAdminUser
 def generate_skill_similarity(request):
-    print('skill recommendation table')
+    print("skill recommendation table")
     print(SkillRecommendation._meta.db_table)
-    print('fields')
+    print("fields")
     print(SkillRecommendation._meta.get_fields(include_parents=True, include_hidden=False))
-    print('title recommendation table')
+    print("title recommendation table")
     print(TitleRecommendation._meta.db_table)
     print(TitleRecommendation._meta.get_fields(include_parents=True, include_hidden=False))
     qs = models.UserSkill.objects.all().values_list("user__id", "id", "name", "user__job_title")
