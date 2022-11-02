@@ -25,12 +25,12 @@ def add_skills(user, i):
 
 
 def add_professions(user, i):
-    policy = Profession.objects.get(name="Policy")
-    security = Profession.objects.get(name="Security")
-    if i % 2 == 0:
-        user.professions.add(policy)
-    if i % 3 == 0:
-        user.professions.add(security)
+    # policy = Profession.objects.get(name="Policy")
+    # security = Profession.objects.get(name="Security")
+    # if i % 2 == 0:
+    #     user.professions.add(policy)
+    # if i % 3 == 0:
+    #     user.professions.add(security)
     user.save()
 
 
@@ -71,7 +71,8 @@ def test_get_report_skills(client, user_id):
 @utils.with_logged_in_client
 @with_setup(setup_users_skills, teardown_users_skills)
 def test_get_report_skills_query(client, user_id):
-    endpoint = f"{SKILLS_ENDPOINT}?skills='Economics,AWS,Zoology'&?functions='Digital,Analysis'"
+    print(User.objects.all().values("function"))
+    endpoint = f"{SKILLS_ENDPOINT}?skills=Economics,AWS,Zoology&functions=Analysis,Digital"
     response = client.get(endpoint)
     assert response.status_code == status.HTTP_200_OK
     result = response.json()
@@ -83,7 +84,7 @@ def test_get_report_skills_query(client, user_id):
     assert econ_data["skills_develop_value_total"] == 0
     assert econ_data["advanced_beginner_value_total"] == 2
     assert econ_data["competent_value_percentage"] == 20
-    assert econ_data["proficient_value_label"] == "2 (20%)"
+    assert econ_data["proficient_label"] == "2 (20%)", econ_data["proficient_label"]
     aws_data = [d for d in data if d["name"] == "AWS"][0]
     assert aws_data["name"] == "AWS"
     assert aws_data["skill_label"] == "7 (70%)"

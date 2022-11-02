@@ -30,14 +30,14 @@ def filter_users_professions(request, users_qs):
     professions = request.query_params.get("professions")
     if professions:
         professions = professions.strip(",")
-        professions_objs = []
-        for profession in professions:
-            try:
-                profession_obj = Profession.objects.get(name=profession)
-                professions_objs.append[profession_obj]
-            except ObjectDoesNotExist:
-                raise NoSuchProfessionError
-        users_qs = users_qs.filter(professions__in=professions_objs)
+    #     professions_objs = []
+    #     for profession in professions:
+    #         try:
+    #             profession_obj = Profession.objects.get(name=profession)
+    #             professions_objs.append[profession_obj]
+    #         except ObjectDoesNotExist:
+    #             raise NoSuchProfessionError
+    #     users_qs = users_qs.filter(professions__in=professions_objs)
     return users_qs
 
 
@@ -46,17 +46,13 @@ def filter_users_other_params(request, users_qs):
     grades = request.query_params.get("grades")
     business_units = request.query_params.get("business_units")
     if functions:
-        functions = functions.strip(",")
-        print(users_qs.count())
-        print(functions)
+        functions = functions.split(",")
         users_qs = users_qs.filter(function__in=functions)
-        print(users_qs.count())
-        print(functions)
     if grades:
-        grades = grades.strip(",")
+        grades = grades.split(",")
         users_qs = users_qs.filter(grade__in=grades)
     if business_units:
-        business_units = business_units.strip(",")
+        business_units = business_units.split(",")
         users_qs = users_qs.filter(business_unit__in=business_units)
     return users_qs
 
@@ -70,7 +66,7 @@ def get_filtered_users(request):
 
 
 def format_perc_label(number, percentage):
-    return f"{number} ({round(percentage, 0)}%)"
+    return f"{number} ({int(percentage)}%)"
 
 
 def get_skill_data_for_users(users, user_skills, user_skills_develop, skill_name):
@@ -91,10 +87,10 @@ def get_skill_data_for_users(users, user_skills, user_skills_develop, skill_name
         "name": skill_name,
         "total_users": total_users,
         "skill_value_total": number_with_skill,
-        "skill_value_percentage": round(percentage_with_skill, 0),
+        "skill_value_percentage": int(percentage_with_skill),
         "skill_label": format_perc_label(number_with_skill, percentage_with_skill),
         "skills_develop_value_total": number_wanting_to_develop,
-        "skills_develop_value_percentage": round(percentage_wanting_to_develop, 0),
+        "skills_develop_value_percentage": int(percentage_wanting_to_develop),
         "skills_develop_label": format_perc_label(number_wanting_to_develop, percentage_wanting_to_develop),
     }
 
@@ -116,7 +112,7 @@ def get_skill_data_for_users(users, user_skills, user_skills_develop, skill_name
         label = format_perc_label(number, percentage)
         slug = slugify(level).replace("-", "_")
         data[f"{slug}_value_total"] = number
-        data[f"{slug}_value_percentage"] = round(percentage, 0)
+        data[f"{slug}_value_percentage"] = int(percentage)
         data[f"{slug}_label"] = label
     return data
 
