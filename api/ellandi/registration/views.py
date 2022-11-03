@@ -8,7 +8,9 @@ from rest_framework import decorators, permissions, routers, status, viewsets
 from rest_framework.response import Response
 
 from ellandi.registration.recommend import (
-    recommend_relevant_user_skills,
+    recommend_bundled_skill_recommendations,
+    recommend_popular_skills,
+    recommend_profession_skills,
     recommend_skill_from_db,
     recommend_title_from_db,
 )
@@ -632,6 +634,8 @@ def me_suggested_skills(request):
     (permissions.AllowAny,)
 )  # TODO - I think this is fine for permissions - anyone can see recommendation?
 def skill_recommender(request, skill_name):
+    print(recommend_popular_skills())
+    print(recommend_profession_skills("Economics"))
     recommended_skills = recommend_skill_from_db(skill_name)
     if recommended_skills is None:
         raise exceptions.MissingJobSimilarityMatrixError
@@ -655,7 +659,8 @@ def me_recommend_job_relevant_skills(request):
 def me_recommend_most_relevant_skills(request):
     user = request.user
     job_title = user.job_title
+    user_profession = user.primary_profession
     user_skills_list = list(models.UserSkill.objects.filter(user=user).values_list("name"))
 
-    combined_recommendations = recommend_relevant_user_skills(user_skills_list, job_title)
+    combined_recommendations = recommend_bundled_skill_recommendations(user_skills_list, job_title, user_profession)
     return Response(data=combined_recommendations, status=status.HTTP_200_OK)

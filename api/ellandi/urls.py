@@ -39,6 +39,7 @@ api_urlpatterns = [
     path("skill-recommender/<str:skill_name>/", views.skill_recommender),
     path("me/title-recommender/", views.me_recommend_job_relevant_skills),
     path("me/skill-recommender/", views.me_recommend_most_relevant_skills),
+    path("me/recommended-skill-bundle/", views.me_recommend_most_relevant_skills),
     path("me/reports/skills/", reporting.report_skills_view),
     path("me/reports/languages/", reporting.report_languages_view),
     path("me/reports/responsibilities/", reporting.responsibilities_view),

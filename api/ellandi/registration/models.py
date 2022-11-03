@@ -322,7 +322,7 @@ class TitleRecommendation(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'tblTitleRecommendations'
+        db_table = "registration_titlerecommendation"
 
 
 class Course(models.Model):

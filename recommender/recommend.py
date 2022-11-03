@@ -169,47 +169,6 @@ def get_similar_skills(long_skill_df, skill_name, similarity_matrix):
     return top_skill[0]
 
 
-def store_skill_recommendations(skill_similarity_matrix):
-    """Creates pre-baked recommended skills for all skills, and stores in each in the database"""
-
-    engine = create_engine(db_url, echo=True)
-
-    nlp_skill_df = return_nlp_user_skills()
-    db_user_skills = return_db_user_skills()
-    skill_compare_df = pd.concat([nlp_skill_df, db_user_skills]).reset_index(drop=True)
-
-    for unique_skill in skill_compare_df["skill_name"].unique():
-        recommended_skills = get_similar_skills(skill_compare_df, unique_skill, skill_similarity_matrix)
-
-        recommended_skills = pd.DataFrame(data=recommended_skills, columns=["recommendedSkill"])
-        recommended_skills.createdAt = datetime.now()
-        recommended_skills.currentSkill = unique_skill
-
-        recommended_skills.to_sql("tblSkillRecommendations", engine, if_exists="append")
-
-
-def store_title_recommendations(job_embeddings):
-    """Creates pre-baked recommended skills for all job_titles, and stores in the database"""
-
-    engine = create_engine(db_url, echo=True)
-
-    qs = return_db_user_title_skills()[["user_id", "job_title"]]
-    nlp_jobs_df = return_nlp_user_skills()[["user_id", "job_title"]]
-
-    user_skills = return_db_user_title_skills()
-
-    title_compare_df = pd.concat([qs, nlp_jobs_df]).reset_index(drop=True)
-
-    for job_title in title_compare_df["job_title"].unique():
-        recommended_skills = return_similar_title_skills(job_title, user_skills, job_embeddings)
-
-        recommended_skills = pd.DataFrame(data=recommended_skills, columns=["recommendedSkill"])
-        recommended_skills.createdAt = datetime.now()
-        recommended_skills.jobTitle = job_title
-
-        recommended_skills.to_sql("tblTitleRecommendations", engine, if_exists="append")
-
-
 def return_all_title_recommendations(user_skills, job_embeddings):
     """Given  a list of all user skills, and previously generated job embeddings, returns likely skills
 
