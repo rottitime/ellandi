@@ -6,7 +6,6 @@ import pandas as pd
 import scipy
 from models import (
     SkillSimilarityArray,
-    create_db_objects,
     return_common_jobs,
     return_db_user_skills,
     return_db_user_title_skills,
@@ -77,8 +76,6 @@ def store_matrices(skill_similarity_matrix, job_embeddings_matrix):
     """Takes a given a job and skill matrix, stores both in database for future use"""
 
     long_titles = job_embeddings_matrix.reset_index().rename(columns={"index": "jobTitle"}).melt(id_vars=["jobTitle"])
-
-    create_db_objects()
 
     engine = create_engine(db_url, echo=True)
 
@@ -237,8 +234,6 @@ def return_all_title_recommendations(user_skills, job_embeddings):
 
 def main():
     """Runs the recommendation process"""
-
-    create_db_objects()
 
     job_embedding_matrix = create_job_embedding_matrix()
     skill_similarity_matrix = make_skill_similarity_matrix()
