@@ -6,21 +6,16 @@ import SkeletonTable from '@/components/UI/Skeleton/TableSkeleton'
 import useAuth from '@/hooks/useAuth'
 import {
   exportReportSkills,
-  fetchReportSkills,
+  fetchReportLanguages,
   MeReportSkills,
   Query,
-  ReportSkillsData
+  ReportLanguagesData
 } from '@/service/api'
 import { FormControlLabel, Radio, RadioGroup, styled, Typography } from '@mui/material'
-import { FC, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useQuery } from 'react-query'
-import functions from '@/prefetch/functions.json'
-import professions from '@/prefetch/professions.json'
-import grades from '@/prefetch/grades.json'
-import businessUnits from '@/prefetch/business-units.json'
-import { asStringList } from '@/lib/data-utils'
 import SplitButton from '@/components/UI/SplitButton/SplitButton'
-import { FiltersType, Props } from './types'
+import { FiltersType } from './types'
 
 const Card = styled(AccountCard)`
   .main-filters {
@@ -38,27 +33,27 @@ const Card = styled(AccountCard)`
   }
 `
 
-const userOptions = ['All', 'Line managers', 'Mentors']
+const userOptions = ['Speaking', 'Writing']
 
-const SkillsReport: FC<Props> = (props) => {
+const LanguagesReport = () => {
   const { authFetch } = useAuth()
   const [filters, setFilters] = useState<FiltersType>({})
 
   const { isLoading, data } = useQuery<MeReportSkills>(
-    [Query.ReportSkills, filters],
-    () => authFetch(fetchReportSkills, filters),
+    [Query.ReportLanguages, filters],
+    () => authFetch(fetchReportLanguages, filters),
     { keepPreviousData: true }
   )
 
-  const skills: string[] = useMemo(
+  const languages: string[] = useMemo(
     () => (!data?.data ? [] : data.data.map(({ name }) => name).sort()),
     [data?.data]
   )
 
   return (
-    <Card {...props}>
+    <Card>
       <Typography variant="h2" gutterBottom>
-        Skills data
+        Languages data
       </Typography>
       {isLoading ? (
         <SkeletonTable columns={3} rows={10} />
@@ -66,14 +61,14 @@ const SkillsReport: FC<Props> = (props) => {
         <>
           <div className="main-filters">
             <Select
-              defaultValue={filters?.skills?.split(',') || []}
-              label="Select skill(s)"
-              data={skills}
+              defaultValue={filters?.languages?.split(',') || []}
+              label="Select languages(s)"
+              data={languages}
               sx={{ width: 314 }}
               onChange={(e) => {
                 setFilters((p) => ({
                   ...p,
-                  skills: (e.target.value as string[]).join(',')
+                  languages: (e.target.value as string[]).join(',')
                 }))
               }}
               fullWidth={false}
@@ -112,56 +107,6 @@ const SkillsReport: FC<Props> = (props) => {
               }}
             />
           </div>
-          <div className="filters">
-            <Select
-              label="Select profession(s)"
-              defaultValue={filters?.professions?.split(',') || []}
-              data={asStringList(professions)}
-              onChange={(e) => {
-                setFilters((p) => ({
-                  ...p,
-                  professions: (e.target.value as string[]).join(',')
-                }))
-              }}
-              checkboxes
-            />
-            <Select
-              label="Select function(s)"
-              defaultValue={filters?.functions?.split(',') || []}
-              data={asStringList(functions)}
-              onChange={(e) => {
-                setFilters((p) => ({
-                  ...p,
-                  functions: (e.target.value as string[]).join(',')
-                }))
-              }}
-              checkboxes
-            />
-            <Select
-              label="Select grade(s)"
-              defaultValue={filters?.grades?.split(',') || []}
-              data={asStringList(grades)}
-              onChange={(e) =>
-                setFilters((p) => ({
-                  ...p,
-                  grades: (e.target.value as string[]).join(',')
-                }))
-              }
-              checkboxes
-            />
-            <Select
-              label="Select business unit(s)"
-              defaultValue={filters?.business_unit?.split(',') || []}
-              data={asStringList(businessUnits)}
-              onChange={(e) =>
-                setFilters((p) => ({
-                  ...p,
-                  business_unit: (e.target.value as string[]).join(',')
-                }))
-              }
-              checkboxes
-            />
-          </div>
 
           <DataGrid
             pageSize={10}
@@ -176,33 +121,51 @@ const SkillsReport: FC<Props> = (props) => {
   )
 }
 
-export default SkillsReport
+export default LanguagesReport
 
-const columns: GridColDef<ReportSkillsData>[] = [
+const columns: GridColDef<ReportLanguagesData>[] = [
   {
     field: 'name',
-    headerName: 'Skill',
+    headerName: 'Language',
     disableColumnMenu: true,
     resizable: false,
     renderCell: ({ formattedValue }) => formattedValue,
     flex: 1
   },
   {
-    field: 'skill_value_percentage',
-    headerName: 'Total with skill (%)',
+    field: 'basic_value_percentage',
+    headerName: 'Total (%) basic',
     disableColumnMenu: true,
     resizable: false,
     renderCell: ({ formattedValue, row }) =>
-      formattedValue && <Chip label={row.skill_label} />,
+      formattedValue && <Chip label={row.basic_label} />,
     flex: 1
   },
   {
-    field: 'skills_develop_value_percentage',
-    headerName: 'Total with skill they would like to develop (%)',
+    field: 'independent_value_percentage',
+    headerName: 'Total (%) independent',
     disableColumnMenu: true,
     resizable: false,
     renderCell: ({ formattedValue, row }) =>
-      formattedValue && <Chip label={row.skills_develop_label} />,
+      formattedValue && <Chip label={row.independent_label} />,
+    flex: 1
+  },
+  {
+    field: 'proficient_value_percentage',
+    headerName: 'Total (%) proficient',
+    disableColumnMenu: true,
+    resizable: false,
+    renderCell: ({ formattedValue, row }) =>
+      formattedValue && <Chip label={row.proficient_label} />,
+    flex: 1
+  },
+  {
+    field: 'native_value_percentage',
+    headerName: 'Total (%) native',
+    disableColumnMenu: true,
+    resizable: false,
+    renderCell: ({ formattedValue, row }) =>
+      formattedValue && <Chip label={row.native_label} />,
     flex: 1
   }
 ]

@@ -1,3 +1,6 @@
+import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
+import { ComponentProps } from 'react'
+
 export type FiltersType = {
   skills?: string
   users?: string
@@ -6,3 +9,5 @@ export type FiltersType = {
   grades?: string
   business_unit?: string
 }
+
+export type Props = ComponentProps<typeof AccountCard>
