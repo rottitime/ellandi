@@ -2,16 +2,11 @@ import { Box } from '@mui/material'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import DataGrid, { GridColDef, GridRowsProp } from './DataGrid'
 
-const rows: GridRowsProp = [
-  { id: 1, col1: 'Hello', col2: 'World' },
-  { id: 2, col1: 'DataGridPro', col2: 'is Awesome' },
-  { id: 3, col1: 'MUI', col2: 'is Amazing' }
-]
-
-const columns: GridColDef[] = [
-  { field: 'col1', headerName: 'Column 1', width: 150 },
-  { field: 'col2', headerName: 'Column 2', width: 150 }
-]
+type RowType = {
+  id: number
+  col1: string
+  col2: string
+}
 
 export default {
   title: 'Ellandi/Table/DataGrid',
@@ -30,13 +25,25 @@ const Template: ComponentStory<typeof DataGrid> = (args) => (
   </Box>
 )
 
+const rows: GridRowsProp<RowType> = [...Array(100).keys()].map((i) => ({
+  id: i,
+  col1: `Skill ${i}`,
+  col2: `${i} (${i}%)`
+}))
+
+const columns: GridColDef<RowType>[] = [
+  { field: 'col1', headerName: 'Column 1', width: 150 },
+  { field: 'col2', headerName: 'Column 2', width: 150 }
+]
+
 export const Default = Template.bind({})
 Default.args = {
   rows,
   columns,
   autoHeight: true,
   onEdit: null,
-  onDelete: null
+  onDelete: null,
+  pageSize: 10
 }
 
 export const WithDelete = Template.bind({})

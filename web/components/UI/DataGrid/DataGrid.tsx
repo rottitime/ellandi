@@ -7,6 +7,7 @@ import { Props, CellType } from './types'
 import { DataGrid as MuiDataGrid, GridColDef } from '@mui/x-data-grid'
 import { IconButton, styled } from '@mui/material'
 import { SkeletonTable } from '../Skeleton/TableSkeleton.stories'
+import Pagination from './Pagination'
 
 const StyledGrid = styled(MuiDataGrid)`
   border: none;
@@ -34,6 +35,11 @@ const StyledGrid = styled(MuiDataGrid)`
   .MuiDataGrid-cell {
     padding-left: 0;
     padding-right: 0;
+  }
+
+  .MuiDataGrid-footerContainer {
+    justify-content: flex-start;
+    padding-top: ${(p) => p.theme.spacing(3)};
   }
 `
 
@@ -107,6 +113,7 @@ const DataGrid: FC<Props> = ({
 
   const gridProps = {
     ...props,
+    components: { Pagination },
     columns
   }
 
