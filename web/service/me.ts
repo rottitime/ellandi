@@ -2,6 +2,7 @@ import getConfig from 'next/config'
 const { publicRuntimeConfig } = getConfig()
 import { defaultError } from '@/service/auth'
 import { api } from '@/lib/data-utils'
+import { random } from 'lodash'
 
 export const fetchMe = async (token: string) => {
   const res = await fetch(`${publicRuntimeConfig.apiUrl}/me/`, {
@@ -88,4 +89,22 @@ export const fetchMeLearningWork = async (token: string) => {
 export const fetchMeLearning = async (token: string, params) => {
   const res = await api(token, '/me/learnings/', params)
   return res.json()
+}
+
+export type Course = {
+  cost_pounds: number
+  course_type: string
+  duration_minutes: number
+  id: number
+  long_description: string
+  private: boolean
+  short_description: string
+  status: string
+  title: string
+}
+
+export const fetchCourses = async (token: string, params) => {
+  const res = await api(token, '/courses/', params)
+  if (res.ok) return res.json()
+  throw new Error(defaultError)
 }

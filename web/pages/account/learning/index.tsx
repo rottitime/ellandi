@@ -11,8 +11,19 @@ import LearningRecordList from '@/components/Account/LearningRecordList/Learning
 import { fetchMeLearning } from '@/service/me'
 import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
 import LearningDistribution from '@/components/Account/LearningDistribution/LearningDistribution'
+import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 
-const LearningPage = () => {
+const FindCoursesRedirect = () => {
+  const router = useRouter()
+  useEffect(() => {
+    router.push('/account/learning/courses')
+  }, [router])
+
+  return null
+}
+
+export const SharedLearningHeader = () => {
   const { authFetch } = useAuth()
 
   const { data } = useQuery<MeLearningRecord>(Query.MeLearning, () =>
@@ -50,13 +61,30 @@ const LearningPage = () => {
           </AccountCard>
         </Grid>
       </Grid>
+    </>
+  )
+}
 
+const LearningPage = () => {
+  const router = useRouter()
+
+  useEffect(() => {
+    router.prefetch('/account/learning/courses/')
+  }, [router])
+
+  return (
+    <>
+      <SharedLearningHeader />
       <Tabs
         brandColor="brandLearning"
         tabItems={[
           {
             title: 'Learning record',
             content: <LearningRecordList />
+          },
+          {
+            title: 'Find courses',
+            content: <FindCoursesRedirect />
           }
         ]}
       />
