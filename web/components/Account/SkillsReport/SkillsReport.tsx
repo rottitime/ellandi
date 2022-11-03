@@ -21,6 +21,7 @@ import businessUnits from '@/prefetch/business-units.json'
 import { asStringList } from '@/lib/data-utils'
 import SplitButton from '@/components/UI/SplitButton/SplitButton'
 import { FiltersType, Props } from './types'
+import useDebounce from '@/hooks/useDebounce'
 
 const Card = styled(AccountCard)`
   .main-filters {
@@ -43,10 +44,11 @@ const userOptions = ['All', 'Line managers', 'Mentors']
 const SkillsReport: FC<Props> = (props) => {
   const { authFetch } = useAuth()
   const [filters, setFilters] = useState<FiltersType>({})
+  const debouncedSearchQuery = useDebounce(filters, 600)
 
   const { isLoading, data } = useQuery<MeReportSkills>(
-    [Query.ReportSkills, filters],
-    () => authFetch(fetchReportSkills, filters),
+    [Query.ReportSkills, debouncedSearchQuery],
+    () => authFetch(fetchReportSkills, debouncedSearchQuery),
     { keepPreviousData: true }
   )
 
