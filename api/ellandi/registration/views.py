@@ -634,8 +634,6 @@ def me_suggested_skills(request):
     (permissions.AllowAny,)
 )  # TODO - I think this is fine for permissions - anyone can see recommendation?
 def skill_recommender(request, skill_name):
-    print(recommend_popular_skills())
-    print(recommend_profession_skills("Economics"))
     recommended_skills = recommend_skill_from_db(skill_name)
     if recommended_skills is None:
         raise exceptions.MissingJobSimilarityMatrixError
