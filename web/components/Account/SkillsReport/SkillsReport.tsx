@@ -92,7 +92,7 @@ const SkillsReport: FC<Props> = (props) => {
                 }))
               }
             >
-              {userOptions.map((option, i) => (
+              {userOptions.map((option) => (
                 <FormControlLabel
                   value={option}
                   control={<Radio />}
