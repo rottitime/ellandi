@@ -17,6 +17,8 @@ RUN python3 -m pip install -U pip setuptools wheel
 COPY ./recommender/requirements.lock /app/recommender/requirements.lock
 RUN python3 -m pip install -r /app/recommender/requirements.lock --no-cache-dir
 
+RUN python3 -c 'from sentence_transformers import SentenceTransformer; SentenceTransformer("all-MiniLM-L6-v2")'
+
 COPY ./docker/recommender/start.sh /start.sh
 RUN chmod +x /start.sh
 
