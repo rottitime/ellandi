@@ -5,7 +5,7 @@ import { createUrl } from '@/lib/url-utils'
 const urls = { skills: '/me/reports/skills/', languages: '/me/reports/languages/' }
 
 export const fetchReportSkills = async (token: string, params) => {
-  // const res = await api(token, urls.skills, null, params)
+  // const res = await api(token, urls.skills, {}, params)
   // return res.json()
   //TODO: change to fetch
   console.log('fetch', { token, params })

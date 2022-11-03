@@ -66,26 +66,36 @@ const SkillsReport = () => {
         <>
           <div className="main-filters">
             <Select
-              defaultValue={filters?.skills || ''}
+              defaultValue={filters?.skills?.split(',') || []}
               label="Select skill(s)"
               data={skills}
               sx={{ width: 314 }}
               onChange={(e) => {
                 setFilters((p) => ({
                   ...p,
-                  skills: e.target.value as string
+                  skills: (e.target.value as string[]).join(',')
                 }))
               }}
               fullWidth={false}
+              checkboxes
             />
 
-            <RadioGroup row>
-              {userOptions.map((user) => (
+            <RadioGroup
+              row
+              defaultValue={userOptions[0]}
+              onChange={(e) =>
+                setFilters((p) => ({
+                  ...p,
+                  users: e.target.value
+                }))
+              }
+            >
+              {userOptions.map((option, i) => (
                 <FormControlLabel
-                  value={user}
+                  value={option}
                   control={<Radio />}
-                  label={user}
-                  key={user}
+                  label={option}
+                  key={option}
                 />
               ))}
             </RadioGroup>
