@@ -2,6 +2,8 @@ import AccountLayout from '@/components/Layout/AccountLayout/AccountLayout'
 import { Typography } from '@mui/material'
 import Headline from '@/components/Account/Headline/Headline'
 import { RoutedTabItem, RoutedTabs } from '@/components/UI/Tabs/Tabs'
+import SkillsReport from '@/components/Account/SkillsReport/SkillsReport'
+import LanguagesReport from '@/components/Account/LanguagesReport/LanguagesReport'
 
 const ReportsPage = () => (
   <>
@@ -13,7 +15,7 @@ const ReportsPage = () => (
         You can view statistics on skills and learning
       </Typography>
     </Headline>
-    <RoutedTabs routedTabItems={tabs} tabsPath="/account/reports" />
+    <RoutedTabs routedTabItems={tabs} tabsPath="/account/reports" disableCard />
   </>
 )
 
@@ -43,7 +45,12 @@ export async function getStaticProps() {
 const tabs: RoutedTabItem[] = [
   {
     title: 'Skills',
-    content: <>Skills</>,
+    content: (
+      <>
+        <SkillsReport sx={{ mb: 4 }} />
+        <LanguagesReport />
+      </>
+    ),
     id: '',
     brandColor: 'brandSkills'
   },
