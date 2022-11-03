@@ -1,4 +1,4 @@
-import { FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material'
+import { Box, FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material'
 import { FC, useId } from 'react'
 import { StandardRegisterProps } from './types'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
@@ -14,9 +14,16 @@ import {
 import { useQuery } from 'react-query'
 import Form from '@/components/Form/Register/FormRegister/FormRegister'
 import { Field } from '../Field/Field'
+import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldControlled'
 
 const schema: SchemaOf<PrimaryProfessionType> = object().shape({
-  primary_profession: string().required('This is a required field')
+  primary_profession: string().required('Enter your profession'),
+  profession_other: string()
+    .nullable()
+    .when('primary_profession', (value) => {
+      if (value === 'Other')
+        return string().nullable().required('This is a required field')
+    })
 })
 
 const PrimaryProfessionForm: FC<
@@ -33,10 +40,12 @@ const PrimaryProfessionForm: FC<
   )
 
   const methods = useForm<PrimaryProfessionType>({
-    defaultValues: { primary_profession: null },
+    defaultValues: { primary_profession: '', profession_other: '' },
     resolver: yupResolver(schema)
   })
-  const { control } = methods
+
+  const { control, watch } = methods
+  const watchFields = watch()
 
   return (
     <FormProvider {...methods}>
@@ -55,18 +64,32 @@ const PrimaryProfessionForm: FC<
           <Controller
             name="primary_profession"
             control={control}
+            defaultValue=""
             render={({ field }) => (
-              <FormControl fullWidth size="small">
-                <InputLabel id={labelId}>{label}</InputLabel>
-                <Select {...field} labelId={labelId} label={label} autoFocus>
-                  {isSuccess &&
-                    data.map(({ name }) => (
-                      <MenuItem value={name} key={name}>
-                        {name}
-                      </MenuItem>
-                    ))}
-                </Select>
-              </FormControl>
+              <>
+                <FormControl fullWidth size="small">
+                  <InputLabel id={labelId}>{label}</InputLabel>
+                  <Select {...field} labelId={labelId} label={label}>
+                    {isSuccess &&
+                      [...data, { order: data.length, name: "I don't know" }].map(
+                        ({ name }) => (
+                          <MenuItem value={name} key={name}>
+                            {name}
+                          </MenuItem>
+                        )
+                      )}
+                  </Select>
+                </FormControl>
+                {watchFields.primary_profession === 'Other' && (
+                  <Box sx={{ my: 3 }}>
+                    <TextFieldControlled
+                      name="profession_other"
+                      label="Enter profession"
+                      subfield
+                    />
+                  </Box>
+                )}
+              </>
             )}
           />
         </Field>

@@ -19,17 +19,18 @@ import { useProfile } from '@/hooks/useProfile'
 const fieldName: keyof ProfessionType = 'professions'
 
 const schema: SchemaOf<ProfessionType> = object().shape({
-  professions: array().of(string()).min(1, 'This is a required field'),
+  professions: array().of(string()).min(1, 'Enter your profession'),
   profession_other: string()
     .nullable()
     .when('professions', (value) => {
       if (value.includes('Other'))
-        return string().nullable().required('This is a required field')
+        return string().nullable().required('Enter your profession')
     })
 })
 
 const ProfessionForm: FC<StandardRegisterProps<ProfessionType>> = (props) => {
   const { userProfile } = useProfile<RegisterUserResponse>({})
+  const primary_profession = userProfile?.primary_profession
 
   const methods = useForm<ProfessionType>({
     defaultValues: {
@@ -66,7 +67,7 @@ const ProfessionForm: FC<StandardRegisterProps<ProfessionType>> = (props) => {
 
         {isSuccess &&
           data
-            .filter(({ name }) => name !== userProfile?.primary_profession)
+            .filter(({ name }) => name !== primary_profession)
             .map(({ name }) => (
               <Box sx={{ mb: 1 }} key={name}>
                 <Controller
@@ -95,15 +96,17 @@ const ProfessionForm: FC<StandardRegisterProps<ProfessionType>> = (props) => {
                     />
                   )}
                 />
-                {name === 'Other' && watchFields.professions.includes('Other') && (
-                  <Box sx={{ my: 3 }}>
-                    <TextFieldControlled
-                      name="profession_other"
-                      label="Enter profession"
-                      subfield
-                    />
-                  </Box>
-                )}
+                {primary_profession !== 'Other' &&
+                  name !== 'Other' &&
+                  watchFields.professions.includes('Other') && (
+                    <Box sx={{ my: 3 }}>
+                      <TextFieldControlled
+                        name="profession_other"
+                        label="Enter profession"
+                        subfield
+                      />
+                    </Box>
+                  )}
               </Box>
             ))}
       </Form>

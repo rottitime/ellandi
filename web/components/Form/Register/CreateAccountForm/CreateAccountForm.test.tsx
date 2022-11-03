@@ -41,7 +41,6 @@ describe('CreateAccountForm', () => {
       )
     })
 
-    expect(screen.getAllByText('This is a required field')).toHaveLength(3)
     expect(screen.getByTestId('field_password')).toHaveTextContent(
       'Password must be 8 characters or more'
     )
@@ -72,7 +71,7 @@ describe('CreateAccountForm', () => {
     })
 
     expect(screen.getByTestId('field_passwordConfirm')).toHaveTextContent(
-      'Does not match with password'
+      'Confirm your password'
     )
   })
 
@@ -109,6 +108,37 @@ describe('CreateAccountForm', () => {
         passwordConfirm: password,
         privacy_policy_agreement: true
       })
+    })
+  })
+
+  it.only('Shows an api driven error message', async () => {
+    const error = 'message from server'
+    fetchMock.mockResponseOnce(JSON.stringify({ detail: error }), {
+      status: 400
+    })
+
+    renderWithProviders(
+      <CreateAccountForm defaultValues={null} backUrl="/back" onFormSubmit={jest.fn()} />
+    )
+
+    const button = screen.getByRole('button', { name: /Continue/i })
+    const emailField1 = screen.getByTestId('textfield_email')
+    const emailField2 = screen.getByTestId('textfield_emailConfirm')
+    const passwordField1 = screen.getByTestId('textfield_password')
+    const passwordField2 = screen.getByTestId('textfield_passwordConfirm')
+
+    await userEvent.type(emailField1, email)
+    await userEvent.type(emailField2, email)
+    await userEvent.type(passwordField1, password)
+    await userEvent.type(passwordField2, password)
+    await userEvent.click(screen.getByTestId('privacy-checkbox'))
+
+    await userEvent.click(button)
+
+    await waitFor(async () => {
+      expect(() => {
+        screen.getByText(`Error: ${error}`)
+      }).toThrow(`Error: ${error}`)
     })
   })
 })

@@ -1,4 +1,7 @@
+import datetime
+
 import furl
+import pytz
 from django.conf import settings
 from django.contrib.auth import login
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
@@ -13,18 +16,33 @@ from ellandi.registration import exceptions, models, serializers
 
 from . import auth
 
-TOKEN_GENERATOR = PasswordResetTokenGenerator()
+
+def _strip_microseconds(dt):
+    if not dt:
+        return ""
+    return dt.replace(microsecond=0, tzinfo=None)
+
+
+class TokenGenerator(PasswordResetTokenGenerator):
+    def _make_hash_value(self, user, timestamp):
+        login_timestamp = _strip_microseconds(user.last_login)
+        email = user.email or ""
+        token_timestamp = _strip_microseconds(user.last_token_sent_at)
+        return f"{user.pk}{user.password}{login_timestamp}{timestamp}{email}{token_timestamp}"
+
+
+TOKEN_GENERATOR = TokenGenerator()
 
 EMAIL_MAPPING = {
     "verification": {
         "from_address": "support-ellandi@cabinetoffice.gov.uk",
-        "subject": "Civil Service Skills and Learning: account created",
+        "subject": "Cabinet Office Skills and Learning: confirm your email address",
         "template_name": "email/verification.txt",
         "url_path": "/signin/email/verify",
     },
     "password-reset": {
         "from_address": "support-ellandi@cabinetoffice.gov.uk",
-        "subject": "Civil Service Skills and Learning: password reset",
+        "subject": "Cabinet Office Skills and Learning: password reset",
         "template_name": "email/password-reset.txt",
         "url_path": "/signin/forgotten-password/reset",
     },
@@ -32,6 +50,8 @@ EMAIL_MAPPING = {
 
 
 def _send_token_email(user, subject, template_name, from_address, url_path):
+    user.last_token_sent_at = datetime.datetime.now(tz=pytz.UTC)
+    user.save()
     token = TOKEN_GENERATOR.make_token(user)
     api_host_url = settings.HOST_URL.strip("/")
     web_host_url = settings.HOST_MAP[api_host_url]
@@ -148,3 +168,17 @@ def password_change_view(request):
         return Response(user_data)
     else:
         return Response({"detail": "Incorrect password"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@extend_schema(
+    responses=serializers.IsValidSerializer,
+)
+@decorators.api_view(["GET"])
+@decorators.permission_classes((permissions.AllowAny,))
+def check_token(request, user_id, token):
+    try:
+        user = models.User.objects.get(id=user_id)
+    except ObjectDoesNotExist:
+        return Response({"valid": False})
+    result = bool(TOKEN_GENERATOR.check_token(user, token))
+    return Response({"valid": result})

@@ -78,71 +78,69 @@ const LearningPage = () => {
         Add learning
       </Button>
 
-      {!!data.length && (
-        <Grid container spacing={5} sx={{ mb: 5 }}>
-          <Grid item xs={6}>
-            <AccountCard sx={{ height: '100%' }}>
-              <Typography variant="h2" component="h3" gutterBottom>
-                Learning distribution{' '}
-                <Tooltip
-                  sx={{ p: 0 }}
-                  brandColor="brandLearning"
-                  title="To get the most out of your learning you should aim for 70% learning
+      <Grid container spacing={5} sx={{ mb: 5 }}>
+        <Grid item xs={6}>
+          <AccountCard sx={{ height: '100%' }}>
+            <Typography variant="h2" component="h3" gutterBottom>
+              Learning distribution{' '}
+              <Tooltip
+                sx={{ p: 0 }}
+                brandColor="brandLearning"
+                title="To get the most out of your learning you should aim for 70% learning
                 on the job, 20% social and 10% formal training"
-                />
-              </Typography>
-              <GraphDescription variant="body2">
-                {barData.map(({ label, color, percentage }) => (
-                  <span key={label}>
-                    <Box
-                      className="dot"
-                      sx={{ backgroundColor: colors[color] }}
-                      component="span"
-                    />{' '}
-                    {label} ({percentage.toFixed()}%)
-                  </span>
-                ))}
-                <Tooltip
-                  brandColor="brandLearning"
-                  sx={{ p: 0 }}
-                  title={
-                    <>
-                      <Typography variant="body2">On the job</Typography> Self-taught
-                      learning by doing, for example reading policies and guidance, using
-                      tools and software to do your job
-                      <Typography variant="body2">Social</Typography>
-                      Learning from colleagues, job shadowing, mentoring, coaching,
-                      networks and communities
-                      <Typography variant="body2">Formal</Typography>
-                      Completing a course on Civil Service Learning, external training,
-                      professional qualifications
-                    </>
-                  }
-                />
-              </GraphDescription>
-              <PercentageBar
-                data={barData}
-                marks={[0, 25, 50, 75, 100].map((value) => ({
-                  value,
-                  label: value.toString()
-                }))}
               />
-            </AccountCard>
-          </Grid>
-          <Grid item xs={6}>
-            <AccountCard sx={{ height: '100%' }}>
-              <Typography variant="h2" component="h3" gutterBottom>
-                Learning goal
-              </Typography>
-              <GraphDescription variant="body2" gutterBottom>
-                You should aim to complete 10 days learning each financial year
-              </GraphDescription>
-
-              <LearningGoalBar />
-            </AccountCard>
-          </Grid>
+            </Typography>
+            <GraphDescription variant="body2">
+              {barData.map(({ label, color, percentage }) => (
+                <span key={label}>
+                  <Box
+                    className="dot"
+                    sx={{ backgroundColor: colors[color] }}
+                    component="span"
+                  />{' '}
+                  {label} ({(percentage || 0).toFixed()}%)
+                </span>
+              ))}
+              <Tooltip
+                brandColor="brandLearning"
+                sx={{ p: 0 }}
+                title={
+                  <>
+                    <Typography variant="body2">On the job</Typography> Self-taught
+                    learning by doing, for example reading policies and guidance, using
+                    tools and software to do your job
+                    <Typography variant="body2">Social</Typography>
+                    Learning from colleagues, job shadowing, mentoring, coaching, networks
+                    and communities
+                    <Typography variant="body2">Formal</Typography>
+                    Completing a course on Civil Service Learning, external training,
+                    professional qualifications
+                  </>
+                }
+              />
+            </GraphDescription>
+            <PercentageBar
+              data={barData}
+              marks={[0, 25, 50, 75, 100].map((value) => ({
+                value,
+                label: value.toString()
+              }))}
+            />
+          </AccountCard>
         </Grid>
-      )}
+        <Grid item xs={6}>
+          <AccountCard sx={{ height: '100%' }}>
+            <Typography variant="h2" component="h3" gutterBottom>
+              Learning goal
+            </Typography>
+            <GraphDescription variant="body2" gutterBottom>
+              You should aim to complete 10 days learning each year
+            </GraphDescription>
+
+            <LearningGoalBar />
+          </AccountCard>
+        </Grid>
+      </Grid>
 
       <Tabs
         brandColor="brandLearning"

@@ -7,6 +7,7 @@ from .models import (
     BusinessUnit,
     ContractType,
     Country,
+    Course,
     EmailSalt,
     Function,
     Grade,
@@ -119,7 +120,7 @@ class UserSkillSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserSkill
-        fields = ["id", "user", "name", "level", "validated", "created_at", "modified_at"]
+        fields = ["id", "user", "name", "level", "validated", "pending", "created_at", "modified_at"]
 
 
 class UserLanguageSerializer(serializers.ModelSerializer):
@@ -138,7 +139,7 @@ class UserLanguageSerializer(serializers.ModelSerializer):
 class UserSkillDevelopSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserSkillDevelop
-        fields = ["id", "user", "name", "created_at", "modified_at"]
+        fields = ["id", "user", "name", "pending", "created_at", "modified_at"]
 
 
 class UserSkillSerializerNested(serializers.ModelSerializer):
@@ -148,7 +149,7 @@ class UserSkillSerializerNested(serializers.ModelSerializer):
 
     class Meta:
         model = UserSkill
-        fields = ["id", "name", "level", "validated"]
+        fields = ["id", "name", "level", "validated", "pending"]
 
 
 class UserLanguageSerializerNested(serializers.ModelSerializer):
@@ -167,7 +168,7 @@ class UserLanguageSerializerNested(serializers.ModelSerializer):
 class UserSkillDevelopSerializerNested(serializers.ModelSerializer):
     class Meta:
         model = UserSkillDevelop
-        fields = ["id", "name"]
+        fields = ["id", "name", "pending"]
 
 
 class LearningListSerializer(serializers.ListSerializer):
@@ -205,9 +206,7 @@ class UserSerializer(serializers.ModelSerializer):
     languages = UserLanguageSerializerNested(many=True, read_only=False, required=False)
     skills_develop = UserSkillDevelopSerializerNested(many=True, read_only=False, required=False)
     email = serializers.CharField(read_only=True)
-    professions = serializers.SlugRelatedField(
-        many=True, queryset=Profession.objects.all(), read_only=False, slug_field="name", required=False
-    )
+    professions = serializers.ListField(child=serializers.CharField(), read_only=False, required=False)
     has_direct_reports = serializers.BooleanField(required=False)
 
     def update(self, instance, validated_data):
@@ -225,6 +224,7 @@ class UserSerializer(serializers.ModelSerializer):
             "is_line_manager",
             "grade",
             "grade_other",
+            "professions",
             "profession_other",
             "primary_profession",
             "function",
@@ -239,11 +239,7 @@ class UserSerializer(serializers.ModelSerializer):
                 value = validated_data[field]
                 setattr(instance, field, value)
 
-        # Replace exisiting professions with new list
-        if "professions" in validated_data:
-            instance.professions.set(validated_data["professions"])
-
-        # For skills and languages - append to exisiting lists of skills/langs
+        # For skills and languages - append to existing lists of skills/langs
         if "skills" in validated_data:
             for skill_data in validated_data["skills"]:
                 name = skill_data["name"]
@@ -345,3 +341,15 @@ class SkillTitleSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserSkill
         fields = ["name"]
+
+
+class IsValidSerializer(serializers.Serializer):
+    valid = serializers.BooleanField(required=True)
+
+
+class CourseSerializer(serializers.ModelSerializer):
+    status = serializers.ChoiceField(choices=Course.Status.choices, allow_blank=True, allow_null=True, required=False)
+
+    class Meta:
+        model = Course
+        fields = "__all__"

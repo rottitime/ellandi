@@ -5,7 +5,7 @@ import Headline from '@/components/Account/Headline/Headline'
 import SkillsList from '@/components/Account/SkillsList/SkillsList'
 import LanguageList from '@/components/Account/LanguageList/LanguageList'
 import SkillsDevelop from '@/components/Account/SkillsDevelop/SkillsDevelop'
-import RoutedTabs, { RoutedTabItem } from '@/components/UI/Tabs/RoutedTabs'
+import { RoutedTabItem, RoutedTabs } from '@/components/UI/Tabs/Tabs'
 import { useRouter } from 'next/router'
 
 const SkillsPage = () => {
@@ -31,7 +31,11 @@ const SkillsPage = () => {
         Add a skill
       </Button>
 
-      <RoutedTabs routedTabItems={tabs} tabsPath="/account/skills" />
+      <RoutedTabs
+        routedTabItems={tabs}
+        tabsPath="/account/skills"
+        brandColor="brandSkills"
+      />
     </AccountLayout>
   )
 }

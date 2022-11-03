@@ -8,7 +8,7 @@ export type TabItem = {
   content: ReactNode
   disabled?: boolean
   href?: string
-}
+} & BrandColor
 
 type BrandColor = { brandColor?: keyof ColorBrands }
 
@@ -21,3 +21,12 @@ export type Props = {
   BrandColor
 
 export type StyleProps = BrandColor
+
+export type RoutedTabsProps = {
+  routedTabItems: RoutedTabItem[]
+  tabsPath: string
+} & BrandColor
+
+export type RoutedTabItem = Omit<TabItem, 'href'> & {
+  id: string
+}

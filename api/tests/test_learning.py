@@ -1,6 +1,8 @@
 from rest_framework import status
 from tests import utils
 
+from ellandi.registration.models import Learning, User
+
 
 @utils.with_logged_in_client
 def test_me_learning_work(client, user_id):
@@ -110,3 +112,28 @@ def test_me_learning_patch_get_delete(client, user_id):
 
     response = client.delete(f"/api/me/learnings/{formal_learning_id}/")
     assert response.status_code == status.HTTP_200_OK, response.status_code
+
+
+@utils.with_logged_in_client
+def test_me_direct_report_learning_get(client, user_id):
+    direct_report = User.objects.get(email="direct_report@example.com")
+    Learning(
+        user=direct_report,
+        name="Management training",
+        duration_minutes=47,
+        cost_pounds=300,
+        learning_type=Learning.LearningType.ON_THE_JOB,
+    ).save()
+    Learning(
+        user=direct_report,
+        name="Python course",
+        duration_minutes=100,
+        cost_pounds=15,
+        learning_type=Learning.LearningType.SOCIAL,
+    ).save()
+    direct_report_id = direct_report.id
+    response = client.get(f"/api/me/direct-report/{direct_report_id}/learnings/?sortfield=duration_minutes")
+    result = response.json()
+    assert len(result) == 2
+    assert result[0]["name"] == "Management training"
+    assert result[1]["duration_minutes"] == 100

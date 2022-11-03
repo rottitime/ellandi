@@ -11,25 +11,33 @@ import {
   fetchJobTitles,
   GenericDataList,
   Query,
-  RegisterDetailsType
+  RegisterDetailsType,
+  RegisterUserResponse
 } from '@/service/api'
 import { Field } from '@/components/Form/Field/Field'
 import Form from '@/components/Form/Register/FormRegister/FormRegister'
 import { useQuery } from 'react-query'
-
-const schema: SchemaOf<RegisterDetailsType> = object().shape({
-  first_name: string().nullable().required('This is a required field'),
-  last_name: string().nullable().required('This is a required field'),
-  job_title: string().nullable().required('This is a required field'),
-  line_manager_email: string()
-    .nullable()
-    .email('Email address must be valid')
-    .required('This is a required field'),
-  location: string().nullable().required('This is a required field'),
-  business_unit: string().nullable().required('This is a required field')
-})
+import { useProfile } from '@/hooks/useProfile'
 
 const RegisterDetailsForm: FC<StandardRegisterProps<RegisterDetailsType>> = (props) => {
+  const { userProfile } = useProfile<RegisterUserResponse>({})
+
+  const schema: SchemaOf<RegisterDetailsType> = object().shape({
+    first_name: string().nullable().required('Enter your first name'),
+    last_name: string().nullable().required('Enter your last name'),
+    job_title: string().nullable().required('Select your job title'),
+    line_manager_email: string()
+      .nullable()
+      .email('Enter an email address in the correct format, like name@example.com')
+      .required("Enter your line manager's email address")
+      .not(
+        [userProfile?.email],
+        "You have entered an email that matches your own. Enter your line manager's email address"
+      ),
+    location: string().nullable().required('Enter your work location'),
+    business_unit: string().nullable().required('Select your business unit')
+  })
+
   const methods = useForm<RegisterDetailsType>({
     defaultValues: {
       first_name: '',
@@ -118,10 +126,6 @@ const RegisterDetailsForm: FC<StandardRegisterProps<RegisterDetailsType>> = (pro
             )}
           />
         </Field>
-
-        {/* <Field>
-          <TextFieldControlled name="business_unit" label="Business unit" />
-        </Field> */}
 
         <Field>
           <TextFieldControlled name="location" label="Work location" />

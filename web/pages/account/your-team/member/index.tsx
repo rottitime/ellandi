@@ -1,13 +1,15 @@
 import AccountLayout from '@/components/Layout/AccountLayout/AccountLayout'
 import SimpleTable from '@/components/UI/SimpleTable/SimpleTable'
 import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
-import { Typography, TableCellProps, Chip, styled } from '@mui/material'
+import { TableCellProps, Chip, styled } from '@mui/material'
 import useAuth from '@/hooks/useAuth'
 import { useQuery } from 'react-query'
 import { Query, TeamMember } from '@/service/api'
 import { fetchTeam } from '@/service/account'
 import { useMemo } from 'react'
 import { useRouter } from 'next/router'
+import Typography from '@/components/UI/Typography/Typography'
+import Tooltip from '@/components/UI/Tooltip/Tooltip'
 
 const Table = styled(SimpleTable)`
   th {
@@ -82,10 +84,13 @@ const YourTeamPage = () => {
                     value: member.line_manager_email
                   },
                   { name: 'Grade', value: member.grade_other || member.grade },
-                  { name: 'Profession(s)', value: professions.join(', ') },
                   {
                     name: 'Primary profession',
-                    value: professions.length > 1 && member.primary_profession
+                    value: member.primary_profession
+                  },
+                  {
+                    name: 'Profession(s)',
+                    value: professions.length > 1 && professions.join(', ')
                   },
                   { name: 'Function', value: member.function_other || member.function },
                   {
@@ -143,8 +148,26 @@ const YourTeamPage = () => {
               loading={isLoading}
               headers={[{ children: 'Skill' }, { children: 'Skill level' }]}
               list={[
-                ...member.skills.map<TableCellProps[]>(({ name, level }) => [
-                  { children: name },
+                ...member.skills.map<TableCellProps[]>(({ name, level, pending }) => [
+                  {
+                    children: (
+                      <Typography
+                        variant="body2"
+                        component="span"
+                        pending={pending}
+                        data-testid={pending && 'status-pending'}
+                      >
+                        {name}
+                        {pending && (
+                          <Tooltip
+                            brandColor="brandSkills"
+                            sx={{ svg: { color: 'inherit' } }}
+                            title="Pending approval"
+                          />
+                        )}
+                      </Typography>
+                    )
+                  },
                   { children: level && <Chip label={level} /> }
                 ])
               ]}

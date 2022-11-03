@@ -50,23 +50,24 @@ const Form = styled('form')`
   }
 `
 
-const initialValues = {
-  name: '',
-  duration_minutes: null,
-  date_completed: null
-}
-
 const LearningAddForm = forwardRef<RefHandler, Props>(
   ({ onFormSubmit, loading, error, defaultValues, compact, type = 'generic' }, ref) => {
-    const formalValues =
-      type === 'formal' ? { cost_pounds: null, cost_unknown: false } : {}
+    const initialValues = {
+      name: '',
+      duration_minutes: null,
+      date_completed: null,
+      cost_pounds: null,
+      cost_unknown: false,
+      ...defaultValues
+    }
+
+    if (type === 'generic') {
+      delete initialValues.cost_pounds
+      delete initialValues.cost_unknown
+    }
 
     const methods = useForm<Partial<MeLearningRecord>>({
-      defaultValues: {
-        ...initialValues,
-        ...formalValues,
-        ...defaultValues
-      },
+      defaultValues: initialValues,
       resolver: yupResolver(type === 'generic' ? schema : schemaFormal)
     })
     const { control, handleSubmit, setValue } = methods
@@ -111,10 +112,8 @@ const LearningAddForm = forwardRef<RefHandler, Props>(
                   onKeyDown={(e) =>
                     (e.key === 'e' || e.key === '-') && e.preventDefault()
                   }
-                  onChange={(e) => {
-                    setValue('cost_unknown', false)
-                    setValue('cost_pounds', (e.target as HTMLInputElement).valueAsNumber)
-                  }}
+                  onChange={() => setValue('cost_unknown', false)}
+                  onWheel={() => (document.activeElement as HTMLInputElement).blur()}
                   inputProps={{ min: 0, 'data-testid': 'cost-field' }}
                   InputProps={{
                     startAdornment: (

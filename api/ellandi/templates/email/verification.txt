@@ -1,13 +1,14 @@
 Hi,
 
-Your Civil Service Skills and Learning Service account has been created.
+Use the following link to confirm your email address:
+{{url|safe}}
 
-To get signed in to your account go to: {{url|safe}}, where you can:
-* manage your profile, add news skills or update your learning record
-* find and explore learning, training and development opportunities
+You can then start using the Cabinet Office Skills and Learning Service.
+
+The link is valid for 24 hours. If you use the link more than once, it will expire.
 
 If you have a query about this notification, please email the support team: support-ellandi@cabinetoffice.gov.uk
 
 Regards
 
-Civil Service Skills and Learning
+Cabinet Office Skills and Learning

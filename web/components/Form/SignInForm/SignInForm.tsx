@@ -13,8 +13,8 @@ import FooterButtons from '@/components/UI/FooterButtons/FooterButtons'
 const schema: SchemaOf<SignInType> = object().shape({
   email: string()
     .email('Enter an email address in the correct format, like name@example.com')
-    .required('This is a required field'),
-  password: string().required('This is a required field')
+    .required('Enter your email address'),
+  password: string().required('Enter your password')
 })
 
 const SignInForm: FC<Props> = ({ onFormSubmit, loading }) => {
@@ -32,12 +32,7 @@ const SignInForm: FC<Props> = ({ onFormSubmit, loading }) => {
         method="POST"
       >
         <Field>
-          <TextFieldControlled
-            name="email"
-            type="email"
-            label="Email address"
-            placeholder="e.g. Joe.Bloggs@gmail.com"
-          />
+          <TextFieldControlled name="email" type="email" label="Email address" />
         </Field>
         <Field>
           <TextFieldControlled name="password" type="password" label="Password" />

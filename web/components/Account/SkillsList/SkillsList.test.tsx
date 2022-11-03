@@ -1,17 +1,17 @@
-import { screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react'
 import SkillsList from './SkillsList'
 import fetchMock from 'jest-fetch-mock'
-import { bugfixForTimeout, renderWithProviders } from '@/lib/test-utils'
+import {
+  bugfixForTimeout,
+  renderWithProviders,
+  screen,
+  waitFor,
+  waitForElementToBeRemoved,
+  mockMeSkills
+} from '@/lib/test-utils'
 import { SkillsType } from '@/service/types'
 import userEvent from '@testing-library/user-event'
 
-const mockSuccess: SkillsType = {
-  skills: [
-    { id: 'test1', name: 'Skill Something A', level: 'Jon' },
-    { id: 'test2', name: 'Skill Something B', level: 'Cersei' },
-    { id: 'test3', name: 'Skill Something C', level: 'Jaime' }
-  ]
-}
+const mockSuccess: SkillsType = { skills: mockMeSkills }
 
 describe('SkillsList', () => {
   afterEach(() => {
@@ -37,6 +37,29 @@ describe('SkillsList', () => {
     expect(screen.getByText(mockSuccess.skills[0].level)).toBeInTheDocument()
     expect(screen.getByText(mockSuccess.skills[1].level)).toBeInTheDocument()
     expect(screen.getByText(mockSuccess.skills[2].level)).toBeInTheDocument()
+  })
+
+  it('pending skill', async () => {
+    fetchMock.mockResponse(
+      JSON.stringify({
+        skills: [
+          ...mockMeSkills,
+          {
+            id: '1232s',
+            name: 'Pending skill',
+            level: 'super',
+            pending: true
+          }
+        ]
+      }),
+      { status: 200 }
+    )
+    renderWithProviders(<SkillsList />)
+
+    await waitFor(async () => {
+      expect(screen.getByText(mockSuccess.skills[0].name)).toBeInTheDocument()
+    })
+    expect(screen.getByTestId('status-pending')).toBeInTheDocument()
   })
 
   it('message for no skills', async () => {

@@ -50,7 +50,7 @@ describe('Page: Sign in', () => {
     await userEvent.click(button)
 
     await waitFor(async () => {
-      expect(fieldPassword).toHaveTextContent('This is a required field')
+      expect(fieldPassword).toHaveTextContent('Enter your password')
     })
 
     expect(fieldEmail).toHaveTextContent('Enter an email address')

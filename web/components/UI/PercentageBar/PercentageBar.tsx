@@ -16,6 +16,10 @@ const StyledPercentageBar = styled(Box)`
 
   .mark-label {
     position: absolute;
+    transform: translate(-50%, 0);
+    &.last {
+      transform: translate(0);
+    }
   }
 `
 

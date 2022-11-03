@@ -69,6 +69,7 @@ export type SkillType = {
   id?: string
   name: string
   level: string
+  pending?: boolean
 }
 
 export type SkillDevelopType = {
@@ -86,6 +87,7 @@ export type SkillsDevelopType = {
 
 export type PrimaryProfessionType = {
   primary_profession: string
+  profession_other: string
 }
 
 export type ContactType = {
@@ -126,6 +128,8 @@ export type RegisterUserResponse = {
   created_at: string
   modified_at: string
   is_line_manager: string
+  is_mentor: string
+  has_reports_access: boolean
 } & PrivacyAcceptType &
   RegisterDetailsType &
   GradeType &
@@ -146,21 +150,22 @@ export type TeamMember = {
   privacy_policy_agreement: boolean
   first_name: string
   last_name: string
-  department: null
-  organisation: null
+  has_direct_reports: boolean
+  department: string
+  organisation: string
   job_title: string
   business_unit: string
   location: string
   line_manager_email: string
   grade: string
-  grade_other: null
+  grade_other: string
   professions: string[]
-  profession_other: null
+  profession_other: string
   primary_profession: string
   function: string
-  function_other: null
+  function_other: string
   contract_type: string
-  contract_type_other: null
+  contract_type_other: string
   contact_preference: true
   skills: SkillType[]
   languages: LanguageType[]

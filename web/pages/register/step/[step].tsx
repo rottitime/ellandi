@@ -28,7 +28,6 @@ import {
 import useAuth from '@/hooks/useAuth'
 import { fetchMe } from '@/service/me'
 import { StandardRegisterProps } from '@/components/Form/Register/types'
-import { Box } from '@mui/material'
 
 type Props = {
   stepInt: number
@@ -37,7 +36,6 @@ type Props = {
   nextUrl: string
   progress: number
   skip: boolean
-  large?: boolean
 }
 
 type Steps = {
@@ -49,17 +47,15 @@ type Steps = {
   large?: boolean
 }
 
-const RegisterPage = ({ stepInt, nextUrl, backUrl, skip, large }: Props) => {
+const RegisterPage = ({ stepInt, nextUrl, backUrl, skip }: Props) => {
   const { setLoading, setError } = useUiContext()
   const { authFetch, hasToken } = useAuth()
   const router = useRouter()
   const queryClient = useQueryClient()
   const FormComponent = steps[stepInt].form
 
-  const { isLoading: isLoadingMe, data } = useQuery<RegisterUserResponse>(
-    Query.Me,
-    () => authFetch(fetchMe),
-    { enabled: !!stepInt }
+  const { isLoading: isLoadingMe, data } = useQuery<RegisterUserResponse>(Query.Me, () =>
+    authFetch(fetchMe)
   )
 
   const { isLoading: isMutateLoading, ...mutate } = useMutation<
@@ -69,6 +65,7 @@ const RegisterPage = ({ stepInt, nextUrl, backUrl, skip, large }: Props) => {
   >(async (data) => authFetch(updateUser, data), {
     onSuccess: async (data) => {
       if (!!stepInt) queryClient.setQueryData(Query.Me, data)
+      setError(null)
       router.push(nextUrl)
     },
     onError: ({ message }) => setError(message)
@@ -97,21 +94,17 @@ const RegisterPage = ({ stepInt, nextUrl, backUrl, skip, large }: Props) => {
       })
     }
 
-    if (!hasToken()) {
-      redirect()
-    }
+    if (!hasToken()) redirect()
   }, [stepInt, router, isLoadingMe, hasToken, queryClient, data])
 
   return (
-    <Box sx={{ maxWidth: !!large ? 1320 : 540 }}>
-      <FormComponent
-        backUrl={backUrl}
-        buttonLoading={isMutateLoading}
-        defaultValues={data}
-        skipUrl={skip && nextUrl}
-        onFormSubmit={(data) => mutate.mutate(data)}
-      />
-    </Box>
+    <FormComponent
+      backUrl={backUrl}
+      buttonLoading={isMutateLoading}
+      defaultValues={data}
+      skipUrl={skip && nextUrl}
+      onFormSubmit={(data) => mutate.mutate(data)}
+    />
   )
 }
 
@@ -120,7 +113,11 @@ export default RegisterPage
 RegisterPage.getLayout = (page) => {
   const { props } = page
   return (
-    <CardLayout title={props.title} progress={props.progress} widthAuto>
+    <CardLayout
+      title={props.title}
+      progress={props.progress}
+      maxWidth={!!props.large ? 1320 : 540}
+    >
       {page}
     </CardLayout>
   )
@@ -192,6 +189,10 @@ const steps: Steps[] = [
   {
     form: dynamic(() => import('@/components/Form/Register/IsLineManagerForm')),
     title: 'Are you a line manager?'
+  },
+  {
+    form: dynamic(() => import('@/components/Form/Register/IsMentorForm')),
+    title: 'Are you a mentor?'
   },
   {
     form: dynamic(() => import('@/components/Form/Register/SkillsForm')),

@@ -5,6 +5,7 @@ import { FC, useEffect, useRef } from 'react'
 import { useUiContext } from '@/context/UiContext'
 import GovCard from '@/components/UI/Cards/GovCard/GovCard'
 import { Props } from './types'
+import { title } from '@/content'
 
 const Page = styled(Box)`
   flex-direction: column;
@@ -20,7 +21,6 @@ const Page = styled(Box)`
 
   > .MuiPaper-root {
     ${({ theme }) => theme.breakpoints.up('md')} {
-      max-width: 540px;
       width: 100%;
       margin: ${(p) => p.theme.spacing(2)};
     }
@@ -38,11 +38,11 @@ const Page = styled(Box)`
 
 const CardLayout: FC<Props> = ({
   children,
-  title,
   footer,
   progress,
   dark,
-  widthAuto
+  maxWidth = 540,
+  ...props
 }) => {
   const { error, loading, isErrorEcode, scroll } = useUiContext()
   const alertRef = useRef(null)
@@ -59,12 +59,13 @@ const CardLayout: FC<Props> = ({
           ${dark && govBackgroundDark}
         `}
       </style>
-      <Page className={`${!!widthAuto ? 'auto-width' : ''}`}>
+      <Page>
         <GovCard
-          title={title}
+          title={props.title as string}
           progress={progress}
           loading={loading}
-          headerTitle="Civil Service Skills and Learning"
+          headerTitle={title}
+          sx={{ maxWidth }}
         >
           {!!error && (
             <Alert

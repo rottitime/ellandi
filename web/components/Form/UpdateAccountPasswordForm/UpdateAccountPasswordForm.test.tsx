@@ -40,7 +40,7 @@ describe('UpdateAccountPasswordForm', () => {
     })
 
     expect(fieldPassword).toHaveTextContent('Password must be 8 characters or more')
-    expect(fieldNewPasswordConfirm).toHaveTextContent('This is a required field')
+    expect(fieldNewPasswordConfirm).toHaveTextContent('Confirm new password')
     expect(fieldCurrentPassword).toHaveTextContent('This is a required field')
 
     expect(mockSubmit).not.toHaveBeenCalled()

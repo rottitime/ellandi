@@ -33,6 +33,8 @@ admin_user_data = dict(
     job_title="Policy Analyst",
 )
 
+direct_report_data = dict(email="direct_report@example.com", password="P455w0rd", line_manager_email="jane@example.com")
+
 
 def add_user_skills_etc(user):
     UserSkill(user=user, name="Cake making").save()
@@ -54,6 +56,7 @@ def with_logged_in_client(func):
     def _inner(*args, **kwargs):
         user = User.objects.create_user(**user_data)
         another_user = User.objects.create_user(**another_user_data)
+        direct_report = User.objects.create_user(**direct_report_data)
         add_user_skills_etc(another_user)
 
         with httpx.Client(app=wsgi.application, base_url="http://testserver:8000") as client:
@@ -69,6 +72,7 @@ def with_logged_in_client(func):
             finally:
                 User.objects.filter(id=user.id).delete()
                 User.objects.filter(id=another_user.id).delete()
+                User.objects.filter(id=direct_report.id).delete()
 
     return _inner
 

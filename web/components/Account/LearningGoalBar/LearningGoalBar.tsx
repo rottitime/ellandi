@@ -7,6 +7,11 @@ import { Box, styled, Typography } from '@mui/material'
 import { FC } from 'react'
 import { useQuery } from 'react-query'
 import { Props } from './types'
+import getConfig from 'next/config'
+
+const {
+  publicRuntimeConfig: { minutesPerDay }
+} = getConfig()
 
 const GoalBar = styled(Box)`
   .stat {
@@ -32,8 +37,8 @@ const LearningGoalBar: FC<Props> = (props) => {
       isBetweenBusinessDates(date_completed, '0000-04-01', '0000-03-31')
     )
     .reduce((p, { duration_minutes }) => p + duration_minutes, 0)
-  const totalDays = Math.trunc(totalMinutes / 450)
-  const percentage = Math.trunc((totalMinutes / 450 / 10) * 100)
+  const totalDays = Math.trunc(totalMinutes / minutesPerDay)
+  const percentage = Math.trunc((totalMinutes / minutesPerDay / 10) * 100)
 
   return (
     <GoalBar {...props}>

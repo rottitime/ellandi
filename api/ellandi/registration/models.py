@@ -157,7 +157,7 @@ class RegistrationAbstractUser(models.Model):
     line_manager_email = LowercaseEmailField(max_length=128, blank=True, null=True)
     grade = models.CharField(max_length=127, blank=True, null=True)
     grade_other = models.CharField(max_length=127, blank=True, null=True)
-    professions = models.ManyToManyField(Profession, blank=True)
+    professions = models.JSONField(default=list)
     profession_other = models.CharField(max_length=127, blank=True, null=True)
     primary_profession = models.CharField(max_length=127, blank=True, null=True)
     function = models.CharField(max_length=127, blank=True, null=True)
@@ -179,6 +179,7 @@ class User(AbstractUser, TimeStampedModel, RegistrationAbstractUser):
     last_name = models.CharField("last name", max_length=128, blank=True, null=True)
     is_mentor = models.CharField(max_length=12, choices=YesNoChoices.choices, blank=True, null=True)
     is_line_manager = models.CharField(max_length=12, choices=YesNoChoices.choices, blank=True, null=True)
+    last_token_sent_at = models.DateTimeField(editable=False, blank=True, null=True)
 
     @property
     def has_direct_reports(self):
@@ -217,6 +218,8 @@ class UserSkill(TimeStampedModel):
     name = models.CharField(max_length=256)
     level = models.CharField(max_length=64, choices=SkillLevel.choices, blank=True, null=True)
     validated = models.BooleanField(default=False, blank=False)
+    # TODO - will need to change this as pending status is per skill, not user skill
+    pending = models.BooleanField(default=False, blank=False)
 
     def __str__(self):
         return f"{self.name} ({self.id})"
@@ -254,6 +257,8 @@ class UserSkillDevelop(TimeStampedModel):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, related_name="skills_develop", on_delete=models.CASCADE)
     name = models.CharField(max_length=127, blank=True, null=True)
+    # TODO - will need to change this as pending status is per skill, not user skill
+    pending = models.BooleanField(default=False, blank=False)
 
     def __str__(self):
         return f"{self.name} ({self.id})"
@@ -297,3 +302,27 @@ class EmailSalt(models.Model):
     def save(self, *args, **kwargs):
         self.email = self.email.lower()
         super(EmailSalt, self).save(*args, **kwargs)
+
+
+class Course(models.Model):
+    class Status(models.TextChoices):
+        ARCHIVED = ("Archived", "Archived")
+        DRAFT = ("Draft", "Draft")
+        PUBLISHED = ("Published", "Published")
+
+    class CourseType(models.TextChoices):
+        ELEARNING = ("Elearning", "Elearning")
+        FACE_TO_FACE = ("Face-to-face", "Face-to-face")
+        FILE = ("File", "File")
+        LINK = ("Link", "Link")
+        VIDEO = ("Video", "Video")
+        MIXED = ("Mixed", "Mixed")
+
+    title = models.CharField(max_length=256, blank=True, null=True)
+    short_description = models.CharField(max_length=1024, blank=True, null=True)
+    long_description = models.TextField(blank=True, null=True)
+    status = models.CharField(max_length=128, choices=Status.choices, blank=True, null=True)
+    cost_pounds = models.PositiveSmallIntegerField(blank=True, null=True)
+    duration_minutes = models.PositiveSmallIntegerField(blank=True, null=True)
+    private = models.BooleanField(blank=True, null=True)
+    course_type = models.CharField(max_length=256, choices=CourseType.choices, blank=True, null=True)

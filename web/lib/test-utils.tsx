@@ -7,7 +7,9 @@ import { UiProvider } from '@/context/UiContext'
 import {
   AuthUser,
   MeSuggestedSkillsResponse,
-  RegisterUserResponse
+  RegisterUserResponse,
+  SkillType,
+  TeamMember
 } from '@/service/types'
 
 beforeAll(() => {
@@ -80,6 +82,28 @@ export const mockAuthToken: AuthUser = {
 }
 
 // Mock data
+
+export const mockMeSkills: SkillType[] = [
+  {
+    id: 'test1',
+    name: 'Skill Something A',
+    level: 'Jon',
+    pending: false
+  },
+  {
+    id: 'test2',
+    name: 'Skill Something B',
+    level: 'Cersei',
+    pending: false
+  },
+  {
+    id: 'test3',
+    name: 'Skill Something C',
+    level: 'Jaime',
+    pending: false
+  }
+]
+
 export const mockMe: RegisterUserResponse = {
   id: 'myownid-123',
   email: 'myself@test.com',
@@ -92,7 +116,9 @@ export const mockMe: RegisterUserResponse = {
   department: null,
   location: 'Neverland',
   line_manager_email: 'manager@test.com',
+  is_mentor: 'Yes',
   has_direct_reports: false,
+  has_reports_access: true,
   grade: 'Senior Officer',
   grade_other: null,
   professions: ['Audit', 'Management'],
@@ -102,7 +128,7 @@ export const mockMe: RegisterUserResponse = {
   function_other: null,
   contract_type: 'full time',
   contract_type_other: null,
-  contact_preference: true,
+  contact_preference: null,
   verified: true,
   skills: [],
   languages: [],
@@ -111,7 +137,7 @@ export const mockMe: RegisterUserResponse = {
   modified_at: '2022-08-25T10:07:11.814344Z'
 }
 
-export const mockTeam = [
+export const mockTeam: TeamMember[] = [
   {
     id: 'teamember-id-1',
     email: 'team1@test.com',
@@ -147,19 +173,21 @@ export const mockTeam = [
         id: 'skillid-1',
         name: 'Analysis',
         level: 'Advanced beginner',
-        validated: false
+
+        pending: false
       },
       {
         id: 'skillid-2',
         name: 'Analysis and synthesis',
         level: 'Competent',
-        validated: false
+
+        pending: false
       },
       {
         id: 'skillid-3',
         name: 'Agile working',
         level: 'Expert',
-        validated: false
+        pending: true
       }
     ],
     languages: [],
@@ -173,7 +201,7 @@ export const mockTeam = [
     email: 'team2@test.com',
     privacy_policy_agreement: true,
     first_name: 'Sherlock',
-    last_name: 'Holmes ',
+    last_name: 'Holmes',
     department: null,
     organisation: null,
     job_title: 'Admin',

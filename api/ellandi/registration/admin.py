@@ -5,6 +5,7 @@ from .models import (
     BusinessUnit,
     ContractType,
     Country,
+    Course,
     EmailSalt,
     Function,
     Grade,
@@ -209,3 +210,4 @@ admin.site.register(BusinessUnit, BusinessUnitAdmin)
 admin.site.register(LearningType, LearningTypeAdmin)
 admin.site.register(EmailSalt)
 admin.site.register(Learning)
+admin.site.register(Course)
