@@ -17,7 +17,7 @@ const GoalBar = styled(Box)`
   .stat {
     color: ${(p) => p.theme.colors.red};
     &.completed {
-      color: ${(p) => p.theme.colors.green};
+      color: ${(p) => p.theme.colors.green1};
     }
   }
 `

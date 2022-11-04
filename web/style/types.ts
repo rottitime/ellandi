@@ -24,7 +24,8 @@ export type Colors = {
   grey4: CSSProperties['color']
   blue1: CSSProperties['color']
   blue2: CSSProperties['color']
-  green: CSSProperties['color']
+  green1: CSSProperties['color']
+  green2: CSSProperties['color']
   red: CSSProperties['color']
   white: CSSProperties['color']
 }
