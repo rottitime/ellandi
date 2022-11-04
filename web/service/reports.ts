@@ -45,6 +45,9 @@ export const fetchReportResponsibility = async (token: string) => {
   } as MeReporResponsibility)
 }
 
+export const exportReportResponsibility = (params): string =>
+  createUrl(urls.responsibility, params)
+
 export const fetchReportGrade = async (token: string) => {
   // const res = await api(token, urls.grade)
   // return res.json()

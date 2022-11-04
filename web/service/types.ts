@@ -18,7 +18,9 @@ export enum Query {
   MeLearning = 'meLearning',
   LearningTypes = 'LearningTypes',
   ReportSkills = 'ReportSkills',
-  ReportLanguages = 'ReportLanguages'
+  ReportLanguages = 'ReportLanguages',
+  ReportResponsibility = 'ReportResponsibility',
+  ReportGrade = 'ReportGrade'
 }
 
 export type GenericDataList = {
@@ -259,7 +261,7 @@ export type MeReportLanguages = {
   data: ReportLanguagesData[]
 } & ReportPagination
 
-export type SimpleLabelValue = {
+export type SimpleLabelValueData = {
   name: string //e.g. Line managers
   total_label: string //e.g. 350 (36%)
   total_value_total: number //e.g. 350
@@ -267,9 +269,9 @@ export type SimpleLabelValue = {
 }
 
 export type MeReporResponsibility = {
-  data: SimpleLabelValue[]
+  data: SimpleLabelValueData[]
 }
 
 export type MeReporGrade = {
-  data: SimpleLabelValue[]
+  data: SimpleLabelValueData[]
 }
