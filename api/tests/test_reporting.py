@@ -61,17 +61,18 @@ def teardown_users_skills():
         User.objects.get(email=email).delete()
 
 
+# TODO - add test
 # def test_filter_users_professions():
 
 
-@utils.with_logged_in_client
+@utils.with_logged_in_admin_client
 @with_setup(setup_users_skills, teardown_users_skills)
 def test_get_report_skills(client, user_id):
     response = client.get(SKILLS_ENDPOINT)
     assert response.status_code == status.HTTP_200_OK
 
 
-@utils.with_logged_in_client
+@utils.with_logged_in_admin_client
 @with_setup(setup_users_skills, teardown_users_skills)
 def test_get_report_skills_query(client, user_id):
     endpoint = f"{SKILLS_ENDPOINT}?skills=Economics,AWS,Zoology&functions=Analysis,Digital"
@@ -100,8 +101,7 @@ def test_get_report_skills_query(client, user_id):
     assert zoo_data["beginner_value_total"] == 0
 
 
-# TODO - add more checks here
-@utils.with_logged_in_client
+@utils.with_logged_in_admin_client
 @with_setup(setup_users_skills, teardown_users_skills)
 def test_get_report_skills_users(client, user_id):
     endpoint = f"{SKILLS_ENDPOINT}?skills=Science,Maths,Writing,AWS&users=all"
@@ -139,7 +139,7 @@ def test_get_report_skills_users(client, user_id):
     assert result["data"][0]["total_users"] == 1, result["data"]
 
 
-@utils.with_logged_in_client
+@utils.with_logged_in_admin_client
 @with_setup(setup_users_skills, teardown_users_skills)
 def test_get_report_skills_business_unit(client, user_id):
     endpoint = f"{SKILLS_ENDPOINT}?skills=Economics,Science&business_units=i.AI"
@@ -159,7 +159,8 @@ def test_get_report_skills_business_unit(client, user_id):
     assert data[0]["total_users"] == 3, result
 
 
-@utils.with_logged_in_client
+# FIXME - one of the reasons this test doesn't work is cos SQLite doesn't have `contained_by`
+@utils.with_logged_in_admin_client
 @with_setup(setup_users_skills, teardown_users_skills)
 def test_get_report_skills_professions(client, user_id):
     endpoint = f"{SKILLS_ENDPOINT}?skills=Economics,AWS&business_units=i.AI&professions=Economics"
@@ -185,7 +186,7 @@ def test_get_report_skills_professions(client, user_id):
     assert data[0]["total_users"] == 6
 
 
-@utils.with_logged_in_client
+@utils.with_logged_in_admin_client
 @with_setup(setup_users_skills, teardown_users_skills)
 def test_get_report_skills_grades(client, user_id):
     endpoint = f"{SKILLS_ENDPOINT}?skills=Science,Maths,Writing,AWS&grades=Grade%206,Grade%207&business_units=i.AI"
@@ -194,3 +195,13 @@ def test_get_report_skills_grades(client, user_id):
     result = response.json()
     assert result["total"] == 4
     assert result["data"][0]["total_users"] == 10
+
+
+# TODO - will work once we add reporting permissions
+@utils.with_logged_in_client
+def test_endpoints_require_login(client):
+    endpoints = [SKILLS_ENDPOINT]
+    for endpoint in endpoints:
+        endpoint = f"/api{endpoint}"
+        response = client.get(endpoint)
+        assert response.status_code == status.HTTP_401_UNAUTHORIZED, response.status_code

@@ -70,8 +70,8 @@ def make_fake_user():
         job_title=fake.job(),
     )
 
-    drop_down_data = {k:_get_random_object_name(v) for (k,v) in _DROP_DOWN_KEYS}
-    professions_data = {'professions': [_get_random_object_name("Profession") for _ in rand_range(3)]}
+    drop_down_data = {k: _get_random_object_name(v) for (k, v) in _DROP_DOWN_KEYS}
+    professions_data = {"professions": [_get_random_object_name("Profession") for _ in rand_range(3)]}
     data = {**professions_data, **drop_down_data, **data}
     return data
 

@@ -42,15 +42,11 @@ def filter_users_professions(request, users_qs):
     if not professions:
         return users_qs
     professions = professions.split(",")
-    # Have to find users which have any profession in the query
-    output_users_qs = User.objects.none()
-    # TODO - contained_by?
     # FIXME - doesn't work in SQLite
     # https://docs.djangoproject.com/en/3.2/topics/db/queries/#containment-and-key-lookups
-    for prof in professions:
-        prof_users_qs = users_qs.filter(professions__contains=prof)
-        output_users_qs = output_users_qs | prof_users_qs
-    return output_users_qs
+    users_qs = users_qs.filter(professions__contained_by=professions)
+    users_qs = users_qs.exclude(professions=[])
+    return users_qs
 
 
 def filter_users_other_params(request, users_qs):
