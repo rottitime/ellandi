@@ -68,7 +68,7 @@ def setup_users_skills():
     for i in range(0, 10):
         email = f"test{i}@example.com"
         user = User(email=email, password="P455w0rd", business_unit="i.AI")
-        if i <= 5:
+        if i < 6:
             user.function = "Analysis"
         else:
             user.function = "Digital"
@@ -282,3 +282,22 @@ def test_languages_endpoint(client, user_id):
     assert spanish_data["language_value_total"] == 0
     assert spanish_data["proficient_value_percentage"] == 0
     assert portuguese_data["language_value_total"] == 0
+
+
+@utils.with_logged_in_admin_client
+@with_setup(setup_users_skills, teardown_users_skills)
+def test_languages_endpoint_params(client, user_id):
+    endpoint = f"{LANGUAGES_ENDPOINT}?type=speaking&functions=Analysis&buisiness_units=i.AI"
+    response = client.get(endpoint)
+    assert response.status_code == status.HTTP_200_OK
+    result = response.json()
+    assert result["total"] >= 3
+    assert result["data"][0]["total_users"] == 6
+    endpoint = (
+        f"{LANGUAGES_ENDPOINT}?type=speaking&business_units=i.AI&users=line_managers&languages=French,Spanish,German"
+    )
+    response = client.get(endpoint)
+    assert response.status_code == status.HTTP_200_OK
+    result = response.json()
+    assert result["total"] == 3
+    assert result["data"][0]["total_users"] == 4, result["data"]
