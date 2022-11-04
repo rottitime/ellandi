@@ -630,9 +630,7 @@ def me_suggested_skills(request):
 
 @extend_schema(methods=["GET"], request=serializers.SkillTitleSerializer())
 @decorators.api_view(["GET"])
-@decorators.permission_classes(
-    (permissions.AllowAny,)
-)  # TODO - I think this is fine for permissions - anyone can see recommendation?
+@decorators.permission_classes((permissions.IsAuthenticated,))
 def skill_recommender(request, skill_name):
     recommended_skills = recommend_skill_from_db(skill_name)
     if recommended_skills is None:
