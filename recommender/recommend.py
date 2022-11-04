@@ -5,7 +5,6 @@ import numpy as np
 import pandas as pd
 import scipy
 from models import (
-    SkillSimilarityArray,
     return_common_jobs,
     return_db_user_skills,
     return_db_user_title_skills,
@@ -70,31 +69,6 @@ def create_job_embedding_matrix():
     embedding_df = pd.DataFrame(index=unique_job_titles, data=embeddings)
 
     return embedding_df
-
-
-def store_matrices(skill_similarity_matrix, job_embeddings_matrix):
-    """Takes a given a job and skill matrix, stores both in database for future use"""
-
-    long_titles = job_embeddings_matrix.reset_index().rename(columns={"index": "jobTitle"}).melt(id_vars=["jobTitle"])
-
-    engine = create_engine(db_url, echo=True)
-
-    long_titles.to_sql(
-        "tblTitleEmbeddings",
-        con=engine,
-        index=False,
-        if_exists="append",
-        dtype={"jobTitle": Integer(), "variable": Integer(), "value": Float()},
-    )
-
-    # https://stackoverflow.com/questions/60278766/best-way-to-insert-python-numpy-array-into-postgresql-database
-    current_array = SkillSimilarityArray(createdAt=datetime.now(), array=pickle.dumps(skill_similarity_matrix))
-
-    session_object = sessionmaker(bind=engine)
-    session = session_object()
-
-    session.add(current_array)
-    session.commit()
 
 
 def return_similar_title_skills(job_title, user_skills, job_embeddings):
