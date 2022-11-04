@@ -258,3 +258,18 @@ export type ReportLanguagesData = {
 export type MeReportLanguages = {
   data: ReportLanguagesData[]
 } & ReportPagination
+
+export type SimpleLabelValue = {
+  name: string //e.g. Line managers
+  total_label: string //e.g. 350 (36%)
+  total_value_total: number //e.g. 350
+  total_value_percentage: number //e.g. 36
+}
+
+export type MeReporResponsibility = {
+  data: SimpleLabelValue[]
+}
+
+export type MeReporGrade = {
+  data: SimpleLabelValue[]
+}

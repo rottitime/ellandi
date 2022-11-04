@@ -1,4 +1,6 @@
 import {
+  MeReporGrade,
+  MeReporResponsibility,
   MeReportLanguages,
   MeReportSkills,
   ReportLanguagesData,
@@ -7,7 +9,12 @@ import {
 import { defaultError } from '@/service/auth'
 import { createUrl } from '@/lib/url-utils'
 
-const urls = { skills: '/me/reports/skills/', languages: '/me/reports/languages/' }
+const urls = {
+  skills: '/me/reports/skills/',
+  languages: '/me/reports/languages/',
+  responsibility: '/me/reports/responsibility/',
+  grade: '/me/reports/grade/'
+}
 
 export const fetchReportSkills = async (token: string, params) => {
   // const res = await api(token, urls.skills, {}, params)
@@ -23,6 +30,32 @@ export const fetchReportLanguages = async (token: string) => {
   // const res = await api(token, urls.languages)
   // return res.json()
   return Promise.resolve(languagesData)
+}
+
+export const fetchReportResponsibility = async (token: string) => {
+  // const res = await api(token, urls.responsibility)
+  // return res.json()
+  return Promise.resolve({
+    data: [...Array(3).keys()].map((i) => ({
+      name: `User ${i}`,
+      total_label: `${i} (${i}%)`,
+      total_value_total: i,
+      total_value_percentage: i
+    }))
+  } as MeReporResponsibility)
+}
+
+export const fetchReportGrade = async (token: string) => {
+  // const res = await api(token, urls.grade)
+  // return res.json()
+  return Promise.resolve({
+    data: [...Array(20).keys()].map((i) => ({
+      name: `User ${i}`,
+      total_label: `${i} (${i}%)`,
+      total_value_total: i,
+      total_value_percentage: i
+    }))
+  } as MeReporGrade)
 }
 
 export const exportReportLanguages = (params): string => createUrl(urls.languages, params)
