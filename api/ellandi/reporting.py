@@ -25,6 +25,10 @@ COL_NAME_LOOKUP_CSV = {
     "expert_value_percentage": "percentage_expert",
 }
 
+LANGUAGE_LEVELS = ["Basic", "Independent", "Proficient", "Native", "None"]
+LANGUAGE_LEVELS_SKILLED = ["Basic", "Independent", "Proficient", "Native"]
+SPEAKING = "speaking"
+WRITING = "writing"
 
 def filter_users_type(request, users_qs):
     user_type = request.query_params.get("users")
@@ -126,10 +130,47 @@ def get_skill_data_for_users(users, skill_name):
 
 
 def get_lang_data_for_users(users, lang_name, lang_type):
-    assert lang_type in ["speaking", "writing"]
+    assert lang_type in [SPEAKING, WRITING]
+    total_users = users.count()
+    user_langs = UserSkill.objects.filter(user__in=users).filter(name=lang_name)
+    if lang_type == SPEAKING:
+        user_langs = user_langs.exclude(speaking_level="None")
+    else:
+        user_langs = user_langs.exclude(writing_level="None")
 
+    number_with_language = user_langs.count()
+    if total_users:
+        percentage_with_language = number_with_language/total_users
+    else:
+        percentage_with_language = 0
 
-  # TODO
+    data = {
+        "name": lang_name,
+        "type": lang_type,
+        "total_users": total_users,
+        "language_value_total": number_with_language,
+        "language_value_percentage": percentage_with_language
+    }
+    number_at_each_level = []
+    for level in LANGUAGE_LEVELS_SKILLED:
+        number = user_langs.filter(level=level).count()
+        number_at_each_level.append(number)
+
+    if number_with_language:
+        percentage_at_each_level = [(x / number_with_language) * 100 for x in number_at_each_level]
+    else:
+        percentage_at_each_level = [0, 0, 0, 0]
+
+    for i in range(0, 4):
+        level = LANGUAGE_LEVELS_SKILLED[i]
+        number = number_at_each_level[i]
+        percentage = percentage_at_each_level[i]
+        label = format_perc_label(number,percentage)
+        slug = slugify(level).replace("-", "_")
+        data[f"{slug}_value_total"] = number
+        data[f"{slug}_value_percentage"] = round(percentage)
+        data[f"{slug}_label"] = label
+    return data
 
 
 def format_skills_data_for_csv(skill_data_list):
