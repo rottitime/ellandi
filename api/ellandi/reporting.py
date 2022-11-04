@@ -4,7 +4,12 @@ from rest_framework import decorators, permissions, renderers, status
 from rest_framework.response import Response
 from rest_framework_csv.renderers import CSVRenderer
 
-from ellandi.registration.models import User, UserSkill, UserSkillDevelop, UserLanguage
+from ellandi.registration.models import (
+    User,
+    UserLanguage,
+    UserSkill,
+    UserSkillDevelop,
+)
 
 COL_NAME_LOOKUP_CSV = {
     "name": "name",
@@ -30,6 +35,7 @@ LANGUAGE_LEVELS = ["Basic", "Independent", "Proficient", "Native", "None"]
 LANGUAGE_LEVELS_SKILLED = ["Basic", "Independent", "Proficient", "Native"]
 SPEAKING = "speaking"
 WRITING = "writing"
+
 
 def filter_users_type(request, users_qs):
     user_type = request.query_params.get("users")
@@ -160,7 +166,7 @@ def get_lang_data_for_users(users, lang_name, lang_type):
 
     number_with_language = user_langs.count()
     if total_users:
-        percentage_with_language = number_with_language/total_users
+        percentage_with_language = number_with_language / total_users
     else:
         percentage_with_language = 0
 
@@ -169,7 +175,7 @@ def get_lang_data_for_users(users, lang_name, lang_type):
         "type": lang_type,
         "total_users": total_users,
         "language_value_total": number_with_language,
-        "language_value_percentage": percentage_with_language
+        "language_value_percentage": percentage_with_language,
     }
     number_at_each_level = []
     for level in LANGUAGE_LEVELS_SKILLED:
@@ -185,7 +191,7 @@ def get_lang_data_for_users(users, lang_name, lang_type):
         level = LANGUAGE_LEVELS_SKILLED[i]
         number = number_at_each_level[i]
         percentage = percentage_at_each_level[i]
-        label = format_perc_label(number,percentage)
+        label = format_perc_label(number, percentage)
         slug = slugify(level).replace("-", "_")
         data[f"{slug}_value_total"] = number
         data[f"{slug}_value_percentage"] = round(percentage)
@@ -208,7 +214,13 @@ class CSVRendererSkills(CSVRenderer):
 @extend_schema(
     parameters=[
         OpenApiParameter(name="skills", location=OpenApiParameter.QUERY, required=False, type=str),
-        OpenApiParameter(name="users", location=OpenApiParameter.QUERY, required=False, type=str, enum=["all", "line_managers", "mentors"]),
+        OpenApiParameter(
+            name="users",
+            location=OpenApiParameter.QUERY,
+            required=False,
+            type=str,
+            enum=["all", "line_managers", "mentors"],
+        ),
         OpenApiParameter(name="professions", location=OpenApiParameter.QUERY, required=False, type=str),
         OpenApiParameter(name="functions", location=OpenApiParameter.QUERY, required=False, type=str),
         OpenApiParameter(name="grades", location=OpenApiParameter.QUERY, required=False, type=str),
@@ -253,8 +265,16 @@ def report_skills_view(request):
 @extend_schema(
     parameters=[
         OpenApiParameter(name="languages", location=OpenApiParameter.QUERY, required=False, type=str),
-        OpenApiParameter(name="type", location=OpenApiParameter.QUERY, required=False, type=str, enum=[SPEAKING, WRITING]),
-        OpenApiParameter(name="users", location=OpenApiParameter.QUERY, required=False, type=str, enum=["all", "line_managers", "mentors"]),
+        OpenApiParameter(
+            name="type", location=OpenApiParameter.QUERY, required=False, type=str, enum=[SPEAKING, WRITING]
+        ),
+        OpenApiParameter(
+            name="users",
+            location=OpenApiParameter.QUERY,
+            required=False,
+            type=str,
+            enum=["all", "line_managers", "mentors"],
+        ),
         OpenApiParameter(name="professions", location=OpenApiParameter.QUERY, required=False, type=str),
         OpenApiParameter(name="functions", location=OpenApiParameter.QUERY, required=False, type=str),
         OpenApiParameter(name="grades", location=OpenApiParameter.QUERY, required=False, type=str),
@@ -295,4 +315,3 @@ def report_languages_view(request):
         "data": language_data_list,
     }
     return Response(data=output_data, status=status.HTTP_200_OK, content_type="application/json")
-

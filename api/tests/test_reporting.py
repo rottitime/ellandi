@@ -4,7 +4,6 @@ from tests import utils
 
 from ellandi.registration.models import User, UserSkill, UserSkillDevelop
 
-
 SKILLS_ENDPOINT = "/api/me/reports/skills/"
 
 
