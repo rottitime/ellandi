@@ -4,12 +4,7 @@ from datetime import datetime
 import numpy as np
 import pandas as pd
 import scipy
-from models import (
-    return_common_jobs,
-    return_db_user_skills,
-    return_db_user_title_skills,
-    return_nlp_user_skills,
-)
+
 from sentence_transformers import SentenceTransformer
 from settings_base import db_url
 from sklearn.metrics.pairwise import cosine_similarity
@@ -17,13 +12,15 @@ from sqlalchemy import Float, Integer, create_engine
 from sqlalchemy.orm import sessionmaker
 from tqdm import tqdm
 
+import models
+
 
 def make_skill_similarity_matrix():
     """Queries skills from NLP and the database, and creates a skill similarity matrix that is returned as a sparse
     matrix"""
 
-    nlp_skill_df = return_nlp_user_skills()[["user_id", "skill_name", "rating"]]
-    db_user_skills = return_db_user_skills()[["user_id", "skill_name", "rating"]]
+    nlp_skill_df = models.return_nlp_user_skills()[["user_id", "skill_name", "rating"]]
+    db_user_skills = pd.DataFrame(models.get_user_skills())
 
     if len(db_user_skills) > 0:
         skill_compare_df = pd.concat([nlp_skill_df, db_user_skills]).reset_index(drop=True)
@@ -50,8 +47,8 @@ def create_job_embedding_matrix():
 
     model_name = "all-MiniLM-L6-v2"
 
-    qs = return_db_user_title_skills()[["user_id", "job_title"]]
-    nlp_jobs_df = return_nlp_user_skills()[["user_id", "job_title"]]
+    qs = pd.DataFrame(models.get_user_title_skills())[["user_id", "job_title"]]
+    nlp_jobs_df = models.return_nlp_user_skills()[["user_id", "job_title"]]
 
     if len(qs) > 0:
 
