@@ -25,6 +25,7 @@ COL_NAME_LOOKUP_CSV = {
     "expert_value_percentage": "percentage_expert",
 }
 
+SKILL_LEVELS = ["Beginner", "Advanced beginner", "Competent", "Proficient", "Expert"]
 LANGUAGE_LEVELS = ["Basic", "Independent", "Proficient", "Native", "None"]
 LANGUAGE_LEVELS_SKILLED = ["Basic", "Independent", "Proficient", "Native"]
 SPEAKING = "speaking"
@@ -77,6 +78,26 @@ def get_filtered_users(request):
     return users_qs
 
 
+def get_skills_list_from_params(request):
+    skills = request.query_params.get("skills", None)
+    if skills:
+        return skills.split(",")
+    # return all
+    skills_existing = set(UserSkill.objects.all().values_list("name", flat=True))
+    skills_dev = set(UserSkillDevelop.objects.all().values_list("name", flat=True))
+    skills = list(skills_existing.union(skills_dev))
+    return skills
+
+
+def get_language_list_from_params(request):
+    languages = request.query_params.get("languages", None)
+    if languages:
+        return languages.split(",")
+    languages = set(UserLanguage.objects.all().values_list("name", flat=True))
+    languages = list(languages)
+    return languages
+
+
 def format_perc_label(number, percentage):
     return f"{number} ({round(percentage)}%)"
 
@@ -107,8 +128,7 @@ def get_skill_data_for_users(users, skill_name):
     }
 
     number_at_each_level = []
-    skill_levels = ["Beginner", "Advanced beginner", "Competent", "Proficient", "Expert"]
-    for level in skill_levels:
+    for level in SKILL_LEVELS:
         number = user_skills.filter(level=level).count()
         number_at_each_level.append(number)
 
@@ -118,7 +138,7 @@ def get_skill_data_for_users(users, skill_name):
         percentage_at_each_level = [0, 0, 0, 0, 0]
 
     for i in range(0, 5):
-        level = skill_levels[i]
+        level = SKILL_LEVELS[i]
         number = number_at_each_level[i]
         percentage = percentage_at_each_level[i]
         label = format_perc_label(number, percentage)
@@ -206,14 +226,7 @@ class CSVRendererSkills(CSVRenderer):
     )
 )
 def report_skills_view(request):
-    skills = request.query_params.get("skills", None)
-    if skills:
-        skills = skills.split(",")
-    else:
-        skills_existing = set(UserSkill.objects.all().values_list("name", flat=True))
-        skills_dev = set(UserSkillDevelop.objects.all().values_list("name", flat=True))
-        skills = list(skills_existing.union(skills_dev))
-
+    skills = get_skills_list_from_params(request)
     users = get_filtered_users(request)
 
     skill_data_list = []
@@ -236,4 +249,50 @@ def report_skills_view(request):
     }
     return Response(data=output_data, status=status.HTTP_200_OK, content_type="application/json")
 
+
+@extend_schema(
+    parameters=[
+        OpenApiParameter(name="languages", location=OpenApiParameter.QUERY, required=False, type=str),
+        OpenApiParameter(name="type", location=OpenApiParameter.QUERY, required=False, type=str, enum=[SPEAKING, WRITING]),
+        OpenApiParameter(name="users", location=OpenApiParameter.QUERY, required=False, type=str, enum=["all", "line_managers", "mentors"]),
+        OpenApiParameter(name="professions", location=OpenApiParameter.QUERY, required=False, type=str),
+        OpenApiParameter(name="functions", location=OpenApiParameter.QUERY, required=False, type=str),
+        OpenApiParameter(name="grades", location=OpenApiParameter.QUERY, required=False, type=str),
+        OpenApiParameter(name="business_units", location=OpenApiParameter.QUERY, required=False, type=str),
+    ],
+    responses=None,
+)
+@decorators.api_view(["GET"])
+# TODO - needs to be changed to "reporting permissions" - details TBC
+@decorators.permission_classes((permissions.AllowAny,))  # TODO - change to admin user after testing!
+@decorators.renderer_classes(
+    (
+        renderers.JSONRenderer,
+        CSVRenderer,
+    )
+)
+def report_languages_view(request):
+    languages = get_language_list_from_params(request)
+    type = request.query_params.get("type")
+    users = get_filtered_users(request)
+
+    language_data_list = []
+    for language_name in languages:
+        language_data = get_lang_data_for_users(users, language_name, type)
+        language_data_list.append(language_data)
+
+    format = request.query_params.get("format", "json")
+    if format == "csv":
+        data = language_data_list
+        return Response(data=data, status=status.HTTP_200_OK, content_type="text/csv")
+
+    output_data = {
+        # TODO - add pagination?
+        # "page":"number", //e.g. 1
+        # "per_page":"number", //e.g. 10
+        "total": len(languages),
+        # "total_pages": total_skills,
+        "data": language_data_list,
+    }
+    return Response(data=output_data, status=status.HTTP_200_OK, content_type="application/json")
 
