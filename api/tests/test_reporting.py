@@ -5,7 +5,7 @@ from tests import utils
 from ellandi.registration.models import User, UserSkill, UserSkillDevelop
 
 SKILLS_ENDPOINT = "/api/me/reports/skills/"
-
+LANGUAGES_ENDPOINT = "/api/me/reports/languages/"
 
 def add_skills(user, i):
     skill_levels = ["Beginner", "Advanced beginner", "Competent", "Proficient", "Expert"]
@@ -196,7 +196,10 @@ def test_get_report_skills_grades(client, user_id):
 # TODO - will work once we add reporting permissions
 @utils.with_logged_in_client
 def test_endpoints_require_login(client, user_id):
-    endpoints = [SKILLS_ENDPOINT]
+    endpoints = [SKILLS_ENDPOINT, LANGUAGES_ENDPOINT]
     for endpoint in endpoints:
         response = client.get(endpoint)
         assert response.status_code == status.HTTP_401_UNAUTHORIZED, response.status_code
+
+
+# TODO - add test for languages
