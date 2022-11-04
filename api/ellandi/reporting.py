@@ -4,13 +4,13 @@ from rest_framework import decorators, permissions, renderers, status
 from rest_framework.response import Response
 from rest_framework_csv.renderers import CSVRenderer
 
+from ellandi.registration.exceptions import MissingLanguageTypeError
 from ellandi.registration.models import (
     User,
     UserLanguage,
     UserSkill,
     UserSkillDevelop,
 )
-from ellandi.registration.exceptions import MissingLanguageTypeError
 
 COL_NAME_LOOKUP_CSV = {
     "name": "name",
@@ -159,11 +159,11 @@ def get_lang_data_for_users(users, lang_name, lang_type):
     total_users = users.count()
     user_langs = UserLanguage.objects.filter(user__in=users).filter(name=lang_name)
     type_field = f"{lang_type}_level"
-    user_langs = user_langs.exclude(**{type_field:"None"})
+    user_langs = user_langs.exclude(**{type_field: "None"})
 
     number_with_language = user_langs.count()
     if total_users:
-        percentage_with_language = round((number_with_language / total_users)*100)
+        percentage_with_language = round((number_with_language / total_users) * 100)
     else:
         percentage_with_language = 0
 
@@ -176,7 +176,7 @@ def get_lang_data_for_users(users, lang_name, lang_type):
     }
     number_at_each_level = []
     for level in LANGUAGE_LEVELS_SKILLED:
-        number = user_langs.filter(**{type_field:level}).count()
+        number = user_langs.filter(**{type_field: level}).count()
         number_at_each_level.append(number)
 
     if number_with_language:
@@ -262,9 +262,7 @@ def report_skills_view(request):
 @extend_schema(
     parameters=[
         OpenApiParameter(name="languages", location=OpenApiParameter.QUERY, required=False, type=str),
-        OpenApiParameter(
-            name="type", location=OpenApiParameter.QUERY, required=False, type=str, enum=LANGUAGE_TYPES
-        ),
+        OpenApiParameter(name="type", location=OpenApiParameter.QUERY, required=False, type=str, enum=LANGUAGE_TYPES),
         OpenApiParameter(
             name="users",
             location=OpenApiParameter.QUERY,
