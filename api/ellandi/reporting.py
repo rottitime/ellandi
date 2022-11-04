@@ -12,7 +12,8 @@ from ellandi.registration.models import (
     UserSkillDevelop,
 )
 
-COL_NAME_LOOKUP_CSV = {
+# TODO - maybe change column names for CSV
+SKILLS_COL_NAME_LOOKUP_CSV = {
     "name": "name",
     "total_users": "total_users",
     "skill_value_total": "number_with_skill",
@@ -30,9 +31,22 @@ COL_NAME_LOOKUP_CSV = {
     "expert_value_total": "number_expert",
     "expert_value_percentage": "percentage_expert",
 }
-
+LANG_COL_NAME_LOOKUP_CSV = {
+    "name": "name",
+    "type": "type",
+    "total_users": "total_users",
+    "language_value_total": "number_with_language",
+    "language_value_percentage": "percentage_with_language",
+    "basic_value_total": "number_basic",
+    "basic_value_percentage": "percentage_basic",
+    "independent_value_total": "number_independent",
+    "independent_value_percentage": "percentage_independent",
+    "proficient_value_total": "number_proficient",
+    "proficient_value_percentage": "percentage_proficient",
+    "native_value_total": "number_native",
+    "native_value_percentage": "percentage_native",
+}
 SKILL_LEVELS = ["Beginner", "Advanced beginner", "Competent", "Proficient", "Expert"]
-LANGUAGE_LEVELS = ["Basic", "Independent", "Proficient", "Native", "None"]
 LANGUAGE_LEVELS_SKILLED = ["Basic", "Independent", "Proficient", "Native"]
 LANGUAGE_TYPES = ["speaking", "writing"]
 
@@ -97,9 +111,14 @@ def get_skills_list_from_params(request):
 
 def get_language_list_from_params(request):
     languages = request.query_params.get("languages", None)
+    type = request.query_params.get("type")
+    type_field = f"{type}_level"
     if languages:
         return languages.split(",")
-    languages = set(UserLanguage.objects.all().values_list("name", flat=True))
+    langs_qs = UserLanguage.objects.all()
+    langs_qs = langs_qs.exclude(**{type_field: None}).exclude(**{type_field: "None"})
+    lang_vals = langs_qs.values_list("name", flat=True)
+    languages = set(lang_vals)
     languages = list(languages)
     return languages
 
@@ -196,16 +215,20 @@ def get_lang_data_for_users(users, lang_name, lang_type):
     return data
 
 
-def format_skills_data_for_csv(skill_data_list):
+def format_data_for_csv(data_list, lookup_list):
     output_list = []
-    for skill_data in skill_data_list:
-        output_dict = {COL_NAME_LOOKUP_CSV[key]: skill_data[key] for key in COL_NAME_LOOKUP_CSV}
+    for data_dict in data_list:
+        output_dict = {lookup_list[key]: data_dict[key] for key in lookup_list}
         output_list.append(output_dict)
     return output_list
 
 
 class CSVRendererSkills(CSVRenderer):
-    header = list(COL_NAME_LOOKUP_CSV.values())
+    header = list(SKILLS_COL_NAME_LOOKUP_CSV.values())
+
+
+class CSVRendererLanguages(CSVRenderer):
+    header = list(LANG_COL_NAME_LOOKUP_CSV.values())
 
 
 @extend_schema(
@@ -245,7 +268,7 @@ def report_skills_view(request):
 
     format = request.query_params.get("format", "json")
     if format == "csv":
-        data = format_skills_data_for_csv(skill_data_list)
+        data = format_data_for_csv(skill_data_list, SKILLS_COL_NAME_LOOKUP_CSV)
         return Response(data=data, status=status.HTTP_200_OK, content_type="text/csv")
 
     output_data = {
@@ -283,16 +306,15 @@ def report_skills_view(request):
 @decorators.renderer_classes(
     (
         renderers.JSONRenderer,
-        CSVRenderer,
+        CSVRendererLanguages,
     )
 )
 def report_languages_view(request):
-    languages = get_language_list_from_params(request)
     type = request.query_params.get("type")
-    users = get_filtered_users(request)
-
     if type not in LANGUAGE_TYPES:
         raise MissingLanguageTypeError
+    languages = get_language_list_from_params(request)
+    users = get_filtered_users(request)
 
     language_data_list = []
     for language_name in languages:
@@ -301,7 +323,7 @@ def report_languages_view(request):
 
     format = request.query_params.get("format", "json")
     if format == "csv":
-        data = language_data_list
+        data = format_data_for_csv(language_data_list, LANG_COL_NAME_LOOKUP_CSV)
         return Response(data=data, status=status.HTTP_200_OK, content_type="text/csv")
 
     output_data = {
