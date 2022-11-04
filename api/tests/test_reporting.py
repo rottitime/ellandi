@@ -4,6 +4,7 @@ from tests import utils
 
 from ellandi.registration.models import User, UserSkill, UserSkillDevelop
 
+
 SKILLS_ENDPOINT = "/api/me/reports/skills/"
 
 
@@ -59,10 +60,6 @@ def teardown_users_skills():
     for i in range(0, 10):
         email = f"test{i}@example.com"
         User.objects.get(email=email).delete()
-
-
-# TODO - add test
-# def test_filter_users_professions():
 
 
 @utils.with_logged_in_admin_client

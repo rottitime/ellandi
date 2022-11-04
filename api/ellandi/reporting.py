@@ -140,8 +140,7 @@ class CSVRendererSkills(CSVRenderer):
 @extend_schema(
     parameters=[
         OpenApiParameter(name="skills", location=OpenApiParameter.QUERY, required=False, type=str),
-        # TODO - is it possible to have options here? "all", "line_managers", "mentors"
-        OpenApiParameter(name="users", location=OpenApiParameter.QUERY, required=False, type=str),
+        OpenApiParameter(name="users", location=OpenApiParameter.QUERY, required=False, type=str, enum=["all", "line_managers", "mentors"]),
         OpenApiParameter(name="professions", location=OpenApiParameter.QUERY, required=False, type=str),
         OpenApiParameter(name="functions", location=OpenApiParameter.QUERY, required=False, type=str),
         OpenApiParameter(name="grades", location=OpenApiParameter.QUERY, required=False, type=str),
