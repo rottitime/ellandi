@@ -1,27 +1,26 @@
-import React, { FC, useEffect, useId, useRef } from 'react'
+import { useTheme } from '@mui/material'
+import React, { FC, useEffect, useRef } from 'react'
 import { Props } from './types'
 
-const Chart: FC<Props> = ({ data }) => {
+const Chart: FC<Props> = ({ data, colors = [], hideLegends }) => {
+  const theme = useTheme()
   const divRef = useRef<HTMLDivElement>()
 
   useEffect(() => {
-    console.log({ window })
-
-    // if (typeof window === 'undefined') return
-
-    // const c3 = load()
-
     const load = async () => {
       const c3 = (await import('c3')).default
       c3.generate({
-        // bindto: `#${id}`,
+        legend: {
+          show: !hideLegends
+        },
         bindto: divRef.current,
+        color: { pattern: colors.map((color) => theme.colors[color]) },
         data
       })
     }
 
     load()
-  }, [data])
+  }, [colors, data, hideLegends, theme.colors])
 
   return <div ref={divRef} />
 }

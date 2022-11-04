@@ -224,10 +224,15 @@ export type ReportSkillsData = {
   skills_develop_value_total: number
   skills_develop_value_percentage: number
   beginner_label: string
+  beginner_value_percentage: number
   advanced_beginner_label: string
+  advanced_beginner_value_percentage: number
   competent_label: string
+  competent_value_percentage: number
   proficient_label: string
+  proficient_value_percentage: number
   expert_label: string
+  expert_value_percentage: number
 }
 
 export type MeReportSkills = {

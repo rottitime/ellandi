@@ -2,6 +2,9 @@ import { CSSProperties } from 'react'
 /* eslint-disable @typescript-eslint/no-empty-interface */
 import { PaletteColorOptions } from '@mui/material/styles'
 
+export type AllColors = keyof ColorBrands | keyof Colors
+export type BrandColors = keyof ColorBrands
+
 type ColorUI = {
   link: CSSProperties['color']
   success: CSSProperties['color']

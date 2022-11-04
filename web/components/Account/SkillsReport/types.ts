@@ -1,4 +1,6 @@
 import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
+import { ReportSkillsData } from '@/service/types'
+import { AllColors } from '@/style/types'
 import { ComponentProps } from 'react'
 
 export type FiltersType = {
@@ -11,3 +13,10 @@ export type FiltersType = {
 }
 
 export type Props = ComponentProps<typeof AccountCard>
+
+export type ChartValues = {
+  label: string
+  valueLabel: keyof ReportSkillsData
+  valuePercentage: number
+  color: AllColors
+}
