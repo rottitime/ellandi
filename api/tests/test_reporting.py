@@ -151,9 +151,9 @@ def test_get_report_skills_business_unit(client, user_id):
     response = client.get(endpoint)
     assert response.status_code == status.HTTP_200_OK
     result = response.json()
-    assert result["total"] > 5
+    assert result["total"] > 3
     data = result["data"]
-    assert data[0]["total_users"] == 3, result
+    assert data[0]["total_users"] == 3
 
 
 # FIXME - one of the reasons this test doesn't work is cos SQLite doesn't have `contained_by`
@@ -196,9 +196,8 @@ def test_get_report_skills_grades(client, user_id):
 
 # TODO - will work once we add reporting permissions
 @utils.with_logged_in_client
-def test_endpoints_require_login(client):
+def test_endpoints_require_login(client, user_id):
     endpoints = [SKILLS_ENDPOINT]
     for endpoint in endpoints:
-        endpoint = f"/api{endpoint}"
         response = client.get(endpoint)
         assert response.status_code == status.HTTP_401_UNAUTHORIZED, response.status_code

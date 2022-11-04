@@ -4,7 +4,7 @@ from rest_framework import decorators, permissions, renderers, status
 from rest_framework.response import Response
 from rest_framework_csv.renderers import CSVRenderer
 
-from ellandi.registration.models import User, UserSkill, UserSkillDevelop
+from ellandi.registration.models import User, UserSkill, UserSkillDevelop, UserLanguage
 
 COL_NAME_LOOKUP_CSV = {
     "name": "name",
@@ -77,13 +77,13 @@ def format_perc_label(number, percentage):
     return f"{number} ({round(percentage)}%)"
 
 
-def get_skill_data_for_users(users, user_skills, user_skills_develop, skill_name):
+def get_skill_data_for_users(users, skill_name):
     total_users = users.count()
-    user_skills_particular = user_skills.filter(name=skill_name)
-    user_skills_dev_particular = user_skills_develop.filter(name=skill_name)
+    user_skills = UserSkill.objects.filter(user__in=users).filter(name=skill_name)
+    user_skills_develop = UserSkillDevelop.objects.filter(user__in=users).filter(name=skill_name)
 
-    number_with_skill = user_skills_particular.count()
-    number_wanting_to_develop = user_skills_dev_particular.count()
+    number_with_skill = user_skills.count()
+    number_wanting_to_develop = user_skills_develop.count()
     if total_users:
         percentage_with_skill = (number_with_skill / total_users) * 100
         percentage_wanting_to_develop = (number_wanting_to_develop / total_users) * 100
@@ -105,7 +105,7 @@ def get_skill_data_for_users(users, user_skills, user_skills_develop, skill_name
     number_at_each_level = []
     skill_levels = ["Beginner", "Advanced beginner", "Competent", "Proficient", "Expert"]
     for level in skill_levels:
-        number = user_skills_particular.filter(level=level).count()
+        number = user_skills.filter(level=level).count()
         number_at_each_level.append(number)
 
     if number_with_skill:
@@ -125,7 +125,14 @@ def get_skill_data_for_users(users, user_skills, user_skills_develop, skill_name
     return data
 
 
-def format_data_for_csv(skill_data_list):
+def get_lang_data_for_users(users, lang_name, lang_type):
+    assert lang_type in ["speaking", "writing"]
+
+
+  # TODO
+
+
+def format_skills_data_for_csv(skill_data_list):
     output_list = []
     for skill_data in skill_data_list:
         output_dict = {COL_NAME_LOOKUP_CSV[key]: skill_data[key] for key in COL_NAME_LOOKUP_CSV}
@@ -167,17 +174,15 @@ def report_skills_view(request):
         skills = list(skills_existing.union(skills_dev))
 
     users = get_filtered_users(request)
-    user_skills = UserSkill.objects.filter(user__in=users).filter(name__in=skills)
-    user_skills_develop = UserSkillDevelop.objects.filter(user__in=users).filter(name__in=skills)
 
     skill_data_list = []
     for skill_name in skills:
-        skill_data = get_skill_data_for_users(users, user_skills, user_skills_develop, skill_name)
+        skill_data = get_skill_data_for_users(users, skill_name)
         skill_data_list.append(skill_data)
 
     format = request.query_params.get("format", "json")
     if format == "csv":
-        data = format_data_for_csv(skill_data_list)
+        data = format_skills_data_for_csv(skill_data_list)
         return Response(data=data, status=status.HTTP_200_OK, content_type="text/csv")
 
     output_data = {
@@ -189,3 +194,5 @@ def report_skills_view(request):
         "data": skill_data_list,
     }
     return Response(data=output_data, status=status.HTTP_200_OK, content_type="application/json")
+
+
