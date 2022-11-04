@@ -6,6 +6,25 @@ from rest_framework_csv.renderers import CSVRenderer
 
 from ellandi.registration.models import User, UserSkill, UserSkillDevelop
 
+COL_NAME_LOOKUP_CSV = {
+    "name": "name",
+    "total_users": "total_users",
+    "skill_value_total": "number_with_skill",
+    "skill_value_percentage": "percentage_with_skill",
+    "skill_develop_value_total": "number_to_develop_skill",
+    "skill_develop_value_percentage": "percentage_to_develop_skill",
+    "beginner_value_total": "number_beginners",
+    "beginner_value_percentage": "percentage_beginners",
+    "advanced_beginner_value_total": "number_advanced_beginners",
+    "advanced_beginner_value_percentage": "percentage_advanced_beginners",
+    "competent_value_total": "number_competent",
+    "competent_value_percentage": "percentage_competent",
+    "proficient_value_total": "number_proficient",
+    "proficient_value_percentage": "percentage_proficient",
+    "expert_value_total": "number_expert",
+    "expert_value_percentage": "percentage_expert",
+}
+
 
 def filter_users_type(request, users_qs):
     user_type = request.query_params.get("users")
@@ -25,6 +44,9 @@ def filter_users_professions(request, users_qs):
     professions = professions.split(",")
     # Have to find users which have any profession in the query
     output_users_qs = User.objects.none()
+    # TODO - contained_by?
+    # FIXME - doesn't work in SQLite
+    # https://docs.djangoproject.com/en/3.2/topics/db/queries/#containment-and-key-lookups
     for prof in professions:
         prof_users_qs = users_qs.filter(professions__contains=prof)
         output_users_qs = output_users_qs | prof_users_qs
@@ -107,6 +129,18 @@ def get_skill_data_for_users(users, user_skills, user_skills_develop, skill_name
     return data
 
 
+def format_data_for_csv(skill_data_list):
+    output_list = []
+    for skill_data in skill_data_list:
+        output_dict = {COL_NAME_LOOKUP_CSV[key]: skill_data[key] for key in COL_NAME_LOOKUP_CSV}
+        output_list.append(output_dict)
+    return output_list
+
+
+class CSVRendererSkills(CSVRenderer):
+    header = list(COL_NAME_LOOKUP_CSV.values())
+
+
 @extend_schema(
     parameters=[
         OpenApiParameter(name="skills", location=OpenApiParameter.QUERY, required=False, type=str),
@@ -125,7 +159,7 @@ def get_skill_data_for_users(users, user_skills, user_skills_develop, skill_name
 @decorators.renderer_classes(
     (
         renderers.JSONRenderer,
-        CSVRenderer,
+        CSVRendererSkills,
     )
 )
 def report_skills_view(request):
@@ -147,10 +181,9 @@ def report_skills_view(request):
         skill_data_list.append(skill_data)
 
     format = request.query_params.get("format", "json")
-    # TODO - can we reorder the columns in the CSV?
-    # TODO - do we want to rename the columns or only select some of them?
     if format == "csv":
-        return Response(data=skill_data_list, status=status.HTTP_200_OK, content_type="text/csv")
+        data = format_data_for_csv(skill_data_list)
+        return Response(data=data, status=status.HTTP_200_OK, content_type="text/csv")
 
     output_data = {
         # TODO - add pagination?
