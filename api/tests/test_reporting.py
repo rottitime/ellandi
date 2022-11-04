@@ -2,16 +2,21 @@ from nose.tools import with_setup
 from rest_framework import status
 from tests import utils
 
-from ellandi.registration.models import User, UserSkill, UserSkillDevelop
+from ellandi.registration.models import (
+    User,
+    UserLanguage,
+    UserSkill,
+    UserSkillDevelop,
+)
+from ellandi.reporting import LANGUAGE_LEVELS_SKILLED, SKILL_LEVELS
 
 SKILLS_ENDPOINT = "/api/me/reports/skills/"
 LANGUAGES_ENDPOINT = "/api/me/reports/languages/"
 
 
 def add_skills(user, i):
-    skill_levels = ["Beginner", "Advanced beginner", "Competent", "Proficient", "Expert"]
     remainder = i % 5
-    skill = UserSkill(user=user, name="Economics", level=skill_levels[remainder])
+    skill = UserSkill(user=user, name="Economics", level=SKILL_LEVELS[remainder])
     skill.save()
     if i < 7:
         skill = UserSkill(user=user, name="AWS", level="Beginner")
@@ -23,6 +28,30 @@ def add_skills(user, i):
     skill.save()
     skill_dev = UserSkillDevelop(user=user, name="Writing")
     skill_dev.save()
+
+
+def add_languages(user, i):
+    if i < 7:
+        lang = UserLanguage(
+            user=user,
+            name="French",
+            speaking_level=LANGUAGE_LEVELS_SKILLED[i % 4],
+            writing_level=LANGUAGE_LEVELS_SKILLED[(i + 1) % 4],
+        )
+        lang.save()
+    if i < 4:
+        lang = UserLanguage(
+            user=user, name="Spanish", speaking_level=LANGUAGE_LEVELS_SKILLED[i % 4], writing_level="None"
+        )
+        lang.save()
+    if i < 8:
+        lang = UserLanguage(
+            user=user,
+            name="German",
+            speaking_level=LANGUAGE_LEVELS_SKILLED[(i + 2) % 4],
+            writing_level=LANGUAGE_LEVELS_SKILLED[i % 4],
+        )
+        lang.save()
 
 
 def add_professions(user, i):
@@ -54,6 +83,7 @@ def setup_users_skills():
         user.save()
         add_skills(user, i)
         add_professions(user, i)
+        add_languages(user, i)
 
 
 def teardown_users_skills():
@@ -63,7 +93,6 @@ def teardown_users_skills():
 
 
 @utils.with_logged_in_admin_client
-@with_setup(setup_users_skills, teardown_users_skills)
 def test_get_report_skills(client, user_id):
     response = client.get(SKILLS_ENDPOINT)
     assert response.status_code == status.HTTP_200_OK
@@ -156,7 +185,7 @@ def test_get_report_skills_business_unit(client, user_id):
     assert data[0]["total_users"] == 3
 
 
-# FIXME - one of the reasons this test doesn't work is cos SQLite doesn't have `contained_by`
+# FIXME - this test doesn't work is cos SQLite doesn't have `contained_by`
 @utils.with_logged_in_admin_client
 @with_setup(setup_users_skills, teardown_users_skills)
 def test_get_report_skills_professions(client, user_id):
@@ -194,7 +223,7 @@ def test_get_report_skills_grades(client, user_id):
     assert result["data"][0]["total_users"] == 10
 
 
-# TODO - will work once we add reporting permissions
+# FIXME - will work once we add reporting permissions
 @utils.with_logged_in_client
 def test_endpoints_require_login(client, user_id):
     endpoints = [SKILLS_ENDPOINT, LANGUAGES_ENDPOINT]
@@ -203,4 +232,53 @@ def test_endpoints_require_login(client, user_id):
         assert response.status_code == status.HTTP_401_UNAUTHORIZED, response.status_code
 
 
-# TODO - add test for languages
+@utils.with_logged_in_admin_client
+def test_skills_format(client, user_id):
+    endpoint = f"{SKILLS_ENDPOINT}?format=csv"
+    response = client.get(endpoint)
+    assert response.status_code == status.HTTP_200_OK
+    endpoint = f"{SKILLS_ENDPOINT}?format=json"
+    response = client.get(endpoint)
+    assert response.status_code == status.HTTP_200_OK
+
+
+@utils.with_logged_in_admin_client
+@with_setup(setup_users_skills, teardown_users_skills)
+def test_languages_format(client, user_id):
+    endpoint = f"{LANGUAGES_ENDPOINT}?type=writing&format=csv"
+    response = client.get(endpoint)
+    assert response.status_code == status.HTTP_200_OK
+    endpoint = f"{LANGUAGES_ENDPOINT}?type=speaking&format=json"
+    response = client.get(endpoint)
+    assert response.status_code == status.HTTP_200_OK
+    assert response.json()
+
+
+@utils.with_logged_in_admin_client
+@with_setup(setup_users_skills, teardown_users_skills)
+def test_languages_endpoint(client, user_id):
+    endpoint = f"{LANGUAGES_ENDPOINT}"
+    response = client.get(endpoint)
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
+    endpoint = f"{LANGUAGES_ENDPOINT}?type=writing"
+    response = client.get(endpoint)
+    assert response.status_code == status.HTTP_200_OK
+    result = response.json()
+    assert result["total"] == 2
+    assert result["data"][0]["total_users"] >= 10
+    endpoint = f"{LANGUAGES_ENDPOINT}?type=writing&languages=French,Spanish,German,Portuguese&business_units=i.AI"
+    response = client.get(endpoint)
+    result = response.json()
+    data = result["data"]
+    assert result["total"] == 4
+    french_data = [d for d in data if d["name"] == "French"][0]
+    spanish_data = [d for d in data if d["name"] == "Spanish"][0]
+    portuguese_data = [d for d in data if d["name"] == "Portuguese"][0]
+    assert french_data["total_users"] == 10
+    assert french_data["language_value_total"] == 7
+    assert french_data["basic_value_percentage"] == 14
+    assert french_data["native_value_total"] == 2
+    assert spanish_data["total_users"] == 10
+    assert spanish_data["language_value_total"] == 0
+    assert spanish_data["proficient_value_percentage"] == 0
+    assert portuguese_data["language_value_total"] == 0
