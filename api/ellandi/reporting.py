@@ -10,6 +10,7 @@ from ellandi.registration.models import (
     UserSkill,
     UserSkillDevelop,
 )
+from ellandi.registration.exceptions import MissingLanguageTypeError
 
 COL_NAME_LOOKUP_CSV = {
     "name": "name",
@@ -33,8 +34,7 @@ COL_NAME_LOOKUP_CSV = {
 SKILL_LEVELS = ["Beginner", "Advanced beginner", "Competent", "Proficient", "Expert"]
 LANGUAGE_LEVELS = ["Basic", "Independent", "Proficient", "Native", "None"]
 LANGUAGE_LEVELS_SKILLED = ["Basic", "Independent", "Proficient", "Native"]
-SPEAKING = "speaking"
-WRITING = "writing"
+LANGUAGE_TYPES = ["speaking", "writing"]
 
 
 def filter_users_type(request, users_qs):
@@ -156,17 +156,14 @@ def get_skill_data_for_users(users, skill_name):
 
 
 def get_lang_data_for_users(users, lang_name, lang_type):
-    assert lang_type in [SPEAKING, WRITING]
     total_users = users.count()
-    user_langs = UserSkill.objects.filter(user__in=users).filter(name=lang_name)
-    if lang_type == SPEAKING:
-        user_langs = user_langs.exclude(speaking_level="None")
-    else:
-        user_langs = user_langs.exclude(writing_level="None")
+    user_langs = UserLanguage.objects.filter(user__in=users).filter(name=lang_name)
+    type_field = f"{lang_type}_level"
+    user_langs = user_langs.exclude(**{type_field:"None"})
 
     number_with_language = user_langs.count()
     if total_users:
-        percentage_with_language = number_with_language / total_users
+        percentage_with_language = round((number_with_language / total_users)*100)
     else:
         percentage_with_language = 0
 
@@ -179,7 +176,7 @@ def get_lang_data_for_users(users, lang_name, lang_type):
     }
     number_at_each_level = []
     for level in LANGUAGE_LEVELS_SKILLED:
-        number = user_langs.filter(level=level).count()
+        number = user_langs.filter(**{type_field:level}).count()
         number_at_each_level.append(number)
 
     if number_with_language:
@@ -266,7 +263,7 @@ def report_skills_view(request):
     parameters=[
         OpenApiParameter(name="languages", location=OpenApiParameter.QUERY, required=False, type=str),
         OpenApiParameter(
-            name="type", location=OpenApiParameter.QUERY, required=False, type=str, enum=[SPEAKING, WRITING]
+            name="type", location=OpenApiParameter.QUERY, required=False, type=str, enum=LANGUAGE_TYPES
         ),
         OpenApiParameter(
             name="users",
@@ -295,6 +292,9 @@ def report_languages_view(request):
     languages = get_language_list_from_params(request)
     type = request.query_params.get("type")
     users = get_filtered_users(request)
+
+    if type not in LANGUAGE_TYPES:
+        raise MissingLanguageTypeError
 
     language_data_list = []
     for language_name in languages:

@@ -49,3 +49,8 @@ class DirectReportError(APIException):
 class LearningIdError(APIException):
     status_code = 400
     default_detail = "The learning for this ID belongs to a different user"
+
+
+class MissingLanguageTypeError(APIException):
+    status_code = 400
+    default_detail = 'You need to enter a language type of "speaking" or "writing"'
