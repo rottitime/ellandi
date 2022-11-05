@@ -96,8 +96,8 @@ def return_all_title_recommendations(user_skills, job_embeddings):
     min_unique_job_count = 3
     skill_count = 5
 
-    job_in_db = list(return_common_jobs())
-    nlp_jobs = return_nlp_user_skills()
+    job_in_db = list(models.get_common_jobs())
+    nlp_jobs = models.return_nlp_user_skills()
     job_count = nlp_jobs[["user_id", "job_title"]].drop_duplicates().groupby("job_title").count().reset_index()
     unique_nlp_jobs = list(job_count[job_count["user_id"] >= min_unique_job_count]["job_title"].unique())
 

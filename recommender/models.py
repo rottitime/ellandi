@@ -45,7 +45,7 @@ def get_user_title_skills():
 
 
 
-def return_common_jobs():
+def get_common_jobs():
     """Queries the database and returns a list of job titles that appear over a specific number of times
 
     The default count for minimum_job_count is hardcoded to 3 as default
