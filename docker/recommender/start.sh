@@ -3,4 +3,4 @@
 set -o errexit
 set -o nounset
 
-python create_recommendations.py
+python recommend.py
