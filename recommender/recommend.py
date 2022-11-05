@@ -1,18 +1,16 @@
 import pickle
 from datetime import datetime
 
+import models
 import numpy as np
 import pandas as pd
 import scipy
-
 from sentence_transformers import SentenceTransformer
 from settings_base import db_url
 from sklearn.metrics.pairwise import cosine_similarity
 from sqlalchemy import Float, Integer, create_engine
 from sqlalchemy.orm import sessionmaker
 from tqdm import tqdm
-
-import models
 
 
 def make_skill_similarity_matrix():
@@ -180,5 +178,5 @@ def main():
     combined_recommendations.to_sql("registration_skillrecommendation", engine, if_exists="append")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

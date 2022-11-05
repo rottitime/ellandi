@@ -38,11 +38,15 @@ def get_user_skills():
 def get_user_title_skills():
     """Queries the database and returns a pandas dataframe with all user skills and titles"""
     joined_tbl = join(User, UserSkills, User.id == UserSkills.user_id)
-    query = select(User.id.label("user_id"), User.job_title.label("job_title"), UserSkills.name.label("skill_name"), literal(1).label("rating")).select_from(joined_tbl)
+    query = select(
+        User.id.label("user_id"),
+        User.job_title.label("job_title"),
+        UserSkills.name.label("skill_name"),
+        literal(1).label("rating"),
+    ).select_from(joined_tbl)
     engine = create_engine(db_url)
     result = engine.execute(query).all()
     return result
-
 
 
 def get_common_jobs():
@@ -51,7 +55,12 @@ def get_common_jobs():
     The default count for minimum_job_count is hardcoded to 3 as default
     """
     mininum_job_count = 3
-    job_query = select(User.job_title).select_from(User).group_by(User.job_title).having(func.count(User.job_title) >= mininum_job_count)
+    job_query = (
+        select(User.job_title)
+        .select_from(User)
+        .group_by(User.job_title)
+        .having(func.count(User.job_title) >= mininum_job_count)
+    )
     common_jobs = engine.execute(job_query).scalars().all()
     return common_jobs
 
