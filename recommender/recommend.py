@@ -155,20 +155,13 @@ def return_all_title_recommendations(user_skills, job_embeddings):
 
 def main():
     """Runs the recommendation process"""
-
     job_embedding_matrix = create_job_embedding_matrix()
     skill_similarity_matrix = make_skill_similarity_matrix()
-
     engine = create_engine(db_url)
-
-    current_db_skills = return_db_user_title_skills()
-
-    nlp_skills = return_nlp_user_skills()
-
+    current_db_skills = pd.DataFrame(models.get_user_title_skills())
+    nlp_skills = models.return_nlp_user_skills()
     combined_user_skills = pd.concat([current_db_skills, nlp_skills]).reset_index(drop=True)
-
     skill_df = combined_user_skills[["user_id", "skill_name", "rating"]].drop_duplicates().reset_index(drop=True)
-
     all_recommendations = return_all_title_recommendations(combined_user_skills, job_embedding_matrix)
     all_recommendations.createdAt = datetime.now()
     all_recommendations.to_sql("registration_titlerecommendation", engine, if_exists="append")
