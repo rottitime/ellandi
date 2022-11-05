@@ -68,56 +68,6 @@ def create_job_embedding_matrix():
     return embedding_df
 
 
-def return_similar_title_skills(job_title, user_skills, job_embeddings):
-    """Given a job title, a list of all user skills, and previously generated job embeddings, returns likely skills
-
-    The number of skills returned is a hard coded value (default to 10), as is the model name.
-    The model assumes no skill ratings are provided (and defaults to each having a score of 1)
-    """
-
-    if job_title not in job_embeddings.index.to_list():
-        return None
-
-    skill_count = 5
-
-    long_skills = user_skills[["user_id", "skill_name", "rating"]]
-
-    sparse_df = (
-        long_skills.groupby(["user_id", "skill_name"])["rating"].sum().astype("Sparse[int]").unstack(fill_value=0)
-    )
-
-    current_title_index = job_embeddings.index.to_list().index(job_title)
-
-    job_embedding_row = job_embeddings.iloc[current_title_index].to_numpy()
-    current_job_embedding = job_embedding_row.reshape((1, job_embedding_row.shape[0]))
-
-    dist = np.linalg.norm(current_job_embedding - job_embeddings, axis=1)
-
-    title_lookup = user_skills[["user_id", "job_title"]].drop_duplicates().set_index("user_id")
-
-    dist_df = pd.DataFrame(columns=["distance", "job_title"])
-
-    dist_df["distance"] = dist
-    dist_df["job_title"] = job_embeddings.index.to_list()
-
-    distance_title_df = (
-        title_lookup.reset_index()
-        .merge(dist_df, right_on="job_title", left_on="job_title", how="left")
-        .set_index("user_id")
-    )
-    comparison_df = (
-        distance_title_df.merge(sparse_df, left_index=True, right_index=True)
-        .fillna(0)
-        .copy()
-        .drop(columns=["job_title", "job_title"])
-    )
-    similar_skill_dist = comparison_df.corr()["distance"].sort_values()
-
-    returned_skills = list(similar_skill_dist.iloc[0:skill_count].index)
-
-    return returned_skills
-
-
 def get_similar_skills(long_skill_df, skill_name, similarity_matrix):
     """Given a pandas dataframe of user_id, skill_name, and rating, returns a matrix of skill similarity based on
     other users the data
