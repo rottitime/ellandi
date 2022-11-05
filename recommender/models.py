@@ -59,7 +59,8 @@ def return_common_jobs():
 def return_nlp_user_skills():
     """Reads the local json file with generated user jobs, and returns a dataframe for processing"""
 
-    nlp_skill_df = pd.read_json("nlp_generated_skills.json")[["user_id", "job_title", "skill_name", "rating"]].iloc[
+    nlp_skill_df = pd.read_csv("nlp_generated_skills.csv")[["user_id", "job_title", "skill_name", "rating"]].iloc[
         0:10000
     ]
+
     return nlp_skill_df
