@@ -145,7 +145,7 @@ def return_all_title_recommendations(user_skills, job_embeddings):
 
         returned_skills = list(similar_skill_dist.iloc[0:skill_count].index)
         skill_df = pd.DataFrame(returned_skills)
-        skill_df.columns = ["recommendedSkill"]
+        skill_df.columns = ["recommended_skill"]
         skill_df["job_title"] = current_title
         all_df.append(skill_df)
 
