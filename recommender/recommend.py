@@ -235,3 +235,7 @@ def main():
 
     combined_recommendations = pd.concat(all_skill_recommendations_list).reset_index(drop=True)
     combined_recommendations.to_sql("registration_skillrecommendation", engine, if_exists="append")
+
+
+if __name__ == '__main__':
+    main()
