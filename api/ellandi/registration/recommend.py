@@ -1,6 +1,5 @@
 import random
 
-import pandas as pd
 from django.db.models import Count
 
 from ellandi.registration.initial_data import DDAT_JOB_TO_SKILLS_LOOKUP
@@ -14,23 +13,17 @@ from ellandi.registration.models import (
 def recommend_skill_from_db(existing_skill):
     """Given an existing skill, queries the pre-baked recommendations from the database"""
 
-    all_entries = SkillRecommendation.objects.filter(current_skill=existing_skill).order_by("-created_at").values()
-    df = pd.DataFrame(list(all_entries)).drop_duplicates(subset=["recommended_skill"])
-    if len(df) > 0:
-        return df["recommended_skill"].tolist()
-    else:
-        return None
+    query = SkillRecommendation.objects.filter(current_skill=existing_skill).order_by("-created_at")
+    all_entries = tuple(set(query.values_list("recommended_skill", flat=True)))
+    return all_entries
 
 
 def recommend_title_from_db(current_title):
     """Given an existing job title, queries the pre-baked recommendations from the database"""
 
-    all_entries = TitleRecommendation.objects.filter(job_title=current_title).order_by("-index").values()
-    if len(all_entries) == 0:
-        return []
-    else:
-        df = pd.DataFrame(list(all_entries)).drop_duplicates(subset=["recommended_skill"])
-        return df["recommended_skill"].tolist()
+    query = TitleRecommendation.objects.filter(job_title=current_title).order_by("-index")
+    all_entries = tuple(set(query.values_list("recommended_skill", flat=True)))
+    return all_entries
 
 
 def recommend_profession_skills(profession):
