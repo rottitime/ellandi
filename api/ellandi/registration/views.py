@@ -633,10 +633,7 @@ def me_suggested_skills(request):
 @decorators.permission_classes((permissions.IsAuthenticated,))
 def skill_recommender(request, skill_name):
     recommended_skills = recommend_skill_from_db(skill_name)
-    if recommended_skills is None:
-        raise exceptions.MissingJobSimilarityMatrixError
-    else:
-        return Response(data=recommended_skills, status=status.HTTP_200_OK)
+    return Response(data=recommended_skills, status=status.HTTP_200_OK)
 
 
 @extend_schema(request=None, responses=None)
@@ -644,8 +641,6 @@ def skill_recommender(request, skill_name):
 @decorators.permission_classes((permissions.IsAuthenticated,))
 def me_recommend_job_relevant_skills(request):
     similar_title_skills = recommend_title_from_db(request.user.job_title)
-    if not similar_title_skills:
-        raise exceptions.MissingJobSimilarityMatrixError
     return Response(data=similar_title_skills, status=status.HTTP_200_OK)
 
 
