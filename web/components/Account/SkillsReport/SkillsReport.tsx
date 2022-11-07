@@ -6,6 +6,7 @@ import Select from '@/components/UI/Select/Select'
 import SkeletonTable from '@/components/UI/Skeleton/TableSkeleton'
 import useAuth from '@/hooks/useAuth'
 import {
+  exportReportSkills,
   fetchReportSkills,
   fetchSkills,
   MeReportSkills,
@@ -26,18 +27,19 @@ import functions from '@/prefetch/functions.json'
 import professions from '@/prefetch/professions.json'
 import grades from '@/prefetch/grades.json'
 import businessUnits from '@/prefetch/business-units.json'
-import { asStringList } from '@/lib/data-utils'
+import { asStringList, csvDownload } from '@/lib/data-utils'
 import { ChartValues, FiltersType, Props, UserOptions } from './types'
 import useDebounce from '@/hooks/useDebounce'
 import SimpleTable from '@/components/UI/SimpleTable/SimpleTable'
 import Chart from '@/components/UI/Chart/Chart'
+import Button from '@/components/UI/Button/Button'
 
 const Card = styled(AccountCard)`
   .main-filters {
     display: flex;
     margin-bottom: ${(p) => p.theme.spacing(4)};
     gap: ${(p) => p.theme.spacing(3)};
-    .splitbutton {
+    .export {
       margin-left: auto;
     }
   }
@@ -62,6 +64,7 @@ const SkillsReport: FC<Props> = (props) => {
   const { authFetch } = useAuth()
   const [filters, setFilters] = useState<FiltersType>({ users: 'all' })
   const [dialog, setDialog] = useState<ReportSkillsData>(undefined)
+  const [exportLoading, setExportLoading] = useState(false)
 
   const debouncedSearchQuery = useDebounce(filters, 600)
 
@@ -167,6 +170,19 @@ const SkillsReport: FC<Props> = (props) => {
                   />
                 ))}
               </RadioGroup>
+              <Button
+                color="primary"
+                className="export"
+                loading={exportLoading}
+                onClick={async () => {
+                  setExportLoading(true)
+                  const data = await authFetch(exportReportSkills, filters)
+                  csvDownload(data, 'skills')
+                  setExportLoading(false)
+                }}
+              >
+                Export
+              </Button>
             </div>
             <div className="filters">
               <Select

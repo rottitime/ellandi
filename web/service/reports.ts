@@ -28,14 +28,22 @@ export const fetchReportResponsibility = async (token: string) => {
 
 export const fetchReportGrade = async (token: string) => {
   const res = await api(token, urls.grade)
-  return res.json()
+  return res
 }
 
-export const exportReportSkills = (params): string => exportFormat(urls.skills, params)
+export const exportReportSkills = async (token, params) => {
+  const res = await api(token, urls.skills, { ...params, format: 'csv' })
+  return res.text()
+}
+
+export const exportReportLanguages = async (token, params) => {
+  const res = await api(token, urls.skills, { ...params, format: 'csv' })
+  return res.text()
+}
+
+// export const exportReportSkills = (params): string => exportFormat(urls.skills, params)
 export const exportReportResponsibility = (params): string =>
   exportFormat(urls.responsibility, params)
-export const exportReportLanguages = (params): string =>
-  exportFormat(urls.languages, params)
 
 const exportFormat = (path, params): string =>
   createUrl(`${publicRuntimeConfig.apiUrl}${path}`, params)

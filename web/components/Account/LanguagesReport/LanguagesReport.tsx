@@ -5,6 +5,7 @@ import Select from '@/components/UI/Select/Select'
 import SkeletonTable from '@/components/UI/Skeleton/TableSkeleton'
 import useAuth from '@/hooks/useAuth'
 import {
+  exportReportLanguages,
   fetchReportLanguages,
   MeReportLanguages,
   Query,
@@ -15,15 +16,16 @@ import { useState } from 'react'
 import { useQuery } from 'react-query'
 import { FiltersType } from './types'
 import languages from '@/prefetch/languages.json'
-import { asStringList } from '@/lib/data-utils'
+import { asStringList, csvDownload } from '@/lib/data-utils'
 import useDebounce from '@/hooks/useDebounce'
+import Button from '@/components/UI/Button/Button'
 
 const Card = styled(AccountCard)`
   .main-filters {
     display: flex;
     margin-bottom: ${(p) => p.theme.spacing(4)};
     gap: ${(p) => p.theme.spacing(3)};
-    .splitbutton {
+    .export {
       margin-left: auto;
     }
   }
@@ -39,6 +41,7 @@ const userOptions = ['Speaking', 'Writing']
 const LanguagesReport = () => {
   const { authFetch } = useAuth()
   const [filters, setFilters] = useState<FiltersType>({ type: 'speaking' })
+  const [exportLoading, setExportLoading] = useState(false)
   const debouncedSearchQuery = useDebounce(filters, 600)
 
   const { isLoading, data, isFetching } = useQuery<MeReportLanguages>(
@@ -95,6 +98,19 @@ const LanguagesReport = () => {
                 />
               ))}
             </RadioGroup>
+            <Button
+              color="primary"
+              className="export"
+              loading={exportLoading}
+              onClick={async () => {
+                setExportLoading(true)
+                const data = await authFetch(exportReportLanguages, filters)
+                csvDownload(data, 'languages')
+                setExportLoading(false)
+              }}
+            >
+              Export
+            </Button>
           </div>
 
           <DataGrid
