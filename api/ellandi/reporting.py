@@ -69,9 +69,11 @@ def filter_users_professions(request, users_qs):
     professions = professions.split(",")
     # FIXME - doesn't work in SQLite
     # https://docs.djangoproject.com/en/3.2/topics/db/queries/#containment-and-key-lookups
-    users_qs = users_qs.filter(professions__contained_by=professions)
-    users_qs = users_qs.exclude(professions=[])
-    return users_qs
+    output_qs = User.objects.none()
+    for prof_name in professions:
+        users_with_prof = users_qs.filter(professions__contains=prof_name)
+        output_qs = output_qs | users_with_prof
+    return output_qs
 
 
 def filter_users_other_params(request, users_qs):
