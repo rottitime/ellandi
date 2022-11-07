@@ -13,6 +13,8 @@ from ellandi.reporting import LANGUAGE_LEVELS_SKILLED, SKILL_LEVELS
 SKILLS_ENDPOINT = "/api/me/reports/skills/"
 LANGUAGES_ENDPOINT = "/api/me/reports/languages/"
 
+# TODO - look at all tests and make sure they are testing for the
+# right permissions - new permissions for reporting to be added
 
 def add_skills(user, i):
     remainder = i % 5

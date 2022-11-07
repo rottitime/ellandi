@@ -5,12 +5,7 @@ from rest_framework.response import Response
 from rest_framework_csv.renderers import CSVRenderer
 
 from ellandi.registration.exceptions import MissingLanguageTypeError
-from ellandi.registration.models import (
-    User,
-    UserLanguage,
-    UserSkill,
-    UserSkillDevelop,
-)
+from ellandi.registration.models import User, UserLanguage, UserSkill, UserSkillDevelop, Grade
 
 # TODO - maybe change column names for CSV
 SKILLS_COL_NAME_LOOKUP_CSV = {
@@ -344,7 +339,6 @@ def report_languages_view(request):
     return Response(data=output_data, status=status.HTTP_200_OK, content_type="application/json")
 
 
-
 @decorators.api_view(["GET"])
 # TODO - needs to be changed to "reporting permissions" - details TBC
 @decorators.permission_classes((permissions.IsAuthenticated,))
@@ -360,9 +354,9 @@ def responsibilities_view(request):
     number_line_managers = all_users.filter(is_line_manager="Yes").count()
     number_mentors = all_users.filter(is_mentor="Yes").count()
     data = [
-            create_proportions_data_dict("Line managers", number_line_managers, total_users),
-            create_proportions_data_dict("Mentors", number_mentors, total_users),
-        ]
+        create_proportions_data_dict("Line managers", numerator=number_line_managers, denominator=total_users),
+        create_proportions_data_dict("Mentors", numerator=number_mentors, denominator=total_users),
+    ]
     format = request.query_params.get("format", "json")
     if format == "csv":
         return Response(data=data, status=status.HTTP_200_OK, content_type="text/csv")
@@ -371,6 +365,25 @@ def responsibilities_view(request):
     return Response(data=data, status=status.HTTP_200_OK, content_type="application/json")
 
 
-
-
-
+@decorators.api_view(["GET"])
+# TODO - needs to be changed to "reporting permissions" - details TBC
+@decorators.permission_classes((permissions.IsAuthenticated,))
+@decorators.renderer_classes(
+    (
+        renderers.JSONRenderer,
+        CSVRenderer,
+    )
+)
+def grades_view(request):
+    all_users = User.objects.all()
+    total_users = all_users.count()
+    output_list = []
+    all_grades = Grade.objects.all().order_by("order").values_list("name")
+    for grade in all_grades:
+        number_at_grade = all_users.objects.filter(grade=grade).count()
+        data_dict = create_proportions_data_dict(name=grade, numerator=number_at_grade, denominator=total_users)
+        output_list.append(data_dict)
+    format = request.query_params.get("format", "json")
+    if format == "csv":
+        return Response(data=output_list, status=status.HTTP_200_OK, content_type="text/csv")
+    return Response(data={output_list}, status=status.HTTP_200_OK, content_type="application/json")
