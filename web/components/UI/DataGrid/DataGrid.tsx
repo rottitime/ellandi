@@ -5,7 +5,7 @@ import WarningDialog from '@/components/UI/Dialogs/WarningDialog/WarningDialog'
 import { FC, useState } from 'react'
 import { Props, CellType } from './types'
 import { DataGrid as MuiDataGrid, GridColDef } from '@mui/x-data-grid'
-import { IconButton, styled } from '@mui/material'
+import { IconButton, LinearProgress, styled } from '@mui/material'
 import SkeletonTable from '../Skeleton/TableSkeleton'
 import Pagination from './Pagination'
 
@@ -114,7 +114,7 @@ const DataGrid: FC<Props> = ({
 
   const gridProps = {
     ...props,
-    components: { ...components, Pagination },
+    components: { ...components, Pagination, LoadingOverlay: LinearProgress },
     columns
   }
 

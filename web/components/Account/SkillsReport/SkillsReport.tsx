@@ -14,7 +14,7 @@ import {
   styled,
   Typography
 } from '@mui/material'
-import { ComponentProps, FC, useMemo, useState } from 'react'
+import { FC, useMemo, useState } from 'react'
 import { useQuery } from 'react-query'
 import functions from '@/prefetch/functions.json'
 import professions from '@/prefetch/professions.json'
@@ -112,7 +112,6 @@ const SkillsReport: FC<Props> = (props) => {
 
   return (
     <>
-      {' '}
       <Card {...props}>
         <Typography variant="h2" gutterBottom>
           Skills data
