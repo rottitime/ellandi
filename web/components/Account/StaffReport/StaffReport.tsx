@@ -1,32 +1,21 @@
 import Chip from '@/components/Chip/Chip'
 import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
 import DataGrid, { GridColDef } from '@/components/UI/DataGrid/DataGrid'
-import Select from '@/components/UI/Select/Select'
 import SkeletonTable from '@/components/UI/Skeleton/TableSkeleton'
 import useAuth from '@/hooks/useAuth'
 import {
   exportReportSkills,
   fetchReportGrade,
-  fetchReportLanguages,
   fetchReportResponsibility,
   MeReporResponsibility,
   MeReportSkills,
   Query,
-  ReportLanguagesData,
   SimpleLabelValueData
 } from '@/service/api'
-import {
-  Box,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
-  styled,
-  Typography
-} from '@mui/material'
-import { useMemo, useState } from 'react'
+import { Box } from '@mui/material'
 import { useQuery } from 'react-query'
 import SplitButton from '@/components/UI/SplitButton/SplitButton'
-import { FiltersType } from './types'
+import TotalRow from './TotalRow'
 
 const StaffReport = () => {
   const { authFetch } = useAuth()
@@ -40,6 +29,10 @@ const StaffReport = () => {
     Query.ReportGrade,
     () => authFetch(fetchReportGrade)
   )
+
+  const total = !!dataResponsibility?.data
+    ? dataResponsibility.data.reduce((p, c) => p + c.total_value_total, 0)
+    : 0
 
   return (
     <>
@@ -64,6 +57,10 @@ const StaffReport = () => {
               rows={dataResponsibility.data}
               getRowId={(row) => row.name}
               autoHeight
+              components={{ Footer: TotalRow }}
+              componentsProps={{
+                footer: { total }
+              }}
             />
           </>
         )}
