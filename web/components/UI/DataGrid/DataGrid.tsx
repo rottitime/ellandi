@@ -9,7 +9,7 @@ import { IconButton, styled } from '@mui/material'
 import SkeletonTable from '../Skeleton/TableSkeleton'
 import Pagination from './Pagination'
 
-const StyledGrid = styled(MuiDataGrid)`
+const StyledGrid = styled(MuiDataGrid)<Props>`
   border: none;
   .MuiDataGrid-columnSeparator {
     display: none;
@@ -54,6 +54,7 @@ const DataGrid: FC<Props> = ({
   modalLoading,
   onModalClose,
   initialLoading,
+  components,
   ...props
 }) => {
   const [deleteCell, setDeleteCell] = useState<CellType>(null)
@@ -113,7 +114,7 @@ const DataGrid: FC<Props> = ({
 
   const gridProps = {
     ...props,
-    components: { Pagination },
+    components: { ...components, Pagination },
     columns
   }
 
