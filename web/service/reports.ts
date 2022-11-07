@@ -7,8 +7,8 @@ const { publicRuntimeConfig } = getConfig()
 const urls = {
   skills: '/me/reports/skills/',
   languages: '/me/reports/languages/',
-  responsibility: '/me/reports/responsibility/',
-  grade: '/me/reports/grade/',
+  responsibility: '/me/reports/responsibilities/',
+  grade: '/me/reports/grades/',
   learning: '/me/reports/learning/'
 }
 

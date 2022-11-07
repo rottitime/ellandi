@@ -46,10 +46,6 @@ const StaffReport = () => {
             rows={dataResponsibility?.data || []}
             getRowId={(row) => row.name}
             autoHeight
-            components={{ Footer: TotalRow }}
-            componentsProps={{
-              footer: { total }
-            }}
           />
         )}
       </AccountCard>
@@ -79,6 +75,7 @@ const columnsResponsibility: GridColDef<SimpleLabelValueData>[] = [
     disableColumnMenu: true,
     resizable: false,
     renderCell: ({ formattedValue }) => formattedValue,
+    sortable: false,
     flex: 1
   },
   {
@@ -88,8 +85,15 @@ const columnsResponsibility: GridColDef<SimpleLabelValueData>[] = [
     resizable: false,
     align: 'right',
     headerAlign: 'right',
-    renderCell: ({ formattedValue, row }) =>
-      formattedValue && <Chip label={row.total_label} />,
+    sortable: false,
+    renderCell: ({ row }) => {
+      return (
+        <Chip
+          label={row.total_label}
+          brandColor={row.name.toLowerCase() === 'total users' ? 'black' : null}
+        />
+      )
+    },
     flex: 1
   }
 ]
@@ -110,8 +114,7 @@ const columnsGrade: GridColDef<SimpleLabelValueData>[] = [
     resizable: false,
     align: 'right',
     headerAlign: 'right',
-    renderCell: ({ formattedValue, row }) =>
-      formattedValue && <Chip label={row.total_label} />,
+    renderCell: ({ row }) => <Chip label={row.total_label} />,
     flex: 1
   }
 ]
