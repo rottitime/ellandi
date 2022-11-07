@@ -5,7 +5,13 @@ from rest_framework.response import Response
 from rest_framework_csv.renderers import CSVRenderer
 
 from ellandi.registration.exceptions import MissingLanguageTypeError
-from ellandi.registration.models import User, UserLanguage, UserSkill, UserSkillDevelop, Grade
+from ellandi.registration.models import (
+    Grade,
+    User,
+    UserLanguage,
+    UserSkill,
+    UserSkillDevelop,
+)
 
 # TODO - maybe change column names for CSV
 SKILLS_COL_NAME_LOOKUP_CSV = {
@@ -378,12 +384,12 @@ def grades_view(request):
     all_users = User.objects.all()
     total_users = all_users.count()
     output_list = []
-    all_grades = Grade.objects.all().order_by("order").values_list("name")
+    all_grades = Grade.objects.all().order_by("order").values_list("name", flat=True)
     for grade in all_grades:
-        number_at_grade = all_users.objects.filter(grade=grade).count()
+        number_at_grade = all_users.filter(grade=grade).count()
         data_dict = create_proportions_data_dict(name=grade, numerator=number_at_grade, denominator=total_users)
         output_list.append(data_dict)
     format = request.query_params.get("format", "json")
     if format == "csv":
         return Response(data=output_list, status=status.HTTP_200_OK, content_type="text/csv")
-    return Response(data={output_list}, status=status.HTTP_200_OK, content_type="application/json")
+    return Response(data={"data": output_list}, status=status.HTTP_200_OK, content_type="application/json")

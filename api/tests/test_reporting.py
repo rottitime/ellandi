@@ -12,9 +12,13 @@ from ellandi.reporting import LANGUAGE_LEVELS_SKILLED, SKILL_LEVELS
 
 SKILLS_ENDPOINT = "/api/me/reports/skills/"
 LANGUAGES_ENDPOINT = "/api/me/reports/languages/"
+RESPONSIBILITIES_ENDPOINT = "/api/me/reports/responsibilities/"
+GRADES_ENDPOINT = "/api/me/reports/grades/"
+
 
 # TODO - look at all tests and make sure they are testing for the
 # right permissions - new permissions for reporting to be added
+
 
 def add_skills(user, i):
     remainder = i % 5
@@ -226,7 +230,7 @@ def test_get_report_skills_grades(client, user_id):
 
 @utils.with_logged_in_client
 def test_endpoints_require_login(client, user_id):
-    endpoints = [SKILLS_ENDPOINT, LANGUAGES_ENDPOINT]
+    endpoints = [SKILLS_ENDPOINT, LANGUAGES_ENDPOINT, RESPONSIBILITIES_ENDPOINT, GRADES_ENDPOINT]
     for endpoint in endpoints:
         response = client.get(endpoint)
         assert response.status_code == status.HTTP_403_FORBIDDEN
@@ -301,3 +305,36 @@ def test_languages_endpoint_params(client, user_id):
     result = response.json()
     assert result["total"] == 3
     assert result["data"][0]["total_users"] == 4, result["data"]
+
+
+@utils.with_logged_in_admin_client
+@with_setup(setup_users_skills, teardown_users_skills)
+def test_get_responsibilities(client, user_id):
+    response = client.get(RESPONSIBILITIES_ENDPOINT)
+    assert response.status_code == status.HTTP_200_OK
+    result = response.json()["data"]
+    assert len(result) == 3, result
+    line_manager_data = [data for data in result if data["name"] == "Line managers"][0]
+    mentor_data = [data for data in result if data["name"] == "Mentors"][0]
+    assert line_manager_data["total_label"] == "4 (36%)"
+    assert line_manager_data["total_value_total"] == 4
+    assert mentor_data["total_value_percentage"] == 27
+    response = client.get(f"{RESPONSIBILITIES_ENDPOINT}?format=csv")
+    assert response.status == status.HTTP_200_OK
+
+
+@utils.with_logged_in_admin_client
+@with_setup(setup_users_skills, teardown_users_skills)
+def test_get_responsibilities(client, user_id):
+    response = client.get(GRADES_ENDPOINT)
+    assert response.status_code == status.HTTP_200_OK
+    result = response.json()["data"]
+    grade_7_data = [data for data in result if data["name"] == "Grade 7"][0]
+    grade_6_data = [data for data in result if data["name"] == "Grade 6"][0]
+    other_data = [data for data in result if data["name"] == "Other"][0]
+    assert grade_7_data["total_label"] == "5 (45%)"
+    assert grade_7_data["total_value_percentage"] == 45
+    assert grade_6_data["total_value_total"] == 5
+    assert other_data["total_label"] == "0 (0%)"
+    response = client.get(f"{GRADES_ENDPOINT}?format=csv")
+    assert response.status == status.HTTP_200_OK

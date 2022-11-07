@@ -44,7 +44,7 @@ api_urlpatterns = [
     path("me/reports/skills/", reporting.report_skills_view),
     path("me/reports/languages/", reporting.report_languages_view),
     path("me/reports/responsibilities/", reporting.responsibilities_view),
-    path("me/reports/grades/", reporting.grades_view)
+    path("me/reports/grades/", reporting.grades_view),
 ]
 
 api_debug_urlpatterns = [
