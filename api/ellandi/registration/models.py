@@ -304,14 +304,13 @@ class EmailSalt(models.Model):
         super(EmailSalt, self).save(*args, **kwargs)
 
 
-class SkillRecommendation(TimeStampedModel):
-    recommended_skill = models.TextField(blank=True, null=True)
-    current_skill = models.TextField(blank=True, null=True)
-
-
-class TitleRecommendation(TimeStampedModel):
-    recommended_skill = models.TextField(blank=True, null=True)
-    job_title = models.TextField(blank=True, null=True)
+class RecommendedSkill(TimeStampedModel):
+    class SourceTypes(models.TextChoices):
+        JOB_TITLE = ("Job title", "Job title")
+        SKILL = ("Skill", "Skill")
+    recommended_skill = models.CharField(max_length=128)
+    source_type = models.CharField(max_length=128, choices=SourceTypes.choices)
+    source_value = models.CharField(max_length=128)
 
 
 class Course(models.Model):

@@ -18,12 +18,8 @@ class User(base_object):
     __table__ = Table("registration_user", base_object.metadata, autoload=True, autoload_with=engine)
 
 
-class SkillRecommendation(base_object):
-    __table__ = Table("registration_skillrecommendation", base_object.metadata, autoload=True, autoload_with=engine)
-
-
-class TitleRecommendation(base_object):
-    __table__ = Table("registration_titlerecommendation", base_object.metadata, autoload=True, autoload_with=engine)
+class RecommendedSkill(base_object):
+    __table__ = Table("registration_recommendedskill", base_object.metadata, autoload=True, autoload_with=engine)
 
 
 def get_user_skills():
@@ -75,11 +71,11 @@ def return_nlp_user_skills():
 
 def insert_titles(titles):
     session = Session(engine)
-    session.bulk_insert_mappings(TitleRecommendation, titles)
+    session.bulk_insert_mappings(RecommendedSkill, titles)
     session.commit()
 
 
 def insert_skills(skills):
     session = Session(engine)
-    session.bulk_insert_mappings(TitleRecommendation, skills)
+    session.bulk_insert_mappings(RecommendedSkill, skills)
     session.commit()

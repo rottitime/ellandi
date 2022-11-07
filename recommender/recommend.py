@@ -146,7 +146,7 @@ def return_all_title_recommendations(user_skills, job_embeddings):
         returned_skills = list(similar_skill_dist.iloc[0:returned_skill_count].index)
         skill_df = pd.DataFrame(returned_skills)
         skill_df.columns = ["recommended_skill"]
-        skill_df["job_title"] = current_title
+        skill_df["source_value"] = current_title
         all_df.append(skill_df)
 
     all_recommendations = pd.concat(all_df)
@@ -164,6 +164,7 @@ def main():
     all_recommendations = return_all_title_recommendations(combined_user_skills, job_embedding_matrix)
     all_recommendations["created_at"] = datetime.now()
     all_recommendations["modified_at"] = datetime.now()
+    all_recommendations["source_type"] = "Job title"
     models.insert_titles((dict(title) for index, title in all_recommendations.iterrows()))
     all_skill_recommendations_list = []
     for unique_skill in tqdm(combined_user_skills["skill_name"].unique()):
@@ -173,7 +174,8 @@ def main():
         recommended_skills.columns = ["recommended_skill"]
         recommended_skills["created_at"] = datetime.now()
         recommended_skills["modified_at"] = datetime.now()
-        recommended_skills["current_skill"] = unique_skill
+        recommended_skills["source_type"] = "Skill"
+        recommended_skills["source_value"] = unique_skill
         all_skill_recommendations_list.append(recommended_skills)
 
     combined_recommendations = pd.concat(all_skill_recommendations_list).reset_index(drop=True)
