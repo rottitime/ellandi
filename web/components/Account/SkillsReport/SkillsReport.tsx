@@ -5,13 +5,7 @@ import DataGrid, { GridColDef } from '@/components/UI/DataGrid/DataGrid'
 import Select from '@/components/UI/Select/Select'
 import SkeletonTable from '@/components/UI/Skeleton/TableSkeleton'
 import useAuth from '@/hooks/useAuth'
-import {
-  exportReportSkills,
-  fetchReportSkills,
-  MeReportSkills,
-  Query,
-  ReportSkillsData
-} from '@/service/api'
+import { fetchReportSkills, MeReportSkills, Query, ReportSkillsData } from '@/service/api'
 import {
   Box,
   FormControlLabel,
@@ -27,7 +21,6 @@ import professions from '@/prefetch/professions.json'
 import grades from '@/prefetch/grades.json'
 import businessUnits from '@/prefetch/business-units.json'
 import { asStringList } from '@/lib/data-utils'
-import SplitButton from '@/components/UI/SplitButton/SplitButton'
 import { ChartValues, FiltersType, Props } from './types'
 import useDebounce from '@/hooks/useDebounce'
 import SimpleTable from '@/components/UI/SimpleTable/SimpleTable'
@@ -159,18 +152,6 @@ const SkillsReport: FC<Props> = (props) => {
                   />
                 ))}
               </RadioGroup>
-
-              <SplitButton
-                label="Export"
-                options={['CSV']}
-                onSelected={(_, option) => {
-                  const url = exportReportSkills({
-                    ...filters,
-                    format: option.toLowerCase()
-                  })
-                  window.open(url)
-                }}
-              />
             </div>
             <div className="filters">
               <Select

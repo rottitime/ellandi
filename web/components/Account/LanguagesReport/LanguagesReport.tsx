@@ -5,16 +5,14 @@ import Select from '@/components/UI/Select/Select'
 import SkeletonTable from '@/components/UI/Skeleton/TableSkeleton'
 import useAuth from '@/hooks/useAuth'
 import {
-  exportReportSkills,
   fetchReportLanguages,
-  MeReportSkills,
+  MeReportLanguages,
   Query,
   ReportLanguagesData
 } from '@/service/api'
 import { FormControlLabel, Radio, RadioGroup, styled, Typography } from '@mui/material'
 import { useMemo, useState } from 'react'
 import { useQuery } from 'react-query'
-import SplitButton from '@/components/UI/SplitButton/SplitButton'
 import { FiltersType } from './types'
 
 const Card = styled(AccountCard)`
@@ -37,12 +35,15 @@ const userOptions = ['Speaking', 'Writing']
 
 const LanguagesReport = () => {
   const { authFetch } = useAuth()
-  const [filters, setFilters] = useState<FiltersType>({})
+  const [filters, setFilters] = useState<FiltersType>({ type: 'speaking' })
 
-  const { isLoading, data } = useQuery<MeReportSkills>(
+  const { isLoading, data, isFetching } = useQuery<MeReportLanguages>(
     [Query.ReportLanguages, filters],
     () => authFetch(fetchReportLanguages, filters),
-    { keepPreviousData: true }
+    {
+      staleTime: Infinity,
+      keepPreviousData: true
+    }
   )
 
   const languages: string[] = useMemo(
@@ -56,11 +57,12 @@ const LanguagesReport = () => {
         Languages data
       </Typography>
       {isLoading ? (
-        <SkeletonTable columns={3} rows={10} />
+        <SkeletonTable columns={3} rows={5} />
       ) : (
         <>
           <div className="main-filters">
             <Select
+              disabled={!languages.length}
               defaultValue={filters?.languages || []}
               label="Select languages(s)"
               data={languages}
@@ -77,43 +79,32 @@ const LanguagesReport = () => {
 
             <RadioGroup
               row
-              defaultValue={userOptions[0]}
+              defaultValue={filters.type}
               onChange={(e) =>
                 setFilters((p) => ({
                   ...p,
-                  users: e.target.value
+                  type: e.target.value
                 }))
               }
             >
               {userOptions.map((option) => (
                 <FormControlLabel
-                  value={option}
+                  value={option.toLowerCase()}
                   control={<Radio />}
                   label={option}
                   key={option}
                 />
               ))}
             </RadioGroup>
-
-            <SplitButton
-              label="Export"
-              options={['CSV', 'Excel', 'PDF']}
-              onSelected={(_, option) => {
-                const url = exportReportSkills({
-                  ...filters,
-                  format: option.toLowerCase()
-                })
-                window.open(url)
-              }}
-            />
           </div>
 
           <DataGrid
             pageSize={10}
             columns={columns}
-            rows={data.data}
+            rows={data?.data || []}
             getRowId={(row) => row.name}
             autoHeight
+            loading={isFetching}
           />
         </>
       )}
@@ -137,8 +128,7 @@ const columns: GridColDef<ReportLanguagesData>[] = [
     headerName: 'Total (%) basic',
     disableColumnMenu: true,
     resizable: false,
-    renderCell: ({ formattedValue, row }) =>
-      formattedValue && <Chip label={row.basic_label} />,
+    renderCell: ({ row }) => <Chip label={row.basic_label} />,
     flex: 1
   },
   {
@@ -146,8 +136,7 @@ const columns: GridColDef<ReportLanguagesData>[] = [
     headerName: 'Total (%) independent',
     disableColumnMenu: true,
     resizable: false,
-    renderCell: ({ formattedValue, row }) =>
-      formattedValue && <Chip label={row.independent_label} />,
+    renderCell: ({ row }) => <Chip label={row.independent_label} />,
     flex: 1
   },
   {
@@ -155,8 +144,7 @@ const columns: GridColDef<ReportLanguagesData>[] = [
     headerName: 'Total (%) proficient',
     disableColumnMenu: true,
     resizable: false,
-    renderCell: ({ formattedValue, row }) =>
-      formattedValue && <Chip label={row.proficient_label} />,
+    renderCell: ({ row }) => <Chip label={row.proficient_label} />,
     flex: 1
   },
   {
@@ -164,8 +152,7 @@ const columns: GridColDef<ReportLanguagesData>[] = [
     headerName: 'Total (%) native',
     disableColumnMenu: true,
     resizable: false,
-    renderCell: ({ formattedValue, row }) =>
-      formattedValue && <Chip label={row.native_label} />,
+    renderCell: ({ row }) => <Chip label={row.native_label} />,
     flex: 1
   }
 ]

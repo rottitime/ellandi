@@ -20,17 +20,13 @@ const urls = {
 }
 
 export const fetchReportSkills = async (token: string, params) => {
-  const res = await api(token, urls.skills, {}, params)
+  const res = await api(token, urls.skills, params)
   return res.json()
-  //TODO: change to fetch
-  // console.log('fetch', { token, params })
-  // return Promise.resolve(skillsData)
 }
 
-export const fetchReportLanguages = async (token: string) => {
-  // const res = await api(token, urls.languages)
-  // return res.json()
-  return Promise.resolve(languagesData)
+export const fetchReportLanguages = async (token: string, params) => {
+  const res = await api(token, urls.languages, params)
+  return res.json()
 }
 
 export const fetchReportResponsibility = async (token: string) => {
@@ -71,13 +67,11 @@ const exportFormat = (path, params): string =>
 const api = async (
   token: string,
   path: RequestInfo | URL,
-  init?: RequestInit,
   params?: URLSearchParams
 ): Promise<Response> => {
   const apiUrl = createUrl(`${publicRuntimeConfig.apiUrl}${path}`, params)
   const res: Response = await fetch(apiUrl, {
-    ...init,
-    headers: { ...init.headers, Authorization: `Token ${token}` }
+    headers: { Authorization: `Token ${token}` }
   })
   if (res.ok) return res
   try {
@@ -85,30 +79,4 @@ const api = async (
     if (detail) throw new Error(detail)
   } catch (e) {}
   throw new Error(defaultError)
-}
-
-//TODO: Delete this
-const languagesData: MeReportLanguages = {
-  page: 1,
-  per_page: 10,
-  total: 100,
-  total_pages: 10,
-  data: [...Array(100).keys()].map(
-    (i) =>
-      ({
-        name: `Language ${i}`,
-        basic_label: `${i} (${i}%)`,
-        basic_value_total: i,
-        basic_value_percentage: i,
-        independent_label: `${i} (${i}%)`,
-        independent_value_total: i,
-        independent_value_percentage: i,
-        proficient_label: `${i} (${i}%)`,
-        proficient_value_total: i,
-        proficient_value_percentage: i,
-        native_label: `${i} (${i}%)`,
-        native_value_total: i,
-        native_value_percentage: i
-      } as ReportLanguagesData)
-  )
 }
