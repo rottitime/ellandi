@@ -8,7 +8,12 @@ from ellandi.registration.models import (
     UserSkill,
     UserSkillDevelop,
 )
-from ellandi.reporting import LANGUAGE_LEVELS_SKILLED, SKILL_LEVELS, format_perc_label, create_proportions_data_dict
+from ellandi.reporting import (
+    LANGUAGE_LEVELS_SKILLED,
+    SKILL_LEVELS,
+    create_proportions_data_dict,
+    format_perc_label,
+)
 
 SKILLS_ENDPOINT = "/api/me/reports/skills/"
 LANGUAGES_ENDPOINT = "/api/me/reports/languages/"
@@ -107,12 +112,7 @@ def test_create_proportions_data_dict():
     numerator = 47
     denominator = 88
     actual = create_proportions_data_dict(name, numerator, denominator)
-    expected = {
-        "name": "Test me",
-        "total_label": "47 (53%)",
-        "total_value_total": 47,
-        "total_value_percentage": 53
-    }
+    expected = {"name": "Test me", "total_label": "47 (53%)", "total_value_total": 47, "total_value_percentage": 53}
     assert actual == expected
 
 
