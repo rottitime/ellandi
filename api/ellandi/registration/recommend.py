@@ -3,16 +3,15 @@ import random
 from django.db.models import Count
 
 from ellandi.registration.initial_data import DDAT_JOB_TO_SKILLS_LOOKUP
-from ellandi.registration.models import (
-    RecommendedSkill,
-    UserSkill,
-)
+from ellandi.registration.models import RecommendedSkill, UserSkill
 
 
 def recommend_skill_from_db(existing_skill):
     """Given an existing skill, queries the pre-baked recommendations from the database"""
 
-    query = RecommendedSkill.objects.filter(source_type=RecommendedSkill.SourceTypes.Skill, source_value=existing_skill).order_by("-created_at")
+    query = RecommendedSkill.objects.filter(
+        source_type=RecommendedSkill.SourceTypes.Skill, source_value=existing_skill
+    ).order_by("-created_at")
     all_entries = tuple(set(query.values_list("recommended_skill", flat=True)))
     return all_entries
 
@@ -20,7 +19,9 @@ def recommend_skill_from_db(existing_skill):
 def recommend_title_from_db(current_title):
     """Given an existing job title, queries the pre-baked recommendations from the database"""
 
-    query = RecommendedSkill.objects.filter(source_type=RecommendedSkill.SourceTypes.JobTitle, source_value=current_title).order_by("-created_at")
+    query = RecommendedSkill.objects.filter(
+        source_type=RecommendedSkill.SourceTypes.JobTitle, source_value=current_title
+    ).order_by("-created_at")
     all_entries = tuple(set(query.values_list("recommended_skill", flat=True)))
     return all_entries
 

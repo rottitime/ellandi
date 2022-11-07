@@ -6,28 +6,31 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('registration', '0031_skillrecommendation_titlerecommendation'),
+        ("registration", "0031_skillrecommendation_titlerecommendation"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='RecommendedSkill',
+            name="RecommendedSkill",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('modified_at', models.DateTimeField(auto_now=True)),
-                ('recommended_skill', models.CharField(max_length=128)),
-                ('source_type', models.CharField(choices=[('Job title', 'Job title'), ('Skill', 'Skill')], max_length=128)),
-                ('source_value', models.CharField(max_length=128)),
+                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("modified_at", models.DateTimeField(auto_now=True)),
+                ("recommended_skill", models.CharField(max_length=128)),
+                (
+                    "source_type",
+                    models.CharField(choices=[("Job title", "Job title"), ("Skill", "Skill")], max_length=128),
+                ),
+                ("source_value", models.CharField(max_length=128)),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
         migrations.DeleteModel(
-            name='SkillRecommendation',
+            name="SkillRecommendation",
         ),
         migrations.DeleteModel(
-            name='TitleRecommendation',
+            name="TitleRecommendation",
         ),
     ]

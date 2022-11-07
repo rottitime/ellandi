@@ -308,6 +308,7 @@ class RecommendedSkill(TimeStampedModel):
     class SourceTypes(models.TextChoices):
         JOB_TITLE = ("Job title", "Job title")
         SKILL = ("Skill", "Skill")
+
     recommended_skill = models.CharField(max_length=128)
     source_type = models.CharField(max_length=128, choices=SourceTypes.choices)
     source_value = models.CharField(max_length=128)
