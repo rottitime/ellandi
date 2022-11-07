@@ -61,14 +61,14 @@ const LanguagesReport = () => {
         <>
           <div className="main-filters">
             <Select
-              defaultValue={filters?.languages?.split(',') || []}
+              defaultValue={filters?.languages || []}
               label="Select languages(s)"
               data={languages}
               sx={{ width: 314 }}
               onChange={(e) => {
                 setFilters((p) => ({
                   ...p,
-                  languages: (e.target.value as string[]).join(',')
+                  languages: e.target.value as string[]
                 }))
               }}
               fullWidth={false}

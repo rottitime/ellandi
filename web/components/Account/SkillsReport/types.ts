@@ -4,12 +4,12 @@ import { AllColors } from '@/style/types'
 import { ComponentProps } from 'react'
 
 export type FiltersType = {
-  skills?: string
+  skills?: string[]
   users?: string
-  professions?: string
-  functions?: string
-  grades?: string
-  business_unit?: string
+  professions?: string[]
+  functions?: string[]
+  grades?: string[]
+  business_unit?: string[]
 }
 
 export type Props = ComponentProps<typeof AccountCard>

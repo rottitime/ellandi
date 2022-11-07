@@ -123,14 +123,14 @@ const SkillsReport: FC<Props> = (props) => {
           <>
             <div className="main-filters">
               <Select
-                defaultValue={filters?.skills?.split(',') || []}
+                defaultValue={filters?.skills || []}
                 label="Select skill(s)"
                 data={skills}
                 sx={{ width: 314 }}
                 onChange={(e) => {
                   setFilters((p) => ({
                     ...p,
-                    skills: (e.target.value as string[]).join(',')
+                    skills: e.target.value as string[]
                   }))
                 }}
                 fullWidth={false}
@@ -172,48 +172,48 @@ const SkillsReport: FC<Props> = (props) => {
             <div className="filters">
               <Select
                 label="Select profession(s)"
-                defaultValue={filters?.professions?.split(',') || []}
+                defaultValue={filters?.professions || []}
                 data={asStringList(professions)}
                 onChange={(e) => {
                   setFilters((p) => ({
                     ...p,
-                    professions: (e.target.value as string[]).join(',')
+                    professions: e.target.value as string[]
                   }))
                 }}
                 checkboxes
               />
               <Select
                 label="Select function(s)"
-                defaultValue={filters?.functions?.split(',') || []}
+                defaultValue={filters?.functions || []}
                 data={asStringList(functions)}
                 onChange={(e) => {
                   setFilters((p) => ({
                     ...p,
-                    functions: (e.target.value as string[]).join(',')
+                    functions: e.target.value as string[]
                   }))
                 }}
                 checkboxes
               />
               <Select
                 label="Select grade(s)"
-                defaultValue={filters?.grades?.split(',') || []}
+                defaultValue={filters?.grades || []}
                 data={asStringList(grades)}
                 onChange={(e) =>
                   setFilters((p) => ({
                     ...p,
-                    grades: (e.target.value as string[]).join(',')
+                    grades: e.target.value as string[]
                   }))
                 }
                 checkboxes
               />
               <Select
                 label="Select business unit(s)"
-                defaultValue={filters?.business_unit?.split(',') || []}
+                defaultValue={filters?.business_unit || []}
                 data={asStringList(businessUnits)}
                 onChange={(e) =>
                   setFilters((p) => ({
                     ...p,
-                    business_unit: (e.target.value as string[]).join(',')
+                    business_unit: e.target.value as string[]
                   }))
                 }
                 checkboxes
