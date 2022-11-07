@@ -54,7 +54,7 @@ const userOptions: UserOptions = [
 
 const SkillsReport: FC<Props> = (props) => {
   const { authFetch } = useAuth()
-  const [filters, setFilters] = useState<FiltersType>({})
+  const [filters, setFilters] = useState<FiltersType>({ users: 'all' })
   const [dialog, setDialog] = useState<ReportSkillsData>(undefined)
 
   const debouncedSearchQuery = useDebounce(filters, 600)
@@ -138,7 +138,7 @@ const SkillsReport: FC<Props> = (props) => {
 
               <RadioGroup
                 row
-                defaultValue={userOptions[0]}
+                defaultValue={filters.users}
                 onChange={(e) =>
                   setFilters((p) => ({
                     ...p,
