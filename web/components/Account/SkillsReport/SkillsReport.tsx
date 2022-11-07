@@ -5,7 +5,13 @@ import DataGrid, { GridColDef } from '@/components/UI/DataGrid/DataGrid'
 import Select from '@/components/UI/Select/Select'
 import SkeletonTable from '@/components/UI/Skeleton/TableSkeleton'
 import useAuth from '@/hooks/useAuth'
-import { fetchReportSkills, MeReportSkills, Query, ReportSkillsData } from '@/service/api'
+import {
+  fetchReportSkills,
+  fetchSkills,
+  MeReportSkills,
+  Query,
+  ReportSkillsData
+} from '@/service/api'
 import {
   Box,
   FormControlLabel,
@@ -59,6 +65,12 @@ const SkillsReport: FC<Props> = (props) => {
 
   const debouncedSearchQuery = useDebounce(filters, 600)
 
+  const { isSuccess: isSuccessSkills, data: skillsList } = useQuery<string[], Error>(
+    Query.Skills,
+    fetchSkills,
+    { staleTime: Infinity }
+  )
+
   const { isLoading, data, isFetching } = useQuery<MeReportSkills>(
     [Query.ReportSkills, debouncedSearchQuery],
     () => authFetch(fetchReportSkills, debouncedSearchQuery),
@@ -71,8 +83,8 @@ const SkillsReport: FC<Props> = (props) => {
   const onClose = () => setDialog(null)
 
   const skills: string[] = useMemo(
-    () => (!data?.data ? [] : data.data.map(({ name }) => name).sort()),
-    [data?.data]
+    () => (isSuccessSkills ? skillsList.sort() : []),
+    [isSuccessSkills, skillsList]
   )
 
   const chartValues: ChartValues[] = !!dialog
@@ -122,6 +134,7 @@ const SkillsReport: FC<Props> = (props) => {
           <>
             <div className="main-filters">
               <Select
+                disabled={!isSuccessSkills}
                 defaultValue={filters?.skills || []}
                 label="Select skill(s)"
                 data={skills}
