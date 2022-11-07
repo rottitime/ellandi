@@ -8,7 +8,7 @@ from ellandi.registration.models import (
     UserSkill,
     UserSkillDevelop,
 )
-from ellandi.reporting import LANGUAGE_LEVELS_SKILLED, SKILL_LEVELS
+from ellandi.reporting import LANGUAGE_LEVELS_SKILLED, SKILL_LEVELS, format_perc_label, create_proportions_data_dict
 
 SKILLS_ENDPOINT = "/api/me/reports/skills/"
 LANGUAGES_ENDPOINT = "/api/me/reports/languages/"
@@ -98,6 +98,24 @@ def teardown_users_skills():
         User.objects.get(email=email).delete()
 
 
+def test_formate_perc_label():
+    assert format_perc_label(56, 98.55) == "56 (99%)"
+
+
+def test_create_proportions_data_dict():
+    name = "Test me"
+    numerator = 47
+    denominator = 88
+    actual = create_proportions_data_dict(name, numerator, denominator)
+    expected = {
+        "name": "Test me",
+        "total_label": "47 (53%)",
+        "total_value_total": 47,
+        "total_value_percentage": 53
+    }
+    assert actual == expected
+
+
 @utils.with_logged_in_admin_client
 def test_get_report_skills(client, user_id):
     response = client.get(SKILLS_ENDPOINT)
@@ -182,7 +200,7 @@ def test_get_report_skills_business_unit(client, user_id):
     assert len(result["data"]) == 2
     assert result["data"][0]["total_users"] == 10
     assert result["data"][1]["total_users"] == 10
-    endpoint = f"{SKILLS_ENDPOINT}?functions=Analysis&grades=Grade%206&business_units=i.AI,CDIO"
+    endpoint = f"{SKILLS_ENDPOINT}?functions=Analysis&grades=Grade%206%20Equivalent&business_units=i.AI,CDIO"
     response = client.get(endpoint)
     assert response.status_code == status.HTTP_200_OK
     result = response.json()
@@ -320,7 +338,7 @@ def test_get_responsibilities(client, user_id):
     assert line_manager_data["total_value_total"] == 4
     assert mentor_data["total_value_percentage"] == 27
     response = client.get(f"{RESPONSIBILITIES_ENDPOINT}?format=csv")
-    assert response.status == status.HTTP_200_OK
+    assert response.status_code == status.HTTP_200_OK
 
 
 @utils.with_logged_in_admin_client
@@ -337,4 +355,4 @@ def test_get_grades(client, user_id):
     assert grade_6_data["total_value_total"] == 5
     assert other_data["total_label"] == "0 (0%)"
     response = client.get(f"{GRADES_ENDPOINT}?format=csv")
-    assert response.status == status.HTTP_200_OK
+    assert response.status_code == status.HTTP_200_OK
