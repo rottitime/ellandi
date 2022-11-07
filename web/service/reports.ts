@@ -1,4 +1,3 @@
-import { MeReporGrade, MeReporResponsibility } from './types'
 import { defaultError } from '@/service/auth'
 import { createUrl } from '@/lib/url-utils'
 import getConfig from 'next/config'

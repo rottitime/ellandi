@@ -12,7 +12,6 @@ import {
   SimpleLabelValueData
 } from '@/service/api'
 import { useQuery } from 'react-query'
-import TotalRow from './TotalRow'
 
 const StaffReport = () => {
   const { authFetch } = useAuth()
@@ -29,10 +28,6 @@ const StaffReport = () => {
     () => authFetch(fetchReportGrade),
     { staleTime: Infinity }
   )
-
-  const total = !!dataResponsibility?.data
-    ? dataResponsibility.data.reduce((p, c) => p + c.total_value_total, 0)
-    : 0
 
   return (
     <>
