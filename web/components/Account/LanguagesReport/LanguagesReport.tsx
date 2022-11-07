@@ -11,9 +11,11 @@ import {
   ReportLanguagesData
 } from '@/service/api'
 import { FormControlLabel, Radio, RadioGroup, styled, Typography } from '@mui/material'
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { useQuery } from 'react-query'
 import { FiltersType } from './types'
+import languages from '@/prefetch/languages.json'
+import { asStringList } from '@/lib/data-utils'
 
 const Card = styled(AccountCard)`
   .main-filters {
@@ -46,11 +48,6 @@ const LanguagesReport = () => {
     }
   )
 
-  const languages: string[] = useMemo(
-    () => (!data?.data ? [] : data.data.map(({ name }) => name).sort()),
-    [data?.data]
-  )
-
   return (
     <Card>
       <Typography variant="h2" gutterBottom>
@@ -65,7 +62,7 @@ const LanguagesReport = () => {
               disabled={!languages.length}
               defaultValue={filters?.languages || []}
               label="Select languages(s)"
-              data={languages}
+              data={asStringList(languages)}
               sx={{ width: 314 }}
               onChange={(e) => {
                 setFilters((p) => ({
@@ -129,7 +126,8 @@ const columns: GridColDef<ReportLanguagesData>[] = [
     disableColumnMenu: true,
     resizable: false,
     renderCell: ({ row }) => <Chip label={row.basic_label} />,
-    flex: 1
+    flex: 1,
+    maxWidth: 204
   },
   {
     field: 'independent_value_percentage',
@@ -137,7 +135,8 @@ const columns: GridColDef<ReportLanguagesData>[] = [
     disableColumnMenu: true,
     resizable: false,
     renderCell: ({ row }) => <Chip label={row.independent_label} />,
-    flex: 1
+    flex: 1,
+    maxWidth: 204
   },
   {
     field: 'proficient_value_percentage',
@@ -145,7 +144,8 @@ const columns: GridColDef<ReportLanguagesData>[] = [
     disableColumnMenu: true,
     resizable: false,
     renderCell: ({ row }) => <Chip label={row.proficient_label} />,
-    flex: 1
+    flex: 1,
+    maxWidth: 204
   },
   {
     field: 'native_value_percentage',
@@ -153,6 +153,7 @@ const columns: GridColDef<ReportLanguagesData>[] = [
     disableColumnMenu: true,
     resizable: false,
     renderCell: ({ row }) => <Chip label={row.native_label} />,
-    flex: 1
+    flex: 1,
+    maxWidth: 204
   }
 ]
