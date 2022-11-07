@@ -92,7 +92,7 @@ def return_all_title_recommendations(user_skills, job_embeddings):
     The model assumes no skill ratings are provided (and defaults to each having a score of 1)
     """
     min_unique_job_count = 3
-    skill_count = 5
+    returned_skill_count = 10
 
     job_in_db = list(models.get_common_jobs())
     nlp_jobs = models.return_nlp_user_skills()
@@ -104,12 +104,18 @@ def return_all_title_recommendations(user_skills, job_embeddings):
     else:
         combined_meaningful_job_list = unique_nlp_jobs
 
-    job_embeddings = job_embeddings[job_embeddings.index.isin(combined_meaningful_job_list)].copy()
-
     long_skills = user_skills[["user_id", "skill_name", "rating"]]
 
+    skill_count = long_skills[['user_id', 'skill_name']].groupby('skill_name').count().reset_index()
+
+    popular_skills = skill_count[skill_count['user_id'] > 2]['skill_name'].to_list()
+
+    common_skill_df = long_skills[long_skills['skill_name'].isin(popular_skills)].copy()
+
+    job_embeddings = job_embeddings[(job_embeddings.index.isin(combined_meaningful_job_list))].copy()
+
     sparse_df = (
-        long_skills.groupby(["user_id", "skill_name"])["rating"].sum().astype("Sparse[int]").unstack(fill_value=0)
+        common_skill_df.groupby(["user_id", "skill_name"])["rating"].sum().astype("Sparse[int]").unstack(fill_value=0)
     )
 
     all_df = []
@@ -141,7 +147,7 @@ def return_all_title_recommendations(user_skills, job_embeddings):
         )
         similar_skill_dist = comparison_df.corr()["distance"].sort_values()
 
-        returned_skills = list(similar_skill_dist.iloc[0:skill_count].index)
+        returned_skills = list(similar_skill_dist.iloc[0:returned_skill_count].index)
         skill_df = pd.DataFrame(returned_skills)
         skill_df.columns = ["recommended_skill"]
         skill_df["job_title"] = current_title
