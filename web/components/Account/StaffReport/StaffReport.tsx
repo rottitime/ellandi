@@ -1,9 +1,12 @@
 import Chip from '@/components/Chip/Chip'
+import Button from '@/components/UI/Button/Button'
 import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
 import DataGrid, { GridColDef } from '@/components/UI/DataGrid/DataGrid'
 import SkeletonTable from '@/components/UI/Skeleton/TableSkeleton'
 import useAuth from '@/hooks/useAuth'
+import { csvDownload } from '@/lib/data-utils'
 import {
+  exportReportResponsibility,
   fetchReportGrade,
   fetchReportResponsibility,
   MeReporResponsibility,
@@ -11,10 +14,12 @@ import {
   Query,
   SimpleLabelValueData
 } from '@/service/api'
+import { useState } from 'react'
 import { useQuery } from 'react-query'
 
 const StaffReport = () => {
   const { authFetch } = useAuth()
+  const [exportLoading, setExportLoading] = useState(false)
 
   const { isLoading: isLoadingResponsibility, data: dataResponsibility } =
     useQuery<MeReporResponsibility>(
@@ -35,13 +40,28 @@ const StaffReport = () => {
         {isLoadingResponsibility ? (
           <SkeletonTable columns={3} rows={2} />
         ) : (
-          <DataGrid
-            pageSize={10}
-            columns={columnsResponsibility}
-            rows={dataResponsibility?.data || []}
-            getRowId={(row) => row.name}
-            autoHeight
-          />
+          <>
+            <Button
+              color="primary"
+              className="export"
+              loading={exportLoading}
+              onClick={async () => {
+                setExportLoading(true)
+                const data = await authFetch(exportReportResponsibility, {})
+                csvDownload(data, 'responsibility')
+                setExportLoading(false)
+              }}
+            >
+              Export
+            </Button>
+            <DataGrid
+              pageSize={10}
+              columns={columnsResponsibility}
+              rows={dataResponsibility?.data || []}
+              getRowId={(row) => row.name}
+              autoHeight
+            />
+          </>
         )}
       </AccountCard>
       <AccountCard>

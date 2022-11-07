@@ -37,13 +37,14 @@ export const exportReportSkills = async (token, params) => {
 }
 
 export const exportReportLanguages = async (token, params) => {
-  const res = await api(token, urls.skills, { ...params, format: 'csv' })
+  const res = await api(token, urls.languages, { ...params, format: 'csv' })
   return res.text()
 }
 
-// export const exportReportSkills = (params): string => exportFormat(urls.skills, params)
-export const exportReportResponsibility = (params): string =>
-  exportFormat(urls.responsibility, params)
+export const exportReportResponsibility = async (token, params) => {
+  const res = await api(token, urls.responsibility, { ...params, format: 'csv' })
+  return res.text()
+}
 
 const exportFormat = (path, params): string =>
   createUrl(`${publicRuntimeConfig.apiUrl}${path}`, params)
