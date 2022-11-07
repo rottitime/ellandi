@@ -4,7 +4,6 @@ import DataGrid, { GridColDef } from '@/components/UI/DataGrid/DataGrid'
 import SkeletonTable from '@/components/UI/Skeleton/TableSkeleton'
 import useAuth from '@/hooks/useAuth'
 import {
-  exportReportSkills,
   fetchReportGrade,
   fetchReportResponsibility,
   MeReporResponsibility,
@@ -12,22 +11,23 @@ import {
   Query,
   SimpleLabelValueData
 } from '@/service/api'
-import { Box } from '@mui/material'
 import { useQuery } from 'react-query'
-import SplitButton from '@/components/UI/SplitButton/SplitButton'
 import TotalRow from './TotalRow'
 
 const StaffReport = () => {
   const { authFetch } = useAuth()
 
   const { isLoading: isLoadingResponsibility, data: dataResponsibility } =
-    useQuery<MeReporResponsibility>(Query.ReportResponsibility, () =>
-      authFetch(fetchReportResponsibility)
+    useQuery<MeReporResponsibility>(
+      Query.ReportResponsibility,
+      () => authFetch(fetchReportResponsibility),
+      { staleTime: Infinity }
     )
 
   const { isLoading: isLoadingGrade, data: dataGrade } = useQuery<MeReportSkills>(
     Query.ReportGrade,
-    () => authFetch(fetchReportGrade)
+    () => authFetch(fetchReportGrade),
+    { staleTime: Infinity }
   )
 
   const total = !!dataResponsibility?.data
@@ -38,41 +38,29 @@ const StaffReport = () => {
     <>
       <AccountCard sx={{ mb: 4 }}>
         {isLoadingResponsibility ? (
-          <SkeletonTable columns={3} rows={3} />
+          <SkeletonTable columns={3} rows={2} />
         ) : (
-          <>
-            <Box sx={{ mb: 4, textAlign: 'right' }}>
-              <SplitButton
-                label="Export"
-                options={['CSV', 'Excel', 'PDF']}
-                onSelected={(_, option) => {
-                  const url = exportReportSkills({ format: option.toLowerCase() })
-                  window.open(url)
-                }}
-              />
-            </Box>
-            <DataGrid
-              pageSize={10}
-              columns={columns}
-              rows={dataResponsibility.data}
-              getRowId={(row) => row.name}
-              autoHeight
-              components={{ Footer: TotalRow }}
-              componentsProps={{
-                footer: { total }
-              }}
-            />
-          </>
+          <DataGrid
+            pageSize={10}
+            columns={columnsResponsibility}
+            rows={dataResponsibility?.data || []}
+            getRowId={(row) => row.name}
+            autoHeight
+            components={{ Footer: TotalRow }}
+            componentsProps={{
+              footer: { total }
+            }}
+          />
         )}
       </AccountCard>
       <AccountCard>
         {isLoadingGrade ? (
-          <SkeletonTable columns={3} rows={10} />
+          <SkeletonTable columns={3} rows={4} />
         ) : (
           <DataGrid
             pageSize={10}
-            columns={columns}
-            rows={dataGrade.data}
+            columns={columnsGrade}
+            rows={dataGrade?.data || []}
             getRowId={(row) => row.name}
             autoHeight
           />
@@ -84,10 +72,32 @@ const StaffReport = () => {
 
 export default StaffReport
 
-const columns: GridColDef<SimpleLabelValueData>[] = [
+const columnsResponsibility: GridColDef<SimpleLabelValueData>[] = [
   {
     field: 'name',
     headerName: 'Responsibility',
+    disableColumnMenu: true,
+    resizable: false,
+    renderCell: ({ formattedValue }) => formattedValue,
+    flex: 1
+  },
+  {
+    field: 'total_value_percentage',
+    headerName: 'Total (%)',
+    disableColumnMenu: true,
+    resizable: false,
+    align: 'right',
+    headerAlign: 'right',
+    renderCell: ({ formattedValue, row }) =>
+      formattedValue && <Chip label={row.total_label} />,
+    flex: 1
+  }
+]
+
+const columnsGrade: GridColDef<SimpleLabelValueData>[] = [
+  {
+    field: 'name',
+    headerName: 'Grade',
     disableColumnMenu: true,
     resizable: false,
     renderCell: ({ formattedValue }) => formattedValue,

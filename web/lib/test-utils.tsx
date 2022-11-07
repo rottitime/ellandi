@@ -324,3 +324,19 @@ export const mockSuggested: MeSuggestedSkillsResponse = [
 //       } as ReportLanguagesData)
 //   )
 // }
+
+//   data: [...Array(3).keys()].map((i) => ({
+//     name: `User ${i}`,
+//     total_label: `${i} (${i}%)`,
+//     total_value_total: i,
+//     total_value_percentage: i
+//   }))
+// } as MeReporResponsibility)
+
+//   data: [...Array(20).keys()].map((i) => ({
+//     name: `User ${i}`,
+//     total_label: `${i} (${i}%)`,
+//     total_value_total: i,
+//     total_value_percentage: i
+//   }))
+// } as MeReporGrade

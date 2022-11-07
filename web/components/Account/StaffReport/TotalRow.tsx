@@ -13,13 +13,14 @@ const Total = styled(Box)`
   align-items: center;
 `
 
-const TotalRow: FC<TotalRowProps> = ({ total }) => (
-  <Total>
-    <Typography variant="h3" component="p">
-      Total users
-    </Typography>
-    <Chip label={total} brandColor="black" />
-  </Total>
-)
+const TotalRow: FC<TotalRowProps> = ({ total }) =>
+  !!total ? (
+    <Total>
+      <Typography variant="h3" component="p">
+        Total users
+      </Typography>
+      <Chip label={total} brandColor="black" />
+    </Total>
+  ) : null
 
 export default TotalRow

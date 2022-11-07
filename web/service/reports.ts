@@ -23,29 +23,13 @@ export const fetchReportLanguages = async (token: string, params) => {
 }
 
 export const fetchReportResponsibility = async (token: string) => {
-  // const res = await api(token, urls.responsibility)
-  // return res.json()
-  return Promise.resolve({
-    data: [...Array(3).keys()].map((i) => ({
-      name: `User ${i}`,
-      total_label: `${i} (${i}%)`,
-      total_value_total: i,
-      total_value_percentage: i
-    }))
-  } as MeReporResponsibility)
+  const res = await api(token, urls.responsibility)
+  return res.json()
 }
 
 export const fetchReportGrade = async (token: string) => {
-  // const res = await api(token, urls.grade)
-  // return res.json()
-  return Promise.resolve({
-    data: [...Array(20).keys()].map((i) => ({
-      name: `User ${i}`,
-      total_label: `${i} (${i}%)`,
-      total_value_total: i,
-      total_value_percentage: i
-    }))
-  } as MeReporGrade)
+  const res = await api(token, urls.grade)
+  return res.json()
 }
 
 export const exportReportSkills = (params): string => exportFormat(urls.skills, params)
