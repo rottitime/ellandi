@@ -228,6 +228,11 @@ const SkillsReport: FC<Props> = (props) => {
               headerHeight={80}
               autoHeight
               loading={isFetching}
+              initialState={{
+                sorting: {
+                  sortModel: [{ field: 'skill_value_total', sort: 'desc' }]
+                }
+              }}
             />
           </>
         )}
@@ -283,7 +288,7 @@ const columns: GridColDef<ReportSkillsData>[] = [
     flex: 1
   },
   {
-    field: 'skill_value_percentage',
+    field: 'skill_value_total',
     headerName: 'Total with skill (%)',
     disableColumnMenu: true,
     resizable: false,
@@ -292,7 +297,7 @@ const columns: GridColDef<ReportSkillsData>[] = [
     maxWidth: 286
   },
   {
-    field: 'skills_develop_value_percentage',
+    field: 'skills_develop_value_total',
     headerName: 'Total with skill they would like to develop (%)',
     disableColumnMenu: true,
     resizable: false,
