@@ -14,6 +14,7 @@ import {
   Query,
   SimpleLabelValueData
 } from '@/service/api'
+import { Box } from '@mui/material'
 import { useState } from 'react'
 import { useQuery } from 'react-query'
 
@@ -41,19 +42,21 @@ const StaffReport = () => {
           <SkeletonTable columns={3} rows={2} />
         ) : (
           <>
-            <Button
-              color="primary"
-              className="export"
-              loading={exportLoading}
-              onClick={async () => {
-                setExportLoading(true)
-                const data = await authFetch(exportReportResponsibility, {})
-                csvDownload(data, 'responsibility')
-                setExportLoading(false)
-              }}
-            >
-              Export
-            </Button>
+            <Box sx={{ textAlign: 'right' }}>
+              <Button
+                color="primary"
+                className="export"
+                loading={exportLoading}
+                onClick={async () => {
+                  setExportLoading(true)
+                  const data = await authFetch(exportReportResponsibility, {})
+                  csvDownload(data, 'responsibility')
+                  setExportLoading(false)
+                }}
+              >
+                Export
+              </Button>
+            </Box>
             <DataGrid
               pageSize={10}
               columns={columnsResponsibility}
