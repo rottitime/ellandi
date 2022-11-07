@@ -640,7 +640,8 @@ def skill_recommender(request, skill_name):
 @decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
 def me_recommend_job_relevant_skills(request):
-    similar_title_skills = recommend_title_from_db(request.user.job_title)
+    job_title = request.user.job_title
+    similar_title_skills = recommend_title_from_db(job_title)
     return Response(data=similar_title_skills, status=status.HTTP_200_OK)
 
 
