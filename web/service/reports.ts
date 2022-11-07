@@ -46,9 +46,6 @@ export const exportReportResponsibility = async (token, params) => {
   return res.text()
 }
 
-const exportFormat = (path, params): string =>
-  createUrl(`${publicRuntimeConfig.apiUrl}${path}`, params)
-
 const api = async (
   token: string,
   path: RequestInfo | URL,
