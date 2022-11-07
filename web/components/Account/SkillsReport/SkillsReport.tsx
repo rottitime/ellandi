@@ -14,14 +14,14 @@ import {
   styled,
   Typography
 } from '@mui/material'
-import { FC, useMemo, useState } from 'react'
+import { ComponentProps, FC, useMemo, useState } from 'react'
 import { useQuery } from 'react-query'
 import functions from '@/prefetch/functions.json'
 import professions from '@/prefetch/professions.json'
 import grades from '@/prefetch/grades.json'
 import businessUnits from '@/prefetch/business-units.json'
 import { asStringList } from '@/lib/data-utils'
-import { ChartValues, FiltersType, Props } from './types'
+import { ChartValues, FiltersType, Props, UserOptions } from './types'
 import useDebounce from '@/hooks/useDebounce'
 import SimpleTable from '@/components/UI/SimpleTable/SimpleTable'
 import Chart from '@/components/UI/Chart/Chart'
@@ -46,7 +46,11 @@ const Pane = styled(Box)`
   display: flex;
 `
 
-const userOptions = ['All', 'Line managers', 'Mentors']
+const userOptions: UserOptions = [
+  { label: 'All', value: 'all' },
+  { label: 'Line managers', value: 'line_managers' },
+  { label: 'Mentors', value: 'mentors' }
+]
 
 const SkillsReport: FC<Props> = (props) => {
   const { authFetch } = useAuth()
@@ -143,12 +147,11 @@ const SkillsReport: FC<Props> = (props) => {
                   }))
                 }
               >
-                {userOptions.map((option) => (
+                {userOptions.map((options) => (
                   <FormControlLabel
-                    value={option}
+                    {...options}
                     control={<Radio />}
-                    label={option}
-                    key={option}
+                    key={options.value as string}
                   />
                 ))}
               </RadioGroup>
