@@ -62,10 +62,13 @@ const SkillsReport: FC<Props> = (props) => {
 
   const debouncedSearchQuery = useDebounce(filters, 600)
 
-  const { isLoading, data } = useQuery<MeReportSkills>(
+  const { isLoading, data, isFetching } = useQuery<MeReportSkills>(
     [Query.ReportSkills, debouncedSearchQuery],
     () => authFetch(fetchReportSkills, debouncedSearchQuery),
-    { keepPreviousData: true }
+    {
+      staleTime: Infinity,
+      keepPreviousData: true
+    }
   )
 
   const onClose = () => setDialog(null)
@@ -79,31 +82,31 @@ const SkillsReport: FC<Props> = (props) => {
     ? [
         {
           label: 'Beginner',
-          valuePercentage: 19,
+          valuePercentage: 'beginner_value_percentage',
           valueLabel: 'beginner_label',
           color: 'teal'
         },
         {
           label: 'Advanced beginner',
-          valuePercentage: 14,
+          valuePercentage: 'advanced_beginner_value_percentage',
           valueLabel: 'advanced_beginner_label',
           color: 'black'
         },
         {
           label: 'Competent',
-          valuePercentage: 40,
+          valuePercentage: 'competent_value_percentage',
           valueLabel: 'competent_label',
           color: 'green2'
         },
         {
           label: 'Proficient',
-          valuePercentage: 25,
+          valuePercentage: 'proficient_value_percentage',
           valueLabel: 'proficient_label',
           color: 'grey1'
         },
         {
           label: 'Expert',
-          valuePercentage: 2,
+          valuePercentage: 'expert_value_percentage',
           valueLabel: 'expert_label',
           color: 'grey3'
         }
@@ -118,7 +121,7 @@ const SkillsReport: FC<Props> = (props) => {
           Skills data
         </Typography>
         {isLoading ? (
-          <SkeletonTable columns={3} rows={10} />
+          <SkeletonTable columns={3} rows={5} />
         ) : (
           <>
             <div className="main-filters">
@@ -159,7 +162,7 @@ const SkillsReport: FC<Props> = (props) => {
 
               <SplitButton
                 label="Export"
-                options={['CSV', 'Excel', 'PDF']}
+                options={['CSV']}
                 onSelected={(_, option) => {
                   const url = exportReportSkills({
                     ...filters,
@@ -224,9 +227,11 @@ const SkillsReport: FC<Props> = (props) => {
               pageSize={10}
               columns={columns}
               onRowClick={({ row }) => setDialog(row)}
-              rows={data.data}
+              rows={data?.data || []}
               getRowId={(row) => row.name}
+              headerHeight={80}
               autoHeight
+              loading={isFetching}
             />
           </>
         )}
@@ -245,7 +250,7 @@ const SkillsReport: FC<Props> = (props) => {
                 data={{
                   columns: chartValues.map(({ label, valuePercentage }) => [
                     label,
-                    valuePercentage
+                    dialog[valuePercentage]
                   ]),
                   type: 'pie'
                 }}
@@ -286,17 +291,17 @@ const columns: GridColDef<ReportSkillsData>[] = [
     headerName: 'Total with skill (%)',
     disableColumnMenu: true,
     resizable: false,
-    renderCell: ({ formattedValue, row }) =>
-      formattedValue && <Chip label={row.skill_label} />,
-    flex: 1
+    renderCell: ({ row }) => <Chip label={row.skill_label} />,
+    flex: 1,
+    maxWidth: 286
   },
   {
     field: 'skills_develop_value_percentage',
     headerName: 'Total with skill they would like to develop (%)',
     disableColumnMenu: true,
     resizable: false,
-    renderCell: ({ formattedValue, row }) =>
-      formattedValue && <Chip label={row.skills_develop_label} />,
-    flex: 1
+    renderCell: ({ row }) => <Chip label={row.skill_develop_label} />,
+    flex: 1,
+    maxWidth: 286
   }
 ]

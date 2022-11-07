@@ -18,12 +18,12 @@ describe('createIdFromHref()', () => {
 
 describe('createUrl()', () => {
   it('returns url with querystring', () => {
-    expect(createUrl('path', { food: 'pizza', fruit: 'apple' })).toEqual(
-      'http://myapppath?food=pizza&fruit=apple'
+    expect(createUrl('/path', { food: 'pizza', fruit: 'apple' })).toEqual(
+      '/path?food=pizza&fruit=apple'
     )
 
-    expect(createUrl('path', { food: ['pizza', 'chips'], fruit: 'apple' })).toEqual(
-      'http://myapppath?food=pizza%2Cchips&fruit=apple'
+    expect(createUrl('/path', { food: ['pizza', 'chips'], fruit: 'apple' })).toEqual(
+      '/path?food=pizza%2Cchips&fruit=apple'
     )
   })
 })

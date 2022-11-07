@@ -17,6 +17,6 @@ export type Props = ComponentProps<typeof AccountCard>
 export type ChartValues = {
   label: string
   valueLabel: keyof ReportSkillsData
-  valuePercentage: number
+  valuePercentage: keyof ReportSkillsData
   color: AllColors
 }

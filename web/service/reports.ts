@@ -8,23 +8,24 @@ import {
 } from './types'
 import { defaultError } from '@/service/auth'
 import { createUrl } from '@/lib/url-utils'
+import getConfig from 'next/config'
+const { publicRuntimeConfig } = getConfig()
 
 const urls = {
   skills: '/me/reports/skills/',
   languages: '/me/reports/languages/',
   responsibility: '/me/reports/responsibility/',
-  grade: '/me/reports/grade/'
+  grade: '/me/reports/grade/',
+  learning: '/me/reports/learning/'
 }
 
 export const fetchReportSkills = async (token: string, params) => {
-  // const res = await api(token, urls.skills, {}, params)
-  // return res.json()
+  const res = await api(token, urls.skills, {}, params)
+  return res.json()
   //TODO: change to fetch
-  console.log('fetch', { token, params })
-  return Promise.resolve(skillsData)
+  // console.log('fetch', { token, params })
+  // return Promise.resolve(skillsData)
 }
-
-export const exportReportSkills = (params): string => createUrl(urls.skills, params)
 
 export const fetchReportLanguages = async (token: string) => {
   // const res = await api(token, urls.languages)
@@ -45,9 +46,6 @@ export const fetchReportResponsibility = async (token: string) => {
   } as MeReporResponsibility)
 }
 
-export const exportReportResponsibility = (params): string =>
-  createUrl(urls.responsibility, params)
-
 export const fetchReportGrade = async (token: string) => {
   // const res = await api(token, urls.grade)
   // return res.json()
@@ -61,16 +59,23 @@ export const fetchReportGrade = async (token: string) => {
   } as MeReporGrade)
 }
 
-export const exportReportLanguages = (params): string => createUrl(urls.languages, params)
+export const exportReportSkills = (params): string => exportFormat(urls.skills, params)
+export const exportReportResponsibility = (params): string =>
+  exportFormat(urls.responsibility, params)
+export const exportReportLanguages = (params): string =>
+  exportFormat(urls.languages, params)
+
+const exportFormat = (path, params): string =>
+  createUrl(`${publicRuntimeConfig.apiUrl}${path}`, params)
 
 const api = async (
   token: string,
-  url: RequestInfo | URL,
+  path: RequestInfo | URL,
   init?: RequestInit,
   params?: URLSearchParams
 ): Promise<Response> => {
-  const apiUrl = createUrl(url, params)
-  const res: Response = await fetch(createUrl(apiUrl, params), {
+  const apiUrl = createUrl(`${publicRuntimeConfig.apiUrl}${path}`, params)
+  const res: Response = await fetch(apiUrl, {
     ...init,
     headers: { ...init.headers, Authorization: `Token ${token}` }
   })
@@ -80,36 +85,6 @@ const api = async (
     if (detail) throw new Error(detail)
   } catch (e) {}
   throw new Error(defaultError)
-}
-
-//TODO: Delete this
-const skillsData: MeReportSkills = {
-  page: 1,
-  per_page: 10,
-  total: 100,
-  total_pages: 10,
-  data: [...Array(100).keys()].map(
-    (i) =>
-      ({
-        name: `Skill ${i}`,
-        skill_label: `${i} (${i}%)`,
-        skill_value_total: i,
-        skill_value_percentage: i,
-        skills_develop_label: `${i} (${i}%)`,
-        skills_develop_value_total: i,
-        skills_develop_value_percentage: i,
-        beginner_label: `${i} (${i}%)`,
-        advanced_beginner_label: `${i} (${i}%)`,
-        competent_label: `${i} (${i}%)`,
-        proficient_label: `${i} (${i}%)`,
-        expert_label: `${i} (${i}%)`,
-        beginner_value_percentage: i,
-        advanced_beginner_value_percentage: i,
-        competent_value_percentage: i,
-        proficient_value_percentage: i,
-        expert_value_percentage: i
-      } as ReportSkillsData)
-  )
 }
 
 //TODO: Delete this

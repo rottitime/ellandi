@@ -270,3 +270,32 @@ export const mockSuggested: MeSuggestedSkillsResponse = [
   'Noodles',
   'Orange'
 ]
+
+// const mockReportSkills: MeReportSkills = {
+//   page: 1,
+//   per_page: 10,
+//   total: 100,
+//   total_pages: 10,
+//   data: [...Array(100).keys()].map(
+//     (i) =>
+//       ({
+//         name: `Skill ${i}`,
+//         skill_label: `${i} (${i}%)`,
+//         skill_value_total: i,
+//         skill_value_percentage: i,
+//         skills_develop_label: `${i} (${i}%)`,
+//         skills_develop_value_total: i,
+//         skills_develop_value_percentage: i,
+//         beginner_label: `${i} (${i}%)`,
+//         advanced_beginner_label: `${i} (${i}%)`,
+//         competent_label: `${i} (${i}%)`,
+//         proficient_label: `${i} (${i}%)`,
+//         expert_label: `${i} (${i}%)`,
+//         beginner_value_percentage: i,
+//         advanced_beginner_value_percentage: i,
+//         competent_value_percentage: i,
+//         proficient_value_percentage: i,
+//         expert_value_percentage: i
+//       } as ReportSkillsData)
+//   )
+// }
