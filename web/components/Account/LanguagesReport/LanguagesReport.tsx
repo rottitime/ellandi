@@ -16,6 +16,7 @@ import { useQuery } from 'react-query'
 import { FiltersType } from './types'
 import languages from '@/prefetch/languages.json'
 import { asStringList } from '@/lib/data-utils'
+import useDebounce from '@/hooks/useDebounce'
 
 const Card = styled(AccountCard)`
   .main-filters {
@@ -38,10 +39,11 @@ const userOptions = ['Speaking', 'Writing']
 const LanguagesReport = () => {
   const { authFetch } = useAuth()
   const [filters, setFilters] = useState<FiltersType>({ type: 'speaking' })
+  const debouncedSearchQuery = useDebounce(filters, 600)
 
   const { isLoading, data, isFetching } = useQuery<MeReportLanguages>(
-    [Query.ReportLanguages, filters],
-    () => authFetch(fetchReportLanguages, filters),
+    [Query.ReportLanguages, debouncedSearchQuery],
+    () => authFetch(fetchReportLanguages, debouncedSearchQuery),
     {
       staleTime: Infinity,
       keepPreviousData: true
