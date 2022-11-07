@@ -102,7 +102,6 @@ def get_skills_list_from_params(request):
     skills = request.query_params.get("skills", None)
     if skills:
         return skills.split(",")
-    # return all
     skills_existing = set(UserSkill.objects.all().values_list("name", flat=True))
     skills_dev = set(UserSkillDevelop.objects.all().values_list("name", flat=True))
     skills = list(skills_existing.union(skills_dev))
@@ -250,7 +249,7 @@ class CSVRendererLanguages(CSVRenderer):
 )
 @decorators.api_view(["GET"])
 # TODO - needs to be changed to "reporting permissions" - details TBC
-@decorators.permission_classes((permissions.AllowAny,))  # TODO - change to admin user after testing!
+@decorators.permission_classes((permissions.IsAdminUser,))
 @decorators.renderer_classes(
     (
         renderers.JSONRenderer,
@@ -302,7 +301,7 @@ def report_skills_view(request):
 )
 @decorators.api_view(["GET"])
 # TODO - needs to be changed to "reporting permissions" - details TBC
-@decorators.permission_classes((permissions.AllowAny,))  # TODO - change to admin user after testing!
+@decorators.permission_classes((permissions.IsAdminUser,))  # TODO - change to admin user after testing!
 @decorators.renderer_classes(
     (
         renderers.JSONRenderer,

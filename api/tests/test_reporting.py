@@ -223,13 +223,12 @@ def test_get_report_skills_grades(client, user_id):
     assert result["data"][0]["total_users"] == 10
 
 
-# FIXME - will work once we add reporting permissions
 @utils.with_logged_in_client
 def test_endpoints_require_login(client, user_id):
     endpoints = [SKILLS_ENDPOINT, LANGUAGES_ENDPOINT]
     for endpoint in endpoints:
         response = client.get(endpoint)
-        assert response.status_code == status.HTTP_401_UNAUTHORIZED, response.status_code
+        assert response.status_code == status.HTTP_403_FORBIDDEN
 
 
 @utils.with_logged_in_admin_client
