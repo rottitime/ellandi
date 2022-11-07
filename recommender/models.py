@@ -11,7 +11,7 @@ from sqlalchemy import (
     create_engine,
     func,
 )
-from sqlalchemy.orm import declarative_base, Session
+from sqlalchemy.orm import Session, declarative_base
 from sqlalchemy.sql import select
 from sqlalchemy.sql.expression import join, literal
 

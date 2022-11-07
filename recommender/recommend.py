@@ -106,11 +106,11 @@ def return_all_title_recommendations(user_skills, job_embeddings):
 
     long_skills = user_skills[["user_id", "skill_name", "rating"]]
 
-    skill_count = long_skills[['user_id', 'skill_name']].groupby('skill_name').count().reset_index()
+    skill_count = long_skills[["user_id", "skill_name"]].groupby("skill_name").count().reset_index()
 
-    popular_skills = skill_count[skill_count['user_id'] > 2]['skill_name'].to_list()
+    popular_skills = skill_count[skill_count["user_id"] > 2]["skill_name"].to_list()
 
-    common_skill_df = long_skills[long_skills['skill_name'].isin(popular_skills)].copy()
+    common_skill_df = long_skills[long_skills["skill_name"].isin(popular_skills)].copy()
 
     job_embeddings = job_embeddings[(job_embeddings.index.isin(combined_meaningful_job_list))].copy()
 
