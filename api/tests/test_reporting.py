@@ -223,6 +223,7 @@ def test_get_report_skills_grades(client, user_id):
     assert result["data"][0]["total_users"] == 10
 
 
+# TODO - need to think about permissions for reporting
 @utils.with_logged_in_client
 def test_endpoints_require_login(client, user_id):
     endpoints = [SKILLS_ENDPOINT, LANGUAGES_ENDPOINT]

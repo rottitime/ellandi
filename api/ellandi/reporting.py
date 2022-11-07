@@ -251,7 +251,7 @@ class CSVRendererLanguages(CSVRenderer):
 )
 @decorators.api_view(["GET"])
 # TODO - needs to be changed to "reporting permissions" - details TBC
-@decorators.permission_classes((permissions.IsAdminUser,))
+@decorators.permission_classes((permissions.IsAuthenticated,))
 @decorators.renderer_classes(
     (
         renderers.JSONRenderer,
@@ -303,7 +303,7 @@ def report_skills_view(request):
 )
 @decorators.api_view(["GET"])
 # TODO - needs to be changed to "reporting permissions" - details TBC
-@decorators.permission_classes((permissions.IsAdminUser,))  # TODO - change to admin user after testing!
+@decorators.permission_classes((permissions.IsAuthenticated,))
 @decorators.renderer_classes(
     (
         renderers.JSONRenderer,
