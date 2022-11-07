@@ -79,9 +79,9 @@ def setup_users_skills():
         else:
             user.function = "Digital"
         if i % 2 == 0:
-            user.grade = "Grade 7"
+            user.grade = "Grade 7 Equivalent"
         else:
-            user.grade = "Grade 6"
+            user.grade = "Grade 6 Equivalent"
         if i % 3 == 0:
             user.is_line_manager = "Yes"
         if i % 4 == 0:
@@ -220,7 +220,7 @@ def test_get_report_skills_professions(client, user_id):
 @utils.with_logged_in_admin_client
 @with_setup(setup_users_skills, teardown_users_skills)
 def test_get_report_skills_grades(client, user_id):
-    endpoint = f"{SKILLS_ENDPOINT}?skills=Science,Maths,Writing,AWS&grades=Grade%206,Grade%207&business_units=i.AI"
+    endpoint = f"{SKILLS_ENDPOINT}?skills=Science,Maths,Writing,AWS&grades=Grade%206%20Equivalent,Grade%207%20Equivalent&business_units=i.AI"  # noqa
     response = client.get(endpoint)
     assert response.status_code == status.HTTP_200_OK
     result = response.json()
@@ -325,12 +325,12 @@ def test_get_responsibilities(client, user_id):
 
 @utils.with_logged_in_admin_client
 @with_setup(setup_users_skills, teardown_users_skills)
-def test_get_responsibilities(client, user_id):
+def test_get_grades(client, user_id):
     response = client.get(GRADES_ENDPOINT)
     assert response.status_code == status.HTTP_200_OK
     result = response.json()["data"]
-    grade_7_data = [data for data in result if data["name"] == "Grade 7"][0]
-    grade_6_data = [data for data in result if data["name"] == "Grade 6"][0]
+    grade_7_data = [data for data in result if data["name"] == "Grade 7 Equivalent"][0]
+    grade_6_data = [data for data in result if data["name"] == "Grade 6 Equivalent"][0]
     other_data = [data for data in result if data["name"] == "Other"][0]
     assert grade_7_data["total_label"] == "5 (45%)"
     assert grade_7_data["total_value_percentage"] == 45
