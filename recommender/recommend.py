@@ -161,21 +161,22 @@ def main():
     combined_user_skills = pd.concat([current_db_skills, nlp_skills]).reset_index(drop=True)
     skill_df = combined_user_skills[["user_id", "skill_name", "rating"]].drop_duplicates().reset_index(drop=True)
     all_recommendations = return_all_title_recommendations(combined_user_skills, job_embedding_matrix)
-    all_recommendations.createdAt = datetime.now()
-    all_recommendations.to_sql("registration_titlerecommendation", engine, if_exists="append")
-
+    all_recommendations["created_at"] = datetime.now()
+    all_recommendations["modified_at"] = datetime.now()
+    models.insert_titles((dict(title) for index, title in all_recommendations.iterrows()))
     all_skill_recommendations_list = []
     for unique_skill in tqdm(combined_user_skills["skill_name"].unique()):
         recommended_skills = get_similar_skills(skill_df, unique_skill, skill_similarity_matrix)
 
         recommended_skills = pd.DataFrame(recommended_skills)
-        recommended_skills.columns = ["recommendedSkill"]
-        recommended_skills["createdAt"] = datetime.now()
-        recommended_skills["currentSkill"] = unique_skill
+        recommended_skills.columns = ["recommended_skill"]
+        recommended_skills["created_at"] = datetime.now()
+        recommended_skills["modified_at"] = datetime.now()
+        recommended_skills["current_skill"] = unique_skill
         all_skill_recommendations_list.append(recommended_skills)
 
     combined_recommendations = pd.concat(all_skill_recommendations_list).reset_index(drop=True)
-    combined_recommendations.to_sql("registration_skillrecommendation", engine, if_exists="append")
+    models.insert_skills((dict(skill) for index, skill in combined_recommendations.iterrows()))
 
 
 if __name__ == "__main__":
