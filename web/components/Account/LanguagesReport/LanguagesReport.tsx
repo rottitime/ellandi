@@ -98,12 +98,20 @@ const LanguagesReport = () => {
           </div>
 
           <DataGrid
-            pageSize={10}
+            pageSize={5}
             columns={columns}
             rows={data?.data || []}
             getRowId={(row) => row.name}
             autoHeight
             loading={isFetching}
+            initialState={{
+              sorting: {
+                sortModel: [{ field: 'total_users', sort: 'desc' }]
+              }
+            }}
+            columnVisibilityModel={{
+              total_users: false
+            }}
           />
         </>
       )}
@@ -157,5 +165,10 @@ const columns: GridColDef<ReportLanguagesData>[] = [
     renderCell: ({ row }) => <Chip label={row.native_label} />,
     flex: 1,
     maxWidth: 204
+  },
+  {
+    field: 'total_users',
+    disableColumnMenu: true,
+    resizable: false
   }
 ]

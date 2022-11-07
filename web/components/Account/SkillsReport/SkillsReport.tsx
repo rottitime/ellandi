@@ -230,8 +230,11 @@ const SkillsReport: FC<Props> = (props) => {
               loading={isFetching}
               initialState={{
                 sorting: {
-                  sortModel: [{ field: 'skill_value_total', sort: 'desc' }]
+                  sortModel: [{ field: 'total_users', sort: 'desc' }]
                 }
+              }}
+              columnVisibilityModel={{
+                total_users: false
               }}
             />
           </>
@@ -304,5 +307,10 @@ const columns: GridColDef<ReportSkillsData>[] = [
     renderCell: ({ row }) => <Chip label={row.skill_develop_label} />,
     flex: 1,
     maxWidth: 286
+  },
+  {
+    field: 'total_users',
+    disableColumnMenu: true,
+    resizable: false
   }
 ]
