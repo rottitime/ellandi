@@ -1,4 +1,3 @@
-import pickle
 from datetime import datetime
 
 import models
@@ -6,10 +5,7 @@ import numpy as np
 import pandas as pd
 import scipy
 from sentence_transformers import SentenceTransformer
-from settings_base import db_url
 from sklearn.metrics.pairwise import cosine_similarity
-from sqlalchemy import Float, Integer, create_engine
-from sqlalchemy.orm import sessionmaker
 from tqdm import tqdm
 
 
@@ -161,7 +157,6 @@ def main():
     """Runs the recommendation process"""
     job_embedding_matrix = create_job_embedding_matrix()
     skill_similarity_matrix = make_skill_similarity_matrix()
-    engine = create_engine(db_url)
     current_db_skills = pd.DataFrame(models.get_user_title_skills())
     nlp_skills = models.return_nlp_user_skills()
     combined_user_skills = pd.concat([current_db_skills, nlp_skills]).reset_index(drop=True)

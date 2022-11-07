@@ -1,16 +1,6 @@
 import pandas as pd
 from settings_base import db_url
-from sqlalchemy import (
-    Column,
-    DateTime,
-    Float,
-    Integer,
-    LargeBinary,
-    String,
-    Table,
-    create_engine,
-    func,
-)
+from sqlalchemy import Table, create_engine, func
 from sqlalchemy.orm import Session, declarative_base
 from sqlalchemy.sql import select
 from sqlalchemy.sql.expression import join, literal
