@@ -26,7 +26,7 @@ const GraphDescription = styled(Typography)`
 
 const colorOptions: AllColors[] = ['blue1', 'grey2', 'black']
 
-const LearningDistribution = ({ barData = [], description }: Props) => {
+const LearningDistribution = ({ barData = [], description, titleTip }: Props) => {
   const { colors } = useTheme()
 
   const data = barData.map((item, i) => ({
@@ -38,12 +38,9 @@ const LearningDistribution = ({ barData = [], description }: Props) => {
     <>
       <Typography variant="h2" component="h3" gutterBottom>
         Learning distribution
-        <Tooltip
-          sx={{ p: 0 }}
-          brandColor="brandLearning"
-          title="To get the most out of your learning you should aim for 70% learning
-    on the job, 20% social and 10% formal training"
-        />
+        {titleTip && (
+          <Tooltip sx={{ p: 0 }} brandColor="brandLearning" title={titleTip} />
+        )}
       </Typography>
 
       {description && <Typography>{description}</Typography>}

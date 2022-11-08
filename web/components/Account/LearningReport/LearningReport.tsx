@@ -35,6 +35,7 @@ import useDebounce from '@/hooks/useDebounce'
 import Button from '@/components/UI/Button/Button'
 import SimpleTable from '@/components/UI/SimpleTable/SimpleTable'
 import LearningDistribution from '../LearningDistribution/LearningDistribution'
+import LearningGoalBar from '../LearningGoalBar/LearningGoalBar'
 
 const Card = styled(AccountCard)`
   .main-filters {
@@ -179,7 +180,9 @@ const LanguagesReport = () => {
                 }))}
               />
             </Grid>
-            <Grid item xs={6}></Grid>
+            <Grid item xs={6}>
+              <LearningGoalBar />
+            </Grid>
           </Grid>
 
           <SimpleTable
