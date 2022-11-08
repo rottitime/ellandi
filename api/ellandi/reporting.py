@@ -55,8 +55,11 @@ SKILL_LEVELS = ["Beginner", "Advanced beginner", "Competent", "Proficient", "Exp
 LANGUAGE_LEVELS_SKILLED = ["Basic", "Independent", "Proficient", "Native"]
 LANGUAGE_TYPES = ["speaking", "writing"]
 
+HOURS_IN_WORK_DAY = 7.4
+LEARNING_TARGET_IN_DAYS = 10
+MINUTES_IN_LEARNING_TARGET = LEARNING_TARGET_IN_DAYS*HOURS_IN_WORK_DAY*60
 
-<<<<<<< HEAD
+
 def format_perc_label(number, percentage):
     return f"{number} ({round(percentage)}%)"
 
@@ -70,19 +73,6 @@ def create_proportions_data_dict(name, numerator, denominator):
         "total_value_percentage": round(percentage),
     }
     return output
-=======
-HOURS_IN_WORK_DAY = 7.4
-
-LEARNING_TARGET_IN_DAYS = 10
-
-<<<<<<< HEAD
-MINUTES_IN_LEARNING_TARGET = LEARNING_TARGET_IN_DAYS*HOURS_IN_WORK_DAY*60
-
-
->>>>>>> 713d6aac (add start to learning endpoint)
-=======
-MINUTES_IN_LEARNING_TARGET = LEARNING_TARGET_IN_DAYS * HOURS_IN_WORK_DAY * 60
->>>>>>> 1fbefab4 (blacken)
 
 
 def filter_users_type(request, users_qs):
@@ -163,16 +153,6 @@ def none_to_zero(number):
     if not number:
         number = 0
     return number
-
-
-def get_percentage_for_learning_type(type, learning_qs):
-
-    formal_total = learning_qs.filter(learning_type=type).aggregate(Sum("duration_minutes"))[
-        "duration_minutes__sum"
-    ]
-    formal_total = none_to_zero(formal_tot)
-    perc = total_for_type / total_all * 100
-    return round(perc)
 
 
 def get_skill_data_for_users(users, skill_name):
@@ -462,7 +442,7 @@ def staff_overview_view(request):
 
 
 def get_start_financial_year():
-    # TODO - does financial year start 1st Apr or 6th Apr
+    # TODO - assumed financial year starts 1st Apr - check
     today = datetime.date.today()
     year = today.year
     if today.month < 4:
