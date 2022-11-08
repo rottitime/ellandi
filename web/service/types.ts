@@ -20,7 +20,8 @@ export enum Query {
   ReportSkills = 'ReportSkills',
   ReportLanguages = 'ReportLanguages',
   ReportResponsibility = 'ReportResponsibility',
-  ReportGrade = 'ReportGrade'
+  ReportGrade = 'ReportGrade',
+  ReportLearning = 'ReportLearning'
 }
 
 export type GenericDataList = {
@@ -280,4 +281,17 @@ export type MeReporResponsibility = {
 
 export type MeReporGrade = {
   data: SimpleLabelValueData[]
+}
+
+export type ReportDistributionData = {
+  name: string
+  value_percentage: number
+}
+
+export type MeReporLearning = {
+  course_average_cost_label: string
+  course_total_cost_label: string
+  goal_value_days: number
+  goal_value_percentage: number
+  distribution: ReportDistributionData[]
 }

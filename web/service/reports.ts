@@ -31,6 +31,11 @@ export const fetchReportGrade = async (token: string) => {
   return res
 }
 
+export const fetchReportLearning = async (token: string) => {
+  const res = await api(token, urls.learning)
+  return res
+}
+
 export const exportReportSkills = async (token, params) => {
   const res = await api(token, urls.skills, { ...params, format: 'csv' })
   return res.text()
@@ -43,6 +48,11 @@ export const exportReportLanguages = async (token, params) => {
 
 export const exportReportResponsibility = async (token, params) => {
   const res = await api(token, urls.responsibility, { ...params, format: 'csv' })
+  return res.text()
+}
+
+export const exportReportLearning = async (token, params) => {
+  const res = await api(token, urls.learning, { ...params, format: 'csv' })
   return res.text()
 }
 
