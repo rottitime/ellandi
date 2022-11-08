@@ -42,6 +42,10 @@ const Card = styled(AccountCard)`
     gap: ${(p) => p.theme.spacing(3)};
     .export {
       margin-left: auto;
+      text-align: right;
+      p {
+        text-align: inherit;
+      }
     }
   }
   .filters {
@@ -66,6 +70,7 @@ const SkillsReport: FC<Props> = (props) => {
   const [filters, setFilters] = useState<FiltersType>({ users: 'all' })
   const [dialog, setDialog] = useState<ReportSkillsData>(undefined)
   const [exportLoading, setExportLoading] = useState(false)
+  const [exportError, setExportError] = useState()
 
   const debouncedSearchQuery = useDebounce(filters, 600)
 
@@ -181,19 +186,26 @@ const SkillsReport: FC<Props> = (props) => {
                   />
                 ))}
               </RadioGroup>
-              <Button
-                color="primary"
-                className="export"
-                loading={exportLoading}
-                onClick={async () => {
-                  setExportLoading(true)
-                  const data = await authFetch(exportReportSkills, filters)
-                  csvDownload(data, 'skills')
-                  setExportLoading(false)
-                }}
-              >
-                Export
-              </Button>
+              <div className="export">
+                <Button
+                  color="primary"
+                  error={exportError}
+                  loading={exportLoading}
+                  onClick={async () => {
+                    setExportError(null)
+                    try {
+                      setExportLoading(true)
+                      const data = await authFetch(exportReportSkills, filters)
+                      csvDownload(data, 'skills')
+                    } catch (e) {
+                      setExportError(e.message)
+                    }
+                    setExportLoading(false)
+                  }}
+                >
+                  Export
+                </Button>
+              </div>
             </div>
             <div className="filters">
               <Select

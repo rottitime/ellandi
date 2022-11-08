@@ -11,6 +11,7 @@ import {
 } from '@/service/api'
 import {
   Alert,
+  Box,
   FormControlLabel,
   Grid,
   Radio,
@@ -21,7 +22,6 @@ import {
 import { useState } from 'react'
 import { useQuery } from 'react-query'
 import { FiltersType, UserOptions, UsersType } from './types'
-
 import professions from '@/prefetch/professions.json'
 import functions from '@/prefetch/functions.json'
 import grades from '@/prefetch/grades.json'
@@ -40,6 +40,10 @@ const Card = styled(AccountCard)`
     gap: ${(p) => p.theme.spacing(3)};
     .export {
       margin-left: auto;
+      text-align: right;
+      p {
+        text-align: inherit;
+      }
     }
   }
   .filters {
@@ -59,6 +63,7 @@ const LanguagesReport = () => {
   const { authFetch } = useAuth()
   const [filters, setFilters] = useState<FiltersType>({ users: 'all' })
   const [exportLoading, setExportLoading] = useState(false)
+  const [exportError, setExportError] = useState()
   const debouncedSearchQuery = useDebounce(filters, 600)
 
   const { isLoading, data, isFetching, isSuccess, isError, error } = useQuery<
@@ -106,19 +111,26 @@ const LanguagesReport = () => {
                 />
               ))}
             </RadioGroup>
-            <Button
-              color="primary"
-              className="export"
-              loading={exportLoading}
-              onClick={async () => {
-                setExportLoading(true)
-                const data = await authFetch(exportReportLearning, filters)
-                csvDownload(data, 'learning')
-                setExportLoading(false)
-              }}
-            >
-              Export
-            </Button>
+            <Box className="export">
+              <Button
+                color="primary"
+                error={exportError}
+                loading={exportLoading}
+                onClick={async () => {
+                  setExportError(null)
+                  try {
+                    setExportLoading(true)
+                    const data = await authFetch(exportReportLearning, filters)
+                    csvDownload(data, 'learning')
+                  } catch (e) {
+                    setExportError(e.message)
+                  }
+                  setExportLoading(false)
+                }}
+              >
+                Export
+              </Button>
+            </Box>
           </div>
           <div className="filters">
             <Select

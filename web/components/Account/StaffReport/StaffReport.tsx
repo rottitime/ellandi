@@ -21,6 +21,7 @@ import { useQuery } from 'react-query'
 const StaffReport = () => {
   const { authFetch } = useAuth()
   const [exportLoading, setExportLoading] = useState(false)
+  const [exportError, setExportError] = useState()
 
   const {
     isLoading: isLoadingResponsibility,
@@ -66,11 +67,17 @@ const StaffReport = () => {
               <Button
                 color="primary"
                 className="export"
+                error={exportError}
                 loading={exportLoading}
                 onClick={async () => {
-                  setExportLoading(true)
-                  const data = await authFetch(exportReportResponsibility, {})
-                  csvDownload(data, 'responsibility')
+                  setExportError(null)
+                  try {
+                    setExportLoading(true)
+                    const data = await authFetch(exportReportResponsibility, {})
+                    csvDownload(data, 'responsibility')
+                  } catch (e) {
+                    setExportError(e.message)
+                  }
                   setExportLoading(false)
                 }}
               >

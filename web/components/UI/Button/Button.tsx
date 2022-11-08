@@ -2,7 +2,7 @@ import { forwardRef } from 'react'
 import { LoadingButton as MuiButton } from '@mui/lab'
 import Link from 'next/link'
 import { Props, ButtonOverrides } from './types'
-import { styled } from '@mui/material'
+import { FormHelperText, styled } from '@mui/material'
 
 const StyledButton = styled(MuiButton)`
   &.MuiButton-containedError:hover {
@@ -15,7 +15,7 @@ const StyledButton = styled(MuiButton)`
   }
 `
 
-const Button = forwardRef<HTMLButtonElement, Props>(({ href, ...rest }, ref) => {
+const Button = forwardRef<HTMLButtonElement, Props>(({ href, error, ...rest }, ref) => {
   const routeProps = href ? { component: 'a', to: href } : {}
   const props = { ...routeProps, ...overrides[rest.color], ref: ref, ...rest }
 
@@ -24,7 +24,10 @@ const Button = forwardRef<HTMLButtonElement, Props>(({ href, ...rest }, ref) => 
       <StyledButton {...props} />
     </Link>
   ) : (
-    <StyledButton {...props} />
+    <>
+      <StyledButton {...props} />
+      {!!error && <FormHelperText error>{error}</FormHelperText>}
+    </>
   )
 })
 
