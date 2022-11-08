@@ -1,8 +1,13 @@
+import datetime
+
+from django.db.models import Sum, Avg
+
 from django.utils.text import slugify
 from drf_spectacular.utils import OpenApiParameter, extend_schema
 from rest_framework import decorators, permissions, renderers, status
 from rest_framework.response import Response
 from rest_framework_csv.renderers import CSVRenderer
+
 
 from ellandi.registration.exceptions import MissingLanguageTypeError
 from ellandi.registration.models import (
@@ -11,6 +16,7 @@ from ellandi.registration.models import (
     UserLanguage,
     UserSkill,
     UserSkillDevelop,
+    Learning
 )
 
 # TODO - maybe change column names for CSV
@@ -52,6 +58,7 @@ LANGUAGE_LEVELS_SKILLED = ["Basic", "Independent", "Proficient", "Native"]
 LANGUAGE_TYPES = ["speaking", "writing"]
 
 
+<<<<<<< HEAD
 def format_perc_label(number, percentage):
     return f"{number} ({round(percentage)}%)"
 
@@ -65,6 +72,15 @@ def create_proportions_data_dict(name, numerator, denominator):
         "total_value_percentage": round(percentage),
     }
     return output
+=======
+HOURS_IN_WORK_DAY = 7.4
+
+LEARNING_TARGET_IN_DAYS = 10
+
+MINUTES_IN_LEARNING_TARGET = LEARNING_TARGET_IN_DAYS*HOURS_IN_WORK_DAY*60
+
+
+>>>>>>> 713d6aac (add start to learning endpoint)
 
 
 def filter_users_type(request, users_qs):
@@ -421,3 +437,66 @@ def staff_overview_view(request):
     grades_data = get_grades_data()
     data.extend(grades_data)
     return Response(data=data, status=status.HTTP_200_OK, content_type="text/csv")
+
+
+def get_start_financial_year():
+    # TODO - does financial year start 1st Apr or 6th Apr
+    today = datetime.date.today()
+    year = today.year
+    if today.month < 4:
+        year = year - 1
+    start_financial_year = datetime.date(year, 4, 1)
+    return start_financial_year
+
+
+def get_learning_for_users_since_start_year(users_qs):
+    start_financial_year = get_start_financial_year()
+    learning_qs = Learning.objects.filter(user__in=users_qs).filter(date_completed__ge=start_financial_year)
+    return learning_qs
+
+
+def get_summary_course_costs(learning_qs):
+    formal_learning_with_costs = learning_qs.filter(learning_type="Formal").exclude(cost_unknown=True)
+    cost_aggregates = formal_learning_with_costs.aggregate(Sum("cost_pounds"), Avg("cost_pounds"))
+    return cost_aggregates["cost_pounds__sum"], cost_aggregates["cost_pounds__avg"]
+
+
+def get_learning_distribution(learning_qs):
+    formal_total = learning_qs.filter(learning_type="Formal").aggregate(Sum("duration_minutes"))["duration_minutes__sum"]
+    social_total = learning_qs.filter(learning_type="Social").aggregate(Sum("duration_minutes"))["duration_minutes__sum"]
+    on_the_job_total = learning_qs.filter(learning_type="On the job").aggregate(Sum("duration_minutes"))["duration_minutes__sum"]
+    total = formal_total + social_total + on_the_job_total
+    type_totals = (formal_total, social_total, on_the_job_total)
+    percentages = type_totals/total*100
+    percentages = map(round, percentages)
+    return percentages
+
+
+def get_total_avg_learning_financial_year(users_qs):
+    learning_qs = get_learning_for_users_since_start_year(users_qs)
+    total_users = users_qs.count()
+    total_learning = learning_qs.aggregate(Sum("duration_minutes"))["duration_minues__sum"]
+    avg_learning_mins = total_learning/total_users
+    proportion_learning_per_user = avg_learning_mins/MINUTES_IN_LEARNING_TARGET*100
+    days_per_user = proportion_learning_per_user
+    avg_perc = round(proportion_learning_per_user*100)
+    return round(days_per_user), avg_perc
+
+
+
+
+
+
+#  course_average_cost_label: 'string' //e.g. £300
+#   course_total_cost_label: 'string' //e.g. £500,000
+#   goal_value_days: number //5
+#   goal_value_percentage: number //e.g. 50
+#   distribution: [
+#     {
+#       name: string //e.g. "On the job", "Social","Formal"
+#       value_percentage: number
+#     }
+#   ]
+
+def learning_view(request):
+    users_qs = get_filtered_users(request).filter(learning_type="")
