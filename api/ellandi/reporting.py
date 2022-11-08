@@ -508,8 +508,7 @@ def get_total_avg_learning_financial_year(learning_qs, total_users):
 
 @extend_schema(request=None, responses=None)
 @decorators.api_view(["GET"])
-# TODO - needs to be changed to "reporting permissions" - details TBC
-@decorators.permission_classes((permissions.IsAuthenticated,))
+@decorators.permission_classes((permissions.IsAdminUser,))
 def learning_view(request):
     users_qs = get_filtered_users(request)
     total_users = users_qs.count()

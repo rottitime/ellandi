@@ -2,12 +2,7 @@ from nose.tools import with_setup
 from rest_framework import status
 from tests import utils
 
-from ellandi.registration.models import (
-    User,
-    UserLanguage,
-    UserSkill,
-    UserSkillDevelop,
-)
+from ellandi.registration.models import User, UserLanguage, UserSkill, UserSkillDevelop, Learning
 from ellandi.reporting import (
     LANGUAGE_LEVELS_SKILLED,
     SKILL_LEVELS,
@@ -19,7 +14,11 @@ SKILLS_ENDPOINT = "/api/me/reports/skills/"
 LANGUAGES_ENDPOINT = "/api/me/reports/languages/"
 RESPONSIBILITIES_ENDPOINT = "/api/me/reports/responsibilities/"
 GRADES_ENDPOINT = "/api/me/reports/grades/"
+<<<<<<< HEAD
 STAFF_OVERVIEW_ENDPOINT = "/api/me/reports/staff-overview/"
+=======
+LEARNING_ENDPOINT = "/api/me/reports/learning/"
+>>>>>>> a499536f (tidy)
 
 
 def add_skills(user, i):
@@ -245,6 +244,7 @@ def test_get_report_skills_grades(client, user_id):
 
 @utils.with_logged_in_client
 def test_endpoints_require_login(client, user_id):
+<<<<<<< HEAD
     endpoints = [
         SKILLS_ENDPOINT,
         LANGUAGES_ENDPOINT,
@@ -252,6 +252,9 @@ def test_endpoints_require_login(client, user_id):
         GRADES_ENDPOINT,
         STAFF_OVERVIEW_ENDPOINT,
     ]
+=======
+    endpoints = [SKILLS_ENDPOINT, LANGUAGES_ENDPOINT, RESPONSIBILITIES_ENDPOINT, GRADES_ENDPOINT, LEARNING_ENDPOINT]
+>>>>>>> a499536f (tidy)
     for endpoint in endpoints:
         response = client.get(endpoint)
         assert response.status_code == status.HTTP_403_FORBIDDEN
@@ -365,4 +368,8 @@ def test_get_grades(client, user_id):
 @with_setup(setup_users_skills, teardown_users_skills)
 def test_get_staff_overview(client, user_id):
     response = client.get(STAFF_OVERVIEW_ENDPOINT)
+
+
+def test_get_learning(client, user_id):
+    response = client.get(LEARNING_ENDPOINT)
     assert response.status_code == status.HTTP_200_OK
