@@ -194,14 +194,14 @@ def test_get_report_skills_professions(client, user_id):
     result = response.json()
     data = result["data"]
     assert result["total"] == 2
-    assert data[0]["total_users"] == 8, data[0]
+    assert data[0]["total_users"] == 9, data[0]
     econ_data = [d for d in data if d["name"] == "Economics"][0]
     aws_data = [d for d in data if d["name"] == "AWS"][0]
     assert econ_data["skill_value_percentage"] == 100
     assert econ_data["beginner_value_total"] == 2
-    assert econ_data["expert_value_percentage"] == 12
-    assert aws_data["skill_value_percentage"] == 70
-    assert aws_data["skill_develop_value_total"] == 3
+    assert econ_data["expert_value_percentage"] == 11
+    assert aws_data["skill_value_percentage"] == 78, aws_data
+    assert aws_data["skill_develop_value_total"] == 2
     endpoint = f"{SKILLS_ENDPOINT}?skills=Economics,AWS,Science&functions=Analysis&professions=Economics,Policy"
     response = client.get(endpoint)
     assert response.status_code == status.HTTP_200_OK
@@ -222,7 +222,6 @@ def test_get_report_skills_grades(client, user_id):
     assert result["data"][0]["total_users"] == 10
 
 
-# TODO - need to think about permissions for reporting
 @utils.with_logged_in_client
 def test_endpoints_require_login(client, user_id):
     endpoints = [SKILLS_ENDPOINT, LANGUAGES_ENDPOINT]
