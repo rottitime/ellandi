@@ -1,6 +1,7 @@
 import { defaultError } from '@/service/auth'
 import { createUrl } from '@/lib/url-utils'
 import getConfig from 'next/config'
+import { MeReporLearning } from './types'
 const { publicRuntimeConfig } = getConfig()
 
 const urls = {
@@ -32,8 +33,31 @@ export const fetchReportGrade = async (token: string) => {
 }
 
 export const fetchReportLearning = async (token: string) => {
-  const res = await api(token, urls.learning)
-  return res
+  // const res = await api(token, urls.learning)
+  // return res
+
+  const data = await Promise.resolve({
+    course_average_cost_label: '£300', //e.g. £300
+    course_total_cost_label: '£500,000', //e.g. £500,000
+    goal_value_days: 5,
+    goal_value_percentage: 50,
+    distribution: [
+      {
+        name: 'On the job',
+        value_percentage: 68
+      },
+      {
+        name: 'Social',
+        value_percentage: 20
+      },
+      {
+        name: 'Formal',
+        value_percentage: 12
+      }
+    ]
+  } as MeReporLearning)
+  console.log({ data })
+  return data
 }
 
 export const exportReportSkills = async (token, params) => {
