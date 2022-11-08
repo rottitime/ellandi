@@ -181,7 +181,7 @@ const LanguagesReport = () => {
               />
             </Grid>
             <Grid item xs={6}>
-              <LearningGoalBar />
+              <LearningGoalBar description="Average number of days learning completed per person so far this financial year" />
             </Grid>
           </Grid>
 

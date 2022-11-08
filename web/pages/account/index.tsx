@@ -113,10 +113,11 @@ const IndexPage = () => {
             </Button>
           }
         >
-          <Typography variant="body2" gutterBottom>
-            You should aim to complete 10 days learning each year
-          </Typography>
-          <LearningGoalBar sx={{ mb: 5 }} />
+          <LearningGoalBar
+            hideTitle
+            sx={{ mb: 5 }}
+            description="You should aim to complete 10 days learning each year"
+          />
         </AccountCard>
 
         {profiles.map((profile) => (

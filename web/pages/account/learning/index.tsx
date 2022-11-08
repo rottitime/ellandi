@@ -73,14 +73,7 @@ const LearningPage = () => {
         </Grid>
         <Grid item xs={6}>
           <AccountCard sx={{ height: '100%' }}>
-            <Typography variant="h2" component="h3" gutterBottom>
-              Learning goal
-            </Typography>
-            <Typography variant="body2" gutterBottom>
-              You should aim to complete 10 days learning each year
-            </Typography>
-
-            <LearningGoalBar />
+            <LearningGoalBar description="You should aim to complete 10 days learning each year" />
           </AccountCard>
         </Grid>
       </Grid>

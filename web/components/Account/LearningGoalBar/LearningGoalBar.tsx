@@ -22,7 +22,7 @@ const GoalBar = styled(Box)`
   }
 `
 
-const LearningGoalBar: FC<Props> = (props) => {
+const LearningGoalBar = ({ hideTitle, description, ...props }: Props) => {
   const { authFetch } = useAuth()
 
   const { isLoading, data } = useQuery<MeLearningRecord[]>(
@@ -46,6 +46,16 @@ const LearningGoalBar: FC<Props> = (props) => {
         <Skeleton />
       ) : (
         <>
+          {!hideTitle && (
+            <Typography variant="h2" component="h3" gutterBottom>
+              Learning goal
+            </Typography>
+          )}
+          {description && (
+            <Typography variant="body2" gutterBottom>
+              {description}
+            </Typography>
+          )}
           <Typography variant="h1" component="p">
             <span
               className={`stat ${percentage >= 100 ? 'completed' : ''}`}
