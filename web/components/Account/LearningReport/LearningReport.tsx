@@ -47,7 +47,7 @@ const Card = styled(AccountCard)`
   }
   .filters {
     display: flex;
-    margin-bottom: ${(p) => p.theme.spacing(3)};
+    margin-bottom: ${(p) => p.theme.spacing(4)};
     gap: ${(p) => p.theme.spacing(4)};
   }
 `
@@ -171,7 +171,13 @@ const LanguagesReport = () => {
 
           <Grid container spacing={5} sx={{ mb: 5 }}>
             <Grid item xs={6}>
-              <LearningDistribution barData={[]} />
+              <LearningDistribution
+                barData={data.distribution.map((item) => ({
+                  label: item.name,
+                  percentage: item.value_percentage,
+                  color: null
+                }))}
+              />
             </Grid>
             <Grid item xs={6}></Grid>
           </Grid>
