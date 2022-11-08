@@ -346,8 +346,7 @@ def report_languages_view(request):
 
 
 @decorators.api_view(["GET"])
-# TODO - needs to be changed to "reporting permissions" - details TBC
-@decorators.permission_classes((permissions.IsAuthenticated,))
+@decorators.permission_classes((permissions.IsAdminUser,))
 @decorators.renderer_classes(
     (
         renderers.JSONRenderer,
@@ -380,8 +379,7 @@ def responsibilities_view(request):
 
 
 @decorators.api_view(["GET"])
-# TODO - needs to be changed to "reporting permissions" - details TBC
-@decorators.permission_classes((permissions.IsAuthenticated,))
+@decorators.permission_classes((permissions.IsAdminUser,))
 @decorators.renderer_classes(
     (
         renderers.JSONRenderer,
