@@ -87,7 +87,7 @@ def add_learning(user, i):
             user=user,
             name="hour long formal learning",
             learning_type="Formal",
-            duration_minutes=60,
+            duration_minutes=600,
             date_completed=today,
             cost_pounds=100,
         ).save()
@@ -96,7 +96,7 @@ def add_learning(user, i):
             user=user,
             name="short formal learning",
             learning_type="Formal",
-            duration_minutes=20,
+            duration_minutes=200,
             date_completed=today,
             cost_pounds=200,
         ).save()
@@ -104,16 +104,20 @@ def add_learning(user, i):
             user=user,
             name="unknown learning",
             learning_type="Formal",
-            duration_minutes=55,
+            duration_minutes=555,
             date_completed=today,
             cost_unknown=True,
         ).save()
         Learning(
-            user=user, name="last year's learning", learning_type="Formal", duration_minutes=10, date_completed=year_ago
+            user=user,
+            name="last year's learning",
+            learning_type="Formal",
+            duration_minutes=100,
+            date_completed=year_ago,
         ).save()
     if i < 5:
         Learning(
-            user=user, name="fun learning", learning_type="Social", duration_minutes=300, date_completed=today
+            user=user, name="fun learning", learning_type="Social", duration_minutes=3000, date_completed=today
         ).save()
     if i < 7:
         Learning(
@@ -141,6 +145,7 @@ def setup_users():
         add_skills(user, i)
         add_professions(user, i)
         add_languages(user, i)
+        add_learning(user, i)
 
 
 def teardown_users():
@@ -423,3 +428,18 @@ def test_get_staff_overview(client, user_id):
 def test_get_learning(client, user_id):
     response = client.get(LEARNING_ENDPOINT)
     assert response.status_code == status.HTTP_200_OK
+
+
+@utils.with_logged_in_admin_client
+@with_setup(setup_users, teardown_users)
+def test_get_learning_params(client, user_id):
+    endpoint = f"{LEARNING_ENDPOINT}?business_units=i.AI,CDIO&users=all"
+    response = client.get(endpoint)
+    result = response.json()
+    assert result["course_average_cost_label"] == "£1444"
+    assert result["course_total_cost_label"] == "£13,000"
+    assert result["goal_value_days"] == 294
+    assert result["goal_value_percentage"] == 49
+
+
+# def test_get_learning_distribution(client, user_id):
