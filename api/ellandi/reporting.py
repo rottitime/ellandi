@@ -366,7 +366,7 @@ def responsibilities_view(request):
     format = request.query_params.get("format", "json")
     if format == "csv":
         return Response(data=data, status=status.HTTP_200_OK, content_type="text/csv")
-    data.append({"name": "Total users", "total_value_total": total_users})
+    data.append({"name": "Total users", "total_label": total_users})
     data = {"data": data}
     return Response(data=data, status=status.HTTP_200_OK, content_type="application/json")
 
