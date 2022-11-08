@@ -14,7 +14,14 @@ import {
   Query,
   ReportLanguagesData
 } from '@/service/api'
-import { FormControlLabel, Radio, RadioGroup, styled, Typography } from '@mui/material'
+import {
+  FormControlLabel,
+  Grid,
+  Radio,
+  RadioGroup,
+  styled,
+  Typography
+} from '@mui/material'
 import { useState } from 'react'
 import { useQuery } from 'react-query'
 import { FiltersType, UserOptions, UsersType } from './types'
@@ -27,6 +34,7 @@ import { asStringList, csvDownload } from '@/lib/data-utils'
 import useDebounce from '@/hooks/useDebounce'
 import Button from '@/components/UI/Button/Button'
 import SimpleTable from '@/components/UI/SimpleTable/SimpleTable'
+import LearningDistribution from '../LearningDistribution/LearningDistribution'
 
 const Card = styled(AccountCard)`
   .main-filters {
@@ -160,6 +168,13 @@ const LanguagesReport = () => {
               checkboxes
             />
           </div>
+
+          <Grid container spacing={5} sx={{ mb: 5 }}>
+            <Grid item xs={6}>
+              <LearningDistribution barData={[]} />
+            </Grid>
+            <Grid item xs={6}></Grid>
+          </Grid>
 
           <SimpleTable
             headers={[{ children: 'Course cost' }, { children: null }]}
