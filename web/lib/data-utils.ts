@@ -1,4 +1,8 @@
 import { GenericDataList } from '@/service/types'
+import getConfig from 'next/config'
+import { defaultError } from '@/service/auth'
+import { createUrl } from './url-utils'
+const { publicRuntimeConfig } = getConfig()
 
 export const sortWithOrder = (a: number, b: number): number => {
   if (a < b) return -1
@@ -15,4 +19,24 @@ export const csvDownload = (data: string, filename): void => {
   hiddenElement.target = '_blank'
   hiddenElement.download = filename + '.csv'
   hiddenElement.click()
+}
+
+export const api = async (
+  token: string,
+  path: RequestInfo | URL,
+  init: RequestInit = {},
+  params?: URLSearchParams
+): Promise<Response> => {
+  const url = createUrl(`${publicRuntimeConfig.apiUrl}${path}`, params)
+  let detailMessage
+  const res: Response = await fetch(url, {
+    ...init,
+    headers: { ...init.headers, Authorization: `Token ${token}` }
+  })
+  if (res.ok) return res
+  try {
+    const { detail } = await res.json()
+    detailMessage = detail
+  } catch (e) {}
+  throw new Error(detailMessage || defaultError)
 }

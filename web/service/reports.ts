@@ -1,7 +1,4 @@
-import { defaultError } from '@/service/auth'
-import { createUrl } from '@/lib/url-utils'
-import getConfig from 'next/config'
-const { publicRuntimeConfig } = getConfig()
+import { api as utilApi } from '@/lib/data-utils'
 
 const urls = {
   skills: '/me/reports/skills/',
@@ -56,21 +53,5 @@ export const exportReportLearning = async (token, params) => {
   return res.text()
 }
 
-const api = async (
-  token: string,
-  path: RequestInfo | URL,
-  params?: URLSearchParams
-): Promise<Response> => {
-  const apiUrl = createUrl(`${publicRuntimeConfig.apiUrl}${path}`, params)
-  const res: Response = await fetch(apiUrl, {
-    headers: { Authorization: `Token ${token}` }
-  })
-  let detailMessage
-  if (res.ok) return res
-  try {
-    const { detail } = await res.json()
-    detailMessage = detail
-  } catch (e) {}
-
-  throw new Error(detailMessage || defaultError)
-}
+const api = (token: string, url: string, params?: URLSearchParams) =>
+  utilApi(token, url, undefined, params)
