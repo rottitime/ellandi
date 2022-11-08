@@ -57,7 +57,7 @@ LANGUAGE_TYPES = ["speaking", "writing"]
 
 HOURS_IN_WORK_DAY = 7.4
 LEARNING_TARGET_IN_DAYS = 10
-MINUTES_IN_LEARNING_TARGET = LEARNING_TARGET_IN_DAYS*HOURS_IN_WORK_DAY*60
+MINUTES_IN_LEARNING_TARGET = LEARNING_TARGET_IN_DAYS * HOURS_IN_WORK_DAY * 60
 
 
 def format_perc_label(number, percentage):
@@ -468,9 +468,7 @@ def get_summary_course_costs(learning_qs):
 def get_percentage_for_learning_type(type, learning_qs, total_all_types):
     if total_all_types == 0:
         return 0
-    total_for_type = learning_qs.filter(learning_type=type).aggregate(Sum("duration_minutes"))[
-        "duration_minutes__sum"
-    ]
+    total_for_type = learning_qs.filter(learning_type=type).aggregate(Sum("duration_minutes"))["duration_minutes__sum"]
     total_for_type = none_to_zero(total_for_type)
     perc = total_for_type / total_all_types * 100
     return round(perc)
@@ -482,12 +480,18 @@ def get_learning_distribution(learning_qs):
     ]
     total_all_types = none_to_zero(total_all_types)
     output = [
-        {"name": "Formal", "value_percentage": get_percentage_for_learning_type("Formal", learning_qs, total_all_types)},
+        {
+            "name": "Formal",
+            "value_percentage": get_percentage_for_learning_type("Formal", learning_qs, total_all_types),
+        },
         {
             "name": "Social",
             "value_percentage": get_percentage_for_learning_type("Social", learning_qs, total_all_types),
         },
-        {"name": "On the job", "value_percentage": get_percentage_for_learning_type("On the job", learning_qs, total_all_types)},
+        {
+            "name": "On the job",
+            "value_percentage": get_percentage_for_learning_type("On the job", learning_qs, total_all_types),
+        },
     ]
     return output
 
