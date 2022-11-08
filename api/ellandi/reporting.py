@@ -451,7 +451,7 @@ def get_start_financial_year():
 
 def get_learning_for_users_since_start_year(users_qs):
     start_financial_year = get_start_financial_year()
-    learning_qs = Learning.objects.filter(user__in=users_qs).filter(date_completed__ge=start_financial_year)
+    learning_qs = Learning.objects.filter(user__in=users_qs).filter(date_completed__gte=start_financial_year)
     return learning_qs
 
 
@@ -495,6 +495,10 @@ def get_total_avg_learning_financial_year(learning_qs, total_users):
     return round(days_per_user), avg_perc
 
 
+@extend_schema(request=None, responses=None)
+@decorators.api_view(["GET"])
+# TODO - needs to be changed to "reporting permissions" - details TBC
+@decorators.permission_classes((permissions.IsAuthenticated,))
 def learning_view(request):
     users_qs = get_filtered_users(request)
     total_users = users_qs.count()
