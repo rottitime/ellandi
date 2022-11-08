@@ -56,7 +56,7 @@ export const fetchReportLearning = async (token: string) => {
       }
     ]
   } as MeReporLearning)
-  console.log({ data })
+
   return data
 }
 
