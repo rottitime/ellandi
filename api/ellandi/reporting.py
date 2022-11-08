@@ -470,14 +470,12 @@ def get_percentage_for_learning_type(type, learning_qs, total_all_types):
         return 0
     total_for_type = learning_qs.filter(learning_type=type).aggregate(Sum("duration_minutes"))["duration_minutes__sum"]
     total_for_type = none_to_zero(total_for_type)
-    perc = total_for_type / total_all_types * 100
+    perc = total_for_type * 100 / total_all_types
     return round(perc)
 
 
 def get_learning_distribution(learning_qs):
-    total_all_types = learning_qs.filter(learning_type="Formal").aggregate(Sum("duration_minutes"))[
-        "duration_minutes__sum"
-    ]
+    total_all_types = learning_qs.aggregate(Sum("duration_minutes"))["duration_minutes__sum"]
     total_all_types = none_to_zero(total_all_types)
     output = [
         {
@@ -497,13 +495,15 @@ def get_learning_distribution(learning_qs):
 
 
 def get_total_avg_learning_financial_year(learning_qs, total_users):
+    if not total_users:
+        return 0, 0
     total_learning = learning_qs.aggregate(Sum("duration_minutes"))["duration_minutes__sum"]
     total_learning = none_to_zero(total_learning)
     avg_learning_mins = total_learning / total_users
-    proportion_learning_per_user = avg_learning_mins / MINUTES_IN_LEARNING_TARGET * 100
-    days_per_user = proportion_learning_per_user
-    avg_perc = round(proportion_learning_per_user * 100)
-    return round(days_per_user), avg_perc
+    proportion_learning_per_user = avg_learning_mins * 100 / MINUTES_IN_LEARNING_TARGET
+    days_per_user = round(avg_learning_mins / (60 * HOURS_IN_WORK_DAY))
+    avg_perc = round(proportion_learning_per_user)
+    return days_per_user, avg_perc
 
 
 @extend_schema(request=None, responses=None)
@@ -517,8 +517,8 @@ def learning_view(request):
     avg_completed_this_year, perc_completed_this_year = get_total_avg_learning_financial_year(learning_qs, total_users)
     learning_distribution = get_learning_distribution(learning_qs)
     output_dict = {
-        "course_average_cost_label": f"{course_average_cost:,}",
-        "course_total_cost_label": f"{course_total_cost:,}",
+        "course_average_cost_label": f"£{course_average_cost:,}",
+        "course_total_cost_label": f"£{course_total_cost:,}",
         "goal_value_days": avg_completed_this_year,
         "goal_value_percentage": perc_completed_this_year,
         "distribution": learning_distribution,

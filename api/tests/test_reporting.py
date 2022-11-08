@@ -81,7 +81,7 @@ def add_professions(user, i):
 
 def add_learning(user, i):
     today = datetime.date.today()
-    year_ago = today - datetime.timedelta(year=1, month=1)
+    year_ago = today - datetime.timedelta(weeks=52)
     if i % 2 == 0:
         Learning(
             user=user,
@@ -425,8 +425,15 @@ def test_get_staff_overview(client, user_id):
     response = client.get(STAFF_OVERVIEW_ENDPOINT)
 
 
+@with_setup(setup_users, teardown_users)
 def test_get_learning(client, user_id):
     response = client.get(LEARNING_ENDPOINT)
+    assert response.status_code == status.HTTP_200_OK
+    endpoint = f"{LEARNING_ENDPOINT}?business_units=CDIO&users=mentors&functions=Finance,Commercial,Digital"
+    response = client.get(endpoint)
+    assert response.status_code == status.HTTP_200_OK
+    endpoint = f"{LEARNING_ENDPOINT}?functions=Analysis&grades=Grade%206%20Equivalent&business_units=i.AI,CDIO"
+    response = client.get(endpoint)
     assert response.status_code == status.HTTP_200_OK
 
 
@@ -435,11 +442,19 @@ def test_get_learning(client, user_id):
 def test_get_learning_params(client, user_id):
     endpoint = f"{LEARNING_ENDPOINT}?business_units=i.AI,CDIO&users=all"
     response = client.get(endpoint)
-    result = response.json()
-    assert result["course_average_cost_label"] == "£1444"
-    assert result["course_total_cost_label"] == "£13,000"
-    assert result["goal_value_days"] == 294
-    assert result["goal_value_percentage"] == 49
+    actual_result = response.json()
+    expected_result = {
+        "course_average_cost_label": "£144",
+        "course_total_cost_label": "£1,300",
+        "goal_value_days": 5,
+        "goal_value_percentage": 49,
+        "distribution": [
+            {"name": "Formal", "value_percentage": 28},
+            {"name": "Social", "value_percentage": 69},
+            {"name": "On the job", "value_percentage": 3},
+        ],
+    }
+    assert actual_result == expected_result, actual_result
 
 
-# def test_get_learning_distribution(client, user_id):
+# TODO - test professions for learning, mentor, line manager
