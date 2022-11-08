@@ -345,6 +345,37 @@ def report_languages_view(request):
     return Response(data=output_data, status=status.HTTP_200_OK, content_type="application/json")
 
 
+def get_responsibilities_data():
+    all_users = User.objects.all()
+    total_users = all_users.count()
+    number_line_managers = all_users.filter(is_line_manager="Yes").count()
+    number_mentors = all_users.filter(is_mentor="Yes").count()
+    responsibilities_data = [
+        create_proportions_data_dict("Line managers", numerator=number_line_managers, denominator=total_users),
+        create_proportions_data_dict("Mentors", numerator=number_mentors, denominator=total_users),
+    ]
+    total_users_data = {
+        "name": "Total users",
+        "total_label": total_users,
+        "total_value_total": total_users,
+        "total_value_percentage": 100,
+    }
+
+    return responsibilities_data, total_users_data
+
+
+def get_grades_data():
+    all_users = User.objects.all()
+    total_users = all_users.count()
+    output_list = []
+    all_grades = Grade.objects.all().order_by("order").values_list("name", flat=True)
+    for grade in all_grades:
+        number_at_grade = all_users.filter(grade=grade).count()
+        data_dict = create_proportions_data_dict(name=grade, numerator=number_at_grade, denominator=total_users)
+        output_list.append(data_dict)
+    return output_list
+
+
 @decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.IsAdminUser,))
 @decorators.renderer_classes(
@@ -354,23 +385,8 @@ def report_languages_view(request):
     )
 )
 def responsibilities_view(request):
-    all_users = User.objects.all()
-    total_users = all_users.count()
-    number_line_managers = all_users.filter(is_line_manager="Yes").count()
-    number_mentors = all_users.filter(is_mentor="Yes").count()
-    data = [
-        create_proportions_data_dict("Line managers", numerator=number_line_managers, denominator=total_users),
-        create_proportions_data_dict("Mentors", numerator=number_mentors, denominator=total_users),
-    ]
-    # Different format for total users
-    data.append(
-        {
-            "name": "Total users",
-            "total_label": total_users,
-            "total_value_total": total_users,
-            "total_value_percentage": 100,
-        }
-    )
+    data, total_users_data = get_responsibilities_data()
+    data.append(total_users_data)
     format = request.query_params.get("format", "json")
     if format == "csv":
         return Response(data=data, status=status.HTTP_200_OK, content_type="text/csv")
@@ -387,14 +403,7 @@ def responsibilities_view(request):
     )
 )
 def grades_view(request):
-    all_users = User.objects.all()
-    total_users = all_users.count()
-    output_list = []
-    all_grades = Grade.objects.all().order_by("order").values_list("name", flat=True)
-    for grade in all_grades:
-        number_at_grade = all_users.filter(grade=grade).count()
-        data_dict = create_proportions_data_dict(name=grade, numerator=number_at_grade, denominator=total_users)
-        output_list.append(data_dict)
+    output_list = get_grades_data()
     format = request.query_params.get("format", "json")
     if format == "csv":
         return Response(data=output_list, status=status.HTTP_200_OK, content_type="text/csv")
