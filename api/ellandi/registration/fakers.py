@@ -114,6 +114,6 @@ def add_users(number):
             user_skill.save()
         yield user
     user = models.User(**make_admin_user())
-    user.save()
     user.set_password("P455W0rd")
+    user.save()
     yield user
