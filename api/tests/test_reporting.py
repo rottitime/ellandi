@@ -185,7 +185,6 @@ def test_get_report_skills_business_unit(client, user_id):
     assert data[0]["total_users"] == 3
 
 
-# FIXME - this test doesn't work is cos SQLite doesn't have `contained_by`
 @utils.with_logged_in_admin_client
 @with_setup(setup_users_skills, teardown_users_skills)
 def test_get_report_skills_professions(client, user_id):

@@ -61,14 +61,11 @@ def filter_users_type(request, users_qs):
     return users_qs
 
 
-# TODO - fix this
 def filter_users_professions(request, users_qs):
     professions = request.query_params.get("professions")
     if not professions:
         return users_qs
     professions = professions.split(",")
-    # FIXME - doesn't work in SQLite
-    # https://docs.djangoproject.com/en/3.2/topics/db/queries/#containment-and-key-lookups
     output_qs = User.objects.none()
     for prof_name in professions:
         users_with_prof = users_qs.filter(professions__contains=prof_name)
