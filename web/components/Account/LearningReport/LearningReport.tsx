@@ -60,7 +60,7 @@ const LanguagesReport = () => {
   const [exportLoading, setExportLoading] = useState(false)
   const debouncedSearchQuery = useDebounce(filters, 600)
 
-  const { isLoading, data } = useQuery<MeReporLearning>(
+  const { isLoading, data, isFetching } = useQuery<MeReporLearning>(
     [Query.ReportLanguages, debouncedSearchQuery],
     () => authFetch(fetchReportLearning, debouncedSearchQuery),
     {
@@ -111,7 +111,6 @@ const LanguagesReport = () => {
               Export
             </Button>
           </div>
-
           <div className="filters">
             <Select
               label="Select profession(s)"
@@ -164,12 +163,11 @@ const LanguagesReport = () => {
               checkboxes
             />
           </div>
-
           <Grid container spacing={5} sx={{ mb: 5 }}>
             <Grid item xs={6}>
               <LearningDistribution
                 description="Data based on the current financial year so for"
-                barData={data.distribution.map((item) => ({
+                barData={data?.distribution?.map((item) => ({
                   label: item.name,
                   percentage: item.value_percentage,
                   color: null
@@ -188,6 +186,7 @@ const LanguagesReport = () => {
           </Grid>
 
           <SimpleTable
+            loading={isFetching}
             headers={[{ children: 'Course cost' }, { children: null }]}
             list={[
               [
