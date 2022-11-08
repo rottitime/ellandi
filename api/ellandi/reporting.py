@@ -133,8 +133,8 @@ def get_skill_data_for_users(users, skill_name):
     number_with_skill = user_skills.count()
     number_wanting_to_develop = user_skills_develop.count()
     if total_users:
-        percentage_with_skill = (number_with_skill / total_users) * 100
-        percentage_wanting_to_develop = (number_wanting_to_develop / total_users) * 100
+        percentage_with_skill = number_with_skill * 100 / total_users
+        percentage_wanting_to_develop = number_wanting_to_develop * 100 / total_users
     else:
         percentage_with_skill = 0
         percentage_wanting_to_develop = 0
@@ -156,7 +156,7 @@ def get_skill_data_for_users(users, skill_name):
         number_at_each_level.append(number)
 
     if number_with_skill:
-        percentage_at_each_level = [(x / number_with_skill) * 100 for x in number_at_each_level]
+        percentage_at_each_level = [(x * 100 / number_with_skill) for x in number_at_each_level]
     else:
         percentage_at_each_level = [0, 0, 0, 0, 0]
 
@@ -180,7 +180,7 @@ def get_lang_data_for_users(users, lang_name, lang_type):
 
     number_with_language = user_langs.count()
     if total_users:
-        percentage_with_language = round((number_with_language / total_users) * 100)
+        percentage_with_language = round((number_with_language * 100) / total_users)
     else:
         percentage_with_language = 0
 
@@ -197,7 +197,7 @@ def get_lang_data_for_users(users, lang_name, lang_type):
         number_at_each_level.append(number)
 
     if number_with_language:
-        percentage_at_each_level = [(x / number_with_language) * 100 for x in number_at_each_level]
+        percentage_at_each_level = [(x * 100 / number_with_language) for x in number_at_each_level]
     else:
         percentage_at_each_level = [0, 0, 0, 0]
 
