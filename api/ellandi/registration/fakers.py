@@ -73,6 +73,7 @@ def make_fake_user():
         is_mentor=make_bool(1, 3),
         is_line_manager=make_bool(1, 5),
         job_title=fake.job(),
+        is_active=True,
     )
 
     drop_down_data = {k: _get_random_object_name(v) for (k, v) in _DROP_DOWN_KEYS}
@@ -90,6 +91,7 @@ def make_admin_user():
         verified=True,
         is_staff=True,
         password="P455W0rd",
+        is_active=True,
     )
     return data
 
