@@ -363,10 +363,18 @@ def responsibilities_view(request):
         create_proportions_data_dict("Line managers", numerator=number_line_managers, denominator=total_users),
         create_proportions_data_dict("Mentors", numerator=number_mentors, denominator=total_users),
     ]
+    # Different format for total users
+    data.append(
+        {
+            "name": "Total users",
+            "total_label": total_users,
+            "total_value_total": total_users,
+            "total_value_percentage": 100,
+        }
+    )
     format = request.query_params.get("format", "json")
     if format == "csv":
         return Response(data=data, status=status.HTTP_200_OK, content_type="text/csv")
-    data.append({"name": "Total users", "total_label": total_users})
     data = {"data": data}
     return Response(data=data, status=status.HTTP_200_OK, content_type="application/json")
 
