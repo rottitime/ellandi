@@ -81,6 +81,19 @@ def make_fake_user():
     return data
 
 
+def make_admin_user():
+    data = dict(
+        first_name="Ad",
+        last_name="Min",
+        email="admin@example.com".lower(),
+        privacy_policy_agreement=True,
+        verified=True,
+        is_staff=True,
+        password="P455W0rd",
+    )
+    return data
+
+
 def add_users(number):
     for i in range(number):
         user_data = make_fake_user()
@@ -98,3 +111,6 @@ def add_users(number):
             user_skill = models.UserSkillDevelop(user=user, **skill_data)
             user_skill.save()
         yield user
+    user = models.User(**make_admin_user())
+    user.save()
+    yield user
