@@ -155,6 +155,26 @@ def get_language_list_from_params(request):
     return languages
 
 
+def format_perc_label(number, percentage):
+    return f"{number} ({round(percentage)}%)"
+
+
+def none_to_zero(number):
+    if not number:
+        number = 0
+    return number
+
+
+def get_percentage_for_learning_type(type, learning_qs):
+
+    formal_total = learning_qs.filter(learning_type=type).aggregate(Sum("duration_minutes"))[
+        "duration_minutes__sum"
+    ]
+    formal_total = none_to_zero(formal_tot)
+    perc = total_for_type / total_all * 100
+    return round(perc)
+
+
 def get_skill_data_for_users(users, skill_name):
     total_users = users.count()
     user_skills = UserSkill.objects.filter(user__in=users).filter(name=skill_name)
@@ -460,36 +480,41 @@ def get_learning_for_users_since_start_year(users_qs):
 def get_summary_course_costs(learning_qs):
     formal_learning_with_costs = learning_qs.filter(learning_type="Formal").exclude(cost_unknown=True)
     cost_aggregates = formal_learning_with_costs.aggregate(Sum("cost_pounds"), Avg("cost_pounds"))
-    return round(cost_aggregates["cost_pounds__avg"]), round(cost_aggregates["cost_pounds__sum"])
+    avg_cost = none_to_zero(cost_aggregates["cost_pounds__avg"])
+    sum_cost = none_to_zero(cost_aggregates["cost_pounds__sum"])
+    return round(avg_cost), round(sum_cost)
+
+
+def get_percentage_for_learning_type(type, learning_qs, total_all_types):
+    if total_all_types == 0:
+        return 0
+    total_for_type = learning_qs.filter(learning_type=type).aggregate(Sum("duration_minutes"))[
+        "duration_minutes__sum"
+    ]
+    total_for_type = none_to_zero(total_for_type)
+    perc = total_for_type / total_all_types * 100
+    return round(perc)
 
 
 def get_learning_distribution(learning_qs):
-    formal_total = learning_qs.filter(learning_type="Formal").aggregate(Sum("duration_minutes"))[
+    total_all_types = learning_qs.filter(learning_type="Formal").aggregate(Sum("duration_minutes"))[
         "duration_minutes__sum"
     ]
-    social_total = learning_qs.filter(learning_type="Social").aggregate(Sum("duration_minutes"))[
-        "duration_minutes__sum"
-    ]
-    on_the_job_total = learning_qs.filter(learning_type="On the job").aggregate(Sum("duration_minutes"))[
-        "duration_minutes__sum"
-    ]
-    total = formal_total + social_total + on_the_job_total
-    type_totals = (formal_total, social_total, on_the_job_total)
-    percentages = type_totals / total * 100
-    percentages = map(round, percentages)
+    total_all_types = none_to_zero(total_all_types)
     output = [
-        {"name": "Formal", "value_percentage": percentages[0]},
+        {"name": "Formal", "value_percentage": get_percentage_for_learning_type("Formal", learning_qs, total_all_types)},
         {
             "name": "Social",
-            "value_percentage": percentages[1],
+            "value_percentage": get_percentage_for_learning_type("Social", learning_qs, total_all_types),
         },
-        {"name": "On the job", "value_percentage": percentages[2]},
+        {"name": "On the job", "value_percentage": get_percentage_for_learning_type("On the job", learning_qs, total_all_types)},
     ]
     return output
 
 
 def get_total_avg_learning_financial_year(learning_qs, total_users):
-    total_learning = learning_qs.aggregate(Sum("duration_minutes"))["duration_minues__sum"]
+    total_learning = learning_qs.aggregate(Sum("duration_minutes"))["duration_minutes__sum"]
+    total_learning = none_to_zero(total_learning)
     avg_learning_mins = total_learning / total_users
     proportion_learning_per_user = avg_learning_mins / MINUTES_IN_LEARNING_TARGET * 100
     days_per_user = proportion_learning_per_user
