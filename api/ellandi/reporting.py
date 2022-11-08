@@ -247,8 +247,7 @@ class CSVRendererLanguages(CSVRenderer):
     responses=None,
 )
 @decorators.api_view(["GET"])
-# TODO - needs to be changed to "reporting permissions" - details TBC
-@decorators.permission_classes((permissions.IsAuthenticated,))
+@decorators.permission_classes((permissions.IsAdminUser,))
 @decorators.renderer_classes(
     (
         renderers.JSONRenderer,
@@ -299,8 +298,7 @@ def report_skills_view(request):
     responses=None,
 )
 @decorators.api_view(["GET"])
-# TODO - needs to be changed to "reporting permissions" - details TBC
-@decorators.permission_classes((permissions.IsAuthenticated,))
+@decorators.permission_classes((permissions.IsAdminUser,))
 @decorators.renderer_classes(
     (
         renderers.JSONRenderer,
