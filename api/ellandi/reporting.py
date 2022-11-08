@@ -1,22 +1,20 @@
 import datetime
 
-from django.db.models import Sum, Avg
-
+from django.db.models import Avg, Sum
 from django.utils.text import slugify
 from drf_spectacular.utils import OpenApiParameter, extend_schema
 from rest_framework import decorators, permissions, renderers, status
 from rest_framework.response import Response
 from rest_framework_csv.renderers import CSVRenderer
 
-
 from ellandi.registration.exceptions import MissingLanguageTypeError
 from ellandi.registration.models import (
     Grade,
+    Learning,
     User,
     UserLanguage,
     UserSkill,
     UserSkillDevelop,
-    Learning
 )
 
 # TODO - maybe change column names for CSV
@@ -77,10 +75,14 @@ HOURS_IN_WORK_DAY = 7.4
 
 LEARNING_TARGET_IN_DAYS = 10
 
+<<<<<<< HEAD
 MINUTES_IN_LEARNING_TARGET = LEARNING_TARGET_IN_DAYS*HOURS_IN_WORK_DAY*60
 
 
 >>>>>>> 713d6aac (add start to learning endpoint)
+=======
+MINUTES_IN_LEARNING_TARGET = LEARNING_TARGET_IN_DAYS * HOURS_IN_WORK_DAY * 60
+>>>>>>> 1fbefab4 (blacken)
 
 
 def filter_users_type(request, users_qs):
@@ -462,36 +464,36 @@ def get_summary_course_costs(learning_qs):
 
 
 def get_learning_distribution(learning_qs):
-    formal_total = learning_qs.filter(learning_type="Formal").aggregate(Sum("duration_minutes"))["duration_minutes__sum"]
-    social_total = learning_qs.filter(learning_type="Social").aggregate(Sum("duration_minutes"))["duration_minutes__sum"]
-    on_the_job_total = learning_qs.filter(learning_type="On the job").aggregate(Sum("duration_minutes"))["duration_minutes__sum"]
+    formal_total = learning_qs.filter(learning_type="Formal").aggregate(Sum("duration_minutes"))[
+        "duration_minutes__sum"
+    ]
+    social_total = learning_qs.filter(learning_type="Social").aggregate(Sum("duration_minutes"))[
+        "duration_minutes__sum"
+    ]
+    on_the_job_total = learning_qs.filter(learning_type="On the job").aggregate(Sum("duration_minutes"))[
+        "duration_minutes__sum"
+    ]
     total = formal_total + social_total + on_the_job_total
     type_totals = (formal_total, social_total, on_the_job_total)
-    percentages = type_totals/total*100
+    percentages = type_totals / total * 100
     percentages = map(round, percentages)
     output = [
-        {
-            "name": "Formal",
-            "value_percentage": percentages[0]
-        },
+        {"name": "Formal", "value_percentage": percentages[0]},
         {
             "name": "Social",
             "value_percentage": percentages[1],
         },
-        {
-            "name": "On the job",
-            "value_percentage": percentages[2]
-        }
+        {"name": "On the job", "value_percentage": percentages[2]},
     ]
     return output
 
 
 def get_total_avg_learning_financial_year(learning_qs, total_users):
     total_learning = learning_qs.aggregate(Sum("duration_minutes"))["duration_minues__sum"]
-    avg_learning_mins = total_learning/total_users
-    proportion_learning_per_user = avg_learning_mins/MINUTES_IN_LEARNING_TARGET*100
+    avg_learning_mins = total_learning / total_users
+    proportion_learning_per_user = avg_learning_mins / MINUTES_IN_LEARNING_TARGET * 100
     days_per_user = proportion_learning_per_user
-    avg_perc = round(proportion_learning_per_user*100)
+    avg_perc = round(proportion_learning_per_user * 100)
     return round(days_per_user), avg_perc
 
 
