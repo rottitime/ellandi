@@ -420,7 +420,7 @@ def test_get_grades(client, user_id):
 
 
 @utils.with_logged_in_admin_client
-@with_setup(setup_users_skills, teardown_users_skills)
+@with_setup(setup_users, teardown_users)
 def test_get_staff_overview(client, user_id):
     response = client.get(STAFF_OVERVIEW_ENDPOINT)
 
