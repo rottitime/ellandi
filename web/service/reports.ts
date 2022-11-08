@@ -1,7 +1,6 @@
 import { defaultError } from '@/service/auth'
 import { createUrl } from '@/lib/url-utils'
 import getConfig from 'next/config'
-import { MeReporLearning } from './types'
 const { publicRuntimeConfig } = getConfig()
 
 const urls = {
@@ -29,7 +28,7 @@ export const fetchReportResponsibility = async (token: string) => {
 
 export const fetchReportGrade = async (token: string) => {
   const res = await api(token, urls.grade)
-  return res
+  return res.json()
 }
 
 export const fetchReportLearning = async (token: string) => {
@@ -66,10 +65,12 @@ const api = async (
   const res: Response = await fetch(apiUrl, {
     headers: { Authorization: `Token ${token}` }
   })
+  let detailMessage
   if (res.ok) return res
   try {
     const { detail } = await res.json()
-    if (detail) throw new Error(detail)
+    detailMessage = detail
   } catch (e) {}
-  throw new Error(defaultError)
+
+  throw new Error(detailMessage || defaultError)
 }

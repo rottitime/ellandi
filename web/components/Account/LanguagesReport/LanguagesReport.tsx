@@ -11,7 +11,14 @@ import {
   Query,
   ReportLanguagesData
 } from '@/service/api'
-import { FormControlLabel, Radio, RadioGroup, styled, Typography } from '@mui/material'
+import {
+  Alert,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+  styled,
+  Typography
+} from '@mui/material'
 import { useState } from 'react'
 import { useQuery } from 'react-query'
 import { FiltersType } from './types'
@@ -44,7 +51,10 @@ const LanguagesReport = () => {
   const [exportLoading, setExportLoading] = useState(false)
   const debouncedSearchQuery = useDebounce(filters, 600)
 
-  const { isLoading, data, isFetching } = useQuery<MeReportLanguages>(
+  const { isLoading, data, isFetching, isError, error, isSuccess } = useQuery<
+    MeReportLanguages,
+    Error
+  >(
     [Query.ReportLanguages, debouncedSearchQuery],
     () => authFetch(fetchReportLanguages, debouncedSearchQuery),
     {
@@ -58,9 +68,14 @@ const LanguagesReport = () => {
       <Typography variant="h2" gutterBottom>
         Languages data
       </Typography>
-      {isLoading ? (
-        <SkeletonTable columns={3} rows={5} />
-      ) : (
+
+      {isLoading && <SkeletonTable columns={3} rows={5} />}
+      {isError && (
+        <Alert severity="error" sx={{ mt: 3, mb: 3 }}>
+          {error?.message}
+        </Alert>
+      )}
+      {isSuccess && (
         <>
           <div className="main-filters">
             <Select

@@ -14,7 +14,7 @@ import {
   Query,
   SimpleLabelValueData
 } from '@/service/api'
-import { Box } from '@mui/material'
+import { Alert, Box } from '@mui/material'
 import { useState } from 'react'
 import { useQuery } from 'react-query'
 
@@ -22,18 +22,38 @@ const StaffReport = () => {
   const { authFetch } = useAuth()
   const [exportLoading, setExportLoading] = useState(false)
 
-  const { isLoading: isLoadingResponsibility, data: dataResponsibility } =
-    useQuery<MeReporResponsibility>(
-      Query.ReportResponsibility,
-      () => authFetch(fetchReportResponsibility),
-      { staleTime: Infinity }
-    )
-
-  const { isLoading: isLoadingGrade, data: dataGrade } = useQuery<MeReportSkills>(
-    Query.ReportGrade,
-    () => authFetch(fetchReportGrade),
+  const {
+    isLoading: isLoadingResponsibility,
+    data: dataResponsibility,
+    isError: isErrorResponsibility,
+    error: errorResponsibility
+  } = useQuery<MeReporResponsibility, Error>(
+    Query.ReportResponsibility,
+    () => authFetch(fetchReportResponsibility),
     { staleTime: Infinity }
   )
+
+  const {
+    isLoading: isLoadingGrade,
+    data: dataGrade,
+    isError: isErrorGrade,
+    error: errorGrade
+  } = useQuery<MeReportSkills, Error>(
+    Query.ReportGrade,
+    () => authFetch(fetchReportGrade),
+    {
+      staleTime: Infinity
+    }
+  )
+
+  if (isErrorResponsibility || isErrorGrade)
+    return (
+      <AccountCard>
+        <Alert severity="error" sx={{ mt: 3, mb: 3 }}>
+          {errorResponsibility?.message || errorGrade?.message}
+        </Alert>
+      </AccountCard>
+    )
 
   return (
     <>

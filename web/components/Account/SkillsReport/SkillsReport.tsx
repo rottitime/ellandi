@@ -14,6 +14,7 @@ import {
   ReportSkillsData
 } from '@/service/api'
 import {
+  Alert,
   Box,
   FormControlLabel,
   Radio,
@@ -74,7 +75,10 @@ const SkillsReport: FC<Props> = (props) => {
     { staleTime: Infinity }
   )
 
-  const { isLoading, data, isFetching } = useQuery<MeReportSkills>(
+  const { isLoading, data, isFetching, error, isError, isSuccess } = useQuery<
+    MeReportSkills,
+    Error
+  >(
     [Query.ReportSkills, debouncedSearchQuery],
     () => authFetch(fetchReportSkills, debouncedSearchQuery),
     {
@@ -131,9 +135,16 @@ const SkillsReport: FC<Props> = (props) => {
         <Typography variant="h2" gutterBottom>
           Skills data
         </Typography>
-        {isLoading ? (
-          <SkeletonTable columns={3} rows={5} />
-        ) : (
+
+        {isError && (
+          <Alert severity="error" sx={{ mt: 3, mb: 3 }}>
+            {error?.message}
+          </Alert>
+        )}
+
+        {isLoading && <SkeletonTable columns={3} rows={5} />}
+
+        {isSuccess && (
           <>
             <div className="main-filters">
               <Select
