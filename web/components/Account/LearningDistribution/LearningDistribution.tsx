@@ -43,7 +43,11 @@ const LearningDistribution = ({ barData = [], description, titleTip }: Props) =>
         )}
       </Typography>
 
-      {description && <Typography>{description}</Typography>}
+      {description && (
+        <Typography variant="body2" gutterBottom>
+          {description}
+        </Typography>
+      )}
       <GraphDescription variant="body2">
         {data.map(({ label, color, percentage }) => (
           <span key={label}>

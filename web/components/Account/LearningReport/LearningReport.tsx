@@ -168,6 +168,7 @@ const LanguagesReport = () => {
           <Grid container spacing={5} sx={{ mb: 5 }}>
             <Grid item xs={6}>
               <LearningDistribution
+                description="Data based on the current financial year so for"
                 barData={data.distribution.map((item) => ({
                   label: item.name,
                   percentage: item.value_percentage,
@@ -178,6 +179,7 @@ const LanguagesReport = () => {
             <Grid item xs={6}>
               <LearningGoalBar
                 description="Average number of days learning completed per person so far this financial year"
+                titleTip="Based on a 37 hour working week, one day is the equivalent of 7.4 hours, or 7 hours 24 minutes"
                 disableFetch
                 days={data.goal_value_days}
                 percentage={data.goal_value_percentage}

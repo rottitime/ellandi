@@ -1,4 +1,5 @@
 import Skeleton from '@/components/UI/Skeleton/Skeleton'
+import Tooltip from '@/components/UI/Tooltip/Tooltip'
 import useAuth from '@/hooks/useAuth'
 import { isBetweenBusinessDates } from '@/lib/date-utils'
 import { fetchMeLearning } from '@/service/me'
@@ -27,6 +28,7 @@ const LearningGoalBar = ({
   disableFetch,
   days,
   percentage,
+  titleTip,
   ...props
 }: Props) => {
   const { authFetch } = useAuth()
@@ -57,6 +59,9 @@ const LearningGoalBar = ({
           {!hideTitle && (
             <Typography variant="h2" component="h3" gutterBottom>
               Learning goal
+              {titleTip && (
+                <Tooltip sx={{ p: 0 }} brandColor="brandLearning" title={titleTip} />
+              )}
             </Typography>
           )}
           {description && (
