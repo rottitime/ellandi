@@ -26,11 +26,16 @@ def make_bool(true=1, false=1):
     return random.choice(choices)
 
 
-def make_user_skill(develop=False):
-    data = dict(
-        name=fake.sentence(),
-        pending=make_bool(),
-    )
+def make_user_skill(seen_skills=None, develop=False):
+    if not seen_skills:
+        seen_skills = {}
+    if len(seen_skills) > 10 and make_bool(2, 1):
+        data = random.choice(seen_skills.values())
+    else:
+        data = dict(
+            name=fake.sentence(),
+            pending=make_bool(),
+        )
     if not develop:
         data["level"] = random.choice(models.UserSkill.SkillLevel.values)
     return data
@@ -83,8 +88,9 @@ def add_users(number):
             user_data = make_fake_user()
         user = models.User(**user_data)
         user.save()
+        seen_skills = {}
         for _ in rand_range(10):
-            skill_data = make_user_skill()
+            skill_data = make_user_skill(seen_skills)
             user_skill = models.UserSkill(user=user, **skill_data)
             user_skill.save()
         for _ in rand_range(10):
