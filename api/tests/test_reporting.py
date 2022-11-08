@@ -19,6 +19,7 @@ SKILLS_ENDPOINT = "/api/me/reports/skills/"
 LANGUAGES_ENDPOINT = "/api/me/reports/languages/"
 RESPONSIBILITIES_ENDPOINT = "/api/me/reports/responsibilities/"
 GRADES_ENDPOINT = "/api/me/reports/grades/"
+STAFF_OVERVIEW_ENDPOINT = "/api/me/reports/staff-overview/"
 
 
 def add_skills(user, i):
@@ -244,7 +245,13 @@ def test_get_report_skills_grades(client, user_id):
 
 @utils.with_logged_in_client
 def test_endpoints_require_login(client, user_id):
-    endpoints = [SKILLS_ENDPOINT, LANGUAGES_ENDPOINT, RESPONSIBILITIES_ENDPOINT, GRADES_ENDPOINT]
+    endpoints = [
+        SKILLS_ENDPOINT,
+        LANGUAGES_ENDPOINT,
+        RESPONSIBILITIES_ENDPOINT,
+        GRADES_ENDPOINT,
+        STAFF_OVERVIEW_ENDPOINT,
+    ]
     for endpoint in endpoints:
         response = client.get(endpoint)
         assert response.status_code == status.HTTP_403_FORBIDDEN
@@ -351,4 +358,11 @@ def test_get_grades(client, user_id):
     assert grade_6_data["total_value_total"] == 5
     assert other_data["total_label"] == "0 (0%)"
     response = client.get(f"{GRADES_ENDPOINT}?format=csv")
+    assert response.status_code == status.HTTP_200_OK
+
+
+@utils.with_logged_in_admin_client
+@with_setup(setup_users_skills, teardown_users_skills)
+def test_get_staff_overview(client, user_id):
+    response = client.get(STAFF_OVERVIEW_ENDPOINT)
     assert response.status_code == status.HTTP_200_OK

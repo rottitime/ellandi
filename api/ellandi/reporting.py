@@ -376,6 +376,7 @@ def get_grades_data():
     return output_list
 
 
+@extend_schema(request=None, responses=None)
 @decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.IsAdminUser,))
 @decorators.renderer_classes(
@@ -394,6 +395,7 @@ def responsibilities_view(request):
     return Response(data=data, status=status.HTTP_200_OK, content_type="application/json")
 
 
+@extend_schema(request=None, responses=None)
 @decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.IsAdminUser,))
 @decorators.renderer_classes(
@@ -410,11 +412,12 @@ def grades_view(request):
     return Response(data={"data": output_list}, status=status.HTTP_200_OK, content_type="application/json")
 
 
+@extend_schema(request=None, responses=None)
 @decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.IsAdminUser,))
-@decorators.renderer_classes(CSVRenderer)
+@decorators.renderer_classes((CSVRenderer,))
 def staff_overview_view(request):
     data, _ = get_responsibilities_data()
     grades_data = get_grades_data()
-    data.append(grades_data)
+    data.extend(grades_data)
     return Response(data=data, status=status.HTTP_200_OK, content_type="text/csv")
