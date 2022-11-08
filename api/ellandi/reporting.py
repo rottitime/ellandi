@@ -458,7 +458,7 @@ def get_learning_for_users_since_start_year(users_qs):
 def get_summary_course_costs(learning_qs):
     formal_learning_with_costs = learning_qs.filter(learning_type="Formal").exclude(cost_unknown=True)
     cost_aggregates = formal_learning_with_costs.aggregate(Sum("cost_pounds"), Avg("cost_pounds"))
-    return cost_aggregates["cost_pounds__sum"], cost_aggregates["cost_pounds__avg"]
+    return round(cost_aggregates["cost_pounds__avg"]), round(cost_aggregates["cost_pounds__sum"])
 
 
 def get_learning_distribution(learning_qs):
@@ -469,12 +469,24 @@ def get_learning_distribution(learning_qs):
     type_totals = (formal_total, social_total, on_the_job_total)
     percentages = type_totals/total*100
     percentages = map(round, percentages)
-    return percentages
+    output = [
+        {
+            "name": "Formal",
+            "value_percentage": percentages[0]
+        },
+        {
+            "name": "Social",
+            "value_percentage": percentages[1],
+        },
+        {
+            "name": "On the job",
+            "value_percentage": percentages[2]
+        }
+    ]
+    return output
 
 
-def get_total_avg_learning_financial_year(users_qs):
-    learning_qs = get_learning_for_users_since_start_year(users_qs)
-    total_users = users_qs.count()
+def get_total_avg_learning_financial_year(learning_qs, total_users):
     total_learning = learning_qs.aggregate(Sum("duration_minutes"))["duration_minues__sum"]
     avg_learning_mins = total_learning/total_users
     proportion_learning_per_user = avg_learning_mins/MINUTES_IN_LEARNING_TARGET*100
@@ -483,20 +495,18 @@ def get_total_avg_learning_financial_year(users_qs):
     return round(days_per_user), avg_perc
 
 
-
-
-
-
-#  course_average_cost_label: 'string' //e.g. £300
-#   course_total_cost_label: 'string' //e.g. £500,000
-#   goal_value_days: number //5
-#   goal_value_percentage: number //e.g. 50
-#   distribution: [
-#     {
-#       name: string //e.g. "On the job", "Social","Formal"
-#       value_percentage: number
-#     }
-#   ]
-
 def learning_view(request):
-    users_qs = get_filtered_users(request).filter(learning_type="")
+    users_qs = get_filtered_users(request)
+    total_users = users_qs.count()
+    learning_qs = get_learning_for_users_since_start_year(users_qs)
+    course_average_cost, course_total_cost = get_summary_course_costs(learning_qs)
+    avg_completed_this_year, perc_completed_this_year = get_total_avg_learning_financial_year(learning_qs, total_users)
+    learning_distribution = get_learning_distribution(learning_qs)
+    output_dict = {
+        "course_average_cost_label": f"{course_average_cost:,}",
+        "course_total_cost_label": f"{course_total_cost:,}",
+        "goal_value_days": avg_completed_this_year,
+        "goal_value_percentage": perc_completed_this_year,
+        "distribution": learning_distribution,
+    }
+    return Response(data=output_dict, status=status.HTTP_200_OK, content_type="application/json")
