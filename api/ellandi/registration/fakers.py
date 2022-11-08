@@ -90,7 +90,6 @@ def make_admin_user():
         privacy_policy_agreement=True,
         verified=True,
         is_staff=True,
-        password="P455W0rd",
         is_active=True,
     )
     return data
@@ -102,6 +101,7 @@ def add_users(number):
         while models.User.objects.filter(email=user_data["email"]).exists():
             user_data = make_fake_user()
         user = models.User(**user_data)
+        user.set_password("P455W0rd")
         user.save()
         seen_skills = {}
         for _ in rand_range(10):
@@ -115,4 +115,5 @@ def add_users(number):
         yield user
     user = models.User(**make_admin_user())
     user.save()
+    user.set_password("P455W0rd")
     yield user
