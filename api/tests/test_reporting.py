@@ -457,4 +457,29 @@ def test_get_learning_params(client, user_id):
     assert actual_result == expected_result, actual_result
 
 
-# TODO - test professions for learning, mentor, line manager
+@utils.with_logged_in_admin_client
+@with_setup(setup_users, teardown_users)
+def test_get_learning_user_types(client, user_id):
+    endpoint = f"{LEARNING_ENDPOINT}?users=mentors&functions=Analysis,Digital,Commercial"
+    response = client.get(endpoint)
+    result = response.json()
+    assert result["course_average_cost_label"] == "£100", result
+    assert result["course_total_cost_label"] == "£300", result
+    endpoint = f"{LEARNING_ENDPOINT}?users=line_managers&grades=Grade%206%20Equivalent"
+    response = client.get(endpoint)
+    result = response.json()
+    result["goal_value_days"] == 9, result
+
+
+@utils.with_logged_in_admin_client
+@with_setup(setup_users, teardown_users)
+def test_get_learning_professions(client, user_id):
+    endpoint = f"{LEARNING_ENDPOINT}?users=all&business_units=i.AI,ADD&professions=Operational%20research,Social%20research,Policy"  # noqa
+    response = client.get(endpoint)
+    result = response.json()
+    assert result["course_total_cost_label"] == "£500", result
+    assert result["goal_value_days"] == 5, result
+    endpoint = f"{LEARNING_ENDPOINT}?users=all&business_units=i.AI&professions=Operational%20research"
+    response = client.get(endpoint)
+    result = response.json()
+    assert result["course_average_cost_label"] == "£0", result

@@ -64,6 +64,12 @@ def format_perc_label(number, percentage):
     return f"{number} ({round(percentage)}%)"
 
 
+def none_to_zero(number):
+    if not number:
+        number = 0
+    return number
+
+
 def create_proportions_data_dict(name, numerator, denominator):
     percentage = (numerator / denominator) * 100
     output = {
@@ -143,16 +149,6 @@ def get_language_list_from_params(request):
     languages = set(lang_vals)
     languages = list(languages)
     return languages
-
-
-def format_perc_label(number, percentage):
-    return f"{number} ({round(percentage)}%)"
-
-
-def none_to_zero(number):
-    if not number:
-        number = 0
-    return number
 
 
 def get_skill_data_for_users(users, skill_name):
