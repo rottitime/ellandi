@@ -408,3 +408,13 @@ def grades_view(request):
     if format == "csv":
         return Response(data=output_list, status=status.HTTP_200_OK, content_type="text/csv")
     return Response(data={"data": output_list}, status=status.HTTP_200_OK, content_type="application/json")
+
+
+@decorators.api_view(["GET"])
+@decorators.permission_classes((permissions.IsAdminUser,))
+@decorators.renderer_classes(CSVRenderer)
+def staff_overview_view(request):
+    data, _ = get_responsibilities_data()
+    grades_data = get_grades_data()
+    data.append(grades_data)
+    return Response(data=data, status=status.HTTP_200_OK, content_type="text/csv")
