@@ -21,10 +21,6 @@ RESPONSIBILITIES_ENDPOINT = "/api/me/reports/responsibilities/"
 GRADES_ENDPOINT = "/api/me/reports/grades/"
 
 
-# TODO - look at all tests and make sure they are testing for the
-# right permissions - new permissions for reporting to be added
-
-
 def add_skills(user, i):
     remainder = i % 5
     skill = UserSkill(user=user, name="Economics", level=SKILL_LEVELS[remainder])
