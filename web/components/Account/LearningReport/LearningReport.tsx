@@ -181,7 +181,12 @@ const LanguagesReport = () => {
               />
             </Grid>
             <Grid item xs={6}>
-              <LearningGoalBar description="Average number of days learning completed per person so far this financial year" />
+              <LearningGoalBar
+                description="Average number of days learning completed per person so far this financial year"
+                disableFetch
+                days={data.goal_value_days}
+                percentage={data.goal_value_percentage}
+              />
             </Grid>
           </Grid>
 

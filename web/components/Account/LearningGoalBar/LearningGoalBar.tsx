@@ -22,23 +22,32 @@ const GoalBar = styled(Box)`
   }
 `
 
-const LearningGoalBar = ({ hideTitle, description, ...props }: Props) => {
+const LearningGoalBar = ({
+  hideTitle,
+  description,
+  disableFetch,
+  days,
+  percentage,
+  ...props
+}: Props) => {
   const { authFetch } = useAuth()
 
   const { isLoading, data } = useQuery<MeLearningRecord[]>(
     Query.MeLearning,
     () => authFetch(fetchMeLearning),
-    { initialData: [], staleTime: 0 }
+    { initialData: [], staleTime: 0, enabled: !disableFetch }
   )
 
-  const totalMinutes = data
-    .filter(({ date_completed }) =>
-      //finanical year as  01April to 31March
-      isBetweenBusinessDates(date_completed, '0000-04-01', '0000-03-31')
-    )
-    .reduce((p, { duration_minutes }) => p + duration_minutes, 0)
-  const totalDays = Math.trunc(totalMinutes / minutesPerDay)
-  const percentage = Math.trunc((totalMinutes / minutesPerDay / 10) * 100)
+  if (!disableFetch) {
+    const totalMinutes = data
+      .filter(({ date_completed }) =>
+        //finanical year as  01April to 31March
+        isBetweenBusinessDates(date_completed, '0000-04-01', '0000-03-31')
+      )
+      .reduce((p, { duration_minutes }) => p + duration_minutes, 0)
+    days = Math.trunc(totalMinutes / minutesPerDay)
+    percentage = Math.trunc((totalMinutes / minutesPerDay / 10) * 100)
+  }
 
   return (
     <GoalBar {...props}>
@@ -61,7 +70,7 @@ const LearningGoalBar = ({ hideTitle, description, ...props }: Props) => {
               className={`stat ${percentage >= 100 ? 'completed' : ''}`}
               data-testid="stat"
             >
-              {totalDays} {totalDays === 1 ? 'day' : 'days'} ({percentage}%)
+              {days} {days === 1 ? 'day' : 'days'} ({percentage}%)
             </span>{' '}
             completed
           </Typography>
