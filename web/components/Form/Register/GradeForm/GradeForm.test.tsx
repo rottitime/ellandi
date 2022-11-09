@@ -2,21 +2,22 @@ import { screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { renderWithProviders } from '@/lib/test-utils'
 import GradeForm from './GradeForm'
-import fetchMock from 'jest-fetch-mock'
 
-describe('GradeForm', () => {
-  const mockResponse = [
+const mockResponse = [
+  { slug: 'a', name: 'A' },
+  { slug: 'b', name: 'B' }
+]
+
+jest.mock(
+  '@/prefetch/grades.json',
+  () => [
     { slug: 'a', name: 'A' },
     { slug: 'b', name: 'B' }
-  ]
+  ],
+  { virtual: true }
+)
 
-  beforeEach(() => {
-    fetchMock.resetMocks()
-    fetchMock.mockResponseOnce(JSON.stringify(mockResponse), {
-      status: 200
-    })
-  })
-
+describe('GradeForm', () => {
   it('renders', async () => {
     renderWithProviders(
       <GradeForm defaultValues={null} backUrl="/back" onFormSubmit={jest.fn()} />
