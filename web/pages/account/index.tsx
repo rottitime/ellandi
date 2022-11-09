@@ -102,11 +102,6 @@ const IndexPage = () => {
 
         <AccountCard
           color="brandLearning"
-          header={
-            <Typography variant="h2" component="h3">
-              Learning goal
-            </Typography>
-          }
           action={
             <Button variant="contained" href="/account/learning/add/">
               Add learning
@@ -114,7 +109,6 @@ const IndexPage = () => {
           }
         >
           <LearningGoalBar
-            hideTitle
             sx={{ mb: 5 }}
             description="You should aim to complete 10 days learning each year"
           />
