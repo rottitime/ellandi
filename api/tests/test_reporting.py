@@ -420,6 +420,7 @@ def test_get_staff_overview(client, user_id):
     assert response.status_code == status.HTTP_200_OK
 
 
+@utils.with_logged_in_admin_client
 @with_setup(setup_users, teardown_users)
 def test_get_learning(client, user_id):
     response = client.get(LEARNING_ENDPOINT)
