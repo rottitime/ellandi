@@ -652,7 +652,8 @@ def me_recommend_most_relevant_skills(request):
     user = request.user
     job_title = user.job_title
     user_profession = user.primary_profession
-    user_skills_list = list(models.UserSkill.objects.filter(user=user).values_list("name"))
+    user_skills = tuple(models.UserSkill.objects.filter(user=user).values_list("name"))
 
-    combined_recommendations = recommend_bundled_skill_recommendations(user_skills_list, job_title, user_profession)
+
+    combined_recommendations = recommend_bundled_skill_recommendations(user_skills, job_title, user_profession)
     return Response(data=combined_recommendations, status=status.HTTP_200_OK)
