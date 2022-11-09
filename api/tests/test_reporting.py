@@ -8,10 +8,18 @@ from ellandi.registration.models import (
     UserSkill,
     UserSkillDevelop,
 )
-from ellandi.reporting import LANGUAGE_LEVELS_SKILLED, SKILL_LEVELS
+from ellandi.reporting import (
+    LANGUAGE_LEVELS_SKILLED,
+    SKILL_LEVELS,
+    create_proportions_data_dict,
+    format_perc_label,
+)
 
 SKILLS_ENDPOINT = "/api/me/reports/skills/"
 LANGUAGES_ENDPOINT = "/api/me/reports/languages/"
+RESPONSIBILITIES_ENDPOINT = "/api/me/reports/responsibilities/"
+GRADES_ENDPOINT = "/api/me/reports/grades/"
+STAFF_OVERVIEW_ENDPOINT = "/api/me/reports/staff-overview/"
 
 
 def add_skills(user, i):
@@ -73,9 +81,9 @@ def setup_users_skills():
         else:
             user.function = "Digital"
         if i % 2 == 0:
-            user.grade = "Grade 7"
+            user.grade = "Grade 7 Equivalent"
         else:
-            user.grade = "Grade 6"
+            user.grade = "Grade 6 Equivalent"
         if i % 3 == 0:
             user.is_line_manager = "Yes"
         if i % 4 == 0:
@@ -90,6 +98,19 @@ def teardown_users_skills():
     for i in range(0, 10):
         email = f"test{i}@example.com"
         User.objects.get(email=email).delete()
+
+
+def test_formate_perc_label():
+    assert format_perc_label(56, 98.55) == "56 (99%)"
+
+
+def test_create_proportions_data_dict():
+    name = "Test me"
+    numerator = 47
+    denominator = 88
+    actual = create_proportions_data_dict(name, numerator, denominator)
+    expected = {"name": "Test me", "total_label": "47 (53%)", "total_value_total": 47, "total_value_percentage": 53}
+    assert actual == expected
 
 
 @utils.with_logged_in_admin_client
@@ -176,7 +197,7 @@ def test_get_report_skills_business_unit(client, user_id):
     assert len(result["data"]) == 2
     assert result["data"][0]["total_users"] == 10
     assert result["data"][1]["total_users"] == 10
-    endpoint = f"{SKILLS_ENDPOINT}?functions=Analysis&grades=Grade%206&business_units=i.AI,CDIO"
+    endpoint = f"{SKILLS_ENDPOINT}?functions=Analysis&grades=Grade%206%20Equivalent&business_units=i.AI,CDIO"
     response = client.get(endpoint)
     assert response.status_code == status.HTTP_200_OK
     result = response.json()
@@ -214,7 +235,7 @@ def test_get_report_skills_professions(client, user_id):
 @utils.with_logged_in_admin_client
 @with_setup(setup_users_skills, teardown_users_skills)
 def test_get_report_skills_grades(client, user_id):
-    endpoint = f"{SKILLS_ENDPOINT}?skills=Science,Maths,Writing,AWS&grades=Grade%206,Grade%207&business_units=i.AI"
+    endpoint = f"{SKILLS_ENDPOINT}?skills=Science,Maths,Writing,AWS&grades=Grade%206%20Equivalent,Grade%207%20Equivalent&business_units=i.AI"  # noqa
     response = client.get(endpoint)
     assert response.status_code == status.HTTP_200_OK
     result = response.json()
@@ -224,7 +245,13 @@ def test_get_report_skills_grades(client, user_id):
 
 @utils.with_logged_in_client
 def test_endpoints_require_login(client, user_id):
-    endpoints = [SKILLS_ENDPOINT, LANGUAGES_ENDPOINT]
+    endpoints = [
+        SKILLS_ENDPOINT,
+        LANGUAGES_ENDPOINT,
+        RESPONSIBILITIES_ENDPOINT,
+        GRADES_ENDPOINT,
+        STAFF_OVERVIEW_ENDPOINT,
+    ]
     for endpoint in endpoints:
         response = client.get(endpoint)
         assert response.status_code == status.HTTP_403_FORBIDDEN
@@ -299,3 +326,43 @@ def test_languages_endpoint_params(client, user_id):
     result = response.json()
     assert result["total"] == 3
     assert result["data"][0]["total_users"] == 4, result["data"]
+
+
+@utils.with_logged_in_admin_client
+@with_setup(setup_users_skills, teardown_users_skills)
+def test_get_responsibilities(client, user_id):
+    response = client.get(RESPONSIBILITIES_ENDPOINT)
+    assert response.status_code == status.HTTP_200_OK
+    result = response.json()["data"]
+    assert len(result) == 3, result
+    line_manager_data = [data for data in result if data["name"] == "Line managers"][0]
+    mentor_data = [data for data in result if data["name"] == "Mentors"][0]
+    assert line_manager_data["total_label"] == "4 (36%)"
+    assert line_manager_data["total_value_total"] == 4
+    assert mentor_data["total_value_percentage"] == 27
+    response = client.get(f"{RESPONSIBILITIES_ENDPOINT}?format=csv")
+    assert response.status_code == status.HTTP_200_OK
+
+
+@utils.with_logged_in_admin_client
+@with_setup(setup_users_skills, teardown_users_skills)
+def test_get_grades(client, user_id):
+    response = client.get(GRADES_ENDPOINT)
+    assert response.status_code == status.HTTP_200_OK
+    result = response.json()["data"]
+    grade_7_data = [data for data in result if data["name"] == "Grade 7 Equivalent"][0]
+    grade_6_data = [data for data in result if data["name"] == "Grade 6 Equivalent"][0]
+    other_data = [data for data in result if data["name"] == "Other"][0]
+    assert grade_7_data["total_label"] == "5 (45%)"
+    assert grade_7_data["total_value_percentage"] == 45
+    assert grade_6_data["total_value_total"] == 5
+    assert other_data["total_label"] == "0 (0%)"
+    response = client.get(f"{GRADES_ENDPOINT}?format=csv")
+    assert response.status_code == status.HTTP_200_OK
+
+
+@utils.with_logged_in_admin_client
+@with_setup(setup_users_skills, teardown_users_skills)
+def test_get_staff_overview(client, user_id):
+    response = client.get(STAFF_OVERVIEW_ENDPOINT)
+    assert response.status_code == status.HTTP_200_OK
