@@ -269,7 +269,7 @@ const SkillsReport: FC<Props> = (props) => {
               loading={isFetching}
               initialState={{
                 sorting: {
-                  sortModel: [{ field: 'total_users', sort: 'desc' }]
+                  sortModel: [{ field: 'skill_value_total', sort: 'desc' }]
                 }
               }}
               columnVisibilityModel={{
