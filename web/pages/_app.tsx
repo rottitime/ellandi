@@ -3,7 +3,7 @@ import ThemeProvider from '@/components/ThemeProvider/ThemeProvider'
 import { CacheProvider, EmotionCache } from '@emotion/react'
 import createEmotionCache from '@/lib/createEmotionCache'
 import { ReactNode } from 'react'
-import { Hydrate, QueryClient, QueryClientProvider } from 'react-query'
+import { DehydratedState, Hydrate, QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { UiProvider } from '@/context/UiContext'
 import { AppProps } from 'next/app'
@@ -11,8 +11,9 @@ import { NextPage } from 'next'
 import LocalizationProvider from '@/components/LocalizationProvider/LocalizationProvider'
 import { title } from '@/content'
 
-interface MyAppProps extends AppProps {
+interface MyAppProps extends AppProps<{ dehydratedState: DehydratedState }> {
   emotionCache?: EmotionCache
+  pageProps
   Component: NextPage & {
     getLayout?: (page: ReactNode) => ReactNode
   }
