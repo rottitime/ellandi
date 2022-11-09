@@ -27,7 +27,7 @@ const ResetPasswordPage = () => {
       {error && (
         <Fade in={!!error}>
           <Alert severity="error" sx={{ mt: 3, mb: 3 }}>
-            Error: {error.message}
+            {error.message}
           </Alert>
         </Fade>
       )}
