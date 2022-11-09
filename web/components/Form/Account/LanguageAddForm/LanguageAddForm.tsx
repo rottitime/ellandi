@@ -1,7 +1,6 @@
 import {
   FormHelperText,
   IconButton,
-  Skeleton,
   Table as MuiTable,
   TableHead,
   TableRow,
@@ -13,14 +12,7 @@ import {
   MenuItem,
   styled
 } from '@mui/material'
-import {
-  GenericDataList,
-  Query,
-  LanguageType,
-  LanguagesType,
-  RegisterUserResponse
-} from '@/service/types'
-import { fetchLanguageSkillLevels } from '@/service/api'
+import { Query, LanguageType, LanguagesType, RegisterUserResponse } from '@/service/types'
 import { FC, useEffect, useMemo } from 'react'
 import { useQuery } from 'react-query'
 import { Controller, FormProvider, useFieldArray, useForm } from 'react-hook-form'
@@ -33,6 +25,7 @@ import Button from '@/components/UI/Button/Button'
 import useAuth from '@/hooks/useAuth'
 import { fetchMe } from '@/service/me'
 import dataLanguages from '@/prefetch/languages.json'
+import dataLevels from '@/prefetch/language-skill-levels.json'
 
 const Table = styled(MuiTable)`
   th.MuiTableCell-root {
@@ -60,11 +53,6 @@ const schema: SchemaOf<LanguagesType> = object().shape({
 
 const LanguageAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
   const { authFetch } = useAuth()
-
-  const { isLoading: isLoadingLevels, data: dataLevels } = useQuery<
-    GenericDataList[],
-    { message?: string }
-  >(Query.LanguageSkillLevels, fetchLanguageSkillLevels, { staleTime: Infinity })
 
   const { isFetched: isFetchedMe, data: dataMe } = useQuery<RegisterUserResponse>(
     Query.Me,
@@ -148,36 +136,28 @@ const LanguageAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
 
                   {['Speaking', 'Writing'].map((name) => (
                     <TableCell key={name}>
-                      {isLoadingLevels ? (
-                        <Skeleton sx={{ height: 60 }} />
-                      ) : (
-                        <Controller
-                          name={
-                            `languages.${index}.${name.toLowerCase()}_level` as `languages.${number}`
-                          }
-                          control={control}
-                          defaultValue={item[name] as LanguageType}
-                          render={({ field, fieldState: { error } }) => (
-                            <FormControl fullWidth error={!!error} size="small">
-                              <InputLabel>Level</InputLabel>
-                              <Select
-                                label="Select a level"
-                                variant="outlined"
-                                {...field}
-                              >
-                                {dataLevels.map(({ name }) => (
-                                  <MenuItem key={name} value={name}>
-                                    {name}
-                                  </MenuItem>
-                                ))}
-                              </Select>
-                              {!!error && (
-                                <FormHelperText error>{error.message}</FormHelperText>
-                              )}
-                            </FormControl>
-                          )}
-                        />
-                      )}
+                      <Controller
+                        name={
+                          `languages.${index}.${name.toLowerCase()}_level` as `languages.${number}`
+                        }
+                        control={control}
+                        defaultValue={item[name] as LanguageType}
+                        render={({ field, fieldState: { error } }) => (
+                          <FormControl fullWidth error={!!error} size="small">
+                            <InputLabel>Level</InputLabel>
+                            <Select label="Select a level" variant="outlined" {...field}>
+                              {dataLevels.map(({ name }) => (
+                                <MenuItem key={name} value={name}>
+                                  {name}
+                                </MenuItem>
+                              ))}
+                            </Select>
+                            {!!error && (
+                              <FormHelperText error>{error.message}</FormHelperText>
+                            )}
+                          </FormControl>
+                        )}
+                      />
                     </TableCell>
                   ))}
 

@@ -1,33 +1,11 @@
 import getConfig from 'next/config'
 import { FeedabckType, GenericDataList } from './types'
-import { sortWithOrder } from '@/lib/data-utils'
 import { defaultError } from '@/service/auth'
 
 const { publicRuntimeConfig } = getConfig()
 
-const byOrder = (a: GenericDataList, b: GenericDataList) =>
-  sortWithOrder(a.order, b.order)
-
-export const fetchLanguageSkillLevels = async (): Promise<GenericDataList[]> => {
-  const res = await fetch(`${publicRuntimeConfig.apiUrl}/language-skill-levels/`)
-  if (res.ok) return ((await res.json()) as GenericDataList[]).sort(byOrder)
-  throw new Error(defaultError)
-}
-
-export const fetchCountries = async (): Promise<GenericDataList[]> => {
-  const res = await fetch(`${publicRuntimeConfig.apiUrl}/countries/`)
-  if (res.ok) return res.json()
-  throw new Error(defaultError)
-}
-
 export const fetchSkills = async (): Promise<string[]> => {
   const res = await fetch(`${publicRuntimeConfig.apiUrl}/skills/`)
-  if (res.ok) return res.json()
-  throw new Error(defaultError)
-}
-
-export const fetchSkillLevels = async (): Promise<GenericDataList[]> => {
-  const res = await fetch(`${publicRuntimeConfig.apiUrl}/skill-levels/`)
   if (res.ok) return res.json()
   throw new Error(defaultError)
 }
@@ -59,12 +37,6 @@ export const fetchLearningTypes = async (): Promise<GenericDataList[]> => {
       order: 2
     }
   ])
-}
-
-export const fetchFunctions = async (): Promise<GenericDataList[]> => {
-  const res = await fetch(`${publicRuntimeConfig.apiUrl}/functions/`)
-  if (res.ok) return res.json()
-  throw new Error(defaultError)
 }
 
 export const fetchFeedback = async (
