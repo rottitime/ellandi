@@ -1,5 +1,5 @@
 import getConfig from 'next/config'
-import { FeedabckType, GenericDataList } from './types'
+import { FeedabckType } from './types'
 import { defaultError } from '@/service/auth'
 
 const { publicRuntimeConfig } = getConfig()
