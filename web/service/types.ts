@@ -18,7 +18,10 @@ export enum Query {
   MeLearning = 'meLearning',
   LearningTypes = 'LearningTypes',
   ReportSkills = 'ReportSkills',
-  ReportLanguages = 'ReportLanguages'
+  ReportLanguages = 'ReportLanguages',
+  ReportResponsibility = 'ReportResponsibility',
+  ReportGrade = 'ReportGrade',
+  ReportLearning = 'ReportLearning'
 }
 
 export type GenericDataList = {
@@ -220,17 +223,28 @@ export type ReportSkillsData = {
   skill_label: string
   skill_value_total: number
   skill_value_percentage: number
-  skills_develop_label: string
-  skills_develop_value_total: number
-  skills_develop_value_percentage: number
+  skill_develop_label: string
+  skill_develop_value_total: number
+  skill_develop_value_percentage: number
   beginner_label: string
+  beginner_value_percentage: number
+  beginner_value_total: number
   advanced_beginner_label: string
+  advanced_beginner_value_percentage: number
   competent_label: string
+  competent_value_percentage: number
+  competent_value_total: number
   proficient_label: string
+  proficient_value_percentage: number
+  proficient_value_total: number
   expert_label: string
+  expert_value_percentage: number
+  expert_value_total: number
+  total_users: number
 }
 
 export type MeReportSkills = {
+  total: number
   data: ReportSkillsData[]
 } & ReportPagination
 
@@ -253,3 +267,31 @@ export type ReportLanguagesData = {
 export type MeReportLanguages = {
   data: ReportLanguagesData[]
 } & ReportPagination
+
+export type SimpleLabelValueData = {
+  name: string //e.g. Line managers
+  total_label: string //e.g. 350 (36%)
+  total_value_total: number //e.g. 350
+  total_value_percentage: number //e.g. 36
+}
+
+export type MeReporResponsibility = {
+  data: SimpleLabelValueData[]
+}
+
+export type MeReporGrade = {
+  data: SimpleLabelValueData[]
+}
+
+export type ReportDistributionData = {
+  name: string
+  value_percentage: number
+}
+
+export type MeReporLearning = {
+  course_average_cost_label: string
+  course_total_cost_label: string
+  goal_value_days: number
+  goal_value_percentage: number
+  distribution: ReportDistributionData[]
+}

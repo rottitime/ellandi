@@ -5,24 +5,34 @@ import Select from '@/components/UI/Select/Select'
 import SkeletonTable from '@/components/UI/Skeleton/TableSkeleton'
 import useAuth from '@/hooks/useAuth'
 import {
-  exportReportSkills,
+  exportReportLanguages,
   fetchReportLanguages,
-  MeReportSkills,
+  MeReportLanguages,
   Query,
   ReportLanguagesData
 } from '@/service/api'
-import { FormControlLabel, Radio, RadioGroup, styled, Typography } from '@mui/material'
-import { useMemo, useState } from 'react'
+import {
+  Alert,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+  styled,
+  Typography
+} from '@mui/material'
+import { useState } from 'react'
 import { useQuery } from 'react-query'
-import SplitButton from '@/components/UI/SplitButton/SplitButton'
 import { FiltersType } from './types'
+import languages from '@/prefetch/languages.json'
+import { asStringList, csvDownload } from '@/lib/data-utils'
+import useDebounce from '@/hooks/useDebounce'
+import Button from '@/components/UI/Button/Button'
 
 const Card = styled(AccountCard)`
   .main-filters {
     display: flex;
     margin-bottom: ${(p) => p.theme.spacing(4)};
     gap: ${(p) => p.theme.spacing(3)};
-    .splitbutton {
+    .export {
       margin-left: auto;
     }
   }
@@ -37,17 +47,20 @@ const userOptions = ['Speaking', 'Writing']
 
 const LanguagesReport = () => {
   const { authFetch } = useAuth()
-  const [filters, setFilters] = useState<FiltersType>({})
+  const [filters, setFilters] = useState<FiltersType>({ type: 'speaking' })
+  const [exportLoading, setExportLoading] = useState(false)
+  const debouncedSearchQuery = useDebounce(filters, 600)
 
-  const { isLoading, data } = useQuery<MeReportSkills>(
-    [Query.ReportLanguages, filters],
-    () => authFetch(fetchReportLanguages, filters),
-    { keepPreviousData: true }
-  )
-
-  const languages: string[] = useMemo(
-    () => (!data?.data ? [] : data.data.map(({ name }) => name).sort()),
-    [data?.data]
+  const { isLoading, data, isFetching, isError, error, isSuccess } = useQuery<
+    MeReportLanguages,
+    Error
+  >(
+    [Query.ReportLanguages, debouncedSearchQuery],
+    () => authFetch(fetchReportLanguages, debouncedSearchQuery),
+    {
+      staleTime: Infinity,
+      keepPreviousData: true
+    }
   )
 
   return (
@@ -55,20 +68,26 @@ const LanguagesReport = () => {
       <Typography variant="h2" gutterBottom>
         Languages data
       </Typography>
-      {isLoading ? (
-        <SkeletonTable columns={3} rows={10} />
-      ) : (
+
+      {isLoading && <SkeletonTable columns={3} rows={5} />}
+      {isError && (
+        <Alert severity="error" sx={{ mt: 3, mb: 3 }}>
+          {error?.message}
+        </Alert>
+      )}
+      {isSuccess && (
         <>
           <div className="main-filters">
             <Select
-              defaultValue={filters?.languages?.split(',') || []}
+              disabled={!languages.length}
+              defaultValue={filters?.languages || []}
               label="Select languages(s)"
-              data={languages}
+              data={asStringList(languages)}
               sx={{ width: 314 }}
               onChange={(e) => {
                 setFilters((p) => ({
                   ...p,
-                  languages: (e.target.value as string[]).join(',')
+                  languages: e.target.value as string[]
                 }))
               }}
               fullWidth={false}
@@ -77,43 +96,50 @@ const LanguagesReport = () => {
 
             <RadioGroup
               row
-              defaultValue={userOptions[0]}
+              defaultValue={filters.type}
               onChange={(e) =>
                 setFilters((p) => ({
                   ...p,
-                  users: e.target.value
+                  type: e.target.value
                 }))
               }
             >
               {userOptions.map((option) => (
                 <FormControlLabel
-                  value={option}
+                  value={option.toLowerCase()}
                   control={<Radio />}
                   label={option}
                   key={option}
                 />
               ))}
             </RadioGroup>
-
-            <SplitButton
-              label="Export"
-              options={['CSV', 'Excel', 'PDF']}
-              onSelected={(_, option) => {
-                const url = exportReportSkills({
-                  ...filters,
-                  format: option.toLowerCase()
-                })
-                window.open(url)
+            <Button
+              color="primary"
+              className="export"
+              loading={exportLoading}
+              onClick={async () => {
+                setExportLoading(true)
+                const data = await authFetch(exportReportLanguages, filters)
+                csvDownload(data, 'languages')
+                setExportLoading(false)
               }}
-            />
+            >
+              Export
+            </Button>
           </div>
 
           <DataGrid
-            pageSize={10}
+            pageSize={5}
             columns={columns}
-            rows={data.data}
+            rows={data?.data || []}
             getRowId={(row) => row.name}
             autoHeight
+            loading={isFetching}
+            initialState={{
+              sorting: {
+                sortModel: [{ field: 'native_value_percentage', sort: 'desc' }]
+              }
+            }}
           />
         </>
       )}
@@ -137,35 +163,35 @@ const columns: GridColDef<ReportLanguagesData>[] = [
     headerName: 'Total (%) basic',
     disableColumnMenu: true,
     resizable: false,
-    renderCell: ({ formattedValue, row }) =>
-      formattedValue && <Chip label={row.basic_label} />,
-    flex: 1
+    renderCell: ({ row }) => <Chip label={row.basic_label} />,
+    flex: 1,
+    maxWidth: 204
   },
   {
     field: 'independent_value_percentage',
     headerName: 'Total (%) independent',
     disableColumnMenu: true,
     resizable: false,
-    renderCell: ({ formattedValue, row }) =>
-      formattedValue && <Chip label={row.independent_label} />,
-    flex: 1
+    renderCell: ({ row }) => <Chip label={row.independent_label} />,
+    flex: 1,
+    maxWidth: 204
   },
   {
     field: 'proficient_value_percentage',
     headerName: 'Total (%) proficient',
     disableColumnMenu: true,
     resizable: false,
-    renderCell: ({ formattedValue, row }) =>
-      formattedValue && <Chip label={row.proficient_label} />,
-    flex: 1
+    renderCell: ({ row }) => <Chip label={row.proficient_label} />,
+    flex: 1,
+    maxWidth: 204
   },
   {
     field: 'native_value_percentage',
     headerName: 'Total (%) native',
     disableColumnMenu: true,
     resizable: false,
-    renderCell: ({ formattedValue, row }) =>
-      formattedValue && <Chip label={row.native_label} />,
-    flex: 1
+    renderCell: ({ row }) => <Chip label={row.native_label} />,
+    flex: 1,
+    maxWidth: 204
   }
 ]

@@ -1,4 +1,4 @@
 export type FiltersType = {
-  languages?: string
+  languages?: string[]
   type?: string
 }

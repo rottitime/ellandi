@@ -1,10 +1,12 @@
-import getConfig from 'next/config'
-const { publicRuntimeConfig } = getConfig()
-
 export const createIdFromHref = (href: string, defaultValue = '', removePath = '') =>
   href.replace(removePath, '').split('/').at(-1) || defaultValue
 
-export const createUrl = (url: RequestInfo | URL, params?: URLSearchParams): string => {
+export const createUrl = (
+  url: RequestInfo | URL,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  params?: string | URLSearchParams | Record<string, any> | string[][]
+): string => {
   const queryString = new URLSearchParams(params)
-  return `${publicRuntimeConfig.apiUrl}${url}?${queryString}`
+
+  return `${url}?${queryString}`
 }

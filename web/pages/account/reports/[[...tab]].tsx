@@ -4,6 +4,8 @@ import Headline from '@/components/Account/Headline/Headline'
 import { RoutedTabItem, RoutedTabs } from '@/components/UI/Tabs/Tabs'
 import SkillsReport from '@/components/Account/SkillsReport/SkillsReport'
 import LanguagesReport from '@/components/Account/LanguagesReport/LanguagesReport'
+import StaffReport from '@/components/Account/StaffReport/StaffReport'
+import LearningReport from '@/components/Account/LearningReport/LearningReport'
 
 const ReportsPage = () => (
   <>
@@ -56,13 +58,13 @@ const tabs: RoutedTabItem[] = [
   },
   {
     title: 'Learning',
-    content: <>Learning</>,
+    content: <LearningReport />,
     id: 'learning',
     brandColor: 'brandLearning'
   },
   {
     title: 'Staff overview',
-    content: <>Staff overview</>,
+    content: <StaffReport />,
     id: 'staff-overview'
   }
 ]

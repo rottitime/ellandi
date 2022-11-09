@@ -29,7 +29,8 @@ const colors: Colors = {
   blue1: '#1976D2',
   blue2: '#064B9A',
 
-  green: '#00C853',
+  green1: '#00C853',
+  green2: '#80C4BD',
   red: '#D32F2F',
   white: '#fff'
 }
@@ -41,7 +42,7 @@ const theme = createTheme({
     brandSkills: colors.teal,
     brandLearning: '#06f',
     link: colors.blue1,
-    success: colors.green
+    success: colors.green1
   },
   breakpoints: {
     values: breakpoints

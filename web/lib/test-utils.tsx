@@ -270,3 +270,73 @@ export const mockSuggested: MeSuggestedSkillsResponse = [
   'Noodles',
   'Orange'
 ]
+
+// const mockReportSkills: MeReportSkills = {
+//   page: 1,
+//   per_page: 10,
+//   total: 100,
+//   total_pages: 10,
+//   data: [...Array(100).keys()].map(
+//     (i) =>
+//       ({
+//         name: `Skill ${i}`,
+//         skill_label: `${i} (${i}%)`,
+//         skill_value_total: i,
+//         skill_value_percentage: i,
+//         skills_develop_label: `${i} (${i}%)`,
+//         skills_develop_value_total: i,
+//         skills_develop_value_percentage: i,
+//         beginner_label: `${i} (${i}%)`,
+//         advanced_beginner_label: `${i} (${i}%)`,
+//         competent_label: `${i} (${i}%)`,
+//         proficient_label: `${i} (${i}%)`,
+//         expert_label: `${i} (${i}%)`,
+//         beginner_value_percentage: i,
+//         advanced_beginner_value_percentage: i,
+//         competent_value_percentage: i,
+//         proficient_value_percentage: i,
+//         expert_value_percentage: i
+//       } as ReportSkillsData)
+//   )
+// }
+
+// const languagesData: MeReportLanguages = {
+//   page: 1,
+//   per_page: 10,
+//   total: 100,
+//   total_pages: 10,
+//   data: [...Array(100).keys()].map(
+//     (i) =>
+//       ({
+//         name: `Language ${i}`,
+//         basic_label: `${i} (${i}%)`,
+//         basic_value_total: i,
+//         basic_value_percentage: i,
+//         independent_label: `${i} (${i}%)`,
+//         independent_value_total: i,
+//         independent_value_percentage: i,
+//         proficient_label: `${i} (${i}%)`,
+//         proficient_value_total: i,
+//         proficient_value_percentage: i,
+//         native_label: `${i} (${i}%)`,
+//         native_value_total: i,
+//         native_value_percentage: i
+//       } as ReportLanguagesData)
+//   )
+// }
+
+//   data: [...Array(3).keys()].map((i) => ({
+//     name: `User ${i}`,
+//     total_label: `${i} (${i}%)`,
+//     total_value_total: i,
+//     total_value_percentage: i
+//   }))
+// } as MeReporResponsibility)
+
+//   data: [...Array(20).keys()].map((i) => ({
+//     name: `User ${i}`,
+//     total_label: `${i} (${i}%)`,
+//     total_value_total: i,
+//     total_value_percentage: i
+//   }))
+// } as MeReporGrade

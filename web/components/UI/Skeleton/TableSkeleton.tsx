@@ -7,6 +7,9 @@ type Props = {
   columns?: number
 } & ComponentProps<typeof Table>
 
+const min = 60
+const max = 70
+
 const TableSkeleton: FC<Props> = ({ rows = 4, columns = 5, ...props }) => (
   <Table {...props}>
     <TableHead>
@@ -23,7 +26,9 @@ const TableSkeleton: FC<Props> = ({ rows = 4, columns = 5, ...props }) => (
         <TableRow key={i}>
           {[...Array(columns).keys()].map((i) => (
             <TableCell key={i}>
-              <Skeleton sx={{ maxWidth: `${Math.floor(Math.random() * 101)}%` }} />
+              <Skeleton
+                sx={{ maxWidth: `${Math.floor(Math.random() * (max - min) + min)}%` }}
+              />
             </TableCell>
           ))}
         </TableRow>
