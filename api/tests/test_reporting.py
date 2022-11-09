@@ -1,8 +1,11 @@
+import datetime
+
 from nose.tools import with_setup
 from rest_framework import status
 from tests import utils
 
 from ellandi.registration.models import (
+    Learning,
     User,
     UserLanguage,
     UserSkill,
@@ -20,6 +23,7 @@ LANGUAGES_ENDPOINT = "/api/me/reports/languages/"
 RESPONSIBILITIES_ENDPOINT = "/api/me/reports/responsibilities/"
 GRADES_ENDPOINT = "/api/me/reports/grades/"
 STAFF_OVERVIEW_ENDPOINT = "/api/me/reports/staff-overview/"
+LEARNING_ENDPOINT = "/api/me/reports/learning/"
 
 
 def add_skills(user, i):
@@ -72,7 +76,53 @@ def add_professions(user, i):
     user.save()
 
 
-def setup_users_skills():
+def add_learning(user, i):
+    today = datetime.date.today()
+    year_ago = today - datetime.timedelta(weeks=52)
+    if i % 2 == 0:
+        Learning(
+            user=user,
+            name="hour long formal learning",
+            learning_type="Formal",
+            duration_minutes=600,
+            date_completed=today,
+            cost_pounds=100,
+        ).save()
+    elif i < 8:
+        Learning(
+            user=user,
+            name="short formal learning",
+            learning_type="Formal",
+            duration_minutes=200,
+            date_completed=today,
+            cost_pounds=200,
+        ).save()
+        Learning(
+            user=user,
+            name="unknown learning",
+            learning_type="Formal",
+            duration_minutes=555,
+            date_completed=today,
+            cost_unknown=True,
+        ).save()
+        Learning(
+            user=user,
+            name="last year's learning",
+            learning_type="Formal",
+            duration_minutes=100,
+            date_completed=year_ago,
+        ).save()
+    if i < 5:
+        Learning(
+            user=user, name="fun learning", learning_type="Social", duration_minutes=3000, date_completed=today
+        ).save()
+    if i < 7:
+        Learning(
+            user=user, name="at work", learning_type="On the job", duration_minutes=100, date_completed=today
+        ).save()
+
+
+def setup_users():
     for i in range(0, 10):
         email = f"test{i}@example.com"
         user = User(email=email, password="P455w0rd", business_unit="i.AI")
@@ -92,9 +142,10 @@ def setup_users_skills():
         add_skills(user, i)
         add_professions(user, i)
         add_languages(user, i)
+        add_learning(user, i)
 
 
-def teardown_users_skills():
+def teardown_users():
     for i in range(0, 10):
         email = f"test{i}@example.com"
         User.objects.get(email=email).delete()
@@ -120,7 +171,7 @@ def test_get_report_skills(client, user_id):
 
 
 @utils.with_logged_in_admin_client
-@with_setup(setup_users_skills, teardown_users_skills)
+@with_setup(setup_users, teardown_users)
 def test_get_report_skills_query(client, user_id):
     endpoint = f"{SKILLS_ENDPOINT}?skills=Economics,AWS,Zoology&functions=Analysis,Digital"
     response = client.get(endpoint)
@@ -149,7 +200,7 @@ def test_get_report_skills_query(client, user_id):
 
 
 @utils.with_logged_in_admin_client
-@with_setup(setup_users_skills, teardown_users_skills)
+@with_setup(setup_users, teardown_users)
 def test_get_report_skills_users(client, user_id):
     endpoint = f"{SKILLS_ENDPOINT}?skills=Science,Maths,Writing,AWS&users=all"
     response = client.get(endpoint)
@@ -187,7 +238,7 @@ def test_get_report_skills_users(client, user_id):
 
 
 @utils.with_logged_in_admin_client
-@with_setup(setup_users_skills, teardown_users_skills)
+@with_setup(setup_users, teardown_users)
 def test_get_report_skills_business_unit(client, user_id):
     endpoint = f"{SKILLS_ENDPOINT}?skills=Economics,Science&business_units=i.AI"
     response = client.get(endpoint)
@@ -207,7 +258,7 @@ def test_get_report_skills_business_unit(client, user_id):
 
 
 @utils.with_logged_in_admin_client
-@with_setup(setup_users_skills, teardown_users_skills)
+@with_setup(setup_users, teardown_users)
 def test_get_report_skills_professions(client, user_id):
     endpoint = f"{SKILLS_ENDPOINT}?skills=Economics,AWS&business_units=i.AI&professions=Economics"
     response = client.get(endpoint)
@@ -233,7 +284,7 @@ def test_get_report_skills_professions(client, user_id):
 
 
 @utils.with_logged_in_admin_client
-@with_setup(setup_users_skills, teardown_users_skills)
+@with_setup(setup_users, teardown_users)
 def test_get_report_skills_grades(client, user_id):
     endpoint = f"{SKILLS_ENDPOINT}?skills=Science,Maths,Writing,AWS&grades=Grade%206%20Equivalent,Grade%207%20Equivalent&business_units=i.AI"  # noqa
     response = client.get(endpoint)
@@ -251,6 +302,7 @@ def test_endpoints_require_login(client, user_id):
         RESPONSIBILITIES_ENDPOINT,
         GRADES_ENDPOINT,
         STAFF_OVERVIEW_ENDPOINT,
+        LEARNING_ENDPOINT,
     ]
     for endpoint in endpoints:
         response = client.get(endpoint)
@@ -268,7 +320,7 @@ def test_skills_format(client, user_id):
 
 
 @utils.with_logged_in_admin_client
-@with_setup(setup_users_skills, teardown_users_skills)
+@with_setup(setup_users, teardown_users)
 def test_languages_format(client, user_id):
     endpoint = f"{LANGUAGES_ENDPOINT}?type=writing&format=csv"
     response = client.get(endpoint)
@@ -280,7 +332,7 @@ def test_languages_format(client, user_id):
 
 
 @utils.with_logged_in_admin_client
-@with_setup(setup_users_skills, teardown_users_skills)
+@with_setup(setup_users, teardown_users)
 def test_languages_endpoint(client, user_id):
     endpoint = f"{LANGUAGES_ENDPOINT}"
     response = client.get(endpoint)
@@ -310,7 +362,7 @@ def test_languages_endpoint(client, user_id):
 
 
 @utils.with_logged_in_admin_client
-@with_setup(setup_users_skills, teardown_users_skills)
+@with_setup(setup_users, teardown_users)
 def test_languages_endpoint_params(client, user_id):
     endpoint = f"{LANGUAGES_ENDPOINT}?type=speaking&functions=Analysis&buisiness_units=i.AI"
     response = client.get(endpoint)
@@ -329,7 +381,7 @@ def test_languages_endpoint_params(client, user_id):
 
 
 @utils.with_logged_in_admin_client
-@with_setup(setup_users_skills, teardown_users_skills)
+@with_setup(setup_users, teardown_users)
 def test_get_responsibilities(client, user_id):
     response = client.get(RESPONSIBILITIES_ENDPOINT)
     assert response.status_code == status.HTTP_200_OK
@@ -345,7 +397,7 @@ def test_get_responsibilities(client, user_id):
 
 
 @utils.with_logged_in_admin_client
-@with_setup(setup_users_skills, teardown_users_skills)
+@with_setup(setup_users, teardown_users)
 def test_get_grades(client, user_id):
     response = client.get(GRADES_ENDPOINT)
     assert response.status_code == status.HTTP_200_OK
@@ -362,7 +414,67 @@ def test_get_grades(client, user_id):
 
 
 @utils.with_logged_in_admin_client
-@with_setup(setup_users_skills, teardown_users_skills)
+@with_setup(setup_users, teardown_users)
 def test_get_staff_overview(client, user_id):
     response = client.get(STAFF_OVERVIEW_ENDPOINT)
     assert response.status_code == status.HTTP_200_OK
+
+
+@utils.with_logged_in_admin_client
+def test_get_learning(client, user_id):
+    response = client.get(LEARNING_ENDPOINT)
+    assert response.status_code == status.HTTP_200_OK
+    endpoint = f"{LEARNING_ENDPOINT}?business_units=CDIO&users=mentors&functions=Finance,Commercial,Digital"
+    response = client.get(endpoint)
+    assert response.status_code == status.HTTP_200_OK
+    endpoint = f"{LEARNING_ENDPOINT}?functions=Analysis&grades=Grade%206%20Equivalent&business_units=i.AI,CDIO"
+    response = client.get(endpoint)
+    assert response.status_code == status.HTTP_200_OK
+
+
+@utils.with_logged_in_admin_client
+@with_setup(setup_users, teardown_users)
+def test_get_learning_params(client, user_id):
+    endpoint = f"{LEARNING_ENDPOINT}?business_units=i.AI,CDIO&users=all"
+    response = client.get(endpoint)
+    actual_result = response.json()
+    expected_result = {
+        "course_average_cost_label": "£144",
+        "course_total_cost_label": "£1,300",
+        "goal_value_days": 5,
+        "goal_value_percentage": 49,
+        "distribution": [
+            {"name": "Formal", "value_percentage": 28},
+            {"name": "Social", "value_percentage": 69},
+            {"name": "On the job", "value_percentage": 3},
+        ],
+    }
+    assert actual_result == expected_result, actual_result
+
+
+@utils.with_logged_in_admin_client
+@with_setup(setup_users, teardown_users)
+def test_get_learning_user_types(client, user_id):
+    endpoint = f"{LEARNING_ENDPOINT}?users=mentors&functions=Analysis,Digital,Commercial"
+    response = client.get(endpoint)
+    result = response.json()
+    assert result["course_average_cost_label"] == "£100", result
+    assert result["course_total_cost_label"] == "£300", result
+    endpoint = f"{LEARNING_ENDPOINT}?users=line_managers&grades=Grade%206%20Equivalent"
+    response = client.get(endpoint)
+    result = response.json()
+    result["goal_value_days"] == 9, result
+
+
+@utils.with_logged_in_admin_client
+@with_setup(setup_users, teardown_users)
+def test_get_learning_professions(client, user_id):
+    endpoint = f"{LEARNING_ENDPOINT}?users=all&business_units=i.AI,ADD&professions=Operational%20research,Social%20research,Policy"  # noqa
+    response = client.get(endpoint)
+    result = response.json()
+    assert result["course_total_cost_label"] == "£500", result
+    assert result["goal_value_days"] == 5, result
+    endpoint = f"{LEARNING_ENDPOINT}?users=all&business_units=i.AI&professions=Operational%20research"
+    response = client.get(endpoint)
+    result = response.json()
+    assert result["course_average_cost_label"] == "£0", result
