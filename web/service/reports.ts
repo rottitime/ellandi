@@ -44,7 +44,7 @@ export const exportReportLanguages = async (token, params) => {
 }
 
 export const exportReportResponsibility = async (token, params) => {
-  const res = await api(token, urls.responsibility, { ...params, format: 'csv' })
+  const res = await api(token, urls.responsibility, { ...params })
   return res.text()
 }
 
