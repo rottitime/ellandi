@@ -2,22 +2,30 @@ import { screen, waitFor } from '@testing-library/react'
 import { renderWithProviders, bugfixForTimeout } from '@/lib/test-utils'
 import LanguageForm from './LanguageForm'
 import fetchMock from 'jest-fetch-mock'
-import { GenericDataList, LanguageType } from '@/service/types'
-
-const mockLanguages: GenericDataList[] = [
-  { name: 'french', slug: '1' },
-  { name: 'american', slug: '2' }
-]
-
-const mockLevels: GenericDataList[] = [
-  { name: 'bad', slug: '1' },
-  { name: 'good', slug: '2' }
-]
+import { LanguageType } from '@/service/types'
 
 const mockData: LanguageType[] = [
   { id: '1', name: 'french', writing_level: 'good', speaking_level: 'bad' },
   { id: '2', name: 'american', writing_level: 'bad', speaking_level: 'good' }
 ]
+
+jest.mock(
+  '@/prefetch/languages.json',
+  () => [
+    { name: 'french', slug: '1' },
+    { name: 'american', slug: '2' }
+  ],
+  { virtual: true }
+)
+
+jest.mock(
+  '@/prefetch/language-skill-levels.json',
+  () => [
+    { name: 'bad', slug: '1' },
+    { name: 'good', slug: '2' }
+  ],
+  { virtual: true }
+)
 
 describe('LanguageForm', () => {
   beforeEach(() => {
@@ -29,11 +37,6 @@ describe('LanguageForm', () => {
   })
 
   it('renders', async () => {
-    fetchMock.mockResponses(
-      [JSON.stringify(mockLanguages), { status: 200 }],
-      [JSON.stringify(mockLevels), { status: 200 }]
-    )
-
     await renderWithProviders(
       <LanguageForm defaultValues={null} backUrl="/back" onFormSubmit={jest.fn()} />
     )
@@ -50,11 +53,6 @@ describe('LanguageForm', () => {
   })
 
   it('fields are prepopulated', async () => {
-    fetchMock.mockResponses(
-      [JSON.stringify(mockLanguages), { status: 200 }],
-      [JSON.stringify(mockLevels), { status: 200 }]
-    )
-
     renderWithProviders(
       <LanguageForm
         backUrl="/back"

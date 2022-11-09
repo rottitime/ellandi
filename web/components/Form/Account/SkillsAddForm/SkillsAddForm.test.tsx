@@ -12,6 +12,38 @@ import {
 } from '@/lib/test-utils'
 import userEvent from '@testing-library/user-event'
 
+jest.mock(
+  '@/prefetch/skill-levels.json',
+  () => [
+    {
+      slug: 'average',
+      name: 'Aasic',
+      order: 0
+    },
+    {
+      slug: 'good',
+      name: 'Good',
+      order: 1
+    },
+    {
+      slug: 'dont-know',
+      name: 'Who knows?',
+      order: 3
+    },
+    {
+      slug: 'super',
+      name: 'Super',
+      order: 2
+    },
+    {
+      slug: 'the-best',
+      name: 'The best',
+      order: 4
+    }
+  ],
+  { virtual: true }
+)
+
 describe('SkillsAddForm', () => {
   afterEach(() => {
     fetchMock.resetMocks()
@@ -20,7 +52,6 @@ describe('SkillsAddForm', () => {
   describe('Sucessful data', () => {
     beforeEach(() => {
       fetchMock.mockResponses(
-        [JSON.stringify(mockLevels), { status: 200 }],
         [JSON.stringify(mockMe), { status: 200 }],
         [JSON.stringify(mockSkills), { status: 200 }]
       )
