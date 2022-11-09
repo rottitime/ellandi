@@ -11,8 +11,8 @@ from ellandi.registration.recommend import (
     recommend_bundled_skill_recommendations,
     recommend_popular_skills,
     recommend_profession_skills,
-    recommend_skill_from_db,
-    recommend_title_from_db,
+    recommend_skill_from_skill,
+    recommend_title_from_job_title,
 )
 from ellandi.verification import send_verification_email
 
@@ -632,7 +632,7 @@ def me_suggested_skills(request):
 @decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
 def skill_recommender(request, skill_name):
-    recommended_skills = recommend_skill_from_db(skill_name)
+    recommended_skills = recommend_skill_from_skill(skill_name)
     return Response(data=recommended_skills, status=status.HTTP_200_OK)
 
 
@@ -641,7 +641,7 @@ def skill_recommender(request, skill_name):
 @decorators.permission_classes((permissions.IsAuthenticated,))
 def me_recommend_job_relevant_skills(request):
     job_title = request.user.job_title
-    similar_title_skills = recommend_title_from_db(job_title)
+    similar_title_skills = recommend_title_from_job_title(job_title)
     return Response(data=similar_title_skills, status=status.HTTP_200_OK)
 
 
