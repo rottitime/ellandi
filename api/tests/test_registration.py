@@ -718,3 +718,22 @@ def test_me_skills_suggested(client, user_id):
     response = client.get("/api/me/skills-suggested/")
     assert response.status_code == status.HTTP_200_OK, response.status_code
     assert response.json() == [], response.json()
+
+
+@utils.with_logged_in_admin_client
+def test_has_reporting_access_admin(client, user_id):
+    response = client.get("/api/me/")
+    assert response.status_code == status.HTTP_200_OK
+    data = response.json()
+    assert data["has_reports_access"]
+    response = client.patch("/api/me/", json={"has_reports_access": False})
+    data = response.json()
+    assert data["has_reports_access"], "has_reports_access should be a read-only field"
+
+
+@utils.with_logged_in_client
+def test_has_reporting_access_non_admin(client, user_id):
+    response = client.get("/api/me/")
+    assert response.status_code == status.HTTP_200_OK
+    data = response.json()
+    assert not data["has_reports_access"]

@@ -438,7 +438,6 @@ def staff_overview_view(request):
 
 
 def get_start_financial_year():
-    # TODO - assumed financial year starts 1st Apr - check
     today = datetime.date.today()
     year = today.year
     if today.month < 4:
