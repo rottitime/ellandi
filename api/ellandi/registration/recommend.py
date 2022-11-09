@@ -1,5 +1,3 @@
-import random
-
 from django.db.models import Count
 
 from ellandi.registration.initial_data import DDAT_JOB_TO_SKILLS_LOOKUP
