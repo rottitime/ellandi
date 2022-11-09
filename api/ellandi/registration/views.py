@@ -9,8 +9,6 @@ from rest_framework.response import Response
 
 from ellandi.registration.recommend import (
     recommend_bundled_skill_recommendations,
-    recommend_popular_skills,
-    recommend_profession_skills,
     recommend_skill_from_skill,
     recommend_title_from_job_title,
 )
@@ -653,7 +651,6 @@ def me_recommend_most_relevant_skills(request):
     job_title = user.job_title
     user_profession = user.primary_profession
     user_skills = tuple(models.UserSkill.objects.filter(user=user).values_list("name"))
-
 
     combined_recommendations = recommend_bundled_skill_recommendations(user_skills, job_title, user_profession)
     return Response(data=combined_recommendations, status=status.HTTP_200_OK)

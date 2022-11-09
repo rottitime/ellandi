@@ -67,7 +67,8 @@ def recommend_bundled_skill_recommendations(skills, job_title, profession):
     profession_skills = tuple(recommend_profession_skills(profession))
 
     skill_recommended_skills = tuple(
-        recommend_skill for skill in skills for recommend_skill in recommend_skill_from_skill(skill))
+        recommend_skill for skill in skills for recommend_skill in recommend_skill_from_skill(skill)
+    )
 
     job_title_skills = tuple(recommend_title_from_job_title(job_title))
 
@@ -83,11 +84,11 @@ def recommend_bundled_skill_recommendations(skills, job_title, profession):
     all_skills = tuple(set((*profession_skills, *skill_recommended_skills, *job_title_skills, *popular_skills)))
 
     data = {
-        'profession_skills': profession_skills,
-        'skill_skills': skill_recommended_skills,
-        'job_title_skills': all_job_skills,
-        'popular_skills': popular_skills,
-        'all_skills': all_skills,
+        "profession_skills": profession_skills,
+        "skill_skills": skill_recommended_skills,
+        "job_title_skills": all_job_skills,
+        "popular_skills": popular_skills,
+        "all_skills": all_skills,
     }
 
     return data
