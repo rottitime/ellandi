@@ -297,7 +297,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 class RegisterSerializer(serializers.Serializer):
     email = serializers.EmailField(validators=[check_email_domain])
-    password = serializers.CharField()
+    password = serializers.CharField(min_length=8)
     privacy_policy_agreement = serializers.BooleanField(required=False)
 
 
