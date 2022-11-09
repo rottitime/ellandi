@@ -3,7 +3,7 @@ Hi,
 Use the following link to confirm your email address:
 {{url|safe}}
 
-You can then start using the Cabinet Office Skills and Learning Service.
+You can then start using the Cabinet Office Skills and Learning service.
 
 The link is valid for 24 hours. If you use the link more than once, it will expire.
 
