@@ -32,7 +32,7 @@ def test_create_user_short_password(client):
     response = client.post("/api/register/", json={"email": user_data["email"], "password": "*"})
     assert response.status_code == 400
     error = response.json()["password"]
-    expected_error = ['Ensure this field has at least 8 characters.']
+    expected_error = ["Ensure this field has at least 8 characters."]
     assert error == expected_error
 
 
