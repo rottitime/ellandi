@@ -1,7 +1,5 @@
 import { Box, FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material'
-import { useQuery } from 'react-query'
-import RadioSkeleton from '@/components/UI/Skeleton/RadioSkeleton'
-import { fetchGrades, GenericDataList, GradeType, Query } from '@/service/api'
+import { GradeType } from '@/service/api'
 import { FC, useEffect } from 'react'
 import { StandardRegisterProps } from '../types'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
@@ -9,6 +7,7 @@ import { object, SchemaOf, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldControlled'
 import Form from '@/components/Form/Register/FormRegister/FormRegister'
+import data from '@/prefetch/grades.json'
 
 const schema: SchemaOf<GradeType> = object().shape({
   grade: string().nullable().required('Enter your grade'),
@@ -20,12 +19,6 @@ const schema: SchemaOf<GradeType> = object().shape({
 })
 
 const GradeForm: FC<StandardRegisterProps<GradeType>> = (props) => {
-  const { isLoading, data } = useQuery<GenericDataList[], { message?: string }>(
-    Query.Grades,
-    fetchGrades,
-    { staleTime: Infinity }
-  )
-
   const methods = useForm<GradeType>({
     defaultValues: {
       grade: '',
@@ -55,23 +48,19 @@ const GradeForm: FC<StandardRegisterProps<GradeType>> = (props) => {
           name="grade"
           control={control}
           render={({ field }) => (
-            <RadioGroup aria-live="polite" aria-busy={isLoading} {...field}>
-              {isLoading
-                ? [...Array(5).keys()].map((i) => (
-                    <RadioSkeleton key={i} width="80%" sx={{ mb: 1 }} />
-                  ))
-                : data.map(({ name }) => (
-                    <Box key={name}>
-                      <FormControlLabel control={<Radio />} label={name} value={name} />
-                      {name === 'Other' && watchFields.grade === 'Other' && (
-                        <TextFieldControlled
-                          name="grade_other"
-                          label="Enter grade"
-                          subfield
-                        />
-                      )}
-                    </Box>
-                  ))}
+            <RadioGroup aria-live="polite" {...field}>
+              {data.map(({ name }) => (
+                <Box key={name}>
+                  <FormControlLabel control={<Radio />} label={name} value={name} />
+                  {name === 'Other' && watchFields.grade === 'Other' && (
+                    <TextFieldControlled
+                      name="grade_other"
+                      label="Enter grade"
+                      subfield
+                    />
+                  )}
+                </Box>
+              ))}
             </RadioGroup>
           )}
         />

@@ -28,7 +28,6 @@ const LearningGoalBar = ({
   disableFetch,
   days,
   percentage,
-  titleTip,
   ...props
 }: Props) => {
   const { authFetch } = useAuth()
@@ -59,9 +58,11 @@ const LearningGoalBar = ({
           {!hideTitle && (
             <Typography variant="h2" component="h3" gutterBottom>
               Learning goal
-              {titleTip && (
-                <Tooltip sx={{ p: 0 }} brandColor="brandLearning" title={titleTip} />
-              )}
+              <Tooltip
+                sx={{ p: 0 }}
+                brandColor="brandLearning"
+                title="Based on a 37 hour working week, one day is the equivalent of 7.4 hours, or 7 hours 24 minutes"
+              />
             </Typography>
           )}
           {description && (

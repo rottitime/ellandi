@@ -1,12 +1,6 @@
 import { Box, Checkbox, FormControlLabel, Typography } from '@mui/material'
-import { fetchProfessions } from '@/service/api'
-import {
-  GenericDataList,
-  ProfessionType,
-  Query,
-  RegisterUserResponse
-} from '@/service/types'
-import { useQuery } from 'react-query'
+import { ProfessionType, RegisterUserResponse } from '@/service/types'
+
 import { FC, useEffect } from 'react'
 import { StandardRegisterProps } from './types'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
@@ -15,6 +9,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldControlled'
 import Form from '@/components/Form/Register/FormRegister/FormRegister'
 import { useProfile } from '@/hooks/useProfile'
+import data from '@/prefetch/professions.json'
 
 const fieldName: keyof ProfessionType = 'professions'
 
@@ -42,12 +37,6 @@ const ProfessionForm: FC<StandardRegisterProps<ProfessionType>> = (props) => {
 
   const { getValues, setValue, register, trigger, watch, control } = methods
 
-  const { data, isSuccess } = useQuery<GenericDataList[], { message?: string }>(
-    Query.Professions,
-    fetchProfessions,
-    { staleTime: Infinity }
-  )
-
   useEffect(() => {
     if (!!watchFields.profession_other)
       setValue('professions', [...watchFields.professions, 'Other'])
@@ -65,50 +54,49 @@ const ProfessionForm: FC<StandardRegisterProps<ProfessionType>> = (props) => {
           Select any other profession(s) that you belong to. You may choose more than one
         </Typography>
 
-        {isSuccess &&
-          data
-            .filter(({ name }) => name !== primary_profession)
-            .map(({ name }) => (
-              <Box sx={{ mb: 1 }} key={name}>
-                <Controller
-                  name={fieldName}
-                  control={control}
-                  render={({ field }) => (
-                    <FormControlLabel
-                      label={name}
-                      control={
-                        <Checkbox
-                          checked={field.value.includes(name)}
-                          onChange={async () => {
-                            const data = getValues(fieldName)
+        {data
+          .filter(({ name }) => name !== primary_profession)
+          .map(({ name }) => (
+            <Box sx={{ mb: 1 }} key={name}>
+              <Controller
+                name={fieldName}
+                control={control}
+                render={({ field }) => (
+                  <FormControlLabel
+                    label={name}
+                    control={
+                      <Checkbox
+                        checked={field.value.includes(name)}
+                        onChange={async () => {
+                          const data = getValues(fieldName)
 
-                            setValue(
-                              fieldName,
-                              data?.includes(name)
-                                ? data.filter((item) => item !== name)
-                                : [...data, name]
-                            )
+                          setValue(
+                            fieldName,
+                            data?.includes(name)
+                              ? data.filter((item) => item !== name)
+                              : [...data, name]
+                          )
 
-                            await trigger(fieldName)
-                          }}
-                        />
-                      }
-                    />
-                  )}
-                />
-                {primary_profession !== 'Other' &&
-                  name !== 'Other' &&
-                  watchFields.professions.includes('Other') && (
-                    <Box sx={{ my: 3 }}>
-                      <TextFieldControlled
-                        name="profession_other"
-                        label="Enter profession"
-                        subfield
+                          await trigger(fieldName)
+                        }}
                       />
-                    </Box>
-                  )}
-              </Box>
-            ))}
+                    }
+                  />
+                )}
+              />
+              {primary_profession !== 'Other' &&
+                name !== 'Other' &&
+                watchFields.professions.includes('Other') && (
+                  <Box sx={{ my: 3 }}>
+                    <TextFieldControlled
+                      name="profession_other"
+                      label="Enter profession"
+                      subfield
+                    />
+                  </Box>
+                )}
+            </Box>
+          ))}
       </Form>
     </FormProvider>
   )

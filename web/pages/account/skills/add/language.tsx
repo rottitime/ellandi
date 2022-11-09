@@ -3,14 +3,8 @@ import { Grid, Typography } from '@mui/material'
 import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
 import { menu, SectionOne } from './index'
 import BadgeNumber from '@/components/UI/BadgeNumber/BadgeNumber'
-import { dehydrate, QueryClient, useMutation } from 'react-query'
-import {
-  fetchLanguages,
-  fetchLanguageSkillLevels,
-  LanguageType,
-  Query,
-  RegisterUserResponse
-} from '@/service/api'
+import { useMutation } from 'react-query'
+import { LanguageType, RegisterUserResponse } from '@/service/api'
 import useAuth from '@/hooks/useAuth'
 import Router from 'next/router'
 import LanguageAddForm from '@/components/Form/Account/LanguageAddForm/LanguageAddForm'
@@ -119,13 +113,3 @@ SkillsAddSkillsPage.getLayout = (page) => (
     {page}
   </AccountLayout>
 )
-export async function getStaticProps() {
-  const queryClient = new QueryClient()
-  await queryClient.prefetchQuery(Query.Languages, fetchLanguages)
-  await queryClient.prefetchQuery(Query.LanguageSkillLevels, fetchLanguageSkillLevels)
-  return {
-    props: {
-      dehydratedState: dehydrate(queryClient)
-    }
-  }
-}

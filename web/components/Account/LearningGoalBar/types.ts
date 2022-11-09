@@ -4,8 +4,6 @@ import { ComponentProps } from 'react'
 export type Props = {
   hideTitle?: boolean
   description?: string
-  titleTip?: string
-  // disableFetch?: boolean
 } & DisabledFetchType &
   ComponentProps<typeof Box>
 

@@ -1,30 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import CardLayout from '@/components/Layout/CardLayout/CardLayout'
 import { useUiContext } from '@/context/UiContext'
-import {
-  fetchContractTypes,
-  fetchFunctions,
-  fetchGrades,
-  fetchJobTitles,
-  fetchLanguages,
-  fetchLanguageSkillLevels,
-  fetchProfessions,
-  fetchSkills,
-  Query,
-  RegisterUserResponse
-} from '@/service/api'
+import { Query, RegisterUserResponse } from '@/service/api'
 import { updateUser } from '@/service/auth'
 import { GetStaticPropsContext } from 'next'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import { useEffect, ComponentType } from 'react'
-import {
-  dehydrate,
-  QueryClient,
-  useMutation,
-  useQuery,
-  useQueryClient
-} from 'react-query'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 import useAuth from '@/hooks/useAuth'
 import { fetchMe } from '@/service/me'
 import { StandardRegisterProps } from '@/components/Form/Register/types'
@@ -135,16 +118,6 @@ export async function getStaticProps(context: GetStaticPropsContext) {
   const stepInt = parseInt(step as string)
   const { title, nextUrl, skip, large = false } = steps[stepInt]
 
-  const queryClient = new QueryClient()
-  await queryClient.prefetchQuery(Query.Grades, fetchGrades)
-  await queryClient.prefetchQuery(Query.JobTitles, fetchJobTitles)
-  await queryClient.prefetchQuery(Query.Professions, fetchProfessions)
-  await queryClient.prefetchQuery(Query.Functions, fetchFunctions)
-  await queryClient.prefetchQuery(Query.ContractTypes, fetchContractTypes)
-  await queryClient.prefetchQuery(Query.Languages, fetchLanguages)
-  await queryClient.prefetchQuery(Query.LanguageSkillLevels, fetchLanguageSkillLevels)
-  await queryClient.prefetchQuery(Query.Skills, fetchSkills)
-
   return {
     props: {
       progress: Math.floor(((stepInt + 1) / (steps.length + 1)) * 100),
@@ -153,8 +126,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
       large,
       backUrl: stepInt ? `/register/step/${stepInt - 1}` : null,
       nextUrl: nextUrl || `/register/step/${stepInt + 1}`,
-      skip: !!skip,
-      dehydratedState: dehydrate(queryClient)
+      skip: !!skip
     } as Props
   }
 }

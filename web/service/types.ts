@@ -36,7 +36,7 @@ export interface AuthUser {
   token: string
 }
 
-export type FeedabckType = {
+export type FeedbackType = {
   name: string
   email: string
   issue: string
