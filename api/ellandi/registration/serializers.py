@@ -208,7 +208,7 @@ class UserSerializer(serializers.ModelSerializer):
     email = serializers.CharField(read_only=True)
     professions = serializers.ListField(child=serializers.CharField(), read_only=False, required=False)
     has_direct_reports = serializers.BooleanField(required=False)
-    has_reporting_access = serializers.BooleanField(read_only=True, source="is_staff")
+    has_reports_access = serializers.BooleanField(read_only=True, source="is_staff")
 
     def update(self, instance, validated_data):
         single_fields_to_update = [
@@ -292,6 +292,7 @@ class UserSerializer(serializers.ModelSerializer):
             "skills_develop",
             "created_at",
             "modified_at",
+            "has_reports_access"
         ]
         read_only_fields = ["verified"]
 
