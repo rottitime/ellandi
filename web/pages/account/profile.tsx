@@ -228,12 +228,12 @@ const ProfilePage = () => {
           },
           {
             form: 'isLineManager',
-            name: 'Line manager',
+            name: 'Are you a line manager?',
             value: data.is_line_manager
           },
           {
             form: 'isMentor',
-            name: 'Mentor',
+            name: 'Are you a mentor?',
             value: data.is_mentor
           }
         ])}
