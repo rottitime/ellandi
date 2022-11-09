@@ -292,7 +292,7 @@ class UserSerializer(serializers.ModelSerializer):
             "skills_develop",
             "created_at",
             "modified_at",
-            "has_reports_access"
+            "has_reports_access",
         ]
         read_only_fields = ["verified"]
 
