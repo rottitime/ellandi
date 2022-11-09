@@ -35,7 +35,7 @@ def _get_latest_email_url(token_type):
 def test_verify_email(client):
     user_data = {
         "email": "bobby@example.com",
-        "password": "foo",
+        "password": "foofoofoo",
     }
     response = client.post("/api/register/", json={"email": user_data["email"], "password": user_data["password"]})
     assert response.status_code == 200
@@ -76,7 +76,7 @@ def test_resend_verify_email(client, user_id):
 def test_verify_email_bad_token(client):
     user_data = {
         "email": "bobby-bad-token@example.com",
-        "password": "foo",
+        "password": "foofoofoo",
     }
     user = User.objects.create_user(**user_data)
     token = "B4dT0k3n"
@@ -92,7 +92,7 @@ def test_verify_email_bad_token(client):
 def test_password_reset(client):
     user_data = {
         "email": "forgetful-bobby@example.com",
-        "password": "foo",
+        "password": "foofoofoo",
     }
     new_password = "N3wP455w0rd"
     user = User.objects.create_user(**user_data)
@@ -114,7 +114,7 @@ def test_password_reset(client):
 def test_password_reset_twice(client):
     user_data = {
         "email": "very-forgetful-bobby@example.com",
-        "password": "foo",
+        "password": "foofoofoo",
     }
     new_password = "N3wP455w0rd"
 
@@ -136,7 +136,7 @@ def test_password_reset_twice(client):
 def test_password_reset_email_bad_token(client):
     user_data = {
         "email": "billy-bad-token@example.com",
-        "password": "foo",
+        "password": "foofoofoo",
     }
     new_password = "N3wP455w0rd"
     user = User.objects.create_user(**user_data)
