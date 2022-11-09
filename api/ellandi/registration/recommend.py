@@ -28,6 +28,8 @@ def recommend_title_from_job_title(current_title):
 
 def recommend_profession_skills(profession):
     """Given a civil service profession, suggests recent popular skills for that profession"""
+    if not profession:
+        return tuple()
 
     return_count = 20
 
@@ -58,54 +60,34 @@ def recommend_popular_skills():
     return top_skills
 
 
-def recommend_bundled_skill_recommendations(skills_list, job_title, profession):
+def recommend_bundled_skill_recommendations(skills, job_title, profession):
     """Given a user skill list, job title and primary profession, returns a bundle of recommended skills,
     prioritising job title skills, then profession and skills, then popular skills.
-
-    Returns 40 skills by default.
     """
+    profession_skills = tuple(recommend_profession_skills(profession))
 
-    total_skill_count = 40
+    skill_recommended_skills = tuple(
+        recommend_skill for skill in skills for recommend_skill in recommend_skill_from_skill(skill))
 
-    profession_skills = []
-
-    if profession is not None:
-        profession_skills = list(recommend_profession_skills(profession))
-
-    skill_recommended_skills = []
-
-    if len(skills_list) > 0:
-
-        for skill in skills_list:
-            skill_recommendation = recommend_skill_from_db(skill)
-            if skill_recommendation is not None:
-                skill_recommended_skills.extend(skill_recommendation)
-
-    job_title_skills = list(recommend_title_from_db(job_title))
+    job_title_skills = tuple(recommend_title_from_job_title(job_title))
 
     ddat_recommended_skills = DDAT_JOB_TO_SKILLS_LOOKUP.get(job_title)
 
     if ddat_recommended_skills is not None:
-        all_job_skills = [*ddat_recommended_skills, *job_title_skills]
+        all_job_skills = tuple([*ddat_recommended_skills, *job_title_skills])
     else:
-        all_job_skills = [*job_title_skills]
+        all_job_skills = tuple(job_title_skills)
 
-    if len(all_job_skills) >= total_skill_count:
-        return all_job_skills
+    popular_skills = tuple(recommend_popular_skills())
 
-    else:
-        remaining_skill_count = total_skill_count - len(all_job_skills)
-        bespoke_skill_bundle = [*skill_recommended_skills, *profession_skills][:remaining_skill_count]
-        random.shuffle(bespoke_skill_bundle)
-        random.shuffle(all_job_skills)
-        custom_skill_bundle = [*all_job_skills, *bespoke_skill_bundle]
+    all_skills = tuple(set(*profession_skills, *skill_recommended_skills, *job_title_skills, *popular_skills))
 
-        if len(custom_skill_bundle) < total_skill_count:
-            popular_skills = list(recommend_popular_skills())
-            random.shuffle(popular_skills)
-            missing_skill_count = total_skill_count - len(custom_skill_bundle)
-            combined_recommendations = [*custom_skill_bundle, *popular_skills[:missing_skill_count]]
-            return combined_recommendations
+    data = {
+        'profession_skills': profession_skills,
+        'skill_skills': skill_recommended_skills,
+        'job_title_skills': all_job_skills,
+        'popular_skills': popular_skills,
+        'all_skills': all_skills,
+    }
 
-        else:
-            return custom_skill_bundle
+    return data
