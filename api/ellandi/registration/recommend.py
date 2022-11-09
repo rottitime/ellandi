@@ -10,7 +10,7 @@ def recommend_skill_from_skill(existing_skill):
     """Given an existing skill, queries the pre-baked recommendations from the database"""
 
     query = RecommendedSkill.objects.filter(
-        source_type=RecommendedSkill.SourceTypes.Skill, source_value=existing_skill
+        source_type=RecommendedSkill.SourceTypes.SKILL, source_value=existing_skill
     ).order_by("-created_at")
     all_entries = tuple(set(query.values_list("recommended_skill", flat=True)))
     return all_entries
@@ -20,7 +20,7 @@ def recommend_title_from_job_title(current_title):
     """Given an existing job title, queries the pre-baked recommendations from the database"""
 
     query = RecommendedSkill.objects.filter(
-        source_type=RecommendedSkill.SourceTypes.JobTitle, source_value=current_title
+        source_type=RecommendedSkill.SourceTypes.JOB_TITLE, source_value=current_title
     ).order_by("-created_at")
     all_entries = tuple(set(query.values_list("recommended_skill", flat=True)))
     return all_entries
@@ -80,7 +80,7 @@ def recommend_bundled_skill_recommendations(skills, job_title, profession):
 
     popular_skills = tuple(recommend_popular_skills())
 
-    all_skills = tuple(set(*profession_skills, *skill_recommended_skills, *job_title_skills, *popular_skills))
+    all_skills = tuple(set((*profession_skills, *skill_recommended_skills, *job_title_skills, *popular_skills)))
 
     data = {
         'profession_skills': profession_skills,
