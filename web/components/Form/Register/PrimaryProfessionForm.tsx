@@ -4,17 +4,11 @@ import { StandardRegisterProps } from './types'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { object, SchemaOf, string } from 'yup'
-import {
-  fetchProfessions,
-  GenericDataList,
-  PrimaryProfessionType,
-  ProfessionType,
-  Query
-} from '@/service/api'
-import { useQuery } from 'react-query'
+import { PrimaryProfessionType, ProfessionType } from '@/service/api'
 import Form from '@/components/Form/Register/FormRegister/FormRegister'
 import { Field } from '../Field/Field'
 import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldControlled'
+import data from '@/prefetch/professions.json'
 
 const schema: SchemaOf<PrimaryProfessionType> = object().shape({
   primary_profession: string().required('Enter your profession'),
@@ -32,12 +26,6 @@ const PrimaryProfessionForm: FC<
   const id = useId()
   const labelId = `label-${id}`
   const label = 'Primary profession'
-
-  const { data, isSuccess } = useQuery<GenericDataList[], { message?: string }>(
-    Query.Professions,
-    fetchProfessions,
-    { staleTime: Infinity }
-  )
 
   const methods = useForm<PrimaryProfessionType>({
     defaultValues: { primary_profession: '', profession_other: '' },
@@ -70,14 +58,13 @@ const PrimaryProfessionForm: FC<
                 <FormControl fullWidth size="small">
                   <InputLabel id={labelId}>{label}</InputLabel>
                   <Select {...field} labelId={labelId} label={label}>
-                    {isSuccess &&
-                      [...data, { order: data.length, name: "I don't know" }].map(
-                        ({ name }) => (
-                          <MenuItem value={name} key={name}>
-                            {name}
-                          </MenuItem>
-                        )
-                      )}
+                    {[...data, { order: data.length, name: "I don't know" }].map(
+                      ({ name }) => (
+                        <MenuItem value={name} key={name}>
+                          {name}
+                        </MenuItem>
+                      )
+                    )}
                   </Select>
                 </FormControl>
                 {watchFields.primary_profession === 'Other' && (

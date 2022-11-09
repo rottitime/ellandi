@@ -5,7 +5,6 @@ import { menu, SectionOne } from './index'
 import BadgeNumber from '@/components/UI/BadgeNumber/BadgeNumber'
 import { dehydrate, QueryClient, useMutation } from 'react-query'
 import {
-  fetchLanguages,
   fetchLanguageSkillLevels,
   LanguageType,
   Query,
@@ -121,7 +120,6 @@ SkillsAddSkillsPage.getLayout = (page) => (
 )
 export async function getStaticProps() {
   const queryClient = new QueryClient()
-  await queryClient.prefetchQuery(Query.Languages, fetchLanguages)
   await queryClient.prefetchQuery(Query.LanguageSkillLevels, fetchLanguageSkillLevels)
   return {
     props: {

@@ -2,13 +2,8 @@
 import CardLayout from '@/components/Layout/CardLayout/CardLayout'
 import { useUiContext } from '@/context/UiContext'
 import {
-  fetchContractTypes,
   fetchFunctions,
-  fetchGrades,
-  fetchJobTitles,
-  fetchLanguages,
   fetchLanguageSkillLevels,
-  fetchProfessions,
   fetchSkills,
   Query,
   RegisterUserResponse
@@ -136,12 +131,8 @@ export async function getStaticProps(context: GetStaticPropsContext) {
   const { title, nextUrl, skip, large = false } = steps[stepInt]
 
   const queryClient = new QueryClient()
-  await queryClient.prefetchQuery(Query.Grades, fetchGrades)
-  await queryClient.prefetchQuery(Query.JobTitles, fetchJobTitles)
-  await queryClient.prefetchQuery(Query.Professions, fetchProfessions)
+
   await queryClient.prefetchQuery(Query.Functions, fetchFunctions)
-  await queryClient.prefetchQuery(Query.ContractTypes, fetchContractTypes)
-  await queryClient.prefetchQuery(Query.Languages, fetchLanguages)
   await queryClient.prefetchQuery(Query.LanguageSkillLevels, fetchLanguageSkillLevels)
   await queryClient.prefetchQuery(Query.Skills, fetchSkills)
 

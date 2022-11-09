@@ -12,11 +12,10 @@ import {
   Radio,
   RadioGroup,
   Select,
-  Skeleton,
   Typography
 } from '@mui/material'
 import { GenericDataList, LanguagesType, LanguageType, Query } from '@/service/types'
-import { fetchLanguages, fetchLanguageSkillLevels } from '@/service/api'
+import { fetchLanguageSkillLevels } from '@/service/api'
 import { FC, useEffect, useId } from 'react'
 import { useQuery } from 'react-query'
 import { StandardRegisterProps } from '../types'
@@ -27,6 +26,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Cancel } from '@mui/icons-material'
 import Form from '@/components/Form/Register/FormRegister/FormRegister'
 import RadioSkeleton from '@/components/UI/Skeleton/RadioSkeleton'
+import data from '@/prefetch/languages.json'
 
 const fieldName: keyof LanguagesType = 'languages'
 
@@ -62,11 +62,6 @@ const schema: SchemaOf<LanguagesType> = object().shape({
 
 const LanguageForm: FC<StandardRegisterProps<LanguagesType>> = (props) => {
   const formId = useId()
-  const { isLoading, data } = useQuery<GenericDataList[], { message?: string }>(
-    Query.Languages,
-    fetchLanguages,
-    { staleTime: Infinity }
-  )
 
   const { isLoading: isLoadingLevels, data: dataLevels } = useQuery<
     GenericDataList[],
@@ -122,30 +117,28 @@ const LanguageForm: FC<StandardRegisterProps<LanguagesType>> = (props) => {
                   render={({ field, fieldState: { error } }) => (
                     <FormControl fullWidth error={!!error} size="small">
                       <InputLabel>Select a language</InputLabel>
-                      {isLoading ? (
-                        <Skeleton width={100} sx={{ m: 1 }} />
-                      ) : (
-                        <Select
-                          label="Select a language"
-                          variant="outlined"
-                          {...field}
-                          inputProps={{ 'data-testid': `languages.${index}.name` }}
-                        >
-                          {data.map(({ name }) => (
-                            <MenuItem
-                              key={name}
-                              value={name}
-                              disabled={
-                                !!getValues(fieldName).find(
-                                  (language) => language.name === name
-                                )
-                              }
-                            >
-                              {name}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      )}
+
+                      <Select
+                        label="Select a language"
+                        variant="outlined"
+                        {...field}
+                        inputProps={{ 'data-testid': `languages.${index}.name` }}
+                      >
+                        {data.map(({ name }) => (
+                          <MenuItem
+                            key={name}
+                            value={name}
+                            disabled={
+                              !!getValues(fieldName).find(
+                                (language) => language.name === name
+                              )
+                            }
+                          >
+                            {name}
+                          </MenuItem>
+                        ))}
+                      </Select>
+
                       {!!error && <FormHelperText error>{error.message}</FormHelperText>}
                     </FormControl>
                   )}
