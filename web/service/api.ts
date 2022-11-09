@@ -1,5 +1,5 @@
 import getConfig from 'next/config'
-import { FeedabckType } from './types'
+import { FeedbackType } from './types'
 import { defaultError } from '@/service/auth'
 
 const { publicRuntimeConfig } = getConfig()
@@ -11,7 +11,7 @@ export const fetchSkills = async (): Promise<string[]> => {
 }
 
 export const fetchFeedback = async (
-  data: FeedabckType
+  data: FeedbackType
 ): Promise<{ success: boolean }> => {
   const res = await fetch(`${publicRuntimeConfig.apiUrl}/feedback/`, {
     method: 'POST',

@@ -7,9 +7,9 @@ import FormFooter from '../FormFooter'
 import { Divider } from '@mui/material'
 import { Field } from '../Field/Field'
 import { Props } from './types'
-import { FeedabckType } from '@/service/types'
+import { FeedbackType } from '@/service/types'
 
-const schema: SchemaOf<FeedabckType> = object().shape({
+const schema: SchemaOf<FeedbackType> = object().shape({
   name: string(),
   email: string().email(
     'Enter an email address in the correct format, like name@example.com'
@@ -18,7 +18,7 @@ const schema: SchemaOf<FeedabckType> = object().shape({
 })
 
 const FeedbackForm: FC<Props> = ({ onFormSubmit, loading }) => {
-  const methods = useForm<FeedabckType>({
+  const methods = useForm<FeedbackType>({
     defaultValues: { email: '', name: '', issue: '' },
     resolver: yupResolver(schema)
   })
