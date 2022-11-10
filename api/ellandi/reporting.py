@@ -1,6 +1,3 @@
-import datetime
-
-from django.db.models import Avg, Sum
 from django.utils.text import slugify
 from drf_spectacular.utils import OpenApiParameter, extend_schema
 from rest_framework import decorators, permissions, renderers, status
@@ -11,7 +8,6 @@ from ellandi import learning
 from ellandi.registration.exceptions import MissingLanguageTypeError
 from ellandi.registration.models import (
     Grade,
-    Learning,
     User,
     UserLanguage,
     UserSkill,

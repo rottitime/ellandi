@@ -7,6 +7,7 @@ from drf_spectacular.utils import OpenApiParameter, OpenApiTypes, extend_schema
 from rest_framework import decorators, permissions, routers, status, viewsets
 from rest_framework.response import Response
 
+from ellandi import learning
 from ellandi.registration.recommend import (
     create_job_title_embeddings,
     create_skill_similarity_matrix,
@@ -313,7 +314,20 @@ def get_learning(request, learning_type=None, direct_report_id=None):
     if sortfield:
         queryset = queryset.order_by(sortfield)
     serializer = serializers.LearningSerializer(queryset, many=True)
-    return Response(serializer.data)
+
+    start_financial_year = learning.get_start_financial_year()
+    learning_this_year_qs = queryset.filter(date_completed__gte=start_financial_year)
+    distribution = learning.get_learning_distribution(learning_this_year_qs)
+    goal_value_days, goal_value_percentage = learning.get_total_avg_learning_financial_year(
+        learning_qs=learning_this_year_qs, total_users=1
+    )
+    output_dictionary = {
+        "distribution": distribution,
+        "goal_value_days": goal_value_days,
+        "goal_value_percentage": goal_value_percentage,
+        "data": serializer.data,
+    }
+    return Response(data=output_dictionary, status=status.HTTP_200_OK)
 
 
 def _get_learning_instance(item, user):
