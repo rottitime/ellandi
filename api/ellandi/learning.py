@@ -9,12 +9,6 @@ LEARNING_TARGET_IN_DAYS = 10
 MINUTES_IN_LEARNING_TARGET = LEARNING_TARGET_IN_DAYS * HOURS_IN_WORK_DAY * 60
 
 
-def none_to_zero(number):
-    if not number:
-        number = 0
-    return number
-
-
 def get_start_financial_year():
     today = datetime.date.today()
     year = today.year
@@ -33,8 +27,8 @@ def get_learning_for_users_since_start_year(users_qs):
 def get_summary_course_costs(learning_qs):
     formal_learning_with_costs = learning_qs.filter(learning_type="Formal").exclude(cost_unknown=True)
     cost_aggregates = formal_learning_with_costs.aggregate(Sum("cost_pounds"), Avg("cost_pounds"))
-    avg_cost = none_to_zero(cost_aggregates["cost_pounds__avg"])
-    sum_cost = none_to_zero(cost_aggregates["cost_pounds__sum"])
+    avg_cost = cost_aggregates["cost_pounds__avg"] or 0
+    sum_cost = cost_aggregates["cost_pounds__sum"] or 0
     return round(avg_cost), round(sum_cost)
 
 
@@ -42,14 +36,14 @@ def get_percentage_for_learning_type(type, learning_qs, total_all_types):
     if total_all_types == 0:
         return 0
     total_for_type = learning_qs.filter(learning_type=type).aggregate(Sum("duration_minutes"))["duration_minutes__sum"]
-    total_for_type = none_to_zero(total_for_type)
+    total_for_type = total_for_type or 0
     perc = total_for_type * 100 / total_all_types
     return round(perc)
 
 
 def get_learning_distribution(learning_qs):
     total_all_types = learning_qs.aggregate(Sum("duration_minutes"))["duration_minutes__sum"]
-    total_all_types = none_to_zero(total_all_types)
+    total_all_types = total_all_types or 0
     output = [
         {
             "name": "Formal",
@@ -71,7 +65,7 @@ def get_total_avg_learning_financial_year(learning_qs, total_users):
     if not total_users:
         return 0, 0
     total_learning = learning_qs.aggregate(Sum("duration_minutes"))["duration_minutes__sum"]
-    total_learning = none_to_zero(total_learning)
+    total_learning = total_learning or 0
     avg_learning_mins = total_learning / total_users
     proportion_learning_per_user = avg_learning_mins * 100 / MINUTES_IN_LEARNING_TARGET
     days_per_user = round(avg_learning_mins / (60 * HOURS_IN_WORK_DAY))
