@@ -45,23 +45,24 @@ def test_me_learning_formal(client, user_id):
 
 @utils.with_logged_in_client
 def test_me_learning_patch_get_delete(client, user_id):
+    today_str = datetime.date.today().strftime("%Y-%m-%d")
     data = [
         {
             "name": "Did some on the job learning",
             "duration_minutes": 300,
-            "date_completed": datetime.date.today(),
+            "date_completed": today_str,
             "learning_type": "On the job",
         },
         {
             "name": "Did some social learning",
             "duration_minutes": 700,
-            "date_completed": datetime.date.today(),
+            "date_completed": today_str,
             "learning_type": "Social",
         },
         {
             "name": "Did some formal learning",
             "duration_minutes": 370,
-            "date_completed": datetime.date.today(),
+            "date_completed": today_str,
             "learning_type": "Formal",
             "cost_pounds": 35,
         },
@@ -97,7 +98,7 @@ def test_me_learning_patch_get_delete(client, user_id):
         {
             "name": "OTJ learning",
             "duration_minutes": 666,
-            "date_completed": "2022-09-20",
+            "date_completed": "2021-08-20",
             "learning_type": "On the job",
         },
         {"id": formal_learning_id, "name": "Updated formal learning", "duration_minutes": 34},
