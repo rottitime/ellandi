@@ -84,17 +84,15 @@ const ProfessionForm: FC<StandardRegisterProps<ProfessionType>> = (props) => {
                   />
                 )}
               />
-              {primary_profession !== 'Other' &&
-                name !== 'Other' &&
-                watchFields.professions.includes('Other') && (
-                  <Box sx={{ my: 3 }}>
-                    <TextFieldControlled
-                      name="profession_other"
-                      label="Enter profession"
-                      subfield
-                    />
-                  </Box>
-                )}
+              {name === 'Other' && watchFields.professions.includes('Other') && (
+                <Box sx={{ my: 3 }}>
+                  <TextFieldControlled
+                    name="profession_other"
+                    label="Enter profession"
+                    subfield
+                  />
+                </Box>
+              )}
             </Box>
           ))}
       </Form>
