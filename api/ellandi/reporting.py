@@ -444,3 +444,4 @@ def learning_view(request):
         "distribution": learning_distribution,
     }
     return Response(data=output_dict, status=status.HTTP_200_OK, content_type="application/json")
+
