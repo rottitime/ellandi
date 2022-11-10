@@ -80,3 +80,18 @@ def get_total_avg_learning_financial_year(learning_qs, total_users):
     days_per_user = round(avg_learning_mins / (60 * HOURS_IN_WORK_DAY))
     avg_perc = round(proportion_learning_per_user)
     return days_per_user, avg_perc
+
+
+def get_learning_reporting_for_single_user(learning_qs):
+    start_financial_year = get_start_financial_year()
+    learning_this_year_qs = learning_qs.filter(date_completed__gte=start_financial_year)
+    distribution = get_learning_distribution(learning_this_year_qs)
+    goal_value_days, goal_value_percentage = get_total_avg_learning_financial_year(
+        learning_qs=learning_this_year_qs, total_users=1
+    )
+    output_dictionary = {
+        "distribution": distribution,
+        "goal_value_days": goal_value_days,
+        "goal_value_percentage": goal_value_percentage,
+    }
+    return output_dictionary

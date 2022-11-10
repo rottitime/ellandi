@@ -307,26 +307,24 @@ def get_learning(request, learning_type=None, direct_report_id=None):
         except ObjectDoesNotExist:
             raise exceptions.DirectReportError
     queryset = models.Learning.objects.filter(user=user)
-    _learning_type = learning_type or request.query_params.get("learning_type", None)
     sortfield = request.query_params.get("sortfield", None)
-    if _learning_type:
-        queryset = queryset.filter(learning_type=_learning_type)
     if sortfield:
         queryset = queryset.order_by(sortfield)
-    serializer = serializers.LearningSerializer(queryset, many=True)
+    _learning_type = learning_type or request.query_params.get("learning_type", None)
+    if _learning_type:
+        queryset = queryset.filter(learning_type=_learning_type)
+        serializer = serializers.LearningSerializer(queryset, many=True)
+        output = serializer.data
+    else:
 
-    start_financial_year = learning.get_start_financial_year()
-    learning_this_year_qs = queryset.filter(date_completed__gte=start_financial_year)
-    distribution = learning.get_learning_distribution(learning_this_year_qs)
-    goal_value_days, goal_value_percentage = learning.get_total_avg_learning_financial_year(
-        learning_qs=learning_this_year_qs, total_users=1
-    )
-    output_dictionary = {
-        "distribution": distribution,
-        "goal_value_days": goal_value_days,
-        "goal_value_percentage": goal_value_percentage,
-        "data": serializer.data,
-    }
+
+
+
+    output = learning.get_learning_reporting_for_single_user(learning_qs)
+
+
+
+    "data": serializer.data,
     return Response(data=output_dictionary, status=status.HTTP_200_OK)
 
 

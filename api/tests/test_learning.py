@@ -12,7 +12,7 @@ def test_me_learning_work(client, user_id):
 
     response = client.get("/api/me/learning-on-the-job/")
 
-    result = response.json()["data"]
+    result = response.json()
     for key, value in data[0].items():
         assert result[0][key] == value
 
@@ -24,7 +24,7 @@ def test_me_learning_social(client, user_id):
     assert response.status_code == status.HTTP_200_OK, response.status_code
 
     response = client.get("/api/me/learning-social/")
-    result = response.json()["data"]
+    result = response.json()
     for key, value in data[0].items():
         assert result[0][key] == value
 
@@ -36,7 +36,7 @@ def test_me_learning_formal(client, user_id):
     assert response.status_code == status.HTTP_200_OK, response.status_code
 
     response = client.get("/api/me/learning-formal/")
-    result = response.json()["data"]
+    result = response.json()
     for key, value in data[0].items():
         assert result[0][key] == value
 
