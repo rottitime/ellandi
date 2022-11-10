@@ -1,8 +1,6 @@
 import datetime
 
 from django.db.models import Avg, Sum
-from drf_spectacular.utils import extend_schema
-from rest_framework import decorators, permissions, status
 
 from ellandi.registration.models import Learning
 
