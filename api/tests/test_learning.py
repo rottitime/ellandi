@@ -46,19 +46,19 @@ def test_me_learning_patch_get_delete(client, user_id):
     data = [
         {
             "name": "Did some on the job learning",
-            "duration_minutes": 32767,
+            "duration_minutes": 300,
             "date_completed": "2022-09-21",
             "learning_type": "On the job",
         },
         {
             "name": "Did some social learning",
-            "duration_minutes": 32767,
+            "duration_minutes": 700,
             "date_completed": "2022-09-21",
             "learning_type": "Social",
         },
         {
             "name": "Did some formal learning",
-            "duration_minutes": 32767,
+            "duration_minutes": 370,
             "date_completed": "2022-09-21",
             "learning_type": "Formal",
             "cost_pounds": 35,
@@ -106,7 +106,7 @@ def test_me_learning_patch_get_delete(client, user_id):
     response = client.get("/api/me/learnings/?sortfield=-duration_minutes")
     result = response.json()["data"]
     assert len(result) == 4
-    assert result[2]["duration_minutes"] == 666
+    assert result[2]["duration_minutes"] == 300, result
 
     response = client.delete(f"/api/me/learnings/{formal_learning_id}/")
     assert response.status_code == status.HTTP_200_OK, response.status_code

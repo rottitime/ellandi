@@ -355,7 +355,20 @@ def make_learning_view(serializer_class, learning_type):
         request=serializer_class(many=True),
         responses=serializers.LearningSerializer(many=True),
     )
-    @extend_schema(methods=["GET"], responses=serializer_class(many=True))
+    @extend_schema(
+        methods=["GET"],
+        parameters=[
+            OpenApiParameter(name="sortfield", location=OpenApiParameter.QUERY, required=False, type=str),
+            OpenApiParameter(
+                name="language_type",
+                location=OpenApiParameter.QUERY,
+                required=False,
+                type=str,
+                enum=["Formal", "Social", "On the job"],
+            ),
+        ],
+        responses=None,
+    )
     @decorators.api_view(["GET", "PATCH"])
     @decorators.permission_classes((permissions.IsAuthenticated,))
     def _learning_view(request):
