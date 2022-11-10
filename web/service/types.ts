@@ -209,7 +209,12 @@ type LearningApiFields = {
   learning_type: string
 }
 
-export type MeLearningRecord = LearningBaseType & LearningFormalType & LearningApiFields
+export type MeLearningRecord = {
+  distribution: ReportDistributionData[]
+  goal_value_days: number
+  goal_value_percentage: number
+  data: (LearningBaseType & LearningFormalType & LearningApiFields)[]
+}
 
 type ReportPagination = {
   page: number
