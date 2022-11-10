@@ -85,7 +85,7 @@ const ProfessionForm: FC<StandardRegisterProps<ProfessionType>> = (props) => {
                 )}
               />
               {name === 'Other' && watchFields.professions.includes('Other') && (
-                <Box sx={{ my: 3 }}>
+                <Box sx={{ my: 3 }} data-testid="other-field">
                   <TextFieldControlled
                     name="profession_other"
                     label="Enter profession"
