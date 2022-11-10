@@ -12,7 +12,7 @@ def test_me_learning_work(client, user_id):
 
     response = client.get("/api/me/learning-on-the-job/")
 
-    result = response.json()
+    result = response.json()["data"]
     for key, value in data[0].items():
         assert result[0][key] == value
 
@@ -24,8 +24,7 @@ def test_me_learning_social(client, user_id):
     assert response.status_code == status.HTTP_200_OK, response.status_code
 
     response = client.get("/api/me/learning-social/")
-
-    result = response.json()
+    result = response.json()["data"]
     for key, value in data[0].items():
         assert result[0][key] == value
 
@@ -37,8 +36,7 @@ def test_me_learning_formal(client, user_id):
     assert response.status_code == status.HTTP_200_OK, response.status_code
 
     response = client.get("/api/me/learning-formal/")
-
-    result = response.json()
+    result = response.json()["data"]
     for key, value in data[0].items():
         assert result[0][key] == value
 
@@ -70,17 +68,17 @@ def test_me_learning_patch_get_delete(client, user_id):
     assert response.status_code == status.HTTP_200_OK, response.status_code
 
     response = client.get("/api/me/learnings/")
-    all_result = response.json()
+    all_result = response.json()["data"]
 
     for i, learning_type in enumerate(("On the job", "Social", "Formal")):
         response = client.get(f"/api/me/learnings/?learning_type={learning_type}")
-        result = response.json()
+        result = response.json()["data"]
         for key, value in data[i].items():
             assert result[0][key] == value, result
             assert all_result[i][key] == value, all_result
 
     response = client.get("/api/me/learnings/?learning_type=Formal")
-    formal_learning_id = response.json()[0]["id"]
+    formal_learning_id = response.json()["data"][0]["id"]
 
     more_data = [
         {
@@ -95,18 +93,18 @@ def test_me_learning_patch_get_delete(client, user_id):
     assert response.status_code == status.HTTP_200_OK, response
 
     response = client.get("/api/me/learnings/?learning_type=On the job&sortfield=name")
-    result = response.json()
+    result = response.json()["data"]
     assert len(result) == 2
     assert result[0]["name"] == "Did some on the job learning", result
     assert result[1]["learning_type"] == "On the job"
 
     response = client.get("/api/me/learnings/?learning_type=Formal")
-    result = response.json()[0]
+    result = response.json()["data"][0]
     assert result["duration_minutes"] == 34, result
     assert result["cost_pounds"] == 35
 
     response = client.get("/api/me/learnings/?sortfield=-duration_minutes")
-    result = response.json()
+    result = response.json()["data"]
     assert len(result) == 4
     assert result[2]["duration_minutes"] == 666
 
@@ -133,7 +131,7 @@ def test_me_direct_report_learning_get(client, user_id):
     ).save()
     direct_report_id = direct_report.id
     response = client.get(f"/api/me/direct-report/{direct_report_id}/learnings/?sortfield=duration_minutes")
-    result = response.json()
+    result = response.json()["data"]
     assert len(result) == 2
     assert result[0]["name"] == "Management training"
     assert result[1]["duration_minutes"] == 100
