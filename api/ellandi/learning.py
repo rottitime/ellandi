@@ -6,7 +6,6 @@ from rest_framework import decorators, permissions, status
 
 from ellandi.registration.models import Learning
 
-
 HOURS_IN_WORK_DAY = 7.4
 LEARNING_TARGET_IN_DAYS = 10
 MINUTES_IN_LEARNING_TARGET = LEARNING_TARGET_IN_DAYS * HOURS_IN_WORK_DAY * 60

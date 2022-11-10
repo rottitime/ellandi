@@ -306,26 +306,23 @@ def get_learning(request, learning_type=None, direct_report_id=None):
             user = models.User.objects.get(line_manager_email=user.email, id=direct_report_id)
         except ObjectDoesNotExist:
             raise exceptions.DirectReportError
-    queryset = models.Learning.objects.filter(user=user)
+    all_types_learning_qs = models.Learning.objects.filter(user=user)
     sortfield = request.query_params.get("sortfield", None)
+    learning_goal_data = learning.get_learning_reporting_for_single_user(all_types_learning_qs)
     if sortfield:
-        queryset = queryset.order_by(sortfield)
+        queryset = all_types_learning_qs.order_by(sortfield)
+    else:
+        queryset = all_types_learning_qs
     _learning_type = learning_type or request.query_params.get("learning_type", None)
     if _learning_type:
         queryset = queryset.filter(learning_type=_learning_type)
-        serializer = serializers.LearningSerializer(queryset, many=True)
-        output = serializer.data
+    serializer = serializers.LearningSerializer(queryset, many=True)
+    if not learning_type:
+        output = learning_goal_data
+        output["data"] = serializer.data
     else:
-
-
-
-
-    output = learning.get_learning_reporting_for_single_user(learning_qs)
-
-
-
-    "data": serializer.data,
-    return Response(data=output_dictionary, status=status.HTTP_200_OK)
+        output = serializer.data
+    return Response(data=output, status=status.HTTP_200_OK)
 
 
 def _get_learning_instance(item, user):
