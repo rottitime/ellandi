@@ -10,41 +10,14 @@ import Tabs from '@/components/UI/Tabs/Tabs'
 import LearningRecordList from '@/components/Account/LearningRecordList/LearningRecordList'
 import { fetchMeLearning } from '@/service/me'
 import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
-import { useMemo } from 'react'
-import { BarDataType } from '@/components/UI/PercentageBar/types'
 import LearningDistribution from '@/components/Account/LearningDistribution/LearningDistribution'
 
 const LearningPage = () => {
   const { authFetch } = useAuth()
 
-  const { data } = useQuery<MeLearningRecord[]>(
-    Query.MeLearning,
-    () => authFetch(fetchMeLearning),
-    { initialData: [], staleTime: 0 }
+  const { data } = useQuery<MeLearningRecord>(Query.MeLearning, () =>
+    authFetch(fetchMeLearning)
   )
-
-  const barData = useMemo<BarDataType[]>(() => {
-    const totalWork = data.filter(
-      ({ learning_type }) => learning_type.toLowerCase() === 'on the job'
-    ).length
-    const totalSocial = data.filter(
-      ({ learning_type }) => learning_type.toLowerCase() === 'social'
-    ).length
-    const totalFormal = data.filter(
-      ({ learning_type }) => learning_type.toLowerCase() === 'formal'
-    ).length
-    const total = totalWork + totalSocial + totalFormal
-
-    return [
-      {
-        label: 'On the job',
-        percentage: (totalWork / total) * 100,
-        color: null
-      },
-      { label: 'Social', percentage: (totalSocial / total) * 100, color: null },
-      { label: 'Formal', percentage: (totalFormal / total) * 100, color: null }
-    ]
-  }, [data])
 
   return (
     <>
@@ -65,9 +38,9 @@ const LearningPage = () => {
         <Grid item xs={6}>
           <AccountCard sx={{ height: '100%' }}>
             <LearningDistribution
-              barData={barData}
               titleTip='"To get the most out of your learning you should aim for 70% learning
     on the job, 20% social and 10% formal training"'
+              barData={data?.distribution}
             />
           </AccountCard>
         </Grid>
