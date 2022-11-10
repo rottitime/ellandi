@@ -46,7 +46,7 @@ const LearningRecordList: FC = () => {
   const formRef = useRef(null)
   const params = { sortfield: 'name' }
 
-  const { data, isLoading, refetch } = useQuery<MeLearningRecord[]>(
+  const { data, isLoading, refetch, isFetching } = useQuery<MeLearningRecord[]>(
     [Query.MeLearning, params],
     () => authFetch(fetchMeLearning, params),
     {
@@ -81,7 +81,7 @@ const LearningRecordList: FC = () => {
         {isError && <Alert severity="error">{error.message}</Alert>}
         <DataGrid
           initialLoading={isLoading}
-          loading={deleteLoading || editLoading}
+          loading={deleteLoading || editLoading || isFetching}
           hideFooterPagination
           initialState={{
             sorting: {

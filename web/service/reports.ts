@@ -5,7 +5,8 @@ const urls = {
   languages: '/me/reports/languages/',
   responsibility: '/me/reports/responsibilities/',
   grade: '/me/reports/grades/',
-  learning: '/me/reports/learning/'
+  learning: '/me/reports/learning/',
+  responsibilityExport: '/me/reports/staff-overview/'
 }
 
 export const fetchReportSkills = async (token: string, params) => {
@@ -44,7 +45,7 @@ export const exportReportLanguages = async (token, params) => {
 }
 
 export const exportReportResponsibility = async (token, params) => {
-  const res = await api(token, urls.responsibility, { ...params })
+  const res = await api(token, urls.responsibilityExport, { ...params })
   return res.text()
 }
 

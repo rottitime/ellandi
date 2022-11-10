@@ -118,11 +118,12 @@ const DataGrid: FC<Props> = ({
     columns
   }
 
+  if (!!initialLoading) return <SkeletonTable />
   if (noRowContent && !props.rows.length) return noRowContent
 
   return (
     <>
-      {!!initialLoading ? <SkeletonTable /> : <StyledGrid {...gridProps} />}
+      <StyledGrid {...gridProps} />
 
       {enableDelete && (
         <WarningDialog
