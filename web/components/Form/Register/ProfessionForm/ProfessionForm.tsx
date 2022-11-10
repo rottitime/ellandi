@@ -2,7 +2,7 @@ import { Box, Checkbox, FormControlLabel, Typography } from '@mui/material'
 import { ProfessionType, RegisterUserResponse } from '@/service/types'
 
 import { FC, useEffect } from 'react'
-import { StandardRegisterProps } from './types'
+import { StandardRegisterProps } from '../types'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
 import { array, object, SchemaOf, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
