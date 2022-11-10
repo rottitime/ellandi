@@ -67,6 +67,11 @@ update-api-requirements:
 	$(call _update_requirements,api,requirements)
 	$(call _update_requirements,api,requirements-dev)
 
+.PHONY: update-recommender-requirements
+update-recommender-requirements:
+	$(call _update_requirements,recommender,requirements)
+	$(call _update_requirements,recommender,requirements-dev)
+
 .PHONY: update-organogram-requirements
 update-organogram-requirements:
 	$(call _update_requirements,organogram,requirements)

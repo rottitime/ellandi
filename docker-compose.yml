@@ -39,6 +39,24 @@ services:
     ports:
       - "8000:8000"
 
+
+  recommender:
+    build:
+      context: .
+      dockerfile: ./docker/recommender/Dockerfile
+      args:
+        GIT_SHA: ""
+    image: ellandi_recommender
+    depends_on:
+      - ellandi-db
+    env_file:
+      - ./envs/recommender
+    volumes:
+      - ./:/app/:z
+    ports:
+      - "8003:8003"
+
+
   organogram:
     build:
       context: .
