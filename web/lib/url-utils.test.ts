@@ -1,4 +1,4 @@
-import { createIdFromHref } from './url-utils'
+import { createIdFromHref, createUrl } from './url-utils'
 
 describe('createIdFromHref()', () => {
   it('returns a id', () => {
@@ -13,5 +13,17 @@ describe('createIdFromHref()', () => {
 
   it('removes url path', () => {
     expect(createIdFromHref('/path1/path2', '', '/path1/path2')).toEqual('')
+  })
+})
+
+describe('createUrl()', () => {
+  it('returns url with querystring', () => {
+    expect(createUrl('/path', { food: 'pizza', fruit: 'apple' })).toEqual(
+      '/path?food=pizza&fruit=apple'
+    )
+
+    expect(createUrl('/path', { food: ['pizza', 'chips'], fruit: 'apple' })).toEqual(
+      '/path?food=pizza%2Cchips&fruit=apple'
+    )
   })
 })

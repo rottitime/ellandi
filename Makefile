@@ -82,11 +82,15 @@ check-python-code:
 
 .PHONY: test-api
 test-api:
-	docker-compose build tests-api && docker-compose run tests-api
+	docker-compose down
+	docker-compose build tests-api ellandi-test-db && docker-compose run --rm tests-api || docker-compose down
+	docker-compose down
 
 .PHONY: test-organogram
 test-organogram:
-	docker-compose build tests-organogram && docker-compose run tests-organogram
+	docker-compose down
+	docker-compose build tests-organogram ellandi-test-db && docker-compose run --rm tests-organogram || docker-compose down
+	docker-compose down
 
 .PHONY: check-migrations
 check-migrations:
@@ -124,5 +128,7 @@ integration:
 .PHONY: setup
 setup:
 	docker-compose build nginx api organogram
-	docker-compose run api python manage.py add_courses
+	docker-compose run api python manage.py migrate
+	docker-compose run api python manage.py add_courses -n 128
+	docker-compose run api python manage.py add_users -n 128
 	docker-compose run organogram python manage.py create_minio_bucket

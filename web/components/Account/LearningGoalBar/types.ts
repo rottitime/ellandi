@@ -1,4 +1,20 @@
 import { Box } from '@mui/material'
 import { ComponentProps } from 'react'
 
-export type Props = ComponentProps<typeof Box>
+export type Props = {
+  hideTitle?: boolean
+  description?: string
+} & DisabledFetchType &
+  ComponentProps<typeof Box>
+
+type DisabledFetchType =
+  | {
+      disableFetch?: never
+      days?: never
+      percentage?: never
+    }
+  | {
+      disableFetch: true
+      days: number
+      percentage: number
+    }

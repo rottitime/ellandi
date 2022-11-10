@@ -97,6 +97,8 @@ services:
       - ./envs/tests
     profiles:
       - testing
+    depends_on:
+      - ellandi-test-db
 
   tests-organogram:
     build:
@@ -110,6 +112,16 @@ services:
       - ./envs/tests
     profiles:
       - testing
+    depends_on:
+      - ellandi-test-db
+
+  ellandi-test-db:
+    image: postgres:13
+    container_name: ellandi_test_postgres
+    env_file:
+      - ./envs/tests
+    expose:
+      - "5432"
 
   requirements:
     image: python:3.8-buster

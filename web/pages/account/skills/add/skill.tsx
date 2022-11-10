@@ -3,10 +3,8 @@ import { Typography } from '@mui/material'
 import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
 import { menu, SectionOne } from './index'
 import BadgeNumber from '@/components/UI/BadgeNumber/BadgeNumber'
-import { dehydrate, QueryClient, useMutation, useQuery } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import {
-  // fetchSkillLevels,
-  fetchSkills,
   MeSuggestedSkillsResponse,
   Query,
   RegisterUserResponse,
@@ -76,13 +74,3 @@ SkillsAddSkillsPage.getLayout = (page) => (
     {page}
   </AccountLayout>
 )
-export async function getStaticProps() {
-  const queryClient = new QueryClient()
-  // await queryClient.prefetchQuery(Query.SkillLevels, fetchSkillLevels) TODO: to enable on Fix: #559
-  await queryClient.prefetchQuery(Query.Skills, fetchSkills)
-  return {
-    props: {
-      dehydratedState: dehydrate(queryClient)
-    }
-  }
-}

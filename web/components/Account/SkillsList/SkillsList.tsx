@@ -1,14 +1,7 @@
 import { FC } from 'react'
 import DataGrid, { GridColDef } from '@/components/UI/DataGrid/DataGrid'
 import useAuth from '@/hooks/useAuth'
-import {
-  fetchSkillLevels,
-  GenericDataList,
-  Query,
-  RegisterUserResponse,
-  SkillsType,
-  SkillType
-} from '@/service/api'
+import { Query, RegisterUserResponse, SkillsType, SkillType } from '@/service/api'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { fetchMe } from '@/service/me'
 import TableSkeleton from '@/components/UI/Skeleton/TableSkeleton'
@@ -26,18 +19,13 @@ import { addSkills, deleteSkill } from '@/service/account'
 import { Controller, useForm } from 'react-hook-form'
 import Tooltip from '@/components/UI/Tooltip/Tooltip'
 import Typography from '@/components/UI/Typography/Typography'
+import levels from '@/prefetch/skill-levels.json'
 
 const SkillsList: FC = () => {
   const { authFetch } = useAuth()
   const queryClient = useQueryClient()
   const { isLoading, data } = useQuery<RegisterUserResponse>(Query.Me, () =>
     authFetch(fetchMe)
-  )
-
-  const { data: levels } = useQuery<GenericDataList[], Error>(
-    Query.SkillLevels,
-    fetchSkillLevels,
-    { staleTime: Infinity }
   )
 
   const {

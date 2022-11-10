@@ -1,12 +1,6 @@
 import { FormHelperText, IconButton, Radio, styled } from '@mui/material'
-import {
-  GenericDataList,
-  Query,
-  RegisterUserResponse,
-  SkillsType,
-  SkillType
-} from '@/service/types'
-import { fetchSkillLevels, fetchSkills } from '@/service/api'
+import { Query, RegisterUserResponse, SkillsType, SkillType } from '@/service/types'
+import { fetchSkills } from '@/service/api'
 import { forwardRef, useId, useImperativeHandle, useMemo, useState } from 'react'
 import { useQuery } from 'react-query'
 import { Controller, FormProvider, useFieldArray, useForm } from 'react-hook-form'
@@ -22,6 +16,7 @@ import { fetchMe } from '@/service/me'
 import useAuth from '@/hooks/useAuth'
 import SimpleTable from '@/components/UI/SimpleTable/SimpleTable'
 import Tooltip from '@/components/UI/Tooltip/Tooltip'
+import levels from '@/prefetch/skill-levels.json'
 
 const Table = styled(SimpleTable)`
   th,
@@ -46,12 +41,6 @@ const SkillsAddForm = forwardRef<RefHandler, Props>(
     const id = useId()
     const { authFetch } = useAuth()
     const [hasSelected, setHasSelected] = useState(false)
-
-    const { isLoading, data: levels } = useQuery<GenericDataList[], { message?: string }>(
-      Query.SkillLevels,
-      fetchSkillLevels,
-      { initialData: [], staleTime: 0 }
-    )
 
     const { isFetched: isFetchedMe, data: dataMe } = useQuery<RegisterUserResponse>(
       Query.Me,
@@ -111,7 +100,6 @@ const SkillsAddForm = forwardRef<RefHandler, Props>(
         {(showAll || !!hasSelected) && (
           <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
             <Table
-              loading={isLoading}
               list={[]}
               headers={[
                 { children: <>&nbsp;</>, width: 227 },

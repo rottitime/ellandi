@@ -5,10 +5,11 @@ import WarningDialog from '@/components/UI/Dialogs/WarningDialog/WarningDialog'
 import { FC, useState } from 'react'
 import { Props, CellType } from './types'
 import { DataGrid as MuiDataGrid, GridColDef } from '@mui/x-data-grid'
-import { IconButton, styled } from '@mui/material'
-import { SkeletonTable } from '../Skeleton/TableSkeleton.stories'
+import { IconButton, LinearProgress, styled } from '@mui/material'
+import SkeletonTable from '../Skeleton/TableSkeleton'
+import Pagination from './Pagination'
 
-const StyledGrid = styled(MuiDataGrid)`
+const StyledGrid = styled(MuiDataGrid)<Props>`
   border: none;
   .MuiDataGrid-columnSeparator {
     display: none;
@@ -35,6 +36,11 @@ const StyledGrid = styled(MuiDataGrid)`
     padding-left: 0;
     padding-right: 0;
   }
+
+  .MuiDataGrid-footerContainer {
+    justify-content: flex-start;
+    padding-top: ${(p) => p.theme.spacing(3)};
+  }
 `
 
 const DataGrid: FC<Props> = ({
@@ -48,6 +54,7 @@ const DataGrid: FC<Props> = ({
   modalLoading,
   onModalClose,
   initialLoading,
+  components,
   ...props
 }) => {
   const [deleteCell, setDeleteCell] = useState<CellType>(null)
@@ -107,6 +114,7 @@ const DataGrid: FC<Props> = ({
 
   const gridProps = {
     ...props,
+    components: { ...components, Pagination, LoadingOverlay: LinearProgress },
     columns
   }
 

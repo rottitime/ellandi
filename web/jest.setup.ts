@@ -16,6 +16,7 @@ require('jest-fetch-mock').enableMocks()
 
 jest.mock('next/config', () => () => ({
   publicRuntimeConfig: {
+    apiUrl: 'http://myapp',
     enableEmailVerify: true,
     minutesPerDay: 444,
     urls: {

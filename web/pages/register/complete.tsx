@@ -11,7 +11,7 @@ const { publicRuntimeConfig } = getConfig()
 const Title = styled(Box)`
   display: flex;
   .icon {
-    color: ${(p) => p.theme.colors.green};
+    color: ${(p) => p.theme.colors.green1};
     font-size: 46px;
     margin-right: ${(p) => p.theme.spacing(1)};
   }

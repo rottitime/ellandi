@@ -5,6 +5,7 @@ import { ButtonProps } from '@mui/material'
 export type Props = {
   loading?: boolean
   href?: string
+  error?: string
 } & ComponentProps<typeof LoadingButton>
 
 export type ButtonOverrides = Record<string, ButtonProps>

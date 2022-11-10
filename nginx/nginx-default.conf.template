@@ -9,6 +9,8 @@ server {
   listen 80;
   resolver ${RESOLVER};
 
+  server_tokens off;
+
   index index.html index.htm Default.htm;
   limit_req zone=limitbyaddrglb burst=50 nodelay;
 

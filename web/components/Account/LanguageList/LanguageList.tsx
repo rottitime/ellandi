@@ -1,14 +1,7 @@
 import { FC } from 'react'
 import DataGrid, { GridColDef, GridRowId } from '@/components/UI/DataGrid/DataGrid'
 import useAuth from '@/hooks/useAuth'
-import {
-  fetchLanguageSkillLevels,
-  GenericDataList,
-  LanguagesType,
-  LanguageType,
-  Query,
-  RegisterUserResponse
-} from '@/service/api'
+import { LanguagesType, LanguageType, Query, RegisterUserResponse } from '@/service/api'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { fetchMe } from '@/service/me'
 import TableSkeleton from '@/components/UI/Skeleton/TableSkeleton'
@@ -25,18 +18,13 @@ import {
 } from '@mui/material'
 import { addLanguages, deleteLanguage } from '@/service/account'
 import { Controller, useForm } from 'react-hook-form'
+import levels from '@/prefetch/language-skill-levels.json'
 
 const LanguageList: FC = () => {
   const queryClient = useQueryClient()
   const { authFetch } = useAuth()
   const { isLoading, data } = useQuery<RegisterUserResponse>(Query.Me, () =>
     authFetch(fetchMe)
-  )
-
-  const { data: levels } = useQuery<GenericDataList[], Error>(
-    Query.LanguageSkillLevels,
-    fetchLanguageSkillLevels,
-    { staleTime: Infinity }
   )
 
   const {

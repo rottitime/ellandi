@@ -6,18 +6,12 @@ import { object, SchemaOf, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Grid } from '@mui/material'
 import { StandardRegisterProps } from '../types'
-import {
-  fetchBusinessUnit,
-  fetchJobTitles,
-  GenericDataList,
-  Query,
-  RegisterDetailsType,
-  RegisterUserResponse
-} from '@/service/api'
+import { RegisterDetailsType, RegisterUserResponse } from '@/service/api'
 import { Field } from '@/components/Form/Field/Field'
 import Form from '@/components/Form/Register/FormRegister/FormRegister'
-import { useQuery } from 'react-query'
 import { useProfile } from '@/hooks/useProfile'
+import jobtitles from '@/prefetch/job-titles.json'
+import businessUnits from '@/prefetch/business-units.json'
 
 const RegisterDetailsForm: FC<StandardRegisterProps<RegisterDetailsType>> = (props) => {
   const { userProfile } = useProfile<RegisterUserResponse>({})
@@ -51,22 +45,6 @@ const RegisterDetailsForm: FC<StandardRegisterProps<RegisterDetailsType>> = (pro
     resolver: yupResolver(schema)
   })
 
-  const {
-    isLoading: isLoadingJobtitles,
-    data: jobtitles,
-    isSuccess: isSuccessJobtitles
-  } = useQuery<GenericDataList[], Error>(Query.JobTitles, fetchJobTitles, {
-    staleTime: Infinity
-  })
-
-  const {
-    isLoading: isLoadingBusinessUnit,
-    data: businessUnits,
-    isSuccess: isSuccessBusinessUnit
-  } = useQuery<GenericDataList[], Error>(Query.BusinessUnits, fetchBusinessUnit, {
-    staleTime: Infinity
-  })
-
   return (
     <FormProvider {...methods}>
       <Form {...props}>
@@ -90,14 +68,9 @@ const RegisterDetailsForm: FC<StandardRegisterProps<RegisterDetailsType>> = (pro
             render={({ field, fieldState: { error } }) => (
               <CreatableAutocomplete
                 {...field}
-                loading={isLoadingJobtitles}
                 label="Job title"
                 size="small"
-                options={
-                  isSuccessJobtitles
-                    ? jobtitles.map(({ name: title }) => ({ title }))
-                    : []
-                }
+                options={jobtitles.map(({ name: title }) => ({ title }))}
                 error={!!error}
                 helperText={!!error && error.message}
               />
@@ -112,14 +85,9 @@ const RegisterDetailsForm: FC<StandardRegisterProps<RegisterDetailsType>> = (pro
             render={({ field, fieldState: { error } }) => (
               <CreatableAutocomplete
                 {...field}
-                loading={isLoadingBusinessUnit}
                 label="Business unit"
                 size="small"
-                options={
-                  isSuccessBusinessUnit
-                    ? businessUnits.map(({ name: title }) => ({ title }))
-                    : []
-                }
+                options={businessUnits.map(({ name: title }) => ({ title }))}
                 error={!!error}
                 helperText={!!error && error.message}
               />

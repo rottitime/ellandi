@@ -17,6 +17,7 @@ export type Props = {
   tabPanel?: ReactNode
   activeIndex?: number
   activeOnUrl?: boolean
+  disableCard?: boolean
 } & TabsProps &
   BrandColor
 
@@ -25,6 +26,7 @@ export type StyleProps = BrandColor
 export type RoutedTabsProps = {
   routedTabItems: RoutedTabItem[]
   tabsPath: string
+  disableCard?: boolean
 } & BrandColor
 
 export type RoutedTabItem = Omit<TabItem, 'href'> & {

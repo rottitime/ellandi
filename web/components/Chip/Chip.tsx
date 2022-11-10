@@ -1,24 +1,27 @@
 import { FC, useState, useEffect } from 'react'
-import { Chip as MuiChip, Avatar } from '@mui/material'
+import { Chip as MuiChip, Avatar, useTheme } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { Props } from './types'
 
-const StyledChip = styled(MuiChip, {
+const config = {
   shouldForwardProp: (p) => p !== 'brandColor'
-})<Props>`
-  ${({ theme, brandColor }) =>
-    brandColor
-      ? `
-  background-color:${theme.colors[brandColor]};
-  color:${theme.colors.white};
-  transition:opacity 0.3s;
+}
+
+const StyledChip = styled(MuiChip, config)<Props>`
+  transition: opacity 0.3s;
   &:hover {
-    background-color:${theme.colors[brandColor]};
-    color:${theme.colors.white};
-    opacity:0.5;
+    opacity: 0.7;
   }
-  `
-      : ''};
+
+  &.has-custom-color {
+    color: ${(p) => p.theme.colors.white};
+    //prevent light color on light bg
+    &.grey1,
+    &.grey3,
+    &.green2 {
+      color: ${(p) => p.theme.colors.black};
+    }
+  }
 
   .MuiChip-avatar {
     background-color: ${(p) => p.theme.colors.grey2};
@@ -48,8 +51,17 @@ const StyledChip = styled(MuiChip, {
   }
 `
 
-const Chip: FC<Props> = ({ toggle, avatarText, active = false, onToggle, ...rest }) => {
+const Chip: FC<Props> = ({
+  toggle,
+  avatarText,
+  active = false,
+  brandColor,
+  onToggle,
+  ...rest
+}) => {
   const [chipActive, setChipActive] = useState(active)
+  const hasCustomColor = !!brandColor
+  const { colors } = useTheme()
 
   useEffect(() => {
     setChipActive(active)
@@ -57,8 +69,13 @@ const Chip: FC<Props> = ({ toggle, avatarText, active = false, onToggle, ...rest
 
   return (
     <StyledChip
-      className={`${toggle ? 'can-toggle' : ''} ${chipActive ? 'active' : ''} `}
-      sx={{}}
+      className={`${toggle ? 'can-toggle' : ''} ${chipActive ? 'active' : ''} ${
+        hasCustomColor ? `has-custom-color ${brandColor}` : 'no-custom-color'
+      }`}
+      sx={{
+        backgroundColor: hasCustomColor && colors[brandColor],
+        '&:hover': { backgroundColor: hasCustomColor && colors[brandColor] }
+      }}
       onClick={(e) => {
         const active = !chipActive
         setChipActive(active)

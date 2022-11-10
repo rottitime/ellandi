@@ -102,21 +102,16 @@ const IndexPage = () => {
 
         <AccountCard
           color="brandLearning"
-          header={
-            <Typography variant="h2" component="h3">
-              Learning goal
-            </Typography>
-          }
           action={
             <Button variant="contained" href="/account/learning/add/">
               Add learning
             </Button>
           }
         >
-          <Typography variant="body2" gutterBottom>
-            You should aim to complete 10 days learning each year
-          </Typography>
-          <LearningGoalBar sx={{ mb: 5 }} />
+          <LearningGoalBar
+            sx={{ mb: 5 }}
+            description="You should aim to complete 10 days learning each year"
+          />
         </AccountCard>
 
         {profiles.map((profile) => (

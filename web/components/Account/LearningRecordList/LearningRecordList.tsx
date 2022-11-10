@@ -2,8 +2,6 @@ import { FC, useId, useRef, useState } from 'react'
 import DataGrid, { GridColDef } from '@/components/UI/DataGrid/DataGrid'
 import useAuth from '@/hooks/useAuth'
 import {
-  fetchLearningTypes,
-  GenericDataList,
   LearningFormalType,
   LearningBaseType,
   MeLearningRecord,
@@ -24,10 +22,10 @@ import {
 import { splitMinutes } from '@/lib/date-utils'
 import dayjs from 'dayjs'
 import { deleteLearning, editLearning } from '@/service/account'
-import { SkeletonRadio } from '@/components/UI/Skeleton/RadioSkeleton.stories'
 import BadgeNumber from '@/components/UI/BadgeNumber/BadgeNumber'
 import LearningAddForm from '@/components/Form/LearningAddForm/LearningAddForm'
 import getConfig from 'next/config'
+import types from '@/prefetch/learning-types.json'
 
 const {
   publicRuntimeConfig: { minutesPerDay }
@@ -47,12 +45,6 @@ const LearningRecordList: FC = () => {
   const [type, setType] = useState<string>()
   const formRef = useRef(null)
   const params = { sortfield: 'name' }
-
-  const { data: types, isLoading: isLoadingTypes } = useQuery<GenericDataList[], Error>(
-    Query.LearningTypes,
-    fetchLearningTypes,
-    { staleTime: Infinity }
-  )
 
   const { data, isLoading, refetch } = useQuery<MeLearningRecord[]>(
     [Query.MeLearning, params],
@@ -128,26 +120,23 @@ const LearningRecordList: FC = () => {
                 <Typography component="label" id={labelId} gutterBottom>
                   <BadgeNumber label="1" /> Edit type of learning
                 </Typography>
-                {isLoadingTypes ? (
-                  [...Array(3).keys()].map((i) => <SkeletonRadio key={i} />)
-                ) : (
-                  <RadioGroup
-                    aria-labelledby={labelId}
-                    defaultValue={defaultValue}
-                    name="learning_type"
-                    onChange={(e) => setType(e.currentTarget.value)}
-                    sx={{ mb: 4 }}
-                  >
-                    {types.map(({ name }) => (
-                      <FormControlLabel
-                        value={name}
-                        control={<Radio />}
-                        label={name}
-                        key={name}
-                      />
-                    ))}
-                  </RadioGroup>
-                )}
+
+                <RadioGroup
+                  aria-labelledby={labelId}
+                  defaultValue={defaultValue}
+                  name="learning_type"
+                  onChange={(e) => setType(e.currentTarget.value)}
+                  sx={{ mb: 4 }}
+                >
+                  {types.map(({ name }) => (
+                    <FormControlLabel
+                      value={name}
+                      control={<Radio />}
+                      label={name}
+                      key={name}
+                    />
+                  ))}
+                </RadioGroup>
 
                 <LearningAddForm
                   ref={formRef}
