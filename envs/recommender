@@ -1,0 +1,13 @@
+DEBUG=True
+DJANGO_SETTINGS_MODULE=ellandi.settings
+DJANGO_SECRET_KEY='django-insecure-&3_9ebzl!$@-vv=v=u@6h=lm@abd69u&cfs4lj0ml0v$thw*f3'
+VCAP_APPLICATION='{"application_uris": ["http://localhost:8003"]}'
+POSTGRES_HOST=ellandi-db
+POSTGRES_PORT=5432
+POSTGRES_DB=ellandi
+POSTGRES_USER=ellandi
+POSTGRES_PASSWORD=insecure
+PGPASSWORD=insecure
+DATABASE_URL='postgresql://ellandi:insecure@ellandi-db:5432/ellandi'
+EMAIL_BACKEND_TYPE=CONSOLE
+ALLOW_EXAMPLE_EMAILS=True
