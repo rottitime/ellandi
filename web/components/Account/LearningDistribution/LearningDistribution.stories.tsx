@@ -21,18 +21,18 @@ export const Default = Template.bind({})
 Default.args = {
   barData: [
     {
-      label: 'On the job',
-      percentage: 10,
+      name: 'On the job',
+      value_percentage: 10,
       color: null
     },
     {
-      label: 'Social',
-      percentage: 68,
+      name: 'Social',
+      value_percentage: 68,
       color: null
     },
     {
-      label: 'Formal',
-      percentage: 22,
+      name: 'Formal',
+      value_percentage: 22,
       color: null
     }
   ]

@@ -46,12 +46,10 @@ const LearningRecordList: FC = () => {
   const formRef = useRef(null)
   const params = { sortfield: 'name' }
 
-  const { data, isLoading, refetch, isFetching } = useQuery<MeLearningRecord[]>(
+  const { data, isLoading, refetch, isFetching } = useQuery<MeLearningRecord>(
     [Query.MeLearning, params],
     () => authFetch(fetchMeLearning, params),
     {
-      initialData: [],
-      staleTime: 0,
       onSuccess: (data) => queryClient.setQueryData(Query.MeLearning, data)
     }
   )
@@ -95,7 +93,7 @@ const LearningRecordList: FC = () => {
           }
           autoHeight
           columns={columns}
-          rows={data}
+          rows={data?.data}
           modalLoading={deleteLoading}
           onDelete={async (cell) => await mutate(cell.id.toString())}
           deleteModalTitle="Delete learning"
@@ -111,7 +109,7 @@ const LearningRecordList: FC = () => {
           }}
           editModalTitle="Edit learning"
           editModalContent={(cell) => {
-            const learningData = data.find(({ id }) => id === cell?.row?.id)
+            const learningData = data.data.find(({ id }) => id === cell?.row?.id)
             const defaultValue = learningData?.learning_type
             const learning_type = !!type ? type : defaultValue
 

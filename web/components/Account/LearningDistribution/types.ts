@@ -1,7 +1,10 @@
-import { BarDataType } from '@/components/UI/PercentageBar/types'
+import { ReportDistributionData } from '@/service/types'
+import { AllColors } from '@/style/types'
+
+type Data = ReportDistributionData & { color?: AllColors }
 
 export type Props = {
-  barData: BarDataType[]
+  barData: Data[]
   description?: string
   titleTip?: string
   days?: number

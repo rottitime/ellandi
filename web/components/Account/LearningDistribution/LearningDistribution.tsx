@@ -30,7 +30,8 @@ const LearningDistribution = ({ barData = [], description, titleTip }: Props) =>
   const { colors } = useTheme()
 
   const data = barData.map((item, i) => ({
-    ...item,
+    label: item.name,
+    percentage: item.value_percentage,
     color: item.color || colorOptions[i]
   }))
 
