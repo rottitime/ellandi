@@ -119,7 +119,7 @@ const DataGrid: FC<Props> = ({
   }
 
   if (!!initialLoading) return <SkeletonTable />
-  if (noRowContent && !props.rows.length) return noRowContent
+  if (noRowContent && !props.rows?.length) return noRowContent
 
   return (
     <>
