@@ -67,16 +67,12 @@ def _send_token_email(user, subject, template_name, from_address, url_path, toke
     url = str(furl.furl(url=web_host_url, path=url_path, query_params={"code": token, "user_id": str(user.id)}))
     context = dict(user=user, url=url)
     body = render_to_string(template_name, context)
-    try:
-        response = send_mail(
-            subject=subject,
-            message=body,
-            from_email=from_address,
-            recipient_list=[user.email],
-        )
-    # FIXME: Remove me after pentest
-    except:  # noqa
-        response = {}
+    response = send_mail(
+        subject=subject,
+        message=body,
+        from_email=from_address,
+        recipient_list=[user.email],
+    )
     return response
 
 
