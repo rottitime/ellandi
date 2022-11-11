@@ -37,7 +37,7 @@ describe('CreateAccountForm', () => {
 
     await waitFor(async () => {
       expect(screen.getByTestId('field_email')).toHaveTextContent(
-        'This is a required field'
+        'Enter your email address'
       )
     })
 
