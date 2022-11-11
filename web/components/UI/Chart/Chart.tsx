@@ -28,7 +28,7 @@ const Chart: FC<Props> = ({ data, colors = [], hideLegends, misc = {} }) => {
     }
 
     load()
-  }, [colors, data, hideLegends, theme.colors])
+  }, [colors, data, hideLegends, misc, theme.colors])
 
   return <ChartPlaceholder ref={divRef} />
 }

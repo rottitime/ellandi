@@ -311,7 +311,7 @@ const SkillsReport: FC<Props> = (props) => {
                     },
                     tooltip: {
                       format: {
-                        value: function (value, ratio, id, index) {
+                        value: function (value) {
                           return `${value}%`
                         }
                       }
