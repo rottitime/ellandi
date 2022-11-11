@@ -1,6 +1,10 @@
 import { boolean, number, object, SchemaOf, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { LearningFormalType, LearningBaseType, MeLearningRecord } from '@/service/types'
+import {
+  LearningFormalType,
+  LearningBaseType,
+  MeLearningRecordData
+} from '@/service/types'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
 import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
 import {
@@ -59,14 +63,14 @@ const LearningAddForm = forwardRef<RefHandler, Props>(
       cost_pounds: null,
       cost_unknown: false,
       ...defaultValues
-    }
+    } as MeLearningRecordData
 
     if (type === 'generic') {
       delete initialValues.cost_pounds
       delete initialValues.cost_unknown
     }
 
-    const methods = useForm<Partial<MeLearningRecord>>({
+    const methods = useForm<Partial<MeLearningRecordData>>({
       defaultValues: initialValues,
       resolver: yupResolver(type === 'generic' ? schema : schemaFormal)
     })

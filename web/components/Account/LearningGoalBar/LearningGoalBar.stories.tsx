@@ -36,3 +36,10 @@ Default.args = {
   days: 5,
   percentage: 50
 } as Props
+
+export const Success = Template.bind({})
+Success.args = {
+  disableFetch: true,
+  days: 11,
+  percentage: 110
+} as Props

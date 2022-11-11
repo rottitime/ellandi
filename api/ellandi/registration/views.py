@@ -7,6 +7,7 @@ from drf_spectacular.utils import OpenApiParameter, OpenApiTypes, extend_schema
 from rest_framework import decorators, permissions, routers, status, viewsets
 from rest_framework.response import Response
 
+from ellandi import learning
 from ellandi.registration.recommend import (
     recommend_bundled_skill_recommendations,
     recommend_skill_from_skill,
@@ -303,15 +304,23 @@ def get_learning(request, learning_type=None, direct_report_id=None):
             user = models.User.objects.get(line_manager_email=user.email, id=direct_report_id)
         except ObjectDoesNotExist:
             raise exceptions.DirectReportError
-    queryset = models.Learning.objects.filter(user=user)
-    _learning_type = learning_type or request.query_params.get("learning_type", None)
+    all_types_learning_qs = models.Learning.objects.filter(user=user)
     sortfield = request.query_params.get("sortfield", None)
+    learning_goal_data = learning.get_learning_reporting_for_single_user(all_types_learning_qs)
+    if sortfield:
+        queryset = all_types_learning_qs.order_by(sortfield)
+    else:
+        queryset = all_types_learning_qs
+    _learning_type = learning_type or request.query_params.get("learning_type", None)
     if _learning_type:
         queryset = queryset.filter(learning_type=_learning_type)
-    if sortfield:
-        queryset = queryset.order_by(sortfield)
     serializer = serializers.LearningSerializer(queryset, many=True)
-    return Response(serializer.data)
+    if not learning_type:
+        output = learning_goal_data
+        output["data"] = serializer.data
+    else:
+        output = serializer.data
+    return Response(data=output, status=status.HTTP_200_OK)
 
 
 def _get_learning_instance(item, user):
@@ -344,7 +353,20 @@ def make_learning_view(serializer_class, learning_type):
         request=serializer_class(many=True),
         responses=serializers.LearningSerializer(many=True),
     )
-    @extend_schema(methods=["GET"], responses=serializer_class(many=True))
+    @extend_schema(
+        methods=["GET"],
+        parameters=[
+            OpenApiParameter(name="sortfield", location=OpenApiParameter.QUERY, required=False, type=str),
+            OpenApiParameter(
+                name="language_type",
+                location=OpenApiParameter.QUERY,
+                required=False,
+                type=str,
+                enum=["Formal", "Social", "On the job"],
+            ),
+        ],
+        responses=None,
+    )
     @decorators.api_view(["GET", "PATCH"])
     @decorators.permission_classes((permissions.IsAuthenticated,))
     def _learning_view(request):

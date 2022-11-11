@@ -1,6 +1,7 @@
 import getConfig from 'next/config'
 const { publicRuntimeConfig } = getConfig()
 import { defaultError } from '@/service/auth'
+import { api } from '@/lib/data-utils'
 
 export const fetchMe = async (token: string) => {
   const res = await fetch(`${publicRuntimeConfig.apiUrl}/me/`, {
@@ -85,12 +86,6 @@ export const fetchMeLearningWork = async (token: string) => {
 }
 
 export const fetchMeLearning = async (token: string, params) => {
-  const res = await fetch(
-    `${publicRuntimeConfig.apiUrl}/me/learnings/?` + new URLSearchParams(params),
-    {
-      headers: { Authorization: `Token ${token}` }
-    }
-  )
-  if (res.ok) return res.json()
-  throw new Error(defaultError)
+  const res = await api(token, '/me/learnings/', params)
+  return res.json()
 }

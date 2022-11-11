@@ -188,11 +188,7 @@ const LanguagesReport = () => {
             <Grid item xs={6}>
               <LearningDistribution
                 description="Data based on the current financial year so for"
-                barData={data?.distribution?.map((item) => ({
-                  label: item.name,
-                  percentage: item.value_percentage,
-                  color: null
-                }))}
+                barData={data?.distribution}
               />
             </Grid>
             <Grid item xs={6}>
