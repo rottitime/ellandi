@@ -293,7 +293,7 @@ export type MeReporGrade = {
 }
 
 export type ReportDistributionData = {
-  name: string
+  name: 'On the job' | 'Social' | 'Formal'
   value_percentage: number
 }
 
