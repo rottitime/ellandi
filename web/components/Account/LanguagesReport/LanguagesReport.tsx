@@ -137,7 +137,7 @@ const LanguagesReport = () => {
             loading={isFetching}
             initialState={{
               sorting: {
-                sortModel: [{ field: 'native_value_percentage', sort: 'desc' }]
+                sortModel: [{ field: 'native_value_total', sort: 'desc' }]
               }
             }}
           />
@@ -159,7 +159,7 @@ const columns: GridColDef<ReportLanguagesData>[] = [
     flex: 1
   },
   {
-    field: 'basic_value_percentage',
+    field: 'basic_value_total',
     headerName: 'Total (%) basic',
     disableColumnMenu: true,
     resizable: false,
@@ -168,7 +168,7 @@ const columns: GridColDef<ReportLanguagesData>[] = [
     maxWidth: 204
   },
   {
-    field: 'independent_value_percentage',
+    field: 'independent_value_total',
     headerName: 'Total (%) independent',
     disableColumnMenu: true,
     resizable: false,
@@ -177,7 +177,7 @@ const columns: GridColDef<ReportLanguagesData>[] = [
     maxWidth: 204
   },
   {
-    field: 'proficient_value_percentage',
+    field: 'proficient_value_total',
     headerName: 'Total (%) proficient',
     disableColumnMenu: true,
     resizable: false,
@@ -186,7 +186,7 @@ const columns: GridColDef<ReportLanguagesData>[] = [
     maxWidth: 204
   },
   {
-    field: 'native_value_percentage',
+    field: 'native_value_total',
     headerName: 'Total (%) native',
     disableColumnMenu: true,
     resizable: false,

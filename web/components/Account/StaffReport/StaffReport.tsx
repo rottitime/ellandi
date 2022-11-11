@@ -9,8 +9,8 @@ import {
   exportReportResponsibility,
   fetchReportGrade,
   fetchReportResponsibility,
+  MeReporGrade,
   MeReporResponsibility,
-  MeReportSkills,
   Query,
   SimpleLabelValueData
 } from '@/service/api'
@@ -39,7 +39,7 @@ const StaffReport = () => {
     data: dataGrade,
     isError: isErrorGrade,
     error: errorGrade
-  } = useQuery<MeReportSkills, Error>(
+  } = useQuery<MeReporGrade, Error>(
     Query.ReportGrade,
     () => authFetch(fetchReportGrade),
     {
@@ -124,7 +124,7 @@ const columnsResponsibility: GridColDef<SimpleLabelValueData>[] = [
     flex: 1
   },
   {
-    field: 'total_value_percentage',
+    field: 'total_value_total',
     headerName: 'Total (%)',
     disableColumnMenu: true,
     resizable: false,
