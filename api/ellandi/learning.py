@@ -29,7 +29,9 @@ def get_summary_course_costs(learning_qs):
     cost_aggregates = formal_learning_with_costs.aggregate(Sum("cost_pounds"), Avg("cost_pounds"))
     avg_cost = cost_aggregates["cost_pounds__avg"] or 0
     sum_cost = cost_aggregates["cost_pounds__sum"] or 0
-    return round(avg_cost), round(sum_cost)
+    avg_cost = round(avg_cost)
+    sum_cost = round(sum_cost)
+    return avg_cost, sum_cost
 
 
 def get_percentage_for_learning_type(type, learning_qs, total_all_types):
@@ -38,7 +40,8 @@ def get_percentage_for_learning_type(type, learning_qs, total_all_types):
     total_for_type = learning_qs.filter(learning_type=type).aggregate(Sum("duration_minutes"))["duration_minutes__sum"]
     total_for_type = total_for_type or 0
     perc = total_for_type * 100 / total_all_types
-    return round(perc)
+    perc = round(perc)
+    return perc
 
 
 def get_learning_distribution(learning_qs):
