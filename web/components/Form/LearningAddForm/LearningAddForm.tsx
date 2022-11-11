@@ -24,8 +24,8 @@ import Duration from '@/components/Form/Duration/Duration'
 const schema: SchemaOf<LearningBaseType> = object().shape({
   name: string().required('This is a required field'),
   duration_minutes: number()
-    .typeError('you must specify a number')
-    .min(1, 'you must specify a number'),
+    .typeError('You must specify a number')
+    .min(1, 'You must specify a number'),
   date_completed: string().nullable().required('Enter a date')
 })
 
@@ -37,7 +37,7 @@ const schemaFormal: SchemaOf<LearningFormalType> = schema.shape({
         return number()
           .min(0, 'Min value 0.')
           .required('This is a required field')
-          .typeError('you must specify a number')
+          .typeError('You must specify a number')
     }),
   cost_unknown: boolean().nullable()
 })

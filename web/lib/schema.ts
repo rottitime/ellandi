@@ -7,7 +7,7 @@ const email = string()
     return v.toLowerCase()
   })
   .email('Enter an email address in the correct format, like name@example.com')
-  .required('This is a required field')
+  .required('Enter your email address')
 
 const emailConfirm = string()
   .transform((v) => {
