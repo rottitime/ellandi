@@ -70,7 +70,7 @@ const LanguagesReport = () => {
     MeReporLearning,
     Error
   >(
-    [Query.ReportLanguages, debouncedSearchQuery],
+    [Query.ReportLearning, debouncedSearchQuery],
     () => authFetch(fetchReportLearning, debouncedSearchQuery),
     {
       staleTime: Infinity,
