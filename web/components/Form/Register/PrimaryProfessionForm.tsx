@@ -15,8 +15,7 @@ const schema: SchemaOf<PrimaryProfessionType> = object().shape({
   profession_other: string()
     .nullable()
     .when('primary_profession', (value) => {
-      if (value === 'Other')
-        return string().nullable().required('This is a required field')
+      if (value === 'Other') return string().nullable().required('Enter your profession')
     })
 })
 

@@ -153,7 +153,7 @@ describe('LearningAddForm', () => {
       await userEvent.click(button)
       await waitFor(
         async () =>
-          await expect(screen.getByText('you must specify a number')).toBeInTheDocument()
+          await expect(screen.getByText('You must specify a number')).toBeInTheDocument()
       )
     })
   })
