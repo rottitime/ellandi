@@ -4,6 +4,7 @@ import useAuth from '@/hooks/useAuth'
 import { fetchMeLearning } from '@/service/me'
 import { MeLearningRecord, Query } from '@/service/types'
 import { Box, styled, Typography } from '@mui/material'
+import { useState } from 'react'
 import { useQuery } from 'react-query'
 import { Props } from './types'
 
@@ -20,22 +21,26 @@ const LearningGoalBar = ({
   hideTitle,
   description,
   disableFetch,
-  days,
-  percentage,
+  days = 0,
+  percentage = 0,
   ...props
 }: Props) => {
   const { authFetch } = useAuth()
+  const [dayValue, setDayValue] = useState(days)
+  const [percentageValue, setPercentageValue] = useState(percentage)
 
-  const { isLoading, data, isSuccess } = useQuery<MeLearningRecord>(
+  const { isLoading } = useQuery<MeLearningRecord>(
     Query.MeLearning,
     () => authFetch(fetchMeLearning),
-    { staleTime: 0, enabled: !disableFetch }
+    {
+      staleTime: 0,
+      enabled: !disableFetch,
+      onSuccess: (data) => {
+        setDayValue(data?.goal_value_days)
+        setPercentageValue(data?.goal_value_percentage)
+      }
+    }
   )
-
-  if (isSuccess) {
-    days = data.goal_value_days
-    percentage = data.goal_value_percentage
-  }
 
   return (
     <GoalBar {...props}>
@@ -60,10 +65,10 @@ const LearningGoalBar = ({
           )}
           <Typography variant="h1" component="p">
             <span
-              className={`stat ${percentage >= 100 ? 'completed' : ''}`}
+              className={`stat ${percentageValue >= 100 ? 'completed' : ''}`}
               data-testid="stat"
             >
-              {days} {days === 1 ? 'day' : 'days'} ({percentage}%)
+              {dayValue} {dayValue === 1 ? 'day' : 'days'} ({percentageValue}%)
             </span>{' '}
             completed
           </Typography>
