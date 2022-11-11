@@ -5,7 +5,6 @@ import { Props } from '@/components/UI/PercentageBar/types'
 
 jest.mock('@/components/UI/PercentageBar/PercentageBar', () => (props: Props) => (
   <>
-    {' '}
     <div data-testid="percentage1">{props?.data[0]?.percentage}</div>
     <div data-testid="percentage2">{props?.data[1]?.percentage}</div>
     <div data-testid="percentage3">{props?.data[2]?.percentage}</div>
