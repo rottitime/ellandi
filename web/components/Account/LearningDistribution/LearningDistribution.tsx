@@ -4,6 +4,7 @@ import Typography from '@/components/UI/Typography/Typography'
 import { Box, styled, useTheme } from '@mui/material'
 import { AllColors } from '@/style/types'
 import { Props } from './types'
+import { ReportDistributionData } from '@/service/types'
 
 const GraphDescription = styled(Typography)`
   display: inline-flex;
@@ -25,8 +26,26 @@ const GraphDescription = styled(Typography)`
 `
 
 const colorOptions: AllColors[] = ['blue1', 'grey2', 'black']
+const initialData: ReportDistributionData[] = [
+  {
+    name: 'On the job',
+    value_percentage: 0
+  },
+  {
+    name: 'Social',
+    value_percentage: 0
+  },
+  {
+    name: 'Formal',
+    value_percentage: 0
+  }
+]
 
-const LearningDistribution = ({ barData = [], description, titleTip }: Props) => {
+const LearningDistribution = ({
+  barData = initialData,
+  description,
+  titleTip
+}: Props) => {
   const { colors } = useTheme()
 
   const data = barData.map((item, i) => ({
