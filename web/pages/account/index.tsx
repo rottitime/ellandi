@@ -1,6 +1,6 @@
 import AccountLayout from '@/components/Layout/AccountLayout/AccountLayout'
 import LearningGoalBar from '@/components/Account/LearningGoalBar/LearningGoalBar'
-import { Button, Typography, styled, Box } from '@mui/material'
+import { Typography, styled, Box } from '@mui/material'
 import { IconsType } from '@/components/Icon/Icon'
 import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
 import Link from '@/components/UI/Link'
@@ -9,6 +9,7 @@ import Headline from '@/components/Account/Headline/Headline'
 import { ColorBrands } from '@/style/types'
 import Skeleton from '@/components/UI/Skeleton/Skeleton'
 import { useProfile } from '@/hooks/useProfile'
+import Button from '@/components/UI/Button/Button'
 
 type MenuDataType = {
   title: string
