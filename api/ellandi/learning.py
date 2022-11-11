@@ -1,5 +1,6 @@
 import datetime
 
+from dateutil import relativedelta
 from django.db.models import Avg, Sum
 
 from ellandi.registration.models import Learning
@@ -11,10 +12,10 @@ MINUTES_IN_LEARNING_TARGET = LEARNING_TARGET_IN_DAYS * HOURS_IN_WORK_DAY * 60
 
 def get_start_financial_year():
     today = datetime.date.today()
-    year = today.year
     if today.month < 4:
-        year = year - 1
-    start_financial_year = datetime.date(year, 4, 1)
+        start_financial_year = today - relativedelta.relativedelta(years=1, month=4, day=1)
+    else:
+        start_financial_year = today - relativedelta.relativedelta(month=4, day=1)
     return start_financial_year
 
 
