@@ -34,6 +34,7 @@ import useDebounce from '@/hooks/useDebounce'
 import SimpleTable from '@/components/UI/SimpleTable/SimpleTable'
 import Chart from '@/components/UI/Chart/Chart'
 import Button from '@/components/UI/Button/Button'
+import { ChevronRight } from '@mui/icons-material'
 
 const Card = styled(AccountCard)`
   .main-filters {
@@ -302,6 +303,20 @@ const SkillsReport: FC<Props> = (props) => {
                     ]),
                     type: 'pie'
                   }}
+                  misc={{
+                    pie: {
+                      label: {
+                        show: false
+                      }
+                    },
+                    tooltip: {
+                      format: {
+                        value: function (value, ratio, id, index) {
+                          return `${value}%`
+                        }
+                      }
+                    }
+                  }}
                   hideLegends
                 />
               </Box>
@@ -358,8 +373,13 @@ const columns: GridColDef<ReportSkillsData>[] = [
     maxWidth: 286
   },
   {
-    field: 'total_users',
+    field: 'chart',
+    headerName: '',
     disableColumnMenu: true,
-    resizable: false
+    sortable: false,
+    width: 40,
+    resizable: false,
+    renderCell: () => <ChevronRight />,
+    align: 'right'
   }
 ]
