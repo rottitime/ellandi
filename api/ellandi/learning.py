@@ -71,7 +71,7 @@ def get_total_avg_learning_financial_year(learning_qs, total_users):
     total_learning = total_learning or 0
     avg_learning_mins = total_learning / total_users
     proportion_learning_per_user = avg_learning_mins * 100 / MINUTES_IN_LEARNING_TARGET
-    days_per_user = round(avg_learning_mins / (60 * HOURS_IN_WORK_DAY))
+    days_per_user = round(avg_learning_mins / (HOURS_IN_WORK_DAY * 60))
     avg_perc = round(proportion_learning_per_user)
     return days_per_user, avg_perc
 
