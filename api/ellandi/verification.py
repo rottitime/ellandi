@@ -46,20 +46,22 @@ EMAIL_MAPPING = {
         "subject": "Cabinet Office Skills and Learning: confirm your email address",
         "template_name": "email/verification.txt",
         "url_path": "/signin/email/verify",
+        "token_generator": EMAIL_VERIFY_TOKEN_GENERATOR,
     },
     "password-reset": {
         "from_address": "support-ellandi@cabinetoffice.gov.uk",
         "subject": "Cabinet Office Skills and Learning: password reset",
         "template_name": "email/password-reset.txt",
         "url_path": "/signin/forgotten-password/reset",
+        "token_generator": PASSWORD_RESET_TOKEN_GENERATOR,
     },
 }
 
 
-def _send_token_email(user, subject, template_name, from_address, url_path):
+def _send_token_email(user, subject, template_name, from_address, url_path, token_generator):
     user.last_token_sent_at = datetime.datetime.now(tz=pytz.UTC)
     user.save()
-    token = TOKEN_GENERATOR.make_token(user)
+    token = token_generator.make_token(user)
     api_host_url = settings.HOST_URL.strip("/")
     web_host_url = settings.HOST_MAP[api_host_url]
     url = str(furl.furl(url=web_host_url, path=url_path, query_params={"code": token, "user_id": str(user.id)}))
