@@ -29,8 +29,8 @@ export const fetchReportGrade = async (token: string) => {
   return res.json()
 }
 
-export const fetchReportLearning = async (token: string) => {
-  const res = await api(token, urls.learning)
+export const fetchReportLearning = async (token: string, params) => {
+  const res = await api(token, urls.learning, params)
   return res.json()
 }
 
