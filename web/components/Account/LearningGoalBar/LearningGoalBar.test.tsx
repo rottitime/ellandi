@@ -40,6 +40,14 @@ describe('LearningGoalBar', () => {
       })
     })
 
+    it('default vales if fetch returns empty', async () => {
+      fetchMock.mockResponse(JSON.stringify({}), { status: 200 })
+      renderWithProviders(<LearningGoalBar />)
+      await waitFor(async () => {
+        expect(screen.getByTestId('stat')).toHaveTextContent('0 days (0%)')
+      })
+    })
+
     it("text says 'day' instead of days", async () => {
       fetchMock.mockResponse(
         JSON.stringify({ ...mockData, goal_value_days: 1, goal_value_percentage: 10 }),
