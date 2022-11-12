@@ -424,10 +424,14 @@ def test_get_staff_overview(client, user_id):
 def test_get_learning(client, user_id):
     response = client.get(LEARNING_ENDPOINT)
     assert response.status_code == status.HTTP_200_OK
-    endpoint = f"{LEARNING_ENDPOINT}?business_units=CDIO&users=mentors&functions=Finance,Commercial,Digital"
+    response = client.get(f"{LEARNING_ENDPOINT}?format=csv")
+    assert response.status_code == status.HTTP_200_OK
+    endpoint = f"{LEARNING_ENDPOINT}?format=json&business_units=CDIO&users=mentors&functions=Finance,Commercial,Digital"
     response = client.get(endpoint)
     assert response.status_code == status.HTTP_200_OK
-    endpoint = f"{LEARNING_ENDPOINT}?functions=Analysis&grades=Grade%206%20Equivalent&business_units=i.AI,CDIO"
+    endpoint = (
+        f"{LEARNING_ENDPOINT}?format=csv&functions=Analysis&grades=Grade%206%20Equivalent&business_units=i.AI,CDIO"
+    )
     response = client.get(endpoint)
     assert response.status_code == status.HTTP_200_OK
 
@@ -441,6 +445,8 @@ def test_get_learning_params(client, user_id):
     expected_result = {
         "course_average_cost_label": "£144",
         "course_total_cost_label": "£1,300",
+        "course_average_cost_value": 144,
+        "course_total_cost_value": 1300,
         "goal_value_days": 5,
         "goal_value_percentage": 49,
         "distribution": [
