@@ -8,7 +8,7 @@ from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
-from drf_spectacular.utils import extend_schema
+from drf_spectacular.utils import OpenApiParameter, extend_schema
 from rest_framework import decorators, permissions, status
 from rest_framework.response import Response
 
@@ -176,6 +176,10 @@ def password_change_view(request):
 
 
 @extend_schema(
+    methods=["GET"],
+    parameters=[
+        OpenApiParameter(name="type", location=OpenApiParameter.QUERY, required=False, type=str),
+    ],
     responses=serializers.IsValidSerializer,
 )
 @decorators.api_view(["GET"])
