@@ -106,7 +106,7 @@ def me_send_verification_email_view(request):
 def verification_view(request, user_id, token):
     try:
         user = models.User.objects.get(id=user_id)
-        result = TOKEN_GENERATOR.check_token(user, token)
+        result = EMAIL_VERIFY_TOKEN_GENERATOR.check_token(user, token)
     except ObjectDoesNotExist:
         result = False
 
@@ -143,7 +143,7 @@ def password_reset_ask_view(request):
 def password_reset_use_view(request, user_id, token):
     new_password = request.data.get("new_password")
     user = models.User.objects.get(id=user_id)
-    result = TOKEN_GENERATOR.check_token(user, token)
+    result = PASSWORD_RESET_TOKEN_GENERATOR.check_token(user, token)
     if not result:
         raise exceptions.PasswordResetError
     user.set_password(new_password)
@@ -181,9 +181,11 @@ def password_change_view(request):
 @decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.AllowAny,))
 def check_token(request, user_id, token):
+    token_type = request.query_params.get("type", "password-reset")
+    token_generator = EMAIL_MAPPING[token_type]['token_generator']
     try:
         user = models.User.objects.get(id=user_id)
     except ObjectDoesNotExist:
         return Response({"valid": False})
-    result = bool(TOKEN_GENERATOR.check_token(user, token))
+    result = bool(token_generator.check_token(user, token))
     return Response({"valid": result})
