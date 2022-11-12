@@ -48,6 +48,17 @@ LANG_COL_NAME_LOOKUP_CSV = {
     "native_value_total": "number_native",
     "native_value_percentage": "percentage_native",
 }
+LEARNING_LOOKUP_CSV = {
+    "course_average_cost_value": "course_average_cost",
+    "course_total_cost_value": "course_total_cost",
+    "goal_value_days": "average_learning_days",
+    "goal_value_percentage": "percentage_learning_goal_completed",
+    "Formal": "percentage_formal_learning",
+    "On the job": "percentage_on_the_job_learning",
+    "Social": "percentage_social_learning",
+}
+
+
 SKILL_LEVELS = ["Beginner", "Advanced beginner", "Competent", "Proficient", "Expert"]
 LANGUAGE_LEVELS_SKILLED = ["Basic", "Independent", "Proficient", "Native"]
 LANGUAGE_TYPES = ["speaking", "writing"]
@@ -424,10 +435,20 @@ def staff_overview_view(request):
     return Response(data=data, status=status.HTTP_200_OK, content_type="text/csv")
 
 
+class CSVRendererLearning(CSVRenderer):
+    header = list(LEARNING_LOOKUP_CSV.values())
+
 @extend_schema(request=None, responses=None)
 @decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.IsAdminUser,))
+@decorators.renderer_classes(
+    (
+        renderers.JSONRenderer,
+        CSVRendererLearning,
+    )
+)
 def learning_view(request):
+    format = request.query_params.get("format", "json")
     users_qs = get_filtered_users(request)
     total_users = users_qs.count()
     learning_qs = learning.get_learning_for_users_since_start_year(users_qs)
@@ -439,8 +460,17 @@ def learning_view(request):
     output_dict = {
         "course_average_cost_label": f"£{course_average_cost:,}",
         "course_total_cost_label": f"£{course_total_cost:,}",
+        "course_average_cost_value": course_average_cost,
+        "course_total_cost_value": course_total_cost,
         "goal_value_days": avg_completed_this_year,
         "goal_value_percentage": perc_completed_this_year,
         "distribution": learning_distribution,
     }
+    flattened_distribution = {item["name"]: item["value_percentage"] for item in learning_distribution}
+    if format=="csv":
+        print("this is my csv")
+        output_dict.update(flattened_distribution)
+        data = format_data_for_csv([output_dict], LEARNING_LOOKUP_CSV)
+        print(data)
+        return Response(data=data, status=status.HTTP_200_OK, content_type="text/csv")
     return Response(data=output_dict, status=status.HTTP_200_OK, content_type="application/json")
