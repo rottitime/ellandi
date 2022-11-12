@@ -438,6 +438,7 @@ def staff_overview_view(request):
 class CSVRendererLearning(CSVRenderer):
     header = list(LEARNING_LOOKUP_CSV.values())
 
+
 @extend_schema(request=None, responses=None)
 @decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.IsAdminUser,))
@@ -467,10 +468,8 @@ def learning_view(request):
         "distribution": learning_distribution,
     }
     flattened_distribution = {item["name"]: item["value_percentage"] for item in learning_distribution}
-    if format=="csv":
-        print("this is my csv")
+    if format == "csv":
         output_dict.update(flattened_distribution)
         data = format_data_for_csv([output_dict], LEARNING_LOOKUP_CSV)
-        print(data)
         return Response(data=data, status=status.HTTP_200_OK, content_type="text/csv")
     return Response(data=output_dict, status=status.HTTP_200_OK, content_type="application/json")
