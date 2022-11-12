@@ -41,7 +41,7 @@ EMAIL_VERIFY_TOKEN_GENERATOR = EmailVerifyTokenGenerator()
 PASSWORD_RESET_TOKEN_GENERATOR = PasswordResetTokenGenerator()
 
 EMAIL_MAPPING = {
-    "verification": {
+    "email-verification": {
         "from_address": "support-ellandi@cabinetoffice.gov.uk",
         "subject": "Cabinet Office Skills and Learning: confirm your email address",
         "template_name": "email/verification.txt",
@@ -77,7 +77,7 @@ def _send_token_email(user, subject, template_name, from_address, url_path, toke
 
 
 def send_verification_email(user):
-    data = EMAIL_MAPPING["verification"]
+    data = EMAIL_MAPPING["email-verification"]
     return _send_token_email(user, **data)
 
 
