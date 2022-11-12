@@ -186,7 +186,7 @@ def password_change_view(request):
 @decorators.permission_classes((permissions.AllowAny,))
 def check_token(request, user_id, token):
     token_type = request.query_params.get("type", "password-reset")
-    token_generator = EMAIL_MAPPING[token_type]['token_generator']
+    token_generator = EMAIL_MAPPING[token_type]["token_generator"]
     try:
         user = models.User.objects.get(id=user_id)
     except ObjectDoesNotExist:
