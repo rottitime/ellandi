@@ -11,9 +11,31 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.text import slugify
 
+from ellandi.registration import initial_data
 
 def now():
     return datetime.datetime.now(tz=pytz.UTC)
+
+
+def get_non_pending_skills():
+    # These are either skills that are from our initial list, or new skills added by users that
+    # have been approved by an admin.
+    existing_skills = set(UserSkill.objects.filter(pending=False).values_list("name", flat=True))
+    skills_to_develop = set(UserSkillDevelop.objects.filter(pending=False).values_list("name", flat=True))
+    initial_skills = initial_data.INITIAL_SKILLS.union(initial_data.NLP_DERIVED_SKILLS).union(
+        initial_data.DDAT_SKILLS_TO_JOB_LOOKUP.keys()
+    )
+    skills = initial_skills.union(existing_skills)
+    skills = skills.union(skills_to_develop)
+    skills = sorted(skills)
+    return skills
+
+
+def is_skill_pending(skill_name):
+    non_pending_skills = get_non_pending_skills()
+    pending = skill_name not in non_pending_skills
+    return pending
+
 
 
 class YesNoChoices(models.TextChoices):
