@@ -507,7 +507,6 @@ def test_me_get_skills_params(client, user_id):
     get_skills_params(client, skills_data, endpoint_to_test)
 
 
-# FIXME - no idea why this doesn't work, fix when sorting out skills
 @utils.with_logged_in_client
 def test_me_get_skills_develop_params(client, user_id):
     skills_data = [
