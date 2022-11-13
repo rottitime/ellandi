@@ -363,6 +363,7 @@ def test_get_skills(client, user_id):
         "user": user_id,
         "name": "An existing skill",
         "level": "Proficient",
+        "pending": "False"
     }
 
     user_skill_to_develop = {"user": user_id, "name": "A new and exciting skill"}
@@ -373,7 +374,7 @@ def test_get_skills(client, user_id):
     response = client.get("/api/skills/")
     data = response.json()
     assert "An existing skill" in data
-    assert "A new and exciting skill" in data
+    assert "A new and exciting skill" not in data
     assert "Accessibility" in data
 
 
@@ -502,8 +503,8 @@ def test_me_patch_get_delete_skills(client, user_id):
 @utils.with_logged_in_client
 def test_me_get_skills_params(client, user_id):
     skills_data = [
-        {"name": "Maths", "level": "Competent", "validated": False, "pending": True},
-        {"name": "Project management", "level": "Beginner", "validated": False, "pending": False},
+        {"name": "Maths", "level": "Competent", "validated": False},
+        {"name": "Project management", "level": "Beginner", "validated": False},
         {"name": "Written communication", "level": "Advanced beginner", "pending": False},
     ]
     endpoint_to_test = "/api/me/skills/"
