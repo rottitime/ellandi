@@ -287,6 +287,11 @@ class UserSkillDevelop(TimeStampedModel):
     # TODO - will need to change this as pending status is per skill, not user skill
     pending = models.BooleanField(default=True, blank=False)
 
+    def save(self, *args, **kwargs):
+        if self.pending:
+            self.pending = is_skill_pending(self.name)
+        return super().save(*args, **kwargs)
+
     def __str__(self):
         return f"{self.name} ({self.id})"
 
