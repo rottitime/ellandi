@@ -359,12 +359,7 @@ def test_skills_list(client, user_id):
 
 @utils.with_logged_in_client
 def test_get_skills(client, user_id):
-    user_skill_data = {
-        "user": user_id,
-        "name": "An existing skill",
-        "level": "Proficient",
-        "pending": "False"
-    }
+    user_skill_data = {"user": user_id, "name": "An existing skill", "level": "Proficient", "pending": "False"}
 
     user_skill_to_develop = {"user": user_id, "name": "A new and exciting skill"}
     response = client.post("/api/user-skills/", json=user_skill_data)
