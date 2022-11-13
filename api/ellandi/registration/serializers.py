@@ -254,7 +254,7 @@ class UserSerializer(serializers.ModelSerializer):
         if "skills_develop" in validated_data:
             for skill_data in validated_data["skills_develop"]:
                 name = skill_data["name"]
-                UserSkillDevelop.objects.update_or_create(user=instance, name=name)
+                UserSkillDevelop.objects.update_or_create(user=instance, name=name, defaults=skill_data)
 
         instance.save()
         return instance

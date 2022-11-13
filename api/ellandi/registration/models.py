@@ -288,7 +288,10 @@ class UserSkillDevelop(TimeStampedModel):
     pending = models.BooleanField(default=True, blank=False)
 
     def save(self, *args, **kwargs):
+
+        print(f"name: {self.name}")
         if self.pending:
+            print(f"is_skill_pending: {is_skill_pending(self.name)}")
             self.pending = is_skill_pending(self.name)
         return super().save(*args, **kwargs)
 
