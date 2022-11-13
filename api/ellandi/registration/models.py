@@ -13,6 +13,7 @@ from django.utils.text import slugify
 
 from ellandi.registration import initial_data
 
+
 def now():
     return datetime.datetime.now(tz=pytz.UTC)
 
@@ -35,7 +36,6 @@ def is_skill_pending(skill_name):
     non_pending_skills = get_non_pending_skills()
     pending = skill_name not in non_pending_skills
     return pending
-
 
 
 class YesNoChoices(models.TextChoices):
@@ -242,6 +242,11 @@ class UserSkill(TimeStampedModel):
     validated = models.BooleanField(default=False, blank=False)
     # TODO - will need to change this as pending status is per skill, not user skill
     pending = models.BooleanField(default=False, blank=False)
+
+    def save(self, *args, **kwargs):
+        if self.pending:
+            self.pending = is_skill_pending(self.name)
+        return super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.name} ({self.id})"
