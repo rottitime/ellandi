@@ -19,8 +19,7 @@ def now():
 
 
 def get_non_pending_skills():
-    # These are either skills that are from our initial list, or new skills added by users that
-    # have been approved by an admin.
+    # Skills from initial list, or new skills/skills to develop added by users approved by an admin.
     existing_skills = set(UserSkill.objects.filter(pending=False).values_list("name", flat=True))
     skills_to_develop = set(UserSkillDevelop.objects.filter(pending=False).values_list("name", flat=True))
     initial_skills = initial_data.INITIAL_SKILLS.union(initial_data.NLP_DERIVED_SKILLS).union(
