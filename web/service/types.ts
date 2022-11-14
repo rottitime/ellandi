@@ -13,6 +13,7 @@ export enum Query {
   SkillLevels = 'skillLevels',
   Me = 'me',
   TeamMembers = 'teamMembers',
+  TeamMembersLearning = 'TeamMembersLearning',
   SuggestedSkills = 'SuggestedSkills',
   SuggestedSkillsbyRole = 'SuggestedSkillsbyRole',
   MeLearning = 'meLearning',
@@ -177,6 +178,8 @@ export type TeamMember = {
   skills_develop: SkillDevelopType[]
   created_at: string
   modified_at: string
+  is_line_manager: string
+  is_mentor: string
 }
 
 export type ResetEmailPasswordType = {

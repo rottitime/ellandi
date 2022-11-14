@@ -104,6 +104,7 @@ const Tabs: FC<Props> = ({
             }`}
             label={item.title}
             disabled={item.disabled}
+            data-testid={`tab-${index}`}
             id={`${id}-tab-${index}`}
             aria-controls={`${id}-tabpanel-${index}`}
             onClick={() => {

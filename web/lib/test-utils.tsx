@@ -193,7 +193,9 @@ export const mockTeam: TeamMember[] = [
     languages: [],
     skills_develop: [],
     created_at: '2022-08-15T07:32:28.100294Z',
-    modified_at: '2022-08-22T15:56:40.942252Z'
+    modified_at: '2022-08-22T15:56:40.942252Z',
+    is_line_manager: 'Yes',
+    is_mentor: 'Yes'
   },
 
   {
@@ -223,7 +225,9 @@ export const mockTeam: TeamMember[] = [
     languages: [],
     skills_develop: [],
     created_at: '2022-08-25T10:06:53.513495Z',
-    modified_at: '2022-08-25T10:08:32.863561Z'
+    modified_at: '2022-08-25T10:08:32.863561Z',
+    is_line_manager: 'Yes',
+    is_mentor: 'Yes'
   }
 ]
 
