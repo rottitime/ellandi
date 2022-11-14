@@ -220,6 +220,12 @@ class User(AbstractUser, TimeStampedModel, RegistrationAbstractUser):
             )
 
     def save(self, *args, **kwargs):
+        if self.primary_profession:
+            if self.primary_profession not in self.professions:
+                if (self.primary_profession.lower() == "other") and self.profession_other:
+                    self.professions = self.professions + [self.profession_other]
+                else:
+                    self.professions = self.professions + [self.primary_profession]
         self.clean()
         return super().save(*args, **kwargs)
 
