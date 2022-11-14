@@ -5,7 +5,7 @@ from django.db import migrations
 def reload_business_units(apps, schema_editor):
     BusinessUnit = apps.get_model("registration", "BusinessUnit")
     BusinessUnit.objects.all().delete()
-    fixture_file = "dropdown/businessunits.json.json"
+    fixture_file = "dropdown/businessunits.json"
     call_command("loaddata", fixture_file, app_label="registration", ignorenonexistent=True)
 
 
