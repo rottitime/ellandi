@@ -251,8 +251,9 @@ SPECTACULAR_SETTINGS = {
 WHITENOISE_USE_FINDERS = False
 GIT_SHA = env.str("GIT_SHA", default="UNKNOWN")
 
-TOKEN_TTL = datetime.timedelta(hours=3)
-AUTO_REFRESH = True
-MIN_REFRESH_INTERVAL = 60
-
+REST_KNOX = dict(
+    TOKEN_TTL=datetime.timedelta(hours=3),
+    AUTO_REFRESH=True,
+    MIN_REFRESH_INTERVAL=60,
+)
 CSRF_COOKIE_HTTPONLY = True
