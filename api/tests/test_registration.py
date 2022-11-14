@@ -359,11 +359,7 @@ def test_skills_list(client, user_id):
 
 @utils.with_logged_in_client
 def test_get_skills(client, user_id):
-    user_skill_data = {
-        "user": user_id,
-        "name": "An existing skill",
-        "level": "Proficient",
-    }
+    user_skill_data = {"user": user_id, "name": "An existing skill", "level": "Proficient", "pending": "False"}
 
     user_skill_to_develop = {"user": user_id, "name": "A new and exciting skill"}
     response = client.post("/api/user-skills/", json=user_skill_data)
@@ -373,7 +369,7 @@ def test_get_skills(client, user_id):
     response = client.get("/api/skills/")
     data = response.json()
     assert "An existing skill" in data
-    assert "A new and exciting skill" in data
+    assert "A new and exciting skill" not in data
     assert "Accessibility" in data
 
 
@@ -480,6 +476,7 @@ def get_skills_params(client, skills_data, endpoint_to_test):
     result = response.json()
     assert result[0]["name"] == "Maths", result
     assert result[0]["pending"]
+    assert len(result) == 1, result
     response = client.get(f"{endpoint_to_test}?pending=False")
     assert response.status_code == status.HTTP_200_OK
     result = response.json()
@@ -502,24 +499,23 @@ def test_me_patch_get_delete_skills(client, user_id):
 @utils.with_logged_in_client
 def test_me_get_skills_params(client, user_id):
     skills_data = [
-        {"name": "Maths", "level": "Competent", "validated": False, "pending": True},
-        {"name": "Project management", "level": "Beginner", "validated": False, "pending": False},
+        {"name": "Maths", "level": "Competent", "validated": False},
+        {"name": "Project management", "level": "Beginner", "validated": False},
         {"name": "Written communication", "level": "Advanced beginner", "pending": False},
     ]
     endpoint_to_test = "/api/me/skills/"
     get_skills_params(client, skills_data, endpoint_to_test)
 
 
-# FIXME - no idea why this doesn't work, fix when sorting out skills
-# @utils.with_logged_in_client
-# def test_me_get_skills_develop_params(client, user_id):
-#     skills_data = [
-#         {"name": "Maths", "pending": True},
-#         {"name": "Project management", "pending": False},
-#         {"name": "Written communication", "pending": False},
-#     ]
-#     endpoint_to_test = "/api/me/skills-develop/"
-#     get_skills_params(client, skills_data, endpoint_to_test)
+@utils.with_logged_in_client
+def test_me_get_skills_develop_params(client, user_id):
+    skills_data = [
+        {"name": "Maths"},
+        {"name": "Project management"},
+        {"name": "Written communication", "pending": False},
+    ]
+    endpoint_to_test = "/api/me/skills-develop/"
+    get_skills_params(client, skills_data, endpoint_to_test)
 
 
 @utils.with_logged_in_client

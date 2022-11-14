@@ -11,9 +11,30 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.text import slugify
 
+from ellandi.registration import initial_data
+
 
 def now():
     return datetime.datetime.now(tz=pytz.UTC)
+
+
+def get_non_pending_skills():
+    # Skills from initial list, or new skills/skills to develop added by users approved by an admin.
+    existing_skills = set(UserSkill.objects.filter(pending=False).values_list("name", flat=True))
+    skills_to_develop = set(UserSkillDevelop.objects.filter(pending=False).values_list("name", flat=True))
+    initial_skills = initial_data.INITIAL_SKILLS.union(initial_data.NLP_DERIVED_SKILLS).union(
+        initial_data.DDAT_SKILLS_TO_JOB_LOOKUP.keys()
+    )
+    skills = initial_skills.union(existing_skills)
+    skills = skills.union(skills_to_develop)
+    skills = sorted(skills)
+    return skills
+
+
+def is_skill_pending(skill_name):
+    non_pending_skills = get_non_pending_skills()
+    pending = skill_name not in non_pending_skills
+    return pending
 
 
 class YesNoChoices(models.TextChoices):
@@ -218,8 +239,12 @@ class UserSkill(TimeStampedModel):
     name = models.CharField(max_length=256)
     level = models.CharField(max_length=64, choices=SkillLevel.choices, blank=True, null=True)
     validated = models.BooleanField(default=False, blank=False)
-    # TODO - will need to change this as pending status is per skill, not user skill
-    pending = models.BooleanField(default=False, blank=False)
+    pending = models.BooleanField(default=True, blank=False)
+
+    def save(self, *args, **kwargs):
+        if self.pending:
+            self.pending = is_skill_pending(self.name)
+        return super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.name} ({self.id})"
@@ -257,8 +282,12 @@ class UserSkillDevelop(TimeStampedModel):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, related_name="skills_develop", on_delete=models.CASCADE)
     name = models.CharField(max_length=127, blank=True, null=True)
-    # TODO - will need to change this as pending status is per skill, not user skill
-    pending = models.BooleanField(default=False, blank=False)
+    pending = models.BooleanField(default=True, blank=False)
+
+    def save(self, *args, **kwargs):
+        if self.pending:
+            self.pending = is_skill_pending(self.name)
+        return super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.name} ({self.id})"
