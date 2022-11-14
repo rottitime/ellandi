@@ -19,17 +19,11 @@ import {
   styled,
   Typography
 } from '@mui/material'
-import { splitMinutes } from '@/lib/date-utils'
-import dayjs from 'dayjs'
+import { formatDate, formatDuration } from '@/lib/date-utils'
 import { deleteLearning, editLearning } from '@/service/account'
 import BadgeNumber from '@/components/UI/BadgeNumber/BadgeNumber'
 import LearningAddForm from '@/components/Form/LearningAddForm/LearningAddForm'
-import getConfig from 'next/config'
 import types from '@/prefetch/learning-types.json'
-
-const {
-  publicRuntimeConfig: { minutesPerDay }
-} = getConfig()
 
 const Modal = styled(Box)`
   ${({ theme }) => theme.breakpoints.up('md')} {
@@ -160,15 +154,6 @@ const LearningRecordList: FC = () => {
 }
 
 export default LearningRecordList
-
-const formatDate = (dateValue: string): string => dayjs(dateValue).format('DD.MM.YYYY')
-
-const formatDuration = (duration: number): string => {
-  const { days, minutes, hours } = splitMinutes(duration, minutesPerDay)
-  return `${!!days ? `${days}d` : ''} ${!!hours ? `${hours}hr` : ''} ${
-    !!minutes ? `${minutes}m` : ''
-  }`
-}
 
 const columns: GridColDef[] = [
   {

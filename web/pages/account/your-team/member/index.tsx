@@ -12,6 +12,7 @@ import Typography from '@/components/UI/Typography/Typography'
 import Tooltip from '@/components/UI/Tooltip/Tooltip'
 import Tabs from '@/components/UI/Tabs/Tabs'
 import Icon from '@/components/Icon/Icon'
+import MembersLearningRecord from '@/components/Account/MembersLearningRecord/MembersLearningRecord'
 
 const IconTitle = styled(Typography)`
   display: flex;
@@ -106,7 +107,7 @@ const YourTeamPage = () => {
               },
               {
                 title: 'Learning',
-                content: <div>Color two</div>,
+                content: <MembersLearningRecord id={id} />,
                 brandColor: 'brandLearning'
               },
               {
