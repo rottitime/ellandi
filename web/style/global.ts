@@ -7,10 +7,11 @@ export const withGovLogoBackground = css.global`
 
   @media (min-width: 767px) {
     body {
-      background-image: url(/images/bg_crown.svg);
+      background-image: url(/images/cabinet_office.svg);
       background-repeat: no-repeat;
       background-size: 975px;
-      background-position: top right;
+      background-position-y: 80px;
+      background-position-x: calc(100% + 30px);
     }
   }
 `

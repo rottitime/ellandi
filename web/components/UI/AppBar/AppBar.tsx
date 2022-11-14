@@ -10,7 +10,6 @@ import {
   Typography,
   useTheme
 } from '@mui/material'
-import Link from 'next/link'
 import { FC, useState } from 'react'
 import { Props } from './types'
 import Icon from '@/components/Icon/Icon'
@@ -47,7 +46,7 @@ const StyledAppBar = styled(MuiAppBar)`
   }
 `
 
-const AppBar: FC<Props> = ({ pages, logoUrl, settings, settingsTip = '', ...props }) => {
+const AppBar: FC<Props> = ({ pages, settings, settingsTip = '', ...props }) => {
   const theme = useTheme()
   const router = useRouter()
 
@@ -64,16 +63,10 @@ const AppBar: FC<Props> = ({ pages, logoUrl, settings, settingsTip = '', ...prop
   return (
     <StyledAppBar position="static" elevation={0} {...props}>
       <Toolbar disableGutters>
-        <Link href={logoUrl}>
-          <a>
-            <Icon icon="crown-logo" className="header-logo" />
-          </a>
-        </Link>
-
         <Box className="menu">
           {pages
             .filter(({ hidden }) => !hidden)
-            .map(({ title, url, color }) => (
+            .map(({ title, url, color }, i) => (
               <Button
                 style={{
                   textDecorationColor: theme.colors[color],
@@ -83,7 +76,17 @@ const AppBar: FC<Props> = ({ pages, logoUrl, settings, settingsTip = '', ...prop
                 href={url}
                 className={` ${router?.asPath === url ? 'active' : ''}`}
               >
-                {title}
+                <span
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    height: '50px',
+                    gap: '20px'
+                  }}
+                >
+                  {i === 0 && <Icon icon="cabinet-office" className="header-logo" />}
+                  {title}
+                </span>
               </Button>
             ))}
         </Box>
