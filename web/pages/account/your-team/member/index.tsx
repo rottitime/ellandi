@@ -30,7 +30,6 @@ const Table = styled(SimpleTable)`
 const YourTeamPage = () => {
   const { authFetch } = useAuth()
   const router = useRouter()
-
   const { id } = router.query
 
   const { data, isLoading, isFetched, isSuccess } = useQuery<TeamMember[]>(
@@ -43,6 +42,8 @@ const YourTeamPage = () => {
     () => (isFetched ? data.find((team) => team.id === id) : null),
     [data, isFetched, id]
   )
+
+  const fullname = `${member?.first_name} ${member?.last_name}`
 
   const professions = useMemo(() => {
     return (
@@ -62,7 +63,7 @@ const YourTeamPage = () => {
         <>
           {
             <Typography variant="h1" component="h2" gutterBottom>
-              {member.first_name} {member.last_name}
+              {fullname}
             </Typography>
           }
 
@@ -112,20 +113,37 @@ const YourTeamPage = () => {
                 title: 'Profile',
                 content: (
                   <>
-                    <IconTitle variant="h2">
+                    <IconTitle variant="h2" gutterBottom>
                       <Icon icon="profile" /> Personal details
                     </IconTitle>
                     <Table
-                      loading={isLoading}
+                      sx={{ mb: 4 }}
                       list={[
                         ...[
+                          { name: 'Name', value: fullname },
                           { name: 'Job title', value: member.job_title },
                           { name: 'Business unit', value: member.business_unit },
                           { name: 'Work location', value: member.location },
                           {
                             name: 'Line manager email address',
                             value: member.line_manager_email
-                          },
+                          }
+                        ]
+                          .filter(
+                            ({ name, value }) => !(name == 'Primary profession' && !value)
+                          )
+                          .map<TableCellProps[]>(({ name, value }) => [
+                            { children: name, component: 'th' },
+                            { children: <Typography>{value}</Typography> }
+                          ])
+                      ]}
+                    />
+                    <IconTitle variant="h2" gutterBottom>
+                      <Icon icon="case" /> Job details
+                    </IconTitle>
+                    <Table
+                      list={[
+                        ...[
                           { name: 'Grade', value: member.grade_other || member.grade },
                           {
                             name: 'Primary profession',
@@ -140,8 +158,12 @@ const YourTeamPage = () => {
                             value: member.function_other || member.function
                           },
                           {
-                            name: 'Contract type',
-                            value: member.contract_type_other || member.contract_type
+                            name: 'Line manager',
+                            value: member.is_line_manager
+                          },
+                          {
+                            name: 'Mentor',
+                            value: member.is_mentor
                           }
                         ]
                           .filter(
