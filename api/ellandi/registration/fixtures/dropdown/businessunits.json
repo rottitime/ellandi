@@ -57,9 +57,9 @@
 },
 {
   "model": "registration.businessunit",
-  "pk": "civil-serice-modernisation-and-reform-unit",
+  "pk": "civil-service-modernisation-and-reform-unit",
   "fields": {
-    "name": "Civil Serice Modernisation and Reform Unit",
+    "name": "Civil Service Modernisation and Reform Unit",
     "order": null
   }
 },
