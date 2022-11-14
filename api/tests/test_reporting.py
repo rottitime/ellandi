@@ -173,7 +173,9 @@ def test_get_report_skills(client, user_id):
 @utils.with_logged_in_admin_client
 @with_setup(setup_users, teardown_users)
 def test_get_report_skills_query(client, user_id):
-    endpoint = f"{SKILLS_ENDPOINT}?skills=Economics|Complex, hard, technical skill|Zoology&functions=Analysis|Digital"
+    endpoint = (
+        f"{SKILLS_ENDPOINT}?skills=Economics|Complex, hard, technical skill|Zoology&functions=Analysis|Digital"  # noqa
+    )
     response = client.get(endpoint)
     assert response.status_code == status.HTTP_200_OK
     result = response.json()
@@ -207,7 +209,7 @@ def test_get_report_skills_users(client, user_id):
     assert response.status_code == status.HTTP_200_OK
     result = response.json()
     assert result["total"] == 4
-    params = "?skills=Science|Maths|Writing|Complex, hard, technical skill&users=mentors&business_units=Incubator for Innovation and Automation"
+    params = "?skills=Science|Maths|Writing|Complex, hard, technical skill&users=mentors&business_units=Incubator for Innovation and Automation"  # noqa
     endpoint = f"{SKILLS_ENDPOINT}{params}"
     response = client.get(endpoint)
     assert response.status_code == status.HTTP_200_OK
@@ -249,9 +251,7 @@ def test_get_report_skills_business_unit(client, user_id):
     assert len(result["data"]) == 2
     assert result["data"][0]["total_users"] == 10
     assert result["data"][1]["total_users"] == 10
-    params = (
-        "?functions=Analysis&grades=Grade%206%20Equivalent&business_units=Incubator for Innovation and Automation|CDIO"
-    )
+    params = "?functions=Analysis&grades=Grade%206%20Equivalent&business_units=Incubator for Innovation and Automation|CDIO"  # noqa
     endpoint = f"{SKILLS_ENDPOINT}{params}"
     response = client.get(endpoint)
     assert response.status_code == status.HTTP_200_OK
@@ -264,7 +264,7 @@ def test_get_report_skills_business_unit(client, user_id):
 @utils.with_logged_in_admin_client
 @with_setup(setup_users, teardown_users)
 def test_get_report_skills_professions(client, user_id):
-    params = "?skills=Economics|Complex, hard, technical skill&business_units=Incubator for Innovation and Automation&professions=Economics"
+    params = "?skills=Economics|Complex, hard, technical skill&business_units=Incubator for Innovation and Automation&professions=Economics"  # noqa
     endpoint = f"{SKILLS_ENDPOINT}{params}"
     response = client.get(endpoint)
     assert response.status_code == status.HTTP_200_OK
@@ -279,7 +279,7 @@ def test_get_report_skills_professions(client, user_id):
     assert econ_data["expert_value_percentage"] == 11
     assert aws_data["skill_value_percentage"] == 78, aws_data
     assert aws_data["skill_develop_value_total"] == 2
-    endpoint = f"{SKILLS_ENDPOINT}?skills=Economics|Complex, hard, technical skill|Science&functions=Analysis&professions=Economics|Digital, Data and Technology"
+    endpoint = f"{SKILLS_ENDPOINT}?skills=Economics|Complex, hard, technical skill|Science&functions=Analysis&professions=Economics|Digital, Data and Technology"  # noqa
     response = client.get(endpoint)
     assert response.status_code == status.HTTP_200_OK
     result = response.json()
@@ -291,7 +291,7 @@ def test_get_report_skills_professions(client, user_id):
 @utils.with_logged_in_admin_client
 @with_setup(setup_users, teardown_users)
 def test_get_report_skills_grades(client, user_id):
-    params = "?skills=Science|Maths|Writing|Complex, hard, technical skill&grades=Grade%206%20Equivalent|Grade%207%20Equivalent&business_units=Incubator for Innovation and Automation"
+    params = "?skills=Science|Maths|Writing|Complex, hard, technical skill&grades=Grade%206%20Equivalent|Grade%207%20Equivalent&business_units=Incubator for Innovation and Automation"  # noqa
     endpoint = f"{SKILLS_ENDPOINT}{params}"
     response = client.get(endpoint)
     assert response.status_code == status.HTTP_200_OK
@@ -349,7 +349,7 @@ def test_languages_endpoint(client, user_id):
     result = response.json()
     assert result["total"] == 2
     assert result["data"][0]["total_users"] >= 10
-    params = "?type=writing&languages=French, with, commas|Spanish|German|Portuguese&business_units=Incubator for Innovation and Automation"
+    params = "?type=writing&languages=French, with, commas|Spanish|German|Portuguese&business_units=Incubator for Innovation and Automation"  # noqa
     endpoint = f"{LANGUAGES_ENDPOINT}{params}"
     response = client.get(endpoint)
     result = response.json()
@@ -371,15 +371,13 @@ def test_languages_endpoint(client, user_id):
 @utils.with_logged_in_admin_client
 @with_setup(setup_users, teardown_users)
 def test_languages_endpoint_params(client, user_id):
-    endpoint = (
-        f"{LANGUAGES_ENDPOINT}?type=speaking&functions=Analysis&business_units=Incubator for Innovation and Automation"
-    )
+    endpoint = f"{LANGUAGES_ENDPOINT}?type=speaking&functions=Analysis&business_units=Incubator for Innovation and Automation"  # noqa
     response = client.get(endpoint)
     assert response.status_code == status.HTTP_200_OK
     result = response.json()
     assert result["total"] >= 3
     assert result["data"][0]["total_users"] == 6
-    params = "?type=speaking&business_units=Incubator for Innovation and Automation&users=line_managers&languages=French|Spanish|German"
+    params = "?type=speaking&business_units=Incubator for Innovation and Automation&users=line_managers&languages=French|Spanish|German"  # noqa
     endpoint = f"{LANGUAGES_ENDPOINT}{params}"
     response = client.get(endpoint)
     assert response.status_code == status.HTTP_200_OK
@@ -437,7 +435,7 @@ def test_get_learning(client, user_id):
     endpoint = f"{LEARNING_ENDPOINT}?business_units=CDIO&users=mentors&functions=Finance|Commercial|Digital"
     response = client.get(endpoint)
     assert response.status_code == status.HTTP_200_OK
-    endpoint = f"{LEARNING_ENDPOINT}?functions=Analysis&grades=Grade%206%20Equivalent&business_units=Incubator for Innovation and Automation|CDIO"
+    endpoint = f"{LEARNING_ENDPOINT}?functions=Analysis&grades=Grade%206%20Equivalent&business_units=Incubator for Innovation and Automation|CDIO"  # noqa
     response = client.get(endpoint)
     assert response.status_code == status.HTTP_200_OK
 
