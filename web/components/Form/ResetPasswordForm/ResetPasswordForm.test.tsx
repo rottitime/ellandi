@@ -48,7 +48,9 @@ describe('Page: Reset Password', () => {
       expect(fieldPassword).toHaveTextContent('Password must be 8 characters or more')
     })
 
-    expect(fieldPasswordConfirm).toHaveTextContent('This is a required field')
+    expect(fieldPasswordConfirm).toHaveTextContent(
+      'Enter your new password again to confirm'
+    )
 
     expect(mockSubmit).not.toHaveBeenCalledWith({ email })
   })
