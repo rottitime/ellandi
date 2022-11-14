@@ -365,7 +365,7 @@ def make_learning_view(serializer_class, learning_type):
                 enum=["Formal", "Social", "On the job"],
             ),
         ],
-        responses=None,
+        responses=serializers.LearningSerializer(many=True),
     )
     @decorators.api_view(["GET", "PATCH"])
     @decorators.permission_classes((permissions.IsAuthenticated,))

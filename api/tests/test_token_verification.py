@@ -42,7 +42,14 @@ def test_verify_email(client):
 
     url = _get_latest_email_url("verify")
     user_id, _, token = url.strip("/").split("/")[-3:]
-    response = client.get(f"/api/user/{user_id}/token/{token}/valid/")
+    response = client.get(f"/api/user/{user_id}/token/{token}/valid/?type=email-verification")
+    assert response.json()["valid"]
+
+    response = client.post("/api/login/", json={"email": user_data["email"], "password": user_data["password"]})
+    assert response.status_code == 200
+    assert response.json()["token"]
+
+    response = client.get(f"/api/user/{user_id}/token/{token}/valid/?type=email-verification")
     assert response.json()["valid"]
 
     response = client.get(url)
