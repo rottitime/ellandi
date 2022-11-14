@@ -66,9 +66,9 @@ def patch_user(client, user_id, endpoint):
     }
     more_user_data = {
         "location": "Manchester",
-        "professions": ["Operational research", "Other"],
+        "professions": ["Operational research"],
         "profession_other": "Data science",
-        "primary_profession": "Data science",
+        "primary_profession": "Other",
         "function": "Analysis",
     }
     response = client.post("/api/user-skills/", json=user_skill_data)
@@ -82,11 +82,13 @@ def patch_user(client, user_id, endpoint):
     assert data["last_name"] == "Green"
     assert data["skills"][0]["name"] == "maths"
     assert data["location"] == "Manchester"
+    assert data["professions"] == ["Operational research", "Data science"]
 
     more_nested_user_data = {
         "first_name": "Alice",
         "professions": ["Policy", "Operational research"],
         "profession_other": "",
+        "primary_profession": "Analysis",
         "skills": [{"name": "running", "level": "Competent", "validated": False}],
         "languages": [],
         "skills_develop": [{"name": "Statistics"}, {"name": "R"}],
@@ -95,8 +97,8 @@ def patch_user(client, user_id, endpoint):
     assert response.status_code == status.HTTP_200_OK, response.text
     data = response.json()
     assert data["first_name"] == "Alice", data
-    assert len(data["professions"]) == 2, data["professions"]
-    assert "Policy" in data["professions"]
+    assert len(data["professions"]) == 3, data["professions"]
+    assert data["professions"] == ["Policy", "Operational research", "Analysis"]
     assert data["profession_other"] == ""
     assert len(data["languages"]) == 1, data["languages"]
     assert len(data["skills"]) == 2, data["skills"]
