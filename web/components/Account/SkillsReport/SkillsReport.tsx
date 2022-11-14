@@ -293,33 +293,35 @@ const SkillsReport: FC<Props> = (props) => {
               {dialog.name}
             </Typography>
             <Pane>
-              <Box>
-                <Chart
-                  colors={chartValues.map(({ color }) => color)}
-                  data={{
-                    columns: chartValues.map(({ label, valuePercentage }) => [
-                      label,
-                      dialog[valuePercentage]
-                    ]),
-                    type: 'pie'
-                  }}
-                  misc={{
-                    pie: {
-                      label: {
-                        show: false
-                      }
-                    },
-                    tooltip: {
-                      format: {
-                        value: function (value) {
-                          return `${value}%`
+              {chartValues.find(({ valuePercentage }) => dialog[valuePercentage] > 0) && (
+                <Box>
+                  <Chart
+                    colors={chartValues.map(({ color }) => color)}
+                    data={{
+                      columns: chartValues.map(({ label, valuePercentage }) => [
+                        label,
+                        dialog[valuePercentage]
+                      ]),
+                      type: 'pie'
+                    }}
+                    misc={{
+                      pie: {
+                        label: {
+                          show: false
+                        }
+                      },
+                      tooltip: {
+                        format: {
+                          value: function (value) {
+                            return `${value}%`
+                          }
                         }
                       }
-                    }
-                  }}
-                  hideLegends
-                />
-              </Box>
+                    }}
+                    hideLegends
+                  />
+                </Box>
+              )}
               <SimpleTable
                 headers={[
                   { children: 'Level' },
