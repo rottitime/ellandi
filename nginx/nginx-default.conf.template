@@ -25,7 +25,8 @@ server {
           root /usr/share/nginx/html;
           internal;
   }
-
+  proxy_intercept_errors on;
+  
   location / {
     root /usr/share/nginx/html;
     add_header X-Frame-Options "DENY";
