@@ -295,11 +295,7 @@ def report_skills_view(request):
         return Response(data=data, status=status.HTTP_200_OK, content_type="text/csv")
 
     output_data = {
-        # TODO - add pagination?
-        # "page":"number", //e.g. 1
-        # "per_page":"number", //e.g. 10
         "total": len(skills),
-        # "total_pages": total_skills,
         "data": skill_data_list,
     }
     return Response(data=output_data, status=status.HTTP_200_OK, content_type="application/json")
@@ -349,11 +345,7 @@ def report_languages_view(request):
         return Response(data=data, status=status.HTTP_200_OK, content_type="text/csv")
 
     output_data = {
-        # TODO - add pagination?
-        # "page":"number", //e.g. 1
-        # "per_page":"number", //e.g. 10
         "total": len(languages),
-        # "total_pages": total_skills,
         "data": language_data_list,
     }
     return Response(data=output_data, status=status.HTTP_200_OK, content_type="application/json")
