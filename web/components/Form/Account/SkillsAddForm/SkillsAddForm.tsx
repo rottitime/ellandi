@@ -1,4 +1,4 @@
-import { FormHelperText, IconButton, Radio, styled } from '@mui/material'
+import { Box, FormHelperText, IconButton, Radio, styled } from '@mui/material'
 import { Query, RegisterUserResponse, SkillsType, SkillType } from '@/service/types'
 import { fetchSkills } from '@/service/api'
 import { forwardRef, useId, useImperativeHandle, useMemo, useState } from 'react'
@@ -84,18 +84,41 @@ const SkillsAddForm = forwardRef<RefHandler, Props>(
 
     return (
       <FormProvider {...methods}>
-        <SkillsSuggest
-          sx={{ mb: 4 }}
-          {...suggestionProps}
-          hideOptions={disableOptions}
-          onSelected={(name) => {
-            const firstRow = getValues('skills.0')
-            setHasSelected(true)
-            return !firstRow.name && !firstRow.level
-              ? setValue('skills.0.name', name)
-              : append({ name, level: '' })
+        <Box
+          sx={{
+            display: {
+              xs: 'flex',
+              lg: 'grid'
+            },
+            columnGap: {
+              xs: 0,
+              lg: '16px'
+            }
           }}
-        />
+          style={{
+            flexDirection: 'column',
+            gridTemplateColumns: 'auto auto'
+          }}
+        >
+          {suggestionProps?.length > 0 &&
+            suggestionProps.map((group) => {
+              return (
+                <SkillsSuggest
+                  key={`${group.groupId}-${disableOptions.length}`}
+                  sx={{ mb: 4 }}
+                  {...group}
+                  hideOptions={disableOptions}
+                  onSelected={(name) => {
+                    const firstRow = getValues('skills.0')
+                    setHasSelected(true)
+                    return !firstRow.name && !firstRow.level
+                      ? setValue('skills.0.name', name)
+                      : append({ name, level: '' })
+                  }}
+                />
+              )
+            })}
+        </Box>
 
         {(showAll || !!hasSelected) && (
           <form onSubmit={handleSubmit(onFormSubmit)} noValidate>

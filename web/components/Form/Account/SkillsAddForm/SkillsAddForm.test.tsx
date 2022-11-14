@@ -18,27 +18,32 @@ jest.mock(
     {
       slug: 'average',
       name: 'Aasic',
-      order: 0
+      order: 0,
+      description: ''
     },
     {
       slug: 'good',
       name: 'Good',
-      order: 1
+      order: 1,
+      description: ''
     },
     {
       slug: 'dont-know',
       name: 'Who knows?',
-      order: 3
+      order: 3,
+      description: ''
     },
     {
       slug: 'super',
       name: 'Super',
-      order: 2
+      order: 2,
+      description: ''
     },
     {
       slug: 'the-best',
       name: 'The best',
-      order: 4
+      order: 4,
+      description: ''
     }
   ],
   { virtual: true }
@@ -62,7 +67,7 @@ describe('SkillsAddForm', () => {
           loading={false}
           onFormSubmit={jest.fn()}
           showAll
-          suggestionProps={{ data: mockSuggested }}
+          suggestionProps={[{ data: mockSuggested }]}
         />
       )
 
@@ -83,7 +88,7 @@ describe('SkillsAddForm', () => {
         <SkillsAddForm
           loading={false}
           onFormSubmit={jest.fn()}
-          suggestionProps={{ data: mockSuggested }}
+          suggestionProps={[{ data: mockSuggested }]}
         />
       )
 
@@ -106,7 +111,7 @@ describe('SkillsAddForm', () => {
           loading={false}
           onFormSubmit={jest.fn()}
           showAll
-          suggestionProps={{ data: mockSuggested }}
+          suggestionProps={[{ data: mockSuggested }]}
         />
       )
 
@@ -128,7 +133,7 @@ describe('SkillsAddForm', () => {
           loading={false}
           onFormSubmit={jest.fn()}
           showAll
-          suggestionProps={{ data: mockSuggested }}
+          suggestionProps={[{ data: mockSuggested }]}
         />
       )
 
@@ -156,7 +161,7 @@ describe('SkillsAddForm', () => {
           loading={false}
           onFormSubmit={jest.fn()}
           showAll
-          suggestionProps={{ data: [] }}
+          suggestionProps={[{ data: [] }]}
         />
       )
 
