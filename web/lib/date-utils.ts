@@ -1,6 +1,11 @@
 import dayjs from 'dayjs'
 import isBetween from 'dayjs/plugin/isBetween'
 dayjs.extend(isBetween)
+import getConfig from 'next/config'
+
+const {
+  publicRuntimeConfig: { minutesPerDay }
+} = getConfig()
 
 export const splitMinutes = (
   totalMinutes: number,
@@ -41,4 +46,14 @@ export const isBetweenBusinessDates = (
   }
 
   return dayjs(date).isBetween(newStartDate, newEndDate, 'day', '[]')
+}
+
+export const formatDate = (dateValue: string, format = 'DD.MM.YYYY'): string =>
+  dayjs(dateValue).format(format)
+
+export const formatDuration = (duration: number): string => {
+  const { days, minutes, hours } = splitMinutes(duration, minutesPerDay)
+  return `${!!days ? `${days}d` : ''} ${!!hours ? `${hours}hr` : ''} ${
+    !!minutes ? `${minutes}m` : ''
+  }`
 }

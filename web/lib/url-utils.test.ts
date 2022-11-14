@@ -26,4 +26,9 @@ describe('createUrl()', () => {
       '/path?food=pizza%2Cchips&fruit=apple'
     )
   })
+
+  it('empty params', () => {
+    expect(createUrl('/path', {})).toEqual('/path')
+    expect(createUrl('/path')).toEqual('/path')
+  })
 })
