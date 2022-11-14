@@ -14,7 +14,7 @@ import data from '@/prefetch/professions.json'
 const fieldName: keyof ProfessionType = 'professions'
 
 const schema: SchemaOf<ProfessionType> = object().shape({
-  professions: array().of(string()).min(1, 'Enter your profession'),
+  professions: array().nullable(),
   profession_other: string()
     .nullable()
     .when('professions', (value) => {
@@ -49,7 +49,7 @@ const ProfessionForm: FC<StandardRegisterProps<ProfessionType>> = (props) => {
 
   return (
     <FormProvider {...methods}>
-      <Form {...props} submitDisabled>
+      <Form {...props}>
         <Typography gutterBottom>
           Select any other profession(s) that you belong to. You may choose more than one
         </Typography>
