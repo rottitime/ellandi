@@ -207,7 +207,8 @@ def test_get_report_skills_users(client, user_id):
     assert response.status_code == status.HTTP_200_OK
     result = response.json()
     assert result["total"] == 4
-    endpoint = f"{SKILLS_ENDPOINT}?skills=Science|Maths|Writing|AWS&users=mentors&business_units=Incubator for Innovation and Automation"
+    params = "?skills=Science|Maths|Writing|AWS&users=mentors&business_units=Incubator for Innovation and Automation"
+    endpoint = f"{SKILLS_ENDPOINT}{params}"
     response = client.get(endpoint)
     assert response.status_code == status.HTTP_200_OK
     result = response.json()
@@ -248,7 +249,10 @@ def test_get_report_skills_business_unit(client, user_id):
     assert len(result["data"]) == 2
     assert result["data"][0]["total_users"] == 10
     assert result["data"][1]["total_users"] == 10
-    endpoint = f"{SKILLS_ENDPOINT}?functions=Analysis&grades=Grade%206%20Equivalent&business_units=Incubator for Innovation and Automation|CDIO"
+    params = (
+        "?functions=Analysis&grades=Grade%206%20Equivalent&business_units=Incubator for Innovation and Automation|CDIO"
+    )
+    endpoint = f"{SKILLS_ENDPOINT}{params}"
     response = client.get(endpoint)
     assert response.status_code == status.HTTP_200_OK
     result = response.json()
@@ -260,7 +264,8 @@ def test_get_report_skills_business_unit(client, user_id):
 @utils.with_logged_in_admin_client
 @with_setup(setup_users, teardown_users)
 def test_get_report_skills_professions(client, user_id):
-    endpoint = f"{SKILLS_ENDPOINT}?skills=Economics|AWS&business_units=Incubator for Innovation and Automation&professions=Economics"
+    params = "?skills=Economics|AWS&business_units=Incubator for Innovation and Automation&professions=Economics"
+    endpoint = f"{SKILLS_ENDPOINT}{params}"
     response = client.get(endpoint)
     assert response.status_code == status.HTTP_200_OK
     result = response.json()
@@ -286,7 +291,8 @@ def test_get_report_skills_professions(client, user_id):
 @utils.with_logged_in_admin_client
 @with_setup(setup_users, teardown_users)
 def test_get_report_skills_grades(client, user_id):
-    endpoint = f"{SKILLS_ENDPOINT}?skills=Science|Maths|Writing|AWS&grades=Grade%206%20Equivalent|Grade%207%20Equivalent&business_units=Incubator for Innovation and Automation"  # noqa
+    params = "?skills=Science|Maths|Writing|AWS&grades=Grade%206%20Equivalent|Grade%207%20Equivalent&business_units=Incubator for Innovation and Automation"
+    endpoint = f"{SKILLS_ENDPOINT}{params}"
     response = client.get(endpoint)
     assert response.status_code == status.HTTP_200_OK
     result = response.json()
@@ -343,7 +349,8 @@ def test_languages_endpoint(client, user_id):
     result = response.json()
     assert result["total"] == 2
     assert result["data"][0]["total_users"] >= 10
-    endpoint = f"{LANGUAGES_ENDPOINT}?type=writing&languages=French|Spanish|German|Portuguese&business_units=Incubator for Innovation and Automation"
+    params = "?type=writing&languages=French|Spanish|German|Portuguese&business_units=Incubator for Innovation and Automation"
+    endpoint = f"{LANGUAGES_ENDPOINT}{params}"
     response = client.get(endpoint)
     result = response.json()
     data = result["data"]
@@ -364,15 +371,16 @@ def test_languages_endpoint(client, user_id):
 @utils.with_logged_in_admin_client
 @with_setup(setup_users, teardown_users)
 def test_languages_endpoint_params(client, user_id):
-    endpoint = f"{LANGUAGES_ENDPOINT}?type=speaking&functions=Analysis&business_units=Incubator for Innovation and Automation"
+    endpoint = (
+        f"{LANGUAGES_ENDPOINT}?type=speaking&functions=Analysis&business_units=Incubator for Innovation and Automation"
+    )
     response = client.get(endpoint)
     assert response.status_code == status.HTTP_200_OK
     result = response.json()
     assert result["total"] >= 3
     assert result["data"][0]["total_users"] == 6
-    endpoint = (
-        f"{LANGUAGES_ENDPOINT}?type=speaking&business_units=Incubator for Innovation and Automation&users=line_managers&languages=French|Spanish|German"
-    )
+    params = "?type=speaking&business_units=Incubator for Innovation and Automation&users=line_managers&languages=French|Spanish|German"
+    endpoint = f"{LANGUAGES_ENDPOINT}{params}"
     response = client.get(endpoint)
     assert response.status_code == status.HTTP_200_OK
     result = response.json()
@@ -473,12 +481,14 @@ def test_get_learning_user_types(client, user_id):
 @utils.with_logged_in_admin_client
 @with_setup(setup_users, teardown_users)
 def test_get_learning_professions(client, user_id):
-    endpoint = f"{LEARNING_ENDPOINT}?users=all&business_units=Incubator for Innovation and Automation|ADD&professions=Operational%20research|Social%20research|Digital, Data and Technology"  # noqa
+    params = "?users=all&business_units=Incubator for Innovation and Automation|ADD&professions=Operational%20research|Social%20research|Digital, Data and Technology"  # noqa
+    endpoint = f"{LEARNING_ENDPOINT}{params}"
     response = client.get(endpoint)
     result = response.json()
     assert result["course_total_cost_label"] == "£500", result
     assert result["goal_value_days"] == 5, result
-    endpoint = f"{LEARNING_ENDPOINT}?users=all&business_units=Incubator for Innovation and Automation|Made, up, team, with, commas&professions=Operational%20research"
+    params = "?users=all&business_units=Incubator for Innovation and Automation|Made, up, team, with, commas&professions=Operational%20research"  # noqa
+    endpoint = f"{LEARNING_ENDPOINT}{params}"
     response = client.get(endpoint)
     result = response.json()
     assert result["course_average_cost_label"] == "£0", result
