@@ -1,4 +1,4 @@
-import { sortWithOrder, asStringList } from './data-utils'
+import { sortWithOrder, asStringList, convertFilters } from './data-utils'
 
 describe('sortWithOrder()', () => {
   it('is same order', () => {
@@ -21,5 +21,21 @@ describe('asStringList()', () => {
         { name: 'item 3', slug: 'item-3' }
       ])
     ).toEqual(['item 1', 'item 2', 'item 3'])
+  })
+})
+
+describe('convertFilters()', () => {
+  it('returns pipe seperated values', () => {
+    expect(
+      convertFilters({
+        title: 'hello world',
+        shoppinglist: ['apples', 'filters'],
+        age: 27
+      })
+    ).toEqual({ age: 27, shoppinglist: 'apples|filters', title: 'hello world' })
+  })
+  it('empty', () => {
+    expect(convertFilters(null)).toBeNull()
+    expect(convertFilters({})).toEqual({})
   })
 })

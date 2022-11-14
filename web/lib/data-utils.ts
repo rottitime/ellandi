@@ -4,6 +4,8 @@ import { defaultError } from '@/service/auth'
 import { createUrl } from './url-utils'
 const { publicRuntimeConfig } = getConfig()
 
+export type ParamsType = Record<string, string | string[] | number>
+
 export const sortWithOrder = (a: number, b: number): number => {
   if (a < b) return -1
   if (a > b) return 1
@@ -25,7 +27,7 @@ export const api = async (
   token: string,
   path: RequestInfo | URL,
   init: RequestInit = {},
-  params?: URLSearchParams
+  params?: ParamsType
 ): Promise<Response> => {
   const url = createUrl(`${publicRuntimeConfig.apiUrl}${path}`, params)
   let detailMessage
@@ -39,4 +41,17 @@ export const api = async (
     detailMessage = detail
   } catch (e) {}
   throw new Error(detailMessage || defaultError)
+}
+
+//convert params to value understood by api
+export const convertFilters = (params: ParamsType, seperator = '|'): ParamsType => {
+  const newParams = params
+  params &&
+    Object.entries(params).forEach(([key, value]) =>
+      Array.isArray(value)
+        ? (newParams[key] = value.join(seperator))
+        : (newParams[key] = value)
+    )
+
+  return newParams
 }

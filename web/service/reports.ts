@@ -1,4 +1,4 @@
-import { api as utilApi } from '@/lib/data-utils'
+import { api as utilApi, convertFilters, ParamsType } from '@/lib/data-utils'
 
 const urls = {
   skills: '/me/reports/skills/',
@@ -54,5 +54,5 @@ export const exportReportLearning = async (token, params) => {
   return res.text()
 }
 
-const api = (token: string, url: string, params?: URLSearchParams) =>
-  utilApi(token, url, undefined, params)
+const api = (token: string, url: string, params?: ParamsType) =>
+  utilApi(token, url, undefined, convertFilters(params))
