@@ -107,7 +107,7 @@ const YourTeamPage = () => {
               },
               {
                 title: 'Learning',
-                content: <MembersLearningRecord id={id} />,
+                content: <MembersLearningRecord id={member.id} />,
                 brandColor: 'brandLearning'
               },
               {
