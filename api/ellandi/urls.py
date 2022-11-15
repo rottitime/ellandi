@@ -36,6 +36,7 @@ api_urlpatterns = [
     path("user/<uuid:user_id>/token/<str:token>/valid/", verification.check_token),
     path("register/", views.register_view),
     path("skills/", views.skills_list_view),
+    path("add-course/", views.add_course),
     path("skill-recommender/<str:skill_name>/", views.skill_recommender),
     path("me/title-recommender/", views.me_recommend_job_relevant_skills),
     path("me/skill-recommender/", views.me_recommend_most_relevant_skills),
