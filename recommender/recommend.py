@@ -41,11 +41,11 @@ def create_job_embedding_matrix():
 
     model_name = "all-MiniLM-L6-v2"
 
-    qs = pd.DataFrame(models.get_user_title_skills())[["user_id", "job_title"]]
+    user_skill = models.get_user_title_skills()
     nlp_jobs_df = models.return_nlp_user_skills()[["user_id", "job_title"]]
 
-    if len(qs) > 0:
-
+    if len(user_skill) > 0:
+        qs = pd.DataFrame(user_skill)[["user_id", "job_title"]]
         df = pd.concat([qs, nlp_jobs_df]).reset_index(drop=True)
 
     else:
