@@ -17,7 +17,7 @@ WORKDIR /app/
 
 COPY ./api/ellandi/registration/fixtures/dropdown /app/api/ellandi/registration/fixtures/dropdown
 COPY ./web/prefetch /app/web/prefetch
-COPY ./scripts /app/scripts
+COPY ./scripts/convert_dropdowns.py /app/scripts/convert_dropdowns.py
 RUN python3 /app/scripts/convert_dropdowns.py
 
 WORKDIR /app/web
