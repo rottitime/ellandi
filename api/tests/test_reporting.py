@@ -70,9 +70,9 @@ def add_professions(user, i):
     if i % 2 == 0:
         user.professions = ["Policy", "Economics"]
     else:
-        user.professions = ["Economics"]
+        user.primary_profession = "Economics"
     if i > 8:
-        user.professions = ["Operational research"]
+        user.primary_profession = "Operational research"
     user.save()
 
 
