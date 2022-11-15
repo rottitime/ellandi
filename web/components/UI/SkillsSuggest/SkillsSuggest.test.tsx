@@ -52,16 +52,6 @@ describe('SkillsSuggest', () => {
     expect(screen.queryByText(mockSuggested[1])).not.toBeInTheDocument()
   })
 
-  it('on empty fetch', async () => {
-    const mockClick = jest.fn()
-    renderWithProviders(
-      <SkillsSuggest hideOptions={[]} onSelected={mockClick} data={[]} />
-    )
-
-    expect(screen.getByTestId('suggestion-box')).toBeInTheDocument()
-    expect(screen.getByTestId('suggestion-box')).toHaveAttribute('aria-hidden', 'true')
-  })
-
   it('replaces suggestions', async () => {
     const mockClick = jest.fn()
     renderWithProviders(

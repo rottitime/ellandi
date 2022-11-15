@@ -24,6 +24,7 @@ const SkillsSuggest: FC<Props> = ({
   description,
   loading,
   hidden,
+  groupId,
   ...props
 }) => {
   const [selected, setSelected] = useState<string[]>([])
@@ -40,6 +41,10 @@ const SkillsSuggest: FC<Props> = ({
 
   const isHidden = !!hidden || !suggestions.length
 
+  if (!suggestions.length) {
+    return null
+  }
+
   return (
     <Collapse in={!isHidden}>
       <Wrapper {...props} data-testid="suggestion-box" aria-hidden={isHidden}>
@@ -54,17 +59,19 @@ const SkillsSuggest: FC<Props> = ({
             ? [...Array(max).keys()].map((i) => (
                 <Skeleton key={i} sx={{ mb: 1, width: 100 }} />
               ))
-            : suggestions.map((name) => (
-                <Chip
-                  key={name}
-                  label={name}
-                  brandColor="brandSkills"
-                  onClick={() => {
-                    setSelected((p) => [...p, name])
-                    onSelected(name)
-                  }}
-                />
-              ))}
+            : suggestions.map((name) => {
+                return (
+                  <Chip
+                    key={`${groupId}-${name}`}
+                    label={name}
+                    brandColor="brandSkills"
+                    onClick={() => {
+                      setSelected((p) => [...p, name])
+                      onSelected(name)
+                    }}
+                  />
+                )
+              })}
         </Box>
       </Wrapper>
     </Collapse>
