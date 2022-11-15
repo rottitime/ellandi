@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useQuery } from 'react-query'
 import chunck from 'lodash/chunk'
-import formatDuration from 'date-fns/formatDuration'
+import { formatDuration } from 'date-fns'
 import {
   Box,
   Divider,
@@ -346,6 +346,7 @@ const FindCourses = () => {
             <Typography variant="h3">Course type</Typography>
             <Box mt={'8px'} mb={'16px'}>
               <Select
+                fullWidth
                 key={activeCourseTypes.length}
                 checkboxes
                 defaultValue={activeCourseTypes?.map((v) => v.value) || []}
@@ -366,11 +367,6 @@ const FindCourses = () => {
                       scroll: false
                     }
                   )
-                }}
-                style={{
-                  backgroundColor: '#fff',
-                  maxWidth: '100%',
-                  width: '100%'
                 }}
               />
             </Box>

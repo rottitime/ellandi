@@ -2,7 +2,6 @@ import getConfig from 'next/config'
 const { publicRuntimeConfig } = getConfig()
 import { defaultError } from '@/service/auth'
 import { api } from '@/lib/data-utils'
-import { random } from 'lodash'
 
 export const fetchMe = async (token: string) => {
   const res = await fetch(`${publicRuntimeConfig.apiUrl}/me/`, {

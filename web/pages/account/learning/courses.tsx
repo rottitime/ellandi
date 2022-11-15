@@ -5,16 +5,6 @@ import FindCourses from '@/components/Account/FindCourses'
 import { useRouter } from 'next/router'
 import { SharedLearningHeader } from './index'
 
-const LearningRecordRedirect = () => {
-  const router = useRouter()
-
-  useEffect(() => {
-    router.push('/account/learning/')
-  }, [router])
-
-  return null
-}
-
 const FindCoursesPage = () => {
   const router = useRouter()
 
@@ -32,7 +22,8 @@ const FindCoursesPage = () => {
         tabItems={[
           {
             title: 'Learning record',
-            content: <LearningRecordRedirect />
+            href: '/account/learning/',
+            content: null
           },
           {
             title: 'Find courses',

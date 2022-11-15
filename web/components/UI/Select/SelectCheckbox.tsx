@@ -33,6 +33,9 @@ const SelectCheckbox: FC<Props> = forwardRef<FC, Props>(
 
     return (
       <MuiSelect
+        sx={{
+          backgroundColor: '#fff'
+        }}
         {...props}
         value={selectValue}
         multiple

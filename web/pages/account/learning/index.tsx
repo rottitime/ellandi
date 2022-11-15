@@ -14,15 +14,6 @@ import LearningDistribution from '@/components/Account/LearningDistribution/Lear
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 
-const FindCoursesRedirect = () => {
-  const router = useRouter()
-  useEffect(() => {
-    router.push('/account/learning/courses')
-  }, [router])
-
-  return null
-}
-
 export const SharedLearningHeader = () => {
   const { authFetch } = useAuth()
 
@@ -84,7 +75,8 @@ const LearningPage = () => {
           },
           {
             title: 'Find courses',
-            content: <FindCoursesRedirect />
+            href: '/account/learning/courses/',
+            content: null
           }
         ]}
       />
