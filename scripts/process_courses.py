@@ -41,9 +41,16 @@ def flatten(seq):
     return tuple(set([subitem for item in seq for subitem in item]))
 
 
-def process_courses(data):
+def filter_courses(data):
     for course in data:
         course = Stub(course)
+        if course.visibility == "PUBLIC":
+            if course.status == "Published":
+                yield course
+
+
+def process_courses(data):
+    for course in filter_courses(data):
         types = tuple(set(gather(course.modules, "moduleType")))
         if len(types) > 1:
             course_type = "Mixed"
