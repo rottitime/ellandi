@@ -16,7 +16,7 @@ const schema: SchemaOf<FormData> = object().shape({
     .required('This is a required field'),
   new_password_confirm: string()
     .oneOf([ref('new_password'), null], 'Does not match with password')
-    .required('This is a required field')
+    .required('Enter your new password again to confirm')
 })
 
 const SignInForm: FC<Props> = ({ onFormSubmit, loading }) => {
