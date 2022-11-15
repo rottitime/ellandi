@@ -73,15 +73,8 @@ const GovCard: FC<Props> = ({
   return (
     <Card className={`${loading ? 'loading-active' : ''}`} {...props}>
       <Box className="card-logo">
-        <span
-          style={{
-            display: 'flex'
-          }}
-        >
-          <Icon icon="cabinet-office" />
-          {headerTitle && <Typography>{headerTitle}</Typography>}
-        </span>
-
+        <Icon icon="cabinet-office" />
+        {headerTitle && <Typography>{headerTitle}</Typography>}
         {loading && <MuiLinearProgress className="loading-bar" />}
       </Box>
 
