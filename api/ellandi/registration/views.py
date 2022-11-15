@@ -673,7 +673,7 @@ def me_recommend_most_relevant_skills(request):
 
 @extend_schema(methods=["PATCH"], request=serializers.CourseSerializer(many=False))
 @decorators.api_view(["PATCH"])
-@decorators.permission_classes((permissions.AllowAny,))
+@decorators.permission_classes((permissions.IsAdminUser,))
 def add_course(request):
     data = request.data
     serializer = serializers.CourseSerializer(data=data)
