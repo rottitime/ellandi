@@ -44,6 +44,14 @@ def flatten(seq):
 def process_courses(data):
     for course in data:
         course = Stub(course)
+        types = tuple(set(gather(course.modules, "moduleType")))
+        if len(types) > 1:
+            course_type = "Mixed"
+        elif len(types) == 1:
+            course_type = types[0].capitalize()
+        else:
+            course_type = None
+
         yield {
             "profession": course.owner.profession,
             "grades": flatten(gather(course.audiences, "grades")),
@@ -55,7 +63,7 @@ def process_courses(data):
             "status": course.status,
             "cost": sum(gather(course.modules, "cost")),
             "duration": sum(gather(course.modules, "duration")),
-            "types": tuple(set(gather(course.modules, "moduleType"))),
+            "type": course_type,
         }
 
 
