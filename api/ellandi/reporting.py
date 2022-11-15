@@ -14,6 +14,8 @@ from ellandi.registration.models import (
     UserSkillDevelop,
 )
 
+PARAM_SEPARATOR = "|"
+
 # TODO - maybe change column names for CSV
 SKILLS_COL_NAME_LOOKUP_CSV = {
     "name": "name",
@@ -93,7 +95,7 @@ def filter_users_professions(request, users_qs):
     professions = request.query_params.get("professions")
     if not professions:
         return users_qs
-    professions = professions.split(",")
+    professions = professions.split(PARAM_SEPARATOR)
     output_qs = User.objects.none()
     for prof_name in professions:
         users_with_prof = users_qs.filter(professions__contains=prof_name)
@@ -106,13 +108,13 @@ def filter_users_other_params(request, users_qs):
     grades = request.query_params.get("grades")
     business_units = request.query_params.get("business_units")
     if functions:
-        functions = functions.split(",")
+        functions = functions.split(PARAM_SEPARATOR)
         users_qs = users_qs.filter(function__in=functions)
     if grades:
-        grades = grades.split(",")
+        grades = grades.split(PARAM_SEPARATOR)
         users_qs = users_qs.filter(grade__in=grades)
     if business_units:
-        business_units = business_units.split(",")
+        business_units = business_units.split(PARAM_SEPARATOR)
         users_qs = users_qs.filter(business_unit__in=business_units)
     return users_qs
 
@@ -128,7 +130,7 @@ def get_filtered_users(request):
 def get_skills_list_from_params(request):
     skills = request.query_params.get("skills", None)
     if skills:
-        return skills.split(",")
+        return skills.split(PARAM_SEPARATOR)
     skills_existing = set(UserSkill.objects.all().values_list("name", flat=True))
     skills_dev = set(UserSkillDevelop.objects.all().values_list("name", flat=True))
     skills = list(skills_existing.union(skills_dev))
@@ -140,7 +142,7 @@ def get_language_list_from_params(request):
     type = request.query_params.get("type")
     type_field = f"{type}_level"
     if languages:
-        return languages.split(",")
+        return languages.split(PARAM_SEPARATOR)
     langs_qs = UserLanguage.objects.all()
     langs_qs = langs_qs.exclude(**{type_field: None}).exclude(**{type_field: "None"})
     lang_vals = langs_qs.values_list("name", flat=True)
@@ -293,11 +295,7 @@ def report_skills_view(request):
         return Response(data=data, status=status.HTTP_200_OK, content_type="text/csv")
 
     output_data = {
-        # TODO - add pagination?
-        # "page":"number", //e.g. 1
-        # "per_page":"number", //e.g. 10
         "total": len(skills),
-        # "total_pages": total_skills,
         "data": skill_data_list,
     }
     return Response(data=output_data, status=status.HTTP_200_OK, content_type="application/json")
@@ -347,11 +345,7 @@ def report_languages_view(request):
         return Response(data=data, status=status.HTTP_200_OK, content_type="text/csv")
 
     output_data = {
-        # TODO - add pagination?
-        # "page":"number", //e.g. 1
-        # "per_page":"number", //e.g. 10
         "total": len(languages),
-        # "total_pages": total_skills,
         "data": language_data_list,
     }
     return Response(data=output_data, status=status.HTTP_200_OK, content_type="application/json")
