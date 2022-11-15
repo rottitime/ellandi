@@ -21,15 +21,33 @@ Default.args = {
   barData: [
     {
       name: 'On the job',
-      value_percentage: 10
+      value_percentage: 20
     },
     {
       name: 'Social',
-      value_percentage: 68
+      value_percentage: 22
     },
     {
       name: 'Formal',
-      value_percentage: 22
+      value_percentage: 58
+    }
+  ]
+}
+
+export const Empty: ComponentStory<typeof LearningDistribution> = Template.bind({})
+Empty.args = {
+  barData: [
+    {
+      name: 'On the job',
+      value_percentage: 0
+    },
+    {
+      name: 'Social',
+      value_percentage: 0
+    },
+    {
+      name: 'Formal',
+      value_percentage: 0
     }
   ]
 }
