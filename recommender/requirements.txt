@@ -7,3 +7,4 @@ pandas
 SQLAlchemy
 psycopg2-binary
 django-environ
+furl
