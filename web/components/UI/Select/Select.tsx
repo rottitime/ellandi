@@ -9,7 +9,6 @@ import { FC, forwardRef, useId } from 'react'
 import SelectCheckbox from './SelectCheckbox'
 import { Props } from './types'
 
-//const Select: FC<Props> = ({ checkboxes, label, fullWidth, ...props }) => {
 const Select: FC<Props> = forwardRef<FC, Props>(
   (
     { checkboxes, label, data = [], fullWidth = true, children, error, ...props },

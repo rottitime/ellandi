@@ -22,7 +22,8 @@ export enum Query {
   ReportLanguages = 'ReportLanguages',
   ReportResponsibility = 'ReportResponsibility',
   ReportGrade = 'ReportGrade',
-  ReportLearning = 'ReportLearning'
+  ReportLearning = 'ReportLearning',
+  Courses = 'courses'
 }
 
 export type GenericDataList = {
