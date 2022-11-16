@@ -2,7 +2,7 @@ name: Run Recommender App
 
 on:
   schedule:
-  - cron: '0 */1 * * *'
+  - cron: '0 0 * * *'
   workflow_dispatch:
     branches:
       - temp
@@ -15,19 +15,25 @@ jobs:
   cron_schedule:
     runs-on: ubuntu-latest
 
-    env:
+    strategy:
+      matrix:
+        environment: [staging, develop, pentest]
 
-    CF_SPACE: ${{ github.ref_name }}
+    env:
+      CF_SPACE: ${{ matrix.environment }}
 
     steps:
       - uses: actions/checkout@v3
 
 
       - name: Download CF CLI
+        if: success() || failure()
         run: curl -L "https://packages.cloudfoundry.org/stable?release=linux64-binary&version=v7&source=github" | tar -zx
 
       - name: CF login
+        if: success() || failure()
         run: ./cf login -a api.london.cloud.service.gov.uk -u "${{ secrets.CF_USER }}" -p "${{ secrets.CF_PASSWORD }}" -o co-i-ai -s "$CF_SPACE"
 
       - name: Trigger 'Create Title Embeddings' api run
-        run: ./cf run-task cf-cron --command "ls "
+        if: success() || failure()
+        run: ./cf run-task ellandi-recommender-"$CF_SPACE" --command "cd /app/recommender && python recommend.py" -k 8G
