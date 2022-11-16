@@ -24,7 +24,7 @@ def get_token_and_url(token=None, base_url=None):
 def load_courses(input_file, base_url, token):
     data = json.load(input_file)
 
-    with httpx.Client(base_url="http://localhost", timeout=30) as client:
+    with httpx.Client(base_url=base_url, timeout=30) as client:
         headers = {"Authorization": f"Token {token}"}
         client.headers = headers
 
