@@ -1,8 +1,6 @@
 ---
 applications:
 - name: ellandi-demo
-  services:
-  - ellandi-postgres-demo
   routes:
   - route: ellandi-demo.london.cloudapps.digital
     protocol: http1
