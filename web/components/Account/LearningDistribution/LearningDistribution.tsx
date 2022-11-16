@@ -48,9 +48,11 @@ const LearningDistribution = ({
 }: Props) => {
   const { colors } = useTheme()
 
+  const total = barData.reduce((p, c) => p + c.value_percentage, 0)
+
   const data = barData.map((item, i) => ({
     label: item.name,
-    percentage: item.value_percentage,
+    percentage: item.value_percentage && (item.value_percentage / total) * 100,
     color: item.color || colorOptions[i]
   }))
 
