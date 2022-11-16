@@ -55,7 +55,6 @@ def process_courses(data):
             course_type = None
 
         yield {
-            "profession": course.owner.profession,
             "grades": flatten(gather(course.audiences, "grades")),
             "title": course.title,
             "short_description": course.shortDescription,
@@ -63,9 +62,9 @@ def process_courses(data):
             "learning_outcomes": course.learningOutcomes,
             "visibility": course.visibility,
             "status": course.status,
-            "cost": sum(gather(course.modules, "cost")),
-            "duration": sum(gather(course.modules, "duration")),
-            "type": course_type,
+            "cost_pounds": sum(gather(course.modules, "cost")),
+            "duration_minutes": sum(gather(course.modules, "duration")),
+            "course_type": course_type,
         }
 
 
