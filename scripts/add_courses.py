@@ -1,12 +1,12 @@
 import argparse
 import getpass
 import json
-import pathlib
+
 
 import httpx
 
-__here__ = pathlib.Path(__file__).parent
-courses_file = __here__ / ".." / "courses-summary.json"
+
+
 
 
 def get_token_and_url(token=None, base_url=None):
