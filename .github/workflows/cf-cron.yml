@@ -17,7 +17,7 @@ jobs:
 
     strategy:
       matrix:
-        environment: [develop, pentest, staging]
+        environment: [staging, develop, pentest]
 
     env:
       CF_SPACE: ${{ matrix.environment }}
@@ -27,10 +27,13 @@ jobs:
 
 
       - name: Download CF CLI
+        if: success() || failure()
         run: curl -L "https://packages.cloudfoundry.org/stable?release=linux64-binary&version=v7&source=github" | tar -zx
 
       - name: CF login
+        if: success() || failure()
         run: ./cf login -a api.london.cloud.service.gov.uk -u "${{ secrets.CF_USER }}" -p "${{ secrets.CF_PASSWORD }}" -o co-i-ai -s "$CF_SPACE"
 
       - name: Trigger 'Create Title Embeddings' api run
+        if: success() || failure()
         run: ./cf run-task ellandi-recommender-"$CF_SPACE" --command "cd /app/recommender && python recommend.py" -k 8G
