@@ -3,6 +3,13 @@ name: Run Recommender App
 on:
   schedule:
   - cron: '0 */1 * * *'
+  workflow_dispatch:
+    branches:
+      - temp
+      - demo
+      - sandbox
+      - pentest
+      - develop
 
 jobs:
   cron_schedule:
