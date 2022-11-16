@@ -1,0 +1,33 @@
+name: Run Recommender App
+
+on:
+  schedule:
+  - cron: '0 */1 * * *'
+  workflow_dispatch:
+    branches:
+      - temp
+      - demo
+      - sandbox
+      - pentest
+      - develop
+
+jobs:
+  cron_schedule:
+    runs-on: ubuntu-latest
+
+    env:
+
+    CF_SPACE: ${{ github.ref_name }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+
+      - name: Download CF CLI
+        run: curl -L "https://packages.cloudfoundry.org/stable?release=linux64-binary&version=v7&source=github" | tar -zx
+
+      - name: CF login
+        run: ./cf login -a api.london.cloud.service.gov.uk -u "${{ secrets.CF_USER }}" -p "${{ secrets.CF_PASSWORD }}" -o co-i-ai -s "$CF_SPACE"
+
+      - name: Trigger 'Create Title Embeddings' api run
+        run: ./cf run-task cf-cron --command "ls "

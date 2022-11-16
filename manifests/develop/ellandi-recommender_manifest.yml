@@ -1,0 +1,9 @@
+---
+applications:
+- name: ellandi-recommender-develop
+  services:
+  - ellandi-postgres-develop
+  memory: 1024M
+  disk_quota: 8192M
+  no-route: true
+  health-check-type: process
