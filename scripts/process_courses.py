@@ -1,10 +1,5 @@
+import argparse
 import json
-import pathlib
-
-__here__ = pathlib.Path(__file__).parent
-
-COURSES_FILE = __here__ / ".." / "courses.json"
-OUTPUT_FILE = __here__ / ".." / "output.json"
 
 
 class Stub:
@@ -75,13 +70,15 @@ def process_courses(data):
 
 
 def main():
-    with COURSES_FILE.open() as f:
-        data = json.load(f)
+    parser = argparse.ArgumentParser(prog="Process courses", description="Process courses file and reduce contents")
+    parser.add_argument("--input", type=argparse.FileType("r"), help="The original json file of courses", required=True)
+    parser.add_argument("--output", type=argparse.FileType("w"), help="The reduced json file of courses", required=True)
+    args = parser.parse_args()
+    data = json.load(args.input)
 
     data = list(process_courses(data))
 
-    with OUTPUT_FILE.open("w") as f:
-        json.dump(data, f, indent=2)
+    json.dump(data, args.output, indent=2)
 
     return data
 
