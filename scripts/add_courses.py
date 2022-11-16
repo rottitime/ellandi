@@ -2,12 +2,15 @@ import argparse
 import getpass
 import json
 
+import furl
 import httpx
 
 
 def get_token_and_url(token=None, base_url=None):
     if not base_url:
         base_url = input("Base url of the site (default http://localhost)") or "http://localhost"
+
+    base_url = str(furl.furl(base_url, path=""))
 
     if not token:
         email = input("Admin email: ")
