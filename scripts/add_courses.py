@@ -2,11 +2,7 @@ import argparse
 import getpass
 import json
 
-
 import httpx
-
-
-
 
 
 def get_token_and_url(token=None, base_url=None):
