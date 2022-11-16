@@ -15,9 +15,12 @@ jobs:
   cron_schedule:
     runs-on: ubuntu-latest
 
-    env:
+    strategy:
+      matrix:
+        environment: [develop, pentest, staging]
 
-    CF_SPACE: ${{ github.ref_name }}
+    env:
+      CF_SPACE: ${{ matrix.environment }}
 
     steps:
       - uses: actions/checkout@v3
@@ -30,4 +33,4 @@ jobs:
         run: ./cf login -a api.london.cloud.service.gov.uk -u "${{ secrets.CF_USER }}" -p "${{ secrets.CF_PASSWORD }}" -o co-i-ai -s "$CF_SPACE"
 
       - name: Trigger 'Create Title Embeddings' api run
-        run: ./cf run-task cf-cron --command "ls "
+        run: ./cf run-task ellandi-recommender-"$CF_SPACE" --command "cd /app/recommender && python recommend.py" -k 8G
