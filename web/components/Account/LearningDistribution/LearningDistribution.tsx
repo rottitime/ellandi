@@ -52,7 +52,7 @@ const LearningDistribution = ({
 
   const data = barData.map((item, i) => ({
     label: item.name,
-    percentage: (item.value_percentage / total) * 100,
+    percentage: item.value_percentage && (item.value_percentage / total) * 100,
     color: item.color || colorOptions[i]
   }))
 
