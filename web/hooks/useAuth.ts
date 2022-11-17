@@ -42,7 +42,7 @@ const useAuth = () => {
   const createAndLogin = async (data: RegisterUser): Promise<RegisterUserResponse> => {
     const userData = await createUser(data)
     await login(data)
-    sendEmailVerification()
+    await sendEmailVerification()
     return userData
   }
 
