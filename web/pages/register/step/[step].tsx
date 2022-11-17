@@ -147,7 +147,9 @@ const steps: Steps[] = [
     title: 'Primary profession'
   },
   {
-    form: dynamic(() => import('@/components/Form/Register/ProfessionForm')),
+    form: dynamic(
+      () => import('@/components/Form/Register/ProfessionForm/ProfessionForm')
+    ),
     title: 'Other professions'
   },
   {

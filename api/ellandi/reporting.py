@@ -1,21 +1,20 @@
-import datetime
-
-from django.db.models import Avg, Sum
 from django.utils.text import slugify
 from drf_spectacular.utils import OpenApiParameter, extend_schema
 from rest_framework import decorators, permissions, renderers, status
 from rest_framework.response import Response
 from rest_framework_csv.renderers import CSVRenderer
 
+from ellandi import learning
 from ellandi.registration.exceptions import MissingLanguageTypeError
 from ellandi.registration.models import (
     Grade,
-    Learning,
     User,
     UserLanguage,
     UserSkill,
     UserSkillDevelop,
 )
+
+PARAM_SEPARATOR = "|"
 
 # TODO - maybe change column names for CSV
 SKILLS_COL_NAME_LOOKUP_CSV = {
@@ -51,23 +50,24 @@ LANG_COL_NAME_LOOKUP_CSV = {
     "native_value_total": "number_native",
     "native_value_percentage": "percentage_native",
 }
+LEARNING_LOOKUP_CSV = {
+    "course_average_cost_value": "course_average_cost",
+    "course_total_cost_value": "course_total_cost",
+    "goal_value_days": "average_learning_days",
+    "goal_value_percentage": "percentage_learning_goal_completed",
+    "Formal": "percentage_formal_learning",
+    "On the job": "percentage_on_the_job_learning",
+    "Social": "percentage_social_learning",
+}
+
+
 SKILL_LEVELS = ["Beginner", "Advanced beginner", "Competent", "Proficient", "Expert"]
 LANGUAGE_LEVELS_SKILLED = ["Basic", "Independent", "Proficient", "Native"]
 LANGUAGE_TYPES = ["speaking", "writing"]
 
-HOURS_IN_WORK_DAY = 7.4
-LEARNING_TARGET_IN_DAYS = 10
-MINUTES_IN_LEARNING_TARGET = LEARNING_TARGET_IN_DAYS * HOURS_IN_WORK_DAY * 60
-
 
 def format_perc_label(number, percentage):
     return f"{number} ({round(percentage)}%)"
-
-
-def none_to_zero(number):
-    if not number:
-        number = 0
-    return number
 
 
 def create_proportions_data_dict(name, numerator, denominator):
@@ -95,7 +95,7 @@ def filter_users_professions(request, users_qs):
     professions = request.query_params.get("professions")
     if not professions:
         return users_qs
-    professions = professions.split(",")
+    professions = professions.split(PARAM_SEPARATOR)
     output_qs = User.objects.none()
     for prof_name in professions:
         users_with_prof = users_qs.filter(professions__contains=prof_name)
@@ -108,13 +108,13 @@ def filter_users_other_params(request, users_qs):
     grades = request.query_params.get("grades")
     business_units = request.query_params.get("business_units")
     if functions:
-        functions = functions.split(",")
+        functions = functions.split(PARAM_SEPARATOR)
         users_qs = users_qs.filter(function__in=functions)
     if grades:
-        grades = grades.split(",")
+        grades = grades.split(PARAM_SEPARATOR)
         users_qs = users_qs.filter(grade__in=grades)
     if business_units:
-        business_units = business_units.split(",")
+        business_units = business_units.split(PARAM_SEPARATOR)
         users_qs = users_qs.filter(business_unit__in=business_units)
     return users_qs
 
@@ -130,7 +130,7 @@ def get_filtered_users(request):
 def get_skills_list_from_params(request):
     skills = request.query_params.get("skills", None)
     if skills:
-        return skills.split(",")
+        return skills.split(PARAM_SEPARATOR)
     skills_existing = set(UserSkill.objects.all().values_list("name", flat=True))
     skills_dev = set(UserSkillDevelop.objects.all().values_list("name", flat=True))
     skills = list(skills_existing.union(skills_dev))
@@ -142,7 +142,7 @@ def get_language_list_from_params(request):
     type = request.query_params.get("type")
     type_field = f"{type}_level"
     if languages:
-        return languages.split(",")
+        return languages.split(PARAM_SEPARATOR)
     langs_qs = UserLanguage.objects.all()
     langs_qs = langs_qs.exclude(**{type_field: None}).exclude(**{type_field: "None"})
     lang_vals = langs_qs.values_list("name", flat=True)
@@ -295,11 +295,7 @@ def report_skills_view(request):
         return Response(data=data, status=status.HTTP_200_OK, content_type="text/csv")
 
     output_data = {
-        # TODO - add pagination?
-        # "page":"number", //e.g. 1
-        # "per_page":"number", //e.g. 10
         "total": len(skills),
-        # "total_pages": total_skills,
         "data": skill_data_list,
     }
     return Response(data=output_data, status=status.HTTP_200_OK, content_type="application/json")
@@ -349,11 +345,7 @@ def report_languages_view(request):
         return Response(data=data, status=status.HTTP_200_OK, content_type="text/csv")
 
     output_data = {
-        # TODO - add pagination?
-        # "page":"number", //e.g. 1
-        # "per_page":"number", //e.g. 10
         "total": len(languages),
-        # "total_pages": total_skills,
         "data": language_data_list,
     }
     return Response(data=output_data, status=status.HTTP_200_OK, content_type="application/json")
@@ -437,85 +429,41 @@ def staff_overview_view(request):
     return Response(data=data, status=status.HTTP_200_OK, content_type="text/csv")
 
 
-def get_start_financial_year():
-    today = datetime.date.today()
-    year = today.year
-    if today.month < 4:
-        year = year - 1
-    start_financial_year = datetime.date(year, 4, 1)
-    return start_financial_year
-
-
-def get_learning_for_users_since_start_year(users_qs):
-    start_financial_year = get_start_financial_year()
-    learning_qs = Learning.objects.filter(user__in=users_qs).filter(date_completed__gte=start_financial_year)
-    return learning_qs
-
-
-def get_summary_course_costs(learning_qs):
-    formal_learning_with_costs = learning_qs.filter(learning_type="Formal").exclude(cost_unknown=True)
-    cost_aggregates = formal_learning_with_costs.aggregate(Sum("cost_pounds"), Avg("cost_pounds"))
-    avg_cost = none_to_zero(cost_aggregates["cost_pounds__avg"])
-    sum_cost = none_to_zero(cost_aggregates["cost_pounds__sum"])
-    return round(avg_cost), round(sum_cost)
-
-
-def get_percentage_for_learning_type(type, learning_qs, total_all_types):
-    if total_all_types == 0:
-        return 0
-    total_for_type = learning_qs.filter(learning_type=type).aggregate(Sum("duration_minutes"))["duration_minutes__sum"]
-    total_for_type = none_to_zero(total_for_type)
-    perc = total_for_type * 100 / total_all_types
-    return round(perc)
-
-
-def get_learning_distribution(learning_qs):
-    total_all_types = learning_qs.aggregate(Sum("duration_minutes"))["duration_minutes__sum"]
-    total_all_types = none_to_zero(total_all_types)
-    output = [
-        {
-            "name": "Formal",
-            "value_percentage": get_percentage_for_learning_type("Formal", learning_qs, total_all_types),
-        },
-        {
-            "name": "Social",
-            "value_percentage": get_percentage_for_learning_type("Social", learning_qs, total_all_types),
-        },
-        {
-            "name": "On the job",
-            "value_percentage": get_percentage_for_learning_type("On the job", learning_qs, total_all_types),
-        },
-    ]
-    return output
-
-
-def get_total_avg_learning_financial_year(learning_qs, total_users):
-    if not total_users:
-        return 0, 0
-    total_learning = learning_qs.aggregate(Sum("duration_minutes"))["duration_minutes__sum"]
-    total_learning = none_to_zero(total_learning)
-    avg_learning_mins = total_learning / total_users
-    proportion_learning_per_user = avg_learning_mins * 100 / MINUTES_IN_LEARNING_TARGET
-    days_per_user = round(avg_learning_mins / (60 * HOURS_IN_WORK_DAY))
-    avg_perc = round(proportion_learning_per_user)
-    return days_per_user, avg_perc
+class CSVRendererLearning(CSVRenderer):
+    header = list(LEARNING_LOOKUP_CSV.values())
 
 
 @extend_schema(request=None, responses=None)
 @decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.IsAdminUser,))
+@decorators.renderer_classes(
+    (
+        renderers.JSONRenderer,
+        CSVRendererLearning,
+    )
+)
 def learning_view(request):
+    format = request.query_params.get("format", "json")
     users_qs = get_filtered_users(request)
     total_users = users_qs.count()
-    learning_qs = get_learning_for_users_since_start_year(users_qs)
-    course_average_cost, course_total_cost = get_summary_course_costs(learning_qs)
-    avg_completed_this_year, perc_completed_this_year = get_total_avg_learning_financial_year(learning_qs, total_users)
-    learning_distribution = get_learning_distribution(learning_qs)
+    learning_qs = learning.get_learning_for_users_since_start_year(users_qs)
+    course_average_cost, course_total_cost = learning.get_summary_course_costs(learning_qs)
+    avg_completed_this_year, perc_completed_this_year = learning.get_total_avg_learning_financial_year(
+        learning_qs, total_users
+    )
+    learning_distribution = learning.get_learning_distribution(learning_qs)
     output_dict = {
         "course_average_cost_label": f"£{course_average_cost:,}",
         "course_total_cost_label": f"£{course_total_cost:,}",
+        "course_average_cost_value": course_average_cost,
+        "course_total_cost_value": course_total_cost,
         "goal_value_days": avg_completed_this_year,
         "goal_value_percentage": perc_completed_this_year,
         "distribution": learning_distribution,
     }
+    flattened_distribution = {item["name"]: item["value_percentage"] for item in learning_distribution}
+    if format == "csv":
+        output_dict.update(flattened_distribution)
+        data = format_data_for_csv([output_dict], LEARNING_LOOKUP_CSV)
+        return Response(data=data, status=status.HTTP_200_OK, content_type="text/csv")
     return Response(data=output_dict, status=status.HTTP_200_OK, content_type="application/json")

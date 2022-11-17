@@ -13,6 +13,7 @@ export enum Query {
   SkillLevels = 'skillLevels',
   Me = 'me',
   TeamMembers = 'teamMembers',
+  TeamMembersLearning = 'TeamMembersLearning',
   SuggestedSkills = 'SuggestedSkills',
   SuggestedSkillsbyRole = 'SuggestedSkillsbyRole',
   MeLearning = 'meLearning',
@@ -21,7 +22,8 @@ export enum Query {
   ReportLanguages = 'ReportLanguages',
   ReportResponsibility = 'ReportResponsibility',
   ReportGrade = 'ReportGrade',
-  ReportLearning = 'ReportLearning'
+  ReportLearning = 'ReportLearning',
+  Courses = 'courses'
 }
 
 export type GenericDataList = {
@@ -177,6 +179,8 @@ export type TeamMember = {
   skills_develop: SkillDevelopType[]
   created_at: string
   modified_at: string
+  is_line_manager: string
+  is_mentor: string
 }
 
 export type ResetEmailPasswordType = {
@@ -209,7 +213,16 @@ type LearningApiFields = {
   learning_type: string
 }
 
-export type MeLearningRecord = LearningBaseType & LearningFormalType & LearningApiFields
+export type MeLearningRecordData = LearningBaseType &
+  LearningFormalType &
+  LearningApiFields
+
+export type MeLearningRecord = {
+  distribution: ReportDistributionData[]
+  goal_value_days: number
+  goal_value_percentage: number
+  data: MeLearningRecordData[]
+}
 
 type ReportPagination = {
   page: number
@@ -284,7 +297,7 @@ export type MeReporGrade = {
 }
 
 export type ReportDistributionData = {
-  name: string
+  name: 'On the job' | 'Social' | 'Formal'
   value_percentage: number
 }
 

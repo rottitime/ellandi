@@ -2,7 +2,7 @@ import { Box, Checkbox, FormControlLabel, Typography } from '@mui/material'
 import { ProfessionType, RegisterUserResponse } from '@/service/types'
 
 import { FC, useEffect } from 'react'
-import { StandardRegisterProps } from './types'
+import { StandardRegisterProps } from '../types'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
 import { array, object, SchemaOf, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -14,7 +14,7 @@ import data from '@/prefetch/professions.json'
 const fieldName: keyof ProfessionType = 'professions'
 
 const schema: SchemaOf<ProfessionType> = object().shape({
-  professions: array().of(string()).min(1, 'Enter your profession'),
+  professions: array().nullable(),
   profession_other: string()
     .nullable()
     .when('professions', (value) => {
@@ -49,7 +49,7 @@ const ProfessionForm: FC<StandardRegisterProps<ProfessionType>> = (props) => {
 
   return (
     <FormProvider {...methods}>
-      <Form {...props} submitDisabled>
+      <Form {...props}>
         <Typography gutterBottom>
           Select any other profession(s) that you belong to. You may choose more than one
         </Typography>
@@ -84,17 +84,15 @@ const ProfessionForm: FC<StandardRegisterProps<ProfessionType>> = (props) => {
                   />
                 )}
               />
-              {primary_profession !== 'Other' &&
-                name !== 'Other' &&
-                watchFields.professions.includes('Other') && (
-                  <Box sx={{ my: 3 }}>
-                    <TextFieldControlled
-                      name="profession_other"
-                      label="Enter profession"
-                      subfield
-                    />
-                  </Box>
-                )}
+              {name === 'Other' && watchFields.professions.includes('Other') && (
+                <Box sx={{ my: 3 }} data-testid="other-field">
+                  <TextFieldControlled
+                    name="profession_other"
+                    label="Enter profession"
+                    subfield
+                  />
+                </Box>
+              )}
             </Box>
           ))}
       </Form>

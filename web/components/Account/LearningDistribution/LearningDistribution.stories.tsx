@@ -1,6 +1,5 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import LearningDistribution from './LearningDistribution'
-import { Props } from './types'
 
 export default {
   title: 'Ellandi/Chart/LearningDistribution',
@@ -17,23 +16,38 @@ const Template: ComponentStory<typeof LearningDistribution> = (args) => (
   <LearningDistribution {...args} />
 )
 
-export const Default = Template.bind({})
+export const Default: ComponentStory<typeof LearningDistribution> = Template.bind({})
 Default.args = {
   barData: [
     {
-      label: 'On the job',
-      percentage: 10,
-      color: null
+      name: 'On the job',
+      value_percentage: 20
     },
     {
-      label: 'Social',
-      percentage: 68,
-      color: null
+      name: 'Social',
+      value_percentage: 22
     },
     {
-      label: 'Formal',
-      percentage: 22,
-      color: null
+      name: 'Formal',
+      value_percentage: 58
     }
   ]
-} as Props
+}
+
+export const Empty: ComponentStory<typeof LearningDistribution> = Template.bind({})
+Empty.args = {
+  barData: [
+    {
+      name: 'On the job',
+      value_percentage: 0
+    },
+    {
+      name: 'Social',
+      value_percentage: 0
+    },
+    {
+      name: 'Formal',
+      value_percentage: 0
+    }
+  ]
+}

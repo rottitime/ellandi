@@ -37,7 +37,7 @@ describe('CreateAccountForm', () => {
 
     await waitFor(async () => {
       expect(screen.getByTestId('field_email')).toHaveTextContent(
-        'This is a required field'
+        'Enter your email address'
       )
     })
 
@@ -111,7 +111,7 @@ describe('CreateAccountForm', () => {
     })
   })
 
-  it.only('Shows an api driven error message', async () => {
+  it('Shows an api driven error message', async () => {
     const error = 'message from server'
     fetchMock.mockResponseOnce(JSON.stringify({ detail: error }), {
       status: 400

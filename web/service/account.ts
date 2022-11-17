@@ -75,6 +75,13 @@ export const fetchTeam = async (token: string) => {
   return res.json()
 }
 
+export const fetchMemeberLearning = async (token: string, id: string) => {
+  const res = await api(token, `/me/direct-report/${id}/learnings/`, {
+    headers: { 'Content-Type': 'application/json' }
+  })
+  return res.json()
+}
+
 export const addLearningOnTheJob = async (token: string, data: LearningBaseType) => {
   const res = await api(token, `/me/learning-on-the-job/`, {
     method: 'PATCH',

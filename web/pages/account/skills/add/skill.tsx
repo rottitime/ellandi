@@ -4,25 +4,39 @@ import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
 import { menu, SectionOne } from './index'
 import BadgeNumber from '@/components/UI/BadgeNumber/BadgeNumber'
 import { useMutation, useQuery } from 'react-query'
-import {
-  MeSuggestedSkillsResponse,
-  Query,
-  RegisterUserResponse,
-  SkillType
-} from '@/service/api'
+import { Query, RegisterUserResponse, SkillType } from '@/service/api'
 import SkillsAddForm from '@/components/Form/Account/SkillsAddForm/SkillsAddForm'
 import useAuth from '@/hooks/useAuth'
 import Router from 'next/router'
 import { addSkills } from '@/service/account'
-import { fetchMeSuggestedSkills } from '@/service/me'
+import {
+  fetchRecommendedSkillBundle,
+  RecommendedSkillBundleResponse,
+  SkillGroup
+} from '@/service/me'
+
+const skillGroupDescription = (group: SkillGroup) => {
+  switch (group) {
+    case 'job_title_skills':
+      return 'Skills you might have, based on your current job title:'
+    case 'profession_skills':
+      return 'Skills you might have, based on your current job:'
+    case 'popular_skills':
+      return 'Skills you might have, based on popular skills:'
+    case 'skill_skills':
+      return 'More skills selected by others with similar skills to you:'
+    default:
+      return 'All skills:'
+  }
+}
 
 const SkillsAddSkillsPage = () => {
   const { authFetch } = useAuth()
 
-  const { data, isLoading: isLoadingSuggested } = useQuery<MeSuggestedSkillsResponse>(
-    Query.SuggestedSkillsbyRole,
-    () => authFetch(fetchMeSuggestedSkills)
-  )
+  const { data, isLoading: isLoadingSuggested } =
+    useQuery<RecommendedSkillBundleResponse>(Query.SuggestedSkillsbyRole, () =>
+      authFetch(fetchRecommendedSkillBundle)
+    )
 
   const { isLoading, ...mutate } = useMutation<RegisterUserResponse, Error, SkillType[]>(
     async (data) => authFetch(addSkills, data),
@@ -42,18 +56,25 @@ const SkillsAddSkillsPage = () => {
           </Typography>
         }
       >
-        <SkillsAddForm
-          loading={isLoading}
-          onFormSubmit={({ skills }) => mutate.mutate(skills)}
-          suggestionProps={{
-            max: 10,
-            data,
-            hideOptions: [],
-            loading: isLoadingSuggested,
-            description: 'Skills you might have, based on your profile:'
-          }}
-          showAll
-        />
+        {data && (
+          <SkillsAddForm
+            loading={isLoading}
+            onFormSubmit={({ skills }) => mutate.mutate(skills)}
+            suggestionProps={Object.keys(data)
+              .filter((group) => ['profession_skills', 'skill_skills'].includes(group))
+              .map((item: SkillGroup) => {
+                return {
+                  groupId: item,
+                  max: 10,
+                  data: data[item],
+                  hideOptions: [],
+                  loading: isLoadingSuggested,
+                  description: skillGroupDescription(item)
+                }
+              })}
+            showAll
+          />
+        )}
       </AccountCard>
     </>
   )

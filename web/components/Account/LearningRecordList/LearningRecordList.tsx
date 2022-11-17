@@ -19,17 +19,11 @@ import {
   styled,
   Typography
 } from '@mui/material'
-import { splitMinutes } from '@/lib/date-utils'
-import dayjs from 'dayjs'
+import { formatDate, formatDuration } from '@/lib/date-utils'
 import { deleteLearning, editLearning } from '@/service/account'
 import BadgeNumber from '@/components/UI/BadgeNumber/BadgeNumber'
 import LearningAddForm from '@/components/Form/LearningAddForm/LearningAddForm'
-import getConfig from 'next/config'
 import types from '@/prefetch/learning-types.json'
-
-const {
-  publicRuntimeConfig: { minutesPerDay }
-} = getConfig()
 
 const Modal = styled(Box)`
   ${({ theme }) => theme.breakpoints.up('md')} {
@@ -46,12 +40,10 @@ const LearningRecordList: FC = () => {
   const formRef = useRef(null)
   const params = { sortfield: 'name' }
 
-  const { data, isLoading, refetch } = useQuery<MeLearningRecord[]>(
+  const { data, isLoading, refetch, isFetching } = useQuery<MeLearningRecord>(
     [Query.MeLearning, params],
     () => authFetch(fetchMeLearning, params),
     {
-      initialData: [],
-      staleTime: 0,
       onSuccess: (data) => queryClient.setQueryData(Query.MeLearning, data)
     }
   )
@@ -81,7 +73,7 @@ const LearningRecordList: FC = () => {
         {isError && <Alert severity="error">{error.message}</Alert>}
         <DataGrid
           initialLoading={isLoading}
-          loading={deleteLoading || editLoading}
+          loading={deleteLoading || editLoading || isFetching}
           hideFooterPagination
           initialState={{
             sorting: {
@@ -95,7 +87,7 @@ const LearningRecordList: FC = () => {
           }
           autoHeight
           columns={columns}
-          rows={data}
+          rows={data?.data}
           modalLoading={deleteLoading}
           onDelete={async (cell) => await mutate(cell.id.toString())}
           deleteModalTitle="Delete learning"
@@ -111,7 +103,7 @@ const LearningRecordList: FC = () => {
           }}
           editModalTitle="Edit learning"
           editModalContent={(cell) => {
-            const learningData = data.find(({ id }) => id === cell?.row?.id)
+            const learningData = data.data.find(({ id }) => id === cell?.row?.id)
             const defaultValue = learningData?.learning_type
             const learning_type = !!type ? type : defaultValue
 
@@ -162,15 +154,6 @@ const LearningRecordList: FC = () => {
 }
 
 export default LearningRecordList
-
-const formatDate = (dateValue: string): string => dayjs(dateValue).format('DD.MM.YYYY')
-
-const formatDuration = (duration: number): string => {
-  const { days, minutes, hours } = splitMinutes(duration, minutesPerDay)
-  return `${!!days ? `${days}d` : ''} ${!!hours ? `${hours}hr` : ''} ${
-    !!minutes ? `${minutes}m` : ''
-  }`
-}
 
 const columns: GridColDef[] = [
   {

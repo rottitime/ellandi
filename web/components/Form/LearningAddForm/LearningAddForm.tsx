@@ -1,6 +1,10 @@
 import { boolean, number, object, SchemaOf, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { LearningFormalType, LearningBaseType, MeLearningRecord } from '@/service/types'
+import {
+  LearningFormalType,
+  LearningBaseType,
+  MeLearningRecordData
+} from '@/service/types'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
 import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
 import {
@@ -24,8 +28,8 @@ import Duration from '@/components/Form/Duration/Duration'
 const schema: SchemaOf<LearningBaseType> = object().shape({
   name: string().required('This is a required field'),
   duration_minutes: number()
-    .typeError('you must specify a number')
-    .min(1, 'you must specify a number'),
+    .typeError('You must specify a number')
+    .min(1, 'You must specify a number'),
   date_completed: string().nullable().required('Enter a date')
 })
 
@@ -37,7 +41,7 @@ const schemaFormal: SchemaOf<LearningFormalType> = schema.shape({
         return number()
           .min(0, 'Min value 0.')
           .required('This is a required field')
-          .typeError('you must specify a number')
+          .typeError('You must specify a number')
     }),
   cost_unknown: boolean().nullable()
 })
@@ -59,14 +63,14 @@ const LearningAddForm = forwardRef<RefHandler, Props>(
       cost_pounds: null,
       cost_unknown: false,
       ...defaultValues
-    }
+    } as MeLearningRecordData
 
     if (type === 'generic') {
       delete initialValues.cost_pounds
       delete initialValues.cost_unknown
     }
 
-    const methods = useForm<Partial<MeLearningRecord>>({
+    const methods = useForm<Partial<MeLearningRecordData>>({
       defaultValues: initialValues,
       resolver: yupResolver(type === 'generic' ? schema : schemaFormal)
     })

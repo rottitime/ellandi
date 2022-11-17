@@ -34,6 +34,7 @@ import useDebounce from '@/hooks/useDebounce'
 import SimpleTable from '@/components/UI/SimpleTable/SimpleTable'
 import Chart from '@/components/UI/Chart/Chart'
 import Button from '@/components/UI/Button/Button'
+import { ChevronRight } from '@mui/icons-material'
 
 const Card = styled(AccountCard)`
   .main-filters {
@@ -57,6 +58,7 @@ const Card = styled(AccountCard)`
 
 const Pane = styled(Box)`
   display: flex;
+  gap: ${(p) => p.theme.spacing(3)};
 `
 
 const userOptions: UserOptions = [
@@ -286,32 +288,57 @@ const SkillsReport: FC<Props> = (props) => {
         data-testid="datagrid-graph-modal"
       >
         {dialog && (
-          <Pane>
-            <Box>
-              <Chart
-                colors={chartValues.map(({ color }) => color)}
-                data={{
-                  columns: chartValues.map(({ label, valuePercentage }) => [
-                    label,
-                    dialog[valuePercentage]
-                  ]),
-                  type: 'pie'
-                }}
-                hideLegends
+          <>
+            <Typography variant="h2" gutterBottom>
+              {dialog.name}
+            </Typography>
+            <Pane>
+              {chartValues.find(({ valuePercentage }) => dialog[valuePercentage] > 0) && (
+                <Box>
+                  <Chart
+                    colors={chartValues.map(({ color }) => color)}
+                    data={{
+                      columns: chartValues.map(({ label, valuePercentage }) => [
+                        label,
+                        dialog[valuePercentage]
+                      ]),
+                      type: 'pie'
+                    }}
+                    misc={{
+                      pie: {
+                        label: {
+                          show: false
+                        }
+                      },
+                      tooltip: {
+                        format: {
+                          value: function (value) {
+                            return `${value}%`
+                          }
+                        }
+                      }
+                    }}
+                    hideLegends
+                  />
+                </Box>
+              )}
+              <SimpleTable
+                headers={[
+                  { children: 'Level' },
+                  { children: 'Total number (%)', align: 'right' }
+                ]}
+                list={chartValues.map((item) => [
+                  { children: <>{item.label}</> },
+                  {
+                    children: (
+                      <Chip label={dialog[item.valueLabel]} brandColor={item.color} />
+                    ),
+                    align: 'right'
+                  }
+                ])}
               />
-            </Box>
-            <SimpleTable
-              headers={[{ children: 'Level' }, { children: 'Total number (%)' }]}
-              list={chartValues.map((item) => [
-                { children: <>{item.label}</> },
-                {
-                  children: (
-                    <Chip label={dialog[item.valueLabel]} brandColor={item.color} />
-                  )
-                }
-              ])}
-            />
-          </Pane>
+            </Pane>
+          </>
         )}
       </Dialog>
     </>
@@ -348,8 +375,13 @@ const columns: GridColDef<ReportSkillsData>[] = [
     maxWidth: 286
   },
   {
-    field: 'total_users',
+    field: 'chart',
+    headerName: '',
     disableColumnMenu: true,
-    resizable: false
+    sortable: false,
+    width: 40,
+    resizable: false,
+    renderCell: () => <ChevronRight />,
+    align: 'right'
   }
 ]

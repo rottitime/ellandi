@@ -8,6 +8,9 @@ import {
 import { FC, forwardRef, ReactNode, useState } from 'react'
 import { CheckBoxValue, Props } from './types'
 
+const ITEM_HEIGHT = 86
+const ITEM_PADDING_TOP = 8
+
 const SelectCheckbox: FC<Props> = forwardRef<FC, Props>(
   ({ data = [], onChange, defaultValue = [], ...props }, ref) => {
     const [selectValue, setSelectValue] = useState<CheckBoxValue>(
@@ -30,11 +33,22 @@ const SelectCheckbox: FC<Props> = forwardRef<FC, Props>(
 
     return (
       <MuiSelect
+        sx={{
+          backgroundColor: '#fff'
+        }}
         {...props}
         value={selectValue}
         multiple
         renderValue={(selected: CheckBoxValue) => selected.join(', ')}
         onChange={handleChange}
+        MenuProps={{
+          PaperProps: {
+            style: {
+              maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+              width: 250
+            }
+          }
+        }}
         ref={ref}
       >
         {data.map((label) => (

@@ -188,9 +188,9 @@ class LearningListSerializer(serializers.ListSerializer):
 class BaseLearningSerializer(serializers.Serializer):
     id = serializers.UUIDField(format="hex_verbose", required=False)
     name = serializers.CharField(max_length=255, required=False)
-    duration_minutes = serializers.IntegerField(max_value=32767, min_value=0, required=False)
-    date_completed = serializers.DateField(required=False)
-    cost_pounds = serializers.IntegerField(max_value=32767, min_value=0, required=False)
+    duration_minutes = serializers.IntegerField(max_value=32767, min_value=0, required=False, allow_null=True)
+    date_completed = serializers.DateField(required=False, allow_null=True)
+    cost_pounds = serializers.IntegerField(max_value=32767, min_value=0, required=False, allow_null=True)
     cost_unknown = serializers.BooleanField(required=False)
 
     class Meta:
@@ -254,7 +254,7 @@ class UserSerializer(serializers.ModelSerializer):
         if "skills_develop" in validated_data:
             for skill_data in validated_data["skills_develop"]:
                 name = skill_data["name"]
-                UserSkillDevelop.objects.update_or_create(user=instance, name=name)
+                UserSkillDevelop.objects.update_or_create(user=instance, name=name, defaults=skill_data)
 
         instance.save()
         return instance
@@ -351,6 +351,9 @@ class IsValidSerializer(serializers.Serializer):
 
 class CourseSerializer(serializers.ModelSerializer):
     status = serializers.ChoiceField(choices=Course.Status.choices, allow_blank=True, allow_null=True, required=False)
+    grades = serializers.MultipleChoiceField(
+        choices=Course.Grade.choices, allow_blank=True, allow_null=True, required=False
+    )
 
     class Meta:
         model = Course

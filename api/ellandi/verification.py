@@ -8,7 +8,7 @@ from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
-from drf_spectacular.utils import extend_schema
+from drf_spectacular.utils import OpenApiParameter, extend_schema
 from rest_framework import decorators, permissions, status
 from rest_framework.response import Response
 
@@ -23,7 +23,13 @@ def _strip_microseconds(dt):
     return dt.replace(microsecond=0, tzinfo=None)
 
 
-class TokenGenerator(PasswordResetTokenGenerator):
+class EmailVerifyTokenGenerator(PasswordResetTokenGenerator):
+    def _make_hash_value(self, user, timestamp):
+        email = user.email or ""
+        return f"{user.pk}{user.password}{timestamp}{email}"
+
+
+class PasswordResetTokenGenerator(PasswordResetTokenGenerator):
     def _make_hash_value(self, user, timestamp):
         login_timestamp = _strip_microseconds(user.last_login)
         email = user.email or ""
@@ -31,48 +37,47 @@ class TokenGenerator(PasswordResetTokenGenerator):
         return f"{user.pk}{user.password}{login_timestamp}{timestamp}{email}{token_timestamp}"
 
 
-TOKEN_GENERATOR = TokenGenerator()
+EMAIL_VERIFY_TOKEN_GENERATOR = EmailVerifyTokenGenerator()
+PASSWORD_RESET_TOKEN_GENERATOR = PasswordResetTokenGenerator()
 
 EMAIL_MAPPING = {
-    "verification": {
+    "email-verification": {
         "from_address": "support-ellandi@cabinetoffice.gov.uk",
         "subject": "Cabinet Office Skills and Learning: confirm your email address",
         "template_name": "email/verification.txt",
         "url_path": "/signin/email/verify",
+        "token_generator": EMAIL_VERIFY_TOKEN_GENERATOR,
     },
     "password-reset": {
         "from_address": "support-ellandi@cabinetoffice.gov.uk",
         "subject": "Cabinet Office Skills and Learning: password reset",
         "template_name": "email/password-reset.txt",
         "url_path": "/signin/forgotten-password/reset",
+        "token_generator": PASSWORD_RESET_TOKEN_GENERATOR,
     },
 }
 
 
-def _send_token_email(user, subject, template_name, from_address, url_path):
+def _send_token_email(user, subject, template_name, from_address, url_path, token_generator):
     user.last_token_sent_at = datetime.datetime.now(tz=pytz.UTC)
     user.save()
-    token = TOKEN_GENERATOR.make_token(user)
+    token = token_generator.make_token(user)
     api_host_url = settings.HOST_URL.strip("/")
     web_host_url = settings.HOST_MAP[api_host_url]
     url = str(furl.furl(url=web_host_url, path=url_path, query_params={"code": token, "user_id": str(user.id)}))
     context = dict(user=user, url=url)
     body = render_to_string(template_name, context)
-    try:
-        response = send_mail(
-            subject=subject,
-            message=body,
-            from_email=from_address,
-            recipient_list=[user.email],
-        )
-    # FIXME: Remove me after pentest
-    except:  # noqa
-        response = {}
+    response = send_mail(
+        subject=subject,
+        message=body,
+        from_email=from_address,
+        recipient_list=[user.email],
+    )
     return response
 
 
 def send_verification_email(user):
-    data = EMAIL_MAPPING["verification"]
+    data = EMAIL_MAPPING["email-verification"]
     return _send_token_email(user, **data)
 
 
@@ -101,7 +106,7 @@ def me_send_verification_email_view(request):
 def verification_view(request, user_id, token):
     try:
         user = models.User.objects.get(id=user_id)
-        result = TOKEN_GENERATOR.check_token(user, token)
+        result = EMAIL_VERIFY_TOKEN_GENERATOR.check_token(user, token)
     except ObjectDoesNotExist:
         result = False
 
@@ -138,7 +143,7 @@ def password_reset_ask_view(request):
 def password_reset_use_view(request, user_id, token):
     new_password = request.data.get("new_password")
     user = models.User.objects.get(id=user_id)
-    result = TOKEN_GENERATOR.check_token(user, token)
+    result = PASSWORD_RESET_TOKEN_GENERATOR.check_token(user, token)
     if not result:
         raise exceptions.PasswordResetError
     user.set_password(new_password)
@@ -171,14 +176,20 @@ def password_change_view(request):
 
 
 @extend_schema(
+    methods=["GET"],
+    parameters=[
+        OpenApiParameter(name="type", location=OpenApiParameter.QUERY, required=False, type=str),
+    ],
     responses=serializers.IsValidSerializer,
 )
 @decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.AllowAny,))
 def check_token(request, user_id, token):
+    token_type = request.query_params.get("type", "password-reset")
+    token_generator = EMAIL_MAPPING[token_type]["token_generator"]
     try:
         user = models.User.objects.get(id=user_id)
     except ObjectDoesNotExist:
         return Response({"valid": False})
-    result = bool(TOKEN_GENERATOR.check_token(user, token))
+    result = bool(token_generator.check_token(user, token))
     return Response({"valid": result})

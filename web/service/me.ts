@@ -1,6 +1,7 @@
 import getConfig from 'next/config'
 const { publicRuntimeConfig } = getConfig()
 import { defaultError } from '@/service/auth'
+import { api } from '@/lib/data-utils'
 
 export const fetchMe = async (token: string) => {
   const res = await fetch(`${publicRuntimeConfig.apiUrl}/me/`, {
@@ -85,12 +86,67 @@ export const fetchMeLearningWork = async (token: string) => {
 }
 
 export const fetchMeLearning = async (token: string, params) => {
-  const res = await fetch(
-    `${publicRuntimeConfig.apiUrl}/me/learnings/?` + new URLSearchParams(params),
-    {
-      headers: { Authorization: `Token ${token}` }
-    }
-  )
+  const res = await api(token, '/me/learnings/', params)
+  return res.json()
+}
+
+export type Course = {
+  cost_pounds: number
+  course_type: string
+  duration_minutes: number
+  id: number
+  long_description: string
+  private: boolean
+  short_description: string
+  status: string
+  title: string
+}
+
+export type SkillGroup =
+  | 'all_skills'
+  | 'job_title_skills'
+  | 'popular_skills'
+  | 'profession_skills'
+  | 'skill_skills'
+
+export type RecommendedSkillBundleResponse = {
+  [key in SkillGroup]: string[]
+}
+
+export const fetchCourses = async (token: string, params) => {
+  const res = await api(token, '/courses/', params)
   if (res.ok) return res.json()
+}
+
+export const fetchRecommendedSkillBundle = async (
+  token: string
+): Promise<RecommendedSkillBundleResponse> => {
+  const res = await fetch(`${publicRuntimeConfig.apiUrl}/me/recommended-skill-bundle/`, {
+    headers: { Authorization: `Token ${token}` }
+  })
+
+  if (res.ok) {
+    const reponse = await res.json()
+
+    const computedResponse = Object.keys(reponse)
+      .filter((k) => k !== 'all_skills')
+      .reduce(
+        (acc, key) => {
+          const z = reponse[key].filter((x) => !acc.list.includes(x))
+          acc.list = [...acc.list, ...z]
+          acc.result[key as SkillGroup] = z
+          return acc
+        },
+        {
+          result: {},
+          list: []
+        }
+      )
+
+    return Promise.resolve({
+      ...computedResponse.result,
+      all_skills: reponse['all_skills']
+    } as RecommendedSkillBundleResponse)
+  }
   throw new Error(defaultError)
 }

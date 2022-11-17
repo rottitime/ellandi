@@ -1,0 +1,10 @@
+sentry-sdk
+scikit-learn
+sentence_transformers
+numpy
+scipy
+pandas
+SQLAlchemy
+psycopg2-binary
+django-environ
+furl

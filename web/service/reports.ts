@@ -1,11 +1,12 @@
-import { api as utilApi } from '@/lib/data-utils'
+import { api as utilApi, convertFilters, ParamsType } from '@/lib/data-utils'
 
 const urls = {
   skills: '/me/reports/skills/',
   languages: '/me/reports/languages/',
   responsibility: '/me/reports/responsibilities/',
   grade: '/me/reports/grades/',
-  learning: '/me/reports/learning/'
+  learning: '/me/reports/learning/',
+  responsibilityExport: '/me/reports/staff-overview/'
 }
 
 export const fetchReportSkills = async (token: string, params) => {
@@ -28,8 +29,8 @@ export const fetchReportGrade = async (token: string) => {
   return res.json()
 }
 
-export const fetchReportLearning = async (token: string) => {
-  const res = await api(token, urls.learning)
+export const fetchReportLearning = async (token: string, params) => {
+  const res = await api(token, urls.learning, params)
   return res.json()
 }
 
@@ -44,7 +45,7 @@ export const exportReportLanguages = async (token, params) => {
 }
 
 export const exportReportResponsibility = async (token, params) => {
-  const res = await api(token, urls.responsibility, { ...params })
+  const res = await api(token, urls.responsibilityExport, { ...params })
   return res.text()
 }
 
@@ -53,5 +54,5 @@ export const exportReportLearning = async (token, params) => {
   return res.text()
 }
 
-const api = (token: string, url: string, params?: URLSearchParams) =>
-  utilApi(token, url, undefined, params)
+const api = (token: string, url: string, params?: ParamsType) =>
+  utilApi(token, url, undefined, convertFilters(params))
