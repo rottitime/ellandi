@@ -16,7 +16,10 @@ const schema: SchemaOf<IsLineManagerInputs> = object().shape({
 
 const IsLineManagerForm: FC<StandardRegisterProps<IsLineManagerInputs>> = (props) => {
   const methods = useForm<IsLineManagerInputs>({
-    resolver: yupResolver(schema)
+    resolver: yupResolver(schema),
+    defaultValues: {
+      is_line_manager: ''
+    }
   })
 
   const { control } = methods

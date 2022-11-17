@@ -16,7 +16,10 @@ const schema: SchemaOf<IsMentorInputs> = object().shape({
 
 const IsMentorForm: FC<StandardRegisterProps<IsMentorInputs>> = (props) => {
   const methods = useForm<IsMentorInputs>({
-    resolver: yupResolver(schema)
+    resolver: yupResolver(schema),
+    defaultValues: {
+      is_mentor: ''
+    }
   })
 
   const { control } = methods
