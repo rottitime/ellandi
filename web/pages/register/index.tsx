@@ -2,7 +2,7 @@ import CreateAccountForm from '@/components/Form/Register/CreateAccountForm/Crea
 import CardLayout from '@/components/Layout/CardLayout/CardLayout'
 import { useUiContext } from '@/context/UiContext'
 import useAuth from '@/hooks/useAuth'
-import { Query } from '@/service/api'
+import { Query, RegisterUserResponse } from '@/service/api'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { useMutation, useQueryClient } from 'react-query'
@@ -16,7 +16,7 @@ const RegisterPage = () => {
   useEffect(() => () => setError(''), [setError])
 
   const { isLoading, ...mutate } = useMutation(createAndLogin, {
-    onSuccess: async (data) => {
+    onSuccess: async (data: RegisterUserResponse) => {
       queryClient.setQueryData(Query.Me, data)
       router.push(`/register/step/0`)
     },
