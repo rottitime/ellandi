@@ -159,6 +159,10 @@ const YourTeamPage = () => {
                             value: member.function_other || member.function
                           },
                           {
+                            name: 'Contract type',
+                            value: member.contract_type_other || member.contract_type
+                          },
+                          {
                             name: 'Line manager',
                             value: member.is_line_manager
                           },
