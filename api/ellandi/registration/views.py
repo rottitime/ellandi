@@ -669,3 +669,18 @@ def me_recommend_most_relevant_skills(request):
 
     combined_recommendations = recommend_bundled_skill_recommendations(user_skills, job_title, user_profession)
     return Response(data=combined_recommendations, status=status.HTTP_200_OK)
+
+
+@extend_schema(methods=["PATCH"], request=serializers.CourseSerializer(many=False))
+@decorators.api_view(["PATCH"])
+@decorators.permission_classes((permissions.IsAdminUser,))
+def add_course(request):
+    data = request.data
+    serializer = serializers.CourseSerializer(data=data)
+    if serializer.is_valid():
+        try:
+            serializer.save()
+        except ValidationError as error:
+            return Response(data={"detail": error.message}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

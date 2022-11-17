@@ -1,5 +1,6 @@
 import datetime
 import hashlib
+import json
 import uuid
 from base64 import b64encode
 
@@ -16,6 +17,17 @@ from ellandi.registration import initial_data
 
 def now():
     return datetime.datetime.now(tz=pytz.UTC)
+
+
+class JSONSerializer(json.JSONEncoder):
+    def default(self, o):
+        try:
+            iterable = iter(o)
+        except TypeError:
+            pass
+        else:
+            return list(iterable)
+        return json.JSONEncoder.default(self, o)
 
 
 def get_non_pending_skills():
@@ -363,6 +375,20 @@ class Course(models.Model):
         VIDEO = ("Video", "Video")
         MIXED = ("Mixed", "Mixed")
 
+    class Grade(models.TextChoices):
+        AA = ("AA", "AA")
+        AO = ("AO", "AO")
+        EO = ("EO", "EO")
+        G6 = ("G6", "G6")
+        G7 = ("G7", "G7")
+        HEO = ("HEO", "HEO")
+        PB1 = ("PB1", "PB1")
+        PB2 = ("PB2", "PB2")
+        PB3 = ("PB3", "PB3")
+        PS = ("PS", "PS")
+        SCS = ("SCS", "SCS")
+        SEO = ("SEO", "SEO")
+
     title = models.CharField(max_length=256, blank=True, null=True)
     short_description = models.CharField(max_length=1024, blank=True, null=True)
     long_description = models.TextField(blank=True, null=True)
@@ -371,3 +397,4 @@ class Course(models.Model):
     duration_minutes = models.PositiveSmallIntegerField(blank=True, null=True)
     private = models.BooleanField(blank=True, null=True)
     course_type = models.CharField(max_length=256, choices=CourseType.choices, blank=True, null=True)
+    grades = models.JSONField(default=list, encoder=JSONSerializer)
