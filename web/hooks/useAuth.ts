@@ -5,7 +5,7 @@ import {
   logoutUser,
   sendVerificationEmail
 } from '@/service/auth'
-import { AuthUser, RegisterUser } from '@/service/types'
+import { AuthUser, RegisterUser, RegisterUserResponse } from '@/service/types'
 import { defaultError } from '@/service/auth'
 import getConfig from 'next/config'
 
@@ -39,9 +39,9 @@ const useAuth = () => {
     }
   }
 
-  const createAndLogin = async (data: RegisterUser): Promise<AuthUser> => {
-    await createUser(data)
-    const userData = await login(data)
+  const createAndLogin = async (data: RegisterUser): Promise<RegisterUserResponse> => {
+    const userData = await createUser(data)
+    await login(data)
     sendEmailVerification()
     return userData
   }
