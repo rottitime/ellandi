@@ -34,10 +34,10 @@ jobs:
         if: success() || failure()
         run: ./cf login -a api.london.cloud.service.gov.uk -u "${{ secrets.CF_USER }}" -p "${{ secrets.CF_PASSWORD }}" -o co-i-ai -s "$CF_SPACE"
 
-      - name: Trigger 'Create Title Embeddings' api run
+      - name: Trigger 'Non prod Recommender App task' api run
         if: ${{ success() && matrix.environment != 'prod' || failure() && matrix.environment != 'prod' }}
         run: ./cf run-task ellandi-recommender-"$CF_SPACE" --command "cd /app/recommender && python recommend.py" -k 8G
 
-      - name: Trigger 'Create Title Embeddings' api run
+      - name: Trigger 'Prod Recommender App task' api run
         if: ${{ success() && matrix.environment == 'prod' || failure() && matrix.environment == 'prod' }}
         run: ./cf run-task ellandi-recommender --command "cd /app/recommender && python recommend.py" -k 8G
