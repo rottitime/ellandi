@@ -55,10 +55,12 @@ const ProfilePage = () => {
 
   const professions = useMemo(
     () =>
-      data?.professions.map((profession) => {
-        if (profession.toLowerCase() === 'other') return data.profession_other
-        return profession
-      }) || [],
+      data?.professions
+        .filter((profession) => profession !== data.primary_profession)
+        .map((profession) => {
+          if (profession.toLowerCase() === 'other') return data.profession_other
+          return profession
+        }) || [],
     [data]
   )
 
