@@ -2,7 +2,6 @@
 applications:
 - name: ellandi-develop
   services:
-  - ellandi-postgres-develop
   - scale-ellandi-develop
   routes:
   - route: ellandi-develop.london.cloudapps.digital
