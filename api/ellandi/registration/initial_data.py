@@ -3,7 +3,7 @@ from ellandi.registration.utils import reverse_dict_lists
 INITIAL_SKILLS = set(
     [
         "Accessibility",
-        "Agile and Lean practices",
+        "Agile and lean practices",
         "Agile working",
         "Agile working (content design)",
         "Analysis",
@@ -47,7 +47,7 @@ INITIAL_SKILLS = set(
         "Digital perspective",
         "Enabling and informing risk-based decisions",
         "Enterprise and business architecture",
-        "Evidence- and context-based design",
+        "Evidence-based and context-based design",
         "Experience of using tools and software",
         "Experience of working within constraints",
         "Facilitating decisions and risks",
