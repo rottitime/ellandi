@@ -90,6 +90,7 @@ const YourTeamPage = () => {
                                 {pending && (
                                   <Tooltip
                                     brandColor="brandSkills"
+                                    icon="circle-info-filled"
                                     sx={{ svg: { color: 'inherit' } }}
                                     title="Pending approval"
                                   />
