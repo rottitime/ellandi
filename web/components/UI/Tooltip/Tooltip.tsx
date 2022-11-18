@@ -14,6 +14,7 @@ const Tooltip: FC<Props> = ({
   placement = 'top',
   arrow = true,
   children,
+  icon = 'question',
   ...props
 }) => {
   const { colors } = useTheme()
@@ -38,7 +39,7 @@ const Tooltip: FC<Props> = ({
     >
       {children || (
         <IconButton>
-          <Icon icon="question" />
+          <Icon icon={icon} />
         </IconButton>
       )}
     </StyledTooltip>
