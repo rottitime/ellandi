@@ -47,7 +47,7 @@ const RegisterPage = ({ stepInt, nextUrl, backUrl, skip }: Props) => {
     Partial<RegisterUserResponse>
   >(async (data) => authFetch(updateUser, data), {
     onSuccess: async (data) => {
-      if (!!stepInt) queryClient.setQueryData(Query.Me, data)
+      queryClient.setQueryData(Query.Me, data)
       setError(null)
       router.push(nextUrl)
     },
