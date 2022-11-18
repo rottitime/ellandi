@@ -8,6 +8,7 @@ export const icons = {
   'circle-plus': dynamic(() => import('@/components/Icon/Icons/CirclePlus')),
   'circle-delete': dynamic(() => import('@/components/Icon/Icons/CircleDelete')),
   'circle-info': dynamic(() => import('@/components/Icon/Icons/InfoCircle')),
+  'circle-info-filled': dynamic(() => import('@/components/Icon/Icons/InfoCircleFilled')),
   'crown-logo': dynamic(() => import('@/components/Icon/Icons/CrownLogo')),
   crest: dynamic(() => import('@/components/Icon/Icons/Crest')),
   skills: dynamic(() => import('@/components/Icon/Icons/Skills')),
