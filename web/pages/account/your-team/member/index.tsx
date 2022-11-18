@@ -48,10 +48,12 @@ const YourTeamPage = () => {
 
   const professions = useMemo(() => {
     return (
-      member?.professions.map((profession) => {
-        if (profession.toLowerCase() === 'other') return member.profession_other
-        return profession
-      }) || []
+      member?.professions
+        .filter((profession) => profession !== member.primary_profession)
+        .map((profession) => {
+          if (profession.toLowerCase() === 'other') return member.profession_other
+          return profession
+        }) || []
     )
   }, [member])
 

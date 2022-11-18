@@ -37,6 +37,22 @@ describe('Page: Profile', () => {
     })
   })
 
+  it("hides 'primary profession' from proffession list", async () => {
+    fetchMock.mockResponses([
+      JSON.stringify({
+        ...mockMe,
+        professions: ['Audit', 'Train spotting', 'Management'],
+        primary_profession: 'Train spotting'
+      }),
+      { status: 200 }
+    ])
+
+    renderWithProviders(<ProfilePage />)
+    await waitFor(async () => {
+      expect(screen.getByText('Audit, Management')).toBeInTheDocument()
+    })
+  })
+
   it('renders other fields', async () => {
     const data: RegisterUserResponse = {
       ...mockMe,
