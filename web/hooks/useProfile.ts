@@ -7,9 +7,11 @@ import { updateUser } from '@/service/auth'
 export const useProfile = <T>({ callback }: { callback?: () => void }) => {
   const { authFetch } = useAuth()
 
-  const { data: userProfile, isLoading } = useQuery<RegisterUserResponse>(Query.Me, () =>
-    authFetch(fetchMe)
-  )
+  const {
+    data: userProfile,
+    isLoading,
+    isSuccess
+  } = useQuery<RegisterUserResponse>(Query.Me, () => authFetch(fetchMe))
 
   const { mutate } = useMutation<RegisterUserResponse, Error, T>(
     async (data: T) => await authFetch(updateUser, data),
@@ -23,6 +25,7 @@ export const useProfile = <T>({ callback }: { callback?: () => void }) => {
   return {
     mutate,
     isLoading,
+    isSuccess,
     userProfile
   }
 }
