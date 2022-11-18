@@ -10,6 +10,7 @@
     "check-types": "tsc --noemit",
     "test:watch": "DEBUG_PRINT_LIMIT=1000000 jest --watch",
     "test:all": "next lint && tsc --noemit && jest",
+    "test:coverage": "jest --coverage",
     "test": "jest",
     "storybook:dev": "start-storybook -p 6006",
     "storybook:build": "build-storybook",
