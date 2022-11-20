@@ -81,11 +81,15 @@ INSTALLED_APPS = [
     "knox",
     "drf_spectacular",
     "corsheaders",
-  "django.contrib.auth",
+    "django.contrib.auth",
 ]
 
 if DEBUG:
-    INSTALLED_APPS = INSTALLED_APPS + ["django.contrib.sessions",     "django.contrib.admin",   "django.contrib.messages",]
+    INSTALLED_APPS = INSTALLED_APPS + [
+        "django.contrib.sessions",
+        "django.contrib.admin",
+        "django.contrib.messages",
+    ]
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
@@ -98,11 +102,10 @@ MIDDLEWARE = [
 
 if DEBUG:
     MIDDLEWARE = MIDDLEWARE + [
-"django.contrib.sessions.middleware.SessionMiddleware",
-    "django.contrib.auth.middleware.AuthenticationMiddleware",
-"django.contrib.messages.middleware.MessageMiddleware",
-
-]
+        "django.contrib.sessions.middleware.SessionMiddleware",
+        "django.contrib.auth.middleware.AuthenticationMiddleware",
+        "django.contrib.messages.middleware.MessageMiddleware",
+    ]
 
 ROOT_URLCONF = "ellandi.urls"
 

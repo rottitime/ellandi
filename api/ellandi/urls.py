@@ -5,8 +5,6 @@ from ellandi import auth, reporting, verification
 from ellandi.debug import debug_view
 from ellandi.registration import views
 
-
-
 api_urlpatterns = [
     path("", include(views.registration_router.urls)),
     path("me/", views.me_view),
