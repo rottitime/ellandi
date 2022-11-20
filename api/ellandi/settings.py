@@ -84,12 +84,14 @@ INSTALLED_APPS = [
     "django.contrib.auth",
 ]
 
+SESSION_APPS = [
+    "django.contrib.sessions",
+    "django.contrib.admin",
+    "django.contrib.messages",
+]
+
 if DEBUG:
-    INSTALLED_APPS = INSTALLED_APPS + [
-        "django.contrib.sessions",
-        "django.contrib.admin",
-        "django.contrib.messages",
-    ]
+    INSTALLED_APPS = INSTALLED_APPS + SESSION_APPS
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
@@ -100,12 +102,14 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+SESSION_MIDDLEWARE = [
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+]
+
 if DEBUG:
-    MIDDLEWARE = MIDDLEWARE + [
-        "django.contrib.sessions.middleware.SessionMiddleware",
-        "django.contrib.auth.middleware.AuthenticationMiddleware",
-        "django.contrib.messages.middleware.MessageMiddleware",
-    ]
+    MIDDLEWARE = MIDDLEWARE + SESSION_MIDDLEWARE
 
 ROOT_URLCONF = "ellandi.urls"
 
