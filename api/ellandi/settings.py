@@ -75,16 +75,17 @@ CORS_ALLOWED_ORIGINS = (HOST_URL, HOST_MAP[HOST_URL])
 INSTALLED_APPS = [
     "whitenoise.runserver_nostatic",
     "ellandi.registration",
-    "django.contrib.admin",
-    "django.contrib.auth",
     "django.contrib.contenttypes",
-    "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
     "knox",
     "drf_spectacular",
     "corsheaders",
+  "django.contrib.auth",
 ]
+
+if DEBUG:
+    INSTALLED_APPS = INSTALLED_APPS + ["django.contrib.sessions",     "django.contrib.admin",   "django.contrib.messages",]
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
@@ -92,9 +93,15 @@ MIDDLEWARE = [
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
-    "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+]
+
+if DEBUG:
+    MIDDLEWARE = MIDDLEWARE + [
+"django.contrib.sessions.middleware.SessionMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+"django.contrib.messages.middleware.MessageMiddleware",
+
 ]
 
 ROOT_URLCONF = "ellandi.urls"

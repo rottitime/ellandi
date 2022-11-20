@@ -1,15 +1,11 @@
 from django.conf import settings
-from django.contrib import admin
 from django.urls import include, path
-from drf_spectacular.views import (
-    SpectacularAPIView,
-    SpectacularRedocView,
-    SpectacularSwaggerView,
-)
 
 from ellandi import auth, reporting, verification
 from ellandi.debug import debug_view
 from ellandi.registration import views
+
+
 
 api_urlpatterns = [
     path("", include(views.registration_router.urls)),
@@ -56,16 +52,6 @@ api_debug_urlpatterns = [
     path("debug/", debug_view),
 ]
 
-schema_urlpatterns = [
-    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
-    path("api/schema/swagger-ui/", SpectacularSwaggerView.as_view(url_name="schema")),
-    path("api/schema/redoc/", SpectacularRedocView.as_view(url_name="schema")),
-]
-
-admin_urlpatterns = [
-    path("admin/", admin.site.urls),
-]
-
 auth_urlpatterns = [
     path(r"login/", auth.LoginView.as_view()),
     path(r"logout/", auth.LogoutView.as_view()),
@@ -74,5 +60,24 @@ auth_urlpatterns = [
 
 urlpatterns = [path("api/", include(api_urlpatterns + auth_urlpatterns))]
 
+
 if settings.DEBUG:
+
+    from django.contrib import admin
+    from drf_spectacular.views import (
+        SpectacularAPIView,
+        SpectacularRedocView,
+        SpectacularSwaggerView,
+    )
+
+    schema_urlpatterns = [
+        path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+        path("api/schema/swagger-ui/", SpectacularSwaggerView.as_view(url_name="schema")),
+        path("api/schema/redoc/", SpectacularRedocView.as_view(url_name="schema")),
+    ]
+
+    admin_urlpatterns = [
+        path("admin/", admin.site.urls),
+    ]
+
     urlpatterns = urlpatterns + [path("api/", include(api_debug_urlpatterns))] + schema_urlpatterns + admin_urlpatterns
