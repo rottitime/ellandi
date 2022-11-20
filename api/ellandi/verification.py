@@ -3,7 +3,6 @@ import datetime
 import furl
 import pytz
 from django.conf import settings
-from django.contrib.auth import login
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import send_mail
@@ -113,7 +112,7 @@ def verification_view(request, user_id, token):
     if result:
         user.verified = True
         user.save()
-        login(request, user)
+        request._request.user = user
         return auth.LoginView().post(request._request, format=None)
     else:
         return Response({"detail": "Invalid token"}, status=status.HTTP_400_BAD_REQUEST)
@@ -148,7 +147,7 @@ def password_reset_use_view(request, user_id, token):
         raise exceptions.PasswordResetError
     user.set_password(new_password)
     user.save()
-    login(request, user)
+    request.user = user
     user_data = serializers.UserSerializer(user, context={"request": request}).data
     return Response(user_data)
 
@@ -168,7 +167,7 @@ def password_change_view(request):
     if user.check_password(old_password):
         user.set_password(new_password)
         user.save()
-        login(request, user)
+        request.user = user
         user_data = serializers.UserSerializer(user, context={"request": request}).data
         return Response(user_data)
     else:
