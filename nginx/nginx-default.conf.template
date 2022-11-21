@@ -58,6 +58,12 @@ server {
     proxy_set_header Host $http_host;
     proxy_cache_bypass $http_upgrade;
     proxy_redirect off;
+    add_header X-Frame-Options "DENY";
+    add_header X-Content-Type-Options "nosniff";
+    add_header X-XSS-Protection "1; mode=block";
+    add_header Referrer-Policy "strict-origin-when-cross-origin";
+    add_header Strict-Transport-Security "max-age=86400; includeSubDomain";
+    add_header Content-Security-Policy "default-src 'self'; style-src 'unsafe-inline'; font-src https://*.gstatic.com/";
   }
 
 }
