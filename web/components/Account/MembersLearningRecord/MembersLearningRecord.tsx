@@ -2,7 +2,7 @@ import Chip from '@/components/Chip/Chip'
 import SkeletonTable from '@/components/UI/Skeleton/TableSkeleton'
 import useAuth from '@/hooks/useAuth'
 import { MeLearningRecord, Query } from '@/service/api'
-import { Alert, Grid } from '@mui/material'
+import { Alert, Grid, Typography } from '@mui/material'
 import { useQuery } from 'react-query'
 import LearningDistribution from '../LearningDistribution/LearningDistribution'
 import LearningGoalBar from '../LearningGoalBar/LearningGoalBar'
@@ -54,6 +54,11 @@ const MembersLearningRecord = ({ id }: Props) => {
             initialLoading={isLoading}
             loading={isFetching}
             hideFooterPagination
+            noRowContent={
+              <Typography variant="body2" data-testid="empty-rows">
+                No learning has been added
+              </Typography>
+            }
             initialState={{
               sorting: {
                 sortModel: [{ field: 'learning_type', sort: 'desc' }]
