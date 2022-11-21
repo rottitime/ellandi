@@ -68,8 +68,6 @@ HOST_MAP = {
     "http://localhost:8000": "http://localhost:3000",
 }
 
-CORS_ALLOWED_ORIGINS = (HOST_URL, HOST_MAP[HOST_URL])
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -80,7 +78,6 @@ INSTALLED_APPS = [
     "rest_framework",
     "knox",
     "drf_spectacular",
-    "corsheaders",
     "django.contrib.auth",
 ]
 
@@ -94,7 +91,6 @@ if DEBUG:
     INSTALLED_APPS = INSTALLED_APPS + SESSION_APPS
 
 MIDDLEWARE = [
-    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.middleware.common.CommonMiddleware",
