@@ -86,7 +86,6 @@ const AccountLayout: FC<Props> = ({
             <Box className="navigation-section">
               <AppBar
                 sx={{ mt: 4 }}
-                logoUrl={urls.landingSignin}
                 settingsTip={data?.fullname}
                 pages={[
                   { title: 'Home', url: urls.landingSignin },
