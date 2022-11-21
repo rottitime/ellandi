@@ -76,6 +76,7 @@ const YourTeamPage = () => {
                 title: 'Skills',
                 content: (
                   <Table
+                    noRowContent="No skills have been added"
                     headers={[{ children: 'Skill' }, { children: 'Skill level' }]}
                     list={[
                       ...member.skills.map<TableCellProps[]>(

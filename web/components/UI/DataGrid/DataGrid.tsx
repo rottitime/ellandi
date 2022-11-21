@@ -29,6 +29,7 @@ const StyledGrid = styled(MuiDataGrid)<Props>`
 
   .MuiDataGrid-cell {
     border-color: ${(p) => p.theme.colors.grey2};
+    padding: ${(p) => p.theme.spacing(3)};
   }
 
   .MuiDataGrid-columnHeader,
