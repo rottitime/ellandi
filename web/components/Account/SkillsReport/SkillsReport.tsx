@@ -266,7 +266,7 @@ const SkillsReport: FC<Props> = (props) => {
               onRowClick={({ row }) => setDialog(row)}
               rows={data?.data || []}
               getRowId={(row) => row.name}
-              headerHeight={80}
+              getRowHeight={() => 'auto'}
               autoHeight
               loading={isFetching}
               initialState={{
@@ -372,7 +372,7 @@ const columns: GridColDef<ReportSkillsData>[] = [
     resizable: false,
     renderCell: ({ row }) => <Chip label={row.skill_develop_label} />,
     flex: 1,
-    maxWidth: 286
+    maxWidth: 375
   },
   {
     field: 'chart',
