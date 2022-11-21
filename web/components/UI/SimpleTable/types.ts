@@ -8,4 +8,5 @@ export type Props = {
   headers?: DataRow[]
   list: DataRow[][]
   children?: ReactNode
+  noRowContent?: string
 }

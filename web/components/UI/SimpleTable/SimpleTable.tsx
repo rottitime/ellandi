@@ -8,6 +8,7 @@ import {
   TableHead
 } from '@mui/material'
 import { FC } from 'react'
+import Typography from '../Typography/Typography'
 import { Props } from './types'
 
 const Table = styled(MuiTable)`
@@ -21,10 +22,26 @@ const Table = styled(MuiTable)`
   }
 `
 
-const SimpleTable: FC<Props> = ({ list = [], headers, loading, children, ...props }) =>
-  loading ? (
-    <TableSkeleton />
-  ) : (
+const SimpleTable: FC<Props> = ({
+  list = [],
+  headers,
+  loading,
+  children,
+  noRowContent,
+  ...props
+}) => {
+  const hasItems = Array.isArray(list) && !!list.length
+
+  if (loading) return <TableSkeleton />
+
+  if (!!noRowContent && !hasItems)
+    return (
+      <Typography variant="body2" data-testid="simpletable-empty-rows">
+        {noRowContent}
+      </Typography>
+    )
+
+  return (
     <Table size="small" {...props}>
       {headers && (
         <TableHead>
@@ -49,6 +66,7 @@ const SimpleTable: FC<Props> = ({ list = [], headers, loading, children, ...prop
       </TableBody>
     </Table>
   )
+}
 
 export default SimpleTable
 export * from './types'
