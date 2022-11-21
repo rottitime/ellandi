@@ -18,6 +18,7 @@ import Form from '@/components/Form/Register/FormRegister/FormRegister'
 import Link from '@/components/UI/Link'
 import getConfig from 'next/config'
 import { schema as defaultSchema, minPassword } from '@/lib/schema'
+import { useQueryClient } from 'react-query'
 const {
   publicRuntimeConfig: { urls }
 } = getConfig()
@@ -40,9 +41,12 @@ const schema: SchemaOf<CreateAccountType> = object().shape({
 
 const CreateAccountForm: FC<StandardRegisterProps<CreateAccountType>> = (props) => {
   const { logout, hasToken } = useAuth()
+  const queryClient = useQueryClient()
 
   useEffect(() => {
     hasToken() && logout()
+    queryClient.invalidateQueries()
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
