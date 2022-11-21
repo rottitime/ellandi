@@ -16,3 +16,4 @@ scipy
 pandas
 faker
 djangorestframework-csv
+django-cors-headers
