@@ -9,8 +9,8 @@ export default class MyDocument extends Document {
       <Html lang="en">
         <Head>
           <meta name="theme-color" content={theme.palette.primary.main} />
-          <link rel="icon" href="/images/favicon.ico" sizes="any" />
-          <link rel="icon" href="/images/favicon.svg" type="image/svg+xml" />
+          <link rel="icon" href="/images/favicon.ico?v=0" sizes="any" />
+          <link rel="icon" href="/images/favicon.svg?v=0" type="image/svg+xml" />
           <meta charSet="UTF-8" />
           <link
             href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;0,700;1,500;1,700&display=swap"

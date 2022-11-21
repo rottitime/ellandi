@@ -48,10 +48,12 @@ const YourTeamPage = () => {
 
   const professions = useMemo(() => {
     return (
-      member?.professions.map((profession) => {
-        if (profession.toLowerCase() === 'other') return member.profession_other
-        return profession
-      }) || []
+      member?.professions
+        .filter((profession) => profession !== member.primary_profession)
+        .map((profession) => {
+          if (profession.toLowerCase() === 'other') return member.profession_other
+          return profession
+        }) || []
     )
   }, [member])
 
@@ -90,6 +92,7 @@ const YourTeamPage = () => {
                                 {pending && (
                                   <Tooltip
                                     brandColor="brandSkills"
+                                    icon="circle-info-filled"
                                     sx={{ svg: { color: 'inherit' } }}
                                     title="Pending approval"
                                   />
@@ -157,6 +160,10 @@ const YourTeamPage = () => {
                           {
                             name: 'Function',
                             value: member.function_other || member.function
+                          },
+                          {
+                            name: 'Contract type',
+                            value: member.contract_type_other || member.contract_type
                           },
                           {
                             name: 'Line manager',

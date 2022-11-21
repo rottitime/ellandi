@@ -53,10 +53,13 @@ describe('Hook: useAuth', () => {
       [JSON.stringify(response), { status: 200 }]
     )
     const { result } = renderHook(() => useAuth())
-    result.current.createAndLogin({ email: 'string', password: 'string' })
+    const userData = await result.current.createAndLogin({
+      email: 'string',
+      password: 'string'
+    })
 
-    expect(fetchMock.mock.calls.length).toEqual(1)
     await waitFor(() => expect(sendVerificationEmail).toHaveBeenCalled())
+    expect(userData).toEqual(expect.objectContaining(mockMe))
   })
 
   describe('logout', () => {

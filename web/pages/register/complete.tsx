@@ -5,6 +5,8 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import FooterButtons from '@/components/UI/FooterButtons/FooterButtons'
 import router from 'next/router'
 import getConfig from 'next/config'
+import { useProfile } from '@/hooks/useProfile'
+import { RegisterUserResponse } from '@/service/types'
 
 const { publicRuntimeConfig } = getConfig()
 
@@ -18,6 +20,8 @@ const Title = styled(Box)`
 `
 
 const RegisterPage = () => {
+  const { userProfile: data, isSuccess } = useProfile<RegisterUserResponse>({})
+
   return (
     <>
       <Typography gutterBottom>
@@ -32,7 +36,15 @@ const RegisterPage = () => {
         <Button color="tertiary" size="small" onClick={() => router.back()}>
           Back
         </Button>
-        <Button href={publicRuntimeConfig.urls.landingSignin} variant="contained">
+
+        <Button
+          href={
+            publicRuntimeConfig.enableEmailVerify && isSuccess && !data?.verified
+              ? publicRuntimeConfig.urls.emailConfirm
+              : publicRuntimeConfig.urls.landingSignin
+          }
+          variant="contained"
+        >
           Finish
         </Button>
       </FooterButtons>

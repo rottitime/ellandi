@@ -55,10 +55,12 @@ const ProfilePage = () => {
 
   const professions = useMemo(
     () =>
-      data?.professions.map((profession) => {
-        if (profession.toLowerCase() === 'other') return data.profession_other
-        return profession
-      }) || [],
+      data?.professions
+        .filter((profession) => profession !== data.primary_profession)
+        .map((profession) => {
+          if (profession.toLowerCase() === 'other') return data.profession_other
+          return profession
+        }) || [],
     [data]
   )
 
@@ -83,32 +85,30 @@ const ProfilePage = () => {
   ) => (
     <Table
       list={[
-        ...list
-          .filter(({ name, value }) => !(name == 'Primary profession' && !value))
-          .map<TableCellProps[]>(({ name, value, form }) => [
-            { children: name, component: 'th' },
-            { children: <Typography variant="body2">{value}</Typography> },
-            {
-              children: !!form ? (
-                <IconButton
-                  color="primary"
-                  aria-label="edit"
-                  component="label"
-                  data-testid={`edit-button-${name}`}
-                  sx={{ color: 'text.primary' }}
-                  onClick={() => {
-                    setActiveModal({
-                      form,
-                      name
-                    })
-                  }}
-                >
-                  <Icon icon="pencil" />
-                </IconButton>
-              ) : null,
-              align: 'right'
-            }
-          ])
+        ...list.map<TableCellProps[]>(({ name, value, form }) => [
+          { children: name, component: 'th' },
+          { children: <Typography variant="body2">{value}</Typography> },
+          {
+            children: !!form ? (
+              <IconButton
+                color="primary"
+                aria-label="edit"
+                component="label"
+                data-testid={`edit-button-${name}`}
+                sx={{ color: 'text.primary' }}
+                onClick={() => {
+                  setActiveModal({
+                    form,
+                    name
+                  })
+                }}
+              >
+                <Icon icon="pencil" />
+              </IconButton>
+            ) : null,
+            align: 'right'
+          }
+        ])
       ]}
     />
   )
