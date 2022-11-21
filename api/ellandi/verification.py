@@ -25,7 +25,8 @@ def _strip_microseconds(dt):
 class EmailVerifyTokenGenerator(PasswordResetTokenGenerator):
     def _make_hash_value(self, user, timestamp):
         email = user.email or ""
-        return f"{user.pk}{user.password}{timestamp}{email}"
+        token_timestamp = _strip_microseconds(user.last_token_sent_at)
+        return f"{user.pk}{user.password}{timestamp}{email}{token_timestamp}"
 
 
 class PasswordResetTokenGenerator(PasswordResetTokenGenerator):
