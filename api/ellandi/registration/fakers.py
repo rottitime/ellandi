@@ -2,7 +2,7 @@ import random
 
 import faker
 
-from . import models, initial_data
+from . import initial_data, models
 
 fake = faker.Faker()
 
@@ -24,7 +24,6 @@ def make_fake_course():
 def make_bool(true=1, false=1):
     choices = (True,) * true + (False,) * false
     return random.choice(choices)
-
 
 
 def _get_random_object_name(model_name):
@@ -97,7 +96,7 @@ def make_user_skill(name, develop=False):
 
 def save_skill(user, skill_name, develop=False):
     skill_data = make_user_skill(skill_name, develop=develop)
-    if not models.UserSkill.objects.filter(user=user, name=skill_data['name']).exists():
+    if not models.UserSkill.objects.filter(user=user, name=skill_data["name"]).exists():
         user_skill = models.UserSkill(user=user, **skill_data)
         user_skill.save()
 

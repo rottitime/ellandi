@@ -84,7 +84,9 @@ INSTALLED_APPS = [
     "django.contrib.auth",
 ]
 
-CORS_APPS = ["corsheaders",]
+CORS_APPS = [
+    "corsheaders",
+]
 
 SESSION_APPS = [
     "django.contrib.sessions",
