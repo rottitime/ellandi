@@ -89,7 +89,7 @@ def recommend_bundled_skill_recommendations(skills, job_title, profession):
 
     similar_job_skills = sort_most_common((*profession_skills, *all_job_skills))
 
-    all_skills = sort_most_common(                (*profession_skills, *unique_skill_recommendations, *all_job_skills, *popular_skills))
+    all_skills = sort_most_common((*profession_skills, *unique_skill_recommendations, *all_job_skills, *popular_skills))
 
     data = {
         "profession_skills": profession_skills,
