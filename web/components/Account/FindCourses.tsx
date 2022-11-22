@@ -67,6 +67,8 @@ const toHoursAndMinutes = (totalMinutes: number) => {
 }
 
 const CourseCard = ({ course }: { course: Course }) => {
+  const duration = toHoursAndMinutes(course.duration_minutes)
+
   return (
     <Box
       component={'article'}
@@ -87,19 +89,33 @@ const CourseCard = ({ course }: { course: Course }) => {
       <Box gap={'4px'} display="flex" flexDirection={'column'}>
         <Box display={'flex'} gap={'8px'}>
           <SchoolRoundedIcon />
-          <Typography variant="body2">{course.course_type}</Typography>
+          <Typography variant="body2">
+            {!!course.course_type ? course.course_type : '-'}
+          </Typography>
         </Box>
 
         <Box display={'flex'} gap={'8px'}>
           <WatchLaterRoundedIcon />
 
           <Typography variant="body2">
-            {formatDuration(toHoursAndMinutes(course.duration_minutes))}
+            {!!course.duration_minutes ? formatDuration(duration) : '-'}
           </Typography>
         </Box>
         <Box display={'flex'} gap={'8px'}>
-          <CurrencyPoundRoundedIcon />
-          <Typography variant="body2">£{course.cost_pounds} (ex VAT)</Typography>
+          <CurrencyPoundRoundedIcon
+            style={{
+              color: '#fff',
+              backgroundColor: '#000',
+              borderRadius: '50%',
+              padding: '5px',
+              width: '20px',
+              height: '20px',
+              margin: '0 2px'
+            }}
+          />
+          <Typography variant="body2">
+            £{!!course.cost_pounds ? course.cost_pounds : '-'} (ex VAT)
+          </Typography>
         </Box>
       </Box>
 
