@@ -11,11 +11,6 @@ const StyledDatePicker = styled(MuiDatePicker)<Props>`
       border-color: ${(p) => p.theme.colors.red};
     }
   }
-
-  .PrivatePickersFadeTransitionGroup-root {
-    font-size: 16px;
-    border: 10px solid red;
-  }
 `
 
 const DatePicker = forwardRef<HTMLInputElement, Props>(
@@ -34,9 +29,7 @@ const DatePicker = forwardRef<HTMLInputElement, Props>(
         {...props}
         value={value}
         PopperProps={{
-          sx: {
-            '.PrivatePickersFadeTransitionGroup-root': { fontSize: 16 }
-          }
+          sx: { '.MuiPickersCalendarHeader-label': { fontSize: 16 } }
         }}
         className={error ? 'error' : ''}
         inputRef={ref}
