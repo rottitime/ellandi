@@ -6,6 +6,10 @@ from ellandi.registration.initial_data import DDAT_JOB_TO_SKILLS_LOOKUP
 from ellandi.registration.models import RecommendedSkill, UserSkill
 
 
+def sort_most_common(skills):
+    return tuple((k for k, v in collections.Counter(skills).most_common()))
+
+
 def recommend_skill_from_skill(existing_skill):
     """Given an existing skill, queries the pre-baked recommendations from the database"""
 
@@ -70,7 +74,7 @@ def recommend_bundled_skill_recommendations(skills, job_title, profession):
         recommend_skill for skill in skills for recommend_skill in recommend_skill_from_skill(skill)
     )
 
-    unique_skill_recommendations = tuple(k for k, v in collections.Counter(all_skill_recommended_skills).most_common())
+    unique_skill_recommendations = sort_most_common(all_skill_recommended_skills)
 
     job_title_skills = tuple(recommend_title_from_job_title(job_title))
 
@@ -83,16 +87,9 @@ def recommend_bundled_skill_recommendations(skills, job_title, profession):
 
     popular_skills = tuple(recommend_popular_skills())
 
-    similar_job_skills = tuple((k for k, v in collections.Counter((*profession_skills, *all_job_skills)).most_common()))
+    similar_job_skills = sort_most_common((*profession_skills, *all_job_skills))
 
-    all_skills = tuple(
-        (
-            k
-            for k, v in collections.Counter(
-                (*profession_skills, *unique_skill_recommendations, *all_job_skills, *popular_skills)
-            ).most_common()
-        )
-    )
+    all_skills = sort_most_common(                (*profession_skills, *unique_skill_recommendations, *all_job_skills, *popular_skills))
 
     data = {
         "profession_skills": profession_skills,
