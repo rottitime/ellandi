@@ -47,6 +47,7 @@ class UserAdmin(django.contrib.auth.admin.UserAdmin):
                     "id",
                     "is_staff",
                     "is_superuser",
+                    "verified",
                     "email",
                     "privacy_policy_agreement",
                     "first_name",
