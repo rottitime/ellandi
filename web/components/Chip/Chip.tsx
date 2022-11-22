@@ -17,7 +17,6 @@ const StyledChip = styled(MuiChip, config)<Props>`
     color: ${(p) => p.theme.colors.white};
     //prevent light color on light bg
     &.grey1,
-    &.grey3,
     &.green2 {
       color: ${(p) => p.theme.colors.black};
     }
