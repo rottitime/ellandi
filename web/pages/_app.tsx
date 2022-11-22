@@ -10,7 +10,7 @@ import { AppProps } from 'next/app'
 import { NextPage } from 'next'
 import LocalizationProvider from '@/components/LocalizationProvider/LocalizationProvider'
 import { title } from '@/content'
-
+import 'style/fonts.css'
 interface MyAppProps extends AppProps<{ dehydratedState: DehydratedState }> {
   emotionCache?: EmotionCache
   pageProps
