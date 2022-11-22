@@ -36,7 +36,7 @@ const MembersLearningRecord = ({ id }: Props) => {
           <Grid container spacing={5} sx={{ mb: 5 }}>
             <Grid item xs={6}>
               <LearningDistribution
-                description="Data based on the current financial year so for"
+                description="Data based on the current financial year so far"
                 barData={data?.distribution}
               />
             </Grid>

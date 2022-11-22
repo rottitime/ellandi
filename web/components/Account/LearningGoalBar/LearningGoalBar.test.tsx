@@ -108,9 +108,17 @@ describe('LearningGoalBar', () => {
   describe('fetch disabled', () => {
     it('no fill', async () => {
       renderWithProviders(<LearningGoalBar disableFetch days={0} percentage={0} />)
-      await waitFor(async () => {
-        expect(screen.getByTestId('stat')).toHaveTextContent('0 days (0%)')
-      })
+      expect(screen.getByTestId('stat')).toHaveTextContent('0 days (0%)')
+    })
+
+    it('value changes', async () => {
+      const { rerender } = await renderWithProviders(
+        <LearningGoalBar disableFetch days={1} percentage={21} />
+      )
+      expect(screen.getByTestId('stat')).toHaveTextContent('1 day (21%)')
+
+      await rerender(<LearningGoalBar disableFetch days={13} percentage={7} />)
+      expect(screen.getByTestId('stat')).toHaveTextContent('13 days (7%)')
     })
   })
 })

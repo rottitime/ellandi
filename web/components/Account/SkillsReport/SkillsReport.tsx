@@ -251,12 +251,12 @@ const SkillsReport: FC<Props> = (props) => {
               />
               <Select
                 label="Select business unit(s)"
-                defaultValue={filters?.business_unit || []}
+                defaultValue={filters?.business_units || []}
                 data={asStringList(businessUnits)}
                 onChange={(e) =>
                   setFilters((p) => ({
                     ...p,
-                    business_unit: e.target.value as string[]
+                    business_units: e.target.value as string[]
                   }))
                 }
                 checkboxes

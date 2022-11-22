@@ -64,9 +64,9 @@ export const renderWithProviders = async (
     options
   )
   return {
-    ...rendered
-    // rerender: (ui, options) =>
-    //   renderWithProviders(ui, { container: rendered.container, ...options })
+    ...rendered,
+    rerender: (ui, options: Omit<RenderOptions, 'queries'> = {}) =>
+      renderWithProviders(ui, { container: rendered.container, ...options })
   }
 }
 
