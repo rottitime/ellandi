@@ -59,6 +59,9 @@ const Card = styled(AccountCard)`
 const Pane = styled(Box)`
   display: flex;
   gap: ${(p) => p.theme.spacing(3)};
+  .chart {
+    max-width: 400px;
+  }
 `
 
 const userOptions: UserOptions = [
@@ -294,7 +297,7 @@ const SkillsReport: FC<Props> = (props) => {
             </Typography>
             <Pane>
               {chartValues.find(({ valuePercentage }) => dialog[valuePercentage] > 0) && (
-                <Box>
+                <Box className="chart">
                   <Chart
                     colors={chartValues.map(({ color }) => color)}
                     data={{
