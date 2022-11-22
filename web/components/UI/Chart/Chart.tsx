@@ -16,29 +16,29 @@ const ChartPlaceholder = styled('div')`
   .c3-tooltip {
     border-collapse: collapse;
     border-spacing: 0;
-    background-color: #fff;
+    background-color: ${(p) => p.theme.colors.white};
     empty-cells: show;
-    box-shadow: 7px 7px 12px -9px #777777;
+    box-shadow: 7px 7px 12px -9px ${(p) => p.theme.colors.grey1};
     opacity: 0.9;
   }
 
   .c3-tooltip tr {
-    border: 1px solid #ccc;
+    border: 1px solid ${(p) => p.theme.colors.grey2};
   }
 
   .c3-tooltip th {
-    background-color: #aaa;
     font-size: 14px;
     padding: 2px 5px;
     text-align: left;
-    color: #fff;
+    color: ${(p) => p.theme.colors.white};
   }
 
   .c3-tooltip td {
     font-size: 13px;
     padding: 3px 6px;
-    background-color: #fff;
-    border-left: 1px dotted #999;
+    background-color: ${(p) => p.theme.colors.white};
+    border-left: 1px dotted ${(p) => p.theme.colors.grey2};
+    white-space: nowrap;
   }
 
   .c3-tooltip td > span {
