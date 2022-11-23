@@ -177,7 +177,7 @@ const ProfilePage = () => {
         {renderTable([
           {
             name: 'Name',
-            value: `${data.first_name} ${data.last_name}`
+            value: `${data.first_name || ''} ${data.last_name || ''}`
           },
           { name: 'Job title', value: data.job_title },
           { name: 'Business unit', value: data.business_unit },
