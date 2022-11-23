@@ -48,13 +48,15 @@ const useAuth = () => {
     return userData
   }
 
-  const invalidate = () => sessionStorage.removeItem(TOKEN_KEY)
+  const invalidate = () => {
+    sessionStorage.removeItem(TOKEN_KEY)
+    queryClient.removeQueries()
+  }
 
   const logout = async (): Promise<boolean> => {
     const token = sessionStorage.getItem(TOKEN_KEY)
     invalidate()
     if (token) logoutUser(token)
-    queryClient.invalidateQueries()
 
     return true
   }
