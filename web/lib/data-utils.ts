@@ -28,7 +28,9 @@ export const professionsDisplayText = (
   return {
     primary_profession,
     professions: professions
-      .filter((profession) => profession !== primaryProfession)
+      .filter(
+        (profession) => ![primary_profession, primaryProfession].includes(profession)
+      )
       .map((profession) => {
         if (profession.toLowerCase() === 'other') return professionOther
         return profession

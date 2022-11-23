@@ -87,5 +87,26 @@ describe('professionsDisplayText()', () => {
       primary_profession: 'My other text',
       professions: 'Cook, Footballer'
     })
+
+    expect(
+      professionsDisplayText(
+        'Other',
+        [
+          'Counter fraud',
+          'Knowledge and information management',
+          'International trade',
+          'Science and engineering',
+          'Policy',
+          'Veterinary',
+          'my other work',
+          'invalid random stuff'
+        ],
+        'invalid random stuff'
+      )
+    ).toEqual({
+      primary_profession: 'invalid random stuff',
+      professions:
+        'Counter fraud, Knowledge and information management, International trade, Science and engineering, Policy, Veterinary, my other work'
+    })
   })
 })
