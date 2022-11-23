@@ -1,4 +1,9 @@
-import { sortWithOrder, asStringList, convertFilters } from './data-utils'
+import {
+  sortWithOrder,
+  asStringList,
+  convertFilters,
+  professionsDisplayText
+} from './data-utils'
 
 describe('sortWithOrder()', () => {
   it('is same order', () => {
@@ -37,5 +42,50 @@ describe('convertFilters()', () => {
   it('empty', () => {
     expect(convertFilters(null)).toBeNull()
     expect(convertFilters({})).toEqual({})
+  })
+})
+
+describe('professionsDisplayText()', () => {
+  it('returns data', () => {
+    expect(professionsDisplayText('Agent', ['Cook', 'Footballer'])).toEqual({
+      primary_profession: 'Agent',
+      professions: 'Cook, Footballer'
+    })
+  })
+
+  it('removes primary professions from professions', () => {
+    expect(professionsDisplayText('Agent', ['Cook', 'Agent', 'Footballer'])).toEqual({
+      primary_profession: 'Agent',
+      professions: 'Cook, Footballer'
+    })
+  })
+
+  it('returns empty string', () => {
+    expect(professionsDisplayText('Agent', [])).toEqual({
+      primary_profession: 'Agent',
+      professions: ''
+    })
+    expect(professionsDisplayText('Agent')).toEqual({
+      primary_profession: 'Agent',
+      professions: ''
+    })
+  })
+
+  it('replaces other text in professions', () => {
+    expect(
+      professionsDisplayText('Agent', ['Cook', 'Other', 'Footballer'], 'My other text')
+    ).toEqual({
+      primary_profession: 'Agent',
+      professions: 'Cook, My other text, Footballer'
+    })
+  })
+
+  it('replaces other text in primary professions', () => {
+    expect(
+      professionsDisplayText('Other', ['Cook', 'Other', 'Footballer'], 'My other text')
+    ).toEqual({
+      primary_profession: 'My other text',
+      professions: 'Cook, Footballer'
+    })
   })
 })

@@ -14,6 +14,29 @@ export const sortWithOrder = (a: number, b: number): number => {
 
 export const asStringList = (data: GenericDataList[]) => data.map(({ name }) => name)
 
+export const professionsDisplayText = (
+  primaryProfession: string,
+  professions: string[] = [],
+  professionOther?: string
+): {
+  primary_profession: string
+  professions: string
+} => {
+  const primary_profession =
+    primaryProfession.toLowerCase() === 'other' ? professionOther : primaryProfession
+
+  return {
+    primary_profession,
+    professions: professions
+      .filter((profession) => profession !== primaryProfession)
+      .map((profession) => {
+        if (profession.toLowerCase() === 'other') return professionOther
+        return profession
+      })
+      .join(', ')
+  }
+}
+
 export const csvDownload = (data: string, filename): void => {
   const href = encodeURI('data:text/csv;charset=utf-8,' + data)
   const hiddenElement = document.createElement('a')
