@@ -13,6 +13,7 @@ import Tooltip from '@/components/UI/Tooltip/Tooltip'
 import Tabs from '@/components/UI/Tabs/Tabs'
 import Icon from '@/components/Icon/Icon'
 import MembersLearningRecord from '@/components/Account/MembersLearningRecord/MembersLearningRecord'
+import { professionsDisplayText } from '@/lib/data-utils'
 
 const IconTitle = styled(Typography)`
   display: flex;
@@ -46,16 +47,11 @@ const YourTeamPage = () => {
 
   const fullname = `${member?.first_name} ${member?.last_name}`
 
-  const professions = useMemo(() => {
-    return (
-      member?.professions
-        .filter((profession) => profession !== member.primary_profession)
-        .map((profession) => {
-          if (profession.toLowerCase() === 'other') return member.profession_other
-          return profession
-        }) || []
-    )
-  }, [member])
+  const professions = professionsDisplayText(
+    member?.primary_profession,
+    member?.professions,
+    member?.profession_other
+  )
 
   return (
     <AccountLayout titleIcon="team" title="Your team">
@@ -152,11 +148,11 @@ const YourTeamPage = () => {
                           { name: 'Grade', value: member.grade_other || member.grade },
                           {
                             name: 'Primary profession',
-                            value: member.primary_profession
+                            value: professions.primary_profession
                           },
                           {
                             name: 'Profession(s)',
-                            value: professions.length > 1 && professions.join(', ')
+                            value: professions.professions
                           },
                           {
                             name: 'Function',
