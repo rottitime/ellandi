@@ -23,11 +23,13 @@ export const professionsDisplayText = (
   professions: string
 } => {
   const primary_profession =
-    primaryProfession?.toLowerCase() === 'other' ? professionOther : primaryProfession
+    primaryProfession?.toLowerCase() === 'other'
+      ? professionOther
+      : primaryProfession || ''
 
   return {
     primary_profession,
-    professions: professions
+    professions: (professions || [])
       .filter(
         (profession) => ![primary_profession, primaryProfession].includes(profession)
       )

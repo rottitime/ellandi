@@ -74,6 +74,11 @@ describe('professionsDisplayText()', () => {
       primary_profession: '',
       professions: ''
     })
+
+    expect(professionsDisplayText(null, null, null)).toEqual({
+      primary_profession: '',
+      professions: ''
+    })
   })
 
   it('replaces other text in professions', () => {
