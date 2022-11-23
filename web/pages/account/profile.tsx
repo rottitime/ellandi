@@ -39,10 +39,17 @@ type AccountProfileModalsType =
   | 'isMentor'
 
 const ProfilePage = () => {
-  const { authFetch } = useAuth()
-  const { isLoading, data, refetch } = useQuery<RegisterUserResponse>(Query.Me, () =>
-    authFetch(fetchMe)
-  )
+  const {
+    mutate,
+    userProfile: data,
+    isLoading,
+    refetch
+  } = useProfile<Partial<RegisterUserResponse>>({
+    callback: () => {
+      closeModal()
+    }
+  })
+
   const [activeModal, setActiveModal] = useState<{
     form: AccountProfileModalsType
     name: string
@@ -64,15 +71,9 @@ const ProfilePage = () => {
     [data]
   )
 
-  const { mutate, userProfile } = useProfile<Partial<RegisterUserResponse>>({
-    callback: () => {
-      closeModal()
-    }
-  })
-
   const formProps = {
     onFormSubmit: (data) => mutate(data),
-    defaultValues: userProfile,
+    defaultValues: data,
     onCancel: closeModal
   }
 

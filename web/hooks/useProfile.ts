@@ -10,7 +10,8 @@ export const useProfile = <T>({ callback }: { callback?: () => void }) => {
   const {
     data: userProfile,
     isLoading,
-    isSuccess
+    isSuccess,
+    refetch
   } = useQuery<RegisterUserResponse>(Query.Me, () => authFetch(fetchMe))
 
   const { mutate } = useMutation<RegisterUserResponse, Error, T>(
@@ -26,6 +27,7 @@ export const useProfile = <T>({ callback }: { callback?: () => void }) => {
     mutate,
     isLoading,
     isSuccess,
+    refetch,
     userProfile
   }
 }
