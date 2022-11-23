@@ -7,6 +7,50 @@ const ChartPlaceholder = styled('div')`
   text {
     font-size: 16px;
   }
+
+  /*-- Tooltip --*/
+  .c3-tooltip-container {
+    z-index: 10;
+  }
+
+  .c3-tooltip {
+    border-collapse: collapse;
+    border-spacing: 0;
+    background-color: ${(p) => p.theme.colors.white};
+    empty-cells: show;
+    box-shadow: 7px 7px 12px -9px ${(p) => p.theme.colors.grey1};
+    opacity: 0.9;
+  }
+
+  .c3-tooltip tr {
+    border: 1px solid ${(p) => p.theme.colors.grey2};
+  }
+
+  .c3-tooltip th {
+    font-size: 14px;
+    padding: 2px 5px;
+    text-align: left;
+    color: ${(p) => p.theme.colors.white};
+  }
+
+  .c3-tooltip td {
+    font-size: 13px;
+    padding: 3px 6px;
+    background-color: ${(p) => p.theme.colors.white};
+    border-left: 1px dotted ${(p) => p.theme.colors.grey2};
+    white-space: nowrap;
+  }
+
+  .c3-tooltip td > span {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin-right: 6px;
+  }
+
+  .c3-tooltip .value {
+    text-align: right;
+  }
 `
 
 const Chart: FC<Props> = ({ data, colors = [], hideLegends, misc = {} }) => {

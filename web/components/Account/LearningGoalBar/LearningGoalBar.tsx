@@ -4,7 +4,7 @@ import useAuth from '@/hooks/useAuth'
 import { fetchMeLearning } from '@/service/me'
 import { MeLearningRecord, Query } from '@/service/types'
 import { Box, styled, Typography } from '@mui/material'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 import { Props } from './types'
 
@@ -28,6 +28,11 @@ const LearningGoalBar = ({
   const { authFetch } = useAuth()
   const [dayValue, setDayValue] = useState(days)
   const [percentageValue, setPercentageValue] = useState(percentage)
+
+  useEffect(() => {
+    setDayValue(days)
+    setPercentageValue(percentage)
+  }, [days, percentage])
 
   const { isLoading } = useQuery<MeLearningRecord>(
     Query.MeLearning,

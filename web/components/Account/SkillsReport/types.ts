@@ -10,7 +10,7 @@ export type FiltersType = {
   professions?: string[]
   functions?: string[]
   grades?: string[]
-  business_unit?: string[]
+  business_units?: string[]
 }
 
 export type Props = ComponentProps<typeof AccountCard>
