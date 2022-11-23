@@ -2,11 +2,8 @@ import AccountLayout from '@/components/Layout/AccountLayout/AccountLayout'
 import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
 import SimpleTable from '@/components/UI/SimpleTable/SimpleTable'
 import { Typography, TableCellProps, styled } from '@mui/material'
-import { useQuery } from 'react-query'
-import { fetchMe } from '@/service/me'
-import { Query, RegisterUserResponse } from '@/service/api'
-import useAuth from '@/hooks/useAuth'
-import { useMemo, useState } from 'react'
+import { RegisterUserResponse } from '@/service/api'
+import { useState } from 'react'
 import { IconButton } from '@mui/material'
 import Icon from '@/components/Icon/Icon'
 import Dialog from '@/components/UI/Dialogs/Dialog/Dialog'
@@ -20,6 +17,7 @@ import FunctionTypeForm from '@/components/Form/Register/FunctionTypeForm'
 import RegisterDetailsForm from '@/components/Form/Register/RegisterDetailsForm/RegisterDetailsForm'
 import { UpdateAccountPasswordForm } from '@/components/Form/UpdateAccountPasswordForm/UpdateAccountPasswordForm'
 import { useProfile } from '@/hooks/useProfile'
+import { professionsDisplayText } from '@/lib/data-utils'
 
 const Table = styled(SimpleTable)`
   th {
@@ -39,41 +37,42 @@ type AccountProfileModalsType =
   | 'isMentor'
 
 const ProfilePage = () => {
-  const { authFetch } = useAuth()
-  const { isLoading, data, refetch } = useQuery<RegisterUserResponse>(Query.Me, () =>
-    authFetch(fetchMe)
-  )
-  const [activeModal, setActiveModal] = useState<{
-    form: AccountProfileModalsType
-    name: string
-  }>(null)
+  const [buttonLoading, setButtonLoading] = useState(false)
 
-  const closeModal = () => {
-    setActiveModal(null)
-    refetch()
-  }
-
-  const professions = useMemo(
-    () =>
-      data?.professions
-        .filter((profession) => profession !== data.primary_profession)
-        .map((profession) => {
-          if (profession.toLowerCase() === 'other') return data.profession_other
-          return profession
-        }) || [],
-    [data]
-  )
-
-  const { mutate, userProfile } = useProfile<Partial<RegisterUserResponse>>({
+  const {
+    mutate,
+    userProfile: data,
+    isLoading,
+    refetch
+  } = useProfile<Partial<RegisterUserResponse>>({
     callback: () => {
       closeModal()
     }
   })
 
+  const [activeModal, setActiveModal] = useState<{
+    form: AccountProfileModalsType
+    name: string
+  }>(null)
+
+  const closeModal = async () => {
+    setButtonLoading(true)
+    await refetch()
+    setButtonLoading(false)
+    setActiveModal(null)
+  }
+
+  const professions = professionsDisplayText(
+    data?.primary_profession,
+    data?.professions,
+    data?.profession_other
+  )
+
   const formProps = {
     onFormSubmit: (data) => mutate(data),
-    defaultValues: userProfile,
-    onCancel: closeModal
+    defaultValues: data,
+    onCancel: closeModal,
+    buttonLoading
   }
 
   const renderTable = (
@@ -208,12 +207,12 @@ const ProfilePage = () => {
           {
             form: 'primaryProfession',
             name: 'Primary profession',
-            value: data?.primary_profession
+            value: professions.primary_profession
           },
           {
             form: 'profession',
             name: 'Profession(s)',
-            value: !!professions.length && professions.join(', ')
+            value: professions.professions
           },
 
           {

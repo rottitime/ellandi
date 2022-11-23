@@ -63,7 +63,7 @@ describe('Page: Profile', () => {
       contract_type_other: 'custom other contract'
     }
 
-    fetchMock.mockResponses([JSON.stringify(data), { status: 200 }])
+    fetchMock.mockResponse(JSON.stringify(data), { status: 200 })
 
     renderWithProviders(<ProfilePage />)
 
