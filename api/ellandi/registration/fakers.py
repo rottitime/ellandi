@@ -66,8 +66,8 @@ def make_fake_user():
         email=f"{first_name}.{last_name}@example.com".lower(),
         privacy_policy_agreement=True,
         verified=make_bool(2, 1),
-        is_mentor=make_bool(1, 3),
-        is_line_manager=make_bool(1, 5),
+        is_mentor=make_yes_no(1, 3),
+        is_line_manager=make_yes_no(1, 5),
         job_title=get_ddat_job_title(),
         is_active=True,
     )
