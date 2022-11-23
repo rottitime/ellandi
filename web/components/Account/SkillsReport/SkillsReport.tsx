@@ -369,7 +369,7 @@ const columns: GridColDef<ReportSkillsData>[] = [
     maxWidth: 286
   },
   {
-    field: 'skills_develop_value_total',
+    field: 'skill_develop_value_total',
     headerName: 'Total with skill they would like to develop (%)',
     disableColumnMenu: true,
     resizable: false,
