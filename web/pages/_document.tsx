@@ -12,10 +12,7 @@ export default class MyDocument extends Document {
           <link rel="icon" href="/images/favicon.ico?v=0" sizes="any" />
           <link rel="icon" href="/images/favicon.svg?v=0" type="image/svg+xml" />
           <meta charSet="UTF-8" />
-          <link
-            href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;0,700;1,500;1,700&display=swap"
-            rel="stylesheet"
-          />
+
           {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             (this.props as any).emotionStyleTags
