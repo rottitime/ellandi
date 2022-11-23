@@ -69,6 +69,11 @@ describe('professionsDisplayText()', () => {
       primary_profession: 'Agent',
       professions: ''
     })
+
+    expect(professionsDisplayText(undefined, undefined, undefined)).toEqual({
+      primary_profession: '',
+      professions: ''
+    })
   })
 
   it('replaces other text in professions', () => {

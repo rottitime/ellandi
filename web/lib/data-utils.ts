@@ -15,7 +15,7 @@ export const sortWithOrder = (a: number, b: number): number => {
 export const asStringList = (data: GenericDataList[]) => data.map(({ name }) => name)
 
 export const professionsDisplayText = (
-  primaryProfession: string,
+  primaryProfession = '',
   professions: string[] = [],
   professionOther?: string
 ): {
