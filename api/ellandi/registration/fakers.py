@@ -26,6 +26,13 @@ def make_bool(true=1, false=1):
     return random.choice(choices)
 
 
+def make_yes_no(yes=1, no=1):
+    if make_bool(yes, no):
+        return "Yes"
+    else:
+        return "No"
+
+
 def _get_random_object_name(model_name):
     model = getattr(models, model_name)
     return model.objects.order_by("?").first().name
