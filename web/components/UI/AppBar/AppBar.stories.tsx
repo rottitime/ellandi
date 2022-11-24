@@ -19,7 +19,6 @@ const Template: ComponentStory<typeof AppBar> = ({ ...args }) => <AppBar {...arg
 
 export const Default = Template.bind({})
 Default.args = {
-  logoUrl: '#',
   pages: [
     { title: 'Link 1', url: '#' },
     {

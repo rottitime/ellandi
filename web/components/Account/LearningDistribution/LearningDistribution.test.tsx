@@ -40,10 +40,41 @@ describe('LearningDistribution', () => {
     expect(screen.getByTestId('percentage3')).toHaveTextContent('10')
   })
 
+  it('empty data', async () => {
+    renderWithProviders(<LearningDistribution barData={[]} />)
+    expect(screen.getByTestId('percentage1')).toHaveTextContent('0')
+    expect(screen.getByTestId('percentage2')).toHaveTextContent('0')
+    expect(screen.getByTestId('percentage3')).toHaveTextContent('0')
+  })
+
   it('no data', async () => {
     renderWithProviders(<LearningDistribution barData={undefined} />)
     expect(screen.getByTestId('percentage1')).toHaveTextContent('0')
     expect(screen.getByTestId('percentage2')).toHaveTextContent('0')
     expect(screen.getByTestId('percentage3')).toHaveTextContent('0')
+  })
+
+  it('reorders to "on the job", "social" and "formal"', async () => {
+    renderWithProviders(
+      <LearningDistribution
+        barData={[
+          {
+            name: 'Social',
+            value_percentage: 70
+          },
+          {
+            name: 'Formal',
+            value_percentage: 10
+          },
+          {
+            name: 'On the job',
+            value_percentage: 20
+          }
+        ]}
+      />
+    )
+    expect(screen.getByTestId('percentage1')).toHaveTextContent('20')
+    expect(screen.getByTestId('percentage2')).toHaveTextContent('70')
+    expect(screen.getByTestId('percentage3')).toHaveTextContent('10')
   })
 })

@@ -50,11 +50,16 @@ const LearningDistribution = ({
 
   const total = barData.reduce((p, c) => p + c.value_percentage, 0)
 
-  const data = barData.map((item, i) => ({
-    label: item.name,
-    percentage: item.value_percentage && (item.value_percentage / total) * 100,
-    color: item.color || colorOptions[i]
-  }))
+  const graphData = initialData.map((item, i) => {
+    const actualData = barData.find((x) => x.name === item.name)
+    return {
+      label: item.name,
+      percentage: actualData?.value_percentage
+        ? (actualData.value_percentage / total) * 100
+        : item.value_percentage,
+      color: actualData?.color || colorOptions[i]
+    }
+  })
 
   return (
     <>
@@ -71,7 +76,7 @@ const LearningDistribution = ({
         </Typography>
       )}
       <GraphDescription variant="body2">
-        {data.map(({ label, color, percentage }) => (
+        {graphData.map(({ label, color, percentage }) => (
           <span key={label}>
             <Box
               className="dot"
@@ -100,7 +105,7 @@ const LearningDistribution = ({
         />
       </GraphDescription>
       <PercentageBar
-        data={data}
+        data={graphData}
         marks={[0, 25, 50, 75, 100].map((value) => ({
           value,
           label: value.toString()

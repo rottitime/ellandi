@@ -18,6 +18,7 @@ import Form from '@/components/Form/Register/FormRegister/FormRegister'
 import Link from '@/components/UI/Link'
 import getConfig from 'next/config'
 import { schema as defaultSchema, minPassword } from '@/lib/schema'
+
 const {
   publicRuntimeConfig: { urls }
 } = getConfig()
@@ -39,10 +40,11 @@ const schema: SchemaOf<CreateAccountType> = object().shape({
 })
 
 const CreateAccountForm: FC<StandardRegisterProps<CreateAccountType>> = (props) => {
-  const { logout, hasToken } = useAuth()
+  const { logout, hasToken, invalidate } = useAuth()
 
   useEffect(() => {
     hasToken() && logout()
+    invalidate()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

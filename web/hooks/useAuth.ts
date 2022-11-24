@@ -8,6 +8,7 @@ import {
 import { AuthUser, RegisterUser, RegisterUserResponse } from '@/service/types'
 import { defaultError } from '@/service/auth'
 import getConfig from 'next/config'
+import { useQueryClient } from 'react-query'
 
 const {
   publicRuntimeConfig: { enableEmailVerify }
@@ -16,6 +17,7 @@ const {
 const TOKEN_KEY = 'token'
 
 const useAuth = () => {
+  const queryClient = useQueryClient()
   const hasToken = (): boolean => !!sessionStorage.getItem(TOKEN_KEY)
   const setToken = (token: string) => sessionStorage.setItem(TOKEN_KEY, token)
   const sendEmailVerification = async () =>
@@ -48,12 +50,14 @@ const useAuth = () => {
 
   const invalidate = () => {
     sessionStorage.removeItem(TOKEN_KEY)
+    queryClient.removeQueries()
   }
 
   const logout = async (): Promise<boolean> => {
     const token = sessionStorage.getItem(TOKEN_KEY)
     invalidate()
     if (token) logoutUser(token)
+
     return true
   }
 

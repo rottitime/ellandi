@@ -2,7 +2,7 @@ import random
 
 import faker
 
-from . import models
+from . import initial_data, models
 
 fake = faker.Faker()
 
@@ -26,19 +26,11 @@ def make_bool(true=1, false=1):
     return random.choice(choices)
 
 
-def make_user_skill(seen_skills=None, develop=False):
-    if not seen_skills:
-        seen_skills = {}
-    if len(seen_skills) > 10 and make_bool(2, 1):
-        data = random.choice(seen_skills.values())
+def make_yes_no(yes=1, no=1):
+    if make_bool(yes, no):
+        return "Yes"
     else:
-        data = dict(
-            name=fake.sentence(),
-            pending=make_bool(),
-        )
-    if not develop:
-        data["level"] = random.choice(models.UserSkill.SkillLevel.values)
-    return data
+        return "No"
 
 
 def _get_random_object_name(model_name):
@@ -60,6 +52,10 @@ def rand_range(num):
     return range(int(random.uniform(0, num)))
 
 
+def get_ddat_job_title():
+    return random.choice(tuple(initial_data.DDAT_SKILLS_TO_JOB_LOOKUP.keys()))
+
+
 def make_fake_user():
     first_name = fake.first_name()
     last_name = fake.last_name()
@@ -70,9 +66,9 @@ def make_fake_user():
         email=f"{first_name}.{last_name}@example.com".lower(),
         privacy_policy_agreement=True,
         verified=make_bool(2, 1),
-        is_mentor=make_bool(1, 3),
-        is_line_manager=make_bool(1, 5),
-        job_title=fake.job(),
+        is_mentor=make_yes_no(1, 3),
+        is_line_manager=make_yes_no(1, 5),
+        job_title=get_ddat_job_title(),
         is_active=True,
     )
 
@@ -95,6 +91,41 @@ def make_admin_user():
     return data
 
 
+def make_user_skill(name, develop=False):
+    data = dict(
+        name=name,
+        pending=make_bool(),
+    )
+    if not develop:
+        data["level"] = random.choice(models.UserSkill.SkillLevel.values)
+    return data
+
+
+def save_skill(user, skill_name, develop=False):
+    skill_data = make_user_skill(skill_name, develop=develop)
+    if not models.UserSkill.objects.filter(user=user, name=skill_data["name"]).exists():
+        user_skill = models.UserSkill(user=user, **skill_data)
+        user_skill.save()
+
+
+def add_ddat_skills(user):
+    skills = initial_data.DDAT_SKILLS_TO_JOB_LOOKUP[user.job_title]
+    for skill_name in skills:
+        save_skill(user, skill_name)
+
+
+def add_initial_skills(user, num=5):
+    skills = random.sample(initial_data.INITIAL_SKILLS, k=int(random.uniform(0, num)))
+    for skill_name in skills:
+        save_skill(user, skill_name)
+
+
+def add_develop_skills(user, num=5):
+    skills = random.sample(initial_data.INITIAL_SKILLS, k=int(random.uniform(0, num)))
+    for skill_name in skills:
+        save_skill(user, skill_name, develop=True)
+
+
 def add_users(number):
     for i in range(number):
         user_data = make_fake_user()
@@ -103,15 +134,9 @@ def add_users(number):
         user = models.User(**user_data)
         user.set_password("P455W0rd")
         user.save()
-        seen_skills = {}
-        for _ in rand_range(10):
-            skill_data = make_user_skill(seen_skills)
-            user_skill = models.UserSkill(user=user, **skill_data)
-            user_skill.save()
-        for _ in rand_range(10):
-            skill_data = make_user_skill(develop=True)
-            user_skill = models.UserSkillDevelop(user=user, **skill_data)
-            user_skill.save()
+        add_ddat_skills(user)
+        add_initial_skills(user)
+        add_develop_skills(user)
         yield user
     user = models.User(**make_admin_user())
     user.set_password("P455W0rd")

@@ -1,6 +1,6 @@
-import { mockMe } from '@/lib/test-utils'
+import { mockMe, renderHookWithProviders } from '@/lib/test-utils'
 import { AuthUser } from '@/service/types'
-import { renderHook, waitFor } from '@testing-library/react'
+import { waitFor } from '@testing-library/react'
 import useAuth from './useAuth'
 import { sendVerificationEmail } from '@/service/auth'
 
@@ -23,7 +23,7 @@ describe('Hook: useAuth', () => {
         status: 200
       })
 
-      const { result } = renderHook(() => useAuth())
+      const { result } = renderHookWithProviders(() => useAuth())
 
       const res = await result.current.login(loginData)
 
@@ -39,7 +39,7 @@ describe('Hook: useAuth', () => {
         status: 400
       })
 
-      const { result } = renderHook(() => useAuth())
+      const { result } = renderHookWithProviders(() => useAuth())
 
       expect(result.current.login(loginData)).rejects.toThrow('custom server error')
     })
@@ -52,7 +52,7 @@ describe('Hook: useAuth', () => {
       [JSON.stringify(mockMe), { status: 200 }],
       [JSON.stringify(response), { status: 200 }]
     )
-    const { result } = renderHook(() => useAuth())
+    const { result } = renderHookWithProviders(() => useAuth())
     const userData = await result.current.createAndLogin({
       email: 'string',
       password: 'string'
@@ -66,7 +66,8 @@ describe('Hook: useAuth', () => {
     it('removes session', async () => {
       const token = '123'
       sessionStorage.setItem('token', token)
-      const { result } = renderHook(() => useAuth())
+
+      const { result } = renderHookWithProviders(() => useAuth())
 
       expect(sessionStorage.getItem('token')).toEqual(token)
 

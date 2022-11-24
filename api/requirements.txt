@@ -10,9 +10,6 @@ django-rest-knox
 sentry-sdk
 django-gov-notify
 furl
-scikit-learn
-numpy
-scipy
-pandas
 faker
 djangorestframework-csv
+django-cors-headers

@@ -59,6 +59,9 @@ const Card = styled(AccountCard)`
 const Pane = styled(Box)`
   display: flex;
   gap: ${(p) => p.theme.spacing(3)};
+  .chart {
+    max-width: 400px;
+  }
 `
 
 const userOptions: UserOptions = [
@@ -248,12 +251,12 @@ const SkillsReport: FC<Props> = (props) => {
               />
               <Select
                 label="Select business unit(s)"
-                defaultValue={filters?.business_unit || []}
+                defaultValue={filters?.business_units || []}
                 data={asStringList(businessUnits)}
                 onChange={(e) =>
                   setFilters((p) => ({
                     ...p,
-                    business_unit: e.target.value as string[]
+                    business_units: e.target.value as string[]
                   }))
                 }
                 checkboxes
@@ -266,7 +269,7 @@ const SkillsReport: FC<Props> = (props) => {
               onRowClick={({ row }) => setDialog(row)}
               rows={data?.data || []}
               getRowId={(row) => row.name}
-              headerHeight={80}
+              getRowHeight={() => 'auto'}
               autoHeight
               loading={isFetching}
               initialState={{
@@ -294,7 +297,7 @@ const SkillsReport: FC<Props> = (props) => {
             </Typography>
             <Pane>
               {chartValues.find(({ valuePercentage }) => dialog[valuePercentage] > 0) && (
-                <Box>
+                <Box className="chart">
                   <Chart
                     colors={chartValues.map(({ color }) => color)}
                     data={{
@@ -366,13 +369,13 @@ const columns: GridColDef<ReportSkillsData>[] = [
     maxWidth: 286
   },
   {
-    field: 'skills_develop_value_total',
+    field: 'skill_develop_value_total',
     headerName: 'Total with skill they would like to develop (%)',
     disableColumnMenu: true,
     resizable: false,
     renderCell: ({ row }) => <Chip label={row.skill_develop_label} />,
     flex: 1,
-    maxWidth: 286
+    maxWidth: 375
   },
   {
     field: 'chart',

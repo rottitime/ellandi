@@ -99,7 +99,6 @@ const StaffReport = () => {
           <SkeletonTable columns={3} rows={4} />
         ) : (
           <DataGrid
-            pageSize={10}
             columns={columnsGrade}
             rows={dataGrade?.data || []}
             getRowId={(row) => row.name}

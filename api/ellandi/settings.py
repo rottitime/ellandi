@@ -68,6 +68,9 @@ HOST_MAP = {
     "http://localhost:8000": "http://localhost:3000",
 }
 
+if DEBUG:
+    CORS_ALLOWED_ORIGINS = (HOST_URL, HOST_MAP[HOST_URL])
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -81,6 +84,10 @@ INSTALLED_APPS = [
     "django.contrib.auth",
 ]
 
+CORS_APPS = [
+    "corsheaders",
+]
+
 SESSION_APPS = [
     "django.contrib.sessions",
     "django.contrib.admin",
@@ -88,7 +95,7 @@ SESSION_APPS = [
 ]
 
 if DEBUG:
-    INSTALLED_APPS = INSTALLED_APPS + SESSION_APPS
+    INSTALLED_APPS = INSTALLED_APPS + SESSION_APPS + CORS_APPS
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -98,6 +105,10 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+CORS_MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
+]
+
 SESSION_MIDDLEWARE = [
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -105,7 +116,7 @@ SESSION_MIDDLEWARE = [
 ]
 
 if DEBUG:
-    MIDDLEWARE = MIDDLEWARE + SESSION_MIDDLEWARE
+    MIDDLEWARE = MIDDLEWARE + SESSION_MIDDLEWARE + CORS_MIDDLEWARE
 
 ROOT_URLCONF = "ellandi.urls"
 
@@ -260,7 +271,7 @@ WHITENOISE_USE_FINDERS = False
 GIT_SHA = env.str("GIT_SHA", default="UNKNOWN")
 
 REST_KNOX = dict(
-    TOKEN_TTL=datetime.timedelta(hours=3),
+    TOKEN_TTL=datetime.timedelta(hours=1),
     AUTO_REFRESH=True,
     MIN_REFRESH_INTERVAL=60,
 )

@@ -13,9 +13,7 @@ const ReportsPage = () => (
       <Typography variant="h1" gutterBottom>
         Welcome to the reports section
       </Typography>
-      <Typography variant="h2" gutterBottom>
-        You can view statistics on skills and learning
-      </Typography>
+      <Typography gutterBottom>You can view statistics on skills and learning</Typography>
     </Headline>
     <RoutedTabs routedTabItems={tabs} tabsPath="/account/reports" disableCard />
   </>

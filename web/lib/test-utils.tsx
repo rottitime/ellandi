@@ -1,4 +1,4 @@
-import { render, RenderOptions, waitFor } from '@testing-library/react'
+import { render, renderHook, RenderOptions, waitFor } from '@testing-library/react'
 import ThemeProvider from '@/components/ThemeProvider/ThemeProvider'
 import LocalizationProvider from '@/components/LocalizationProvider/LocalizationProvider'
 import { ReactNode } from 'react'
@@ -40,10 +40,7 @@ const mockStorage = (() => {
   }
 })()
 
-export const renderWithProviders = async (
-  ui: ReactNode,
-  options: Omit<RenderOptions, 'queries'> = {}
-) => {
+export const wrapper = (ui) => {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
@@ -51,7 +48,7 @@ export const renderWithProviders = async (
       }
     }
   })
-  const rendered = await render(
+  return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
         <LocalizationProvider>
@@ -60,15 +57,27 @@ export const renderWithProviders = async (
           </UiProvider>
         </LocalizationProvider>
       </ThemeProvider>
-    </QueryClientProvider>,
-    options
+    </QueryClientProvider>
   )
+}
+
+export const renderWithProviders = async (
+  ui: ReactNode,
+  options: Omit<RenderOptions, 'queries'> = {}
+) => {
+  const rendered = await render(wrapper(ui), options)
   return {
-    ...rendered
-    // rerender: (ui, options) =>
-    //   renderWithProviders(ui, { container: rendered.container, ...options })
+    ...rendered,
+    rerender: (ui, options: Omit<RenderOptions, 'queries'> = {}) =>
+      renderWithProviders(ui, { container: rendered.container, ...options })
   }
 }
+
+export const renderHookWithProviders: typeof renderHook = (...parameters) =>
+  renderHook(parameters[0], {
+    wrapper: ({ children }) => wrapper(children),
+    ...parameters[1]
+  })
 
 export const bugfixForTimeout = async () =>
   await waitFor(() => new Promise((resolve) => setTimeout(resolve, 0)))
