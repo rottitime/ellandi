@@ -3,7 +3,11 @@ on:
   push:
     branches:
       - develop
-    paths: ["web/components/**/*.tsx", "web/style/theme.ts"] # Trigger the action only when files change in the folders defined here
+    paths: [
+        "web/components/**/*.tsx",
+        "web/style/theme.ts",
+        "web/.storybook/*.js",
+      ] # Trigger the action only when files change in the folders defined here
 permissions:
   contents: write
 jobs:
