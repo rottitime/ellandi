@@ -271,7 +271,7 @@ WHITENOISE_USE_FINDERS = False
 GIT_SHA = env.str("GIT_SHA", default="UNKNOWN")
 
 REST_KNOX = dict(
-    TOKEN_TTL=datetime.timedelta(hours=3),
+    TOKEN_TTL=datetime.timedelta(hours=1),
     AUTO_REFRESH=True,
     MIN_REFRESH_INTERVAL=60,
 )
