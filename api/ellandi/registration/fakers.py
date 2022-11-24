@@ -26,6 +26,13 @@ def make_bool(true=1, false=1):
     return random.choice(choices)
 
 
+def make_yes_no(yes=1, no=1):
+    if make_bool(yes, no):
+        return "Yes"
+    else:
+        return "No"
+
+
 def _get_random_object_name(model_name):
     model = getattr(models, model_name)
     return model.objects.order_by("?").first().name
@@ -59,8 +66,8 @@ def make_fake_user():
         email=f"{first_name}.{last_name}@example.com".lower(),
         privacy_policy_agreement=True,
         verified=make_bool(2, 1),
-        is_mentor=make_bool(1, 3),
-        is_line_manager=make_bool(1, 5),
+        is_mentor=make_yes_no(1, 3),
+        is_line_manager=make_yes_no(1, 5),
         job_title=get_ddat_job_title(),
         is_active=True,
     )
