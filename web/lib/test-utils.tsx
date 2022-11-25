@@ -6,8 +6,10 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 import { UiProvider } from '@/context/UiContext'
 import {
   AuthUser,
+  MeReportSkills,
   MeSuggestedSkillsResponse,
   RegisterUserResponse,
+  ReportSkillsData,
   SkillType,
   TeamMember
 } from '@/service/types'
@@ -284,34 +286,39 @@ export const mockSuggested: MeSuggestedSkillsResponse = [
   'Orange'
 ]
 
-// const mockReportSkills: MeReportSkills = {
-//   page: 1,
-//   per_page: 10,
-//   total: 100,
-//   total_pages: 10,
-//   data: [...Array(100).keys()].map(
-//     (i) =>
-//       ({
-//         name: `Skill ${i}`,
-//         skill_label: `${i} (${i}%)`,
-//         skill_value_total: i,
-//         skill_value_percentage: i,
-//         skills_develop_label: `${i} (${i}%)`,
-//         skills_develop_value_total: i,
-//         skills_develop_value_percentage: i,
-//         beginner_label: `${i} (${i}%)`,
-//         advanced_beginner_label: `${i} (${i}%)`,
-//         competent_label: `${i} (${i}%)`,
-//         proficient_label: `${i} (${i}%)`,
-//         expert_label: `${i} (${i}%)`,
-//         beginner_value_percentage: i,
-//         advanced_beginner_value_percentage: i,
-//         competent_value_percentage: i,
-//         proficient_value_percentage: i,
-//         expert_value_percentage: i
-//       } as ReportSkillsData)
-//   )
-// }
+export const mockReportSkills: MeReportSkills = {
+  page: 1,
+  per_page: 10,
+  total: 100,
+  total_pages: 10,
+  data: mockSkills.map(
+    (name, i) =>
+      ({
+        name,
+        skill_label: `${i} (${i}%)`,
+        skill_value_total: i,
+        skill_value_percentage: i,
+        skill_develop_label: `${i} (${i}%)`,
+        skill_develop_value_total: i,
+        skill_develop_value_percentage: i,
+        beginner_label: `${i} (${i}%)`,
+        advanced_beginner_label: `${i} (${i}%)`,
+        competent_label: `${i} (${i}%)`,
+        proficient_label: `${i} (${i}%)`,
+        expert_label: `${i} (${i}%)`,
+        beginner_value_percentage: i,
+        beginner_value_total: i,
+        advanced_beginner_value_percentage: i,
+        competent_value_percentage: i,
+        competent_value_total: i,
+        proficient_value_percentage: i,
+        proficient_value_total: i,
+        expert_value_percentage: i,
+        expert_value_total: i,
+        total_users: i
+      } as ReportSkillsData)
+  )
+}
 
 // const languagesData: MeReportLanguages = {
 //   page: 1,
