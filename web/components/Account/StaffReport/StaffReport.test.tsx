@@ -1,13 +1,6 @@
 import StaffReport from './StaffReport'
 import fetchMock from 'jest-fetch-mock'
-import {
-  within,
-  screen,
-  waitFor,
-  mockReportSkills,
-  mockSkills,
-  renderWithProviders
-} from '@/lib/test-utils'
+import { within, screen, waitFor, renderWithProviders } from '@/lib/test-utils'
 import { MeReporGrade, MeReporResponsibility } from '@/service/types'
 
 const mockResonsibilities: MeReporResponsibility = {
