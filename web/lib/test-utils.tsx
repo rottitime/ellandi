@@ -354,11 +354,3 @@ export const mockReportLanguages: MeReportLanguages = {
 //     total_value_percentage: i
 //   }))
 // } as MeReporResponsibility)
-
-//   data: [...Array(20).keys()].map((i) => ({
-//     name: `User ${i}`,
-//     total_label: `${i} (${i}%)`,
-//     total_value_total: i,
-//     total_value_percentage: i
-//   }))
-// } as MeReporGrade

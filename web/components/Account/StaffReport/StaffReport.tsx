@@ -58,7 +58,7 @@ const StaffReport = () => {
 
   return (
     <>
-      <AccountCard sx={{ mb: 4 }}>
+      <AccountCard sx={{ mb: 4 }} data-testid="responsibilities">
         {isLoadingResponsibility ? (
           <SkeletonTable columns={3} rows={2} />
         ) : (
@@ -84,8 +84,8 @@ const StaffReport = () => {
                 Export
               </Button>
             </Box>
+
             <DataGrid
-              pageSize={10}
               columns={columnsResponsibility}
               rows={dataResponsibility?.data || []}
               getRowId={(row) => row.name}
