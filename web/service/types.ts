@@ -303,7 +303,9 @@ export type ReportDistributionData = {
 
 export type MeReporLearning = {
   course_average_cost_label: string
+  course_average_cost_value: number
   course_total_cost_label: string
+  course_total_cost_value: number
   goal_value_days: number
   goal_value_percentage: number
   distribution: ReportDistributionData[]

@@ -209,7 +209,11 @@ const LanguagesReport = () => {
                 { children: <>Average cost</> },
                 {
                   children: (
-                    <Chip label={data.course_average_cost_label} brandColor="black" />
+                    <Chip
+                      label={data.course_average_cost_label}
+                      brandColor="black"
+                      data-testid="average-cost"
+                    />
                   ),
                   align: 'right'
                 }
@@ -218,7 +222,11 @@ const LanguagesReport = () => {
                 { children: <Typography variant="h3">Total course cost</Typography> },
                 {
                   children: (
-                    <Chip label={data.course_total_cost_label} brandColor="black" />
+                    <Chip
+                      label={data.course_total_cost_label}
+                      brandColor="black"
+                      data-testid="total-cost"
+                    />
                   ),
                   align: 'right'
                 }
