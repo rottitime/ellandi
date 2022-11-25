@@ -53,7 +53,7 @@ def rand_range(num):
 
 
 def get_ddat_job_title():
-    return random.choice(tuple(initial_data.DDAT_SKILLS_TO_JOB_LOOKUP.keys()))
+    return random.choice(tuple(initial_data.DDAT_JOB_TO_SKILLS_LOOKUP.keys()))
 
 
 def make_fake_user():
@@ -109,7 +109,7 @@ def save_skill(user, skill_name, develop=False):
 
 
 def add_ddat_skills(user):
-    skills = initial_data.DDAT_SKILLS_TO_JOB_LOOKUP[user.job_title]
+    skills = initial_data.DDAT_JOB_TO_SKILLS_LOOKUP[user.job_title]
     for skill_name in skills:
         save_skill(user, skill_name)
 
