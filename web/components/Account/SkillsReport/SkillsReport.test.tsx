@@ -19,7 +19,7 @@ describe('SkillsReport', () => {
       [JSON.stringify(mockSkills), { status: 200 }],
       [JSON.stringify(mockReportSkills), { status: 200 }]
     )
-    await renderWithProviders(<SkillsReport />)
+    renderWithProviders(<SkillsReport />)
 
     await waitFor(async () => {
       expect(
