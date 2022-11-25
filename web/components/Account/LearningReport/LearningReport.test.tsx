@@ -1,9 +1,9 @@
 import LearningReport from './LearningReport'
 import fetchMock from 'jest-fetch-mock'
 import { screen, waitFor, renderWithProviders } from '@/lib/test-utils'
-import { MeReporLearning } from '@/service/types'
+import { MeReportLearning } from '@/service/types'
 
-const mockResonsibilities: MeReporLearning = {
+const mockResonsibilities: MeReportLearning = {
   course_average_cost_label: '£112',
   course_total_cost_label: '£201',
   course_average_cost_value: 100,

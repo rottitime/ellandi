@@ -6,7 +6,7 @@ import useAuth from '@/hooks/useAuth'
 import {
   exportReportLearning,
   fetchReportLearning,
-  MeReporLearning,
+  MeReportLearning,
   Query
 } from '@/service/api'
 import {
@@ -67,7 +67,7 @@ const LanguagesReport = () => {
   const debouncedSearchQuery = useDebounce(filters, 600)
 
   const { isLoading, data, isFetching, isSuccess, isError, error } = useQuery<
-    MeReporLearning,
+    MeReportLearning,
     Error
   >(
     [Query.ReportLearning, debouncedSearchQuery],

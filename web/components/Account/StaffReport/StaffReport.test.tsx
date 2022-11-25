@@ -1,9 +1,9 @@
 import StaffReport from './StaffReport'
 import fetchMock from 'jest-fetch-mock'
 import { within, screen, waitFor, renderWithProviders } from '@/lib/test-utils'
-import { MeReporGrade, MeReporResponsibility } from '@/service/types'
+import { MeReportGrade, MeReportResponsibility } from '@/service/types'
 
-const mockResonsibilities: MeReporResponsibility = {
+const mockResonsibilities: MeReportResponsibility = {
   data: [
     {
       name: 'Group1',
@@ -26,7 +26,7 @@ const mockResonsibilities: MeReporResponsibility = {
   ]
 }
 
-const mockGrades: MeReporGrade = {
+const mockGrades: MeReportGrade = {
   data: [...Array(5).keys()].map((i) => ({
     name: `Grade title ${i}`,
     total_label: `${i} (${i}%)`,
