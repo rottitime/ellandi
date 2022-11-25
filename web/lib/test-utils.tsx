@@ -6,9 +6,11 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 import { UiProvider } from '@/context/UiContext'
 import {
   AuthUser,
+  MeReportLanguages,
   MeReportSkills,
   MeSuggestedSkillsResponse,
   RegisterUserResponse,
+  ReportLanguagesData,
   ReportSkillsData,
   SkillType,
   TeamMember
@@ -320,30 +322,30 @@ export const mockReportSkills: MeReportSkills = {
   )
 }
 
-// const languagesData: MeReportLanguages = {
-//   page: 1,
-//   per_page: 10,
-//   total: 100,
-//   total_pages: 10,
-//   data: [...Array(100).keys()].map(
-//     (i) =>
-//       ({
-//         name: `Language ${i}`,
-//         basic_label: `${i} (${i}%)`,
-//         basic_value_total: i,
-//         basic_value_percentage: i,
-//         independent_label: `${i} (${i}%)`,
-//         independent_value_total: i,
-//         independent_value_percentage: i,
-//         proficient_label: `${i} (${i}%)`,
-//         proficient_value_total: i,
-//         proficient_value_percentage: i,
-//         native_label: `${i} (${i}%)`,
-//         native_value_total: i,
-//         native_value_percentage: i
-//       } as ReportLanguagesData)
-//   )
-// }
+export const mockReportLanguages: MeReportLanguages = {
+  page: 1,
+  per_page: 5,
+  total: 6,
+  total_pages: 2,
+  data: [...Array(6).keys()].map(
+    (i) =>
+      ({
+        name: `Language ${i}`,
+        basic_label: `${i} (${i}%)`,
+        basic_value_total: i,
+        basic_value_percentage: i,
+        independent_label: `${i} (${i}%)`,
+        independent_value_total: i,
+        independent_value_percentage: i,
+        proficient_label: `${i} (${i}%)`,
+        proficient_value_total: i,
+        proficient_value_percentage: i,
+        native_label: `${i} (${i}%)`,
+        native_value_total: i,
+        native_value_percentage: i
+      } as ReportLanguagesData)
+  )
+}
 
 //   data: [...Array(3).keys()].map((i) => ({
 //     name: `User ${i}`,
