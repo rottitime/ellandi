@@ -55,6 +55,7 @@ def process_courses(data):
             course_type = None
 
         yield {
+            "id": course.id,
             "grades": flatten(gather(course.audiences, "grades")),
             "title": course.title,
             "short_description": course.shortDescription,

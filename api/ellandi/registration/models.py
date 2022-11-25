@@ -389,6 +389,7 @@ class Course(models.Model):
         SCS = ("SCS", "SCS")
         SEO = ("SEO", "SEO")
 
+    id = models.CharField(primary_key=True, max_length=64)
     title = models.CharField(max_length=256, blank=True, null=True)
     short_description = models.CharField(max_length=1024, blank=True, null=True)
     long_description = models.TextField(blank=True, null=True)
