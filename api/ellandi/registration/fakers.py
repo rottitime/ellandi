@@ -53,7 +53,7 @@ def rand_range(num):
 
 
 def get_ddat_job_title():
-    return random.choice(tuple(initial_data.DDAT_SKILLS_TO_JOB_LOOKUP.keys()))
+    return random.choice(tuple(initial_data.DDAT_JOB_TO_SKILLS_LOOKUP.keys()))
 
 
 def make_fake_user():
@@ -103,13 +103,15 @@ def make_user_skill(name, develop=False):
 
 def save_skill(user, skill_name, develop=False):
     skill_data = make_user_skill(skill_name, develop=develop)
-    if not models.UserSkill.objects.filter(user=user, name=skill_data["name"]).exists():
-        user_skill = models.UserSkill(user=user, **skill_data)
+    model_map = {False: models.UserSkill, True: models.UserSkillDevelop}
+    model = model_map[develop]
+    if not model.objects.filter(user=user, name=skill_data["name"]).exists():
+        user_skill = model(user=user, **skill_data)
         user_skill.save()
 
 
 def add_ddat_skills(user):
-    skills = initial_data.DDAT_SKILLS_TO_JOB_LOOKUP[user.job_title]
+    skills = initial_data.DDAT_JOB_TO_SKILLS_LOOKUP[user.job_title]
     for skill_name in skills:
         save_skill(user, skill_name)
 
