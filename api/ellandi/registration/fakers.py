@@ -103,7 +103,7 @@ def make_user_skill(name, develop=False):
 
 def save_skill(user, skill_name, develop=False):
     skill_data = make_user_skill(skill_name, develop=develop)
-    model_map = {True: models.UserSkill, False: models.UserSkillDevelop}
+    model_map = {False: models.UserSkill, True: models.UserSkillDevelop}
     Model = model_map[develop]
     if not Model.objects.filter(user=user, name=skill_data["name"]).exists():
         user_skill = Model(user=user, **skill_data)
