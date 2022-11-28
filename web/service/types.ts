@@ -288,11 +288,11 @@ export type SimpleLabelValueData = {
   total_value_percentage: number //e.g. 36
 }
 
-export type MeReporResponsibility = {
+export type MeReportResponsibility = {
   data: SimpleLabelValueData[]
 }
 
-export type MeReporGrade = {
+export type MeReportGrade = {
   data: SimpleLabelValueData[]
 }
 
@@ -301,9 +301,11 @@ export type ReportDistributionData = {
   value_percentage: number
 }
 
-export type MeReporLearning = {
+export type MeReportLearning = {
   course_average_cost_label: string
+  course_average_cost_value: number
   course_total_cost_label: string
+  course_total_cost_value: number
   goal_value_days: number
   goal_value_percentage: number
   distribution: ReportDistributionData[]
