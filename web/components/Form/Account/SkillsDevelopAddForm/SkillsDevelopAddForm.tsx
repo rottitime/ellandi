@@ -91,7 +91,7 @@ const SkillsDevelopAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
       <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
         {!!fields.length &&
           fields.map((_item, index) => (
-            <Row key={index}>
+            <Row key={_item.id}>
               <Controller
                 name={`skills_develop.${index}.name`}
                 control={control}
