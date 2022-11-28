@@ -37,56 +37,58 @@ describe('Page: Reset Password', () => {
     fetchMock.resetMocks()
   })
 
-  it('redirects on success', async () => {
-    fetchMock.mockResponseOnce(JSON.stringify({}), {
-      status: 200
-    })
-    renderWithProviders(<ResetPasswordPage />)
+  describe('On submit', () => {
+    it('redirects on success', async () => {
+      fetchMock.mockResponseOnce(JSON.stringify({}), {
+        status: 200
+      })
+      renderWithProviders(<ResetPasswordPage />)
 
-    const submitButton = screen.getByTestId('mock-form-button')
+      const submitButton = screen.getByTestId('mock-form-button')
 
-    expect(submitButton).toBeVisible()
+      expect(submitButton).toBeVisible()
 
-    userEvent.click(submitButton)
+      userEvent.click(submitButton)
 
-    await waitFor(async () => {
-      expect(Router.push).toHaveBeenCalledWith('/signin/forgotten-password/complete')
-    })
-  })
-
-  it('shows server error', async () => {
-    const error = 'message from server'
-    fetchMock.mockResponseOnce(JSON.stringify({ detail: error }), {
-      status: 400
-    })
-    renderWithProviders(<ResetPasswordPage />)
-    const submitButton = screen.getByTestId('mock-form-button')
-    userEvent.click(submitButton)
-
-    await waitFor(async () => {
-      expect(() => {
-        screen.getByText(`Error: ${error}`)
-      }).toThrow(`Error: ${error}`)
+      await waitFor(async () => {
+        expect(Router.push).toHaveBeenCalledWith('/signin/forgotten-password/complete')
+      })
     })
 
-    expect(Router.push).not.toHaveBeenCalled()
-  })
+    it('shows server error', async () => {
+      const error = 'message from server'
+      fetchMock.mockResponseOnce(JSON.stringify({ detail: error }), {
+        status: 400
+      })
+      renderWithProviders(<ResetPasswordPage />)
+      const submitButton = screen.getByTestId('mock-form-button')
+      userEvent.click(submitButton)
 
-  it('shows default error', async () => {
-    const error = 'Error: Sorry, there is a problem with the service. Try again later.'
-    fetchMock.mockResponseOnce(JSON.stringify('broken message'), {
-      status: 400
+      await waitFor(async () => {
+        expect(() => {
+          screen.getByText(`Error: ${error}`)
+        }).toThrow(`Error: ${error}`)
+      })
+
+      expect(Router.push).not.toHaveBeenCalled()
     })
-    renderWithProviders(<ResetPasswordPage />)
-    const submitButton = screen.getByTestId('mock-form-button')
-    userEvent.click(submitButton)
 
-    await waitFor(async () => {
-      expect(() => {
-        screen.getByText(error)
-      }).toThrow(error)
+    it('shows default error', async () => {
+      const error = 'Error: Sorry, there is a problem with the service. Try again later.'
+      fetchMock.mockResponseOnce(JSON.stringify('broken message'), {
+        status: 400
+      })
+      renderWithProviders(<ResetPasswordPage />)
+      const submitButton = screen.getByTestId('mock-form-button')
+      userEvent.click(submitButton)
+
+      await waitFor(async () => {
+        expect(() => {
+          screen.getByText(error)
+        }).toThrow(error)
+      })
+
+      expect(Router.push).not.toHaveBeenCalled()
     })
-
-    expect(Router.push).not.toHaveBeenCalled()
   })
 })
