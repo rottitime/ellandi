@@ -90,11 +90,16 @@ const LanguageAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
         {!!fields.length && (
           <Table aria-label="Language and levels table" size="small" sx={{ mb: 4 }}>
             <TableHead>
-              <TableRow>
+              <TableRow
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'minmax(100px, 1fr) 145px 145px 50px'
+                }}
+              >
                 <TableCell>Language</TableCell>
-                <TableCell sx={{ width: 145 }}>Speaking</TableCell>
-                <TableCell sx={{ width: 145 }}>Writing</TableCell>
-                <TableCell sx={{ width: 20, p: 1 }}>&nbsp;</TableCell>
+                <TableCell>Speaking</TableCell>
+                <TableCell>Writing</TableCell>
+                <TableCell>&nbsp;</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -102,6 +107,10 @@ const LanguageAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
                 <TableRow
                   key={index}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'minmax(100px, 1fr) 145px 145px 50px'
+                  }}
                 >
                   <TableCell scope="row">
                     <Controller
