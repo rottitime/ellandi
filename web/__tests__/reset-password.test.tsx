@@ -4,7 +4,7 @@ import ResetPasswordPage from '@/pages/signin/forgotten-password/reset'
 import fetchMock from 'jest-fetch-mock'
 import Router from 'next/router'
 import { Props } from '@/components/Form/ResetPasswordForm/types'
-import { bugfixForTimeout, renderWithProviders } from '@/lib/test-utils'
+import { renderWithProviders } from '@/lib/test-utils'
 import { ValidUserToken } from '@/service/types'
 
 const mockRouter = jest.fn(() => ({ query: { code: 'mycode', user_id: 'abc123' } }))
