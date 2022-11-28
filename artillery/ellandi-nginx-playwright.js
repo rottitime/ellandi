@@ -23,8 +23,9 @@ async function createAccount(page) {
   await page.getByTestId('textfield_email').click();
 
   var _extra_id = makeid(6).toLowerCase()
-  console.log(_extra_id)
+
   console.log(`peter.rabbit${_extra_id}@example.com`)
+  var _password = makeid(8).toLowerCase()
 
   await page.getByTestId('textfield_email').fill(`peter.rabbit${_extra_id}@example.com`);
 
@@ -34,7 +35,7 @@ async function createAccount(page) {
 
   await page.getByTestId('textfield_emailConfirm').press('Tab');
 
-  await page.getByTestId('textfield_password').fill(`${_extra_id}`);
+  await page.getByTestId('textfield_password').fill(`A${_password}!23`);
 
   await page.getByTestId('textfield_password').press('Tab');
 
