@@ -1,26 +1,9 @@
-limit_req_zone $limit zone=limitbyaddr:20m rate=50r/s;
-limit_req_zone $limit zone=limitbyaddrglb:20m rate=100r/s;
-limit_conn_zone $limit zone=limitskill:1m;
-limit_req_zone $limit zone=limitskillreq:1m rate=1r/m;
+limit_req_zone $binary_remote_addr zone=limitbyaddr:20m rate=50r/s;
+limit_req_zone $binary_remote_addr zone=limitbyaddrglb:20m rate=100r/s;
+limit_conn_zone $binary_remote_addr zone=limitskill:1m;
+limit_req_zone $binary_remote_addr zone=limitskillreq:1m rate=1r/m;
 limit_req_status 429;
 limit_conn_status 429;
-
-geo $whitelist {
-    default 0;
-    # CIDR in the list below are not limited
-    127.0.0.1/32 1;
-    # Local docker-compose loadtest IP.
-    172.18.0.5/32 1;
-    # Gov PaaS Static IPs London for loadtesting
-    35.178.62.180/32 1;
-    18.130.41.69/32 1;
-    35.177.73.214/32 1;
-}
-
-map $whitelist $limit {
-    0     $binary_remote_addr;
-    1     "";
-}
 
 server {
   listen 80;
