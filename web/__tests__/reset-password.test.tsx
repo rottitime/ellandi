@@ -7,7 +7,7 @@ import { Props } from '@/components/Form/ResetPasswordForm/types'
 import { renderWithProviders } from '@/lib/test-utils'
 import { ValidUserToken } from '@/service/types'
 
-const mockRouter = jest.fn(() => ({ query: { code: 'mycode', user_id: 'abc123' } }))
+const mockRouter = jest.fn()
 
 jest.mock('next/router', () => ({
   ...jest.requireActual('next/router'),
@@ -37,6 +37,11 @@ const mockSuccess: ValidUserToken = { valid: true }
 const mockError: ValidUserToken = { valid: false }
 
 describe('Page: Reset Password', () => {
+  beforeEach(() => {
+    mockRouter.mockImplementation(() => ({
+      query: { code: 'mycode', user_id: 'abc123' }
+    }))
+  })
   afterEach(() => {
     fetchMock.resetMocks()
   })
@@ -52,6 +57,19 @@ describe('Page: Reset Password', () => {
 
   it('invalid user: redirects with error code', async () => {
     fetchMock.mockResponse(JSON.stringify(mockError), { status: 200 })
+    renderWithProviders(<ResetPasswordPage />)
+
+    await waitFor(async () => {
+      expect(Router.push).toHaveBeenCalledWith({
+        pathname: 'signin',
+        query: { ecode: 4 }
+      })
+    })
+  })
+
+  it('missign query paramters', async () => {
+    mockRouter.mockImplementation(() => ({ query: {}, isReady: true }))
+    fetchMock.mockResponse(JSON.stringify(mockSuccess), { status: 200 })
     renderWithProviders(<ResetPasswordPage />)
 
     await waitFor(async () => {
