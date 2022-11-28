@@ -9,6 +9,7 @@ fake = faker.Faker()
 
 def make_fake_course():
     data = {
+        "id": fake.unique.random_int(min=10000, max=99999),
         "title": fake.sentence(),
         "short_description": fake.paragraph(),
         "long_description": "\n".join(fake.paragraphs()),
