@@ -12,11 +12,13 @@ function makeid(length) {
   return result;
 }
 
+var url = 'https://ellandi-staging.london.cloudapps.digital'
+
 async function createAccount(page) {
 
-  await page.goto('https://ellandi-sandbox.london.cloudapps.digital/register/');
+  await page.goto(`${url}`)
 
-  await expect(page).toHaveURL('https://ellandi-sandbox.london.cloudapps.digital/register/');
+  await expect(page).toHaveURL(`${url}/register/`);
 
   await page.getByTestId('textfield_email').click();
 
@@ -111,13 +113,6 @@ async function createAccount(page) {
   await expect(page).toHaveURL('https://ellandi-sandbox.london.cloudapps.digital/register/step/7/');
 
   await page.locator('div[role="radiogroup"]:has-text("YesNoI don\'t know") div').nth(1).click();
-
-  // await page.getByRole('radio', { name: 'No' }).check();
-
-  // await page.getByTestId('submit-button').click();
-  // await expect(page).toHaveURL('https://ellandi-sandbox.london.cloudapps.digital/register/step/8/');
-
-  // await page.getByText(' What skills do you have').click();
 
 
 }

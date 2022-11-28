@@ -1,35 +1,3 @@
-# config:
-#   target: "http://nginx"
-#   # Enable the Playwright engine:
-#   # phases:
-#   #   - duration: 60
-#   #     arrivalRate: 1
-#   #     maxVUsers: 10
-#   engines:
-#     playwright:
-#       launchOptions:
-#         headless: true
-#   processor: "./ellandi-nginx-playwright-test.js"
-#   # # processor: "tests/example.spec.js"
-#   # functional:
-#   #     #  single VU is used here
-#   #   plugins:
-#   #       expect: {}
-# scenarios:
-#   - engine: playwright
-#     flowFunction: "createAccount"
-#     flow: []
-#     # expect:
-#     # - statusCode: 200
-#     # - contentType: json
-#     # - hasProperty: target
-#     # - equals:
-#     #   - "Create an account"
-#     #   - "{{ target }}"
-#
-# https://www.katk.dev/playwright-artillery
-
-
 config:
   target: "http://nginx"
   # Enable the Playwright engine:

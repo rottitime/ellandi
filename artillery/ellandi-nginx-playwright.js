@@ -12,19 +12,13 @@ function makeid(length) {
   return result;
 }
 
-// console.log(makeid(5));
+var url = 'http://nginx'
 
-// test('test', async ({ page }) => {
 async function createAccount(page) {
 
-  await page.goto('http://nginx/register/');
+  await page.goto(`${url}`)
 
-  // await page.getByRole('link', { name: 'Create account' }).click();
-  await expect(page).toHaveURL('http://nginx/register/');
-  // // await page.locator('a:has-text("Cabinet Office Skills and Learning")').click();
-  // // await page.locator('text=Create an account')
-  // await page.locator('text=you need to create an account').waitFor();
-
+  await expect(page).toHaveURL(`${url}/register/`);
 
   await page.getByTestId('textfield_email').click();
 
