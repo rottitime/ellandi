@@ -16,8 +16,8 @@ services:
         API_HOST: http://api:8000
         RESOLVER: 127.0.0.11
     image: nginx_main
-    depends_on:
-      - api
+    # depends_on:
+    #   - api
     env_file:
       - ./envs/nginx
     ports:
@@ -149,13 +149,11 @@ services:
       - ./:/app/:z
 
 
-  loadtest:
+  loadtests:
     build:
       context: .
-      dockerfile: ./docker/loadtest/Dockerfile
+      dockerfile: ./docker/artillery/Dockerfile
       args:
-        APP: web
-        MODULE: web
-    image: loadtest
-    profiles:
-      - loadtest
+        TARGET: 'http://nginx'
+    image: loadtests
+    command: run /artillery/artillery-nginx-playwright.yml
