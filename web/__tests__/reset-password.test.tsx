@@ -1,10 +1,11 @@
-import { screen, waitFor } from '@testing-library/react'
+import { screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import ResetPasswordPage from '@/pages/signin/forgotten-password/reset'
 import fetchMock from 'jest-fetch-mock'
 import Router from 'next/router'
 import { Props } from '@/components/Form/ResetPasswordForm/types'
-import { renderWithProviders } from '@/lib/test-utils'
+import { bugfixForTimeout, renderWithProviders } from '@/lib/test-utils'
+import { ValidUserToken } from '@/service/types'
 
 const mockRouter = jest.fn(() => ({ query: { code: 'mycode', user_id: 'abc123' } }))
 
@@ -32,9 +33,33 @@ jest.mock(
 
 const new_password = 'MyPassword123'
 
+const mockSuccess: ValidUserToken = { valid: true }
+
 describe('Page: Reset Password', () => {
   afterEach(() => {
     fetchMock.resetMocks()
+  })
+
+  it('valid user: renders after loading state', async () => {
+    fetchMock.mockResponse(JSON.stringify(mockSuccess), {
+      status: 200
+    })
+    renderWithProviders(<ResetPasswordPage />)
+
+    await waitForElementToBeRemoved(() => screen.queryByTestId('skeleton-content'))
+
+    expect(screen.getByTestId('reset-password-success-content')).toBeInTheDocument()
+  })
+
+  it('renders after loading state', async () => {
+    fetchMock.mockResponse(JSON.stringify(mockSuccess), {
+      status: 200
+    })
+    renderWithProviders(<ResetPasswordPage />)
+
+    await waitForElementToBeRemoved(() => screen.queryByTestId('skeleton-content'))
+
+    expect(screen.getByTestId('reset-password-success-content')).toBeInTheDocument()
   })
 
   describe('On submit', () => {

@@ -9,8 +9,7 @@ const min = 40
 const max = 70
 
 const ContentSkeleton: FC<Props> = ({ lines = 3 }) => (
-  <div>
-    <Skeleton sx={{ maxWidth: `${Math.floor(Math.random() * (max - min) + min)}%` }} />
+  <div data-testid="skeleton-content">
     {[...Array(lines).keys()].map((i) => (
       <Skeleton
         key={i}

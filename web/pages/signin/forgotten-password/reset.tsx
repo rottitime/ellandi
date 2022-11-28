@@ -25,13 +25,19 @@ const ResetPasswordPage = () => {
     () => isValidUserToken(user_id as string, code as string, 'password-reset'),
     {
       staleTime: Infinity,
-      enabled: !!router.isReady && !!code && !!user_id,
+      enabled: !!code && !!user_id,
       onSuccess: ({ valid }) => {
+        console.log({ valid, code, user_id })
         if (!valid) redirectWithError()
       },
-      onError: () => redirectWithError()
+      onError: () => {
+        console.log('RRRROR')
+        redirectWithError()
+      }
     }
   )
+
+  console.log({ data, code, user_id })
 
   useEffect(() => {
     setLoading(isLoading)
@@ -65,7 +71,7 @@ const ResetPasswordPage = () => {
   if (!!isSuccess && !!data.valid)
     return (
       <>
-        <Typography sx={{ mb: 4 }}>
+        <Typography sx={{ mb: 4 }} data-testid="reset-password-success-content">
           Your password should have at least 8 characters and not include your name or
           email address
         </Typography>
