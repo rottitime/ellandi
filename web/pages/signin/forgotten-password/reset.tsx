@@ -27,17 +27,11 @@ const ResetPasswordPage = () => {
       staleTime: Infinity,
       enabled: !!code && !!user_id,
       onSuccess: ({ valid }) => {
-        console.log({ valid, code, user_id })
         if (!valid) redirectWithError()
       },
-      onError: () => {
-        console.log('RRRROR')
-        redirectWithError()
-      }
+      onError: () => redirectWithError()
     }
   )
-
-  console.log({ data, code, user_id })
 
   useEffect(() => {
     setLoading(isLoading)

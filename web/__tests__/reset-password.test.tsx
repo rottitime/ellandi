@@ -62,12 +62,21 @@ describe('Page: Reset Password', () => {
     })
   })
 
-  describe.skip('On submit', () => {
+  describe('On submit', () => {
+    beforeEach(() => {
+      fetchMock.mockResponse(JSON.stringify(mockSuccess), { status: 200 })
+    })
+
     it('redirects on success', async () => {
+      renderWithProviders(<ResetPasswordPage />)
+
+      await waitFor(async () =>
+        expect(screen.getByTestId('reset-password-success-content')).toBeVisible()
+      )
+
       fetchMock.mockResponseOnce(JSON.stringify({}), {
         status: 200
       })
-      renderWithProviders(<ResetPasswordPage />)
 
       const submitButton = screen.getByTestId('mock-form-button')
 
@@ -82,10 +91,15 @@ describe('Page: Reset Password', () => {
 
     it('shows server error', async () => {
       const error = 'message from server'
+      renderWithProviders(<ResetPasswordPage />)
+
+      await waitFor(async () =>
+        expect(screen.getByTestId('reset-password-success-content')).toBeVisible()
+      )
+
       fetchMock.mockResponseOnce(JSON.stringify({ detail: error }), {
         status: 400
       })
-      renderWithProviders(<ResetPasswordPage />)
       const submitButton = screen.getByTestId('mock-form-button')
       userEvent.click(submitButton)
 
@@ -100,10 +114,15 @@ describe('Page: Reset Password', () => {
 
     it('shows default error', async () => {
       const error = 'Error: Sorry, there is a problem with the service. Try again later.'
+      renderWithProviders(<ResetPasswordPage />)
+
+      await waitFor(async () =>
+        expect(screen.getByTestId('reset-password-success-content')).toBeVisible()
+      )
+
       fetchMock.mockResponseOnce(JSON.stringify('broken message'), {
         status: 400
       })
-      renderWithProviders(<ResetPasswordPage />)
       const submitButton = screen.getByTestId('mock-form-button')
       userEvent.click(submitButton)
 
