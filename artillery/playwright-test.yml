@@ -1,5 +1,5 @@
 config:
-  target: https://ellandi-sandbox.london.cloudapps.digital
+  target: https://ellandi-staging.london.cloudapps.digital
   # Enable the Playwright engine:
   phases:
     - duration: 60

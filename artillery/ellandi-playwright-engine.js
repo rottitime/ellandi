@@ -12,7 +12,7 @@ function makeid(length) {
   return result;
 }
 
-var url = 'https://ellandi-sandbox.london.cloudapps.digital'
+var url = 'https://ellandi-staging.london.cloudapps.digital'
 
 async function createAccount(page) {
 
