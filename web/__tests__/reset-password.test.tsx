@@ -8,6 +8,9 @@ import { renderWithProviders } from '@/lib/test-utils'
 import { ValidUserToken } from '@/service/types'
 
 const mockRouter = jest.fn()
+const new_password = 'MyPassword123'
+const mockSuccess: ValidUserToken = { valid: true }
+const mockError: ValidUserToken = { valid: false }
 
 jest.mock('next/router', () => ({
   ...jest.requireActual('next/router'),
@@ -30,11 +33,6 @@ jest.mock(
       />
     )
 )
-
-const new_password = 'MyPassword123'
-
-const mockSuccess: ValidUserToken = { valid: true }
-const mockError: ValidUserToken = { valid: false }
 
 describe('Page: Reset Password', () => {
   beforeEach(() => {
