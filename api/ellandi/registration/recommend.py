@@ -74,8 +74,6 @@ def recommend_bundled_skill_recommendations(skills, job_title, profession):
         recommend_skill for skill in skills for recommend_skill in recommend_skill_from_skill(skill)
     )
 
-    unique_skill_recommendations = sort_most_common(all_skill_recommended_skills)
-
     job_title_skills = tuple(recommend_title_from_job_title(job_title))
 
     ddat_recommended_skills = DDAT_JOB_TO_SKILLS_LOOKUP.get(job_title)
@@ -87,17 +85,19 @@ def recommend_bundled_skill_recommendations(skills, job_title, profession):
 
     popular_skills = tuple(recommend_popular_skills())
 
-    similar_job_skills = sort_most_common((*profession_skills, *all_job_skills))
+    similar_job_skills = (*profession_skills, *all_job_skills)
 
-    all_skills = sort_most_common((*profession_skills, *unique_skill_recommendations, *all_job_skills, *popular_skills))
+    all_skills = sort_most_common((*profession_skills, *all_skill_recommended_skills, *all_job_skills, *popular_skills))
 
     data = {
         "profession_skills": profession_skills,
-        "skill_skills": unique_skill_recommendations,
+        "skill_skills": all_skill_recommended_skills,
         "job_title_skills": all_job_skills,
         "similar_job_skills": similar_job_skills,
         "popular_skills": popular_skills,
         "all_skills": all_skills,
     }
+
+    data = {k: sort_most_common(v) for k, v in data.items()}
 
     return data
