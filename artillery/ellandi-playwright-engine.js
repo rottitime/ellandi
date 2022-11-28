@@ -12,7 +12,7 @@ function makeid(length) {
   return result;
 }
 
-var url = 'https://ellandi-staging.london.cloudapps.digital'
+var url = 'https://ellandi-sandbox.london.cloudapps.digital'
 
 async function createAccount(page) {
 
@@ -23,7 +23,8 @@ async function createAccount(page) {
   await page.getByTestId('textfield_email').click();
 
   var _extra_id = makeid(6).toLowerCase()
-  console.log(_extra_id)
+  var _password = makeid(8).toLowerCase()
+
   console.log(`peter.rabbit${_extra_id}@example.com`)
 
   await page.getByTestId('textfield_email').fill(`peter.rabbit${_extra_id}@example.com`);
@@ -34,11 +35,11 @@ async function createAccount(page) {
 
   await page.getByTestId('textfield_emailConfirm').press('Tab');
 
-  await page.getByTestId('textfield_password').fill('asdfjkl;!23');
+  await page.getByTestId('textfield_password').fill(`A${_password}!23`);
 
   await page.getByTestId('textfield_password').press('Tab');
 
-  await page.getByTestId('textfield_passwordConfirm').fill('asdfjkl;!23');
+  await page.getByTestId('textfield_passwordConfirm').fill(`A${_password}!23`);
 
   await page.getByLabel('I agree to the privacy policy').check();
 

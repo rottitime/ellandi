@@ -158,5 +158,4 @@ services:
     image: loadtests
     depends_on:
       - nginx
-    # command: run /artillery/artillery-nginx-playwright.yml
-    command: run /artillery/playwright-test.yml
+    command: run /artillery/artillery-nginx-playwright.yml
