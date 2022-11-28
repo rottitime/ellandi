@@ -16,7 +16,7 @@ var url = 'https://ellandi-staging.london.cloudapps.digital'
 
 async function createAccount(page) {
 
-  await page.goto(`${url}`)
+  await page.goto(`${url}/register/`)
 
   await expect(page).toHaveURL(`${url}/register/`);
 

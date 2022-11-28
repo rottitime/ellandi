@@ -1,6 +1,6 @@
 
 module.exports = { createAccount };
-const { test, expect } = require('@playwright/test');
+const { expect } = require('@playwright/test');
 
 function makeid(length) {
   var result           = '';
@@ -16,7 +16,7 @@ var url = 'http://nginx'
 
 async function createAccount(page) {
 
-  await page.goto(`${url}`)
+  await page.goto(`${url}/register/`)
 
   await expect(page).toHaveURL(`${url}/register/`);
 
