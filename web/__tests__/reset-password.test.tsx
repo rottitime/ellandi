@@ -1,12 +1,16 @@
-import { screen, waitFor } from '@testing-library/react'
+import { screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import ResetPasswordPage from '@/pages/signin/forgotten-password/reset'
 import fetchMock from 'jest-fetch-mock'
 import Router from 'next/router'
 import { Props } from '@/components/Form/ResetPasswordForm/types'
 import { renderWithProviders } from '@/lib/test-utils'
+import { ValidUserToken } from '@/service/types'
 
-const mockRouter = jest.fn(() => ({ query: { code: 'mycode', user_id: 'abc123' } }))
+const mockRouter = jest.fn()
+const new_password = 'MyPassword123'
+const mockSuccess: ValidUserToken = { valid: true }
+const mockError: ValidUserToken = { valid: false }
 
 jest.mock('next/router', () => ({
   ...jest.requireActual('next/router'),
@@ -30,63 +34,121 @@ jest.mock(
     )
 )
 
-const new_password = 'MyPassword123'
-
 describe('Page: Reset Password', () => {
+  beforeEach(() => {
+    mockRouter.mockImplementation(() => ({
+      query: { code: 'mycode', user_id: 'abc123' }
+    }))
+  })
   afterEach(() => {
     fetchMock.resetMocks()
   })
 
-  it('redirects on success', async () => {
-    fetchMock.mockResponseOnce(JSON.stringify({}), {
-      status: 200
-    })
+  it('valid user: renders after loading state', async () => {
+    fetchMock.mockResponse(JSON.stringify(mockSuccess), { status: 200 })
     renderWithProviders(<ResetPasswordPage />)
 
-    const submitButton = screen.getByTestId('mock-form-button')
+    await waitForElementToBeRemoved(() => screen.queryByTestId('skeleton-content'))
 
-    expect(submitButton).toBeVisible()
+    expect(screen.getByTestId('reset-password-success-content')).toBeInTheDocument()
+  })
 
-    userEvent.click(submitButton)
+  it('invalid user: redirects with error code', async () => {
+    fetchMock.mockResponse(JSON.stringify(mockError), { status: 200 })
+    renderWithProviders(<ResetPasswordPage />)
 
     await waitFor(async () => {
-      expect(Router.push).toHaveBeenCalledWith('/signin/forgotten-password/complete')
+      expect(Router.push).toHaveBeenCalledWith({
+        pathname: 'signin',
+        query: { ecode: 4 }
+      })
     })
   })
 
-  it('shows server error', async () => {
-    const error = 'message from server'
-    fetchMock.mockResponseOnce(JSON.stringify({ detail: error }), {
-      status: 400
-    })
+  it('missign query paramters', async () => {
+    mockRouter.mockImplementation(() => ({ query: {}, isReady: true }))
+    fetchMock.mockResponse(JSON.stringify(mockSuccess), { status: 200 })
     renderWithProviders(<ResetPasswordPage />)
-    const submitButton = screen.getByTestId('mock-form-button')
-    userEvent.click(submitButton)
 
     await waitFor(async () => {
-      expect(() => {
-        screen.getByText(`Error: ${error}`)
-      }).toThrow(`Error: ${error}`)
+      expect(Router.push).toHaveBeenCalledWith({
+        pathname: 'signin',
+        query: { ecode: 4 }
+      })
     })
-
-    expect(Router.push).not.toHaveBeenCalled()
   })
 
-  it('shows default error', async () => {
-    const error = 'Error: Sorry, there is a problem with the service. Try again later.'
-    fetchMock.mockResponseOnce(JSON.stringify('broken message'), {
-      status: 400
-    })
-    renderWithProviders(<ResetPasswordPage />)
-    const submitButton = screen.getByTestId('mock-form-button')
-    userEvent.click(submitButton)
-
-    await waitFor(async () => {
-      expect(() => {
-        screen.getByText(error)
-      }).toThrow(error)
+  describe('On submit', () => {
+    beforeEach(() => {
+      fetchMock.mockResponse(JSON.stringify(mockSuccess), { status: 200 })
     })
 
-    expect(Router.push).not.toHaveBeenCalled()
+    it('redirects on success', async () => {
+      renderWithProviders(<ResetPasswordPage />)
+
+      await waitFor(async () =>
+        expect(screen.getByTestId('reset-password-success-content')).toBeVisible()
+      )
+
+      fetchMock.mockResponseOnce(JSON.stringify({}), {
+        status: 200
+      })
+
+      const submitButton = screen.getByTestId('mock-form-button')
+
+      expect(submitButton).toBeVisible()
+
+      userEvent.click(submitButton)
+
+      await waitFor(async () => {
+        expect(Router.push).toHaveBeenCalledWith('/signin/forgotten-password/complete')
+      })
+    })
+
+    it('shows server error', async () => {
+      const error = 'message from server'
+      renderWithProviders(<ResetPasswordPage />)
+
+      await waitFor(async () =>
+        expect(screen.getByTestId('reset-password-success-content')).toBeVisible()
+      )
+
+      fetchMock.mockResponseOnce(JSON.stringify({ detail: error }), {
+        status: 400
+      })
+      const submitButton = screen.getByTestId('mock-form-button')
+      userEvent.click(submitButton)
+
+      await waitFor(async () => {
+        expect(() => {
+          screen.getByText(`Error: ${error}`)
+        }).toThrow(`Error: ${error}`)
+      })
+
+      expect(Router.push).not.toHaveBeenCalled()
+    })
+
+    it('shows default error', async () => {
+      const error = 'Error: Sorry, there is a problem with the service. Try again later.'
+      renderWithProviders(<ResetPasswordPage />)
+
+      await waitFor(async () =>
+        expect(screen.getByTestId('reset-password-success-content')).toBeVisible()
+      )
+
+      fetchMock.mockResponseOnce(JSON.stringify('broken message'), {
+        status: 400
+      })
+      const submitButton = screen.getByTestId('mock-form-button')
+      userEvent.click(submitButton)
+
+      await waitFor(async () => {
+        expect(() => {
+          screen.getByText(error)
+        }).toThrow(error)
+      })
+
+      expect(Router.push).not.toHaveBeenCalled()
+    })
   })
 })

@@ -23,7 +23,8 @@ export enum Query {
   ReportResponsibility = 'ReportResponsibility',
   ReportGrade = 'ReportGrade',
   ReportLearning = 'ReportLearning',
-  Courses = 'courses'
+  Courses = 'courses',
+  ValidUserToken = 'ValidUserToken'
 }
 
 export type GenericDataList = {
@@ -309,4 +310,8 @@ export type MeReportLearning = {
   goal_value_days: number
   goal_value_percentage: number
   distribution: ReportDistributionData[]
+}
+
+export type ValidUserToken = {
+  valid: boolean
 }
