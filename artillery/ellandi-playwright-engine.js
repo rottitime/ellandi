@@ -46,7 +46,7 @@ async function createAccount(page) {
   await page.getByTestId('submit-button').click();
 
 
-  await expect(page).toHaveURL('https://ellandi-sandbox.london.cloudapps.digital/register/step/0/');
+  await expect(page).toHaveURL(`${url}/register/step/0/`);
 
   await page.getByTestId('textfield_first_name').click();
 
@@ -75,43 +75,43 @@ async function createAccount(page) {
   await page.getByTestId('textfield_line_manager_email').fill('manager@example.com');
 //-------
   await page.getByTestId('submit-button').click();
-  await expect(page).toHaveURL('https://ellandi-sandbox.london.cloudapps.digital/register/step/1/');
+  await expect(page).toHaveURL(`${url}/register/step/1/`);
 
   await page.getByText('Grade 7 Equivalent').click();
 
   await page.getByTestId('submit-button').click();
-  await expect(page).toHaveURL('https://ellandi-sandbox.london.cloudapps.digital/register/step/2/');
+  await expect(page).toHaveURL(`${url}/register/step/2/`);
 
   await page.getByRole('button', { name: 'Primary profession ​' }).click();
 
   await page.getByRole('option', { name: 'Digital, data and technology' }).click();
 
   await page.getByTestId('submit-button').click();
-  await expect(page).toHaveURL('https://ellandi-sandbox.london.cloudapps.digital/register/step/3/');
+  await expect(page).toHaveURL(`${url}/register/step/3/`);
 
   await page.getByText('Communications').click();
 
   await page.getByText('Security').click();
 
   await page.getByTestId('submit-button').click();
-  await expect(page).toHaveURL('https://ellandi-sandbox.london.cloudapps.digital/register/step/4/');
+  await expect(page).toHaveURL(`${url}/register/step/4/`);
 
   await page.getByText('Project delivery').click();
 
   await page.getByText('Digital').click();
 
   await page.getByTestId('submit-button').click();
-  await expect(page).toHaveURL('https://ellandi-sandbox.london.cloudapps.digital/register/step/5/');
+  await expect(page).toHaveURL(`${url}/register/step/5/`);
 
   await page.getByText('Agency').click();
 
   await page.getByTestId('submit-button').click();
-  await expect(page).toHaveURL('https://ellandi-sandbox.london.cloudapps.digital/register/step/6/');
+  await expect(page).toHaveURL(`${url}/register/step/6/`);
 
   await page.locator('label:has-text("No")').first().click();
 
   await page.getByTestId('submit-button').click();
-  await expect(page).toHaveURL('https://ellandi-sandbox.london.cloudapps.digital/register/step/7/');
+  await expect(page).toHaveURL(`${url}/register/step/7/`);
 
   await page.locator('div[role="radiogroup"]:has-text("YesNoI don\'t know") div').nth(1).click();
 
