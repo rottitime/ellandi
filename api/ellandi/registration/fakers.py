@@ -1,4 +1,5 @@
 import random
+import string
 
 import faker
 
@@ -9,6 +10,7 @@ fake = faker.Faker()
 
 def make_fake_course():
     data = {
+        "id": fake.unique.pystr_format("?" * 22, letters=string.ascii_letters + string.digits + "_-"),
         "title": fake.sentence(),
         "short_description": fake.paragraph(),
         "long_description": "\n".join(fake.paragraphs()),

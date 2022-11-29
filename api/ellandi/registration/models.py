@@ -368,12 +368,12 @@ class Course(models.Model):
         PUBLISHED = ("Published", "Published")
 
     class CourseType(models.TextChoices):
-        ELEARNING = ("Elearning", "Elearning")
+        BLENDED = ("Blended", "Blended")
         FACE_TO_FACE = ("Face-to-face", "Face-to-face")
         FILE = ("File", "File")
         LINK = ("Link", "Link")
         VIDEO = ("Video", "Video")
-        MIXED = ("Mixed", "Mixed")
+        ONLINE_COURSE = ("Online course", "Online course")
 
     class Grade(models.TextChoices):
         AA = ("AA", "AA")
