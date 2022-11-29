@@ -9,6 +9,9 @@ on:
       - .github/workflows/metrics.yml
       - 'manifests/Metrics/PrometheusServer/**'
       - 'manifests/Metrics/alertmanager/**'
+  workflow_dispatch:
+    branches:
+      - develop
 
 jobs:
   deploy_prometheus:
