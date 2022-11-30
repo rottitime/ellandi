@@ -137,3 +137,7 @@ setup:
 	docker-compose run api python manage.py add_courses -n 128
 	docker-compose run api python manage.py add_users -n 128
 	docker-compose run organogram python manage.py create_minio_bucket
+
+.PHONY: loadtests ## Run loadtests
+loadtests:
+	docker-compose -f docker-compose.yml up --build --force-recreate loadtests

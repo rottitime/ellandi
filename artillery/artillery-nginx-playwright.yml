@@ -1,0 +1,15 @@
+config:
+  target: "http://nginx"
+  # Enable the Playwright engine:
+  phases:
+  - duration: 60
+    arrivalRate: 1
+    maxVUsers: 2
+  engines:
+    playwright: {}
+  processor: "./ellandi-nginx-playwright.js"
+scenarios:
+  - name: 'Create Accounts'
+    engine: playwright
+    flowFunction: "createAccount"
+    flow: []

@@ -149,13 +149,13 @@ services:
       - ./:/app/:z
 
 
-  loadtest:
+  loadtests:
     build:
       context: .
-      dockerfile: ./docker/loadtest/Dockerfile
+      dockerfile: ./docker/artillery/Dockerfile
       args:
-        APP: web
-        MODULE: web
-    image: loadtest
-    profiles:
-      - loadtest
+        TARGET: 'http://nginx'
+    image: loadtests
+    depends_on:
+      - nginx
+    command: run /artillery/artillery-nginx-playwright.yml
