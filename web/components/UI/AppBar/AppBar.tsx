@@ -15,6 +15,9 @@ import { Props } from './types'
 import Icon from '@/components/Icon/Icon'
 import { useRouter } from 'next/router'
 import Button from '../Button/Button'
+import getConfig from 'next/config'
+
+const { publicRuntimeConfig } = getConfig()
 
 const StyledAppBar = styled(MuiAppBar)`
   background: transparent;
@@ -60,6 +63,18 @@ const AppBar: FC<Props> = ({ pages, settings, settingsTip = '', ...props }) => {
     setAnchorElUser(null)
   }
 
+  const isActive = (url: string): boolean => {
+    const currentPath = router?.asPath
+    const homepage = publicRuntimeConfig.urls.landingSignin
+
+    //landing page
+    if (url === homepage && currentPath === homepage) return true
+    //url contains
+    if (currentPath.startsWith(url) && url !== homepage) return true
+
+    return false
+  }
+
   return (
     <StyledAppBar position="static" elevation={0} {...props}>
       <Toolbar disableGutters>
@@ -70,11 +85,11 @@ const AppBar: FC<Props> = ({ pages, settings, settingsTip = '', ...props }) => {
               <Button
                 style={{
                   textDecorationColor: theme.colors[color],
-                  color: router?.asPath === url ? theme.colors[color] : theme.colors.black
+                  color: isActive(url) ? theme.colors[color] : theme.colors.black
                 }}
                 key={title}
                 href={url}
-                className={` ${router?.asPath === url ? 'active' : ''}`}
+                className={` ${isActive(url) ? 'active' : ''}`}
               >
                 <span
                   style={{
