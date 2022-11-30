@@ -70,7 +70,7 @@ const AppBar: FC<Props> = ({ pages, settings, settingsTip = '', ...props }) => {
     //landing page
     if (url === homepage && currentPath === homepage) return true
     //url contains
-    if (currentPath.startsWith(url) && url !== homepage) return true
+    if (currentPath?.startsWith(url) && url !== homepage) return true
 
     return false
   }
