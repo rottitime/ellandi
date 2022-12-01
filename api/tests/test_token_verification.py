@@ -77,6 +77,10 @@ def test_resend_verify_email(client, user_id):
     user = User.objects.get(id=user_id)
     assert user.verified
 
+    response = client.get(url)
+    assert response.status_code == 400, response.status_code
+    #assert response.status_code == 400, "Token invalid once user is verified"
+
 
 @utils.with_client
 @override_settings(SEND_VERIFICATION_EMAIL=True)
