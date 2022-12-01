@@ -108,7 +108,8 @@ def verification_view(request, user_id, token):
         user = models.User.objects.get(id=user_id)
         if user.verified:
             result = False
-        result = EMAIL_VERIFY_TOKEN_GENERATOR.check_token(user, token)
+        else:
+            result = EMAIL_VERIFY_TOKEN_GENERATOR.check_token(user, token)
     except ObjectDoesNotExist:
         result = False
     if result:
