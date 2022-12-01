@@ -48,13 +48,16 @@ def process_courses(data):
     for course in filter_courses(data):
         types = tuple(set(gather(course.modules, "moduleType")))
         if len(types) > 1:
-            course_type = "Mixed"
+            course_type = "Blended"
         elif len(types) == 1:
             course_type = types[0].capitalize()
+            if course_type == "Elearning":
+                course_type = "Online course"
         else:
             course_type = None
 
         yield {
+            "id": course.id,
             "grades": flatten(gather(course.audiences, "grades")),
             "title": course.title,
             "short_description": course.shortDescription,

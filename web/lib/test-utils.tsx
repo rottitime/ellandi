@@ -6,8 +6,12 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 import { UiProvider } from '@/context/UiContext'
 import {
   AuthUser,
+  MeReportLanguages,
+  MeReportSkills,
   MeSuggestedSkillsResponse,
   RegisterUserResponse,
+  ReportLanguagesData,
+  ReportSkillsData,
   SkillType,
   TeamMember
 } from '@/service/types'
@@ -284,59 +288,64 @@ export const mockSuggested: MeSuggestedSkillsResponse = [
   'Orange'
 ]
 
-// const mockReportSkills: MeReportSkills = {
-//   page: 1,
-//   per_page: 10,
-//   total: 100,
-//   total_pages: 10,
-//   data: [...Array(100).keys()].map(
-//     (i) =>
-//       ({
-//         name: `Skill ${i}`,
-//         skill_label: `${i} (${i}%)`,
-//         skill_value_total: i,
-//         skill_value_percentage: i,
-//         skills_develop_label: `${i} (${i}%)`,
-//         skills_develop_value_total: i,
-//         skills_develop_value_percentage: i,
-//         beginner_label: `${i} (${i}%)`,
-//         advanced_beginner_label: `${i} (${i}%)`,
-//         competent_label: `${i} (${i}%)`,
-//         proficient_label: `${i} (${i}%)`,
-//         expert_label: `${i} (${i}%)`,
-//         beginner_value_percentage: i,
-//         advanced_beginner_value_percentage: i,
-//         competent_value_percentage: i,
-//         proficient_value_percentage: i,
-//         expert_value_percentage: i
-//       } as ReportSkillsData)
-//   )
-// }
+export const mockReportSkills: MeReportSkills = {
+  page: 1,
+  per_page: 10,
+  total: 100,
+  total_pages: 10,
+  data: mockSkills.map(
+    (name, i) =>
+      ({
+        name,
+        skill_label: `${i} (${i}%)`,
+        skill_value_total: i,
+        skill_value_percentage: i,
+        skill_develop_label: `${i} (${i}%)`,
+        skill_develop_value_total: i,
+        skill_develop_value_percentage: i,
+        beginner_label: `${i} (${i}%)`,
+        advanced_beginner_label: `${i} (${i}%)`,
+        competent_label: `${i} (${i}%)`,
+        proficient_label: `${i} (${i}%)`,
+        expert_label: `${i} (${i}%)`,
+        beginner_value_percentage: i,
+        beginner_value_total: i,
+        advanced_beginner_value_percentage: i,
+        competent_value_percentage: i,
+        competent_value_total: i,
+        proficient_value_percentage: i,
+        proficient_value_total: i,
+        expert_value_percentage: i,
+        expert_value_total: i,
+        total_users: i
+      } as ReportSkillsData)
+  )
+}
 
-// const languagesData: MeReportLanguages = {
-//   page: 1,
-//   per_page: 10,
-//   total: 100,
-//   total_pages: 10,
-//   data: [...Array(100).keys()].map(
-//     (i) =>
-//       ({
-//         name: `Language ${i}`,
-//         basic_label: `${i} (${i}%)`,
-//         basic_value_total: i,
-//         basic_value_percentage: i,
-//         independent_label: `${i} (${i}%)`,
-//         independent_value_total: i,
-//         independent_value_percentage: i,
-//         proficient_label: `${i} (${i}%)`,
-//         proficient_value_total: i,
-//         proficient_value_percentage: i,
-//         native_label: `${i} (${i}%)`,
-//         native_value_total: i,
-//         native_value_percentage: i
-//       } as ReportLanguagesData)
-//   )
-// }
+export const mockReportLanguages: MeReportLanguages = {
+  page: 1,
+  per_page: 5,
+  total: 6,
+  total_pages: 2,
+  data: [...Array(6).keys()].map(
+    (i) =>
+      ({
+        name: `Language ${i}`,
+        basic_label: `${i} (${i}%)`,
+        basic_value_total: i,
+        basic_value_percentage: i,
+        independent_label: `${i} (${i}%)`,
+        independent_value_total: i,
+        independent_value_percentage: i,
+        proficient_label: `${i} (${i}%)`,
+        proficient_value_total: i,
+        proficient_value_percentage: i,
+        native_label: `${i} (${i}%)`,
+        native_value_total: i,
+        native_value_percentage: i
+      } as ReportLanguagesData)
+  )
+}
 
 //   data: [...Array(3).keys()].map((i) => ({
 //     name: `User ${i}`,
@@ -344,7 +353,7 @@ export const mockSuggested: MeSuggestedSkillsResponse = [
 //     total_value_total: i,
 //     total_value_percentage: i
 //   }))
-// } as MeReporResponsibility)
+// } as MeReportResponsibility)
 
 //   data: [...Array(20).keys()].map((i) => ({
 //     name: `User ${i}`,
@@ -352,4 +361,4 @@ export const mockSuggested: MeSuggestedSkillsResponse = [
 //     total_value_total: i,
 //     total_value_percentage: i
 //   }))
-// } as MeReporGrade
+// } as MeReportGrade

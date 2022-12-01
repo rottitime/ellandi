@@ -1,0 +1,8 @@
+---
+applications:
+  - name: loadtests
+    instances: 1
+    memory: 1024M
+    disk_quota: 4092M
+    no-route: true
+    health-check-type: process

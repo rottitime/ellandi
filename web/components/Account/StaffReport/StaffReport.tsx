@@ -9,8 +9,8 @@ import {
   exportReportResponsibility,
   fetchReportGrade,
   fetchReportResponsibility,
-  MeReporGrade,
-  MeReporResponsibility,
+  MeReportGrade,
+  MeReportResponsibility,
   Query,
   SimpleLabelValueData
 } from '@/service/api'
@@ -28,7 +28,7 @@ const StaffReport = () => {
     data: dataResponsibility,
     isError: isErrorResponsibility,
     error: errorResponsibility
-  } = useQuery<MeReporResponsibility, Error>(
+  } = useQuery<MeReportResponsibility, Error>(
     Query.ReportResponsibility,
     () => authFetch(fetchReportResponsibility),
     { staleTime: Infinity }
@@ -39,7 +39,7 @@ const StaffReport = () => {
     data: dataGrade,
     isError: isErrorGrade,
     error: errorGrade
-  } = useQuery<MeReporGrade, Error>(
+  } = useQuery<MeReportGrade, Error>(
     Query.ReportGrade,
     () => authFetch(fetchReportGrade),
     {
@@ -58,7 +58,7 @@ const StaffReport = () => {
 
   return (
     <>
-      <AccountCard sx={{ mb: 4 }}>
+      <AccountCard sx={{ mb: 4 }} data-testid="responsibilities">
         {isLoadingResponsibility ? (
           <SkeletonTable columns={3} rows={2} />
         ) : (
@@ -84,8 +84,8 @@ const StaffReport = () => {
                 Export
               </Button>
             </Box>
+
             <DataGrid
-              pageSize={10}
               columns={columnsResponsibility}
               rows={dataResponsibility?.data || []}
               getRowId={(row) => row.name}

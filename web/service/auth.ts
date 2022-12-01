@@ -146,3 +146,23 @@ export const verifyEmail = async (user_id: string, token: string) => {
 
   throw new Error(defaultError)
 }
+
+export const isValidUserToken = async (
+  user_id: string,
+  token: string,
+  type?: 'password-reset' | 'email-verification'
+) => {
+  const res: Response = await fetch(
+    `${publicRuntimeConfig.apiUrl}/user/${user_id}/token/${token}/valid/${
+      type ? `?type=${type}` : ''
+    }`
+  )
+  if (res.ok) return res.json()
+
+  try {
+    const { detail } = await res.json()
+    if (detail) return Promise.reject(new Error(detail))
+  } catch (e) {}
+
+  throw new Error(defaultError)
+}

@@ -1,5 +1,5 @@
 import AccountLayout from '@/components/Layout/AccountLayout/AccountLayout'
-import { Grid, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
 import { menu, SectionOne } from './index'
 import BadgeNumber from '@/components/UI/BadgeNumber/BadgeNumber'
@@ -25,9 +25,25 @@ const SkillsAddSkillsPage = () => {
     <>
       <SectionOne active={menu[2].title} />
 
-      <Grid container spacing={2}>
-        <Grid item xs={12} md={6}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: {
+            xs: 'column',
+            lg: 'row'
+          },
+          gap: 2
+        }}
+      >
+        <Box
+          sx={{
+            flex: 1
+          }}
+        >
           <AccountCard
+            sx={{
+              width: '100%'
+            }}
             header={
               <Typography component="h2">
                 <BadgeNumber label="2" sx={{ mr: 2 }} /> Language and levels
@@ -39,8 +55,12 @@ const SkillsAddSkillsPage = () => {
               onFormSubmit={({ languages }) => mutate.mutate(languages)}
             />
           </AccountCard>
-        </Grid>
-        <Grid item xs={12} md={6}>
+        </Box>
+        <Box
+          sx={{
+            flex: 1
+          }}
+        >
           <AccountCard>
             <Typography variant="h2" gutterBottom>
               Speaking
@@ -92,8 +112,8 @@ const SkillsAddSkillsPage = () => {
               This is the first language you learnt as a child
             </Typography>
           </AccountCard>
-        </Grid>
-      </Grid>
+        </Box>
+      </Box>
     </>
   )
 }

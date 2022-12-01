@@ -398,7 +398,7 @@ const FindCourses = () => {
             marks={[
               {
                 value: 0,
-                label: '£0'
+                label: '£0+'
               },
               { value: 1000, label: '£1000+' }
             ]}
