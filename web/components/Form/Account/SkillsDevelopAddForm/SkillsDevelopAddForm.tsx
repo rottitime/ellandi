@@ -79,8 +79,6 @@ const SkillsDevelopAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  console.log('rendered', { fields })
-
   const disableOptions = useMemo(
     () => [
       ...watchAllFields.skills_develop.map(({ name }) => name),
