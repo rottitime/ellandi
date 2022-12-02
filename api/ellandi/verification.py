@@ -106,10 +106,12 @@ def me_send_verification_email_view(request):
 def verification_view(request, user_id, token):
     try:
         user = models.User.objects.get(id=user_id)
-        result = EMAIL_VERIFY_TOKEN_GENERATOR.check_token(user, token)
+        if user.verified:
+            result = False
+        else:
+            result = EMAIL_VERIFY_TOKEN_GENERATOR.check_token(user, token)
     except ObjectDoesNotExist:
         result = False
-
     if result:
         user.verified = True
         user.save()
@@ -189,6 +191,8 @@ def check_token(request, user_id, token):
     token_generator = EMAIL_MAPPING[token_type]["token_generator"]
     try:
         user = models.User.objects.get(id=user_id)
+        if token_type == "email-verification" and user.verified:
+            return Response({"valid": False})
     except ObjectDoesNotExist:
         return Response({"valid": False})
     result = bool(token_generator.check_token(user, token))

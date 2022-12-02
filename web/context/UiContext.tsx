@@ -22,7 +22,7 @@ const ecodes = {
     </>
   ),
   3: 'You are no longer logged in. Sign in to continue using the platform',
-  4: "Your 'confirm your email address' link expired after 24 hours or has already been used"
+  4: "Your link expired after 24 hours or has already been used"
 }
 
 const UIContext = createContext<Props>({} as Props)
