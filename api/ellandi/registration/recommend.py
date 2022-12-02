@@ -85,7 +85,7 @@ def recommend_bundled_skill_recommendations(skills, job_title, profession):
 
     popular_skills = tuple(recommend_popular_skills())
 
-    similar_job_skills = (*all_job_skills, *profession_skills,)
+    similar_job_skills = (*all_job_skills, *profession_skills)
 
     all_skills = (*all_job_skills, *all_skill_recommended_skills, *popular_skills, *profession_skills)
 
@@ -97,7 +97,5 @@ def recommend_bundled_skill_recommendations(skills, job_title, profession):
         "popular_skills": popular_skills,
         "all_skills": all_skills,
     }
-
-    data = tuple(set(data))
 
     return data
