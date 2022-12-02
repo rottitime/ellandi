@@ -57,13 +57,12 @@ const SkillsDevelopAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
     resolver: yupResolver(schema)
   })
   const { control, handleSubmit, watch } = methods
+  const watchAllFields = watch()
 
   const { isFetched: isFetchedMe, data: dataMe } = useQuery<RegisterUserResponse>(
     Query.Me,
     () => authFetch(fetchMe)
   )
-
-  const watchAllFields = watch()
 
   const { fields, append, remove } = useFieldArray<
     SkillsDevelopType,
