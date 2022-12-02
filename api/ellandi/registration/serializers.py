@@ -195,7 +195,7 @@ class BaseLearningSerializer(serializers.Serializer):
         max_value=POSITIVE_INTEGER_FIELD_MAX, min_value=0, required=False, allow_null=True
     )
     date_completed = serializers.DateField(required=False, allow_null=True)
-    cost_pounds = serializers.IntegerField(max_value=32767, min_value=0, required=False, allow_null=True)
+    cost_pounds = serializers.IntegerField(max_value=POSITIVE_INTEGER_FIELD_MAX, min_value=0, required=False, allow_null=True)
     cost_unknown = serializers.BooleanField(required=False)
 
     class Meta:
@@ -360,6 +360,9 @@ class CourseSerializer(serializers.ModelSerializer):
         choices=Course.Grade.choices, allow_blank=True, allow_null=True, required=False
     )
     duration_minutes = serializers.IntegerField(
+        max_value=POSITIVE_INTEGER_FIELD_MAX, min_value=0, required=False, allow_null=True
+    )
+    cost_pounds = serializers.IntegerField(
         max_value=POSITIVE_INTEGER_FIELD_MAX, min_value=0, required=False, allow_null=True
     )
 
