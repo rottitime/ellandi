@@ -85,19 +85,17 @@ def recommend_bundled_skill_recommendations(skills, job_title, profession):
 
     popular_skills = tuple(recommend_popular_skills())
 
-    similar_job_skills = (*profession_skills, *all_job_skills)
+    similar_job_skills = (*all_job_skills, *profession_skills)
 
-    all_skills = sort_most_common((*profession_skills, *all_skill_recommended_skills, *all_job_skills, *popular_skills))
+    all_skills = (*all_job_skills, *all_skill_recommended_skills, *popular_skills, *profession_skills)
 
     data = {
-        "profession_skills": profession_skills,
-        "skill_skills": all_skill_recommended_skills,
-        "job_title_skills": all_job_skills,
-        "similar_job_skills": similar_job_skills,
-        "popular_skills": popular_skills,
-        "all_skills": all_skills,
+        "profession_skills": tuple(set(profession_skills)),
+        "skill_skills": tuple(set(all_skill_recommended_skills)),
+        "job_title_skills": tuple(set(all_job_skills)),
+        "similar_job_skills": tuple(set(similar_job_skills)),
+        "popular_skills": tuple(set(popular_skills)),
+        "all_skills": tuple(set(all_skills)),
     }
-
-    data = {k: sort_most_common(v) for k, v in data.items()}
 
     return data
