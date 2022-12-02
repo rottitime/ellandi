@@ -7,11 +7,17 @@ on:
       - pentest
       - develop
       - staging
-      - prod
     paths:
       - .github/workflows/autoscale.yml
       - 'autoscale/**'
-
+  workflow_dispatch:
+    branches:
+      - temp
+      - demo
+      - sandbox
+      - pentest
+      - develop
+      - prod
 jobs:
   configure_autoscaler:
 
