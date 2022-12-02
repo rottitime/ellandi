@@ -3,7 +3,6 @@ from ellandi.registration.utils import reverse_dict_lists
 INITIAL_SKILLS = set(
     [
         "Accessibility",
-        "Agile and lean practices",
         "Agile working",
         "Agile working (content design)",
         "Analysis",
@@ -153,7 +152,7 @@ NLP_DERIVED_SKILLS = set(
         "Analysis",
         "Assurance processes",
         "Attendance management",
-        "Auditting",
+        "Auditing",
         "Aviation",
         "Balancing quality and cost effectiveness",
         "Behaviour change",
@@ -846,7 +845,7 @@ DDAT_SKILLS_TO_JOB_LOOKUP = {
     ],
     "Stakeholder relationship management (content design)": ["Content designer"],
     "Statistical methods and data analysis": ["Data analyst"],
-    "Strategiv design and business change": ["Enterprise architect"],
+    "Strategic design and business change": ["Enterprise architect"],
     "Strategic insight": ["User researcher"],
     "Strategic ownership": ["Product manager", "Service owner"],
     "Strategic thinking": [
