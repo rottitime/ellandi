@@ -56,13 +56,14 @@ const SkillsDevelopAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
     defaultValues: { skills_develop: [] },
     resolver: yupResolver(schema)
   })
+  const { control, handleSubmit, watch } = methods
 
   const { isFetched: isFetchedMe, data: dataMe } = useQuery<RegisterUserResponse>(
     Query.Me,
     () => authFetch(fetchMe)
   )
 
-  const { control, handleSubmit } = methods
+  const watchAllFields = watch()
 
   const { fields, append, remove } = useFieldArray<
     SkillsDevelopType,
@@ -78,12 +79,14 @@ const SkillsDevelopAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  console.log('rendered', { fields })
+
   const disableOptions = useMemo(
     () => [
-      ...fields.map(({ name }) => name),
+      ...watchAllFields.skills_develop.map(({ name }) => name),
       ...(isFetchedMe ? dataMe.skills_develop.map(({ name }) => name) : [])
     ],
-    [fields, isFetchedMe, dataMe]
+    [watchAllFields, isFetchedMe, dataMe]
   )
 
   return (
@@ -101,6 +104,12 @@ const SkillsDevelopAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
                     loading={isLoadingSkills}
                     disableOptions={disableOptions}
                     label="Enter a skill"
+                    // onSelect={(e) => {
+                    //   console.log('selected', { e })
+                    // }}
+                    // onChange={(e) => {
+                    //   console.log('changed', { e, field })
+                    // }}
                     options={
                       isLoadingSkills ? [] : skillsList.map((skill) => ({ title: skill }))
                     }
