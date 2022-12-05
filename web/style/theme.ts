@@ -18,8 +18,6 @@ const fonts = {
 
 const colors: Colors = {
   black: '#000',
-  orange: '#FF3D00',
-  purple: '#6458F4',
 
   grey1: '#E9EAEC',
   grey2: '#AEAEAE',
