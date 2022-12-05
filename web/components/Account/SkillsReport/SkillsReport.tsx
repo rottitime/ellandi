@@ -110,7 +110,7 @@ const SkillsReport: FC<Props> = (props) => {
           label: 'Beginner',
           valuePercentage: 'beginner_value_percentage',
           valueLabel: 'beginner_label',
-          color: 'teal'
+          color: 'green3'
         },
         {
           label: 'Advanced beginner',

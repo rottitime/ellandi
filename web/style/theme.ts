@@ -18,7 +18,6 @@ const fonts = {
 
 const colors: Colors = {
   black: '#000',
-  teal: '#00897B',
   orange: '#FF3D00',
   purple: '#6458F4',
 
