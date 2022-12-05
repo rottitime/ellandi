@@ -22,7 +22,8 @@ const Wrapper = styled(Box, {
     font-weight: bold;
 
     &:hover {
-      background-color: ${(p) => p.theme.colors.grey2};
+      background-color: ${(p) => p.theme.colors.grey3};
+      color: ${(p) => p.theme.colors.white};
     }
 
     &.active {

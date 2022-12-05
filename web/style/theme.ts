@@ -25,7 +25,7 @@ const colors: Colors = {
   grey1: '#E9EAEC',
   grey2: '#AEAEAE',
   grey3: '#666',
-  grey4: '#F5F6F7',
+  grey4: '#F5F6F6',
   blue1: '#1976D2',
   blue2: '#064B9A',
   blue3: '#0045AD',
