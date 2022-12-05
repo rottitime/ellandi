@@ -404,7 +404,7 @@ const FindCourses = () => {
             ]}
             min={0}
             max={1000}
-            valueLabelFormat={(v) => `£${v}`}
+            valueLabelFormat={(v) => `£${v}+`}
             onChange={(_, v) => {
               router.push(
                 {
