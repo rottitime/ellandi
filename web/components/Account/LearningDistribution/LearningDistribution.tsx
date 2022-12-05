@@ -25,7 +25,7 @@ const GraphDescription = styled(Typography)`
   }
 `
 
-const colorOptions: AllColors[] = ['blue1', 'grey2', 'black']
+const colorOptions: AllColors[] = ['blue3', 'grey2', 'black']
 const initialData: ReportDistributionData[] = [
   {
     name: 'On the job',
