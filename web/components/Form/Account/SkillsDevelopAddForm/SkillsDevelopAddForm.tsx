@@ -56,13 +56,13 @@ const SkillsDevelopAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
     defaultValues: { skills_develop: [] },
     resolver: yupResolver(schema)
   })
+  const { control, handleSubmit, watch } = methods
+  const watchAllFields = watch()
 
   const { isFetched: isFetchedMe, data: dataMe } = useQuery<RegisterUserResponse>(
     Query.Me,
     () => authFetch(fetchMe)
   )
-
-  const { control, handleSubmit } = methods
 
   const { fields, append, remove } = useFieldArray<
     SkillsDevelopType,
@@ -80,10 +80,10 @@ const SkillsDevelopAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
 
   const disableOptions = useMemo(
     () => [
-      ...fields.map(({ name }) => name),
+      ...watchAllFields.skills_develop.map(({ name }) => name),
       ...(isFetchedMe ? dataMe.skills_develop.map(({ name }) => name) : [])
     ],
-    [fields, isFetchedMe, dataMe]
+    [watchAllFields, isFetchedMe, dataMe]
   )
 
   return (
