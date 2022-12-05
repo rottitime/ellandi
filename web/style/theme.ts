@@ -28,9 +28,11 @@ const colors: Colors = {
   grey4: '#F5F6F7',
   blue1: '#1976D2',
   blue2: '#064B9A',
+  blue3: '#0045AD',
 
-  green1: '#00C853',
+  green1: '#008537',
   green2: '#80C4BD',
+  green3: '#006157',
   red: '#D32F2F',
   white: '#fff'
 }
@@ -39,8 +41,8 @@ const theme = createTheme({
   colors: {
     ...colors,
     brandGov: colors.black,
-    brandSkills: colors.teal,
-    brandLearning: '#06f',
+    brandSkills: colors.green3,
+    brandLearning: colors.blue3,
     link: colors.blue1,
     success: colors.green1
   },
