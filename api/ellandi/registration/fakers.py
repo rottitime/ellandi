@@ -121,7 +121,7 @@ def save_skill(user, skill_name, develop=False):
 
 def save_language(user, language_name):
     language_data = dict(
-        user = user,
+        user=user,
         name=language_name,
         speaking_level=random.choice(models.UserLanguage.LanguageLevel.values),
         writing_level=random.choice(models.UserLanguage.LanguageLevel.values),
@@ -156,7 +156,7 @@ def add_languages(user, language_names, num=2):
 
 
 def make_fake_learning(user):
-    cost_unknown=make_bool()
+    cost_unknown = make_bool()
     learning = dict(
         user=user,
         learning_type=random.choice(models.Learning.LearningType.values),
@@ -165,15 +165,15 @@ def make_fake_learning(user):
         date_completed=make_random_date(),
         cost_pounds=cost_unknown and None or int(random.uniform(1, 100)),
         cost_unknown=cost_unknown,
-)
+    )
     return learning
+
 
 def add_learning(user, num=5):
     for _ in range(num):
         learning_data = make_fake_learning(user)
         learning = models.Learning(**learning_data)
         learning.save()
-
 
 
 def add_users(number):
@@ -192,7 +192,7 @@ def add_users(number):
         add_learning(user)
         yield user
     admin_data = make_admin_user()
-    if not models.User.objects.filter(email=admin_data['email']).exists():
+    if not models.User.objects.filter(email=admin_data["email"]).exists():
         user = models.User(**admin_data)
         user.set_password("P455W0rd")
         user.save()
