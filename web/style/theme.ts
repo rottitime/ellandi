@@ -18,19 +18,18 @@ const fonts = {
 
 const colors: Colors = {
   black: '#000',
-  teal: '#00897B',
-  orange: '#FF3D00',
-  purple: '#6458F4',
 
   grey1: '#E9EAEC',
   grey2: '#AEAEAE',
   grey3: '#666',
-  grey4: '#F5F6F7',
-  blue1: '#1976D2',
+  grey4: '#F5F6F6',
+  blue1: '#1669BB',
   blue2: '#064B9A',
+  blue3: '#0045AD',
 
-  green1: '#00C853',
+  green1: '#008537',
   green2: '#80C4BD',
+  green3: '#006157',
   red: '#D32F2F',
   white: '#fff'
 }
@@ -39,8 +38,8 @@ const theme = createTheme({
   colors: {
     ...colors,
     brandGov: colors.black,
-    brandSkills: colors.teal,
-    brandLearning: '#06f',
+    brandSkills: colors.green3,
+    brandLearning: colors.blue3,
     link: colors.blue1,
     success: colors.green1
   },
