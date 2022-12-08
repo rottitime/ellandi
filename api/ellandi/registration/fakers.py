@@ -155,7 +155,29 @@ def add_languages(user, language_names, num=2):
         save_language(user, language_name)
 
 
+def make_fake_learning(user):
+    cost_unknown=make_bool()
+    learning = dict(
+        user=user,
+        learning_type=random.choice(models.Learning.LearningType.values),
+        name=fake.sentence(),
+        duration_minutes=int(random.uniform(1, 180)),
+        date_completed=make_random_date(),
+        cost_pounds=cost_unknown and None or int(random.uniform(1, 100)),
+        cost_unknown=cost_unknown,
+)
+    return learning
+
+def add_learning(user, num=5):
+    for _ in range(num):
+        learning_data = make_fake_learning(user)
+        learning = models.Learning(**learning_data)
+        learning.save()
+
+
+
 def add_users(number):
+    language_names = set(models.Language.objects.all().values_list("name", flat=True))
     for i in range(number):
         user_data = make_fake_user()
         while models.User.objects.filter(email=user_data["email"]).exists():
@@ -166,6 +188,8 @@ def add_users(number):
         add_ddat_skills(user)
         add_initial_skills(user)
         add_develop_skills(user)
+        add_languages(user, language_names=language_names)
+        add_learning(user)
         yield user
     admin_data = make_admin_user()
     if not models.User.objects.filter(email=admin_data['email']).exists():
