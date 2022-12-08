@@ -160,7 +160,9 @@ def add_users(number):
         add_initial_skills(user)
         add_develop_skills(user)
         yield user
-    user = models.User(**make_admin_user())
-    user.set_password("P455W0rd")
-    user.save()
-    yield user
+    admin_data = make_admin_user()
+    if not models.User.objects.filter(email=admin_data['email']).exists():
+        user = models.User(**admin_data)
+        user.set_password("P455W0rd")
+        user.save()
+        yield user
