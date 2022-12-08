@@ -27,7 +27,6 @@ jest.mock('next/router', () => ({
 describe('Page: Registration steps', () => {
   afterEach(() => {
     fetchMock.resetMocks()
-
     jest.clearAllMocks()
   })
 
