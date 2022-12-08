@@ -42,7 +42,7 @@ const RegisterPage = ({ stepInt, nextUrl, backUrl, skip }: Props) => {
     data,
     error: authError
   } = useQuery<RegisterUserResponse>(Query.Me, () => authFetch(fetchMe), {
-    // onError: () => redirect()
+    onError: () => redirect()
   })
 
   const { isLoading: isMutateLoading, ...mutate } = useMutation<
