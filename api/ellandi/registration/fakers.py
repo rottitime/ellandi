@@ -1,3 +1,4 @@
+import datetime
 import random
 import string
 
@@ -33,6 +34,12 @@ def make_yes_no(yes=1, no=1):
         return "Yes"
     else:
         return "No"
+
+
+def make_random_date(days_ago=365):
+    num_days = int(random.uniform(0, days_ago))
+    date = datetime.date.today() - datetime.timedelta(days=num_days)
+    return date
 
 
 def _get_random_object_name(model_name):
