@@ -42,7 +42,7 @@ const RegisterPage = ({ stepInt, nextUrl, backUrl, skip }: Props) => {
     data,
     error: authError
   } = useQuery<RegisterUserResponse>(Query.Me, () => authFetch(fetchMe), {
-    onError: () => redirect()
+    // onError: () => redirect()
   })
 
   const { isLoading: isMutateLoading, ...mutate } = useMutation<
@@ -84,6 +84,7 @@ const RegisterPage = ({ stepInt, nextUrl, backUrl, skip }: Props) => {
     })
   }
 
+  //prevent child forms from showing any errors
   if (authError) return null
 
   return (
@@ -175,7 +176,7 @@ const steps: Steps[] = [
     title: 'Are you a mentor?'
   },
   {
-    form: dynamic(() => import('@/components/Form/Register/SkillsForm')),
+    form: dynamic(() => import('@/components/Form/Register/SkillsForm/SkillsForm')),
     title: 'What skills do you have?',
     nextUrl: '/register/complete',
     large: true

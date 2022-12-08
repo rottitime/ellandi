@@ -1,9 +1,9 @@
 import { Typography } from '@mui/material'
 import { FC, useRef } from 'react'
-import { StandardRegisterProps } from './types'
+import { StandardRegisterProps } from '../types'
 import { Query, SkillsType } from '@/service/types'
-import SkillsAddForm from '../Account/SkillsAddForm/SkillsAddForm'
-import FormFooter from '../FormFooter'
+import SkillsAddForm from '../../Account/SkillsAddForm/SkillsAddForm'
+import FormFooter from '../../FormFooter'
 import { useQuery } from 'react-query'
 import { fetchRecommendedSkillBundle, RecommendedSkillBundleResponse } from '@/service/me'
 import useAuth from '@/hooks/useAuth'
@@ -18,7 +18,7 @@ const SkillsForm: FC<StandardRegisterProps<SkillsType>> = ({
   const formRef = useRef(null)
   const { authFetch } = useAuth()
 
-  const { data, isLoading } = useQuery<RecommendedSkillBundleResponse>(
+  const { data, isLoading, isSuccess } = useQuery<RecommendedSkillBundleResponse>(
     Query.SuggestedSkillsbyRole,
     () => authFetch(fetchRecommendedSkillBundle),
     {
@@ -33,7 +33,7 @@ const SkillsForm: FC<StandardRegisterProps<SkillsType>> = ({
       <Typography gutterBottom>
         Select any skills that you already have. You can change or add to these later
       </Typography>
-      {!isLoading && (
+      {isSuccess && (
         <SkillsAddForm
           ref={formRef}
           loading={buttonLoading}
