@@ -37,9 +37,13 @@ const RegisterPage = ({ stepInt, nextUrl, backUrl, skip }: Props) => {
   const queryClient = useQueryClient()
   const FormComponent = steps[stepInt].form
 
-  const { isLoading: isLoadingMe, data } = useQuery<RegisterUserResponse>(Query.Me, () =>
-    authFetch(fetchMe)
-  )
+  const {
+    isLoading: isLoadingMe,
+    data,
+    error: authError
+  } = useQuery<RegisterUserResponse>(Query.Me, () => authFetch(fetchMe), {
+    onError: () => redirect()
+  })
 
   const { isLoading: isMutateLoading, ...mutate } = useMutation<
     RegisterUserResponse,
@@ -68,17 +72,19 @@ const RegisterPage = ({ stepInt, nextUrl, backUrl, skip }: Props) => {
 
   //handle unauthorized user (no id)
   useEffect(() => {
-    const redirect = async () => {
-      setLoading(true)
-      queryClient.removeQueries(Query.Me)
-      await router.replace({
-        pathname: '/register',
-        query: { ecode: 1 }
-      })
-    }
-
     if (!hasToken()) redirect()
   }, [stepInt, router, isLoadingMe, hasToken, queryClient, data])
+
+  const redirect = async () => {
+    setLoading(true)
+    queryClient.removeQueries(Query.Me)
+    await router.replace({
+      pathname: '/register',
+      query: { ecode: 1 }
+    })
+  }
+
+  if (authError) return null
 
   return (
     <FormComponent
