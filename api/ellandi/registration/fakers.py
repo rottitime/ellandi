@@ -112,6 +112,18 @@ def save_skill(user, skill_name, develop=False):
         user_skill.save()
 
 
+def save_language(user, language_name):
+    language_data = dict(
+        user = user,
+        name=language_name,
+        speaking_level=random.choice(models.UserLanguage.LanguageLevel.values),
+        writing_level=random.choice(models.UserLanguage.LanguageLevel.values),
+    )
+    if not models.UserLanguage.objects.filter(user=user, name=language_data["name"]).exists():
+        language_skill = models.UserLanguage(**language_data)
+        language_skill.save()
+
+
 def add_ddat_skills(user):
     skills = initial_data.DDAT_JOB_TO_SKILLS_LOOKUP[user.job_title]
     for skill_name in skills:
@@ -128,6 +140,12 @@ def add_develop_skills(user, num=5):
     skills = random.sample(initial_data.INITIAL_SKILLS, k=int(random.uniform(0, num)))
     for skill_name in skills:
         save_skill(user, skill_name, develop=True)
+
+
+def add_languages(user, language_names, num=2):
+    languages_to_save = random.sample(language_names, k=int(random.uniform(0, num)))
+    for language_name in languages_to_save:
+        save_language(user, language_name)
 
 
 def add_users(number):
