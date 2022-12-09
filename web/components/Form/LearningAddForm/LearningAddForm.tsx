@@ -30,7 +30,13 @@ const schema: SchemaOf<LearningBaseType> = object().shape({
   duration_minutes: number()
     .typeError('You must specify a number')
     .min(1, 'You must specify a number'),
-  date_completed: string().nullable().required('Enter a date')
+  date_completed: string()
+    .nullable()
+    .required('Enter a date')
+    .matches(
+      /^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$/,
+      'Enter a date in the correct format, like 01/12/2022'
+    )
 })
 
 const schemaFormal: SchemaOf<LearningFormalType> = schema.shape({
