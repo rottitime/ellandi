@@ -101,6 +101,7 @@ const SkillsAddForm = forwardRef<RefHandler, Props>(
             flexDirection: 'column',
             gridTemplateColumns: 'auto auto'
           }}
+          data-testid="skillsadd-form"
         >
           {suggestionProps?.length > 0 &&
             suggestionProps.map((group) => {
