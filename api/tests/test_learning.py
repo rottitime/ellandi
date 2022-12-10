@@ -8,7 +8,7 @@ from ellandi.registration.models import Learning, User
 
 @utils.with_logged_in_client
 def test_me_learning_work(client, user_id):
-    data = [{"name": "Did some work learning", "duration_minutes": 32767, "date_completed": "2022-09-21"}]
+    data = [{"name": "Did some work learning", "duration_minutes": 357, "date_completed": "2022-09-21"}]
     response = client.patch("/api/me/learning-on-the-job/", json=data)
     assert response.status_code == status.HTTP_200_OK, response.status_code
 
@@ -21,7 +21,7 @@ def test_me_learning_work(client, user_id):
 
 @utils.with_logged_in_client
 def test_me_learning_social(client, user_id):
-    data = [{"name": "Did some social learning", "duration_minutes": 32767, "date_completed": "2022-09-21"}]
+    data = [{"name": "Did some social learning", "duration_minutes": 400000, "date_completed": "2022-09-21"}]
     response = client.patch("/api/me/learning-social/", json=data)
     assert response.status_code == status.HTTP_200_OK, response.status_code
 
@@ -33,7 +33,14 @@ def test_me_learning_social(client, user_id):
 
 @utils.with_logged_in_client
 def test_me_learning_formal(client, user_id):
-    data = [{"name": "Did some formal learning", "duration_minutes": 32767, "date_completed": "2022-09-21"}]
+    data = [
+        {
+            "name": "A very long and expensive course",
+            "duration_minutes": 44400,
+            "date_completed": "2022-09-21",
+            "cost_pounds": 35000,
+        }
+    ]
     response = client.patch("/api/me/learning-formal/", json=data)
     assert response.status_code == status.HTTP_200_OK, response.status_code
 
@@ -41,6 +48,29 @@ def test_me_learning_formal(client, user_id):
     result = response.json()
     for key, value in data[0].items():
         assert result[0][key] == value
+
+
+@utils.with_logged_in_client
+def test_long_duration_cost(client, user_id):
+    data = [
+        {
+            "name": "A very very long and expensive course",
+            "duration_minutes": 99999999999999999999,
+            "date_completed": "2022-09-21",
+            "cost_pounds": 99999999999999999999,
+        }
+    ]
+    response = client.patch("/api/me/learning-formal/", json=data)
+    assert response.status_code == status.HTTP_400_BAD_REQUEST, response.status_code
+
+    expected = [
+        {
+            "duration_minutes": ["Ensure this value is less than or equal to 2147483647."],
+            "cost_pounds": ["Ensure this value is less than or equal to 2147483647."],
+        }
+    ]
+
+    assert response.json() == expected
 
 
 @utils.with_logged_in_client
