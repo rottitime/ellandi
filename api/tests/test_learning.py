@@ -50,7 +50,6 @@ def test_me_learning_formal(client, user_id):
         assert result[0][key] == value
 
 
-
 @utils.with_logged_in_client
 def test_long_duration_cost(client, user_id):
     data = [
@@ -64,7 +63,12 @@ def test_long_duration_cost(client, user_id):
     response = client.patch("/api/me/learning-formal/", json=data)
     assert response.status_code == status.HTTP_400_BAD_REQUEST, response.status_code
 
-    expected = [{'duration_minutes': ['Ensure this value is less than or equal to 2147483647.'], 'cost_pounds': ['Ensure this value is less than or equal to 2147483647.']}]
+    expected = [
+        {
+            "duration_minutes": ["Ensure this value is less than or equal to 2147483647."],
+            "cost_pounds": ["Ensure this value is less than or equal to 2147483647."],
+        }
+    ]
 
     assert response.json() == expected
 
