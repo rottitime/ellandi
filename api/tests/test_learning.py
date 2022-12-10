@@ -50,6 +50,25 @@ def test_me_learning_formal(client, user_id):
         assert result[0][key] == value
 
 
+
+@utils.with_logged_in_client
+def test_long_duration_cost(client, user_id):
+    data = [
+        {
+            "name": "A very very long and expensive course",
+            "duration_minutes": 99999999999999999999,
+            "date_completed": "2022-09-21",
+            "cost_pounds": 99999999999999999999,
+        }
+    ]
+    response = client.patch("/api/me/learning-formal/", json=data)
+    assert response.status_code == status.HTTP_400_BAD_REQUEST, response.status_code
+
+    expected = [{'duration_minutes': ['Ensure this value is less than or equal to 2147483647.'], 'cost_pounds': ['Ensure this value is less than or equal to 2147483647.']}]
+
+    assert response.json() == expected
+
+
 @utils.with_logged_in_client
 def test_me_learning_patch_get_delete(client, user_id):
     today_str = datetime.date.today().strftime("%Y-%m-%d")
