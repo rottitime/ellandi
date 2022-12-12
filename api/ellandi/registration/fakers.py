@@ -1,3 +1,4 @@
+import datetime
 import random
 import string
 
@@ -33,6 +34,12 @@ def make_yes_no(yes=1, no=1):
         return "Yes"
     else:
         return "No"
+
+
+def make_random_date(days_ago=365):
+    num_days = int(random.uniform(0, days_ago))
+    date = datetime.date.today() - datetime.timedelta(days=num_days)
+    return date
 
 
 def _get_random_object_name(model_name):
@@ -112,6 +119,18 @@ def save_skill(user, skill_name, develop=False):
         user_skill.save()
 
 
+def save_language(user, language_name):
+    language_data = dict(
+        user=user,
+        name=language_name,
+        speaking_level=random.choice(models.UserLanguage.LanguageLevel.values),
+        writing_level=random.choice(models.UserLanguage.LanguageLevel.values),
+    )
+    if not models.UserLanguage.objects.filter(user=user, name=language_data["name"]).exists():
+        language_skill = models.UserLanguage(**language_data)
+        language_skill.save()
+
+
 def add_ddat_skills(user):
     skills = initial_data.DDAT_JOB_TO_SKILLS_LOOKUP[user.job_title]
     for skill_name in skills:
@@ -130,7 +149,35 @@ def add_develop_skills(user, num=5):
         save_skill(user, skill_name, develop=True)
 
 
+def add_languages(user, language_names, num=2):
+    languages_to_save = random.sample(language_names, k=int(random.uniform(0, num)))
+    for language_name in languages_to_save:
+        save_language(user, language_name)
+
+
+def make_fake_learning(user):
+    cost_unknown = make_bool()
+    learning = dict(
+        user=user,
+        learning_type=random.choice(models.Learning.LearningType.values),
+        name=fake.sentence(),
+        duration_minutes=int(random.uniform(1, 180)),
+        date_completed=make_random_date(),
+        cost_pounds=cost_unknown and None or int(random.uniform(1, 100)),
+        cost_unknown=cost_unknown,
+    )
+    return learning
+
+
+def add_learning(user, num=5):
+    for _ in range(num):
+        learning_data = make_fake_learning(user)
+        learning = models.Learning(**learning_data)
+        learning.save()
+
+
 def add_users(number):
+    language_names = set(models.Language.objects.all().values_list("name", flat=True))
     for i in range(number):
         user_data = make_fake_user()
         while models.User.objects.filter(email=user_data["email"]).exists():
@@ -141,8 +188,12 @@ def add_users(number):
         add_ddat_skills(user)
         add_initial_skills(user)
         add_develop_skills(user)
+        add_languages(user, language_names=language_names)
+        add_learning(user)
         yield user
-    user = models.User(**make_admin_user())
-    user.set_password("P455W0rd")
-    user.save()
-    yield user
+    admin_data = make_admin_user()
+    if not models.User.objects.filter(email=admin_data["email"]).exists():
+        user = models.User(**admin_data)
+        user.set_password("P455W0rd")
+        user.save()
+        yield user
