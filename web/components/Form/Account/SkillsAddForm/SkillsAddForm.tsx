@@ -62,8 +62,10 @@ const SkillsAddForm = forwardRef<RefHandler, Props>(
       handleSubmit,
       setValue,
       formState: { errors },
-      getValues
+      getValues,
+      watch
     } = methods
+    const watchAllFields = watch()
 
     const { fields, append, remove } = useFieldArray<SkillsType, 'skills', 'name'>({
       control,
@@ -72,10 +74,10 @@ const SkillsAddForm = forwardRef<RefHandler, Props>(
 
     const disableOptions = useMemo(
       () => [
-        ...fields.map(({ name }) => name),
+        ...watchAllFields.skills.map(({ name }) => name),
         ...(isFetchedMe ? dataMe.skills.map(({ name }) => name) : [])
       ],
-      [fields, isFetchedMe, dataMe]
+      [watchAllFields, isFetchedMe, dataMe]
     )
 
     useImperativeHandle(ref, () => ({
@@ -99,6 +101,7 @@ const SkillsAddForm = forwardRef<RefHandler, Props>(
             flexDirection: 'column',
             gridTemplateColumns: 'auto auto'
           }}
+          data-testid="skillsadd-form"
         >
           {suggestionProps?.length > 0 &&
             suggestionProps.map((group) => {

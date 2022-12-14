@@ -40,8 +40,8 @@ export const SharedLearningHeader = () => {
         <Grid item xs={6}>
           <AccountCard sx={{ height: '100%' }}>
             <LearningDistribution
-              titleTip='"To get the most out of your learning you should aim for 70% learning
-    on the job, 20% social and 10% formal training"'
+              titleTip="To get the most out of your learning you should aim for 70% learning
+    on the job, 20% social and 10% formal training"
               barData={data?.distribution}
             />
           </AccountCard>

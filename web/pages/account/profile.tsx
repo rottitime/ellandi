@@ -3,7 +3,7 @@ import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
 import SimpleTable from '@/components/UI/SimpleTable/SimpleTable'
 import { Typography, TableCellProps, styled } from '@mui/material'
 import { RegisterUserResponse } from '@/service/api'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { IconButton } from '@mui/material'
 import Icon from '@/components/Icon/Icon'
 import Dialog from '@/components/UI/Dialogs/Dialog/Dialog'
@@ -37,6 +37,7 @@ type AccountProfileModalsType =
   | 'isMentor'
 
 const ProfilePage = () => {
+  const [modalIsVisible, setModalVisibility] = useState(false)
   const [buttonLoading, setButtonLoading] = useState(false)
 
   const {
@@ -55,11 +56,17 @@ const ProfilePage = () => {
     name: string
   }>(null)
 
+  useEffect(() => {
+    if (activeModal) {
+      setModalVisibility(true)
+    }
+  }, [activeModal])
+
   const closeModal = async () => {
     setButtonLoading(true)
     await refetch()
     setButtonLoading(false)
-    setActiveModal(null)
+    setModalVisibility(false)
   }
 
   const professions = professionsDisplayText(
@@ -240,9 +247,9 @@ const ProfilePage = () => {
 
       <Dialog
         title={`Change ${activeModal?.name}`}
-        open={!!activeModal}
+        open={modalIsVisible}
         onClose={() => {
-          setActiveModal(null)
+          setModalVisibility(false)
         }}
         data-testid="datagrid-edit-modal"
       >
@@ -251,7 +258,7 @@ const ProfilePage = () => {
             <UpdateAccountPasswordForm
               onCancel={closeModal}
               callback={() => {
-                closeModal()
+                setModalVisibility(false)
               }}
             />
           )}

@@ -326,9 +326,9 @@ class Learning(TimeStampedModel):
     user = models.ForeignKey(User, related_name="learnings", on_delete=models.CASCADE)
     learning_type = models.CharField(max_length=31, choices=LearningType.choices, editable=False)
     name = models.CharField(max_length=255, blank=True, null=True)
-    duration_minutes = models.PositiveSmallIntegerField(null=True)
+    duration_minutes = models.PositiveIntegerField(null=True)
     date_completed = models.DateField(null=True)
-    cost_pounds = models.PositiveSmallIntegerField(blank=True, null=True)
+    cost_pounds = models.PositiveIntegerField(blank=True, null=True)
     cost_unknown = models.BooleanField(blank=True, null=True)
 
 
@@ -394,8 +394,8 @@ class Course(models.Model):
     short_description = models.CharField(max_length=1024, blank=True, null=True)
     long_description = models.TextField(blank=True, null=True)
     status = models.CharField(max_length=128, choices=Status.choices, blank=True, null=True)
-    cost_pounds = models.PositiveSmallIntegerField(blank=True, null=True)
-    duration_minutes = models.PositiveSmallIntegerField(blank=True, null=True)
+    cost_pounds = models.PositiveIntegerField(blank=True, null=True)
+    duration_minutes = models.PositiveIntegerField(blank=True, null=True)
     private = models.BooleanField(blank=True, null=True)
     course_type = models.CharField(max_length=256, choices=CourseType.choices, blank=True, null=True)
     grades = models.JSONField(default=list, encoder=JSONSerializer)

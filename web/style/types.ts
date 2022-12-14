@@ -18,17 +18,16 @@ export type ColorBrands = {
 
 export type Colors = {
   black: CSSProperties['color']
-  teal: CSSProperties['color']
-  orange: CSSProperties['color']
-  purple: CSSProperties['color']
   grey1: CSSProperties['color']
   grey2: CSSProperties['color']
   grey3: CSSProperties['color']
   grey4: CSSProperties['color']
   blue1: CSSProperties['color']
   blue2: CSSProperties['color']
+  blue3: CSSProperties['color']
   green1: CSSProperties['color']
   green2: CSSProperties['color']
+  green3: CSSProperties['color']
   red: CSSProperties['color']
   white: CSSProperties['color']
 }

@@ -6,11 +6,18 @@ on:
     branches:
       - develop
       - staging
-      - prod
       - pentest
     paths:
       - .github/workflows/proxy.yml
       - 'proxy/**'
+  workflow_dispatch:
+    branches:
+      - temp
+      - demo
+      - sandbox
+      - pentest
+      - develop
+      - prod
 
 permissions:
   packages: write
