@@ -10,22 +10,11 @@ import getConfig from 'next/config'
 import { useEffect } from 'react'
 import useAuth from '@/hooks/useAuth'
 import { fetchMe } from '@/service/me'
+import { isRegisterComplete } from '@/lib/profile-utils'
 
 const {
   publicRuntimeConfig: { urls }
 } = getConfig()
-
-const isRegisterComplete = (d: RegisterUserResponse): boolean =>
-  !!d.first_name &&
-  !!d.last_name &&
-  !!d.job_title &&
-  !!d.business_unit &&
-  !!d.location &&
-  !!d.line_manager_email &&
-  !!(d.grade || d.grade_other) &&
-  !!(d.function || d.function_other) &&
-  !!(d.contract_type || d.contract_type_other) &&
-  !!d.primary_profession
 
 const isTokenInvalid = (message: string) => message.toLowerCase() === 'invalid token'
 
