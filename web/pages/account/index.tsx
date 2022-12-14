@@ -59,10 +59,11 @@ const IndexPage = () => {
     <>
       <Headline>
         <Typography variant="h1" gutterBottom>
-          Hello {data?.first_name}, welcome to the Skills and Learning Service
+          Hello {data?.first_name}, welcome to the Cabinet Office Skills and Learning
+          Service
         </Typography>
         <Typography>
-          Use this service to add and review your skills and find learning opportunities
+          Use this service to add and review your skills and learning record
         </Typography>
       </Headline>
 
@@ -152,8 +153,7 @@ const profiles: MenuDataType[] = [
   },
   {
     title: 'Learning',
-    content:
-      'Explore the wide variety of learning and training courses available to you.',
+    content: 'Record any learning you have completed and see what else is available.',
     url: '/account/learning',
     color: 'brandLearning',
     logo: 'mortar-hat'

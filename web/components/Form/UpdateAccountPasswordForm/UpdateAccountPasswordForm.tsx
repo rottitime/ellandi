@@ -108,7 +108,7 @@ export const UpdateAccountPasswordForm = ({
         </Field>
 
         <Field>
-          <TextFieldControlled name="password" label="New Password" type="password" />
+          <TextFieldControlled name="password" label="New password" type="password" />
         </Field>
         <Field>
           <TextFieldControlled
@@ -117,8 +117,6 @@ export const UpdateAccountPasswordForm = ({
             type="password"
           />
         </Field>
-
-        
       </Form>
     </FormProvider>
   )

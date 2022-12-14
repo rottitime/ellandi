@@ -152,6 +152,11 @@ const LanguageList: FC = () => {
                 flexibly for social, academic and professional purposes
               </Typography>
 
+              <Typography variant="h3">Native</Typography>
+              <Typography variant="body2" gutterBottom>
+                This is the first language you learnt as a child
+              </Typography>
+
               <Typography variant="h2" gutterBottom>
                 Writing
               </Typography>
@@ -195,6 +200,11 @@ const LanguageList: FC = () => {
               <Typography variant="body2" gutterBottom>
                 You can produce clear, well-structured, detailed text on complex subjects
                 and can express yourself fluently and precisely
+              </Typography>
+
+              <Typography variant="h3">Native</Typography>
+              <Typography variant="body2" gutterBottom>
+                This is the first language you learnt as a child
               </Typography>
             </>
           )

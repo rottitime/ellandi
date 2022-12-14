@@ -151,7 +151,7 @@ const YourTeamPage = () => {
                             value: professions.primary_profession
                           },
                           {
-                            name: 'Profession(s)',
+                            name: 'Other professions',
                             value: professions.professions
                           },
                           {

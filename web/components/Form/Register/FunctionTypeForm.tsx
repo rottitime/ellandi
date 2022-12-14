@@ -37,8 +37,7 @@ const FunctionTypeForm: FC<StandardRegisterProps<FunctionType>> = (props) => {
     <FormProvider {...methods}>
       <Form {...props} submitDisabled>
         <Typography gutterBottom>
-          Select a function which describes your area of specialism. You may only choose
-          one
+          Select the function you belong to. You may only choose one
         </Typography>
 
         <Typography variant="body2" gutterBottom>

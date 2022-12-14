@@ -38,8 +38,8 @@ const PrimaryProfessionForm: FC<
     <FormProvider {...methods}>
       <Form {...props} submitDisabled>
         <Typography gutterBottom>
-          Select your main profession. You may only choose one but can add other
-          professions you belong to on the next page
+          Select your main profession. You may only choose one but can add others you
+          belong to separately
         </Typography>
 
         <Typography variant="body2" sx={{ mb: 3 }}>
