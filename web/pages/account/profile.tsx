@@ -218,7 +218,7 @@ const ProfilePage = () => {
           },
           {
             form: 'profession',
-            name: 'Profession(s)',
+            name: 'Other professions',
             value: professions.professions
           },
 
@@ -246,7 +246,7 @@ const ProfilePage = () => {
       </AccountCard>
 
       <Dialog
-        title={`Change ${activeModal?.name}`}
+        title={`Change ${activeModal?.name.toLowerCase()}`}
         open={modalIsVisible}
         onClose={() => {
           setModalVisibility(false)
@@ -288,7 +288,7 @@ ProfilePage.getLayout = (page) => (
     title="Profile"
     titleIcon="profile"
     teaserHeadline="Welcome to your profile"
-    teaserContent="You can manage your details including email, password, job title, profession and more"
+    teaserContent="You can manage your details, including password, job title, profession and more"
   >
     {page}
   </AccountLayout>

@@ -10,10 +10,9 @@ import LearningReport from '@/components/Account/LearningReport/LearningReport'
 const ReportsPage = () => (
   <>
     <Headline>
-      <Typography variant="h1" gutterBottom>
-        Welcome to the reports section
+      <Typography>
+        View statistics on skills and learning within the Cabinet Office
       </Typography>
-      <Typography gutterBottom>You can view statistics on skills and learning</Typography>
     </Headline>
     <RoutedTabs routedTabItems={tabs} tabsPath="/account/reports" disableCard />
   </>
