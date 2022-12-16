@@ -53,7 +53,7 @@ const SkillsAddForm = forwardRef<RefHandler, Props>(
     >(Query.Skills, fetchSkills, { initialData: [], staleTime: 0 })
 
     const methods = useForm<SkillsType>({
-      defaultValues: { skills: [{ name: '', level: '' }] },
+      defaultValues: { skills: showAll ? [{ name: '', level: '' }] : [] },
       resolver: yupResolver(schema)
     })
 
@@ -114,9 +114,14 @@ const SkillsAddForm = forwardRef<RefHandler, Props>(
                   onSelected={(name) => {
                     const firstRow = getValues('skills.0')
                     setHasSelected(true)
-                    return !firstRow.name && !firstRow.level
-                      ? setValue('skills.0.name', name)
-                      : append({ name, level: '' })
+
+                    if (!showAll) {
+                      append({ name, level: '' })
+                    } else {
+                      !firstRow?.name && !firstRow?.level
+                        ? setValue('skills.0.name', name)
+                        : append({ name, level: '' })
+                    }
                   }}
                 />
               )
@@ -143,7 +148,7 @@ const SkillsAddForm = forwardRef<RefHandler, Props>(
               ]}
             >
               {fields.map((item, index) => (
-                <tr key={item.id}>
+                <tr key={`${item.id}-${fields.length}`}>
                   <td>
                     <Controller
                       name={`skills.${index}.name`}
@@ -197,7 +202,7 @@ const SkillsAddForm = forwardRef<RefHandler, Props>(
                       aria-label="Remove"
                       title="Remove"
                       data-testid={`delete-${index}`}
-                      disabled={fields.length === 1}
+                      disabled={showAll && fields.length === 1}
                       onClick={() => remove(index)}
                     >
                       <Icon icon="circle-delete" />
