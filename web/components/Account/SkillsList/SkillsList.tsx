@@ -125,30 +125,38 @@ const SkillsList: FC = () => {
                 )}
               />
 
-              <Typography fontWeight="bold" sx={{ mt: 3 }}>
+              <Typography variant="h3" fontWeight="bold" sx={{ mt: 3 }}>
                 Beginner
               </Typography>
-              <Typography gutterBottom>
+              <Typography variant="body2" gutterBottom>
                 You have minimal or textbook knowledge and need close supervision or
                 guidance
               </Typography>
-              <Typography fontWeight="bold">Advanced beginner</Typography>
-              <Typography gutterBottom>
+              <Typography variant="h3" fontWeight="bold">
+                Advanced beginner
+              </Typography>
+              <Typography variant="body2" gutterBottom>
                 You have basic knowledge of key aspects and can do straightforward tasks
                 using your own judgement
               </Typography>
-              <Typography fontWeight="bold">Competent</Typography>
-              <Typography gutterBottom>
+              <Typography variant="h3" fontWeight="bold">
+                Competent
+              </Typography>
+              <Typography variant="body2" gutterBottom>
                 You have good working and background knowledge. You can achieve most tasks
                 using your own judgement
               </Typography>
-              <Typography fontWeight="bold">Proficient</Typography>
-              <Typography gutterBottom>
+              <Typography variant="h3" fontWeight="bold">
+                Proficient
+              </Typography>
+              <Typography variant="body2" gutterBottom>
                 You have deep understanding and take full responsibility for your own
                 work. You can deal with complex situations and make informed decisions
               </Typography>
-              <Typography fontWeight="bold">Expert</Typography>
-              <Typography gutterBottom>
+              <Typography variant="h3" fontWeight="bold">
+                Expert
+              </Typography>
+              <Typography variant="body2" gutterBottom>
                 You have authoritative knowledge and achieve excellence with ease, going
                 beyond existing standards and seeing the bigger picture
               </Typography>
