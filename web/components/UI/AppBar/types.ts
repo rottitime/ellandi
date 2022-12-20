@@ -1,3 +1,4 @@
+import { IconsType } from '@/components/Icon/Icon'
 import { ColorBrands } from '@/style/types'
 import { AppBar } from '@mui/material'
 import { ComponentProps, MouseEvent } from 'react'
@@ -11,6 +12,7 @@ export type MenuItem = {
   hidden?: boolean
   onClick?: (e: MouseEvent<HTMLLIElement>) => void
   active?: boolean
+  icon?: IconsType
 }
 
 export type Props = {
