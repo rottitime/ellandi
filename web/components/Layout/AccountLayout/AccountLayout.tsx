@@ -142,11 +142,7 @@ const AccountLayout: FC<Props> = ({
 
       <Footer
         menu={[
-          // { title: 'Cookies', url: '#' },
           { title: 'Privacy', url: '/help/privacy-policy', newWindow: true },
-          // { title: 'Contact us', url: '#' },
-          // { title: 'Help', url: '#' },
-          // { title: 'Accessibility statement', url: '#' }
           {
             title: 'Feedback',
             url: 'https://civilserviceinsight.qualtrics.com/jfe/form/SV_1NQ8jHnD05yvpUW',
