@@ -29,17 +29,35 @@ import Button from '@/components/UI/Button/Button'
 
 const Card = styled(AccountCard)`
   .main-filters {
-    display: flex;
-    margin-bottom: ${(p) => p.theme.spacing(4)};
+    margin-bottom: ${(p) => p.theme.spacing(2)};
+    display: grid;
+    grid-template-columns: 2fr 1fr;
     gap: ${(p) => p.theme.spacing(3)};
-    .export {
-      margin-left: auto;
+    ${({ theme }) => theme.breakpoints.up('md')} {
+      margin-bottom: ${(p) => p.theme.spacing(4)};
+      grid-template-columns: 314px 1fr 1fr;
     }
-  }
-  .filters {
-    display: flex;
-    margin-bottom: ${(p) => p.theme.spacing(3)};
-    gap: ${(p) => p.theme.spacing(4)};
+
+    .export {
+      grid-row: 1/-1;
+      grid-column: 2;
+      margin-left: auto;
+      text-align: right;
+      ${({ theme }) => theme.breakpoints.up('md')} {
+        grid-column: auto;
+        grid-row: auto;
+      }
+      p {
+        text-align: inherit;
+      }
+    }
+
+    .user-type {
+      grid-column: 1/-1;
+      ${({ theme }) => theme.breakpoints.up('md')} {
+        grid-column: auto;
+      }
+    }
   }
 `
 
@@ -95,6 +113,7 @@ const LanguagesReport = () => {
             />
 
             <RadioGroup
+              className="user-type"
               row
               defaultValue={filters.type}
               onChange={(e) =>
