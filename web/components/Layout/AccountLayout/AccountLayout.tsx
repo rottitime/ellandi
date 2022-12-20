@@ -94,8 +94,8 @@ const AccountLayout: FC<Props> = ({
               <AppBar
                 sx={{ mt: 4 }}
                 settingsTip={data?.fullname}
+                homepage={{ title: 'Home', url: urls.landingSignin }}
                 pages={[
-                  { title: 'Home', url: urls.landingSignin },
                   { title: 'Skills', url: '/account/skills/', color: 'brandSkills' },
                   {
                     title: 'Learning',
