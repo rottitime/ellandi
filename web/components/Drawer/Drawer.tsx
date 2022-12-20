@@ -14,10 +14,8 @@ import { Props } from './types'
 import Button from '../UI/Button/Button'
 import Icon from '../Icon/Icon'
 
-type Anchor = 'top' | 'left' | 'bottom' | 'right'
-
 export default function TemporaryDrawer({ anchor, onClose, ...props }: Props) {
-  const list = (anchor: Anchor) => (
+  const list = () => (
     <>
       <Toolbar disableGutters>
         <Button
@@ -65,7 +63,7 @@ export default function TemporaryDrawer({ anchor, onClose, ...props }: Props) {
       anchor={anchor}
       onClose={(e, reason) => typeof onClose === 'function' && onClose(e, reason)}
     >
-      {list(anchor)}
+      {list()}
     </Drawer>
   )
 }
