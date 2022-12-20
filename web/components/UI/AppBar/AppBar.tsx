@@ -182,6 +182,7 @@ const AppBar = ({ pages, settings, homepage, settingsTip = '', ...props }: Props
           pages={pagesWithActive}
           settings={settings}
           onClose={() => setMobileMenu(false)}
+          PaperProps={{ sx: { top: 0 } }}
         />
       )}
     </StyledAppBar>

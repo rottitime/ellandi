@@ -2,10 +2,10 @@ import {
   Box,
   Divider,
   Drawer as MuiDrawer,
+  IconButton,
   List,
   ListItem,
   ListItemButton,
-  ListItemIcon,
   ListItemText,
   styled,
   Toolbar,
@@ -18,6 +18,9 @@ import { MenuItem } from '../UI/AppBar/types'
 import { useRouter } from 'next/router'
 
 const DrawerStyled = styled(MuiDrawer)`
+  .MuiToolbar-root {
+    justify-content: end;
+  }
   .active {
     font-weight: bold;
   }
@@ -38,13 +41,18 @@ export default function TemporaryDrawer({
   const router = useRouter()
   const renderList = (menu: MenuItem[]) => {
     return menu.map(({ title, active, url, icon }) => (
-      <ListItem key={title} disablePadding>
-        <ListItemButton onClick={() => router.push(url)}>
-          {!!icon && (
-            <ListItemIcon>
+      <ListItem
+        key={title}
+        disablePadding
+        secondaryAction={
+          icon && (
+            <IconButton edge="end" aria-label="delete">
               <Icon icon={icon} />
-            </ListItemIcon>
-          )}
+            </IconButton>
+          )
+        }
+      >
+        <ListItemButton onClick={() => router.push(url)}>
           <ListItemText
             primary={
               <Typography variant="body2" className={`${active ? 'active' : ''}`}>
