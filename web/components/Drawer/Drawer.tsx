@@ -87,3 +87,5 @@ export default function TemporaryDrawer({
     </DrawerStyled>
   )
 }
+
+export * from './types'
