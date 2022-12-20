@@ -16,4 +16,5 @@ export type Props = {
   pages: MenuItem[]
   settings: MenuItem[]
   settingsTip?: string
+  homepage: MenuItem
 } & ComponentProps<typeof AppBar>
