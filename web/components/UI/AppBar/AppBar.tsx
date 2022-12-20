@@ -109,7 +109,7 @@ const AppBar = ({ pages, settings, homepage, settingsTip = '', ...props }: Props
           {!isMobile &&
             pagesWithActive
               .filter(({ hidden }) => !hidden)
-              .map(({ title, url, color, active }, i) => (
+              .map(({ title, url, color, active }) => (
                 <Button
                   style={{
                     textDecorationColor: theme.colors[color],

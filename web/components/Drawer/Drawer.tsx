@@ -11,8 +11,6 @@ import {
   Toolbar,
   Typography
 } from '@mui/material'
-import InboxIcon from '@mui/icons-material/MoveToInbox'
-import MailIcon from '@mui/icons-material/Mail'
 import { Props } from './types'
 import Button from '../UI/Button/Button'
 import Icon from '../Icon/Icon'
