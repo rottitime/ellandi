@@ -23,7 +23,8 @@ export const icons = {
   tick: dynamic(() => import('@/components/Icon/Icons/Tick')),
   'cabinet-office': dynamic(() => import('@/components/Icon/Icons/CabinetOffice')),
   menu: dynamic(() => import('@/components/Icon/Icons/Menu')),
-  cross: dynamic(() => import('@/components/Icon/Icons/Cross'))
+  cross: dynamic(() => import('@/components/Icon/Icons/Cross')),
+  exit: dynamic(() => import('@/components/Icon/Icons/Exit'))
 }
 
 const Icon: FC<Props> = ({ icon, size, ...props }) => {
