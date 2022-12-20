@@ -48,8 +48,14 @@ const Card = styled(AccountCard)`
   }
   .filters {
     display: flex;
+    flex-direction: column;
+    gap: ${(p) => p.theme.spacing(3)};
     margin-bottom: ${(p) => p.theme.spacing(4)};
-    gap: ${(p) => p.theme.spacing(4)};
+    ${({ theme }) => theme.breakpoints.up('md')} {
+      gap: ${(p) => p.theme.spacing(4)};
+      display: flex;
+      flex-direction: row;
+    }
   }
 `
 
@@ -94,6 +100,7 @@ const LanguagesReport = () => {
         <>
           <div className="main-filters">
             <RadioGroup
+              className="user-type"
               row
               defaultValue={filters?.users}
               onChange={(e) =>
@@ -185,13 +192,13 @@ const LanguagesReport = () => {
             />
           </div>
           <Grid container spacing={5} sx={{ mb: 5 }}>
-            <Grid item xs={6}>
+            <Grid item md={6}>
               <LearningDistribution
                 description="Data based on the current financial year so far"
                 barData={data?.distribution}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item md={6}>
               <LearningGoalBar
                 description="Average number of days learning completed per person so far this financial year"
                 disableFetch
