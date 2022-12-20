@@ -37,7 +37,7 @@ export const SharedLearningHeader = () => {
       </Button>
 
       <Grid container spacing={5} sx={{ mb: 5 }}>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <AccountCard sx={{ height: '100%' }}>
             <LearningDistribution
               titleTip="To get the most out of your learning you should aim for 70% learning
@@ -46,7 +46,7 @@ export const SharedLearningHeader = () => {
             />
           </AccountCard>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <AccountCard sx={{ height: '100%' }}>
             <LearningGoalBar description="You should aim to complete 10 days learning each year" />
           </AccountCard>
