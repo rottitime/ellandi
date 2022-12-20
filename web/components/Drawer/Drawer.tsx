@@ -17,7 +17,6 @@ import { Props } from './types'
 import Button from '../UI/Button/Button'
 import Icon from '../Icon/Icon'
 import { MenuItem } from '../UI/AppBar/types'
-import Link from '../UI/Link'
 import { useRouter } from 'next/router'
 
 const DrawerStyled = styled(MuiDrawer)`
