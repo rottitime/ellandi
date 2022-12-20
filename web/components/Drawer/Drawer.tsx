@@ -11,13 +11,21 @@ import InboxIcon from '@mui/icons-material/MoveToInbox'
 import MailIcon from '@mui/icons-material/Mail'
 import { Toolbar } from '@mui/material'
 import { Props } from './types'
+import Button from '../UI/Button/Button'
+import Icon from '../Icon/Icon'
 
 type Anchor = 'top' | 'left' | 'bottom' | 'right'
 
 export default function TemporaryDrawer({ anchor, onClose, ...props }: Props) {
   const list = (anchor: Anchor) => (
     <>
-      <Toolbar disableGutters />
+      <Toolbar disableGutters>
+        <Button
+          onClick={(e) => typeof onClose === 'function' && onClose(e, 'backdropClick')}
+        >
+          <Icon icon="cross" />
+        </Button>
+      </Toolbar>
       <Box
         sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}
         role="presentation"
@@ -55,9 +63,7 @@ export default function TemporaryDrawer({ anchor, onClose, ...props }: Props) {
     <Drawer
       {...props}
       anchor={anchor}
-      onClose={(event, reason) => {
-        if (typeof onClose === 'function') onClose(event, reason)
-      }}
+      onClose={(e, reason) => typeof onClose === 'function' && onClose(e, reason)}
     >
       {list(anchor)}
     </Drawer>
