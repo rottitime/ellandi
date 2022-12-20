@@ -12,7 +12,6 @@ import {
   Typography
 } from '@mui/material'
 import { Props } from './types'
-import Button from '../UI/Button/Button'
 import Icon from '../Icon/Icon'
 import { MenuItem } from '../UI/AppBar/types'
 import { useRouter } from 'next/router'
@@ -23,6 +22,9 @@ const DrawerStyled = styled(MuiDrawer)`
   }
   .active {
     font-weight: bold;
+  }
+  .close-button svg {
+    font-size: 15px;
   }
 
   svg {
@@ -46,7 +48,7 @@ export default function TemporaryDrawer({
         disablePadding
         secondaryAction={
           icon && (
-            <IconButton edge="end" aria-label="delete">
+            <IconButton edge="end" aria-label={title}>
               <Icon icon={icon} />
             </IconButton>
           )
@@ -68,12 +70,17 @@ export default function TemporaryDrawer({
   const list = () => (
     <>
       <Toolbar disableGutters>
-        <Button
-          onClick={(e) => typeof onClose === 'function' && onClose(e, 'backdropClick')}
-        >
-          <Icon icon="cross" />
-        </Button>
+        <ListItemButton>
+          <IconButton
+            edge="end"
+            className="close-button"
+            onClick={(e) => typeof onClose === 'function' && onClose(e, 'backdropClick')}
+          >
+            <Icon icon="cross" />
+          </IconButton>
+        </ListItemButton>
       </Toolbar>
+      <Divider />
       <Box
         sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}
         role="presentation"
