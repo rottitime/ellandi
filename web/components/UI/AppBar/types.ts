@@ -10,6 +10,7 @@ export type MenuItem = {
   color?: BrandColor
   hidden?: boolean
   onClick?: (e: MouseEvent<HTMLLIElement>) => void
+  active?: boolean
 }
 
 export type Props = {

@@ -74,7 +74,6 @@ const AppBar = ({ pages, settings, homepage, settingsTip = '', ...props }: Props
 
   const isActive = (url: string): boolean => {
     const currentPath = router?.asPath
-    // const homepage = publicRuntimeConfig.urls.landingSignin
     const { url: homepageLink } = homepage
 
     //landing page
@@ -84,6 +83,8 @@ const AppBar = ({ pages, settings, homepage, settingsTip = '', ...props }: Props
 
     return false
   }
+
+  const pagesWithActive = pages.map((page) => ({ ...page, active: isActive(page.url) }))
 
   return (
     <StyledAppBar position="static" elevation={0} {...props}>
@@ -106,17 +107,17 @@ const AppBar = ({ pages, settings, homepage, settingsTip = '', ...props }: Props
           </Button>
 
           {!isMobile &&
-            pages
+            pagesWithActive
               .filter(({ hidden }) => !hidden)
-              .map(({ title, url, color }, i) => (
+              .map(({ title, url, color, active }, i) => (
                 <Button
                   style={{
                     textDecorationColor: theme.colors[color],
-                    color: isActive(url) ? theme.colors[color] : theme.colors.black
+                    color: active ? theme.colors[color] : theme.colors.black
                   }}
                   key={title}
                   href={url}
-                  className={` ${isActive(url) ? 'active' : ''}`}
+                  className={` ${active ? 'active' : ''}`}
                 >
                   <span className="button-wrapper">{title}</span>
                 </Button>
@@ -178,7 +179,7 @@ const AppBar = ({ pages, settings, homepage, settingsTip = '', ...props }: Props
         <Drawer
           anchor="right"
           open={mobleMenu}
-          pages={pages}
+          pages={pagesWithActive}
           settings={settings}
           onClose={() => setMobileMenu(false)}
         />

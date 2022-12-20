@@ -1,19 +1,30 @@
-import * as React from 'react'
-import Box from '@mui/material/Box'
-import Drawer from '@mui/material/Drawer'
-import List from '@mui/material/List'
-import Divider from '@mui/material/Divider'
-import ListItem from '@mui/material/ListItem'
-import ListItemButton from '@mui/material/ListItemButton'
-import ListItemIcon from '@mui/material/ListItemIcon'
-import ListItemText from '@mui/material/ListItemText'
+import {
+  Box,
+  Divider,
+  Drawer as MuiDrawer,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  styled,
+  Toolbar,
+  Typography
+} from '@mui/material'
 import InboxIcon from '@mui/icons-material/MoveToInbox'
 import MailIcon from '@mui/icons-material/Mail'
-import { Toolbar, Typography } from '@mui/material'
 import { Props } from './types'
 import Button from '../UI/Button/Button'
 import Icon from '../Icon/Icon'
 import { MenuItem } from '../UI/AppBar/types'
+import Link from '../UI/Link'
+import { useRouter } from 'next/router'
+
+const DrawerStyled = styled(MuiDrawer)`
+  .active {
+    font-weight: bold;
+  }
+`
 
 export default function TemporaryDrawer({
   anchor,
@@ -22,12 +33,19 @@ export default function TemporaryDrawer({
   onClose,
   ...props
 }: Props) {
+  const router = useRouter()
   const renderList = (menu: MenuItem[]) => {
-    return menu.map(({ title }, index) => (
+    return menu.map(({ title, active, url }, index) => (
       <ListItem key={title} disablePadding>
-        <ListItemButton>
+        <ListItemButton onClick={() => router.push(url)}>
           <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-          <ListItemText primary={<Typography variant="body2">{title}</Typography>} />
+          <ListItemText
+            primary={
+              <Typography variant="body2" className={`${active ? 'active' : ''}`}>
+                {title}
+              </Typography>
+            }
+          />
         </ListItemButton>
       </ListItem>
     ))
@@ -54,12 +72,12 @@ export default function TemporaryDrawer({
   )
 
   return (
-    <Drawer
+    <DrawerStyled
       {...props}
       anchor={anchor}
       onClose={(e, reason) => typeof onClose === 'function' && onClose(e, reason)}
     >
       {list()}
-    </Drawer>
+    </DrawerStyled>
   )
 }
