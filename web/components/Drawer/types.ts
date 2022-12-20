@@ -5,5 +5,4 @@ import { MenuItem } from '../UI/AppBar/types'
 export type Props = {
   pages: MenuItem[]
   settings: MenuItem[]
-  settingsTip?: string
 } & ComponentProps<typeof Drawer>

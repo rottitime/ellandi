@@ -9,12 +9,30 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import InboxIcon from '@mui/icons-material/MoveToInbox'
 import MailIcon from '@mui/icons-material/Mail'
-import { Toolbar } from '@mui/material'
+import { Toolbar, Typography } from '@mui/material'
 import { Props } from './types'
 import Button from '../UI/Button/Button'
 import Icon from '../Icon/Icon'
+import { MenuItem } from '../UI/AppBar/types'
 
-export default function TemporaryDrawer({ anchor, onClose, ...props }: Props) {
+export default function TemporaryDrawer({
+  anchor,
+  pages,
+  settings,
+  onClose,
+  ...props
+}: Props) {
+  const renderList = (menu: MenuItem[]) => {
+    return menu.map(({ title }, index) => (
+      <ListItem key={title} disablePadding>
+        <ListItemButton>
+          <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+          <ListItemText primary={<Typography variant="body2">{title}</Typography>} />
+        </ListItemButton>
+      </ListItem>
+    ))
+  }
+
   const list = () => (
     <>
       <Toolbar disableGutters>
@@ -28,31 +46,9 @@ export default function TemporaryDrawer({ anchor, onClose, ...props }: Props) {
         sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}
         role="presentation"
       >
-        <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
+        <List>{renderList(pages)}</List>
         <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
+        <List>{renderList(settings)}</List>
       </Box>
     </>
   )
