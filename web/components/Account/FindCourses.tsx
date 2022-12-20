@@ -27,9 +27,12 @@ import { Query } from '@/service/api'
 import { fetchCourses, Course } from '@/service/me'
 
 const Root = styled(Box)`
-  display: flex;
-  background-color: #fff;
+  background-color: ${(p) => p.theme.colors.white};
   border-radius: 10px;
+  gap: ${(p) => p.theme.spacing(4)};
+  ${({ theme }) => theme.breakpoints.up('md')} {
+    display: flex;
+  }
 `
 const Main = styled(Box)`
   display: flex;
@@ -37,16 +40,9 @@ const Main = styled(Box)`
   flex-direction: column;
 `
 
-const SidebarRoot = styled(Box)`
-  display: flex;
-  flex-direction: column;
-  width: 300px;
-  margin-right: 24px;
-`
-
 const SidebarInner = styled(Box)`
   display: flex;
-  background-color: #e9eaec;
+  background-color: ${(p) => p.theme.colors.grey1};
   flex-direction: column;
   width: 300px;
   border-radius: 10px;
@@ -339,7 +335,7 @@ const FindCourses = () => {
 
   return (
     <Root>
-      <SidebarRoot>
+      <Box>
         <SidebarInner>
           <Typography variant="h2" gutterBottom>
             Search by:
@@ -434,7 +430,7 @@ const FindCourses = () => {
             />
           </FormGroup>
         </SidebarInner>
-      </SidebarRoot>
+      </Box>
 
       <Main>
         {isLoading && <p>loading...</p>}
