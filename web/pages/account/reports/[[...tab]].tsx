@@ -8,20 +8,17 @@ import StaffReport from '@/components/Account/StaffReport/StaffReport'
 import LearningReport from '@/components/Account/LearningReport/LearningReport'
 
 const ReportsPage = () => (
-  <>
-    <Headline>
-      <Typography>
-        View statistics on skills and learning within the Cabinet Office
-      </Typography>
-    </Headline>
-    <RoutedTabs routedTabItems={tabs} tabsPath="/account/reports" disableCard />
-  </>
+  <RoutedTabs routedTabItems={tabs} tabsPath="/account/reports" disableCard />
 )
 
 export default ReportsPage
 
 ReportsPage.getLayout = (page) => (
-  <AccountLayout title="Reports" titleIcon="report">
+  <AccountLayout
+    title="Reports"
+    teaserContent="View statistics on skills and learning within the Cabinet Office"
+    titleIcon="report"
+  >
     {page}
   </AccountLayout>
 )
