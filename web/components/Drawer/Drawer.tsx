@@ -23,6 +23,11 @@ const DrawerStyled = styled(MuiDrawer)`
   .active {
     font-weight: bold;
   }
+
+  svg {
+    font-size: 20px;
+    color: inherit;
+  }
 `
 
 export default function TemporaryDrawer({
@@ -34,10 +39,14 @@ export default function TemporaryDrawer({
 }: Props) {
   const router = useRouter()
   const renderList = (menu: MenuItem[]) => {
-    return menu.map(({ title, active, url }, index) => (
+    return menu.map(({ title, active, url, icon }) => (
       <ListItem key={title} disablePadding>
         <ListItemButton onClick={() => router.push(url)}>
-          <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+          {!!icon && (
+            <ListItemIcon>
+              <Icon icon={icon} />
+            </ListItemIcon>
+          )}
           <ListItemText
             primary={
               <Typography variant="body2" className={`${active ? 'active' : ''}`}>

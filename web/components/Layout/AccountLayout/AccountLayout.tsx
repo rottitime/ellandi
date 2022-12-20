@@ -94,28 +94,40 @@ const AccountLayout: FC<Props> = ({
               <AppBar
                 sx={{ mt: 4 }}
                 settingsTip={data?.fullname}
-                homepage={{ title: 'Home', url: urls.landingSignin }}
+                homepage={{
+                  title: 'Home',
+                  url: urls.landingSignin,
+                  icon: 'cabinet-office'
+                }}
                 pages={[
-                  { title: 'Skills', url: '/account/skills/', color: 'brandSkills' },
+                  {
+                    title: 'Skills',
+                    url: '/account/skills/',
+                    color: 'brandSkills',
+                    icon: 'skills'
+                  },
                   {
                     title: 'Learning',
                     url: '/account/learning/',
-                    color: 'brandLearning'
+                    color: 'brandLearning',
+                    icon: 'mortar-hat'
                   },
                   {
                     title: 'Your team',
                     url: '/account/your-team/',
-                    hidden: !data?.has_direct_reports
+                    hidden: !data?.has_direct_reports,
+                    icon: 'team'
                   },
                   {
                     title: 'Reports',
                     url: '/account/reports/',
-                    hidden: !data?.has_reports_access
+                    hidden: !data?.has_reports_access,
+                    icon: 'report'
                   }
                 ]}
                 settings={[
-                  { title: 'Profile', url: '/account/profile/' },
-                  { title: 'Sign out', url: urls.signin, onClick: logout }
+                  { title: 'Profile', url: '/account/profile/', icon: 'profile' },
+                  { title: 'Sign out', url: urls.signin, onClick: logout, icon: 'exit' }
                 ]}
               />
             </Box>
