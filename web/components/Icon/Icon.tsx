@@ -1,5 +1,4 @@
 import dynamic from 'next/dynamic'
-import { FC } from 'react'
 import { Props } from './types'
 
 export const icons = {
@@ -12,6 +11,7 @@ export const icons = {
   'crown-logo': dynamic(() => import('@/components/Icon/Icons/CrownLogo')),
   crest: dynamic(() => import('@/components/Icon/Icons/Crest')),
   hourglass: dynamic(() => import('@/components/Icon/Icons/Hourglass')),
+  cross: dynamic(() => import('@/components/Icon/Icons/Cross')),
   skills: dynamic(() => import('@/components/Icon/Icons/Skills')),
   mail: dynamic(() => import('@/components/Icon/Icons/Mail')),
   'mortar-hat': dynamic(() => import('@/components/Icon/Icons/MortarHat')),
@@ -28,9 +28,8 @@ export const icons = {
   exit: dynamic(() => import('@/components/Icon/Icons/Exit'))
 }
 
-const Icon: FC<Props> = ({ icon, size, ...props }) => {
+const Icon = ({ icon, size, ...props }: Props) => {
   const Component = icons[icon]
-
   return <Component {...props} style={{ fontSize: !!size ? `${size}px` : null }} />
 }
 
