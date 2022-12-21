@@ -399,3 +399,9 @@ class Course(models.Model):
     private = models.BooleanField(blank=True, null=True)
     course_type = models.CharField(max_length=256, choices=CourseType.choices, blank=True, null=True)
     grades = models.JSONField(default=list, encoder=JSONSerializer)
+
+
+class Invite(models.Model):
+    user = models.ForeignKey(User, related_name="invites", on_delete=models.CASCADE)
+    email = LowercaseEmailField("email")
+    first_name = models.CharField("first name", max_length=128, blank=True, null=True)
