@@ -402,6 +402,11 @@ class Course(models.Model):
 
 
 class Invite(models.Model):
+    class Status(models.TextChoices):
+        PENDING = ("Pending", "Pending")
+        ACCEPTED = ("Accepted", "Accepted")
+
     user = models.ForeignKey(User, related_name="invites", on_delete=models.CASCADE)
     email = LowercaseEmailField("email")
     first_name = models.CharField("first name", max_length=128, blank=True, null=True)
+    status = models.CharField(max_length=128, choices=Status.choices, default=Status.PENDING)
