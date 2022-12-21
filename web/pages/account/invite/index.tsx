@@ -1,128 +1,76 @@
 import AccountLayout from '@/components/Layout/AccountLayout/AccountLayout'
-import LearningGoalBar from '@/components/Account/LearningGoalBar/LearningGoalBar'
-import { Typography, styled, Box } from '@mui/material'
-import { IconsType } from '@/components/Icon/Icon'
+import { Typography, Grid } from '@mui/material'
 import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
-import Link from '@/components/UI/Link'
-import { RegisterUserResponse } from '@/service/api'
-import { ColorBrands } from '@/style/types'
-import Skeleton from '@/components/UI/Skeleton/Skeleton'
-import { useProfile } from '@/hooks/useProfile'
+import { InviteMember } from '@/service/api'
 import Button from '@/components/UI/Button/Button'
+import { FormProvider, useForm } from 'react-hook-form'
+import { Field } from '@/components/Form/Field/Field'
+import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldControlled'
+import { object, SchemaOf, string } from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
+import SimpleTable from '@/components/UI/SimpleTable/SimpleTable'
 
-type MenuDataType = {
-  title: string
-  content: string
-  url: string
-  color: keyof ColorBrands
-  logo: IconsType
-}
-
-const Content = styled(Box)`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  ${({ theme }) => theme.breakpoints.up('md')} {
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-  }
-  gap: ${(p) => p.theme.spacing(4)};
-  > .MuiCard-root {
-    grid-column: span 2;
-    &.single {
-      grid-column: span 1;
-    }
-  }
-
-  .news-feed {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    li {
-      padding: ${(p) => p.theme.spacing(2)} 0;
-      border-bottom: 1px solid #d9d9d9;
-    }
-    .circle {
-      display: inline-block;
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background-color: red;
-      margin-right: ${(p) => p.theme.spacing(2)};
-    }
-  }
-`
+const schema: SchemaOf<InviteMember> = object().shape({
+  first_name: string().required('This is a required field'),
+  email: string()
+    .email('Enter an email address in the correct format, like name@example.com')
+    .required('This is a required field')
+})
 
 const InvitePage = () => {
-  const { userProfile: data, isLoading } = useProfile<RegisterUserResponse>({})
+  const methods = useForm<InviteMember>({
+    defaultValues: { email: '', first_name: '' },
+    resolver: yupResolver(schema)
+  })
 
   return (
     <>
-      <Content>
-        <AccountCard
-          color="brandSkills"
-          action={
-            <Button variant="contained" href="/account/skills/add">
-              Add skills
-            </Button>
-          }
-        >
-          {isLoading ? (
-            [...Array(4).keys()].map((i) => (
-              <Skeleton key={i} sx={{ mb: 3, maxWidth: i % 2 ? 100 : 50 }} />
-            ))
-          ) : (
-            <>
-              <Typography variant="h2" gutterBottom>
-                Skills
-              </Typography>
-              <Link href="/account/skills/">
-                <Typography variant="h1" component="p" gutterBottom>
-                  {data?.skills.length}
-                </Typography>
-              </Link>
-              <Typography variant="h2" gutterBottom>
-                Languages
-              </Typography>
-              <Link href="/account/skills/language-skills/">
-                <Typography variant="h1" component="p" gutterBottom>
-                  {data?.languages.length}
-                </Typography>
-              </Link>
-            </>
-          )}
-        </AccountCard>
-
-        <AccountCard
-          color="brandLearning"
-          action={
-            <Button variant="contained" href="/account/learning/add/">
-              Add learning
-            </Button>
-          }
-        >
-          <LearningGoalBar
-            sx={{ mb: 5 }}
-            description="You should aim to complete 10 days learning each year"
-          />
-        </AccountCard>
-
-        {profiles.map((profile) => (
+      <Grid container spacing={2}>
+        <Grid item xs={12} md={4}>
+          <FormProvider {...methods}>
+            <form
+              onSubmit={methods.handleSubmit((d) => {
+                console.log({ d })
+              })}
+              noValidate
+            >
+              <AccountCard
+                header={
+                  <Typography variant="h2" gutterBottom>
+                    Invite a member
+                  </Typography>
+                }
+                action={
+                  <Button color="primary" type="submit">
+                    Invite
+                  </Button>
+                }
+              >
+                <Field>
+                  <TextFieldControlled name="email" type="email" label="Email address" />
+                </Field>
+                <Field>
+                  <TextFieldControlled name="first_name" label="First name" />
+                </Field>
+              </AccountCard>
+            </form>
+          </FormProvider>
+        </Grid>
+        <Grid item xs={12} md={8}>
           <AccountCard
-            color={profile.color}
-            key={profile.title}
-            headerLogoSize="large"
-            headerLogo={profile.logo}
-            header={<Typography variant="h2">{profile.title}</Typography>}
-            headerColorInherit
-            action={
-              <Button variant="contained" href={profile.url}>
-                Review {profile.title.toLowerCase()}
-              </Button>
+            header={
+              <Typography variant="h2" gutterBottom>
+                Your invites
+              </Typography>
             }
           >
-            <Typography gutterBottom>{profile.content}</Typography>
+            <SimpleTable
+              headers={[{ children: 'Users' }, { children: null }]}
+              list={[[{ children: 'dede' }, { children: 'dede', align: 'right' }]]}
+            />
           </AccountCard>
-        ))}
-      </Content>
+        </Grid>
+      </Grid>
     </>
   )
 }
@@ -130,25 +78,10 @@ const InvitePage = () => {
 export default InvitePage
 
 InvitePage.getLayout = (page) => (
-  <AccountLayout title="Invite members" teaserContent="deed">
+  <AccountLayout
+    title="Invite members"
+    teaserContent="Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia, quisquam?"
+  >
     {page}
   </AccountLayout>
 )
-
-const profiles: MenuDataType[] = [
-  {
-    title: 'Skills',
-    content:
-      'Update your skills profile to record your current skills and ones you would like to develop.',
-    url: '/account/skills',
-    color: 'brandSkills',
-    logo: 'skills'
-  },
-  {
-    title: 'Learning',
-    content: 'Record any learning you have completed and see what else is available.',
-    url: '/account/learning',
-    color: 'brandLearning',
-    logo: 'mortar-hat'
-  }
-]
