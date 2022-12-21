@@ -132,13 +132,13 @@ export const editLearning = async (
   return await res.json()
 }
 
-export const fetchInvitedMembers = async (token: string) => {
-  const res = await api(token, '/me/invite/members/')
+export const fetchInvites = async (token: string) => {
+  const res = await api(token, '/me/invites/')
   return await res.json()
 }
 
-export const invitedMembers = async (token: string, data: InviteMember) => {
-  const res = await api(token, '/me/invite/members/', {
+export const sendInvites = async (token: string, data: InviteMember) => {
+  const res = await api(token, '/me/invites/', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)
