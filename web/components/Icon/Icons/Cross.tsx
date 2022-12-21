@@ -17,6 +17,7 @@ const SvgComponent = ({
     width="1em"
     height="1em"
     aria-labelledby={titleId}
+    fill="currentColor"
     {...props}
   >
     {title ? <title id={titleId}>{title}</title> : null}
