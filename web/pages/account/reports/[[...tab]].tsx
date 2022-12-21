@@ -1,6 +1,4 @@
 import AccountLayout from '@/components/Layout/AccountLayout/AccountLayout'
-import { Typography } from '@mui/material'
-import Headline from '@/components/Account/Headline/Headline'
 import { RoutedTabItem, RoutedTabs } from '@/components/UI/Tabs/Tabs'
 import SkillsReport from '@/components/Account/SkillsReport/SkillsReport'
 import LanguagesReport from '@/components/Account/LanguagesReport/LanguagesReport'
