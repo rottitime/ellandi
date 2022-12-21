@@ -151,8 +151,6 @@ export type RegisterUserResponse = {
   FunctionType &
   SkillsDevelopType
 
-export type InviteMember = Pick<RegisterUserResponse, 'email' | 'first_name'>
-
 export type RegisterUserResponseWithCustomFields = RegisterUserResponse & CustomFieldType
 
 export type TeamMember = {
@@ -321,5 +319,8 @@ export type ValidUserToken = {
 
 export type InvitedMembers = {
   email: string
-  status: 'pending' | 'declined' | 'accepted'
+  first_name: string
+  status: 'Pending' | 'Declined' | 'Accepted'
 }
+
+export type InviteMember = Pick<RegisterUserResponse, 'email' | 'first_name'>

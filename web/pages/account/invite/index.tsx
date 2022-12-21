@@ -65,6 +65,7 @@ const InvitePage = () => {
         <Grid item xs={12} md={4}>
           <FormProvider {...methods}>
             <form
+              data-testid="invite-form"
               onSubmit={methods.handleSubmit((data) => {
                 console.log({ data })
                 mutate(data)
@@ -98,19 +99,21 @@ const InvitePage = () => {
           <Grid item xs={12} md={8}>
             <AccountCard header={<Typography variant="h2">Your invites</Typography>}>
               <SimpleTable
+                data-testid="list-invites"
                 loading={isLoading}
                 // list={mockResponse}
                 list={data.map(({ email, status }) => {
                   return [
-                    { children: email },
+                    { children: email, title: status },
                     {
                       children: (
                         <Icon
+                          title={status}
                           className={`status-${status.toLowerCase()}`}
                           icon={
-                            status === 'accepted'
+                            status.toLowerCase() === 'accepted'
                               ? 'tick'
-                              : status === 'declined'
+                              : status.toLowerCase() === 'declined'
                               ? 'cross'
                               : 'hourglass'
                           }
@@ -139,18 +142,3 @@ InvitePage.getLayout = (page) => (
     {page}
   </AccountLayout>
 )
-
-const mockResponse = [
-  [
-    { children: 'dedesomething@test.com' },
-    { children: <Icon icon="hourglass" className={`status-pending`} />, align: 'right' }
-  ],
-  [
-    { children: 'dedesomething@test.com' },
-    { children: <Icon icon="tick" className={`status-accepted`} />, align: 'right' }
-  ],
-  [
-    { children: 'dedesomething@test.com' },
-    { children: <Icon icon="cross" className={`status-declined`} />, align: 'right' }
-  ]
-]
