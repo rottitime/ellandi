@@ -15,6 +15,7 @@ import { Props } from './types'
 import Icon from '../Icon/Icon'
 import { MenuItem } from '../UI/AppBar/types'
 import { useRouter } from 'next/router'
+import { useUiContext } from '@/context/UiContext'
 
 const DrawerStyled = styled(MuiDrawer)`
   .MuiToolbar-root {
@@ -23,8 +24,11 @@ const DrawerStyled = styled(MuiDrawer)`
   .active {
     font-weight: bold;
   }
-  .close-button svg {
-    font-size: 15px;
+  .close-button {
+    justify-content: end;
+    svg {
+      font-size: 15px;
+    }
   }
 
   svg {
@@ -41,6 +45,7 @@ export default function TemporaryDrawer({
   ...props
 }: Props) {
   const router = useRouter()
+  const { bannerHeight } = useUiContext()
   const renderList = (menu: MenuItem[]) => {
     return menu.map(({ title, active, url, icon }) => (
       <ListItem
@@ -69,11 +74,10 @@ export default function TemporaryDrawer({
 
   const list = () => (
     <>
-      <Toolbar disableGutters>
-        <ListItemButton>
+      <Toolbar disableGutters sx={{ height: bannerHeight, alignItems: 'flex-start' }}>
+        <ListItemButton className="close-button">
           <IconButton
             edge="end"
-            className="close-button"
             onClick={(e) => typeof onClose === 'function' && onClose(e, 'backdropClick')}
           >
             <Icon icon="cross" />
