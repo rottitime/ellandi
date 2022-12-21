@@ -49,9 +49,7 @@ const InvitePage = () => {
     error
   } = useMutation<null, Error, InviteMember>(
     async (data) => authFetch(sendInvites, data),
-    {
-      onSuccess: async () => await refetch()
-    }
+    { onSuccess: async () => await refetch() }
   )
 
   const methods = useForm<InviteMember>({
@@ -66,16 +64,18 @@ const InvitePage = () => {
           <FormProvider {...methods}>
             <form
               data-testid="invite-form"
-              onSubmit={methods.handleSubmit((data) => {
-                console.log({ data })
-                mutate(data)
-              })}
+              onSubmit={methods.handleSubmit((data) => mutate(data))}
               noValidate
             >
               <AccountCard
                 header={<Typography variant="h2">Invite a member</Typography>}
                 action={
-                  <Button color="primary" type="submit" loading={isLoadingMutate}>
+                  <Button
+                    data-testid="invite-submit"
+                    color="primary"
+                    type="submit"
+                    loading={isLoadingMutate}
+                  >
                     Invite
                   </Button>
                 }
@@ -96,10 +96,9 @@ const InvitePage = () => {
           </FormProvider>
         </Grid>
         {!!data?.length && (
-          <Grid item xs={12} md={8}>
+          <Grid item xs={12} md={8} data-testid="list-invites">
             <AccountCard header={<Typography variant="h2">Your invites</Typography>}>
               <SimpleTable
-                data-testid="list-invites"
                 loading={isLoading}
                 // list={mockResponse}
                 list={data.map(({ email, status }) => {

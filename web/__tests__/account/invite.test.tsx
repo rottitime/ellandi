@@ -6,7 +6,7 @@ import { InvitedMembers, InviteMember, RegisterUserResponse } from '@/service/ty
 import userEvent from '@testing-library/user-event'
 
 const mockInviteList: InvitedMembers[] = [
-  { email: 'test@example.com', first_name: 'Simon', status: 'Pending' }
+  { email: 'first.user@example.com', first_name: 'Simon', status: 'Pending' }
 ]
 
 describe('Page: Profile', () => {
@@ -28,9 +28,10 @@ describe('Page: Profile', () => {
   })
 
   it('new invites are added to list', async () => {
-    const newInvite: InviteMember = {
+    const newInvite: InvitedMembers = {
       email: 'someonenew@example.com',
-      first_name: 'John'
+      first_name: 'Harry',
+      status: 'Pending'
     }
 
     fetchMock.mockResponse(JSON.stringify(mockInviteList), { status: 200 })
@@ -45,80 +46,16 @@ describe('Page: Profile', () => {
 
     await userEvent.type(screen.getByTestId('textfield_email'), newInvite.email)
     await userEvent.type(screen.getByTestId('textfield_first_name'), newInvite.first_name)
+    fetchMock.mockResponses(
+      [JSON.stringify({}), { status: 200 }],
+      [JSON.stringify([...mockInviteList, newInvite]), { status: 200 }]
+    )
+    userEvent.click(screen.getByTestId('invite-submit'))
 
-    fetchMock.mockResponse(JSON.stringify([...mockInviteList]), { status: 200 })
-
-    // await waitFor(async () => {
-    //   expect(within(currentList).getByText(newInvite.email)).toBeInTheDocument()
-    // })
+    await waitFor(async () => {
+      expect(
+        within(screen.getByTestId('list-invites')).getByText(newInvite.email)
+      ).toBeInTheDocument()
+    })
   })
-
-  describe('Form', () => {})
-
-  // describe('Successfull response', () => {
-  //   beforeEach(() => {
-  //     fetchMock.mockResponses([JSON.stringify(mockMe), { status: 200 }])
-  //   })
-
-  //   it('renders', async () => {
-  //     renderWithProviders(<InvitePage />)
-
-  //     await waitFor(async () => {
-  //       expect(screen.getByText(mockMe.email)).toBeInTheDocument()
-  //     })
-
-  //     expect(
-  //       screen.getByText(`${mockMe.first_name} ${mockMe.last_name}`)
-  //     ).toBeInTheDocument()
-
-  //     expect(screen.getByText(mockMe.job_title)).toBeInTheDocument()
-  //     expect(screen.getByText(mockMe.business_unit)).toBeInTheDocument()
-  //     expect(screen.getByText(mockMe.business_unit)).toBeInTheDocument()
-  //     expect(screen.getByText(mockMe.line_manager_email)).toBeInTheDocument()
-  //     expect(screen.getByText(mockMe.line_manager_email)).toBeInTheDocument()
-  //     expect(screen.getByText(mockMe.grade)).toBeInTheDocument()
-  //     expect(screen.getByText(mockMe.function)).toBeInTheDocument()
-  //     expect(screen.getByText(mockMe.contract_type)).toBeInTheDocument()
-  //     expect(screen.getByText('Audit, Management')).toBeInTheDocument()
-  //   })
-
-  // it("hides 'primary profession' from proffession list", async () => {
-  //   fetchMock.mockResponses([
-  //     JSON.stringify({
-  //       ...mockMe,
-  //       professions: ['Audit', 'Train spotting', 'Management'],
-  //       primary_profession: 'Train spotting'
-  //     }),
-  //     { status: 200 }
-  //   ])
-
-  //   renderWithProviders(<InvitePage />)
-  //   await waitFor(async () => {
-  //     expect(screen.getByText('Audit, Management')).toBeInTheDocument()
-  //   })
-  // })
-
-  // it('renders other fields', async () => {
-  //   const data: RegisterUserResponse = {
-  //     ...mockMe,
-  //     professions: ['Chosen profession', 'Other'],
-  //     profession_other: 'Custom other profession',
-  //     grade_other: 'Custom other grade',
-  //     function_other: 'Custom other function',
-  //     contract_type_other: 'custom other contract'
-  //   }
-
-  //   fetchMock.mockResponse(JSON.stringify(data), { status: 200 })
-
-  //   renderWithProviders(<InvitePage />)
-
-  //   await waitFor(async () => {
-  //     expect(screen.getByText(data.grade_other)).toBeInTheDocument()
-  //   })
-  //   expect(screen.getByText(data.function_other)).toBeInTheDocument()
-  //   expect(screen.getByText(data.contract_type_other)).toBeInTheDocument()
-  //   expect(
-  //     screen.getByText('Chosen profession, Custom other profession')
-  //   ).toBeInTheDocument()
-  // })
 })
