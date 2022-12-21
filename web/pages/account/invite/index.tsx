@@ -12,7 +12,7 @@ import SimpleTable from '@/components/UI/SimpleTable/SimpleTable'
 import Icon from '@/components/Icon/Icon'
 import useAuth from '@/hooks/useAuth'
 import { useMutation, useQuery } from 'react-query'
-import { fetchInvitedMembers, invitedMembers } from '@/service/account'
+import { fetchInvites, sendInvites } from '@/service/account'
 import Alert from '@/components/UI/Alert/Alert'
 
 const GridConatiner = styled(Grid)`
@@ -40,7 +40,7 @@ const InvitePage = () => {
 
   const { isLoading, data, refetch } = useQuery<InvitedMembers[]>(
     Query.InvitedMembers,
-    () => authFetch(fetchInvitedMembers)
+    () => authFetch(fetchInvites)
   )
 
   const {
@@ -48,7 +48,7 @@ const InvitePage = () => {
     mutate,
     error
   } = useMutation<null, Error, InviteMember>(
-    async (data) => authFetch(invitedMembers, data),
+    async (data) => authFetch(sendInvites, data),
     {
       onSuccess: async () => await refetch()
     }
@@ -106,7 +106,7 @@ const InvitePage = () => {
                     {
                       children: (
                         <Icon
-                          className={`status-${status}`}
+                          className={`status-${status.toLowerCase()}`}
                           icon={
                             status === 'accepted'
                               ? 'tick'
