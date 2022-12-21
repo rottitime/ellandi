@@ -684,3 +684,22 @@ def add_course(request):
             return Response(data={"detail": error.message}, status=status.HTTP_400_BAD_REQUEST)
         return Response(serializer.data, status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@extend_schema(methods=["GET"], request=None, responses=serializers.InviteListSerializer(many=True))
+@extend_schema(
+    methods=["POST", "PATCH"], request=serializers.InviteCreateSerializer, responses=serializers.InviteListSerializer
+)
+@decorators.api_view(["GET", "POST", "PATCH"])
+@decorators.permission_classes((permissions.IsAuthenticated,))
+def me_invites_view(request):
+    user = request.user
+    if request.method in ("POST", "PATCH"):
+        data = request.data
+        serializers.InviteCreateSerializer(data=request.data).is_valid(raise_exception=True)
+        invite = models.Invite(user=user, **data)
+        invite.save()
+    invites = user.invites.all()
+    data = serializers.InviteListSerializer(invites, many=True).data
+    response = Response(data=data, status=status.HTTP_200_OK)
+    return response
