@@ -9,6 +9,7 @@ import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldCo
 import { object, SchemaOf, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import SimpleTable from '@/components/UI/SimpleTable/SimpleTable'
+import Icon from '@/components/Icon/Icon'
 
 const schema: SchemaOf<InviteMember> = object().shape({
   first_name: string().required('This is a required field'),
@@ -66,7 +67,20 @@ const InvitePage = () => {
           >
             <SimpleTable
               headers={[{ children: 'Users' }, { children: null }]}
-              list={[[{ children: 'dede' }, { children: 'dede', align: 'right' }]]}
+              list={[
+                [
+                  { children: 'dedesomething@test.com' },
+                  { children: <Icon icon="hourglass" />, align: 'right' }
+                ],
+                [
+                  { children: 'dedesomething@test.com' },
+                  { children: <Icon icon="tick" />, align: 'right' }
+                ]
+                // [
+                //   { children: 'dedesomething@test.com' },
+                //   { children: <Icon icon="" />, align: 'right' }
+                // ]
+              ]}
             />
           </AccountCard>
         </Grid>
