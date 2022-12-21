@@ -11,6 +11,7 @@ export const icons = {
   'circle-info-filled': dynamic(() => import('@/components/Icon/Icons/InfoCircleFilled')),
   'crown-logo': dynamic(() => import('@/components/Icon/Icons/CrownLogo')),
   crest: dynamic(() => import('@/components/Icon/Icons/Crest')),
+  hourglass: dynamic(() => import('@/components/Icon/Icons/Hourglass')),
   skills: dynamic(() => import('@/components/Icon/Icons/Skills')),
   mail: dynamic(() => import('@/components/Icon/Icons/Mail')),
   'mortar-hat': dynamic(() => import('@/components/Icon/Icons/MortarHat')),
