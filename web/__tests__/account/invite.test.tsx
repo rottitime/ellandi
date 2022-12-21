@@ -58,4 +58,21 @@ describe('Page: Profile', () => {
       ).toBeInTheDocument()
     })
   })
+
+  it('shows error on form submit', async () => {
+    const errorMessage = 'Some kind of Error happened here'
+
+    renderWithProviders(<InvitePage />)
+
+    await userEvent.type(screen.getByTestId('textfield_email'), 'abc@example.com')
+    await userEvent.type(screen.getByTestId('textfield_first_name'), 'Harry')
+    fetchMock.mockResponses([JSON.stringify({ detail: errorMessage }), { status: 401 }])
+    userEvent.click(screen.getByTestId('invite-submit'))
+
+    await waitFor(async () => {
+      expect(screen.getByTestId('error-message')).toBeInTheDocument()
+    })
+
+    expect(screen.getByTestId('error-message')).toHaveTextContent(errorMessage)
+  })
 })
