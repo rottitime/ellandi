@@ -686,8 +686,10 @@ def add_course(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@extend_schema(methods=['GET'], request=None, responses=serializers.InviteListSerializer(many=True))
-@extend_schema(methods=['POST', 'PATCH'], request=serializers.InviteCreateSerializer, responses=serializers.InviteListSerializer)
+@extend_schema(methods=["GET"], request=None, responses=serializers.InviteListSerializer(many=True))
+@extend_schema(
+    methods=["POST", "PATCH"], request=serializers.InviteCreateSerializer, responses=serializers.InviteListSerializer
+)
 @decorators.api_view(["GET", "POST", "PATCH"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
 def me_invites_view(request):
