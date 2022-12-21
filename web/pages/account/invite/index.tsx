@@ -50,12 +50,7 @@ const InvitePage = () => {
   } = useMutation<null, Error, InviteMember>(
     async (data) => authFetch(invitedMembers, data),
     {
-      onSuccess: async (data) => {
-        refetch()
-        // queryClient.setQueryData(Query.Me, data)
-        // setError(null)
-        // router.push(nextUrl)
-      }
+      onSuccess: async () => await refetch()
     }
   )
 
@@ -70,15 +65,16 @@ const InvitePage = () => {
         <Grid item xs={12} md={4}>
           <FormProvider {...methods}>
             <form
-              onSubmit={methods.handleSubmit((d) => {
-                console.log({ d })
+              onSubmit={methods.handleSubmit((data) => {
+                console.log({ data })
+                mutate(data)
               })}
               noValidate
             >
               <AccountCard
                 header={<Typography variant="h2">Invite a member</Typography>}
                 action={
-                  <Button color="primary" type="submit">
+                  <Button color="primary" type="submit" loading={isLoadingMutate}>
                     Invite
                   </Button>
                 }
@@ -98,31 +94,32 @@ const InvitePage = () => {
             </form>
           </FormProvider>
         </Grid>
-        {true && (
+        {!!data?.length && (
           <Grid item xs={12} md={8}>
             <AccountCard header={<Typography variant="h2">Your invites</Typography>}>
               <SimpleTable
-                list={mockResponse}
-                // list={data.map(({ email, status }) => {
-                //   return [
-                //     { children: email },
-                //     {
-                //       children: (
-                //         <Icon
-                //           className={`status-${status}`}
-                //           icon={
-                //             status === 'accepted'
-                //               ? 'tick'
-                //               : status === 'declined'
-                //               ? 'cross'
-                //               : 'hourglass'
-                //           }
-                //         />
-                //       ),
-                //       align: 'right'
-                //     }
-                //   ]
-                // })}
+                loading={isLoading}
+                // list={mockResponse}
+                list={data.map(({ email, status }) => {
+                  return [
+                    { children: email },
+                    {
+                      children: (
+                        <Icon
+                          className={`status-${status}`}
+                          icon={
+                            status === 'accepted'
+                              ? 'tick'
+                              : status === 'declined'
+                              ? 'cross'
+                              : 'hourglass'
+                          }
+                        />
+                      ),
+                      align: 'right'
+                    }
+                  ]
+                })}
               />
             </AccountCard>
           </Grid>
