@@ -11,6 +11,7 @@ from .models import (
     EmailSalt,
     Function,
     Grade,
+    Invite,
     JobTitle,
     Language,
     LanguageSkillLevel,
@@ -370,3 +371,15 @@ class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
         fields = "__all__"
+
+
+class InviteCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Invite
+        fields = ("email", "first_name")
+
+
+class InviteListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Invite
+        fields = ("email", "first_name", "status")
