@@ -9,7 +9,7 @@ const mockInviteList: InvitedMembers[] = [
   { email: 'first.user@example.com', first_name: 'Simon', status: 'Pending' }
 ]
 
-describe('Page: Profile', () => {
+describe('Page: Invite Members', () => {
   afterEach(() => {
     fetchMock.resetMocks()
   })
