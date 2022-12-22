@@ -84,7 +84,7 @@ const InvitePage = () => {
             noValidate
           >
             <AccountCard
-              header={<Typography variant="h2">Invite a member</Typography>}
+              header={<Typography variant="h2">Invite new members</Typography>}
               action={
                 <Button
                   data-testid="invite-submit"
