@@ -85,19 +85,20 @@ const IndexPage = () => {
               <Typography variant="h2" gutterBottom>
                 Skills
               </Typography>
-              <Link href="/account/skills/">
-                <Typography variant="h1" component="p" gutterBottom>
-                  {data?.skills.length}
-                </Typography>
-              </Link>
+
+              <Typography variant="h1" component="p" gutterBottom>
+                <Link href="/account/skills/">{data?.skills.length}</Link>
+              </Typography>
+
               <Typography variant="h2" gutterBottom>
                 Languages
               </Typography>
-              <Link href="/account/skills/language-skills/">
-                <Typography variant="h1" component="p" gutterBottom>
+
+              <Typography variant="h1" component="p" gutterBottom>
+                <Link href="/account/skills/language-skills/">
                   {data?.languages.length}
-                </Typography>
-              </Link>
+                </Link>
+              </Typography>
             </>
           )}
         </AccountCard>

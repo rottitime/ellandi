@@ -157,7 +157,6 @@ const theme = createTheme({
         root: {
           color: colors.blue1,
           textDecorationColor: 'inherit',
-          fontWeight: 500,
           transition: 'opacity 0.3s ease-in-out',
           '&:hover': {
             opacity: 0.7
