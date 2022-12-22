@@ -1,5 +1,5 @@
 import AccountLayout from '@/components/Layout/AccountLayout/AccountLayout'
-import { Typography, Grid, styled } from '@mui/material'
+import { Avatar, Grid, styled } from '@mui/material'
 import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
 import { InvitedMembers, InviteMember, Query } from '@/service/api'
 import Button from '@/components/UI/Button/Button'
@@ -14,14 +14,15 @@ import useAuth from '@/hooks/useAuth'
 import { useMutation, useQuery } from 'react-query'
 import { fetchInvites, sendInvites } from '@/service/account'
 import Alert from '@/components/UI/Alert/Alert'
+import Typography from '@/components/UI/Typography/Typography'
 
 const GridConatiner = styled(Grid)`
   td svg {
-    font-size: 20px;
+    font-size: 25px;
   }
-  .status-pending {
+  /* .status-pending {
     color: ${(p) => p.theme.palette.warning.main};
-  }
+  } */
 
   .status-declined {
     color: ${(p) => p.theme.palette.error.main};
@@ -101,9 +102,23 @@ const InvitePage = () => {
               <SimpleTable
                 loading={isLoading}
                 // list={mockResponse}
-                list={data.map(({ email, status }) => {
+                list={data.map(({ email, first_name, status }) => {
                   return [
-                    { children: email, title: status },
+                    {
+                      children: <Avatar>{first_name.charAt(0).toUpperCase()}</Avatar>,
+                      width: 60
+                    },
+                    {
+                      children: (
+                        <Typography variant="body2" pending={status === 'Pending'}>
+                          {first_name}
+                          <br />
+                          {email}
+                        </Typography>
+                      ),
+                      title: status
+                    },
+
                     {
                       children: (
                         <Icon
@@ -135,8 +150,8 @@ export default InvitePage
 
 InvitePage.getLayout = (page) => (
   <AccountLayout
-    title="Invite members"
-    teaserContent="Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia, quisquam?"
+    title="Invite new members"
+    teaserContent="Send invitation links to team members"
   >
     {page}
   </AccountLayout>
