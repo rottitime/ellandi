@@ -145,6 +145,16 @@ describe('api()', () => {
     }
   })
 
+  it('Error on fetch', async () => {
+    fetchMock.mockReject(new Error('fake error message'))
+
+    try {
+      await api('my-token', '/api')
+    } catch (e) {
+      expect(e.message).toEqual(defaultError)
+    }
+  })
+
   it('custom error', async () => {
     const errorMessage = 'my custom error'
 
