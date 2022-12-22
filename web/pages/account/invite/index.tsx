@@ -77,7 +77,7 @@ const InvitePage = () => {
   return (
     <>
       <GridConatiner container spacing={2}>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={7}>
           <FormProvider {...methods}>
             <form
               data-testid="invite-form"
@@ -142,7 +142,7 @@ const InvitePage = () => {
           </FormProvider>
         </Grid>
         {!!data?.length && (
-          <Grid item xs={12} md={4} data-testid="list-invites">
+          <Grid item xs={12} md={5} data-testid="list-invites">
             <AccountCard header={<Typography variant="h2">Your invites</Typography>}>
               <SimpleTable
                 loading={isLoading}
