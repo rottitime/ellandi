@@ -374,12 +374,16 @@ class CourseSerializer(serializers.ModelSerializer):
 
 
 class InviteCreateSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(validators=[check_email_domain])
+
     class Meta:
         model = Invite
         fields = ("email", "first_name")
 
 
 class InviteListSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(validators=[check_email_domain])
+
     class Meta:
         model = Invite
         fields = ("email", "first_name", "status")
