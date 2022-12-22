@@ -1,12 +1,12 @@
 import AccountLayout from '@/components/Layout/AccountLayout/AccountLayout'
-import { Avatar, Grid, styled } from '@mui/material'
+import { Avatar, Box, Grid, IconButton, styled } from '@mui/material'
 import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
 import { InvitedMembers, InviteMember, Query } from '@/service/api'
 import Button from '@/components/UI/Button/Button'
-import { FormProvider, useForm } from 'react-hook-form'
+import { FormProvider, useFieldArray, useForm } from 'react-hook-form'
 import { Field } from '@/components/Form/Field/Field'
 import TextFieldControlled from '@/components/UI/TextFieldControlled/TextFieldControlled'
-import { object, SchemaOf, string } from 'yup'
+import { array, object, SchemaOf, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import SimpleTable from '@/components/UI/SimpleTable/SimpleTable'
 import Icon from '@/components/Icon/Icon'
@@ -15,6 +15,9 @@ import { useMutation, useQuery } from 'react-query'
 import { fetchInvites, sendInvites } from '@/service/account'
 import Alert from '@/components/UI/Alert/Alert'
 import Typography from '@/components/UI/Typography/Typography'
+import { Cancel } from '@mui/icons-material'
+
+type Schema = { members: InviteMember[] }
 
 const GridConatiner = styled(Grid)`
   td svg {
@@ -29,11 +32,15 @@ const GridConatiner = styled(Grid)`
   }
 `
 
-const schema: SchemaOf<InviteMember> = object().shape({
+const membersSchema: SchemaOf<InviteMember> = object().shape({
   first_name: string().required('This is a required field'),
   email: string()
     .email('Enter an email address in the correct format, like name@example.com')
     .required('This is a required field')
+})
+
+const schema: SchemaOf<Schema> = object().shape({
+  members: array().of(membersSchema).min(1, 'This is a required field')
 })
 
 const InvitePage = () => {
@@ -48,14 +55,19 @@ const InvitePage = () => {
     isLoading: isLoadingMutate,
     mutate,
     error
-  } = useMutation<null, Error, InviteMember>(
+  } = useMutation<null, Error, InviteMember[]>(
     async (data) => authFetch(sendInvites, data),
     { onSuccess: async () => await refetch() }
   )
 
-  const methods = useForm<InviteMember>({
-    defaultValues: { email: '', first_name: '' },
+  const methods = useForm<Schema>({
+    defaultValues: { members: [{ email: '', first_name: '' }] },
     resolver: yupResolver(schema)
+  })
+
+  const { fields, append, remove } = useFieldArray<Schema, 'members'>({
+    control: methods.control,
+    name: 'members'
   })
 
   return (
@@ -65,7 +77,7 @@ const InvitePage = () => {
           <FormProvider {...methods}>
             <form
               data-testid="invite-form"
-              onSubmit={methods.handleSubmit((data) => mutate(data))}
+              onSubmit={methods.handleSubmit((data) => mutate(data.members))}
               noValidate
             >
               <AccountCard
@@ -86,11 +98,37 @@ const InvitePage = () => {
                     {error?.message}
                   </Alert>
                 )}
+
+                {fields.map((item, index) => (
+                  <Box key={item.id}>
+                    <Field>
+                      <TextFieldControlled
+                        name={`members.${index}.email`}
+                        type="email"
+                        label="Email address"
+                      />
+                    </Field>
+                    <Field>
+                      <TextFieldControlled
+                        name={`members.${index}.first_name`}
+                        label="First name"
+                      />
+                    </Field>
+                    <IconButton aria-label="Remove" onClick={() => remove(index)}>
+                      <Cancel />
+                    </IconButton>
+                  </Box>
+                ))}
+
                 <Field>
-                  <TextFieldControlled name="email" type="email" label="Email address" />
-                </Field>
-                <Field>
-                  <TextFieldControlled name="first_name" label="First name" />
+                  <Button
+                    data-testid="button-addlanguagerow"
+                    onClick={() => {
+                      append({ first_name: '', email: '' })
+                    }}
+                  >
+                    Add member
+                  </Button>
                 </Field>
               </AccountCard>
             </form>
@@ -101,7 +139,6 @@ const InvitePage = () => {
             <AccountCard header={<Typography variant="h2">Your invites</Typography>}>
               <SimpleTable
                 loading={isLoading}
-                // list={mockResponse}
                 list={data.map(({ email, first_name, status }) => {
                   return [
                     {
