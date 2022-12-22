@@ -404,6 +404,7 @@ class Course(models.Model):
 class Invite(TimeStampedModel):
     class Status(models.TextChoices):
         PENDING = ("Pending", "Pending")
+        SENT = ("Sent", "Sent")
         ACCEPTED = ("Accepted", "Accepted")
 
     user = models.ForeignKey(User, related_name="invites", on_delete=models.CASCADE)

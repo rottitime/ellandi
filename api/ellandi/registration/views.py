@@ -706,6 +706,8 @@ def me_invites_view(request):
                     first_name=item['first_name'],
                     inviter=user,
                 )
+                invite.status = models.Invite.Status.SENT
+                invite.save()
 
     invites = user.invites.all()
     data = serializers.InviteListSerializer(invites, many=True).data
