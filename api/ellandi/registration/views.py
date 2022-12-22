@@ -13,7 +13,7 @@ from ellandi.registration.recommend import (
     recommend_skill_from_skill,
     recommend_title_from_job_title,
 )
-from ellandi.verification import send_verification_email
+from ellandi.verification import send_verification_email, send_invite_email
 
 from . import exceptions, initial_data, models, serializers
 
@@ -699,6 +699,12 @@ def me_invites_view(request):
         serializers.InviteCreateSerializer(data=request.data).is_valid(raise_exception=True)
         invite = models.Invite(user=user, **data)
         invite.save()
+        send_invite_email(
+            to_address=data['email'],
+            first_name=data['first_name'],
+            inviter=user,
+        )
+
     invites = user.invites.all()
     data = serializers.InviteListSerializer(invites, many=True).data
     response = Response(data=data, status=status.HTTP_200_OK)
