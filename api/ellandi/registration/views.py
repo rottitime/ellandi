@@ -696,15 +696,16 @@ def me_invites_view(request):
     user = request.user
     if request.method in ("POST", "PATCH"):
         data = request.data
-        serializer = serializers.InviteCreateSerializer(data=data)
+        serializer = serializers.InviteCreateSerializer(data=data, many=True)
         if serializer.is_valid(raise_exception=True):
-            serializer.save()
-        for item in data:
-            send_invite_email(
-                to_address=item['email'],
-                first_name=item['first_name'],
-                inviter=user,
-            )
+            for item in data:
+                invite = models.Invite(user=user, **item)
+                invite.save()
+                send_invite_email(
+                    to_address=item['email'],
+                    first_name=item['first_name'],
+                    inviter=user,
+                )
 
     invites = user.invites.all()
     data = serializers.InviteListSerializer(invites, many=True).data
