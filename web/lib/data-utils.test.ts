@@ -135,37 +135,21 @@ describe('api()', () => {
     expect(data).toEqual(expect.objectContaining(mockSuccess))
   })
 
-  it('default error', async () => {
-    fetchMock.mockResponseOnce(JSON.stringify(mockSuccess), { status: 401 })
-
-    try {
-      await api('my-token', '/api')
-    } catch (e) {
-      expect(e.message).toEqual(defaultError)
-    }
-  })
-
-  it('Error on fetch', async () => {
+  it('Error on initial fetch', async () => {
     fetchMock.mockReject(new Error('fake error message'))
-
-    try {
-      await api('my-token', '/api')
-    } catch (e) {
-      expect(e.message).toEqual(defaultError)
-    }
+    await expect(api('my-token', '/api')).rejects.toThrowError(defaultError)
   })
 
   it('custom error', async () => {
     const errorMessage = 'my custom error'
-
     fetchMock.mockResponseOnce(JSON.stringify({ detail: 'my custom error' }), {
       status: 401
     })
+    await expect(api('my-token', '/api')).rejects.toThrowError(errorMessage)
+  })
 
-    try {
-      await api('my-token', '/api')
-    } catch (e) {
-      expect(e.message).toEqual(errorMessage)
-    }
+  it('default error fallback', async () => {
+    fetchMock.mockResponseOnce(JSON.stringify(mockSuccess), { status: 401 })
+    await expect(api('my-token', '/api')).rejects.toThrowError(defaultError)
   })
 })
