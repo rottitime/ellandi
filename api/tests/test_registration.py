@@ -751,6 +751,8 @@ def test_invite_friend(client, user_id):
             dict(status="Pending", email=item["email"].lower(), first_name=item["first_name"]) for item in data[: i + 1]
         )
         assert response.json() == expected_data
+        latest_email_text = utils._get_latest_email_text()
+        assert datum['first_name'] in latest_email_text
 
     expected_data = list(
         dict(status="Pending", email=item["email"].lower(), first_name=item["first_name"]) for item in data
