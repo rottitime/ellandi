@@ -24,7 +24,11 @@ describe('Page: Invite Members', () => {
       expect(screen.getByTestId('list-invites')).toBeInTheDocument()
     })
 
-    expect(screen.getByText(mockInviteList[0].email)).toBeInTheDocument()
+    expect(
+      within(screen.getByTestId('list-invites')).getByText(mockInviteList[0].email, {
+        exact: false
+      })
+    ).toBeInTheDocument()
   })
 
   it('new invites are added to list', async () => {
@@ -38,14 +42,19 @@ describe('Page: Invite Members', () => {
     renderWithProviders(<InvitePage />)
 
     await waitFor(async () => {
-      expect(screen.getByText(mockInviteList[0].email)).toBeInTheDocument()
+      expect(
+        screen.getByText(mockInviteList[0].email, { exact: false })
+      ).toBeInTheDocument()
     })
 
     const currentList = screen.getByTestId('list-invites')
     expect(within(currentList).queryByText(newInvite.email)).not.toBeInTheDocument()
 
-    await userEvent.type(screen.getByTestId('textfield_email'), newInvite.email)
-    await userEvent.type(screen.getByTestId('textfield_first_name'), newInvite.first_name)
+    await userEvent.type(screen.getByTestId('textfield_members.0.email'), newInvite.email)
+    await userEvent.type(
+      screen.getByTestId('textfield_members.0.first_name'),
+      newInvite.first_name
+    )
     fetchMock.mockResponses(
       [JSON.stringify({}), { status: 200 }],
       [JSON.stringify([...mockInviteList, newInvite]), { status: 200 }]
@@ -54,7 +63,9 @@ describe('Page: Invite Members', () => {
 
     await waitFor(async () => {
       expect(
-        within(screen.getByTestId('list-invites')).getByText(newInvite.email)
+        within(screen.getByTestId('list-invites')).getByText(newInvite.email, {
+          exact: false
+        })
       ).toBeInTheDocument()
     })
   })
@@ -71,8 +82,11 @@ describe('Page: Invite Members', () => {
 
     renderWithProviders(<InvitePage />)
 
-    await userEvent.type(screen.getByTestId('textfield_email'), newInvite.email)
-    await userEvent.type(screen.getByTestId('textfield_first_name'), newInvite.first_name)
+    await userEvent.type(screen.getByTestId('textfield_members.0.email'), newInvite.email)
+    await userEvent.type(
+      screen.getByTestId('textfield_members.0.first_name'),
+      newInvite.first_name
+    )
     fetchMock.mockResponses(
       [JSON.stringify({ detail: errorMessage }), { status: 401 }],
       [JSON.stringify([...mockInviteList, newInvite]), { status: 200 }]
