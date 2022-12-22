@@ -23,12 +23,16 @@ const GridConatiner = styled(Grid)`
   td svg {
     font-size: 25px;
   }
-  /* .status-pending {
-    color: ${(p) => p.theme.palette.warning.main};
-  } */
 
   .status-declined {
     color: ${(p) => p.theme.palette.error.main};
+  }
+
+  .row {
+    display: flex;
+    gap: ${(p) => p.theme.spacing(3)};
+    align-items: flex-start;
+    margin-bottom: ${(p) => p.theme.spacing(2)};
   }
 `
 
@@ -73,7 +77,7 @@ const InvitePage = () => {
   return (
     <>
       <GridConatiner container spacing={2}>
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} md={6}>
           <FormProvider {...methods}>
             <form
               data-testid="invite-form"
@@ -100,21 +104,23 @@ const InvitePage = () => {
                 )}
 
                 {fields.map((item, index) => (
-                  <Box key={item.id}>
-                    <Field>
-                      <TextFieldControlled
-                        name={`members.${index}.email`}
-                        type="email"
-                        label="Email address"
-                      />
-                    </Field>
-                    <Field>
-                      <TextFieldControlled
-                        name={`members.${index}.first_name`}
-                        label="First name"
-                      />
-                    </Field>
-                    <IconButton aria-label="Remove" onClick={() => remove(index)}>
+                  <Box className="row" key={item.id}>
+                    <TextFieldControlled
+                      name={`members.${index}.email`}
+                      type="email"
+                      label="Email address"
+                    />
+
+                    <TextFieldControlled
+                      name={`members.${index}.first_name`}
+                      label="First name"
+                    />
+
+                    <IconButton
+                      aria-label="Remove"
+                      onClick={() => remove(index)}
+                      disabled={fields.length === 1}
+                    >
                       <Cancel />
                     </IconButton>
                   </Box>
@@ -123,6 +129,7 @@ const InvitePage = () => {
                 <Field>
                   <Button
                     data-testid="button-addlanguagerow"
+                    startIcon={<Icon icon="circle-plus" />}
                     onClick={() => {
                       append({ first_name: '', email: '' })
                     }}
@@ -135,7 +142,7 @@ const InvitePage = () => {
           </FormProvider>
         </Grid>
         {!!data?.length && (
-          <Grid item xs={12} md={8} data-testid="list-invites">
+          <Grid item xs={12} md={4} data-testid="list-invites">
             <AccountCard header={<Typography variant="h2">Your invites</Typography>}>
               <SimpleTable
                 loading={isLoading}
