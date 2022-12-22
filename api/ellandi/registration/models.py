@@ -401,7 +401,7 @@ class Course(models.Model):
     grades = models.JSONField(default=list, encoder=JSONSerializer)
 
 
-class Invite(models.Model):
+class Invite(TimeStampedModel):
     class Status(models.TextChoices):
         PENDING = ("Pending", "Pending")
         ACCEPTED = ("Accepted", "Accepted")
