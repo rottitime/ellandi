@@ -5,7 +5,7 @@ import { InvitedMembers, InviteMember, Query } from '@/service/api'
 import Button from '@/components/UI/Button/Button'
 import { Controller, FormProvider, useFieldArray, useForm } from 'react-hook-form'
 import { Field } from '@/components/Form/Field/Field'
-import { array, object, SchemaOf, string } from 'yup'
+import { addMethod, array, object, SchemaOf, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import SimpleTable from '@/components/UI/SimpleTable/SimpleTable'
 import Icon from '@/components/Icon/Icon'
@@ -18,6 +18,29 @@ import { Cancel } from '@mui/icons-material'
 import TextField from '@/components/Form/TextField/TextField'
 
 type Schema = { members: InviteMember[] }
+declare module 'yup' {
+  interface ArraySchema<T> {
+    unique(field: string, message: string): ArraySchema<T>
+  }
+}
+
+addMethod(array, 'unique', function (field, message) {
+  return this.test('unique', message, function (array) {
+    const uniqueData = Array.from(new Set(array.map((row) => row[field]?.toLowerCase())))
+    const isUnique = array.length === uniqueData.length
+    if (isUnique) {
+      return true
+    }
+    const index = array.findIndex((row, i) => row[field]?.toLowerCase() !== uniqueData[i])
+    if (array[index][field] === '') {
+      return true
+    }
+    return this.createError({
+      path: `${this.path}.${index}.${field}`,
+      message
+    })
+  })
+})
 
 const GridConatiner = styled(Grid)`
   td svg {
@@ -44,7 +67,10 @@ const membersSchema: SchemaOf<InviteMember> = object().shape({
 })
 
 const schema: SchemaOf<Schema> = object().shape({
-  members: array().of(membersSchema).min(1, 'This is a required field')
+  members: array()
+    .of(membersSchema)
+    .min(1, 'This is a required field')
+    .unique('email', 'Please provide a unique email')
 })
 
 const InvitePage = () => {
@@ -118,7 +144,9 @@ const InvitePage = () => {
                         size="small"
                         type="email"
                         label="Email address"
-                        inputProps={{ 'data-testid': `textfield_members.${index}.email` }}
+                        inputProps={{
+                          'data-testid': `textfield_members.${index}.email`
+                        }}
                         error={!!error}
                         helperText={!!error && error.message}
                         fullWidth
@@ -126,6 +154,7 @@ const InvitePage = () => {
                       />
                     )}
                   />
+
                   <Controller
                     name={`members.${index}.first_name`}
                     control={control}
@@ -143,7 +172,6 @@ const InvitePage = () => {
                       />
                     )}
                   />
-
                   <IconButton
                     aria-label="Remove"
                     type="button"
