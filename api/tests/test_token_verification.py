@@ -1,8 +1,4 @@
-import os
-import pathlib
 
-import furl
-from django.conf import settings
 from django.test import override_settings
 from tests import utils
 
@@ -12,22 +8,6 @@ from ellandi.registration.models import User
 
 def teardown():
     User.objects.all().delete()
-
-
-def _get_latest_email_url(token_type):
-    email_dir = pathlib.Path(settings.EMAIL_FILE_PATH)
-    latest_email_path = max(email_dir.iterdir(), key=os.path.getmtime)
-    with latest_email_path.open() as f:
-        lines = f.readlines()
-    url_lines = tuple(word for line in lines for word in line.split() if word.startswith("http://testserver/"))
-    assert len(url_lines) == 1
-    email_url = url_lines[0].strip()
-    email_url = email_url.strip(",")
-    args = furl.furl(email_url).query.params
-    host_url = furl.furl(settings.HOST_URL.strip("/"))
-    url = furl.furl(host_url).set(path=("api", "user", args["user_id"], token_type, args["code"], ""))
-    url = str(url)
-    return url
 
 
 @utils.with_client
@@ -40,7 +20,7 @@ def test_verify_email(client):
     response = client.post("/api/register/", json={"email": user_data["email"], "password": user_data["password"]})
     assert response.status_code == 200
 
-    url = _get_latest_email_url("verify")
+    url = utils._get_latest_email_url("verify")
     user_id, _, token = url.strip("/").split("/")[-3:]
     response = client.get(f"/api/user/{user_id}/token/{token}/valid/?type=email-verification")
     assert response.json()["valid"]
@@ -68,7 +48,7 @@ def test_resend_verify_email(client, user_id):
     response = client.post("/api/me/send-verification-email/")
     assert response.status_code == 200
 
-    url = _get_latest_email_url("verify")
+    url = utils._get_latest_email_url("verify")
     response = client.get(url)
     assert response.status_code == 200
     token = response.json()["token"]
@@ -110,7 +90,7 @@ def test_password_reset(client):
     response = client.post("/api/password-reset/", json={"email": user_data["email"]})
     assert response.status_code == 200
 
-    url = _get_latest_email_url("password-reset")
+    url = utils._get_latest_email_url("password-reset")
 
     response = client.post(url, json={"new_password": new_password})
     assert response.status_code == 200
@@ -131,7 +111,7 @@ def test_password_reset_twice(client):
     response = client.post("/api/password-reset/", json={"email": user_data["email"]})
     assert response.status_code == 200
 
-    url = _get_latest_email_url("password-reset")
+    url = utils._get_latest_email_url("password-reset")
 
     response = client.post("/api/password-reset/", json={"email": user_data["email"]})
     assert response.status_code == 200

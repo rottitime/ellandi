@@ -1,5 +1,9 @@
+import os
+import pathlib
 import functools
 
+import furl
+from django.conf import settings
 import httpx
 
 from ellandi import wsgi
@@ -100,3 +104,24 @@ def with_logged_in_admin_client(func):
                 User.objects.filter(id=user.id).delete()
 
     return _inner
+
+
+def _get_latest_email_text():
+    email_dir = pathlib.Path(settings.EMAIL_FILE_PATH)
+    latest_email_path = max(email_dir.iterdir(), key=os.path.getmtime)
+    content = latest_email_path.read_text()
+    return content
+
+
+def _get_latest_email_url(token_type):
+    text = _get_latest_email_text()
+    lines = text.splitlines()
+    url_lines = tuple(word for line in lines for word in line.split() if word.startswith("http://testserver/"))
+    assert len(url_lines) == 1
+    email_url = url_lines[0].strip()
+    email_url = email_url.strip(",")
+    args = furl.furl(email_url).query.params
+    host_url = furl.furl(settings.HOST_URL.strip("/"))
+    url = furl.furl(host_url).set(path=("api", "user", args["user_id"], token_type, args["code"], ""))
+    url = str(url)
+    return url
