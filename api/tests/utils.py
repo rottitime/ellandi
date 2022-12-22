@@ -1,10 +1,10 @@
+import functools
 import os
 import pathlib
-import functools
 
 import furl
-from django.conf import settings
 import httpx
+from django.conf import settings
 
 from ellandi import wsgi
 from ellandi.registration.models import (

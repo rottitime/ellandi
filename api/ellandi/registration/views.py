@@ -13,7 +13,7 @@ from ellandi.registration.recommend import (
     recommend_skill_from_skill,
     recommend_title_from_job_title,
 )
-from ellandi.verification import send_verification_email, send_invite_email
+from ellandi.verification import send_invite_email, send_verification_email
 
 from . import exceptions, initial_data, models, serializers
 
@@ -688,7 +688,9 @@ def add_course(request):
 
 @extend_schema(methods=["GET"], request=None, responses=serializers.InviteListSerializer(many=True))
 @extend_schema(
-    methods=["POST", "PATCH"], request=serializers.InviteCreateSerializer(many=True), responses=serializers.InviteListSerializer(many=True)
+    methods=["POST", "PATCH"],
+    request=serializers.InviteCreateSerializer(many=True),
+    responses=serializers.InviteListSerializer(many=True),
 )
 @decorators.api_view(["GET", "POST", "PATCH"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
@@ -702,8 +704,8 @@ def me_invites_view(request):
                 invite = models.Invite(user=user, **item)
                 invite.save()
                 send_invite_email(
-                    to_address=item['email'],
-                    first_name=item['first_name'],
+                    to_address=item["email"],
+                    first_name=item["first_name"],
                     inviter=user,
                 )
                 invite.status = models.Invite.Status.SENT

@@ -1,4 +1,3 @@
-
 from django.test import override_settings
 from tests import utils
 

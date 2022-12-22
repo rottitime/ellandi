@@ -55,11 +55,11 @@ EMAIL_MAPPING = {
         "url_path": "/signin/forgotten-password/reset",
         "token_generator": PASSWORD_RESET_TOKEN_GENERATOR,
     },
-    'invite': {
+    "invite": {
         "from_address": "support-ellandi@cabinetoffice.gov.uk",
         "subject": "Invite to Cabinet Office Skills and Learning",
         "template_name": "email/invite.txt",
-    }
+    },
 }
 
 
@@ -105,7 +105,7 @@ def send_password_reset_email(user):
 def send_invite_email(to_address, first_name, inviter):
     api_host_url = settings.HOST_URL.strip("/")
     web_host_url = settings.HOST_MAP[api_host_url]
-    context = {'inviter': inviter, 'first_name': first_name, 'url': web_host_url}
+    context = {"inviter": inviter, "first_name": first_name, "url": web_host_url}
     data = EMAIL_MAPPING["invite"]
     response = _send_normal_email(to_address=to_address, context=context, **data)
     return response
