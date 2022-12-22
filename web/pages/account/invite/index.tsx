@@ -60,14 +60,19 @@ const InvitePage = () => {
     error
   } = useMutation<null, Error, InviteMember[]>(
     async (data) => authFetch(sendInvites, data),
-    { onSuccess: async () => await refetch() }
+    {
+      onSuccess: async () => {
+        reset()
+        await refetch()
+      }
+    }
   )
 
   const methods = useForm<Schema>({
     defaultValues: { members: [{ first_name: '', email: '' }] },
     resolver: yupResolver(schema)
   })
-  const { control, handleSubmit } = methods
+  const { control, handleSubmit, reset } = methods
 
   const { fields, append, remove } = useFieldArray<Schema, 'members'>({
     control: control,

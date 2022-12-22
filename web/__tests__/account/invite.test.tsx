@@ -68,6 +68,10 @@ describe('Page: Invite Members', () => {
         })
       ).toBeInTheDocument()
     })
+
+    //check textfields are cleared
+    expect(screen.getByTestId('textfield_members.0.email')).toHaveValue('')
+    expect(screen.getByTestId('textfield_members.0.first_name')).toHaveValue('')
   })
 
   it('shows error on form submit', async () => {
