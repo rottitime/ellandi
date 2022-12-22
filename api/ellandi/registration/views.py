@@ -688,7 +688,7 @@ def add_course(request):
 
 @extend_schema(methods=["GET"], request=None, responses=serializers.InviteListSerializer(many=True))
 @extend_schema(
-    methods=["POST", "PATCH"], request=serializers.InviteCreateSerializer, responses=serializers.InviteListSerializer
+    methods=["POST", "PATCH"], request=serializers.InviteCreateSerializer(many=True), responses=serializers.InviteListSerializer(many=True)
 )
 @decorators.api_view(["GET", "POST", "PATCH"])
 @decorators.permission_classes((permissions.IsAuthenticated,))
@@ -696,14 +696,15 @@ def me_invites_view(request):
     user = request.user
     if request.method in ("POST", "PATCH"):
         data = request.data
-        serializers.InviteCreateSerializer(data=request.data).is_valid(raise_exception=True)
-        invite = models.Invite(user=user, **data)
-        invite.save()
-        send_invite_email(
-            to_address=data['email'],
-            first_name=data['first_name'],
-            inviter=user,
-        )
+        serializer = serializers.InviteCreateSerializer(data=data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+        for item in data:
+            send_invite_email(
+                to_address=item['email'],
+                first_name=item['first_name'],
+                inviter=user,
+            )
 
     invites = user.invites.all()
     data = serializers.InviteListSerializer(invites, many=True).data
