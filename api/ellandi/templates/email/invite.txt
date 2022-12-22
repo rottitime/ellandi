@@ -1,0 +1,9 @@
+Hi {{first_name}},
+
+{{inviter.first_name}} {{inviter.last_name}} thought you might like to try using the Cabinet Office Skills and Learning site at:
+
+{{url}}
+
+Regards
+
+Cabinet Office Skills and Learning
