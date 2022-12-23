@@ -743,17 +743,18 @@ def test_invite_friend(client, user_id):
     data = tuple(
         {"email": "{}@example.com".format(name.replace(" ", ".")), "first_name": name.split()[0]} for name in names
     )
-    for i, datum in enumerate(data):
-        response = client.patch("/api/me/invites/", json=datum)
-        assert response.status_code == status.HTTP_200_OK
-
-        expected_data = list(
-            dict(status="Pending", email=item["email"].lower(), first_name=item["first_name"]) for item in data[: i + 1]
-        )
-        assert response.json() == expected_data
+    response = client.patch("/api/me/invites/", json=data)
+    assert response.status_code == status.HTTP_200_OK
 
     expected_data = list(
-        dict(status="Pending", email=item["email"].lower(), first_name=item["first_name"]) for item in data
+        dict(status="Sent", email=item["email"].lower(), first_name=item["first_name"]) for item in data
+    )
+    assert response.json() == expected_data
+    latest_email_text = utils._get_latest_email_text()
+    assert data[-1]["first_name"] in latest_email_text
+
+    expected_data = list(
+        dict(status="Sent", email=item["email"].lower(), first_name=item["first_name"]) for item in data
     )
     response = client.get("/api/me/invites/")
     assert response.json() == expected_data
