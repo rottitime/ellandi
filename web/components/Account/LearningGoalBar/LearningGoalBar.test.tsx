@@ -108,6 +108,7 @@ describe('LearningGoalBar', () => {
   describe('fetch disabled', () => {
     it('no fill', async () => {
       renderWithProviders(<LearningGoalBar disableFetch days={0} percentage={0} />)
+
       expect(screen.getByTestId('stat')).toHaveTextContent('0 days (0%)')
     })
 

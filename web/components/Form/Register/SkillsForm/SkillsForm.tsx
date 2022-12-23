@@ -19,7 +19,7 @@ const SkillsForm: FC<StandardRegisterProps<SkillsType>> = ({
   const { authFetch } = useAuth()
 
   const { data, isLoading, isSuccess } = useQuery<RecommendedSkillBundleResponse>(
-    Query.SuggestedSkillsbyRole,
+    [Query.SuggestedSkillsbyRole],
     () => authFetch(fetchRecommendedSkillBundle),
     {
       onError: () => onFormSubmit({ skills: [] })

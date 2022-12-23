@@ -44,7 +44,7 @@ const LearningRecordList: FC = () => {
     [Query.MeLearning, params],
     () => authFetch(fetchMeLearning, params),
     {
-      onSuccess: (data) => queryClient.setQueryData(Query.MeLearning, data)
+      onSuccess: (data) => queryClient.setQueryData([Query.MeLearning], data)
     }
   )
 

@@ -12,7 +12,7 @@ export const useProfile = <T>({ callback }: { callback?: () => void }) => {
     isLoading,
     isSuccess,
     refetch
-  } = useQuery<RegisterUserResponse>(Query.Me, () => authFetch(fetchMe))
+  } = useQuery<RegisterUserResponse>([Query.Me], () => authFetch(fetchMe))
 
   const { mutate } = useMutation<RegisterUserResponse, Error, T>(
     async (data: T) => await authFetch(updateUser, data),

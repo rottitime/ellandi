@@ -43,14 +43,14 @@ const SkillsAddForm = forwardRef<RefHandler, Props>(
     const [hasSelected, setHasSelected] = useState(false)
 
     const { isFetched: isFetchedMe, data: dataMe } = useQuery<RegisterUserResponse>(
-      Query.Me,
+      [Query.Me],
       () => authFetch(fetchMe)
     )
 
     const { isLoading: isLoadingSkills, data: skillsList } = useQuery<
       string[],
       { message?: string }
-    >(Query.Skills, fetchSkills, { initialData: [], staleTime: 0 })
+    >([Query.Skills], fetchSkills, { initialData: [], staleTime: 0 })
 
     const methods = useForm<SkillsType>({
       defaultValues: { skills: showAll ? [{ name: '', level: '' }] : [] },

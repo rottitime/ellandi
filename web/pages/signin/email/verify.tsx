@@ -31,17 +31,21 @@ const EmailVerifyPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const { refetch } = useQuery<RegisterUserResponse>(Query.Me, () => authFetch(fetchMe), {
-    enabled: false,
-    onSuccess: (data) => {
-      isRegisterComplete(data)
-        ? Router.replace(urls.landingSignin)
-        : Router.replace('/register/step/0/')
+  const { refetch } = useQuery<RegisterUserResponse>(
+    [Query.Me],
+    () => authFetch(fetchMe),
+    {
+      enabled: false,
+      onSuccess: (data) => {
+        isRegisterComplete(data)
+          ? Router.replace(urls.landingSignin)
+          : Router.replace('/register/step/0/')
+      }
     }
-  })
+  )
 
   const { error } = useQuery<AuthUser, Error>(
-    Query.VerifyEmail,
+    [Query.VerifyEmail],
     () => verifyEmail((user_id || '').toString(), (code || '').toString()),
     {
       retry: false,

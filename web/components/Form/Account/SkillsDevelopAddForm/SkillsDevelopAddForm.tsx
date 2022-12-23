@@ -50,7 +50,7 @@ const SkillsDevelopAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
   const { isLoading: isLoadingSkills, data: skillsList } = useQuery<
     string[],
     { message?: string }
-  >(Query.Skills, fetchSkills, { staleTime: Infinity })
+  >([Query.Skills], fetchSkills, { staleTime: Infinity })
 
   const methods = useForm<SkillsDevelopType>({
     defaultValues: { skills_develop: [] },
@@ -60,7 +60,7 @@ const SkillsDevelopAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
   const watchAllFields = watch()
 
   const { isFetched: isFetchedMe, data: dataMe } = useQuery<RegisterUserResponse>(
-    Query.Me,
+    [Query.Me],
     () => authFetch(fetchMe)
   )
 

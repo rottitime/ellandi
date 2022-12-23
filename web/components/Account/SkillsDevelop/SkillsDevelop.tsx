@@ -11,7 +11,7 @@ import { deleteSkillDevelop } from '@/service/account'
 const SkillsDevelop: FC = () => {
   const { authFetch } = useAuth()
   const queryClient = useQueryClient()
-  const { isLoading, data } = useQuery<RegisterUserResponse>(Query.Me, () =>
+  const { isLoading, data } = useQuery<RegisterUserResponse>([Query.Me], () =>
     authFetch(fetchMe)
   )
 
@@ -20,7 +20,7 @@ const SkillsDevelop: FC = () => {
     async (id: string) => await authFetch(deleteSkillDevelop, id),
     {
       onSuccess: async ({ id }) => {
-        queryClient.setQueryData(Query.Me, {
+        queryClient.setQueryData([Query.Me], {
           ...data,
           skills_develop: data.skills_develop.filter((skill) => skill.id !== id)
         })

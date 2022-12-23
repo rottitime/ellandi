@@ -59,7 +59,7 @@ const AccountLayout: FC<Props> = ({
   const { isLoading, data, isError } = useQuery<
     RegisterUserResponseWithCustomFields,
     Error
-  >(Query.Me, () => authFetch(fetchMe), {
+  >([Query.Me], () => authFetch(fetchMe), {
     retry: 0,
     onError: () => {
       invalidate()

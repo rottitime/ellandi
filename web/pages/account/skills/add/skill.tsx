@@ -34,7 +34,7 @@ const SkillsAddSkillsPage = () => {
   const { authFetch } = useAuth()
 
   const { data, isLoading: isLoadingSuggested } =
-    useQuery<RecommendedSkillBundleResponse>(Query.SuggestedSkillsbyRole, () =>
+    useQuery<RecommendedSkillBundleResponse>([Query.SuggestedSkillsbyRole], () =>
       authFetch(fetchRecommendedSkillBundle)
     )
 

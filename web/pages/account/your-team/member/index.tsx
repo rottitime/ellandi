@@ -35,7 +35,7 @@ const YourTeamPage = () => {
   const { id } = router.query
 
   const { data, isLoading, isFetched, isSuccess } = useQuery<TeamMember[]>(
-    Query.TeamMembers,
+    [Query.TeamMembers],
     () => authFetch(fetchTeam),
     { keepPreviousData: true, staleTime: Infinity }
   )

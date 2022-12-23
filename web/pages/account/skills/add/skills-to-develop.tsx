@@ -59,7 +59,7 @@ SkillsAddDevelopPage.getLayout = (page) => (
 )
 export async function getStaticProps() {
   const queryClient = new QueryClient()
-  await queryClient.prefetchQuery(Query.Skills, fetchSkills)
+  await queryClient.prefetchQuery([Query.Skills], fetchSkills)
   return {
     props: {
       dehydratedState: dehydrate(queryClient)

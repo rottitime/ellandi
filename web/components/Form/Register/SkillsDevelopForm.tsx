@@ -29,7 +29,7 @@ const SkillsForm: FC<StandardRegisterProps<SkillsDevelopType>> = (props) => {
   const { setValue, register, unregister, watch, control } = methods
 
   const { isLoading, data } = useQuery<string[], { message?: string }>(
-    Query.Skills,
+    [Query.Skills],
     fetchSkills,
     { staleTime: Infinity }
   )

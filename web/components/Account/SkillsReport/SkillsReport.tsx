@@ -106,7 +106,7 @@ const SkillsReport: FC<Props> = (props) => {
   const debouncedSearchQuery = useDebounce(filters, 600)
 
   const { isSuccess: isSuccessSkills, data: skillsList } = useQuery<string[], Error>(
-    Query.Skills,
+    [Query.Skills],
     fetchSkills,
     { staleTime: Infinity }
   )

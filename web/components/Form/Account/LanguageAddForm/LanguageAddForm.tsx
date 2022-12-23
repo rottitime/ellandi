@@ -55,7 +55,7 @@ const LanguageAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
   const { authFetch } = useAuth()
 
   const { isFetched: isFetchedMe, data: dataMe } = useQuery<RegisterUserResponse>(
-    Query.Me,
+    [Query.Me],
     () => authFetch(fetchMe)
   )
 

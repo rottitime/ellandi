@@ -158,7 +158,7 @@ const FindCourses = () => {
     free: null
   })
 
-  const { isLoading, data } = useQuery<Course[]>(Query.Courses, () =>
+  const { isLoading, data } = useQuery<Course[]>([Query.Courses], () =>
     authFetch(fetchCourses)
   )
 

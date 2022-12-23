@@ -11,7 +11,7 @@ import Link from '@/components/UI/Link'
 const YourTeamPage = () => {
   const { authFetch } = useAuth()
 
-  const { data, isLoading } = useQuery<TeamMember[]>(Query.TeamMembers, () =>
+  const { data, isLoading } = useQuery<TeamMember[]>([Query.TeamMembers], () =>
     authFetch(fetchTeam)
   )
 

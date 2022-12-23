@@ -17,7 +17,7 @@ import { useEffect } from 'react'
 export const SharedLearningHeader = () => {
   const { authFetch } = useAuth()
 
-  const { data } = useQuery<MeLearningRecord>(Query.MeLearning, () =>
+  const { data } = useQuery<MeLearningRecord>([Query.MeLearning], () =>
     authFetch(fetchMeLearning)
   )
 

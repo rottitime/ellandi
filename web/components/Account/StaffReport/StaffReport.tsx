@@ -29,7 +29,7 @@ const StaffReport = () => {
     isError: isErrorResponsibility,
     error: errorResponsibility
   } = useQuery<MeReportResponsibility, Error>(
-    Query.ReportResponsibility,
+    [Query.ReportResponsibility],
     () => authFetch(fetchReportResponsibility),
     { staleTime: Infinity }
   )
@@ -40,7 +40,7 @@ const StaffReport = () => {
     isError: isErrorGrade,
     error: errorGrade
   } = useQuery<MeReportGrade, Error>(
-    Query.ReportGrade,
+    [Query.ReportGrade],
     () => authFetch(fetchReportGrade),
     {
       staleTime: Infinity

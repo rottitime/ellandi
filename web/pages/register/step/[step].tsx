@@ -41,7 +41,7 @@ const RegisterPage = ({ stepInt, nextUrl, backUrl, skip }: Props) => {
     isLoading: isLoadingMe,
     data,
     error: authError
-  } = useQuery<RegisterUserResponse>(Query.Me, () => authFetch(fetchMe), {
+  } = useQuery<RegisterUserResponse>([Query.Me], () => authFetch(fetchMe), {
     onError: () => redirect()
   })
 
@@ -51,7 +51,7 @@ const RegisterPage = ({ stepInt, nextUrl, backUrl, skip }: Props) => {
     Partial<RegisterUserResponse>
   >(async (data) => authFetch(updateUser, data), {
     onSuccess: async (data) => {
-      queryClient.setQueryData(Query.Me, data)
+      queryClient.setQueryData([Query.Me], data)
       setError(null)
       router.push(nextUrl)
     },
@@ -77,7 +77,7 @@ const RegisterPage = ({ stepInt, nextUrl, backUrl, skip }: Props) => {
 
   const redirect = async () => {
     setLoading(true)
-    queryClient.removeQueries(Query.Me)
+    queryClient.removeQueries([Query.Me])
     await router.replace({
       pathname: '/register',
       query: { ecode: 1 }
