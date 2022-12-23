@@ -41,7 +41,7 @@ const EmailVerifyPage = () => {
   })
 
   const { error } = useQuery<AuthUser, Error>(
-    'verify-email',
+    Query.VerifyEmail,
     () => verifyEmail((user_id || '').toString(), (code || '').toString()),
     {
       retry: false,
