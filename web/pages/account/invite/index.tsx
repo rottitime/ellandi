@@ -98,7 +98,12 @@ const InvitePage = () => {
     defaultValues: { members: [{ first_name: '', email: '' }] },
     resolver: yupResolver(schema)
   })
-  const { control, handleSubmit, reset } = methods
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { isDirty, isValid }
+  } = methods
 
   const { fields, append, remove } = useFieldArray<Schema, 'members'>({
     control: control,
@@ -121,6 +126,7 @@ const InvitePage = () => {
                   data-testid="invite-submit"
                   color="primary"
                   type="submit"
+                  disabled={!isDirty || !isValid}
                   loading={isLoadingMutate}
                 >
                   Invite
