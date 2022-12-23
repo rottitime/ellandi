@@ -7,7 +7,7 @@ import {
 } from '@/service/types'
 import { fetchSkills } from '@/service/api'
 import { FC, useEffect, useMemo } from 'react'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { Controller, FormProvider, useFieldArray, useForm } from 'react-hook-form'
 import { Field } from '@/components/Form/Field/Field'
 import { array, object, SchemaOf, string } from 'yup'

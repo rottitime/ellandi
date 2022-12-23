@@ -1,6 +1,6 @@
 import AccountLayout from '@/components/Layout/AccountLayout/AccountLayout'
 import { menu, SectionOne } from './index'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import { LearningBaseType, RegisterUserResponse } from '@/service/api'
 import useAuth from '@/hooks/useAuth'
 import Router from 'next/router'

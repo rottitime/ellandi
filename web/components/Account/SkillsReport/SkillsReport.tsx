@@ -23,7 +23,7 @@ import {
   Typography
 } from '@mui/material'
 import { FC, useMemo, useState } from 'react'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import functions from '@/prefetch/functions.json'
 import professions from '@/prefetch/professions.json'
 import grades from '@/prefetch/grades.json'

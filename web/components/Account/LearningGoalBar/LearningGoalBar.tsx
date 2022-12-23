@@ -5,7 +5,7 @@ import { fetchMeLearning } from '@/service/me'
 import { MeLearningRecord, Query } from '@/service/types'
 import { Box, styled, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { Props } from './types'
 
 const GoalBar = styled(Box)`

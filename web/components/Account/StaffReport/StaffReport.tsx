@@ -16,7 +16,7 @@ import {
 } from '@/service/api'
 import { Alert, Box } from '@mui/material'
 import { useState } from 'react'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 
 const StaffReport = () => {
   const { authFetch } = useAuth()

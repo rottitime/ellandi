@@ -3,7 +3,7 @@ import LearningGoalBar from '@/components/Account/LearningGoalBar/LearningGoalBa
 import { Grid, Typography } from '@mui/material'
 import Button from '@/components/UI/Button/Button'
 import useAuth from '@/hooks/useAuth'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { MeLearningRecord, Query } from '@/service/api'
 import Headline from '@/components/Account/Headline/Headline'
 import Tabs from '@/components/UI/Tabs/Tabs'

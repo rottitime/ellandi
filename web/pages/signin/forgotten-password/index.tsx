@@ -2,7 +2,7 @@ import CardLayout from '@/components/Layout/CardLayout/CardLayout'
 import { Alert, Fade, Typography } from '@mui/material'
 import Router from 'next/router'
 import ForgottenPasswordForm from '@/components/Form/ForgottenPasswordForm/ForgottenPasswordForm'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import { resetEmailPassword } from '@/service/auth'
 import { ResetEmailPasswordType } from '@/service/types'
 

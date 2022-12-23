@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from 'react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import useAuth from './useAuth'
 import { fetchMe } from '../service/me'
 import { Query, RegisterUserResponse } from '../service/api'
