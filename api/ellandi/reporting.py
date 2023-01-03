@@ -1,6 +1,7 @@
 from django.utils.text import slugify
 from drf_spectacular.utils import OpenApiParameter, extend_schema
-from rest_framework import decorators, permissions, renderers, status
+from rest_framework import decorators, permissions, status
+from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 from rest_framework_csv.renderers import CSVRenderer
 
@@ -270,7 +271,7 @@ class CSVRendererLanguages(CSVRenderer):
 @decorators.permission_classes((permissions.IsAdminUser,))
 @decorators.renderer_classes(
     (
-        renderers.JSONRenderer,
+        JSONRenderer,
         CSVRendererSkills,
     )
 )
@@ -317,7 +318,7 @@ def report_skills_view(request):
 @decorators.permission_classes((permissions.IsAdminUser,))
 @decorators.renderer_classes(
     (
-        renderers.JSONRenderer,
+        JSONRenderer,
         CSVRendererLanguages,
     )
 )
@@ -381,7 +382,7 @@ def get_grades_data():
 @decorators.permission_classes((permissions.IsAdminUser,))
 @decorators.renderer_classes(
     (
-        renderers.JSONRenderer,
+        JSONRenderer,
         CSVRenderer,
     )
 )
@@ -400,7 +401,7 @@ def responsibilities_view(request):
 @decorators.permission_classes((permissions.IsAdminUser,))
 @decorators.renderer_classes(
     (
-        renderers.JSONRenderer,
+        JSONRenderer,
         CSVRenderer,
     )
 )
@@ -432,7 +433,7 @@ class CSVRendererLearning(CSVRenderer):
 @decorators.permission_classes((permissions.IsAdminUser,))
 @decorators.renderer_classes(
     (
-        renderers.JSONRenderer,
+        JSONRenderer,
         CSVRendererLearning,
     )
 )
