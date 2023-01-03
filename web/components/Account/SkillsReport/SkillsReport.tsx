@@ -38,21 +38,47 @@ import { ChevronRight } from '@mui/icons-material'
 
 const Card = styled(AccountCard)`
   .main-filters {
-    display: flex;
-    margin-bottom: ${(p) => p.theme.spacing(4)};
+    margin-bottom: ${(p) => p.theme.spacing(2)};
+    display: grid;
+    grid-template-columns: 2fr 1fr;
     gap: ${(p) => p.theme.spacing(3)};
+    ${({ theme }) => theme.breakpoints.up('md')} {
+      margin-bottom: ${(p) => p.theme.spacing(4)};
+      grid-template-columns: 314px 1fr 1fr;
+    }
+
     .export {
+      grid-row: 1/-1;
+      grid-column: 2;
       margin-left: auto;
       text-align: right;
+      ${({ theme }) => theme.breakpoints.up('md')} {
+        grid-column: auto;
+        grid-row: auto;
+      }
       p {
         text-align: inherit;
       }
     }
+
+    .user-type {
+      grid-column: 1/-1;
+      ${({ theme }) => theme.breakpoints.up('md')} {
+        grid-column: auto;
+      }
+    }
   }
+
   .filters {
     display: flex;
-    margin-bottom: ${(p) => p.theme.spacing(3)};
-    gap: ${(p) => p.theme.spacing(4)};
+    flex-direction: column;
+    gap: ${(p) => p.theme.spacing(3)};
+    ${({ theme }) => theme.breakpoints.up('md')} {
+      margin-bottom: ${(p) => p.theme.spacing(3)};
+      gap: ${(p) => p.theme.spacing(4)};
+      display: flex;
+      flex-direction: row;
+    }
   }
 `
 
@@ -174,6 +200,7 @@ const SkillsReport: FC<Props> = (props) => {
               />
 
               <RadioGroup
+                className="user-type"
                 row
                 defaultValue={filters.users}
                 onChange={(e) =>

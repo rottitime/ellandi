@@ -34,13 +34,13 @@ const MembersLearningRecord = ({ id }: Props) => {
       {isSuccess && (
         <>
           <Grid container spacing={5} sx={{ mb: 5 }}>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <LearningDistribution
                 description="Data based on the current financial year so far"
                 barData={data?.distribution}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <LearningGoalBar
                 description="Average number of days learning completed per person so far this financial year"
                 disableFetch

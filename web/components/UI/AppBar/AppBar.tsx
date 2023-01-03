@@ -8,16 +8,15 @@ import {
   Toolbar,
   Tooltip,
   Typography,
+  useMediaQuery,
   useTheme
 } from '@mui/material'
-import { FC, useState } from 'react'
+import { useState } from 'react'
 import { Props } from './types'
 import Icon from '@/components/Icon/Icon'
 import { useRouter } from 'next/router'
 import Button from '../Button/Button'
-import getConfig from 'next/config'
-
-const { publicRuntimeConfig } = getConfig()
+import Drawer from '@/components/Drawer/Drawer'
 
 const StyledAppBar = styled(MuiAppBar)`
   background: transparent;
@@ -28,9 +27,17 @@ const StyledAppBar = styled(MuiAppBar)`
     margin-right: 20px;
   }
 
+  .button-wrapper {
+    display: flex;
+    align-items: center;
+    height: 50px;
+    gap: 20px;
+  }
+
   .menu {
     flex-grow: 1;
     display: flex;
+
     a {
       color: ${(p) => p.theme.colors.black};
       font-weight: 700;
@@ -49,11 +56,13 @@ const StyledAppBar = styled(MuiAppBar)`
   }
 `
 
-const AppBar: FC<Props> = ({ pages, settings, settingsTip = '', ...props }) => {
+const AppBar = ({ pages, settings, homepage, settingsTip = '', ...props }: Props) => {
   const theme = useTheme()
   const router = useRouter()
 
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'))
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null)
+  const [mobleMenu, setMobileMenu] = useState(false)
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget)
@@ -65,87 +74,117 @@ const AppBar: FC<Props> = ({ pages, settings, settingsTip = '', ...props }) => {
 
   const isActive = (url: string): boolean => {
     const currentPath = router?.asPath
-    const homepage = publicRuntimeConfig.urls.landingSignin
+    const { url: homepageLink } = homepage
 
     //landing page
-    if (url === homepage && currentPath === homepage) return true
+    if (url === homepageLink && currentPath === homepageLink) return true
     //url contains
-    if (currentPath?.startsWith(url) && url !== homepage) return true
+    if (currentPath?.startsWith(url) && url !== homepageLink) return true
 
     return false
   }
+
+  const pagesWithActive = pages.map((page) => ({ ...page, active: isActive(page.url) }))
 
   return (
     <StyledAppBar position="static" elevation={0} {...props}>
       <Toolbar disableGutters>
         <Box className="menu">
-          {pages
-            .filter(({ hidden }) => !hidden)
-            .map(({ title, url, color }, i) => (
-              <Button
-                style={{
-                  textDecorationColor: theme.colors[color],
-                  color: isActive(url) ? theme.colors[color] : theme.colors.black
-                }}
-                key={title}
-                href={url}
-                className={` ${isActive(url) ? 'active' : ''}`}
-              >
-                <span
+          <Button
+            style={{
+              textDecorationColor: theme.colors[homepage.color],
+              color: isActive(homepage.url)
+                ? theme.colors[homepage.color]
+                : theme.colors.black
+            }}
+            href={homepage.url}
+            className={`homelink ${isActive(homepage.url) ? 'active' : ''}`}
+          >
+            <span className="button-wrapper">
+              <Icon icon="cabinet-office" className="header-logo" />
+              {!isMobile && homepage.title}
+            </span>
+          </Button>
+
+          {!isMobile &&
+            pagesWithActive
+              .filter(({ hidden }) => !hidden)
+              .map(({ title, url, color, active }) => (
+                <Button
                   style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    height: '50px',
-                    gap: '20px'
+                    textDecorationColor: theme.colors[color],
+                    color: active ? theme.colors[color] : theme.colors.black
                   }}
+                  key={title}
+                  href={url}
+                  className={` ${active ? 'active' : ''}`}
                 >
-                  {i === 0 && <Icon icon="cabinet-office" className="header-logo" />}
-                  {title}
-                </span>
-              </Button>
-            ))}
+                  <span className="button-wrapper">{title}</span>
+                </Button>
+              ))}
         </Box>
 
         <Box sx={{ flexGrow: 0 }}>
-          <Tooltip title={settingsTip}>
-            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-              <Icon icon="account-circle" className="icon-profile" />
+          {isMobile ? (
+            <IconButton
+              sx={{ p: 0 }}
+              onClick={() => setMobileMenu(true)}
+              className="mobleMenu"
+            >
+              <Icon icon="menu" />
             </IconButton>
-          </Tooltip>
-          <Menu
-            sx={{ mt: '45px' }}
-            id="menu-appbar"
-            anchorEl={anchorElUser}
-            anchorOrigin={{
-              vertical: 'top',
-              horizontal: 'right'
-            }}
-            keepMounted
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'right'
-            }}
-            open={Boolean(anchorElUser)}
-            onClose={handleCloseUserMenu}
-          >
-            {settings.map(({ url, title, onClick }) => (
-              <MenuItem
-                key={title}
-                onClick={(e) => {
-                  handleCloseUserMenu()
-
-                  if (onClick !== undefined) onClick(e)
-                  if (url) router.push(url)
+          ) : (
+            <>
+              <Tooltip title={settingsTip}>
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <Icon icon="account-circle" className="icon-profile" />
+                </IconButton>
+              </Tooltip>
+              <Menu
+                sx={{ mt: '45px' }}
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right'
                 }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right'
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
               >
-                <Typography textAlign="center" variant="body2">
-                  {title}
-                </Typography>
-              </MenuItem>
-            ))}
-          </Menu>
+                {settings.map(({ url, title, onClick }) => (
+                  <MenuItem
+                    key={title}
+                    onClick={(e) => {
+                      handleCloseUserMenu()
+
+                      if (onClick !== undefined) onClick(e)
+                      if (url) router.push(url)
+                    }}
+                  >
+                    <Typography textAlign="center" variant="body2">
+                      {title}
+                    </Typography>
+                  </MenuItem>
+                ))}
+              </Menu>
+            </>
+          )}
         </Box>
       </Toolbar>
+      {isMobile && (
+        <Drawer
+          anchor="right"
+          open={mobleMenu}
+          pages={pagesWithActive}
+          settings={settings}
+          onClose={() => setMobileMenu(false)}
+          PaperProps={{ sx: { top: 0 } }}
+        />
+      )}
     </StyledAppBar>
   )
 }
