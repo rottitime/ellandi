@@ -6,13 +6,7 @@ from rest_framework_csv.renderers import CSVRenderer
 
 from ellandi import learning
 from ellandi.registration.exceptions import MissingLanguageTypeError
-from ellandi.registration.models import (
-    Grade,
-    User,
-    UserLanguage,
-    UserSkill,
-    UserSkillDevelop,
-)
+from ellandi.registration import models
 
 PARAM_SEPARATOR = "|"
 
@@ -96,7 +90,7 @@ def filter_users_professions(request, users_qs):
     if not professions:
         return users_qs
     professions = professions.split(PARAM_SEPARATOR)
-    output_qs = User.objects.none()
+    output_qs = models.User.objects.none()
     for prof_name in professions:
         users_with_prof = users_qs.filter(professions__contains=prof_name)
         output_qs = output_qs | users_with_prof
@@ -120,7 +114,7 @@ def filter_users_other_params(request, users_qs):
 
 
 def get_filtered_users(request):
-    users_qs = User.objects.all()
+    users_qs = models.User.objects.all()
     users_qs = filter_users_type(request, users_qs)
     users_qs = filter_users_professions(request, users_qs)
     users_qs = filter_users_other_params(request, users_qs)
@@ -131,8 +125,8 @@ def get_skills_list_from_params(request):
     skills = request.query_params.get("skills", None)
     if skills:
         return skills.split(PARAM_SEPARATOR)
-    skills_existing = set(UserSkill.objects.all().values_list("name", flat=True))
-    skills_dev = set(UserSkillDevelop.objects.all().values_list("name", flat=True))
+    skills_existing = set(models.UserSkill.objects.all().values_list("name", flat=True))
+    skills_dev = set(models.UserSkillDevelop.objects.all().values_list("name", flat=True))
     skills = list(skills_existing.union(skills_dev))
     return skills
 
@@ -143,7 +137,7 @@ def get_language_list_from_params(request):
     type_field = f"{type}_level"
     if languages:
         return languages.split(PARAM_SEPARATOR)
-    langs_qs = UserLanguage.objects.all()
+    langs_qs = models.UserLanguage.objects.all()
     langs_qs = langs_qs.exclude(**{type_field: None}).exclude(**{type_field: "None"})
     lang_vals = langs_qs.values_list("name", flat=True)
     languages = set(lang_vals)
@@ -153,8 +147,8 @@ def get_language_list_from_params(request):
 
 def get_skill_data_for_users(users, skill_name):
     total_users = users.count()
-    user_skills = UserSkill.objects.filter(user__in=users).filter(name=skill_name)
-    user_skills_develop = UserSkillDevelop.objects.filter(user__in=users).filter(name=skill_name)
+    user_skills = models.UserSkill.objects.filter(user__in=users).filter(name=skill_name)
+    user_skills_develop = models.UserSkillDevelop.objects.filter(user__in=users).filter(name=skill_name)
 
     number_with_skill = user_skills.count()
     number_wanting_to_develop = user_skills_develop.count()
@@ -200,7 +194,7 @@ def get_skill_data_for_users(users, skill_name):
 
 def get_lang_data_for_users(users, lang_name, lang_type):
     total_users = users.count()
-    user_langs = UserLanguage.objects.filter(user__in=users).filter(name=lang_name)
+    user_langs = models.UserLanguage.objects.filter(user__in=users).filter(name=lang_name)
     type_field = f"{lang_type}_level"
     user_langs = user_langs.exclude(**{type_field: "None"})
 
@@ -352,7 +346,7 @@ def report_languages_view(request):
 
 
 def get_responsibilities_data():
-    all_users = User.objects.all()
+    all_users = models.User.objects.all()
     total_users = all_users.count()
     number_line_managers = all_users.filter(is_line_manager="Yes").count()
     number_mentors = all_users.filter(is_mentor="Yes").count()
@@ -371,7 +365,7 @@ def get_responsibilities_data():
 
 
 def get_grades_data():
-    all_users = User.objects.all()
+    all_users = models.User.objects.all()
     total_users = all_users.count()
     output_list = []
     all_grades = Grade.objects.all().order_by("order").values_list("name", flat=True)
