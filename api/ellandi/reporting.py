@@ -368,7 +368,7 @@ def get_grades_data():
     all_users = models.User.objects.all()
     total_users = all_users.count()
     output_list = []
-    all_grades = Grade.objects.all().order_by("order").values_list("name", flat=True)
+    all_grades = models.Grade.objects.all().order_by("order").values_list("name", flat=True)
     for grade in all_grades:
         number_at_grade = all_users.filter(grade=grade).count()
         data_dict = create_proportions_data_dict(name=grade, numerator=number_at_grade, denominator=total_users)
