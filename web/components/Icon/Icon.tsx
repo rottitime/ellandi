@@ -15,6 +15,7 @@ export const icons = {
   skills: dynamic(() => import('@/components/Icon/Icons/Skills')),
   mail: dynamic(() => import('@/components/Icon/Icons/Mail')),
   'mortar-hat': dynamic(() => import('@/components/Icon/Icons/MortarHat')),
+  'paper-plane': dynamic(() => import('@/components/Icon/Icons/PaperPlane')),
   pencil: dynamic(() => import('@/components/Icon/Icons/Pencil')),
   profile: dynamic(() => import('@/components/Icon/Icons/Profile')),
   question: dynamic(() => import('@/components/Icon/Icons/Question')),
