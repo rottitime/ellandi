@@ -269,12 +269,7 @@ class CSVRendererLanguages(CSVRenderer):
 )
 @decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.IsAdminUser,))
-@decorators.renderer_classes(
-    (
-        JSONRenderer,
-        CSVRendererSkills,
-    )
-)
+@decorators.renderer_classes((JSONRenderer, CSVRendererSkills))
 def report_skills_view(request):
     skills = get_skills_list_from_params(request)
     users = get_filtered_users(request)
@@ -316,12 +311,7 @@ def report_skills_view(request):
 )
 @decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.IsAdminUser,))
-@decorators.renderer_classes(
-    (
-        JSONRenderer,
-        CSVRendererLanguages,
-    )
-)
+@decorators.renderer_classes((JSONRenderer, CSVRendererLanguages))
 def report_languages_view(request):
     type = request.query_params.get("type")
     if type not in LANGUAGE_TYPES:
@@ -380,12 +370,7 @@ def get_grades_data():
 @extend_schema(request=None, responses=None)
 @decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.IsAdminUser,))
-@decorators.renderer_classes(
-    (
-        JSONRenderer,
-        CSVRenderer,
-    )
-)
+@decorators.renderer_classes((JSONRenderer, CSVRenderer))
 def responsibilities_view(request):
     data, total_users_data = get_responsibilities_data()
     data.append(total_users_data)
@@ -399,12 +384,7 @@ def responsibilities_view(request):
 @extend_schema(request=None, responses=None)
 @decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.IsAdminUser,))
-@decorators.renderer_classes(
-    (
-        JSONRenderer,
-        CSVRenderer,
-    )
-)
+@decorators.renderer_classes((JSONRenderer, CSVRenderer))
 def grades_view(request):
     output_list = get_grades_data()
     format = request.query_params.get("format", "json")
@@ -431,12 +411,7 @@ class CSVRendererLearning(CSVRenderer):
 @extend_schema(request=None, responses=None)
 @decorators.api_view(["GET"])
 @decorators.permission_classes((permissions.IsAdminUser,))
-@decorators.renderer_classes(
-    (
-        JSONRenderer,
-        CSVRendererLearning,
-    )
-)
+@decorators.renderer_classes((JSONRenderer, CSVRendererLearning))
 def learning_view(request):
     format = request.query_params.get("format", "json")
     users_qs = get_filtered_users(request)
