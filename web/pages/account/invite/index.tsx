@@ -10,7 +10,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import SimpleTable from '@/components/UI/SimpleTable/SimpleTable'
 import Icon from '@/components/Icon/Icon'
 import useAuth from '@/hooks/useAuth'
-import { useMutation, useQuery } from 'react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { fetchInvites, sendInvites } from '@/service/account'
 import Alert from '@/components/UI/Alert/Alert'
 import Typography from '@/components/UI/Typography/Typography'
@@ -76,7 +76,7 @@ const schema: SchemaOf<Schema> = object().shape({
 const InvitePage = () => {
   const { authFetch } = useAuth()
   const { isLoading, data, refetch } = useQuery<InvitedMembers[]>(
-    Query.InvitedMembers,
+    [Query.InvitedMembers],
     () => authFetch(fetchInvites)
   )
 
