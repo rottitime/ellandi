@@ -127,6 +127,11 @@ const AccountLayout: FC<Props> = ({
                 ]}
                 settings={[
                   { title: 'Profile', url: '/account/profile/', icon: 'profile' },
+                  {
+                    title: 'Invite members',
+                    url: '/account/invite/',
+                    icon: 'paper-plane'
+                  },
                   { title: 'Sign out', url: urls.signin, onClick: logout, icon: 'exit' }
                 ]}
               />

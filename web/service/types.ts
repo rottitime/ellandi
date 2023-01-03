@@ -24,7 +24,8 @@ export enum Query {
   ReportGrade = 'ReportGrade',
   ReportLearning = 'ReportLearning',
   Courses = 'courses',
-  ValidUserToken = 'ValidUserToken'
+  ValidUserToken = 'ValidUserToken',
+  InvitedMembers = 'InvitedMembers'
 }
 
 export type GenericDataList = {
@@ -315,3 +316,11 @@ export type MeReportLearning = {
 export type ValidUserToken = {
   valid: boolean
 }
+
+export type InvitedMembers = {
+  email: string
+  first_name: string
+  status: 'Pending' | 'Declined' | 'Accepted'
+}
+
+export type InviteMember = Pick<RegisterUserResponse, 'email' | 'first_name'>

@@ -57,12 +57,16 @@ export const api = async (
   params?: ParamsType
 ): Promise<Response> => {
   const url = createUrl(`${publicRuntimeConfig.apiUrl}${path}`, params)
-  let detailMessage
-  const res: Response = await fetch(url, {
-    ...init,
-    headers: { ...init.headers, Authorization: `Token ${token}` }
-  })
-  if (res.ok) return res
+  let detailMessage, res: Response
+
+  try {
+    res = await fetch(url, {
+      ...init,
+      headers: { ...init.headers, Authorization: `Token ${token}` }
+    })
+    if (res.ok) return res
+  } catch (e) {}
+
   try {
     const { detail } = await res.json()
     detailMessage = detail
