@@ -5,8 +5,8 @@ from rest_framework.response import Response
 from rest_framework_csv.renderers import CSVRenderer
 
 from ellandi import learning
-from ellandi.registration.exceptions import MissingLanguageTypeError
 from ellandi.registration import models
+from ellandi.registration.exceptions import MissingLanguageTypeError
 
 PARAM_SEPARATOR = "|"
 

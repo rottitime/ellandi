@@ -4,7 +4,6 @@ from rest_framework import serializers
 
 from . import exceptions, models
 
-
 POSITIVE_INTEGER_FIELD_MAX = 2147483647
 
 
@@ -335,7 +334,9 @@ class IsValidSerializer(serializers.Serializer):
 
 
 class CourseSerializer(serializers.ModelSerializer):
-    status = serializers.ChoiceField(choices=models.Course.Status.choices, allow_blank=True, allow_null=True, required=False)
+    status = serializers.ChoiceField(
+        choices=models.Course.Status.choices, allow_blank=True, allow_null=True, required=False
+    )
     grades = serializers.MultipleChoiceField(
         choices=models.Course.Grade.choices, allow_blank=True, allow_null=True, required=False
     )
