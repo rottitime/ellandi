@@ -1,40 +1,19 @@
 import django.contrib.auth.admin
 from django.contrib import admin
 
-from .models import (
-    BusinessUnit,
-    ContractType,
-    Country,
-    Course,
-    EmailSalt,
-    Function,
-    Grade,
-    JobTitle,
-    Language,
-    LanguageSkillLevel,
-    Learning,
-    LearningType,
-    Location,
-    Organisation,
-    Profession,
-    SkillLevel,
-    User,
-    UserLanguage,
-    UserSkill,
-    UserSkillDevelop,
-)
+from . import models
 
 
 class UserSkillInline(admin.TabularInline):
-    model = UserSkill
+    model = models.UserSkill
 
 
 class UserLanguageInline(admin.TabularInline):
-    model = UserLanguage
+    model = models.UserLanguage
 
 
 class UserSkillDevelopInline(admin.TabularInline):
-    model = UserSkillDevelop
+    model = models.UserSkillDevelop
 
 
 class UserAdmin(django.contrib.auth.admin.UserAdmin):
@@ -192,23 +171,23 @@ class LearningTypeAdmin(DropDownListAdmin):
     readonly_fields = ("name", "slug", "order", "description")
 
 
-admin.site.register(User, UserAdmin)
-admin.site.register(UserSkill, UserSkillAdmin)
-admin.site.register(UserLanguage, UserLanguageAdmin)
-admin.site.register(UserSkillDevelop, UserSkillDevelopAdmin)
-admin.site.register(Organisation, OrganisationAdmin)
-admin.site.register(ContractType, ContractTypeAdmin)
-admin.site.register(Location, LocationAdmin)
-admin.site.register(Language, LanguageAdmin)
-admin.site.register(Profession, ProfessionAdmin)
-admin.site.register(Grade, GradeAdmin)
-admin.site.register(LanguageSkillLevel, LanguageSkillLevelAdmin)
-admin.site.register(Country, CountryAdmin)
-admin.site.register(Function, FunctionAdmin)
-admin.site.register(SkillLevel, SkillLevelAdmin)
-admin.site.register(JobTitle, JobTitleAdmin)
-admin.site.register(BusinessUnit, BusinessUnitAdmin)
-admin.site.register(LearningType, LearningTypeAdmin)
-admin.site.register(EmailSalt)
-admin.site.register(Learning)
-admin.site.register(Course)
+admin.site.register(models.User, UserAdmin)
+admin.site.register(models.UserSkill, UserSkillAdmin)
+admin.site.register(models.UserLanguage, UserLanguageAdmin)
+admin.site.register(models.UserSkillDevelop, UserSkillDevelopAdmin)
+admin.site.register(models.Organisation, OrganisationAdmin)
+admin.site.register(models.ContractType, ContractTypeAdmin)
+admin.site.register(models.Location, LocationAdmin)
+admin.site.register(models.Language, LanguageAdmin)
+admin.site.register(models.Profession, ProfessionAdmin)
+admin.site.register(models.Grade, GradeAdmin)
+admin.site.register(models.LanguageSkillLevel, LanguageSkillLevelAdmin)
+admin.site.register(models.Country, CountryAdmin)
+admin.site.register(models.Function, FunctionAdmin)
+admin.site.register(models.SkillLevel, SkillLevelAdmin)
+admin.site.register(models.JobTitle, JobTitleAdmin)
+admin.site.register(models.BusinessUnit, BusinessUnitAdmin)
+admin.site.register(models.LearningType, LearningTypeAdmin)
+admin.site.register(models.EmailSalt)
+admin.site.register(models.Learning)
+admin.site.register(models.Course)
