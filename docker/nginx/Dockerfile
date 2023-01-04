@@ -22,7 +22,7 @@ RUN python3 /app/scripts/convert_dropdowns.py
 
 WORKDIR /app/web
 
-RUN npm install
+RUN npm ci
 RUN npm run build:static
 
 ################
