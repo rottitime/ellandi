@@ -3,7 +3,8 @@
 // https://nextjs.org/docs/api-reference/next.config.js/introduction
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/
 
-import { withSentryConfig } from '@sentry/nextjs'
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { withSentryConfig } = require('@sentry/nextjs')
 
 const moduleExports = {
   trailingSlash: true,
@@ -25,6 +26,7 @@ const moduleExports = {
     // https://webpack.js.org/configuration/devtool/ and
     // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/#use-hidden-source-map
     // for more information.
+    transpileClientSDK: true,
     hideSourceMaps: true
   }
 }
@@ -43,4 +45,4 @@ const sentryWebpackPluginOptions = {
 
 // Make sure adding Sentry options is the last code to run before exporting, to
 // ensure that your source maps include changes from all other Webpack plugins
-export default withSentryConfig(moduleExports, sentryWebpackPluginOptions)
+module.exports = withSentryConfig(moduleExports, sentryWebpackPluginOptions)
