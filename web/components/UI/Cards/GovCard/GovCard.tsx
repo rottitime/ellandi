@@ -80,9 +80,11 @@ const GovCard: FC<Props> = ({
 
       <CardContent>
         <header>
-          <Typography variant="h1" className="card-title">
-            {title}
-          </Typography>
+          {title && (
+            <Typography variant="h1" className="card-title">
+              {title}
+            </Typography>
+          )}
 
           {!!progress && (
             <LinearProgress

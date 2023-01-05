@@ -2,29 +2,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
-from .exceptions import IncorrectDomainError
-from .models import (
-    BusinessUnit,
-    ContractType,
-    Country,
-    Course,
-    EmailSalt,
-    Function,
-    Grade,
-    JobTitle,
-    Language,
-    LanguageSkillLevel,
-    Learning,
-    LearningType,
-    Location,
-    Organisation,
-    Profession,
-    SkillLevel,
-    User,
-    UserLanguage,
-    UserSkill,
-    UserSkillDevelop,
-)
+from . import exceptions, models
 
 POSITIVE_INTEGER_FIELD_MAX = 2147483647
 
@@ -33,143 +11,143 @@ def check_email_domain(email):
     email_split = email.lower().split("@")
     domain_name = email_split[-1]
     if domain_name not in settings.ALLOWED_DOMAINS:
-        raise IncorrectDomainError
+        raise exceptions.IncorrectDomainError
     return email
 
 
 class OrganisationSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Organisation
+        model = models.Organisation
         fields = ["slug", "name", "order"]
 
 
 class ContractTypeSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ContractType
+        model = models.ContractType
         fields = ["slug", "name", "order"]
 
 
 class LocationSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Location
+        model = models.Location
         fields = ["slug", "name", "order"]
 
 
 class LanguageSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Language
+        model = models.Language
         fields = ["slug", "name", "order"]
 
 
 class ProfessionSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Profession
+        model = models.Profession
         fields = ["slug", "name", "order"]
 
 
 class GradeSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Grade
+        model = models.Grade
         fields = ["slug", "name", "order"]
 
 
 class LanguageSkillLevelSerializer(serializers.ModelSerializer):
     class Meta:
-        model = LanguageSkillLevel
+        model = models.LanguageSkillLevel
         fields = ["slug", "name", "order", "description"]
 
 
 class CountrySerializer(serializers.ModelSerializer):
     class Meta:
-        model = Country
+        model = models.Country
         fields = ["slug", "name", "order"]
 
 
 class FunctionSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Function
+        model = models.Function
         fields = ["slug", "name", "order"]
 
 
 class SkillLevelSerializer(serializers.ModelSerializer):
     class Meta:
-        model = SkillLevel
+        model = models.SkillLevel
         fields = ["slug", "name", "order", "description"]
 
 
 class JobTitleSerializer(serializers.ModelSerializer):
     class Meta:
-        model = JobTitle
+        model = models.JobTitle
         fields = ["slug", "name", "order"]
 
 
 class BusinessUnitSerializer(serializers.ModelSerializer):
     class Meta:
-        model = BusinessUnit
+        model = models.BusinessUnit
         fields = ["slug", "name", "order"]
 
 
 class LearningTypeSerializer(serializers.ModelSerializer):
     class Meta:
-        model = LearningType
+        model = models.LearningType
         fields = ["slug", "name", "order", "description"]
 
 
 class UserSkillSerializer(serializers.ModelSerializer):
     level = serializers.ChoiceField(
-        choices=UserSkill.SkillLevel.choices, allow_blank=True, allow_null=True, required=False
+        choices=models.UserSkill.SkillLevel.choices, allow_blank=True, allow_null=True, required=False
     )
 
     class Meta:
-        model = UserSkill
+        model = models.UserSkill
         fields = ["id", "user", "name", "level", "validated", "pending", "created_at", "modified_at"]
 
 
 class UserLanguageSerializer(serializers.ModelSerializer):
     speaking_level = serializers.ChoiceField(
-        choices=UserLanguage.LanguageLevel.choices, allow_blank=True, allow_null=True, required=False
+        choices=models.UserLanguage.LanguageLevel.choices, allow_blank=True, allow_null=True, required=False
     )
     writing_level = serializers.ChoiceField(
-        choices=UserLanguage.LanguageLevel.choices, allow_blank=True, allow_null=True, required=False
+        choices=models.UserLanguage.LanguageLevel.choices, allow_blank=True, allow_null=True, required=False
     )
 
     class Meta:
-        model = UserLanguage
+        model = models.UserLanguage
         fields = ["id", "user", "name", "speaking_level", "writing_level", "created_at", "modified_at"]
 
 
 class UserSkillDevelopSerializer(serializers.ModelSerializer):
     class Meta:
-        model = UserSkillDevelop
+        model = models.UserSkillDevelop
         fields = ["id", "user", "name", "pending", "created_at", "modified_at"]
 
 
 class UserSkillSerializerNested(serializers.ModelSerializer):
     level = serializers.ChoiceField(
-        choices=UserSkill.SkillLevel.choices, allow_blank=True, allow_null=True, required=False
+        choices=models.UserSkill.SkillLevel.choices, allow_blank=True, allow_null=True, required=False
     )
 
     class Meta:
-        model = UserSkill
+        model = models.UserSkill
         fields = ["id", "name", "level", "validated", "pending"]
 
 
 class UserLanguageSerializerNested(serializers.ModelSerializer):
     speaking_level = serializers.ChoiceField(
-        choices=UserLanguage.LanguageLevel.choices, allow_blank=True, allow_null=True, required=False
+        choices=models.UserLanguage.LanguageLevel.choices, allow_blank=True, allow_null=True, required=False
     )
     writing_level = serializers.ChoiceField(
-        choices=UserLanguage.LanguageLevel.choices, allow_blank=True, allow_null=True, required=False
+        choices=models.UserLanguage.LanguageLevel.choices, allow_blank=True, allow_null=True, required=False
     )
 
     class Meta:
-        model = UserLanguage
+        model = models.UserLanguage
         fields = ["id", "name", "speaking_level", "writing_level"]
 
 
 class UserSkillDevelopSerializerNested(serializers.ModelSerializer):
     class Meta:
-        model = UserSkillDevelop
+        model = models.UserSkillDevelop
         fields = ["id", "name", "pending"]
 
 
@@ -182,7 +160,7 @@ class LearningListSerializer(serializers.ListSerializer):
                 id = item.id
             else:
                 id = None
-            learning, _ = Learning.objects.update_or_create(user=user, id=id, defaults=valid_data)
+            learning, _ = models.Learning.objects.update_or_create(user=user, id=id, defaults=valid_data)
             updated_items.append(learning)
         return updated_items
 
@@ -204,7 +182,7 @@ class BaseLearningSerializer(serializers.Serializer):
 
 
 class LearningSerializer(BaseLearningSerializer):
-    learning_type = serializers.ChoiceField(choices=Learning.LearningType.choices, required=False)
+    learning_type = serializers.ChoiceField(choices=models.Learning.LearningType.choices, required=False)
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -250,17 +228,17 @@ class UserSerializer(serializers.ModelSerializer):
         if "skills" in validated_data:
             for skill_data in validated_data["skills"]:
                 name = skill_data["name"]
-                UserSkill.objects.update_or_create(user=instance, name=name, defaults=skill_data)
+                models.UserSkill.objects.update_or_create(user=instance, name=name, defaults=skill_data)
 
         if "languages" in validated_data:
             for language_data in validated_data["languages"]:
                 name = language_data["name"]
-                UserLanguage.objects.update_or_create(user=instance, name=name, defaults=language_data)
+                models.UserLanguage.objects.update_or_create(user=instance, name=name, defaults=language_data)
 
         if "skills_develop" in validated_data:
             for skill_data in validated_data["skills_develop"]:
                 name = skill_data["name"]
-                UserSkillDevelop.objects.update_or_create(user=instance, name=name, defaults=skill_data)
+                models.UserSkillDevelop.objects.update_or_create(user=instance, name=name, defaults=skill_data)
 
         instance.save()
         return instance
@@ -326,7 +304,7 @@ class EmailSaltSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(validators=[check_email_domain])
 
     class Meta:
-        model = EmailSalt
+        model = models.EmailSalt
         fields = ["email"]
 
 
@@ -335,7 +313,7 @@ class UserLoginSerializer(serializers.ModelSerializer):
     one_time_token = serializers.CharField(required=True)
 
     class Meta:
-        model = User
+        model = models.User
         fields = ["email", "one_time_token"]
 
 
@@ -347,7 +325,7 @@ class SkillTitleSerializer(serializers.ModelSerializer):
     name = serializers.CharField()
 
     class Meta:
-        model = UserSkill
+        model = models.UserSkill
         fields = ["name"]
 
 
@@ -356,9 +334,11 @@ class IsValidSerializer(serializers.Serializer):
 
 
 class CourseSerializer(serializers.ModelSerializer):
-    status = serializers.ChoiceField(choices=Course.Status.choices, allow_blank=True, allow_null=True, required=False)
+    status = serializers.ChoiceField(
+        choices=models.Course.Status.choices, allow_blank=True, allow_null=True, required=False
+    )
     grades = serializers.MultipleChoiceField(
-        choices=Course.Grade.choices, allow_blank=True, allow_null=True, required=False
+        choices=models.Course.Grade.choices, allow_blank=True, allow_null=True, required=False
     )
     duration_minutes = serializers.IntegerField(
         max_value=POSITIVE_INTEGER_FIELD_MAX, min_value=0, required=False, allow_null=True
@@ -368,5 +348,21 @@ class CourseSerializer(serializers.ModelSerializer):
     )
 
     class Meta:
-        model = Course
+        model = models.Course
         fields = "__all__"
+
+
+class InviteCreateSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(validators=[check_email_domain])
+
+    class Meta:
+        model = models.Invite
+        fields = ("email", "first_name")
+
+
+class InviteListSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(validators=[check_email_domain])
+
+    class Meta:
+        model = models.Invite
+        fields = ("email", "first_name", "status")

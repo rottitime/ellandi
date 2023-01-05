@@ -55,6 +55,11 @@ EMAIL_MAPPING = {
         "url_path": "/signin/forgotten-password/reset",
         "token_generator": PASSWORD_RESET_TOKEN_GENERATOR,
     },
+    "invite": {
+        "from_address": "support-ellandi@cabinetoffice.gov.uk",
+        "subject": "Invite to Cabinet Office Skills and Learning",
+        "template_name": "email/invite.txt",
+    },
 }
 
 
@@ -76,6 +81,17 @@ def _send_token_email(user, subject, template_name, from_address, url_path, toke
     return response
 
 
+def _send_normal_email(subject, template_name, from_address, to_address, context):
+    body = render_to_string(template_name, context)
+    response = send_mail(
+        subject=subject,
+        message=body,
+        from_email=from_address,
+        recipient_list=[to_address],
+    )
+    return response
+
+
 def send_verification_email(user):
     data = EMAIL_MAPPING["email-verification"]
     return _send_token_email(user, **data)
@@ -84,6 +100,15 @@ def send_verification_email(user):
 def send_password_reset_email(user):
     data = EMAIL_MAPPING["password-reset"]
     return _send_token_email(user, **data)
+
+
+def send_invite_email(to_address, first_name, inviter):
+    api_host_url = settings.HOST_URL.strip("/")
+    web_host_url = settings.HOST_MAP[api_host_url]
+    context = {"inviter": inviter, "first_name": first_name, "url": web_host_url}
+    data = EMAIL_MAPPING["invite"]
+    response = _send_normal_email(to_address=to_address, context=context, **data)
+    return response
 
 
 @extend_schema(

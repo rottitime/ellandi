@@ -1,5 +1,4 @@
 import dynamic from 'next/dynamic'
-import { FC } from 'react'
 import { Props } from './types'
 
 export const icons = {
@@ -11,9 +10,12 @@ export const icons = {
   'circle-info-filled': dynamic(() => import('@/components/Icon/Icons/InfoCircleFilled')),
   'crown-logo': dynamic(() => import('@/components/Icon/Icons/CrownLogo')),
   crest: dynamic(() => import('@/components/Icon/Icons/Crest')),
+  hourglass: dynamic(() => import('@/components/Icon/Icons/Hourglass')),
+  cross: dynamic(() => import('@/components/Icon/Icons/Cross')),
   skills: dynamic(() => import('@/components/Icon/Icons/Skills')),
   mail: dynamic(() => import('@/components/Icon/Icons/Mail')),
   'mortar-hat': dynamic(() => import('@/components/Icon/Icons/MortarHat')),
+  'paper-plane': dynamic(() => import('@/components/Icon/Icons/PaperPlane')),
   pencil: dynamic(() => import('@/components/Icon/Icons/Pencil')),
   profile: dynamic(() => import('@/components/Icon/Icons/Profile')),
   question: dynamic(() => import('@/components/Icon/Icons/Question')),
@@ -21,12 +23,13 @@ export const icons = {
   team: dynamic(() => import('@/components/Icon/Icons/Team')),
   world: dynamic(() => import('@/components/Icon/Icons/World')),
   tick: dynamic(() => import('@/components/Icon/Icons/Tick')),
-  'cabinet-office': dynamic(() => import('@/components/Icon/Icons/CabinetOffice'))
+  'cabinet-office': dynamic(() => import('@/components/Icon/Icons/CabinetOffice')),
+  menu: dynamic(() => import('@/components/Icon/Icons/Menu')),
+  exit: dynamic(() => import('@/components/Icon/Icons/Exit'))
 }
 
-const Icon: FC<Props> = ({ icon, size, ...props }) => {
+const Icon = ({ icon, size, ...props }: Props) => {
   const Component = icons[icon]
-
   return <Component {...props} style={{ fontSize: !!size ? `${size}px` : null }} />
 }
 

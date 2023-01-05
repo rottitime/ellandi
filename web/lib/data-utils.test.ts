@@ -1,8 +1,10 @@
+import { defaultError } from '@/service/auth'
 import {
   sortWithOrder,
   asStringList,
   convertFilters,
-  professionsDisplayText
+  professionsDisplayText,
+  api
 } from './data-utils'
 
 describe('sortWithOrder()', () => {
@@ -118,5 +120,36 @@ describe('professionsDisplayText()', () => {
       professions:
         'Counter fraud, Knowledge and information management, International trade, Science and engineering, Policy, Veterinary, my other work'
     })
+  })
+})
+
+describe('api()', () => {
+  const mockSuccess = { fruit: 'apples' }
+  afterEach(() => {
+    fetchMock.resetMocks()
+  })
+
+  it('success', async () => {
+    fetchMock.mockResponseOnce(JSON.stringify(mockSuccess), { status: 200 })
+    const data = await (await api('my-token', '/api')).json()
+    expect(data).toEqual(expect.objectContaining(mockSuccess))
+  })
+
+  it('Error on initial fetch', async () => {
+    fetchMock.mockReject(new Error('fake error message'))
+    await expect(api('my-token', '/api')).rejects.toThrowError(defaultError)
+  })
+
+  it('custom error', async () => {
+    const errorMessage = 'my custom error'
+    fetchMock.mockResponseOnce(JSON.stringify({ detail: 'my custom error' }), {
+      status: 401
+    })
+    await expect(api('my-token', '/api')).rejects.toThrowError(errorMessage)
+  })
+
+  it('default error fallback', async () => {
+    fetchMock.mockResponseOnce(JSON.stringify(mockSuccess), { status: 401 })
+    await expect(api('my-token', '/api')).rejects.toThrowError(defaultError)
   })
 })

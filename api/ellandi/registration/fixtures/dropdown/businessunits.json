@@ -41,9 +41,9 @@
 },
 {
   "model": "registration.businessunit",
-  "pk": "chief-digital-and-information-office",
+  "pk": "cabinet-office-digital",
   "fields": {
-    "name": "Chief Digital and Information Office",
+    "name": "Cabinet Office Digital",
     "order": null
   }
 },

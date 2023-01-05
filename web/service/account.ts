@@ -3,7 +3,8 @@ import {
   LearningFormalType,
   LearningBaseType,
   SkillDevelopType,
-  SkillType
+  SkillType,
+  InviteMember
 } from './types'
 import { api } from '@/lib/data-utils'
 
@@ -128,5 +129,19 @@ export const editLearning = async (
     body: JSON.stringify(data)
   })
 
+  return await res.json()
+}
+
+export const fetchInvites = async (token: string) => {
+  const res = await api(token, '/me/invites/')
+  return await res.json()
+}
+
+export const sendInvites = async (token: string, data: InviteMember) => {
+  const res = await api(token, '/me/invites/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  })
   return await res.json()
 }

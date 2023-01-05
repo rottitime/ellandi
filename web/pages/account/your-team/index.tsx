@@ -50,7 +50,7 @@ YourTeamPage.getLayout = (page) => (
   <AccountLayout
     titleIcon="team"
     title="Your team"
-    teaserHeadline="View team members skills and profile"
+    teaserContent="View your team members' skills and learning profiles"
     breadcrumbs={[{ title: 'Your team' }]}
   >
     {page}

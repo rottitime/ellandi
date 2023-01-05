@@ -125,7 +125,7 @@ jobs:
           cache: "npm"
           cache-dependency-path: 'web/package-lock.json'
 
-      - run: cd web && npm install
+      - run: cd web && npm ci
 
       - run: make validate-frontend
 
