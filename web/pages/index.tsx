@@ -10,7 +10,7 @@ const List = styled(Box)`
 `
 
 const IndexPage = () => (
-  <div>
+  <>
     <Typography>You can use this service to:</Typography>
     <List as="ul">
       <li>upload and maintain your skills and learning profile</li>
@@ -32,7 +32,7 @@ const IndexPage = () => (
         Create account
       </Button>
     </Box>
-  </div>
+  </>
 )
 
 export default IndexPage
