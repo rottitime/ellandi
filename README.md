@@ -1,6 +1,6 @@
 # Ellandi
 
-This is the code for the Skills & Learning application. This app is to allow staff to record their skills (both current skills and those they would like to develop), and allows staff to track their learning and development.
+This is the code for the Skills & Learning application. This app allows staff to record their skills (both current skills and those they would like to develop), and allows staff to track their learning and development.
 
 ## Running locally (with Docker)
 
