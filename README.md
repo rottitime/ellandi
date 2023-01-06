@@ -1,5 +1,9 @@
 # Ellandi
 
+This is the code for the Skills & Learning application. This app allows staff to record their skills (both current skills and those they would like to develop), and allows staff to track their learning and development.
+
+## Running locally (with Docker)
+
 To build this app, install Docker Desktop then run:
 
     docker-compose up --build
@@ -8,14 +12,13 @@ Migrations will applied automatically
 
 Then you can access `http://localhost:8000` to view the api, and `http://localhost:3000` to view the web frontend
 
-If you want to access the api's admin interface you need to run:
+## Accessing the API's admin interface
+
+If you want to access the api's admin interface you need to create a superuser by running:
 
     docker-compose run api python manage.py createsuperuser
 
-Then you can access `http://localhost:8000/admin` to login to the admin interface
-
-To load some dummy data for testing locally (data on users, related skills/languages/skills to develop):
-`docker-compose run api python manage.py loaddata fake_data/fakeusers.json`
+Then you can access `http://localhost:8000/admin` to login to the admin interface.
 
 ## Local installation
 
@@ -73,12 +76,6 @@ You can also generate a setup of mockdata on the api
 make setup
 ```
 
-and create a superadmin
-
-```
-docker-compose run api python manage.py createsuperuser
-```
-
 ---
 
 ## Playwright browser tests
@@ -109,9 +106,9 @@ playwright codegen http://localhost:3000
 
 ---
 
-## Deploying to Gov.UK Paas environments
+## Deploying to Gov.UK PaaS environments
 
-Before deploying to a new environment in Gov.UK paas you need to create some DBs and and S3 buckte.
+Before deploying to a new environment in Gov.UK paas you need to create some DBs and an S3 bucket.
 
 log in to the correct CF environment:
 
