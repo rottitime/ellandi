@@ -4,11 +4,12 @@ import getConfig from 'next/config'
 type Props = {
   nodeEnv: string
   sentryServerEnvironment: string
+  serverEnv: string
 }
 
 const { publicRuntimeConfig } = getConfig()
 
-const Info = ({ nodeEnv, sentryServerEnvironment }: Props) => {
+const Info = ({ nodeEnv, sentryServerEnvironment, serverEnv }: Props) => {
   return (
     <section>
       <h1>Environment variables</h1>
@@ -26,6 +27,10 @@ const Info = ({ nodeEnv, sentryServerEnvironment }: Props) => {
         </li>
 
         <li>
+          <code>Env: {serverEnv}</code>
+        </li>
+
+        <li>
           <code>NODE_ENV:</code> {nodeEnv}
         </li>
       </ul>
@@ -36,7 +41,8 @@ const Info = ({ nodeEnv, sentryServerEnvironment }: Props) => {
 export async function getStaticProps() {
   const props: Props = {
     nodeEnv: process.env.NODE_ENV || '',
-    sentryServerEnvironment: process.env.SENTRY_ENVIRONMENT || ''
+    sentryServerEnvironment: process.env.SENTRY_ENVIRONMENT || '',
+    serverEnv: process.env.ENV || ''
   }
 
   return { props }
