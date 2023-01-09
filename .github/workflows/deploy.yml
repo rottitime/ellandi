@@ -32,6 +32,7 @@ jobs:
       API_HOST: http://ellandi-api-${{ github.ref_name }}.apps.internal:8000
       NEXT_PUBLIC_API_URL: https://ellandi-${{ github.ref_name }}.london.cloudapps.digital/api
       NEXT_PUBLIC_ENABLE_EMAIL_VERIFY: false
+      SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
       GIT_SHA: ${{ github.sha }}
       RESOLVER: 169.254.0.2
 
