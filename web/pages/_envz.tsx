@@ -5,11 +5,17 @@ type Props = {
   nodeEnv: string
   sentryServerEnvironment: string
   serverEnv: string
+  serverEnvironment: string
 }
 
 const { publicRuntimeConfig } = getConfig()
 
-const Info = ({ nodeEnv, sentryServerEnvironment, serverEnv }: Props) => {
+const Info = ({
+  nodeEnv,
+  sentryServerEnvironment,
+  serverEnv,
+  serverEnvironment
+}: Props) => {
   return (
     <section>
       <h1>Environment variables</h1>
@@ -27,7 +33,11 @@ const Info = ({ nodeEnv, sentryServerEnvironment, serverEnv }: Props) => {
         </li>
 
         <li>
-          <code>Env: {serverEnv}</code>
+          <code>ENV: {serverEnv}</code>
+        </li>
+
+        <li>
+          <code>ENVIRONMENT: {serverEnvironment}</code>
         </li>
 
         <li>
@@ -42,7 +52,8 @@ export async function getStaticProps() {
   const props: Props = {
     nodeEnv: process.env.NODE_ENV || '',
     sentryServerEnvironment: process.env.SENTRY_ENVIRONMENT || '',
-    serverEnv: process.env.ENV || ''
+    serverEnv: process.env.ENV || '',
+    serverEnvironment: process.env.ENVIRONMENT || ''
   }
 
   return { props }
