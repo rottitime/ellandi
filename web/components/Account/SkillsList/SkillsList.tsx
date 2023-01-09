@@ -2,7 +2,7 @@ import { FC } from 'react'
 import DataGrid, { GridColDef } from '@/components/UI/DataGrid/DataGrid'
 import useAuth from '@/hooks/useAuth'
 import { Query, RegisterUserResponse, SkillsType, SkillType } from '@/service/api'
-import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { fetchMe } from '@/service/me'
 import TableSkeleton from '@/components/UI/Skeleton/TableSkeleton'
 import {
@@ -24,7 +24,7 @@ import levels from '@/prefetch/skill-levels.json'
 const SkillsList: FC = () => {
   const { authFetch } = useAuth()
   const queryClient = useQueryClient()
-  const { isLoading, data } = useQuery<RegisterUserResponse>(Query.Me, () =>
+  const { isLoading, data } = useQuery<RegisterUserResponse>([Query.Me], () =>
     authFetch(fetchMe)
   )
 
@@ -37,7 +37,7 @@ const SkillsList: FC = () => {
     async (id: string) => await authFetch(deleteSkill, id),
     {
       onSuccess: async ({ id }) => {
-        queryClient.setQueryData(Query.Me, {
+        queryClient.setQueryData([Query.Me], {
           ...data,
           skills: data.skills.filter((skill) => skill.id !== id)
         })
@@ -54,7 +54,7 @@ const SkillsList: FC = () => {
   } = useMutation<RegisterUserResponse, Error, SkillType[]>(
     async (data) => await authFetch(addSkills, data),
     {
-      onSuccess: async (data) => await queryClient.setQueryData(Query.Me, data)
+      onSuccess: async (data) => await queryClient.setQueryData([Query.Me], data)
     }
   )
 

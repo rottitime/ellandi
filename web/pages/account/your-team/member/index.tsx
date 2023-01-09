@@ -3,7 +3,7 @@ import SimpleTable from '@/components/UI/SimpleTable/SimpleTable'
 import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
 import { TableCellProps, Chip, styled } from '@mui/material'
 import useAuth from '@/hooks/useAuth'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { Query, TeamMember } from '@/service/api'
 import { fetchTeam } from '@/service/account'
 import { useMemo } from 'react'
@@ -35,7 +35,7 @@ const YourTeamPage = () => {
   const { id } = router.query
 
   const { data, isLoading, isFetched, isSuccess } = useQuery<TeamMember[]>(
-    Query.TeamMembers,
+    [Query.TeamMembers],
     () => authFetch(fetchTeam),
     { keepPreviousData: true, staleTime: Infinity }
   )

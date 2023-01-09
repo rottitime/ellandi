@@ -2,7 +2,7 @@ import CardLayout from '@/components/Layout/CardLayout/CardLayout'
 import { Alert, Box, Typography } from '@mui/material'
 import { useUiContext } from '@/context/UiContext'
 import { useRouter } from 'next/router'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { verifyEmail } from '@/service/auth'
 import { AuthUser, Query, RegisterUserResponse } from '@/service/types'
 import Router from 'next/router'
@@ -31,17 +31,21 @@ const EmailVerifyPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const { refetch } = useQuery<RegisterUserResponse>(Query.Me, () => authFetch(fetchMe), {
-    enabled: false,
-    onSuccess: (data) => {
-      isRegisterComplete(data)
-        ? Router.replace(urls.landingSignin)
-        : Router.replace('/register/step/0/')
+  const { refetch } = useQuery<RegisterUserResponse>(
+    [Query.Me],
+    () => authFetch(fetchMe),
+    {
+      enabled: false,
+      onSuccess: (data) => {
+        isRegisterComplete(data)
+          ? Router.replace(urls.landingSignin)
+          : Router.replace('/register/step/0/')
+      }
     }
-  })
+  )
 
   const { error } = useQuery<AuthUser, Error>(
-    'verify-email',
+    [Query.VerifyEmail],
     () => verifyEmail((user_id || '').toString(), (code || '').toString()),
     {
       retry: false,

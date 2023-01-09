@@ -91,11 +91,7 @@ describe('RegisterDetailsForm', () => {
     const mockSubmit = jest.fn()
 
     renderWithProviders(
-      <RegisterDetailsForm
-        backUrl="/back"
-        defaultValues={Promise.resolve(mockData)}
-        onFormSubmit={(data) => mockSubmit(data)}
-      />
+      <RegisterDetailsForm backUrl="/back" onFormSubmit={(data) => mockSubmit(data)} />
     )
 
     const button = screen.getByRole('button', { name: /Continue/i })

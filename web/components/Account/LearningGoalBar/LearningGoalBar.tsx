@@ -5,7 +5,7 @@ import { fetchMeLearning } from '@/service/me'
 import { MeLearningRecord, Query } from '@/service/types'
 import { Box, styled, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { Props } from './types'
 
 const GoalBar = styled(Box)`
@@ -34,8 +34,8 @@ const LearningGoalBar = ({
     setPercentageValue(percentage)
   }, [days, percentage])
 
-  const { isLoading } = useQuery<MeLearningRecord>(
-    Query.MeLearning,
+  const { isInitialLoading } = useQuery<MeLearningRecord>(
+    [Query.MeLearning],
     () => authFetch(fetchMeLearning),
     {
       staleTime: 0,
@@ -65,7 +65,7 @@ const LearningGoalBar = ({
         </Typography>
       )}
 
-      {isLoading ? (
+      {isInitialLoading ? (
         <Skeleton sx={{ maxWidth: 300 }} height="40px" />
       ) : (
         <Typography variant="h1" component="p">

@@ -2,7 +2,7 @@ import AccountLayout from '@/components/Layout/AccountLayout/AccountLayout'
 import { Typography, Grid } from '@mui/material'
 import AccountCard from '@/components/UI/Cards/AccountCard/AccountCard'
 import useAuth from '@/hooks/useAuth'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { Query, TeamMember } from '@/service/api'
 import Skeleton from '@/components/UI/Skeleton/Skeleton'
 import { fetchTeam } from '@/service/account'
@@ -11,7 +11,7 @@ import Link from '@/components/UI/Link'
 const YourTeamPage = () => {
   const { authFetch } = useAuth()
 
-  const { data, isLoading } = useQuery<TeamMember[]>(Query.TeamMembers, () =>
+  const { data, isLoading } = useQuery<TeamMember[]>([Query.TeamMembers], () =>
     authFetch(fetchTeam)
   )
 

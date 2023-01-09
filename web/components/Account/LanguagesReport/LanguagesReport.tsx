@@ -20,7 +20,7 @@ import {
   Typography
 } from '@mui/material'
 import { useState } from 'react'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { FiltersType } from './types'
 import languages from '@/prefetch/languages.json'
 import { asStringList, csvDownload } from '@/lib/data-utils'

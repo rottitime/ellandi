@@ -2,7 +2,7 @@ import { FC } from 'react'
 import DataGrid, { GridColDef } from '@/components/UI/DataGrid/DataGrid'
 import useAuth from '@/hooks/useAuth'
 import { Query, RegisterUserResponse } from '@/service/api'
-import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { fetchMe } from '@/service/me'
 import TableSkeleton from '@/components/UI/Skeleton/TableSkeleton'
 import { Alert, Box, Typography } from '@mui/material'
@@ -11,7 +11,7 @@ import { deleteSkillDevelop } from '@/service/account'
 const SkillsDevelop: FC = () => {
   const { authFetch } = useAuth()
   const queryClient = useQueryClient()
-  const { isLoading, data } = useQuery<RegisterUserResponse>(Query.Me, () =>
+  const { isLoading, data } = useQuery<RegisterUserResponse>([Query.Me], () =>
     authFetch(fetchMe)
   )
 
@@ -20,7 +20,7 @@ const SkillsDevelop: FC = () => {
     async (id: string) => await authFetch(deleteSkillDevelop, id),
     {
       onSuccess: async ({ id }) => {
-        queryClient.setQueryData(Query.Me, {
+        queryClient.setQueryData([Query.Me], {
           ...data,
           skills_develop: data.skills_develop.filter((skill) => skill.id !== id)
         })

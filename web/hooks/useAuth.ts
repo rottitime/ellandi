@@ -8,7 +8,7 @@ import {
 import { AuthUser, RegisterUser, RegisterUserResponse } from '@/service/types'
 import { defaultError } from '@/service/auth'
 import getConfig from 'next/config'
-import { useQueryClient } from 'react-query'
+import { useQueryClient } from '@tanstack/react-query'
 
 const {
   publicRuntimeConfig: { enableEmailVerify }

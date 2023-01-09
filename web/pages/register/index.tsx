@@ -4,7 +4,7 @@ import { useUiContext } from '@/context/UiContext'
 import useAuth from '@/hooks/useAuth'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 
 const RegisterPage = () => {
   const router = useRouter()

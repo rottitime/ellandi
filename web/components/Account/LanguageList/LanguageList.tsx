@@ -2,7 +2,7 @@ import { FC } from 'react'
 import DataGrid, { GridColDef, GridRowId } from '@/components/UI/DataGrid/DataGrid'
 import useAuth from '@/hooks/useAuth'
 import { LanguagesType, LanguageType, Query, RegisterUserResponse } from '@/service/api'
-import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { fetchMe } from '@/service/me'
 import TableSkeleton from '@/components/UI/Skeleton/TableSkeleton'
 import {
@@ -23,7 +23,7 @@ import levels from '@/prefetch/language-skill-levels.json'
 const LanguageList: FC = () => {
   const queryClient = useQueryClient()
   const { authFetch } = useAuth()
-  const { isLoading, data } = useQuery<RegisterUserResponse>(Query.Me, () =>
+  const { isLoading, data } = useQuery<RegisterUserResponse>([Query.Me], () =>
     authFetch(fetchMe)
   )
 
@@ -36,7 +36,7 @@ const LanguageList: FC = () => {
     async (id) => await authFetch(deleteLanguage, id),
     {
       onSuccess: async ({ id }) => {
-        queryClient.setQueryData(Query.Me, {
+        queryClient.setQueryData([Query.Me], {
           ...data,
           languages: data.languages.filter((language) => language.id !== id)
         })
@@ -53,7 +53,7 @@ const LanguageList: FC = () => {
   } = useMutation<RegisterUserResponse, Error, LanguageType[]>(
     async (data) => await authFetch(addLanguages, data),
     {
-      onSuccess: async (data) => await queryClient.setQueryData(Query.Me, data)
+      onSuccess: async (data) => await queryClient.setQueryData([Query.Me], data)
     }
   )
 

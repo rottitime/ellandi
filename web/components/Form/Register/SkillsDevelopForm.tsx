@@ -5,7 +5,7 @@ import { Controller, FormProvider, useForm } from 'react-hook-form'
 import CreatableAutocomplete from '../CreatableAutocomplete/CreatableAutocomplete'
 import { Query, SkillDevelopType, SkillsDevelopType } from '@/service/types'
 import { fetchSkills } from '@/service/api'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { array, object, SchemaOf, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import Form from '@/components/Form/Register/FormRegister/FormRegister'
@@ -29,7 +29,7 @@ const SkillsForm: FC<StandardRegisterProps<SkillsDevelopType>> = (props) => {
   const { setValue, register, unregister, watch, control } = methods
 
   const { isLoading, data } = useQuery<string[], { message?: string }>(
-    Query.Skills,
+    [Query.Skills],
     fetchSkills,
     { staleTime: Infinity }
   )

@@ -2,7 +2,7 @@ import { render, renderHook, RenderOptions, waitFor } from '@testing-library/rea
 import ThemeProvider from '@/components/ThemeProvider/ThemeProvider'
 import LocalizationProvider from '@/components/LocalizationProvider/LocalizationProvider'
 import { ReactNode } from 'react'
-import { QueryClient, QueryClientProvider } from 'react-query'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { UiProvider } from '@/context/UiContext'
 import {
   AuthUser,

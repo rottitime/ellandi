@@ -7,7 +7,7 @@ import {
   MeLearningRecord,
   Query
 } from '@/service/api'
-import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { fetchMeLearning } from '@/service/me'
 import {
   Alert,
@@ -44,7 +44,7 @@ const LearningRecordList: FC = () => {
     [Query.MeLearning, params],
     () => authFetch(fetchMeLearning, params),
     {
-      onSuccess: (data) => queryClient.setQueryData(Query.MeLearning, data)
+      onSuccess: (data) => queryClient.setQueryData([Query.MeLearning], data)
     }
   )
 

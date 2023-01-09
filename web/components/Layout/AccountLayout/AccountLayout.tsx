@@ -6,7 +6,7 @@ import useAuth from '@/hooks/useAuth'
 import Footer from '@/components/Footer/Footer'
 import Icon from '@/components/Icon/Icon'
 import Headline from '@/components/Account/Headline/Headline'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { fetchMe } from '@/service/me'
 import { Query, RegisterUserResponseWithCustomFields } from '@/service/api'
 import Router, { useRouter } from 'next/router'
@@ -59,7 +59,7 @@ const AccountLayout: FC<Props> = ({
   const { isLoading, data, isError } = useQuery<
     RegisterUserResponseWithCustomFields,
     Error
-  >(Query.Me, () => authFetch(fetchMe), {
+  >([Query.Me], () => authFetch(fetchMe), {
     retry: 0,
     onError: () => {
       invalidate()

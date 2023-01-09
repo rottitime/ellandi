@@ -2,7 +2,7 @@ import { Box, FormHelperText, IconButton, Radio, styled } from '@mui/material'
 import { Query, RegisterUserResponse, SkillsType, SkillType } from '@/service/types'
 import { fetchSkills } from '@/service/api'
 import { forwardRef, useId, useImperativeHandle, useMemo, useState } from 'react'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { Controller, FormProvider, useFieldArray, useForm } from 'react-hook-form'
 import { Field } from '@/components/Form/Field/Field'
 import { array, boolean, object, SchemaOf, string } from 'yup'
@@ -43,14 +43,14 @@ const SkillsAddForm = forwardRef<RefHandler, Props>(
     const [hasSelected, setHasSelected] = useState(false)
 
     const { isFetched: isFetchedMe, data: dataMe } = useQuery<RegisterUserResponse>(
-      Query.Me,
+      [Query.Me],
       () => authFetch(fetchMe)
     )
 
     const { isLoading: isLoadingSkills, data: skillsList } = useQuery<
       string[],
       { message?: string }
-    >(Query.Skills, fetchSkills, { initialData: [], staleTime: 0 })
+    >([Query.Skills], fetchSkills, { initialData: [], staleTime: 0 })
 
     const methods = useForm<SkillsType>({
       defaultValues: { skills: showAll ? [{ name: '', level: '' }] : [] },

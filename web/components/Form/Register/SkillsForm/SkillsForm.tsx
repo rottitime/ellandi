@@ -4,7 +4,7 @@ import { StandardRegisterProps } from '../types'
 import { Query, SkillsType } from '@/service/types'
 import SkillsAddForm from '../../Account/SkillsAddForm/SkillsAddForm'
 import FormFooter from '../../FormFooter'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { fetchRecommendedSkillBundle, RecommendedSkillBundleResponse } from '@/service/me'
 import useAuth from '@/hooks/useAuth'
 import { useUiContext } from '@/context/UiContext'
@@ -19,7 +19,7 @@ const SkillsForm: FC<StandardRegisterProps<SkillsType>> = ({
   const { authFetch } = useAuth()
 
   const { data, isLoading, isSuccess } = useQuery<RecommendedSkillBundleResponse>(
-    Query.SuggestedSkillsbyRole,
+    [Query.SuggestedSkillsbyRole],
     () => authFetch(fetchRecommendedSkillBundle),
     {
       onError: () => onFormSubmit({ skills: [] })

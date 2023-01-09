@@ -25,7 +25,8 @@ export enum Query {
   ReportLearning = 'ReportLearning',
   Courses = 'courses',
   ValidUserToken = 'ValidUserToken',
-  InvitedMembers = 'InvitedMembers'
+  InvitedMembers = 'InvitedMembers',
+  VerifyEmail = 'VerifyEmail'
 }
 
 export type GenericDataList = {
