@@ -15,8 +15,7 @@ const nextConfig = {
   publicRuntimeConfig: {
     enableEmailVerify: process.env.NEXT_PUBLIC_ENABLE_EMAIL_VERIFY === 'true',
     apiUrl: process.env.NEXT_PUBLIC_API_URL,
-    sentryEnvironment1: process.env.SENTRY_ENVIRONMENT || '',
-    sentryEnvironment: process.env.SENTRY_ENVIRONMENT || 'local',
+    environment: process.env.ENVIRONMENT || 'local',
     sentryDsn:
       process.env.SENTRY_DSN ||
       process.env.NEXT_PUBLIC_SENTRY_DSN ||

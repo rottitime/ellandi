@@ -6,14 +6,14 @@ import * as Sentry from '@sentry/nextjs'
 import getConfig from 'next/config'
 
 const {
-  publicRuntimeConfig: { sentryHasToken, sentryEnvironment, sentryDsn }
+  publicRuntimeConfig: { sentryHasToken, environment, sentryDsn }
 } = getConfig()
 
 Sentry.init({
+  environment,
   dsn: sentryDsn,
   // Adjust this value in production, or use tracesSampler for greater control
   tracesSampleRate: 1.0,
-  environment: sentryEnvironment,
   enabled: sentryHasToken
 
   // ...
