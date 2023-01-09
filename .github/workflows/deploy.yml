@@ -51,7 +51,7 @@ jobs:
             dockerfile: docker/recommender/Dockerfile
 
     steps:
-      - uses: actions/checkout@v3GITHUB_ENV
+      - uses: actions/checkout@v3
 
       - name: Setup prod api host
         if:  ${{ github.event_name == 'release' }}
