@@ -10,12 +10,14 @@ type Props = {
 const { publicRuntimeConfig } = getConfig()
 const whitelistEnv = ['local', 'develop', 'staging', 'sandbox']
 
-const InfoPage = (props: Props) => {
+const DebugPage = (props: Props) => {
   return props.enable ? (
-    <section>
+    <section data-testid="success-page">
       <h1>Environment variables</h1>
       <h2>publicRuntimeConfig</h2>
-      <pre>{JSON.stringify(publicRuntimeConfig, null, 2)}</pre>
+      <pre>
+        <code>{JSON.stringify(publicRuntimeConfig, null, 2)}</code>
+      </pre>
       <hr />
       <h2>Server variables</h2>
       <ul>
@@ -48,4 +50,4 @@ export async function getStaticProps() {
   return { props }
 }
 
-export default InfoPage
+export default DebugPage
