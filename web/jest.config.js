@@ -21,7 +21,8 @@ const customJestConfig = {
     '<rootDir>/dist'
   ],
   moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/$1'
+    '^@/(.*)$': '<rootDir>/$1',
+    '^@/prefetch/(.*)$': ['<rootDir>/prefetch/$1']
   },
   resolver: '<rootDir>/.jest/resolver.js',
   clearMocks: true,
