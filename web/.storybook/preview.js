@@ -1,5 +1,5 @@
-import ThemeProvider from '../components/ThemeProvider/ThemeProvider'
-import LocalizationProvider from '../components/LocalizationProvider/LocalizationProvider'
+import ThemeProvider from '../src/components/ThemeProvider/ThemeProvider'
+import LocalizationProvider from '../src/components/LocalizationProvider/LocalizationProvider'
 import { setConfig } from 'next/config'
 import { publicRuntimeConfig } from '../next.config'
 setConfig({ publicRuntimeConfig })
