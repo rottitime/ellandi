@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react'
 import useTranslation from './useTranslation'
-import { useRouter } from 'next/router'
+// import { useRouter } from 'next/router'
 
 jest.mock('@/locales/en/common', () => ({
   validEmail: 'HelloWorld'

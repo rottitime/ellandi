@@ -3,14 +3,19 @@ import ThemeProvider from '@/components/ThemeProvider/ThemeProvider'
 import { CacheProvider, EmotionCache } from '@emotion/react'
 import createEmotionCache from '@/lib/createEmotionCache'
 import { ReactNode } from 'react'
-import { DehydratedState, Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import {
+  DehydratedState,
+  Hydrate,
+  QueryClient,
+  QueryClientProvider
+} from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { UiProvider } from '@/context/UiContext'
 import { AppProps } from 'next/app'
 import { NextPage } from 'next'
 import LocalizationProvider from '@/components/LocalizationProvider/LocalizationProvider'
 import { title } from '@/content'
-import 'style/fonts.css'
+import '@/style/fonts.css'
 interface MyAppProps extends AppProps<{ dehydratedState: DehydratedState }> {
   emotionCache?: EmotionCache
   pageProps
