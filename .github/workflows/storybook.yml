@@ -4,8 +4,8 @@ on:
     branches:
       - develop
     paths: [
-        "web/components/**/*.tsx",
-        "web/style/theme.ts",
+        "web/src/components/**/*.tsx",
+        "web/src/style/theme.ts",
         "web/.storybook/*.js",
       ] # Trigger the action only when files change in the folders defined here
 permissions:
