@@ -12,7 +12,7 @@ const customJestConfig = {
   // Add more setup options before each test is run
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   // if using TypeScript with a baseUrl set to the root directory then you need the below for alias' to work
-  moduleDirectories: ['<rootDir>/node_modules', '<rootDir>/src', '<rootDir>/pages'],
+  moduleDirectories: ['<rootDir>/node_modules', '<rootDir>/src', '<rootDir>/src/pages'],
   testEnvironment: 'jest-environment-jsdom',
   testPathIgnorePatterns: [
     '<rootDir>/.next/',
@@ -21,7 +21,8 @@ const customJestConfig = {
     '<rootDir>/dist'
   ],
   moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/$1'
+    '^@/prefetch/(.*)$': ['<rootDir>/prefetch/$1'],
+    '^@/(.*)$': '<rootDir>/src/$1'
   },
   resolver: '<rootDir>/.jest/resolver.js',
   clearMocks: true,

@@ -2,8 +2,8 @@ const path = require('path')
 
 module.exports = {
   stories: [
-    '../components/**/*.stories.mdx',
-    '../components/**/*.stories.@(js|jsx|ts|tsx)'
+    '../src/components/**/*.stories.mdx',
+    '../src/components/**/*.stories.@(js|jsx|ts|tsx)'
   ],
   addons: [
     '@storybook/addon-links',
@@ -28,7 +28,8 @@ module.exports = {
     config.resolve.modules = [path.resolve(__dirname, '..'), 'node_modules']
     config.resolve.alias = {
       ...config.resolve.alias,
-      '@': path.resolve(__dirname, '../')
+      '@/prefetch': path.resolve(__dirname, '../prefetch/'),
+      '@': path.resolve(__dirname, '../src/')
     }
     return config
   }

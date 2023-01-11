@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
 import useAuth from './useAuth'
-import { fetchMe } from '../service/me'
-import { Query, RegisterUserResponse } from '../service/api'
+import { fetchMe } from '@/service/me'
+import { Query, RegisterUserResponse } from '@/service/api'
 import { updateUser } from '@/service/auth'
 
 export const useProfile = <T>({ callback }: { callback?: () => void }) => {
