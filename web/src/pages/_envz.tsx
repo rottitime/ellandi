@@ -29,6 +29,20 @@ const DebugPage = (props: Props) => {
           <code>NODE_ENV:</code> {props.nodeEnv}
         </li>
       </ul>
+      <hr />
+      <h2>Tools</h2>
+
+      <button
+        onClick={() => {
+          throw new TypeError(
+            `Error thrown from ${
+              publicRuntimeConfig.environment
+            }. Timestamp: ${Date.now()}`
+          )
+        }}
+      >
+        Error throw
+      </button>
     </section>
   ) : (
     <div data-testid="error-page">
