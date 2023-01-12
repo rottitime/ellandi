@@ -3,11 +3,6 @@ import userEvent from '@testing-library/user-event'
 import FeedbackForm from './FeedbackForm'
 import { renderWithProviders } from '@/lib/test-utils'
 
-jest.mock('next/router', () => ({
-  ...jest.requireActual('next/router'),
-  push: jest.fn()
-}))
-
 describe('Page: Sign in', () => {
   const email = 'test@test.com',
     name = 'abc def',

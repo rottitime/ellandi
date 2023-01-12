@@ -3,11 +3,6 @@ import userEvent from '@testing-library/user-event'
 import { UpdateAccountPasswordForm } from './UpdateAccountPasswordForm'
 import { renderWithProviders } from '@/lib/test-utils'
 
-jest.mock('next/router', () => ({
-  ...jest.requireActual('next/router'),
-  push: jest.fn()
-}))
-
 describe('UpdateAccountPasswordForm', () => {
   it('renders', () => {
     renderWithProviders(

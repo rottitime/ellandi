@@ -2,7 +2,6 @@ import { screen, waitFor, waitForElementToBeRemoved } from '@testing-library/rea
 import userEvent from '@testing-library/user-event'
 import ResetPasswordPage from '@/pages/signin/forgotten-password/reset'
 import fetchMock from 'jest-fetch-mock'
-import Router from 'next/router'
 import { Props } from '@/components/Form/ResetPasswordForm/types'
 import { renderWithProviders } from '@/lib/test-utils'
 import { ValidUserToken } from '@/service/types'
@@ -14,7 +13,6 @@ const mockError: ValidUserToken = { valid: false }
 
 jest.mock('next/router', () => ({
   ...jest.requireActual('next/router'),
-  push: jest.fn(),
   useRouter: () => mockRouter()
 }))
 
@@ -35,9 +33,12 @@ jest.mock(
 )
 
 describe('Page: Reset Password', () => {
+  const pushSpy = jest.fn()
+
   beforeEach(() => {
     mockRouter.mockImplementation(() => ({
-      query: { code: 'mycode', user_id: 'abc123' }
+      query: { code: 'mycode', user_id: 'abc123' },
+      push: pushSpy
     }))
   })
   afterEach(() => {
@@ -57,24 +58,28 @@ describe('Page: Reset Password', () => {
     fetchMock.mockResponse(JSON.stringify(mockError), { status: 200 })
     renderWithProviders(<ResetPasswordPage />)
 
-    await waitFor(async () => {
-      expect(Router.push).toHaveBeenCalledWith({
-        pathname: 'signin',
-        query: { ecode: 4 }
-      })
-    })
+    await waitFor(async () =>
+      expect(pushSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          pathname: 'signin',
+          query: { ecode: 4 }
+        })
+      )
+    )
   })
 
   it('missign query paramters', async () => {
-    mockRouter.mockImplementation(() => ({ query: {}, isReady: true }))
+    mockRouter.mockImplementation(() => ({ query: {}, isReady: true, push: pushSpy }))
     fetchMock.mockResponse(JSON.stringify(mockSuccess), { status: 200 })
     renderWithProviders(<ResetPasswordPage />)
 
     await waitFor(async () => {
-      expect(Router.push).toHaveBeenCalledWith({
-        pathname: 'signin',
-        query: { ecode: 4 }
-      })
+      expect(pushSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          pathname: 'signin',
+          query: { ecode: 4 }
+        })
+      )
     })
   })
 
@@ -101,7 +106,11 @@ describe('Page: Reset Password', () => {
       userEvent.click(submitButton)
 
       await waitFor(async () => {
-        expect(Router.push).toHaveBeenCalledWith('/signin/forgotten-password/complete')
+        expect(pushSpy).toHaveBeenCalledWith(
+          expect.objectContaining({
+            pathname: '/signin/forgotten-password/complete'
+          })
+        )
       })
     })
 
@@ -125,7 +134,7 @@ describe('Page: Reset Password', () => {
         }).toThrow(`Error: ${error}`)
       })
 
-      expect(Router.push).not.toHaveBeenCalled()
+      expect(pushSpy).not.toHaveBeenCalled()
     })
 
     it('shows default error', async () => {
@@ -148,7 +157,7 @@ describe('Page: Reset Password', () => {
         }).toThrow(error)
       })
 
-      expect(Router.push).not.toHaveBeenCalled()
+      expect(pushSpy).not.toHaveBeenCalled()
     })
   })
 })

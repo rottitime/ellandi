@@ -20,7 +20,7 @@ const Button = forwardRef<HTMLButtonElement, Props>(({ href, error, ...rest }, r
   const props = { ...routeProps, ...overrides[rest.color], ref: ref, ...rest }
 
   return href ? (
-    <Link href={href} passHref>
+    <Link href={href} passHref legacyBehavior>
       <StyledButton {...props} />
     </Link>
   ) : (

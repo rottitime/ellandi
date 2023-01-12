@@ -88,13 +88,16 @@ const RegisterPage = ({ stepInt, nextUrl, backUrl, skip }: Props) => {
   if (authError) return null
 
   return (
-    <FormComponent
-      backUrl={backUrl}
-      buttonLoading={isMutateLoading}
-      defaultValues={data}
-      skipUrl={skip && nextUrl}
-      onFormSubmit={(data) => mutate.mutate(data)}
-    />
+    <div data-testid={`register-step-${stepInt}`}>
+      <FormComponent
+        data-testid={`step-${stepInt}`}
+        backUrl={backUrl}
+        buttonLoading={isMutateLoading}
+        defaultValues={data}
+        skipUrl={skip && nextUrl}
+        onFormSubmit={(data) => mutate.mutate(data)}
+      />
+    </div>
   )
 }
 

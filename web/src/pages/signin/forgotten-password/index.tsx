@@ -1,18 +1,22 @@
 import CardLayout from '@/components/Layout/CardLayout/CardLayout'
 import { Alert, Fade, Typography } from '@mui/material'
-import Router from 'next/router'
+import { useRouter } from 'next/router'
 import ForgottenPasswordForm from '@/components/Form/ForgottenPasswordForm/ForgottenPasswordForm'
 import { useMutation } from '@tanstack/react-query'
 import { resetEmailPassword } from '@/service/auth'
 import { ResetEmailPasswordType } from '@/service/types'
 
 const ForgottenPasswordPage = () => {
+  const router = useRouter()
   const { isLoading, error, ...mutate } = useMutation<
     boolean,
     Error,
     ResetEmailPasswordType
   >((data) => resetEmailPassword(data), {
-    onSuccess: async () => Router.push('/signin/forgotten-password/next')
+    onSuccess: async () =>
+      router.push({
+        pathname: '/signin/forgotten-password/next'
+      })
   })
 
   return (

@@ -2,13 +2,16 @@ import { screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import SigninPage from '@/pages/signin'
 import fetchMock from 'jest-fetch-mock'
-import Router from 'next/router'
 import { Props } from '@/components/Form/SignInForm/types'
 import { renderWithProviders } from '@/lib/test-utils'
 
+const pushSpy = jest.fn()
 jest.mock('next/router', () => ({
   ...jest.requireActual('next/router'),
-  push: jest.fn()
+  useRouter: jest.fn(() => ({
+    locale: 'en',
+    push: pushSpy
+  }))
 }))
 
 jest.mock('@/components/Form/SignInForm/SignInForm', () => (props: Props) => (
@@ -37,9 +40,11 @@ describe('Page: Sign in', () => {
 
     userEvent.click(submitButton)
 
-    await waitFor(async () => {
-      expect(Router.push).toHaveBeenCalledWith('landingSignin')
-    })
+    await waitFor(async () =>
+      expect(pushSpy).toHaveBeenCalledWith(
+        expect.objectContaining({ pathname: 'landingSignin' })
+      )
+    )
   })
 
   it('shows server error', async () => {
@@ -54,6 +59,6 @@ describe('Page: Sign in', () => {
       expect(screen.getByText('Error: message from server')).toBeInTheDocument()
     })
 
-    expect(Router.push).not.toHaveBeenCalled()
+    expect(pushSpy).not.toHaveBeenCalled()
   })
 })

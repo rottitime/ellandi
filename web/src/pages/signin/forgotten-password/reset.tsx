@@ -2,7 +2,7 @@ import ResetPasswordForm from '@/components/Form/ResetPasswordForm/ResetPassword
 import CardLayout from '@/components/Layout/CardLayout/CardLayout'
 import { FormData } from '@/components/Form/ResetPasswordForm/types'
 import { Alert, Fade, Typography } from '@mui/material'
-import Router, { useRouter } from 'next/router'
+import { useRouter } from 'next/router'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { isValidUserToken, resetUpdatePassword } from '@/service/auth'
 import { Query, ValidUserToken } from '@/service/types'
@@ -41,8 +41,13 @@ const ResetPasswordPage = () => {
   }, [isLoading, setLoading])
 
   useEffect(() => {
-    if (!!router.isReady && !code && !user_id) redirectWithError()
-  }, [code, router.isReady, user_id])
+    if (!!router.isReady && !code && !user_id) {
+      router.push({
+        pathname: urls.signin,
+        query: { ecode: 4 }
+      })
+    }
+  }, [code, router, user_id])
 
   const {
     isLoading: isMutating,
@@ -52,12 +57,16 @@ const ResetPasswordPage = () => {
     ({ new_password }) =>
       resetUpdatePassword({ new_password }, user_id.toString(), code.toString()),
     {
-      onSuccess: async () => Router.push('/signin/forgotten-password/complete')
+      onSuccess: async () => {
+        router.push({
+          pathname: '/signin/forgotten-password/complete'
+        })
+      }
     }
   )
 
   const redirectWithError = () =>
-    Router.push({
+    router.push({
       pathname: urls.signin,
       query: { ecode: 4 }
     })

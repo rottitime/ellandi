@@ -9,7 +9,7 @@ import Headline from '@/components/Account/Headline/Headline'
 import { useQuery } from '@tanstack/react-query'
 import { fetchMe } from '@/service/me'
 import { Query, RegisterUserResponseWithCustomFields } from '@/service/api'
-import Router, { useRouter } from 'next/router'
+import { useRouter } from 'next/router'
 import getConfig from 'next/config'
 import { Props } from './types'
 import { isRegisterComplete } from '@/lib/profile-utils'
@@ -63,14 +63,17 @@ const AccountLayout: FC<Props> = ({
     retry: 0,
     onError: () => {
       invalidate()
-      Router.replace({
+
+      router.replace({
         pathname: urls.signin,
         query: { ecode: 3 }
       })
     },
     onSuccess: (data) => {
       //check email is verified
-      if (!data.verified && enableEmailVerify) Router.replace(urls.emailConfirm)
+      if (!data.verified && enableEmailVerify) {
+        router.replace({ pathname: urls.emailConfirm })
+      }
       if (!isRegisterComplete(data)) {
         router.push('/register/step/0/')
       }

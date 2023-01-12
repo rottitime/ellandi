@@ -2,11 +2,6 @@ import RegisterPage from '@/pages/register/index'
 import fetchMock from 'jest-fetch-mock'
 import { screen, waitFor, renderWithProviders } from '@/lib/test-utils'
 
-jest.mock('next/router', () => ({
-  ...jest.requireActual('next/router'),
-  push: jest.fn()
-}))
-
 const mockError = jest.fn()
 jest.mock('@/context/UiContext', () => ({
   ...jest.requireActual('@/context/UiContext'),

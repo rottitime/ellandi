@@ -2,13 +2,16 @@ import { screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import ForgottenPasswordPage from '@/pages/signin/forgotten-password/index'
 import fetchMock from 'jest-fetch-mock'
-import Router from 'next/router'
 import { Props } from '@/components/Form/ForgottenPasswordForm/types'
 import { renderWithProviders } from '@/lib/test-utils'
 
+const pushSpy = jest.fn()
 jest.mock('next/router', () => ({
   ...jest.requireActual('next/router'),
-  push: jest.fn()
+  useRouter: jest.fn(() => ({
+    locale: 'en',
+    push: pushSpy
+  }))
 }))
 
 jest.mock(
@@ -39,9 +42,11 @@ describe('Page: Reset Password', () => {
 
     userEvent.click(submitButton)
 
-    await waitFor(async () => {
-      expect(Router.push).toHaveBeenCalledWith('/signin/forgotten-password/next')
-    })
+    await waitFor(async () =>
+      expect(pushSpy).toHaveBeenCalledWith(
+        expect.objectContaining({ pathname: '/signin/forgotten-password/next' })
+      )
+    )
   })
 
   it('shows server error', async () => {
@@ -59,7 +64,7 @@ describe('Page: Reset Password', () => {
       }).toThrow(`Error: ${error}`)
     })
 
-    expect(Router.push).not.toHaveBeenCalled()
+    expect(pushSpy).not.toHaveBeenCalled()
   })
 
   it('shows default error', async () => {
@@ -77,6 +82,6 @@ describe('Page: Reset Password', () => {
       }).toThrow(error)
     })
 
-    expect(Router.push).not.toHaveBeenCalled()
+    expect(pushSpy).not.toHaveBeenCalled()
   })
 })

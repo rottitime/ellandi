@@ -8,7 +8,7 @@ export type Props = {
 } & ComponentProps<typeof MuiLink>
 
 const Link: FC<Props> = ({ href, ...props }) => (
-  <NextLink href={href} passHref>
+  <NextLink href={href} passHref legacyBehavior>
     <MuiLink {...props} />
   </NextLink>
 )
