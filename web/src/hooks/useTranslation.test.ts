@@ -1,14 +1,8 @@
 import { renderHook } from '@testing-library/react'
 import useTranslation from './useTranslation'
-// import { useRouter } from 'next/router'
 
 jest.mock('@/locales/en/common', () => ({
   validEmail: 'HelloWorld'
-}))
-
-jest.mock('next/router', () => ({
-  ...jest.requireActual('next/router'),
-  useRouter: jest.fn(() => ({ locale: 'en' }))
 }))
 
 describe('Hook: useTranslation', () => {
@@ -17,14 +11,4 @@ describe('Hook: useTranslation', () => {
 
     expect(result.current.t('validEmail')).toEqual('HelloWorld')
   })
-
-  // it.skip('Shows anotherlangiage content', async () => {
-  //   useRouter.mockImplementation(() => ({
-  //     locale: 'de'
-  //   }))
-
-  //   const { result } = renderHook(() => useTranslation())
-
-  //   expect(result.current.t('validEmail')).toEqual('HelloWorld')
-  // })
 })

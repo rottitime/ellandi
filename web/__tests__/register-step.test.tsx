@@ -1,27 +1,14 @@
 import RegisterStepPage from '@/pages/register/step/[step]'
 import fetchMock from 'jest-fetch-mock'
-import {
-  screen,
-  waitFor,
-  bugfixForTimeout,
-  mockMe,
-  renderWithProviders
-} from '@/lib/test-utils'
+import { screen, waitFor, mockMe, renderWithProviders } from '@/lib/test-utils'
 
-jest.mock('@/components/Form/Register/RegisterDetailsForm/RegisterDetailsForm', () => ({
-  __esModule: true,
-  namedExport: jest.fn(),
-  default: jest.fn(() => <>mock-form</>)
-}))
-
-const mockReplace = jest.fn()
+const pushSpy = jest.fn()
 jest.mock('next/router', () => ({
   ...jest.requireActual('next/router'),
-  useRouter() {
-    return {
-      replace: mockReplace
-    }
-  }
+  useRouter: jest.fn(() => ({
+    locale: 'en',
+    push: pushSpy
+  }))
 }))
 
 describe('Page: Registration steps', () => {
@@ -44,10 +31,9 @@ describe('Page: Registration steps', () => {
         skip={true}
       />
     )
-    await bugfixForTimeout()
 
-    await waitFor(async () => expect(mockReplace).not.toHaveBeenCalled())
-    expect(screen.getByText('mock-form')).toBeInTheDocument()
+    await waitFor(async () => expect(pushSpy).not.toHaveBeenCalled())
+    expect(screen.getByTestId('register-step-0')).toBeInTheDocument()
   })
 
   it('invalid user, no token', async () => {
@@ -65,7 +51,7 @@ describe('Page: Registration steps', () => {
     )
 
     await waitFor(async () => {
-      expect(mockReplace).toHaveBeenCalledWith({
+      expect(pushSpy).toHaveBeenCalledWith({
         pathname: '/register',
         query: { ecode: 1 }
       })
@@ -90,7 +76,7 @@ describe('Page: Registration steps', () => {
     )
 
     await waitFor(async () => {
-      expect(mockReplace).toHaveBeenCalledWith({
+      expect(pushSpy).toHaveBeenCalledWith({
         pathname: '/register',
         query: { ecode: 1 }
       })

@@ -2,7 +2,7 @@ import CardLayout from '@/components/Layout/CardLayout/CardLayout'
 import Link from '@/components/UI/Link'
 import { Alert, Fade, Typography } from '@mui/material'
 import SignInForm from '@/components/Form/SignInForm/SignInForm'
-import router from 'next/router'
+import { useRouter } from 'next/router'
 import { useState } from 'react'
 import useAuth from '@/hooks/useAuth'
 import getConfig from 'next/config'
@@ -10,6 +10,7 @@ import getConfig from 'next/config'
 const { publicRuntimeConfig } = getConfig()
 
 const SigninPage = () => {
+  const router = useRouter()
   const [fetching, setFetching] = useState(false)
   const [error, setError] = useState(null)
   const { login } = useAuth()
@@ -36,7 +37,9 @@ const SigninPage = () => {
 
           try {
             await login(data)
-            router.push(publicRuntimeConfig.urls.landingSignin)
+            router.push({
+              pathname: publicRuntimeConfig.urls.landingSignin
+            })
           } catch (err) {
             setError(err.message)
           }

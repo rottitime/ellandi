@@ -78,7 +78,7 @@ const RegisterPage = ({ stepInt, nextUrl, backUrl, skip }: Props) => {
   const redirect = async () => {
     setLoading(true)
     queryClient.removeQueries([Query.Me])
-    await router.replace({
+    await router.push({
       pathname: '/register',
       query: { ecode: 1 }
     })
@@ -88,13 +88,16 @@ const RegisterPage = ({ stepInt, nextUrl, backUrl, skip }: Props) => {
   if (authError) return null
 
   return (
-    <FormComponent
-      backUrl={backUrl}
-      buttonLoading={isMutateLoading}
-      defaultValues={data}
-      skipUrl={skip && nextUrl}
-      onFormSubmit={(data) => mutate.mutate(data)}
-    />
+    <div data-testid={`register-step-${stepInt}`}>
+      <FormComponent
+        data-testid={`step-${stepInt}`}
+        backUrl={backUrl}
+        buttonLoading={isMutateLoading}
+        defaultValues={data}
+        skipUrl={skip && nextUrl}
+        onFormSubmit={(data) => mutate.mutate(data)}
+      />
+    </div>
   )
 }
 

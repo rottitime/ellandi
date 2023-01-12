@@ -1,16 +1,20 @@
 import AccountLayout from './AccountLayout'
 import fetchMock from 'jest-fetch-mock'
 import { renderWithProviders, screen, waitFor, mockMe } from '@/lib/test-utils'
-import router from 'next/router'
 
+const pushSpy = jest.fn()
 jest.mock('next/router', () => ({
   ...jest.requireActual('next/router'),
-  replace: jest.fn()
+  useRouter: jest.fn(() => ({
+    locale: 'en',
+    push: pushSpy
+  }))
 }))
 
 describe('AccountLayout', () => {
   afterEach(() => {
     fetchMock.resetMocks()
+    pushSpy.mockReset()
   })
 
   it('renders', async () => {
@@ -36,7 +40,9 @@ describe('AccountLayout', () => {
       </AccountLayout>
     )
     await waitFor(async () =>
-      expect(router.replace).toHaveBeenCalledWith('email-confirm')
+      expect(pushSpy).toHaveBeenCalledWith(
+        expect.objectContaining({ pathname: 'email-confirm' })
+      )
     )
   })
 
@@ -46,7 +52,7 @@ describe('AccountLayout', () => {
       query: { ecode: 3 }
     }
 
-    it('unuathenticated user', async () => {
+    it('unauthenticated user', async () => {
       fetchMock.mockResponse(JSON.stringify(mockMe), { status: 401 })
 
       await renderWithProviders(
@@ -56,7 +62,7 @@ describe('AccountLayout', () => {
       )
 
       await waitFor(async () =>
-        expect(router.replace).toHaveBeenCalledWith(redirectParams)
+        expect(pushSpy).toHaveBeenCalledWith(expect.objectContaining(redirectParams))
       )
     })
 
@@ -72,7 +78,7 @@ describe('AccountLayout', () => {
       )
 
       await waitFor(async () =>
-        expect(router.replace).toHaveBeenCalledWith(redirectParams)
+        expect(pushSpy).toHaveBeenCalledWith(expect.objectContaining(redirectParams))
       )
     })
   })

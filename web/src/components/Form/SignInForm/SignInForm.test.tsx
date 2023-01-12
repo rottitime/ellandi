@@ -3,11 +3,6 @@ import userEvent from '@testing-library/user-event'
 import SignInForm from '@/components/Form/SignInForm/SignInForm'
 import { renderWithProviders } from '@/lib/test-utils'
 
-jest.mock('next/router', () => ({
-  ...jest.requireActual('next/router'),
-  push: jest.fn()
-}))
-
 describe('Page: Sign in', () => {
   const email = 'test@test.com',
     password = 'abc123'
