@@ -61,7 +61,7 @@ const SkillsAddSkillsPage = () => {
             loading={isLoading}
             onFormSubmit={({ skills }) => mutate.mutate(skills)}
             suggestionProps={Object.keys(data)
-              .filter((group) => ['profession_skills', 'skill_skills'].includes(group))
+              .filter((group) => ['similar_job_skills', 'skill_skills'].includes(group))
               .map((item: SkillGroup) => {
                 return {
                   groupId: item,
