@@ -64,7 +64,7 @@ const AccountLayout: FC<Props> = ({
     onError: () => {
       invalidate()
 
-      router.push({
+      router.replace({
         pathname: urls.signin,
         query: { ecode: 3 }
       })
@@ -72,10 +72,7 @@ const AccountLayout: FC<Props> = ({
     onSuccess: (data) => {
       //check email is verified
       if (!data.verified && enableEmailVerify) {
-        // Router.replace(urls.emailConfirm)
-        router.push({
-          pathname: urls.emailConfirm
-        })
+        router.replace({ pathname: urls.emailConfirm })
       }
       if (!isRegisterComplete(data)) {
         router.push('/register/step/0/')
