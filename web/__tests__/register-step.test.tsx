@@ -2,12 +2,12 @@ import RegisterStepPage from '@/pages/register/step/[step]'
 import fetchMock from 'jest-fetch-mock'
 import { screen, waitFor, mockMe, renderWithProviders } from '@/lib/test-utils'
 
-const pushSpy = jest.fn()
+const replaceSpy = jest.fn()
 jest.mock('next/router', () => ({
   ...jest.requireActual('next/router'),
   useRouter: jest.fn(() => ({
     locale: 'en',
-    push: pushSpy
+    replace: replaceSpy
   }))
 }))
 
@@ -32,7 +32,7 @@ describe('Page: Registration steps', () => {
       />
     )
 
-    await waitFor(async () => expect(pushSpy).not.toHaveBeenCalled())
+    await waitFor(async () => expect(replaceSpy).not.toHaveBeenCalled())
     expect(screen.getByTestId('register-step-0')).toBeInTheDocument()
   })
 
@@ -51,7 +51,7 @@ describe('Page: Registration steps', () => {
     )
 
     await waitFor(async () => {
-      expect(pushSpy).toHaveBeenCalledWith({
+      expect(replaceSpy).toHaveBeenCalledWith({
         pathname: '/register',
         query: { ecode: 1 }
       })
@@ -76,7 +76,7 @@ describe('Page: Registration steps', () => {
     )
 
     await waitFor(async () => {
-      expect(pushSpy).toHaveBeenCalledWith({
+      expect(replaceSpy).toHaveBeenCalledWith({
         pathname: '/register',
         query: { ecode: 1 }
       })

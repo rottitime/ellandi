@@ -29,5 +29,5 @@ jest.mock('next/config', () => () => ({
 
 jest.mock('next/router', () => ({
   ...jest.requireActual('next/router'),
-  useRouter: jest.fn(() => ({ locale: 'en', push: jest.fn() }))
+  useRouter: jest.fn(() => ({ locale: 'en', push: jest.fn(), replace: jest.fn() }))
 }))

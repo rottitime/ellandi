@@ -3,11 +3,13 @@ import fetchMock from 'jest-fetch-mock'
 import { renderWithProviders, screen, waitFor, mockMe } from '@/lib/test-utils'
 
 const pushSpy = jest.fn()
+const replaceSpy = jest.fn()
 jest.mock('next/router', () => ({
   ...jest.requireActual('next/router'),
   useRouter: jest.fn(() => ({
     locale: 'en',
-    push: pushSpy
+    push: pushSpy,
+    replace: replaceSpy
   }))
 }))
 
@@ -40,7 +42,7 @@ describe('AccountLayout', () => {
       </AccountLayout>
     )
     await waitFor(async () =>
-      expect(pushSpy).toHaveBeenCalledWith(
+      expect(replaceSpy).toHaveBeenCalledWith(
         expect.objectContaining({ pathname: 'email-confirm' })
       )
     )
@@ -62,7 +64,7 @@ describe('AccountLayout', () => {
       )
 
       await waitFor(async () =>
-        expect(pushSpy).toHaveBeenCalledWith(expect.objectContaining(redirectParams))
+        expect(replaceSpy).toHaveBeenCalledWith(expect.objectContaining(redirectParams))
       )
     })
 
@@ -78,7 +80,7 @@ describe('AccountLayout', () => {
       )
 
       await waitFor(async () =>
-        expect(pushSpy).toHaveBeenCalledWith(expect.objectContaining(redirectParams))
+        expect(replaceSpy).toHaveBeenCalledWith(expect.objectContaining(redirectParams))
       )
     })
   })
