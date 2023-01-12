@@ -78,7 +78,7 @@ const RegisterPage = ({ stepInt, nextUrl, backUrl, skip }: Props) => {
   const redirect = async () => {
     setLoading(true)
     queryClient.removeQueries([Query.Me])
-    await router.push({
+    await router.replace({
       pathname: '/register',
       query: { ecode: 1 }
     })
