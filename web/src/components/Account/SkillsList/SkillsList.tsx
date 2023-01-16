@@ -68,13 +68,13 @@ const SkillsList: FC = () => {
     <Box sx={{ height: 'auto', width: '100%' }}>
       {isError && <Alert severity="error">{error.message}</Alert>}
       <DataGrid
-        hideFooterPagination
         noRowContent={
           <Typography variant="body2" data-testid="empty-rows">
             No skills have been added. Click the 'Add a skill' button to add some.
           </Typography>
         }
         autoHeight
+        pageSize={50}
         columns={columns}
         rows={data.skills}
         modalLoading={deleteLoading || editLoading}

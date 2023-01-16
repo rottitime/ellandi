@@ -72,9 +72,9 @@ const LearningRecordList: FC = () => {
       <>
         {isError && <Alert severity="error">{error.message}</Alert>}
         <DataGrid
+          pageSize={50}
           initialLoading={isLoading}
           loading={deleteLoading || editLoading || isFetching}
-          hideFooterPagination
           initialState={{
             sorting: {
               sortModel: [{ field: 'name', sort: 'asc' }]
