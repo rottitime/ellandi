@@ -1,5 +1,5 @@
 web/node_modules
-web/__tests__
+web/src/__tests__
 web/.env.local
 web/.next
 web/out

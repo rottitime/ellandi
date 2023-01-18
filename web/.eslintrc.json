@@ -29,7 +29,7 @@
   "overrides": [
     {
       // only run testling library linting on test files not entire codebase
-      "files": ["**/__tests__/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[jt]s?(x)"],
+      "files": ["src/__tests__/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[jt]s?(x)"],
       "extends": ["plugin:testing-library/react"],
       "rules": {
         "react/display-name": 0,
