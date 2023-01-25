@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react'
+import { FC, useCallback, useEffect } from 'react'
 import {
   Checkbox,
   FormControlLabel,
@@ -42,11 +42,14 @@ const schema: SchemaOf<CreateAccountType> = object().shape({
 const CreateAccountForm: FC<StandardRegisterProps<CreateAccountType>> = (props) => {
   const { logout, hasToken, invalidate } = useAuth()
 
-  useEffect(() => {
+  const forceLogout = useCallback(() => {
     hasToken() && logout()
     invalidate()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [hasToken, invalidate, logout])
+
+  useEffect(() => {
+    forceLogout()
+  }, [forceLogout])
 
   const methods = useForm<CreateAccountType>({
     defaultValues,

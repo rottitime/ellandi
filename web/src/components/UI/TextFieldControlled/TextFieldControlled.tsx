@@ -28,8 +28,7 @@ const TextFieldControlled: FC<Props> = ({
       setValue(name, '')
       trigger()
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [name, setValue, trigger])
 
   return (
     <ConditionalWrapper

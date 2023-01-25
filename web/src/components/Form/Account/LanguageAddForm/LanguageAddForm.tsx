@@ -73,8 +73,7 @@ const LanguageAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
 
   useEffect(() => {
     append({ name: '', speaking_level: '', writing_level: '' })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [append])
 
   const disableOptions = useMemo(
     () => [
