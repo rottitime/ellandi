@@ -30,8 +30,7 @@ const FunctionTypeForm: FC<StandardRegisterProps<FunctionType>> = (props) => {
 
   useEffect(() => {
     if (!!watchFields.function_other) setValue('function', 'Other')
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [setValue, watchFields])
 
   return (
     <FormProvider {...methods}>

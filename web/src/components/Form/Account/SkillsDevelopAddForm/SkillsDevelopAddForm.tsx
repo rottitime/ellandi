@@ -75,8 +75,7 @@ const SkillsDevelopAddForm: FC<Props> = ({ onFormSubmit, loading }) => {
 
   useEffect(() => {
     append({ name: '' })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [append])
 
   const disableOptions = useMemo(
     () => [

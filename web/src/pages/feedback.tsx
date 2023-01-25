@@ -26,10 +26,7 @@ const FeedbackPage = () => {
         <FeedbackForm
           loading={loading}
           onFormSubmit={async (data) => {
-            // eslint-disable-next-line no-console
             setLoading(true)
-
-            // eslint-disable-next-line no-console
 
             try {
               await fetchFeedback(data)

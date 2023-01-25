@@ -87,8 +87,7 @@ const LanguageForm: FC<StandardRegisterProps<LanguagesType>> = (props) => {
     } else {
       reset({ languages })
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [append, getValues, reset])
 
   return (
     <FormProvider {...methods}>

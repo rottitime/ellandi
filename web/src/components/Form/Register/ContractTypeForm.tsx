@@ -34,8 +34,7 @@ const ContractTypeForm: FC<StandardRegisterProps<ContractType>> = (props) => {
 
   useEffect(() => {
     if (!!watchFields.contract_type_other) setValue('contract_type', 'Other')
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [setValue, watchFields])
 
   return (
     <FormProvider {...methods}>

@@ -32,8 +32,7 @@ const GradeForm: FC<StandardRegisterProps<GradeType>> = (props) => {
 
   useEffect(() => {
     if (!!watchFields.grade_other) setValue('grade', 'Other')
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [setValue, watchFields.grade_other])
 
   return (
     <FormProvider {...methods}>
