@@ -76,6 +76,14 @@ You can also generate a setup of mockdata on the api
 make setup
 ```
 
+### Super user (optional)
+
+Run the following in the root, and follow the instructions
+
+```
+docker-compose run api python manage.py createsuperuser
+```
+
 ---
 
 ## Playwright browser tests
