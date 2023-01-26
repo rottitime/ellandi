@@ -4,7 +4,7 @@ This is the code for the Skills & Learning application. This app allows staff to
 
 ## Running locally (with Docker)
 
-To build this app, install Docker Desktop then run:
+To build this app, install [Docker Desktop](https://www.docker.com/products/docker-desktop/) then run:
 
     docker-compose up --build
 
