@@ -4,7 +4,7 @@ This is the code for the Skills & Learning application. This app allows staff to
 
 ## Running locally (with Docker)
 
-To build this app, install Docker Desktop then run:
+To build this app, install [Docker Desktop](https://www.docker.com/products/docker-desktop/) then run:
 
     docker-compose up --build
 
@@ -74,6 +74,14 @@ You can also generate a setup of mockdata on the api
 
 ```
 make setup
+```
+
+### Super user (optional)
+
+Run the following in the root, and follow the instructions
+
+```
+docker-compose run api python manage.py createsuperuser
 ```
 
 ---
