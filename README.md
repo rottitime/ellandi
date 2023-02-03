@@ -9,7 +9,6 @@ NEXT_PUBLIC_API_URL=http://localhost/api
 #SENTRY_AUTH_TOKEN=some_token
 ``
 
-Document instructions in https://github.com/i-dot-ai/ellandi/blob/develop/README.md
 
 
 ## Running locally (with Docker)
