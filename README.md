@@ -2,6 +2,16 @@
 
 This is the code for the Skills & Learning application. This app allows staff to record their skills (both current skills and those they would like to develop), and allows staff to track their learning and development.
 
+# .env.local
+NEXT_PUBLIC_ENABLE_EMAIL_VERIFY=false
+NEXT_PUBLIC_API_URL=http://localhost/api
+
+#SENTRY_AUTH_TOKEN=some_token
+``
+
+Document instructions in https://github.com/i-dot-ai/ellandi/blob/develop/README.md
+
+
 ## Running locally (with Docker)
 
 To build this app, install [Docker Desktop](https://www.docker.com/products/docker-desktop/) then run:
