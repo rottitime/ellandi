@@ -59,6 +59,16 @@ cd web
 npm run dev
 ```
 
+### Environment variables
+
+```
+# web/.env.local
+NEXT_PUBLIC_ENABLE_EMAIL_VERIFY=false
+NEXT_PUBLIC_API_URL=http://localhost/api
+
+#SENTRY_AUTH_TOKEN=some_token
+```
+
 ### Full test checks
 
 The below runs a full check of lints, typescript and unit tests against the frontend codebase
