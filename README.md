@@ -2,15 +2,6 @@
 
 This is the code for the Skills & Learning application. This app allows staff to record their skills (both current skills and those they would like to develop), and allows staff to track their learning and development.
 
-# .env.local
-NEXT_PUBLIC_ENABLE_EMAIL_VERIFY=false
-NEXT_PUBLIC_API_URL=http://localhost/api
-
-#SENTRY_AUTH_TOKEN=some_token
-``
-
-
-
 ## Running locally (with Docker)
 
 To build this app, install [Docker Desktop](https://www.docker.com/products/docker-desktop/) then run:
@@ -66,6 +57,16 @@ You can now run your local frontend development instance
 ```
 cd web
 npm run dev
+```
+
+### Environment variables
+
+```
+# web/.env.local
+NEXT_PUBLIC_ENABLE_EMAIL_VERIFY=false
+NEXT_PUBLIC_API_URL=http://localhost/api
+
+#SENTRY_AUTH_TOKEN=some_token
 ```
 
 ### Full test checks
