@@ -17,7 +17,7 @@ jobs:
 
     strategy:
       matrix:
-        environment: [prod, staging, develop]
+        environment: [prod, staging]
 
     env:
       CF_SPACE: ${{ matrix.environment }}
