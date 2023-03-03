@@ -1,8 +1,8 @@
 name: Run Recommender App
 
 on:
-  schedule:
-  - cron: '0 0 * * *'
+  # schedule:
+  # - cron: '0 0 * * *'
   workflow_dispatch:
     branches:
       - temp
@@ -17,7 +17,7 @@ jobs:
 
     strategy:
       matrix:
-        environment: [prod, staging, develop]
+        environment: [prod, staging]
 
     env:
       CF_SPACE: ${{ matrix.environment }}
